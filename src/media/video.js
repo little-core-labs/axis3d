@@ -121,6 +121,13 @@ export class VideoCommand extends MediaCommand {
       return this
     }
 
+    // sanitize initialState object
+    for (let key in initialState) {
+      if (undefined === initialState[key]) {
+        delete initialState[key]
+      }
+    }
+
     super(ctx, manifest, initialState)
 
     // set mesh type
@@ -316,15 +323,17 @@ export class VideoCommand extends MediaCommand {
      */
 
     define(this, 'poster', {
-      get: () => source.poster,
+      get: () => source ? source.poster : null,
       set: (value) => {
-        if (source) {
-          source.poster = value
-        }
+        if (value) {
+          if (source) {
+            source.poster = value
+          }
 
-        if (null == poster) {
-          poster = new ImageCommand(ctx, value)
-          poster.texture = this.texture
+          if (null == poster) {
+            poster = new ImageCommand(ctx, value)
+            poster.texture = this.texture
+          }
         }
       },
     })
@@ -332,8 +341,6 @@ export class VideoCommand extends MediaCommand {
     // set poster if applicable
     if (initialState && initialState.poster) {
       this.poster = initialState.poster
-    } else {
-      this.poster = null
     }
   }
 }

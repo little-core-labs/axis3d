@@ -44,7 +44,19 @@ export class ImageCommand extends MediaCommand {
       }
     }
 
+    // sanitize initialState object
+    for (let key in initialState) {
+      if (undefined === initialState[key]) {
+        delete initialState[key]
+      }
+    }
+
     super(ctx, manifest, initialState)
+
+    this.once('load', () => {
+      // set initial set on source
+      Object.assign(source, initialState)
+    })
 
     // proxy dimensions
     define(this, 'width', { get: () => source.width })

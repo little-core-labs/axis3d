@@ -48,18 +48,21 @@ export class ControllerCommand extends Command {
         target = updates.target
       }
 
+      if (updates && 'source' in updates) {
+        source = updates.source
+      }
+
       updateState(updates)
       syncTarget()
 
       if ('function' == typeof updates) {
         updates(_)
-        update(_, {...state}, target)
-      } else {
-        update(_, {...state}, target)
       }
 
+      update(_, {...state}, target, source)
+
       for (let fn of middleware) {
-        fn(this, _, {...state}, target)
+        fn(this, _, {...state}, target, source)
       }
     })
 
