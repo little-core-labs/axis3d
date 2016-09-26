@@ -44,6 +44,10 @@ export class ControllerCommand extends Command {
         return
       }
 
+      if (updates && 'target' in updates) {
+        target = updates.target
+      }
+
       updateState(updates)
       syncTarget()
 

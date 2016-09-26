@@ -8,24 +8,24 @@ import { debug, define } from '../utils'
 import { MediaCommand } from '../media'
 
 /**
- * Image constructor.
- * @see Image
+ * ImageCommand constructor.
+ * @see ImageCommand
  */
 
-export default (...args) => new Image(...args)
+export default (...args) => new ImageCommand(...args)
 
 /**
- * Image class.
+ * ImageCommand class.
  *
  * @public
- * @class Image
+ * @class ImageCommand
  * @extends MediaCommand
  */
 
-export class Image extends MediaCommand {
+export class ImageCommand extends MediaCommand {
 
   /**
-   * Image class constructor.
+   * ImageCommand class constructor.
    *
    * @constructor
    * @param {Context} ctx
@@ -67,7 +67,7 @@ export class Image extends MediaCommand {
      * @private
      * @param {String} method
      * @param {...Mixed} args
-     * @return {Image|Mixed}
+     * @return {ImageCommand|Mixed}
      */
 
     const set = (property, value) => {
@@ -75,7 +75,7 @@ export class Image extends MediaCommand {
         if (undefined === value) {
           return source[property]
         } else {
-          debug('Image: set %s=%s', property, value)
+          debug('ImageCommand: set %s=%s', property, value)
           source[property] = value
         }
       } else {
@@ -117,7 +117,11 @@ export class Image extends MediaCommand {
      * @type {REGLTexture}
      */
 
-    this.texture = null
+    this.texture = ctx.regl.texture({
+      wrap: ['clamp', 'clamp'],
+      mag: 'linear',
+      min: 'linear',
+    })
 
     /**
      * Callback when image has loaded.
@@ -127,7 +131,7 @@ export class Image extends MediaCommand {
 
     this.onloaded = ({image}) => {
       source = image
-      this.texture = ctx.regl.texture(image)
+      this.texture(image)
       this.emit('load')
     }
   }

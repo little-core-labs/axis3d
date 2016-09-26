@@ -4,14 +4,14 @@
  * Module dependencies.
  */
 
-import OrbitCameraController from 'axis-3d/controls/orbit-camera'
-import Keyboard from 'axis-3d/input/keyboard'
-import Context from 'axis-3d/context'
-import Camera from 'axis-3d/camera'
-import Sphere from 'axis-3d/mesh/sphere'
-import Mouse from 'axis-3d/input/mouse'
-import Video from 'axis-3d/media/video'
-import Frame from 'axis-3d/frame'
+import OrbitCameraController from 'axis3d/controls/orbit-camera'
+import Keyboard from 'axis3d/input/keyboard'
+import Context from 'axis3d/context'
+import Camera from 'axis3d/camera'
+import Sphere from 'axis3d/mesh/sphere'
+import Mouse from 'axis3d/input/mouse'
+import Video from 'axis3d/media/video'
+import Frame from 'axis3d/frame'
 import raf from 'raf'
 
 // axis context
@@ -39,8 +39,7 @@ ctx.focus()
 
 // orient controllers to "center" of video/video
 raf(() => {
-  const y = Math.PI / (Math.PI * 0.5)
-  orbitController.orientation.y = y
+  orbitController.orientation.y = Math.PI / 2
 
   // play next frame
   video.play()

@@ -1,7 +1,7 @@
 {
-  "name": "axis-3d",
+  "name": "axis3d",
   "version": "2.0.0",
-  "description": "Spherical content rendering engine",
+  "description": "",
   "scripts": {
     "test": "node test",
     "build": "browserify app/main.js -o public/js/bundle.js"
@@ -19,7 +19,6 @@
     "angle-normals": "^1.0.0",
     "audio-context": "^0.1.0",
     "bound-points": "^1.0.0",
-    "choo": "^3.2.2",
     "clamp": "^1.0.1",
     "debug": "^2.2.0",
     "define-properties": "^1.1.2",
@@ -33,6 +32,7 @@
     "gl-vec2": "^1.0.0",
     "gl-vec3": "^1.0.3",
     "gl-vec4": "^1.0.1",
+    "glsl-fast-gaussian-blur": "^1.0.2",
     "glsl-inject-defines": "^1.0.3",
     "hls.js": "^0.6.2-5",
     "ios-safe-audio-context": "^1.0.1",

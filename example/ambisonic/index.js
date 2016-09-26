@@ -4,16 +4,16 @@
  * Module dependencies.
  */
 
-import AmbisonicAudioController from 'axis-3d/controls/ambisonic-audio'
-import OrbitCameraController from 'axis-3d/controls/orbit-camera'
+import AmbisonicAudioController from 'axis3d/controls/ambisonic-audio'
+import OrbitCameraController from 'axis3d/controls/orbit-camera'
 import WebAudioAnalyser from 'web-audio-analyser'
-import { Vector } from 'axis-3d/math'
-import Keyboard from 'axis-3d/input/keyboard'
-import Context from 'axis-3d/context'
-import Camera from 'axis-3d/camera'
-import Mouse from 'axis-3d/input/mouse'
-import Audio from 'axis-3d/media/audio'
-import Frame from 'axis-3d/frame'
+import { Vector } from 'axis3d/math'
+import Keyboard from 'axis3d/input/keyboard'
+import Context from 'axis3d/context'
+import Camera from 'axis3d/camera'
+import Mouse from 'axis3d/input/mouse'
+import Audio from 'axis3d/media/audio'
+import Frame from 'axis3d/frame'
 import Box from 'axis/mesh/box'
 import raf from 'raf'
 
@@ -72,8 +72,7 @@ ctx.focus()
 
 // orient controllers to "center" of photo/video
 raf(() => {
-  const y = Math.PI / (Math.PI * 0.5)
-  orbitController.orientation.y = y
+  orbitController.orientation.y = Math.PI / 2
   audio.play()
 })
 

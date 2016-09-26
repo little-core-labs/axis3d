@@ -113,6 +113,15 @@ export class MeshCommand extends Command {
         vec4.copy(this.color, state.color)
       }
 
+      if ('wireframe' in state) {
+        this.wireframe = Boolean(state.wireframe)
+      }
+
+      if ('map' in state) {
+        map = state.map
+        configure()
+      }
+
       // update uniform model matrix
       mat4.identity(model)
       mat4.multiply(model, model, mat4.fromQuat([], this.rotation))

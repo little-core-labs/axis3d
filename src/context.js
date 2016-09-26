@@ -66,7 +66,7 @@ export class Context extends EventEmitter {
    * @param {(Object)?} opts
    */
 
-  constructor(initialState = {}, opts = {}) {
+  constructor(initialState = {}, opts = {}, createRegl = regl) {
     super()
 
     const reglOptions = { ...opts.regl }
@@ -78,7 +78,7 @@ export class Context extends EventEmitter {
       reglOptions.container = opts.element
     }
 
-    this[$regl] = regl(opts.regl)
+    this[$regl] = createRegl(opts.regl)
     this[$stack] = []
     this[$state] = initialState
     this[$current] = null
