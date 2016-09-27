@@ -85,3 +85,14 @@ export const getScreenOrientation = () => {
 
   return window.orientation || 0
 }
+
+/**
+ * Predicate function to determine if input x
+ * is a power of two.
+ *
+ * @param {Number} x
+ * @return {Boolean}
+ */
+
+export const isPowerOfTwo = (x) =>
+  (x == x) && (0 !== x) && !(x & (x - 1))

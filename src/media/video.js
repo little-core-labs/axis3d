@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import { debug, define } from '../utils'
+import { debug, define, isPowerOfTwo } from '../utils'
 import { MediaCommand } from '../media'
 import { ImageCommand } from './image'
 import events from 'dom-events'
@@ -44,6 +44,19 @@ export class VideoCommand extends MediaCommand {
     let isMuted = false
     let isPaused = true
     let isPlaying = false
+
+    /**
+     * Texture state used for regl texture updates.
+     *
+     * @private
+     */
+
+    const textureState = {
+      flipY: true,
+      wrap: ['clamp', 'clamp'],
+      mag: 'linear',
+      min: 'linear',
+    }
 
     /**
      * Video manifest for resl.
@@ -229,13 +242,22 @@ export class VideoCommand extends MediaCommand {
       'muted',
       'loop',
     ].map((property) => define(this, property, {
-      get: () => source[property],
-      set: (value) => { source[property] = value }
+      get: () => source ? source[property] : null,
+      set: (value) => {
+        if (source) {
+          source[property] = value
+        } else {
+          this.once('load', () => {
+            console.log('set', property, value)
+            source[property] = value
+          })
+        }
+      }
     }))
 
     // proxy dimensions
-    define(this, 'width', { get: () => source.videoWidth })
-    define(this, 'height', { get: () => source.videoHeight })
+    define(this, 'width', { get: () => source ? source.videoWidth : 0})
+    define(this, 'height', { get: () => source ? source.videoHeight : 0})
     define(this, 'aspectRatio', {
       get: () => {
         if (source) {
@@ -259,11 +281,7 @@ export class VideoCommand extends MediaCommand {
 
     this.texture = initialState && initialState.texture ?
       initialState.texture :
-        ctx.regl.texture({
-          wrap: ['clamp', 'clamp'],
-          mag: 'linear',
-          min: 'linear',
-        })
+        ctx.regl.texture(textureState)
 
     /**
      * Plays the video.
@@ -305,9 +323,10 @@ export class VideoCommand extends MediaCommand {
 
     this.onloaded = ({video}) => {
       source = video
+      const needsMipmaps = source.videoHeight
 
       if (null == poster) {
-        this.texture(video)
+        this.texture({ ...textureState, data: video})
       }
 
       this.emit('load')
@@ -318,7 +337,7 @@ export class VideoCommand extends MediaCommand {
         if (isPlaying && (now - lastRead >= 64) && this.isDoneLoading && video.readyState >= video.HAVE_ENOUGH_DATA) {
           lastRead = now
           debug('VideoCommand: read')
-          this.texture(video)
+          this.texture({ ...textureState, data: video})
         }
       }
     }

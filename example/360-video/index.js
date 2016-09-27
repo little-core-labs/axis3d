@@ -20,7 +20,8 @@ const ctx = Context()
 // objects
 const camera = Camera(ctx)
 const frame = Frame(ctx)
-const video = Video(ctx, '/paramotor.mp4')
+//const video = Video(ctx, '/paramotor.mp4')
+const video = Video(ctx, 'https://videos.littlstar.com/03bc68e1-ffbb-4b12-b13f-cb34351a2b20/web.mp4')
 const sphere = Sphere(ctx, { map: video })
 
 // inputs
@@ -43,7 +44,11 @@ raf(() => {
 
   // play next frame
   video.play()
+  video.mute()
 })
+
+// expose useful things to window
+Object.assign(window, {camera, sphere, video})
 
 // axis animation frame loop
 frame(({time}) => {
@@ -51,7 +56,7 @@ frame(({time}) => {
   orbitController()
 
   // draw camera scene
-  camera(() => {
+  camera({fov: 70*Math.PI/180}, () => {
     sphere()
   })
 })
