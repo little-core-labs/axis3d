@@ -156,7 +156,8 @@ export class VideoCommand extends MediaCommand {
 
       volume = source.volume
       isMuted = source.muted
-      isPlaying = source.paused
+      isPaused = source.paused
+      isPlaying = !isPaused
     })
 
     // set to playing state
@@ -256,11 +257,13 @@ export class VideoCommand extends MediaCommand {
      * @type {REGLTexture}
      */
 
-    this.texture = ctx.regl.texture({
-      wrap: ['clamp', 'clamp'],
-      mag: 'linear',
-      min: 'linear',
-    })
+    this.texture = initialState && initialState.texture ?
+      initialState.texture :
+        ctx.regl.texture({
+          wrap: ['clamp', 'clamp'],
+          mag: 'linear',
+          min: 'linear',
+        })
 
     /**
      * Plays the video.
@@ -303,6 +306,10 @@ export class VideoCommand extends MediaCommand {
     this.onloaded = ({video}) => {
       source = video
 
+      if (null == poster) {
+        this.texture(video)
+      }
+
       this.emit('load')
 
       let lastRead = 0
@@ -331,8 +338,7 @@ export class VideoCommand extends MediaCommand {
           }
 
           if (null == poster) {
-            poster = new ImageCommand(ctx, value)
-            poster.texture = this.texture
+            poster = new ImageCommand(ctx, value, {texture: this.texture})
           }
         }
       },

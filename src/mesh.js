@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
+import { Quaternion, Vector } from './math'
 import getBoundingBox from 'bound-points'
 import injectDefines from 'glsl-inject-defines'
-import { Quaternion, Vector } from './math'
 import { Command } from './command'
 import { define } from './utils'
 import glslify from 'glslify'
@@ -117,7 +117,7 @@ export class MeshCommand extends Command {
         this.wireframe = Boolean(state.wireframe)
       }
 
-      if ('map' in state) {
+      if ('map' in state && map != state.map) {
         map = state.map
         configure()
       }
@@ -160,7 +160,7 @@ export class MeshCommand extends Command {
         const uniforms = {
           ...opts.uniforms,
           color: () => this.color.elements,
-          model: (...args) => model
+          model: () => model
         }
 
         defaults.count = opts.count || undefined
@@ -360,8 +360,8 @@ export class MeshCommand extends Command {
         }
 
         boundingBox =
-          getBoundingBox(this.geometry.positions)
-          .map((vec) => new Vector(...vec))
+          getBoundingBox(this.geometry.positions).map((p) => new Vector(...p))
+        return boundingBox
       }
     })
 
@@ -374,8 +374,7 @@ export class MeshCommand extends Command {
     define(this, 'size', {
       get() {
         // trigger compute with getter
-       void this.boundingBox
-        if (null == boundingBox) {
+        if (null == this.boundingBox) {
           return null
         }
 
@@ -400,7 +399,7 @@ export class MeshCommand extends Command {
     define(this, 'map', {
       get: () => map,
       set: (value) => {
-        if (value && value.texture) {
+        if (value && value.texture && map != value) {
           map = value
           configure()
         } else if (null == value) {

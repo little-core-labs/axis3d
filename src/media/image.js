@@ -129,11 +129,13 @@ export class ImageCommand extends MediaCommand {
      * @type {REGLTexture}
      */
 
-    this.texture = ctx.regl.texture({
-      wrap: ['clamp', 'clamp'],
-      mag: 'linear',
-      min: 'linear',
-    })
+    this.texture = initialState && initialState.texture ?
+      initialState.texture :
+        ctx.regl.texture({
+          wrap: ['clamp', 'clamp'],
+          mag: 'linear',
+          min: 'linear',
+        })
 
     /**
      * Callback when image has loaded.

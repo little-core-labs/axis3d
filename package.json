@@ -45,6 +45,7 @@
     "omnitone": "^0.1.6",
     "pointer-lock": "0.0.4",
     "primitive-capsule": "^2.0.2",
+    "primitive-plane": "^1.0.1",
     "primitive-quad": "^1.0.1",
     "primitive-sphere": "^2.0.0",
     "primitive-torus": "^1.0.4",
