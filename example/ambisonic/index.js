@@ -47,7 +47,6 @@ for (let box of boxes) {
   ))
 }
 
-
 // orbit controller
 const orbitController = OrbitCameraController(ctx, {
   inputs: {mouse, keyboard},

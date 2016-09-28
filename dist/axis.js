@@ -1,5358 +1,1526 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Axis = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.AudioCommand = undefined;
-
-var _utils = require('../utils');
-
-var _media = require('./media');
-
-var _domEvents = require('dom-events');
-
-var _domEvents2 = _interopRequireDefault(_domEvents);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * AudioCommand constructor.
- * @see AudioCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(AudioCommand, [null].concat(args)))();
-};
-
-/**
- * AudioCommand class.
- *
- * @public
- * @extends MediaCommand
- */
-
-var AudioCommand = exports.AudioCommand = function (_MediaCommand) {
-  _inherits(AudioCommand, _MediaCommand);
-
-  /**
-   * AudioCommand class constructor.
-   *
-   * @constructor
-   * @param {Context} ctx
-   * @param {String} src
-   * @param {(Object)?} initialState
-   */
-
-  function AudioCommand(ctx, src) {
-    var initialState = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-    _classCallCheck(this, AudioCommand);
-
-    var source = null;
-    var volume = 0;
-    var isMuted = false;
-    var isPaused = true;
-    var isPlaying = false;
-
-    var manifest = {
-      audio: {
-        stream: true,
-        type: 'audio',
-        src: src
-      }
-    };
-
-    /**
-     * Calls internal audio source method
-     * with arguments. This function is used
-     * to proxy a class method to a audio
-     * element method.
-     *
-     * @private
-     * @param {String} method
-     * @param {...Mixed} args
-     * @return {AudioCommand}
-     */
-
-    var call = function call(method) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        args[_key2 - 1] = arguments[_key2];
-      }
-
-      if (source) {
-        var _source;
-
-        (0, _utils.debug)('AudioCommand: call %s(%j)', method, args);
-        (_source = source)[method].apply(_source, args);
-      } else {
-        _this.once('load', function () {
-          return _this[method].apply(_this, args);
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.AudioCommand = void 0;var _utils = require("../utils"),
+    _media = require("./media"),
+    _domEvents = require("dom-events"),
+    _domEvents2 = _interopRequireDefault(_domEvents);exports.default = function () {
+  for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+    t[n] = arguments[n];
+  }return new (Function.prototype.bind.apply(AudioCommand, [null].concat(t)))();
+};var AudioCommand = exports.AudioCommand = function (e) {
+  function t(e, n) {
+    var o = arguments.length <= 2 || void 0 === arguments[2] ? {} : arguments[2];_classCallCheck(this, t);var r = null,
+        u = 0,
+        i = !1,
+        a = !0,
+        f = !1,
+        c = { audio: { stream: !0, type: "audio", src: n } },
+        s = function s(e) {
+      for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), o = 1; o < t; o++) {
+        n[o - 1] = arguments[o];
+      }if (r) {
+        var u;(0, _utils.debug)("AudioCommand: call %s(%j)", e, n), (u = r)[e].apply(u, n);
+      } else p.once("load", function () {
+        return p[e].apply(p, n);
+      });return p;
+    },
+        l = function l(e, t) {
+      if (r) {
+        if (void 0 === t) return r[e];(0, _utils.debug)("AudioCommand: set %s=%s", e, t), r[e] = t;
+      } else p.once("load", function () {
+        p[e] = t;
+      });return p;
+    },
+        d = function d(e) {
+      for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), o = 1; o < t; o++) {
+        n[o - 1] = arguments[o];
+      }return p.emit.apply(p, [e].concat(n)), p;
+    },
+        p = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e, c, o));return p.once("load", function () {
+      Object.assign(r, o);var e = function e(_e, t) {
+        _domEvents2.default.on(r, _e, function () {
+          for (var n = arguments.length, o = Array(n), r = 0; r < n; r++) {
+            o[r] = arguments[r];
+          }d.apply(void 0, [t || _e].concat(o));
         });
-      }
-      return _this;
-    };
-
-    /**
-     * Sets an internal audio source property
-     * value. This function is used
-     * to proxy a class method to a audio
-     * element property
-     *
-     * @private
-     * @param {String} method
-     * @param {...Mixed} args
-     * @return {AudioCommand|Mixed}
-     */
-
-    var set = function set(property, value) {
-      if (source) {
-        if (undefined === value) {
-          return source[property];
-        } else {
-          (0, _utils.debug)('AudioCommand: set %s=%s', property, value);
-          source[property] = value;
-        }
-      } else {
-        _this.once('load', function () {
-          _this[property] = value;
-        });
-      }
-      return _this;
-    };
-
-    /**
-     * Emits an event on the instance.
-     *
-     * @private
-     * @param {String} event
-     * @param {...Mixed} args
-     * @return {AudioCommand}
-     */
-
-    var emit = function emit(event) {
-      for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-        args[_key3 - 1] = arguments[_key3];
-      }
-
-      _this.emit.apply(_this, [event].concat(args));
-      return _this;
-    };
-
-    // set initial audio state
-    var _this = _possibleConstructorReturn(this, (AudioCommand.__proto__ || Object.getPrototypeOf(AudioCommand)).call(this, ctx, manifest, initialState));
-
-    _this.once('load', function () {
-      // set initial set on source
-      Object.assign(source, initialState);
-
-      var proxy = function proxy(event, override) {
-        _domEvents2.default.on(source, event, function () {
-          for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-            args[_key4] = arguments[_key4];
-          }
-
-          emit.apply(undefined, [override || event].concat(args));
-        });
-      };
-
-      // proxy source events
-
-      var _loop = function _loop(key) {
-        if (key.match(/^on[a-z]/)) {
-          proxy(key.replace(/^on/, ''));
-          (0, _utils.define)(_this, key, {
-            get: function get() {
-              return source[key];
-            },
-            set: function set(value) {
-              return source[key] = value;
-            }
-          });
-        }
-      };
-
-      for (var key in HTMLAudioElement.prototype) {
-        _loop(key);
-      }
-
-      volume = source.volume;
-      isMuted = source.muted;
-      isPlaying = source.paused;
-    });
-
-    // set to playing state
-    _this.on('playing', function () {
-      isPlaying = true;
-      isPaused = false;
-    });
-
-    // set to paused state
-    _this.on('pause', function () {
-      isPlaying = false;
-      isPaused = true;
-    });
-
-    // set volume mute state
-    _this.on('mute', function () {
-      isMuted = true;
-    });
-
-    _this.on('unmute', function () {
-      isMuted = false;
-    });
-
-    /**
-     * Source attribute accessor.
-     *
-     * @type {String}
-     */
-
-    (0, _utils.define)(_this, 'src', {
-      get: function get() {
-        return source && source.src ? source.src : _this.manifest && _this.manifest.audio ? _this.manifest.audio.src : null;
       },
-
-      set: function set(value) {
-        if (source && 'string' == typeof value) {
-          source.src = value;
-          if (_this.manifest && _this.manifest.audio) {
-            _this.manifest.audio.src = value;
-            _this.reset();
-            _this.load();
-          }
-        }
-      }
-    })
-
-    // proxy all configurable audio properties that serve
-    // some kind of real purpose
-    // @TODO(werle) - support text tracks
-    ;['currentTime', 'crossOrigin', 'currentSrc', 'duration', 'seekable', 'volume', 'paused', 'played', 'prefix', 'muted', 'loop'].map(function (property) {
-      return (0, _utils.define)(_this, property, {
-        get: function get() {
-          return source[property];
-        },
-        set: function set(value) {
-          source[property] = value;
-        }
-      });
-    });
-
-    // expose DOM element
-    (0, _utils.define)(_this, 'domElement', { get: function get() {
-        return source;
-      } });
-
-    /**
-     * Plays the audio.
-     *
-     * @return {AudioCommand}
-     */
-
-    _this.play = function () {
-      return call('play');
-    };
-
-    /**
-     * Pauses the audio.
-     *
-     * @return {AudioCommand}
-     */
-
-    _this.pause = function () {
-      return call('pause');
-    };
-
-    /**
-     * Mutes the audio
-     *
-     * @return {AudioCommand}
-     */
-
-    _this.mute = function () {
-      return set('muted', true) && emit('mute');
-    };
-
-    /**
-     * Unutes the audio
-     *
-     * @return {AudioCommand}
-     */
-
-    _this.unmute = function () {
-      return set('muted', false) && emit('unmute');
-    };
-
-    /**
-     * Callback when audio has loaded.
-     *
-     * @type {Function}
-     */
-
-    _this.onloaded = function (_ref) {
-      var audio = _ref.audio;
-
-      source = audio;
-    };
-    return _this;
-  }
-
-  return AudioCommand;
+          t = function t(_t) {
+        _t.match(/^on[a-z]/) && (e(_t.replace(/^on/, "")), (0, _utils.define)(p, _t, { get: function get() {
+            return r[_t];
+          }, set: function set(e) {
+            return r[_t] = e;
+          } }));
+      };for (var n in HTMLAudioElement.prototype) {
+        t(n);
+      }u = r.volume, i = r.muted, f = r.paused;
+    }), p.on("playing", function () {
+      f = !0, a = !1;
+    }), p.on("pause", function () {
+      f = !1, a = !0;
+    }), p.on("mute", function () {
+      i = !0;
+    }), p.on("unmute", function () {
+      i = !1;
+    }), (0, _utils.define)(p, "src", { get: function get() {
+        return r && r.src ? r.src : p.manifest && p.manifest.audio ? p.manifest.audio.src : null;
+      }, set: function set(e) {
+        r && "string" == typeof e && (r.src = e, p.manifest && p.manifest.audio && (p.manifest.audio.src = e, p.reset(), p.load()));
+      } }), ["currentTime", "crossOrigin", "currentSrc", "duration", "seekable", "volume", "paused", "played", "prefix", "muted", "loop"].map(function (e) {
+      return (0, _utils.define)(p, e, { get: function get() {
+          return r[e];
+        }, set: function set(t) {
+          r[e] = t;
+        } });
+    }), (0, _utils.define)(p, "domElement", { get: function get() {
+        return r;
+      } }), p.play = function () {
+      return s("play");
+    }, p.pause = function () {
+      return s("pause");
+    }, p.mute = function () {
+      return l("muted", !0) && d("mute");
+    }, p.unmute = function () {
+      return l("muted", !1) && d("unmute");
+    }, p.onloaded = function (e) {
+      var t = e.audio;r = t;
+    }, p;
+  }return _inherits(t, e), t;
 }(_media.MediaCommand);
 
 },{"../utils":28,"./media":8,"dom-events":34}],2:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.BoxCommand = undefined;
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.BoxCommand = void 0;var _extends = Object.assign || function (e) {
+  for (var t = 1; t < arguments.length; t++) {
+    var o = arguments[t];for (var r in o) {
+      Object.prototype.hasOwnProperty.call(o, r) && (e[r] = o[r]);
     }
-  }return target;
-};
-
-var _box = require('../geometry/box');
-
-var _object = require('./object');
-
-var _glMat = require('gl-mat4');
-
-var _glMat2 = _interopRequireDefault(_glMat);
-
-var _glslify = require('glslify');
-
-var _glslify2 = _interopRequireDefault(_glslify);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * Box function.
- *
- * @see BoxCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(BoxCommand, [null].concat(args)))();
-};
-
-/**
- * BoxCommand class.
- *
- * @public
- * @class BoxCommand
- * @extends ObjectCommand
- */
-
-var BoxCommand = exports.BoxCommand = function (_ObjectCommand) {
-  _inherits(BoxCommand, _ObjectCommand);
-
-  function BoxCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, BoxCommand);
-
-    var geometry = new _box.BoxGeometry(opts.geometry);
-    var uniforms = {};
-    return _possibleConstructorReturn(this, (BoxCommand.__proto__ || Object.getPrototypeOf(BoxCommand)).call(this, ctx, _extends({}, opts, {
-      type: 'box',
-      uniforms: uniforms,
-      geometry: geometry
-    })));
-  }
-
-  return BoxCommand;
+  }return e;
+},
+    _box = require("../geometry/box"),
+    _object = require("./object"),
+    _glMat = require("gl-mat4"),
+    _glMat2 = _interopRequireDefault(_glMat),
+    _glslify = require("glslify"),
+    _glslify2 = _interopRequireDefault(_glslify);exports.default = function () {
+  for (var e = arguments.length, t = Array(e), o = 0; o < e; o++) {
+    t[o] = arguments[o];
+  }return new (Function.prototype.bind.apply(BoxCommand, [null].concat(t)))();
+};var BoxCommand = exports.BoxCommand = function (e) {
+  function t(e) {
+    var o = arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var r = new _box.BoxGeometry(o.geometry),
+        n = {};return _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e, _extends({}, o, { type: "box", uniforms: n, geometry: r })));
+  }return _inherits(t, e), t;
 }(_object.ObjectCommand);
 
 },{"../geometry/box":19,"./object":10,"gl-mat4":47,"glslify":187}],3:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CameraCommand = exports.DEFAULT_CAMERA_FAR = exports.DEFAULT_CAMERA_NEAR = exports.DEFAULT_CAMERA_FIELD_OF_VIEW = exports.DEFAULT_CAMERA_ORIENTATION_ORIGIN = undefined;
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.CameraCommand = exports.DEFAULT_CAMERA_FAR = exports.DEFAULT_CAMERA_NEAR = exports.DEFAULT_CAMERA_FIELD_OF_VIEW = exports.DEFAULT_CAMERA_ORIENTATION_ORIGIN = void 0;var _extends = Object.assign || function (e) {
+  for (var t = 1; t < arguments.length; t++) {
+    var r = arguments[t];for (var n in r) {
+      Object.prototype.hasOwnProperty.call(r, n) && (e[n] = r[n]);
     }
-  }return target;
-};
-
-var _utils = require('../utils');
-
-var _object = require('./object');
-
-var _math = require('../math');
-
-var _defined = require('defined');
-
-var _defined2 = _interopRequireDefault(_defined);
-
-var _glMat = require('gl-mat4');
-
-var _glMat2 = _interopRequireDefault(_glMat);
-
-var _glVec = require('gl-vec3');
-
-var _glVec2 = _interopRequireDefault(_glVec);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * CameraCommand constructor.
- * @see CameraCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(CameraCommand, [null].concat(args)))();
-};
-
-/**
- * Scratch matrix
- *
- * @private
- * @const
- * @type {mat4}
- */
-
-var scratch = _glMat2.default.identity([]);
-
-/**
- * Euler angle of the origin camera orientation
- * express in radians.
- *
- * @public
- * @const
- * @type {Vector}
- */
-
-var DEFAULT_CAMERA_ORIENTATION_ORIGIN =
-// pitch, yaw, roll
-exports.DEFAULT_CAMERA_ORIENTATION_ORIGIN = new _math.Vector((0, _utils.radians)(90), 0, 0);
-
-/**
- * Default field of view frustrum angle for the
- * persective camera projection. This value is
- * expressed in radians.
- *
- * @public
- * @const
- * @type {Number}
- */
-
-var DEFAULT_CAMERA_FIELD_OF_VIEW = exports.DEFAULT_CAMERA_FIELD_OF_VIEW = (0, _utils.radians)(60);
-
-/**
- * Default near value for the persective camera
- * projection.
- *
- * @public
- * @const
- * @type {Number}
- */
-
-var DEFAULT_CAMERA_NEAR = exports.DEFAULT_CAMERA_NEAR = 0.01;
-
-/**
- * Default far value for the persective camera
- * projection.
- *
- * @public
- * @const
- * @type {Number}
- */
-
-var DEFAULT_CAMERA_FAR = exports.DEFAULT_CAMERA_FAR = 1000.0;
-
-/**
- * CameraCommand class.
- *
- * @public
- * @class CameraCommand
- * @extends Command
- */
-
-var CameraCommand = exports.CameraCommand = function (_ObjectCommand) {
-  _inherits(CameraCommand, _ObjectCommand);
-
-  /**
-   * Camera class constructor.
-   *
-   * @param {Context} ctx
-   * @param {Object} opts
-   */
-
-  function CameraCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, CameraCommand);
-
-    var worldUp = new _math.Vector(0, 1, 0);
-    var target = new _math.Vector(0, 0, 0);
-    var front = new _math.Vector(0, 0, -1);
-    var right = new _math.Vector(1, 0, 0);
-    var eye = new _math.Vector(0, 0, 0);
-    var up = new _math.Vector(0, 0, 0);
-
-    var _projection = _glMat2.default.identity([]);
-    var _view = _glMat2.default.identity([]);
-
-    var orientation = Object.assign(DEFAULT_CAMERA_ORIENTATION_ORIGIN, {});
-
-    var state = {
-      viewportHeight: (0, _defined2.default)(opts.viewportHeight, 1),
-      viewportWidth: (0, _defined2.default)(opts.viewportWidth, 1),
-      near: (0, _defined2.default)(opts.near, DEFAULT_CAMERA_NEAR),
-      far: (0, _defined2.default)(opts.far, DEFAULT_CAMERA_FAR),
-      fov: (0, _defined2.default)(opts.fov, opts.fieldOfView, DEFAULT_CAMERA_FIELD_OF_VIEW)
-    };
-
-    var context = {
-      projection: function projection(_ref) {
-        var viewportWidth = _ref.viewportWidth;
-        var viewportHeight = _ref.viewportHeight;
-
-        update({ viewportWidth: viewportWidth, viewportHeight: viewportHeight });
-        return _projection;
-      },
-
-      view: function view(_ref2) {
-        var viewportWidth = _ref2.viewportWidth;
-        var viewportHeight = _ref2.viewportHeight;
-
-        update({ viewportWidth: viewportWidth, viewportHeight: viewportHeight });
-        return _view;
-      }
-    };
-
-    var uniforms = _extends({}, context);
-    var _render = ctx.regl({ context: context, uniforms: uniforms });
-
-    var update = function update(updates) {
-      var sync = function sync(prop) {
-        if (prop in updates) {
-          state[prop] = updates[prop];
-        }
-      };
-
-      // sycn properties
-      sync('fov');
-      sync('far');
-      sync('near');
-      sync('viewportWidth');
-      sync('viewportHeight');
-
-      var position = _this.position;
-      var aspect = state.viewportWidth / state.viewportHeight;
-      var vector = new _math.Vector(0, 0, 0);
-      var near = state.near;
-      var far = state.far;
-      var fov = state.fov;
-
-      // update camera direction vectors
-      _glVec2.default.set(front, Math.cos(orientation.x) * Math.cos(orientation.y), Math.sin(orientation.y), Math.sin(orientation.x) * Math.sin(orientation.y));
-
-      _glVec2.default.normalize(front, front);
-      _glVec2.default.copy(right, _glVec2.default.normalize([], _glVec2.default.cross([], front, worldUp)));
-      _glVec2.default.copy(up, _glVec2.default.normalize([], _glVec2.default.cross([], right, front)));
-
-      // set projection
-      _glMat2.default.perspective(_projection, fov, aspect, near, far);
-
-      // update transform from context if present
-      if (ctx.previous && ctx.previous.id != _this.id) {
-        _glMat2.default.copy(_this.transform, _glMat2.default.multiply([], ctx.previous.transform, _view));
-      } else {
-        _glMat2.default.copy(_this.transform, _view);
-      }
-
-      // update view matrix
-      _glMat2.default.copy(_view, _this.transform);
-      _glMat2.default.lookAt(_view, position, target, up);
-      _glMat2.default.multiply(_view, _view, _glMat2.default.fromQuat([], _this.rotation));
-
-      // set eye vector
-      _glMat2.default.invert(scratch, _view);
-      _glVec2.default.set(eye, scratch[12], scratch[13], scratch[14]);
-      return _this;
-    };
-
-    /**
-     * Camera field of view value.
-     *
-     * @type {Number}
-     */
-
-    var _this = _possibleConstructorReturn(this, (CameraCommand.__proto__ || Object.getPrototypeOf(CameraCommand)).call(this, ctx, _extends({}, opts, { render: function render(_) {
-        for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-          args[_key2 - 1] = arguments[_key2];
-        }
-
-        return _render.apply(undefined, args);
-      } })));
-
-    (0, _utils.define)(_this, 'fov', {
-      get: function get() {
-        return state.fov;
-      },
-      set: function set(fov) {
-        return update({ fov: fov });
-      }
-    });
-
-    /**
-     * Camera far value.
-     *
-     * @type {Number}
-     */
-
-    (0, _utils.define)(_this, 'far', {
-      get: function get() {
-        return state.far;
-      },
-      set: function set(far) {
-        return update({ far: far });
-      }
-    });
-
-    /**
-     * Camera near value.
-     *
-     * @type {Number}
-     */
-
-    (0, _utils.define)(_this, 'near', {
-      get: function get() {
-        return state.near;
-      },
-      set: function set(near) {
-        return update({ near: near });
-      }
-    });
-
-    /**
-     * Camera projection value.
-     *
-     * @type {Number}
-     */
-
-    (0, _utils.define)(_this, 'projection', { get: function get() {
-        return _projection;
-      } });
-
-    /**
-     * Camera view matrix value.
-     *
-     * @type {Number}
-     */
-
-    (0, _utils.define)(_this, 'view', { get: function get() {
-        return _view;
-      } });
-
-    /**
-     * Camera world up vector.
-     *
-     * @type {Vector}
-     */
-
-    (0, _utils.define)(_this, 'worldUp', { get: function get() {
-        return worldUp;
-      } });
-
-    /**
-     * Camera front vector.
-     *
-     * @type {Vector}
-     */
-
-    (0, _utils.define)(_this, 'front', { get: function get() {
-        return front;
-      } });
-
-    /**
-     * Camera right vector.
-     *
-     * @type {Vector}
-     */
-
-    (0, _utils.define)(_this, 'right', { get: function get() {
-        return right;
-      } });
-
-    /**
-     * Camera eye vector.
-     *
-     * @type {Vector}
-     */
-
-    (0, _utils.define)(_this, 'eye', { get: function get() {
-        return eye;
-      } });
-
-    /**
-     * Camera up vector.
-     *
-     * @type {Vector}
-     */
-
-    (0, _utils.define)(_this, 'up', { get: function get() {
-        return up;
-      } });
-
-    /**
-     * Camera lookAt target vector.
-     *
-     * @type {Vector}
-     */
-
-    (0, _utils.define)(_this, 'target', { get: function get() {
-        return target;
-      } });
-
-    /**
-     * Camera orientation vector.
-     *
-     * @type {Vector}
-     */
-
-    (0, _utils.define)(_this, 'orientation', { get: function get() {
-        return orientation;
-      } });
-
-    /**
-     * Looks at a target vector.
-     *
-     * @type {Number}
-     */
-
-    (0, _utils.define)(_this, 'lookAt', {
-      value: function value(vector) {
-        _glVec2.default.copy(target, vector);
-        return this;
-      }
-    });
-    return _this;
-  }
-
-  return CameraCommand;
+  }return e;
+},
+    _utils = require("../utils"),
+    _object = require("./object"),
+    _math = require("../math"),
+    _defined = require("defined"),
+    _defined2 = _interopRequireDefault(_defined),
+    _glMat = require("gl-mat4"),
+    _glMat2 = _interopRequireDefault(_glMat),
+    _glVec = require("gl-vec3"),
+    _glVec2 = _interopRequireDefault(_glVec);exports.default = function () {
+  for (var e = arguments.length, t = Array(e), r = 0; r < e; r++) {
+    t[r] = arguments[r];
+  }return new (Function.prototype.bind.apply(CameraCommand, [null].concat(t)))();
+};var scratch = _glMat2.default.identity([]),
+    DEFAULT_CAMERA_ORIENTATION_ORIGIN = exports.DEFAULT_CAMERA_ORIENTATION_ORIGIN = new _math.Vector((0, _utils.radians)(90), 0, 0),
+    DEFAULT_CAMERA_FIELD_OF_VIEW = exports.DEFAULT_CAMERA_FIELD_OF_VIEW = (0, _utils.radians)(60),
+    DEFAULT_CAMERA_NEAR = exports.DEFAULT_CAMERA_NEAR = .01,
+    DEFAULT_CAMERA_FAR = exports.DEFAULT_CAMERA_FAR = 1e3,
+    CameraCommand = exports.CameraCommand = function (e) {
+  function t(e) {
+    var r = arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var n = new _math.Vector(0, 1, 0),
+        o = new _math.Vector(0, 0, 0),
+        i = new _math.Vector(0, 0, -1),
+        a = new _math.Vector(1, 0, 0),
+        u = new _math.Vector(0, 0, 0),
+        f = new _math.Vector(0, 0, 0),
+        l = _glMat2.default.identity([]),
+        _ = _glMat2.default.identity([]),
+        c = Object.assign(DEFAULT_CAMERA_ORIENTATION_ORIGIN, {}),
+        s = { viewportHeight: (0, _defined2.default)(r.viewportHeight, 1), viewportWidth: (0, _defined2.default)(r.viewportWidth, 1), near: (0, _defined2.default)(r.near, DEFAULT_CAMERA_NEAR), far: (0, _defined2.default)(r.far, DEFAULT_CAMERA_FAR), fov: (0, _defined2.default)(r.fov, r.fieldOfView, DEFAULT_CAMERA_FIELD_OF_VIEW) },
+        d = { projection: function projection(e) {
+        var t = e.viewportWidth,
+            r = e.viewportHeight;return g({ viewportWidth: t, viewportHeight: r }), l;
+      }, view: function view(e) {
+        var t = e.viewportWidth,
+            r = e.viewportHeight;return g({ viewportWidth: t, viewportHeight: r }), _;
+      } },
+        p = _extends({}, d),
+        A = e.regl({ context: d, uniforms: p }),
+        g = function g(t) {
+      var r = function r(e) {
+        e in t && (s[e] = t[e]);
+      };r("fov"), r("far"), r("near"), r("viewportWidth"), r("viewportHeight");var d = h.position,
+          p = s.viewportWidth / s.viewportHeight,
+          A = (new _math.Vector(0, 0, 0), s.near),
+          g = s.far,
+          v = s.fov;return _glVec2.default.set(i, Math.cos(c.x) * Math.cos(c.y), Math.sin(c.y), Math.sin(c.x) * Math.sin(c.y)), _glVec2.default.normalize(i, i), _glVec2.default.copy(a, _glVec2.default.normalize([], _glVec2.default.cross([], i, n))), _glVec2.default.copy(f, _glVec2.default.normalize([], _glVec2.default.cross([], a, i))), _glMat2.default.perspective(l, v, p, A, g), e.previous && e.previous.id != h.id ? _glMat2.default.copy(h.transform, _glMat2.default.multiply([], e.previous.transform, _)) : _glMat2.default.copy(h.transform, _), _glMat2.default.copy(_, h.transform), _glMat2.default.lookAt(_, d, o, f), _glMat2.default.multiply(_, _, _glMat2.default.fromQuat([], h.rotation)), _glMat2.default.invert(scratch, _), _glVec2.default.set(u, scratch[12], scratch[13], scratch[14]), h;
+    },
+        h = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e, _extends({}, r, { render: function render(e) {
+        for (var t = arguments.length, r = Array(t > 1 ? t - 1 : 0), n = 1; n < t; n++) {
+          r[n - 1] = arguments[n];
+        }return A.apply(void 0, r);
+      } })));return (0, _utils.define)(h, "fov", { get: function get() {
+        return s.fov;
+      }, set: function set(e) {
+        return g({ fov: e });
+      } }), (0, _utils.define)(h, "far", { get: function get() {
+        return s.far;
+      }, set: function set(e) {
+        return g({ far: e });
+      } }), (0, _utils.define)(h, "near", { get: function get() {
+        return s.near;
+      }, set: function set(e) {
+        return g({ near: e });
+      } }), (0, _utils.define)(h, "projection", { get: function get() {
+        return l;
+      } }), (0, _utils.define)(h, "view", { get: function get() {
+        return _;
+      } }), (0, _utils.define)(h, "worldUp", { get: function get() {
+        return n;
+      } }), (0, _utils.define)(h, "front", { get: function get() {
+        return i;
+      } }), (0, _utils.define)(h, "right", { get: function get() {
+        return a;
+      } }), (0, _utils.define)(h, "eye", { get: function get() {
+        return u;
+      } }), (0, _utils.define)(h, "up", { get: function get() {
+        return f;
+      } }), (0, _utils.define)(h, "target", { get: function get() {
+        return o;
+      } }), (0, _utils.define)(h, "orientation", { get: function get() {
+        return c;
+      } }), (0, _utils.define)(h, "lookAt", { value: function value(e) {
+        return _glVec2.default.copy(o, e), this;
+      } }), h;
+  }return _inherits(t, e), t;
 }(_object.ObjectCommand);
 
 },{"../math":23,"../utils":28,"./object":10,"defined":33,"gl-mat4":47,"gl-vec3":129}],4:[function(require,module,exports){
-'use strict';
-
-/**
- * No-op to return this only
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CommandContext = exports.Command = exports.encode = undefined;
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+function _defineProperty(e, n, t) {
+  return n in e ? Object.defineProperty(e, n, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[n] = t, e;
+}function _classCallCheck(e, n) {
+  if (!(e instanceof n)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, n) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !n || "object" !== ("undefined" == typeof n ? "undefined" : _typeof(n)) && "function" != typeof n ? e : n;
+}function _inherits(e, n) {
+  if ("function" != typeof n && null !== n) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof n ? "undefined" : _typeof(n)));e.prototype = Object.create(n && n.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), n && (Object.setPrototypeOf ? Object.setPrototypeOf(e, n) : e.__proto__ = n);
+}function commandRunnerWrap(e, n) {
+  if (this && "function" == typeof n) {
+    for (var t = arguments.length, o = Array(t > 2 ? t - 2 : 0), r = 2; r < t; r++) {
+      o[r - 2] = arguments[r];
+    }n.apply(n, [e].concat(o));
+  }return this;
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.CommandContext = exports.Command = exports.encode = void 0;var _createClass = function () {
+  function e(e, n) {
+    for (var t = 0; t < n.length; t++) {
+      var o = n[t];o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o);
     }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  }return function (n, t, o) {
+    return t && e(n.prototype, t), o && e(n, o), n;
   };
-}();
-
-var _symbols = require('../symbols');
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
-  } else {
-    obj[key] = value;
-  }return obj;
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-var noop = function noop() {
-  return undefined;
-};
-
-/**
- * Module symbols.
- */
-
-/**
- * Encode a function for execution within a
- * Command instance context.
- *
- * @public
- * @param {Function} fn
- * @return {String}
- */
-
-var encode = exports.encode = function encode(fn) {
-  return '(' + String(fn) + ')';
-};
-
-/**
- * Command class.
- *
- * @public
- */
-
-var Command = exports.Command = function (_Function) {
-  _inherits(Command, _Function);
-
-  _createClass(Command, null, [{
-    key: 'codegen',
-
-    /**
-     * Generates code executed in an
-     * isolated context.
-     *
-     * @static
-     * @param {Function} fn
-     * @return {String}
-     */
-
-    value: function codegen(fn) {
-      return '\n    var fn = ' + encode(fn) + ';\n    fn.apply(this, arguments);\n    return this;';
-    }
-
-    /**
-     * Command class constructor.
-     * Assigns a command runner and returns
-     * a command function.
-     *
-     * @constructor
-     * @param {Function} run
-     */
-
-  }]);
-
-  function Command(run) {
-    var _ret;
-
-    _classCallCheck(this, Command);
-
-    var _this = _possibleConstructorReturn(this, (Command.__proto__ || Object.getPrototypeOf(Command)).call(this, Command.codegen(commandRunnerWrap)));
-
-    run = 'function' == typeof run ? run : noop;
-    var state = _defineProperty({}, _symbols.$run, run);
-    var ctx = _this[_symbols.$ctx] = new CommandContext(_this, state);
-    var exec = function exec() {
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      return _this.apply(undefined, [ctx, run].concat(args));
-    };
-    var self = _this;
-    return _ret = function _ret() {
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      return exec.call.apply(exec, [self].concat(args));
-    }, _possibleConstructorReturn(_this, _ret);
-  }
-
-  return Command;
-}(Function);
-
-/**
- * CommandContext class.
- *
- * @public
- */
-
-var CommandContext = exports.CommandContext = function () {
-
-  /**
-   * CommandContext class constructor.
-   *
-   * @param {Command} cmd
-   * @param {(Object)?} state
-   */
-
-  function CommandContext(cmd, state) {
-    _classCallCheck(this, CommandContext);
-
-    this[_symbols.$ref] = cmd;
-    Object.assign(this, state || {});
-  }
-
-  /**
-   * Returns a reference to the command.
-   * This is used in the commandRunnerWrap
-   * function.
-   *
-   * @getter
-   * @private
-   */
-
-  _createClass(CommandContext, [{
-    key: 'ref',
-    get: function get() {
+}(),
+    _symbols = require("../symbols"),
+    noop = function noop() {},
+    encode = exports.encode = function (e) {
+  return "(" + String(e) + ")";
+},
+    Command = exports.Command = function (e) {
+  function n(e) {
+    var t;_classCallCheck(this, n);var o = _possibleConstructorReturn(this, (n.__proto__ || Object.getPrototypeOf(n)).call(this, n.codegen(commandRunnerWrap)));e = "function" == typeof e ? e : noop;var r = _defineProperty({}, _symbols.$run, e),
+        i = o[_symbols.$ctx] = new CommandContext(o, r),
+        u = function u() {
+      for (var n = arguments.length, t = Array(n), r = 0; r < n; r++) {
+        t[r] = arguments[r];
+      }return o.apply(void 0, [i, e].concat(t));
+    },
+        c = o;return t = function t() {
+      for (var e = arguments.length, n = Array(e), t = 0; t < e; t++) {
+        n[t] = arguments[t];
+      }return u.call.apply(u, [c].concat(n));
+    }, _possibleConstructorReturn(o, t);
+  }return _inherits(n, e), _createClass(n, null, [{ key: "codegen", value: function value(e) {
+      return "\n    var fn = " + encode(e) + ";\n    fn.apply(this, arguments);\n    return this;";
+    } }]), n;
+}(Function),
+    CommandContext = exports.CommandContext = function () {
+  function e(n, t) {
+    _classCallCheck(this, e), this[_symbols.$ref] = n, Object.assign(this, t || {});
+  }return _createClass(e, [{ key: "ref", get: function get() {
       return this[_symbols.$ref];
-    }
-  }]);
-
-  return CommandContext;
+    } }]), e;
 }();
-
-/**
- * Command runner wrap that calls a
- * commands internal run ($run) function.
- *
- * @private
- * @param {CommandContext} ctx
- * @param {Function} fn
- * @param {...Mixed} args
- * @return {Mixed}
- */
-
-function commandRunnerWrap(ctx, run) {
-  if (this && 'function' == typeof run) {
-    for (var _len3 = arguments.length, args = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
-      args[_key3 - 2] = arguments[_key3];
-    }
-
-    run.apply(run, [ctx].concat(args));
-  }
-  return this;
-}
 
 },{"../symbols":27}],5:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.FrameCommand = undefined;
-
-var _command = require('./command');
-
-var _utils = require('../utils');
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * FrameCommand constructor.
- * @see FrameCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(FrameCommand, [null].concat(args)))();
-};
-
-/**
- * FrameCommand class.
- *
- * @public
- * @class FrameCommand
- * @extends Command
- */
-
-var FrameCommand = exports.FrameCommand = function (_Command) {
-  _inherits(FrameCommand, _Command);
-
-  /**
-   * FrameCommand class constructor.
-   *
-   * @param {Context} ctx
-   */
-
-  function FrameCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, FrameCommand);
-
-    // @TODO(werle) - use framebuffer
-
-    var tick = null;
-    var isRunning = false;
-    var reglContext = null;
-
-    var queue = [];
-
-    /**
-     * Starts the frame loop.
-     *
-     * @return {FrameCommand}
-     */
-
-    var _this = _possibleConstructorReturn(this, (FrameCommand.__proto__ || Object.getPrototypeOf(FrameCommand)).call(this, function (_, refresh) {
-      _this.start();
-      queue.push(refresh);
-    }));
-
-    _this.start = function () {
-      if (isRunning) {
-        return _this;
-      }
-      tick = ctx.regl.frame(function (_) {
-        for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-          args[_key2 - 1] = arguments[_key2];
-        }
-
-        reglContext = _;
-
-        ctx.clear();
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = queue[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var refresh = _step.value;
-
-            if ('function' == typeof refresh) {
-              refresh.apply(undefined, [reglContext].concat(args));
-            }
+function _classCallCheck(t, e) {
+  if (!(t instanceof e)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(t, e) {
+  if (!t) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !e || "object" !== ("undefined" == typeof e ? "undefined" : _typeof(e)) && "function" != typeof e ? t : e;
+}function _inherits(t, e) {
+  if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof e ? "undefined" : _typeof(e)));t.prototype = Object.create(e && e.prototype, { constructor: { value: t, enumerable: !1, writable: !0, configurable: !0 } }), e && (Object.setPrototypeOf ? Object.setPrototypeOf(t, e) : t.__proto__ = e);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (t) {
+  return typeof t === "undefined" ? "undefined" : _typeof2(t);
+} : function (t) {
+  return t && "function" == typeof Symbol && t.constructor === Symbol ? "symbol" : typeof t === "undefined" ? "undefined" : _typeof2(t);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.FrameCommand = void 0;var _command = require("./command"),
+    _utils = require("../utils");exports.default = function () {
+  for (var t = arguments.length, e = Array(t), n = 0; n < t; n++) {
+    e[n] = arguments[n];
+  }return new (Function.prototype.bind.apply(FrameCommand, [null].concat(e)))();
+};var FrameCommand = exports.FrameCommand = function (t) {
+  function e(t) {
+    arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, e);var n = null,
+        o = !1,
+        r = null,
+        a = [],
+        i = _possibleConstructorReturn(this, (e.__proto__ || Object.getPrototypeOf(e)).call(this, function (t, e) {
+      i.start(), a.push(e);
+    }));return i.start = function () {
+      return o ? i : (n = t.regl.frame(function (e) {
+        for (var n = arguments.length, o = Array(n > 1 ? n - 1 : 0), i = 1; i < n; i++) {
+          o[i - 1] = arguments[i];
+        }r = e, t.clear();var u = !0,
+            c = !1,
+            l = void 0;try {
+          for (var f, s = a[Symbol.iterator](); !(u = (f = s.next()).done); u = !0) {
+            var p = f.value;"function" == typeof p && p.apply(void 0, [r].concat(o));
           }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
+        } catch (t) {
+          c = !0, l = t;
         } finally {
           try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
-            }
+            !u && s.return && s.return();
           } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
+            if (c) throw l;
           }
         }
-      });
-      return _this;
-    };
-    return _this;
-  }
-
-  return FrameCommand;
+      }), i);
+    }, i;
+  }return _inherits(e, t), e;
 }(_command.Command);
 
 },{"../utils":28,"./command":4}],6:[function(require,module,exports){
-'use strict';
-
-/**
- * Module exports.
- */
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _orientation = require('./orientation');
-
-Object.defineProperty(exports, 'OrientationCommand', {
-  enumerable: true,
-  get: function get() {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: !0 });var _orientation = require("./orientation");Object.defineProperty(exports, "OrientationCommand", { enumerable: !0, get: function get() {
     return _orientation.OrientationCommand;
-  }
-});
-
-var _triangle = require('./triangle');
-
-Object.defineProperty(exports, 'TriangleCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _triangle = require("./triangle");Object.defineProperty(exports, "TriangleCommand", { enumerable: !0, get: function get() {
     return _triangle.TriangleCommand;
-  }
-});
-
-var _keyboard = require('./keyboard');
-
-Object.defineProperty(exports, 'KeyboardCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _keyboard = require("./keyboard");Object.defineProperty(exports, "KeyboardCommand", { enumerable: !0, get: function get() {
     return _keyboard.KeyboardCommand;
-  }
-});
-
-var _sphere = require('./sphere');
-
-Object.defineProperty(exports, 'SphereCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _sphere = require("./sphere");Object.defineProperty(exports, "SphereCommand", { enumerable: !0, get: function get() {
     return _sphere.SphereCommand;
-  }
-});
-
-var _camera = require('./camera');
-
-Object.defineProperty(exports, 'CameraCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _camera = require("./camera");Object.defineProperty(exports, "CameraCommand", { enumerable: !0, get: function get() {
     return _camera.CameraCommand;
-  }
-});
-
-var _object = require('./object');
-
-Object.defineProperty(exports, 'ObjectCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _object = require("./object");Object.defineProperty(exports, "ObjectCommand", { enumerable: !0, get: function get() {
     return _object.ObjectCommand;
-  }
-});
-
-var _mouse = require('./mouse');
-
-Object.defineProperty(exports, 'MouseCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _mouse = require("./mouse");Object.defineProperty(exports, "MouseCommand", { enumerable: !0, get: function get() {
     return _mouse.MouseCommand;
-  }
-});
-
-var _touch = require('./touch');
-
-Object.defineProperty(exports, 'TouchCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _touch = require("./touch");Object.defineProperty(exports, "TouchCommand", { enumerable: !0, get: function get() {
     return _touch.TouchCommand;
-  }
-});
-
-var _media = require('./media');
-
-Object.defineProperty(exports, 'MediaCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _media = require("./media");Object.defineProperty(exports, "MediaCommand", { enumerable: !0, get: function get() {
     return _media.MediaCommand;
-  }
-});
-
-var _frame = require('./frame');
-
-Object.defineProperty(exports, 'FrameCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _frame = require("./frame");Object.defineProperty(exports, "FrameCommand", { enumerable: !0, get: function get() {
     return _frame.FrameCommand;
-  }
-});
-
-var _photo = require('./photo');
-
-Object.defineProperty(exports, 'PhotoCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _photo = require("./photo");Object.defineProperty(exports, "PhotoCommand", { enumerable: !0, get: function get() {
     return _photo.PhotoCommand;
-  }
-});
-
-var _video = require('./video');
-
-Object.defineProperty(exports, 'VideoCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _video = require("./video");Object.defineProperty(exports, "VideoCommand", { enumerable: !0, get: function get() {
     return _video.VideoCommand;
-  }
-});
-
-var _audio = require('./audio');
-
-Object.defineProperty(exports, 'AudioCommand', {
-  enumerable: true,
-  get: function get() {
+  } });var _audio = require("./audio");Object.defineProperty(exports, "AudioCommand", { enumerable: !0, get: function get() {
     return _audio.AudioCommand;
-  }
-});
-
-var _command = require('./command');
-
-Object.defineProperty(exports, 'Command', {
-  enumerable: true,
-  get: function get() {
+  } });var _command = require("./command");Object.defineProperty(exports, "Command", { enumerable: !0, get: function get() {
     return _command.Command;
-  }
-});
+  } });
 
 },{"./audio":1,"./camera":3,"./command":4,"./frame":5,"./keyboard":7,"./media":8,"./mouse":9,"./object":10,"./orientation":11,"./photo":12,"./sphere":13,"./touch":14,"./triangle":15,"./video":16}],7:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.KeyboardCommand = exports.mappings = undefined;
-
-var _command = require('./command');
-
-var _utils = require('../utils');
-
-var _keycode = require('keycode');
-
-var _keycode2 = _interopRequireDefault(_keycode);
-
-var _domEvents = require('dom-events');
-
-var _domEvents2 = _interopRequireDefault(_domEvents);
-
-var _raf = require('raf');
-
-var _raf2 = _interopRequireDefault(_raf);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * Keyboard function.
- *
- * @see KeyboardCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(KeyboardCommand, [null].concat(args)))();
-};
-
-/**
- * Alias key mappings.
- *
- * @public
- * @const
- * @type {Object}
- */
-
-var mappings = exports.mappings = {
-  up: ['up', 'w', 'k'],
-  down: ['down', 's', 'j'],
-  left: ['left', 'a', 'h'],
-  right: ['right', 'd', 'l'],
-  control: ['control', 'right command', 'left command', 'right control', 'left control', 'super', 'ctrl', 'alt', 'fn'],
-
-  on: function on(which, keys) {
-    return this[which].map(function (key) {
-      return keys[key] = true;
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.KeyboardCommand = exports.mappings = void 0;var _command = require("./command"),
+    _utils = require("../utils"),
+    _keycode = require("keycode"),
+    _keycode2 = _interopRequireDefault(_keycode),
+    _domEvents = require("dom-events"),
+    _domEvents2 = _interopRequireDefault(_domEvents),
+    _raf = require("raf"),
+    _raf2 = _interopRequireDefault(_raf);exports.default = function () {
+  for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+    t[n] = arguments[n];
+  }return new (Function.prototype.bind.apply(KeyboardCommand, [null].concat(t)))();
+};var mappings = exports.mappings = { up: ["up", "w", "k"], down: ["down", "s", "j"], left: ["left", "a", "h"], right: ["right", "d", "l"], control: ["control", "right command", "left command", "right control", "left control", "super", "ctrl", "alt", "fn"], on: function on(e, t) {
+    return this[e].map(function (e) {
+      return t[e] = !0;
     });
-  },
-  off: function off(which, keys) {
-    return this[which].map(function (key) {
-      return keys[key] = false;
+  }, off: function off(e, t) {
+    return this[e].map(function (e) {
+      return t[e] = !1;
     });
-  },
-  value: function value(which, keys) {
-    return this[which].some(function (key) {
-      return Boolean(keys[key]);
+  }, value: function value(e, t) {
+    return this[e].some(function (e) {
+      return Boolean(t[e]);
     });
-  }
-};
-
-/**
- * KeyboardCommand class
- *
- * @public
- * @class KeyboardCommand
- * @extends Command
- */
-
-var KeyboardCommand = exports.KeyboardCommand = function (_Command) {
-  _inherits(KeyboardCommand, _Command);
-
-  /**
-   * KeyboardCommand class constructor.
-   *
-   * @param {Context} ctx
-   * @param {(Object)?) opts
-   */
-
-  function KeyboardCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, KeyboardCommand);
-
-    var _this = _possibleConstructorReturn(this, (KeyboardCommand.__proto__ || Object.getPrototypeOf(KeyboardCommand)).call(this, function (_, block) {
-      if ('function' == typeof block) {
-        block(_this);
-      }
-    }));
-
-    ctx.on('blur', function () {
+  } },
+    KeyboardCommand = exports.KeyboardCommand = function (e) {
+  function t(e) {
+    arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var n = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, function (e, t) {
+      "function" == typeof t && t(n);
+    }));e.on("blur", function () {
       (0, _raf2.default)(function () {
-        return _this.reset();
+        return n.reset();
       });
-    });
-
-    /**
-     * Keyboard state.
-     *
-     * @private
-     * @type {Object}
-     */
-
-    var state = {
-      keycodes: {},
-      keys: {}
-    };
-
-    /**
-     * Key codes map getter.
-     *
-     * @getter
-     * @type {Object}
-     */
-
-    (0, _utils.define)(_this, 'keycodes', { get: function get() {
-        return state.keycodes;
-      } });
-
-    /**
-     * Key names map getter.
-     *
-     * @getter
-     * @type {Object}
-     */
-
-    (0, _utils.define)(_this, 'keys', { get: function get() {
-        return state.keys;
-      } });
-
-    /**
-     * Predicate to determine if
-     * any key is pressed.
-     *
-     * @getter
-     * @type {Boolean}
-     */
-
-    (0, _utils.define)(_this, 'isKeydown', {
-      get: function get() {
-        return Object.keys(state.keys).some(function (key) {
-          return state.keys[key];
+    });var o = { keycodes: {}, keys: {} };return (0, _utils.define)(n, "keycodes", { get: function get() {
+        return o.keycodes;
+      } }), (0, _utils.define)(n, "keys", { get: function get() {
+        return o.keys;
+      } }), (0, _utils.define)(n, "isKeydown", { get: function get() {
+        return Object.keys(o.keys).some(function (e) {
+          return o.keys[e];
         });
+      } }), n.reset = function () {
+      for (var e in o.keycodes) {
+        o.keycodes[e] = !1;
+      }for (var t in o.keys) {
+        o.keys[t] = !1;
+      }return n;
+    }, _domEvents2.default.on(document, "keydown", function (t) {
+      if (0 != e.hasFocus) {
+        var n = t.which || t.keyCode || t.charCode;null != n && (o.keycodes[n] = !0, o.keys[(0, _keycode2.default)(n)] = !0);
       }
-    });
-
-    /**
-     * Resets keyboard state by setting all keycodes
-     * and keys to `false'.
-     *
-     * @public
-     * @return {KeyboardCommand}
-     */
-
-    _this.reset = function () {
-      for (var code in state.keycodes) {
-        state.keycodes[code] = false;
+    }, !1), _domEvents2.default.on(document, "keyup", function (t) {
+      if (0 != e.hasFocus) {
+        var n = t.which || t.keyCode || t.charCode;null != n && (o.keycodes[n] = !1, o.keys[(0, _keycode2.default)(n)] = !1);
       }
-
-      for (var key in state.keys) {
-        state.keys[key] = false;
-      }
-      return _this;
-    };
-
-    // update keydown states
-    _domEvents2.default.on(document, 'keydown', function (e) {
-      if (false == ctx.hasFocus) return;
-      var code = e.which || e.keyCode || e.charCode;
-      if (null != code) {
-        // set key code
-        state.keycodes[code] = true;
-        // set key name
-        state.keys[(0, _keycode2.default)(code)] = true;
-      }
-    }, false);
-
-    // update keyup states
-    _domEvents2.default.on(document, 'keyup', function (e) {
-      if (false == ctx.hasFocus) return;
-      var code = e.which || e.keyCode || e.charCode;
-      if (null != code) {
-        // set key code
-        state.keycodes[code] = false;
-        // set key name
-        state.keys[(0, _keycode2.default)(code)] = false;
-      }
-    });
-    return _this;
-  }
-
-  return KeyboardCommand;
+    }), n;
+  }return _inherits(t, e), t;
 }(_command.Command);
 
 },{"../utils":28,"./command":4,"dom-events":34,"keycode":188,"raf":197}],8:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MediaCommand = undefined;
-
-var _utils = require('../utils');
-
-var _events = require('events');
-
-var _object = require('./object');
-
-var _resl = require('resl');
-
-var _resl2 = _interopRequireDefault(_resl);
-
-var _raf = require('raf');
-
-var _raf2 = _interopRequireDefault(_raf);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * reload timeout in milliseconds.
- *
- * @private
- * @type {Number}
- */
-
-var reload_TIMEOUT = 1000;
-
-/**
- * No-op to return undefined
- *
- * @private
- * @type {Function}
- */
-
-var noop = function noop() {
-  return void 0;
-};
-
-/**
- * MediaCommand constructor.
- * @see MediaCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(MediaCommand, [null].concat(args)))();
-};
-
-/**
- * MediaCommand class.
- *
- * @public
- * @class MediaCommand
- * @extends Command
- */
-
-var MediaCommand = exports.MediaCommand = function (_ObjectCommand) {
-  _inherits(MediaCommand, _ObjectCommand);
-
-  /**
-   * MediaCommand class constructor that loads
-   * resources from a given manifest using resl
-   *
-   * @constructor
-   * @param {Object} ctx
-   * @param {Object} manifest
-   * @param {(Object)?} initialState
-   */
-
-  function MediaCommand(ctx, manifest) {
-    var initialState = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-    _classCallCheck(this, MediaCommand);
-
-    var timeout = reload_TIMEOUT;
-    var hasProgress = false;
-    var isLoading = false;
-    var hasError = false;
-    var isDoneLoading = false;
-
-    // load when called as a function
-
-    // mixin and initialize EventEmitter
-    var _this = _possibleConstructorReturn(this, (MediaCommand.__proto__ || Object.getPrototypeOf(MediaCommand)).call(this, ctx, {
-      render: function render() {
-        return _this.read();
-      },
-      draw: function draw() {
-        return _this.read();
-      }
-    }));
-
-    _events.EventEmitter.call(_this);
-    Object.assign(_this, _events.EventEmitter.prototype);
-    _this.setMaxListeners(Infinity);
-
-    // preload unless otherwise specified
-    if (initialState && false !== initialState.preload) {
-      (0, _raf2.default)(function () {
-        return _this.load();
-      });
-    }
-
-    /**
-     * Manifest object getter.
-     *
-     * @type {Object}
-     */
-
-    (0, _utils.define)(_this, 'manifest', { get: function get() {
-        return manifest;
-      } });
-
-    /**
-     * Boolean predicate to indicate if media has
-     * completed loaded enough data. All data may not be
-     * loaded if media is a streaming source.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
-    (0, _utils.define)(_this, 'isDoneLoading', { get: function get() {
-        return isDoneLoading;
-      } });
-
-    /**
-     * Boolean predicate to indicate if media has
-     * load progress.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
-    (0, _utils.define)(_this, 'hasProgress', { get: function get() {
-        return hasProgress;
-      } });
-
-    /**
-     * Boolean predicate to indicate if media has
-     * begun loading.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
-    (0, _utils.define)(_this, 'isLoading', { get: function get() {
-        return isLoading;
-      } });
-
-    /**
-     * Boolean predicate to indicate if media loading
-     * encountered an error.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
-    (0, _utils.define)(_this, 'hasError', { get: function get() {
-        return hasError;
-      } });
-
-    /**
-     * Boolean predicate to indicate if media has
-     * has data to read from.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
-    (0, _utils.define)(_this, 'hasData', {
-      get: function get() {
-        return !hasError && (isDoneLoading || hasProgress);
-      }
-    });
-
-    /**
-     * Updates media state with
-     * new manifest object. This function
-     * merges an input manifest with the existing.
-     *
-     * @param {Object} newManifest
-     * @return {MediaCommand}
-     */
-
-    _this.update = function (newManifest) {
-      Object.assign(manifest, newManifest);
-      return _this;
-    };
-
-    /**
-     * Calls an abstract _read() method.
-     *
-     * @return {MediaCommand}
-     */
-
-    _this.read = function () {
-      _this._read();
-      return _this;
-    };
-
-    /**
-     * Abstract reader method.
-     *
-     * @return {MediaCommand}
-     */
-
-    _this._read = function () {
-      return _this;
-    };
-
-    /**
-     * Begins loading of resources described in
-     * the manifest object.
-     *
-     * @public
-     * @return {Boolean}
-     */
-
-    _this.load = function () {
-      if (isLoading || hasProgress || hasError || isDoneLoading) {
-        return false;
-      }
-
-      // retry timeout
-      setTimeout(function () {
-        if (hasError || hasProgress && isLoading && !isDoneLoading) {
-          (0, _utils.debug)('retrying....');
-          _this.reload();
-        }
-      }, reload_TIMEOUT);
-
-      isLoading = true;
-      (0, _raf2.default)(function () {
-        return (0, _resl2.default)({
-          manifest: manifest,
-
-          onDone: function onDone() {
-            for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-              args[_key2] = arguments[_key2];
-            }
-
-            isDoneLoading = true;
-            void (_this.onloaded || noop).apply(undefined, args);
-            _this.emit.apply(_this, ['load'].concat(args));
-          },
-
-          onError: function onError() {
-            for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-              args[_key3] = arguments[_key3];
-            }
-
-            hasError = true;
-            isDoneLoading = true;
-            void (_this.onerror || noop).apply(undefined, args);
-            _this.emit.apply(_this, ['error'].concat(args));
-          },
-
-          onProgress: function onProgress() {
-            for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-              args[_key4] = arguments[_key4];
-            }
-
-            hasProgress = true;
-            isDoneLoading = false;
-            void (_this.onprogress || noop).apply(undefined, args);
-            _this.emit.apply(_this, ['progress'].concat(args));
-          }
-        });
-      });
-
-      return true;
-    };
-
-    /**
-     * Resets state and reloads resources.
-     *
-     * @public
-     * @return {MediaCommand}
-     */
-
-    _this.reload = function () {
-      _this.reset();
-      _this.load();
-      return _this;
-    };
-
-    /**
-     * Resets state.
-     *
-     * @public
-     * @return {MediaCommand}
-     */
-
-    _this.reset = function () {
-      isDoneLoading = false;
-      hasProgress = false;
-      isLoading = false;
-      hasError = false;
-      return _this;
-    };
-
-    /**
-     * Sets the timeout for loading of the media.
-     *
-     * @public
-     * @param {Number} timeout
-     * @return {MediaCommand}
-     */
-
-    _this.setTimeout = function (value) {
-      timeout = value;
-      return _this;
-    };
-    return _this;
-  }
-
-  return MediaCommand;
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.MediaCommand = void 0;var _utils = require("../utils"),
+    _events = require("events"),
+    _object = require("./object"),
+    _resl = require("resl"),
+    _resl2 = _interopRequireDefault(_resl),
+    _raf = require("raf"),
+    _raf2 = _interopRequireDefault(_raf),
+    reload_TIMEOUT = 1e3,
+    noop = function noop() {};exports.default = function () {
+  for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+    t[n] = arguments[n];
+  }return new (Function.prototype.bind.apply(MediaCommand, [null].concat(t)))();
+};var MediaCommand = exports.MediaCommand = function (e) {
+  function t(e, n) {
+    var r = arguments.length <= 2 || void 0 === arguments[2] ? {} : arguments[2];_classCallCheck(this, t);var o = reload_TIMEOUT,
+        i = !1,
+        u = !1,
+        a = !1,
+        f = !1,
+        s = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e, { render: function render() {
+        return s.read();
+      }, draw: function draw() {
+        return s.read();
+      } }));return _events.EventEmitter.call(s), Object.assign(s, _events.EventEmitter.prototype), s.setMaxListeners(1 / 0), r && !1 !== r.preload && (0, _raf2.default)(function () {
+      return s.load();
+    }), (0, _utils.define)(s, "manifest", { get: function get() {
+        return n;
+      } }), (0, _utils.define)(s, "isDoneLoading", { get: function get() {
+        return f;
+      } }), (0, _utils.define)(s, "hasProgress", { get: function get() {
+        return i;
+      } }), (0, _utils.define)(s, "isLoading", { get: function get() {
+        return u;
+      } }), (0, _utils.define)(s, "hasError", { get: function get() {
+        return a;
+      } }), (0, _utils.define)(s, "hasData", { get: function get() {
+        return !a && (f || i);
+      } }), s.update = function (e) {
+      return Object.assign(n, e), s;
+    }, s.read = function () {
+      return s._read(), s;
+    }, s._read = function () {
+      return s;
+    }, s.load = function () {
+      return !(u || i || a || f) && (setTimeout(function () {
+        (a || i && u && !f) && ((0, _utils.debug)("retrying...."), s.reload());
+      }, reload_TIMEOUT), u = !0, (0, _raf2.default)(function () {
+        return (0, _resl2.default)({ manifest: n, onDone: function onDone() {
+            for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+              t[n] = arguments[n];
+            }f = !0, void (s.onloaded || noop).apply(void 0, t), s.emit.apply(s, ["load"].concat(t));
+          }, onError: function onError() {
+            for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+              t[n] = arguments[n];
+            }a = !0, f = !0, void (s.onerror || noop).apply(void 0, t), s.emit.apply(s, ["error"].concat(t));
+          }, onProgress: function onProgress() {
+            for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+              t[n] = arguments[n];
+            }i = !0, f = !1, void (s.onprogress || noop).apply(void 0, t), s.emit.apply(s, ["progress"].concat(t));
+          } });
+      }), !0);
+    }, s.reload = function () {
+      return s.reset(), s.load(), s;
+    }, s.reset = function () {
+      return f = !1, i = !1, u = !1, a = !1, s;
+    }, s.setTimeout = function (e) {
+      return o = e, s;
+    }, s;
+  }return _inherits(t, e), t;
 }(_object.ObjectCommand);
 
 },{"../utils":28,"./object":10,"events":35,"raf":197,"resl":232}],9:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MouseCommand = undefined;
-
-var _mouseChange = require('mouse-change');
-
-var _mouseChange2 = _interopRequireDefault(_mouseChange);
-
-var _mouseWheel = require('mouse-wheel');
-
-var _mouseWheel2 = _interopRequireDefault(_mouseWheel);
-
-var _command = require('./command');
-
-var _domEvents = require('dom-events');
-
-var _domEvents2 = _interopRequireDefault(_domEvents);
-
-var _raf = require('raf');
-
-var _raf2 = _interopRequireDefault(_raf);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * Mouse function.
- *
- * @see MouseCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(MouseCommand, [null].concat(args)))();
-};
-
-/**
- * MouseCommand class.
- *
- * @public
- * @class MouseCommand
- * @extends Command
- */
-
-var MouseCommand = exports.MouseCommand = function (_Command) {
-  _inherits(MouseCommand, _Command);
-
-  /**
-   * MouseCommand class constructor.
-   *
-   * @param {Context} ctx
-   * @param {(Object)?} opts
-   */
-
-  function MouseCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, MouseCommand);
-
-    var _this = _possibleConstructorReturn(this, (MouseCommand.__proto__ || Object.getPrototypeOf(MouseCommand)).call(this, function (_, block) {
-      if ('function' == typeof block) {
-        block(_this);
-      }
-    }));
-
-    ctx.on('blur', function () {
-      _this.buttons = 0;
-    });
-
-    // focus/blur context on mouse down
-    _domEvents2.default.on(document, 'mousedown', function (e) {
-      if (e.target == ctx.domElement) {
-        ctx.focus();
-      } else {
-        ctx.blur();
-      }
-    });
-
-    /**
-     * Count of buttons currently pressed.
-     *
-     * @type {Number}
-     */
-
-    _this.buttons = 0;
-
-    /**
-     * Previous X coordinate.
-     *
-     * @type {Number}
-     */
-
-    _this.prevX = 0;
-
-    /**
-     * Previous Y coordinate.
-     *
-     * @type {Number}
-     */
-
-    _this.prevY = 0;
-
-    /**
-     * Current X coordinate.
-     *
-     * @type {Number}
-     */
-
-    _this.currentX = 0;
-
-    /**
-     * Current Y coordinate.
-     *
-     * @type {Number}
-     */
-
-    _this.currentY = 0;
-
-    /**
-     * Delta between previous and.
-     * current X coordinates.
-     *
-     * @type {Number}
-     */
-
-    _this.deltaX = 0;
-
-    /**
-     * Delta between previous and.
-     * current Y coordinates.
-     *
-     * @type {Number}
-     */
-
-    _this.deltaY = 0;
-
-    /**
-     * The amount of scrolling vertically,
-     * horizontally and depth-wise in pixels.
-     *
-     * @see https://www.npmjs.com/package/mouse-wheel
-     */
-
-    _this.wheel = {
-      currentX: 0, currentY: 0,
-      deltaX: 0, deltaY: 0,
-      prevX: 0, prevY: 0
-    };
-
-    // update state on mouse change and reset
-    // delta values on next animation frame
-    (0, _mouseChange2.default)(ctx.domElement, function (buttons, x, y) {
-      Object.assign(_this, {
-        buttons: buttons,
-        currentX: x,
-        currentY: y,
-        deltaX: x - _this.currentX,
-        deltaY: y - _this.currentY,
-        prevX: _this.currentX,
-        prevY: _this.currentY
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.MouseCommand = void 0;var _mouseChange = require("mouse-change"),
+    _mouseChange2 = _interopRequireDefault(_mouseChange),
+    _mouseWheel = require("mouse-wheel"),
+    _mouseWheel2 = _interopRequireDefault(_mouseWheel),
+    _command = require("./command"),
+    _domEvents = require("dom-events"),
+    _domEvents2 = _interopRequireDefault(_domEvents),
+    _raf = require("raf"),
+    _raf2 = _interopRequireDefault(_raf);exports.default = function () {
+  for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+    t[n] = arguments[n];
+  }return new (Function.prototype.bind.apply(MouseCommand, [null].concat(t)))();
+};var MouseCommand = exports.MouseCommand = function (e) {
+  function t(e) {
+    arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var n = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, function (e, t) {
+      "function" == typeof t && t(n);
+    }));return e.on("blur", function () {
+      n.buttons = 0;
+    }), _domEvents2.default.on(document, "mousedown", function (t) {
+      t.target == e.domElement ? e.focus() : e.blur();
+    }), n.buttons = 0, n.prevX = 0, n.prevY = 0, n.currentX = 0, n.currentY = 0, n.deltaX = 0, n.deltaY = 0, n.wheel = { currentX: 0, currentY: 0, deltaX: 0, deltaY: 0, prevX: 0, prevY: 0 }, (0, _mouseChange2.default)(e.domElement, function (e, t, r) {
+      Object.assign(n, { buttons: e, currentX: t, currentY: r, deltaX: t - n.currentX, deltaY: r - n.currentY, prevX: n.currentX, prevY: n.currentY }), (0, _raf2.default)(function () {
+        return Object.assign(n, { deltaX: 0, deltaY: 0 });
       });
-
-      (0, _raf2.default)(function () {
-        return Object.assign(_this, {
-          deltaX: 0,
-          deltaY: 0
-        });
-      });
-    });
-
-    // update mouse wheel deltas and then
-    // reset them on the next animation frame
-    (0, _mouseWheel2.default)(ctx.domElement, function (dx, dy, dz) {
-      if (false === _this.allowWheel) {
-        return;
-      }
-      Object.assign(_this.wheel, {
-        currentX: _this.wheel.currentX + dx,
-        currentY: _this.wheel.currentY + dy,
-        currentZ: _this.wheel.currentZ + dz,
-        deltaX: dx,
-        deltaY: dy,
-        deltaZ: dz,
-        prevX: _this.wheel.currentX,
-        prevY: _this.wheel.currentY,
-        prevZ: _this.wheel.currentZ
-      });
-
-      (0, _raf2.default)(function () {
-        return Object.assign(_this.wheel, {
-          deltaX: 0,
-          deltaY: 0,
-          deltaZ: 0
-        });
-      });
-    });
-    return _this;
-  }
-
-  return MouseCommand;
+    }), (0, _mouseWheel2.default)(e.domElement, function (e, t, r) {
+      !1 !== n.allowWheel && (Object.assign(n.wheel, { currentX: n.wheel.currentX + e, currentY: n.wheel.currentY + t, currentZ: n.wheel.currentZ + r, deltaX: e, deltaY: t, deltaZ: r, prevX: n.wheel.currentX, prevY: n.wheel.currentY, prevZ: n.wheel.currentZ }), (0, _raf2.default)(function () {
+        return Object.assign(n.wheel, { deltaX: 0, deltaY: 0, deltaZ: 0 });
+      }));
+    }), n;
+  }return _inherits(t, e), t;
 }(_command.Command);
 
 },{"./command":4,"dom-events":34,"mouse-change":189,"mouse-wheel":192,"raf":197}],10:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ObjectCommand = exports.DEFAULT_FRAGMENT_SHADER = exports.DEFAULT_VERTEX_SHADER = undefined;
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _toConsumableArray(e) {
+  if (Array.isArray(e)) {
+    for (var n = 0, t = Array(e.length); n < e.length; n++) {
+      t[n] = e[n];
+    }return t;
+  }return Array.from(e);
+}function _classCallCheck(e, n) {
+  if (!(e instanceof n)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, n) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !n || "object" !== ("undefined" == typeof n ? "undefined" : _typeof(n)) && "function" != typeof n ? e : n;
+}function _inherits(e, n) {
+  if ("function" != typeof n && null !== n) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof n ? "undefined" : _typeof(n)));e.prototype = Object.create(n && n.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), n && (Object.setPrototypeOf ? Object.setPrototypeOf(e, n) : e.__proto__ = n);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.ObjectCommand = exports.DEFAULT_FRAGMENT_SHADER = exports.DEFAULT_VERTEX_SHADER = void 0;var _extends = Object.assign || function (e) {
+  for (var n = 1; n < arguments.length; n++) {
+    var t = arguments[n];for (var o in t) {
+      Object.prototype.hasOwnProperty.call(t, o) && (e[o] = t[o]);
     }
-  }return target;
-};
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+  }return e;
+},
+    _createClass = function () {
+  function e(e, n) {
+    for (var t = 0; t < n.length; t++) {
+      var o = n[t];o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o);
     }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  }return function (n, t, o) {
+    return t && e(n.prototype, t), o && e(n, o), n;
   };
-}();
-
-var _glslInjectDefines = require('glsl-inject-defines');
-
-var _glslInjectDefines2 = _interopRequireDefault(_glslInjectDefines);
-
-var _math = require('../math');
-
-var _command = require('./command');
-
-var _utils = require('../utils');
-
-var _glslify = require('glslify');
-
-var _glslify2 = _interopRequireDefault(_glslify);
-
-var _glMat = require('gl-mat4');
-
-var _glMat2 = _interopRequireDefault(_glMat);
-
-var _glVec = require('gl-vec4');
-
-var _glVec2 = _interopRequireDefault(_glVec);
-
-var _glVec3 = require('gl-vec3');
-
-var _glVec4 = _interopRequireDefault(_glVec3);
-
-var _glQuat = require('gl-quat');
-
-var _glQuat2 = _interopRequireDefault(_glQuat);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }return arr2;
-  } else {
-    return Array.from(arr);
-  }
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * Default vertex shader for objects.
- *
- * @public
- * @const
- * @type {String}
- */
-
-var DEFAULT_VERTEX_SHADER = exports.DEFAULT_VERTEX_SHADER = 'precision highp float;\n#define GLSLIFY 1\n\n/**\n * Shader uniforms.\n */\n\nuniform mat4 projection;\nuniform mat4 model;\nuniform mat4 view;\n\n/**\n * Shader IO.\n */\n\n#ifdef HAS_POSITIONS\nattribute vec3 position;\nvarying vec3 vposition;\n#endif\n\n#ifdef HAS_NORMALS\nattribute vec3 normal;\nvarying vec3 vnormal;\n#endif\n\n#ifdef HAS_UVS\nattribute vec2 uv;\nvarying vec2 vuv;\n#endif\n\n/**\n * Shader entry.\n */\n\nvoid main() {\n#ifdef HAS_POSITIONS\n  gl_Position = projection * view * model * vec4(position, 1.0);\n#elif defined HAS_NORMALS\n  gl_Position = projection * view * model * vec4(normal, 1.0);\n#elif defined HAS_UVS\n  gl_Position = projection * view * model * vec4(vec3(uv, 1.0), 1.0);\n#endif\n\n#ifdef HAS_POSITIONS\n  vposition = position;\n#endif\n\n#ifdef HAS_NORMALS\n  vnormal = normal;\n#endif\n\n#ifdef HAS_UVS\n  vuv = uv;\n#endif\n}\n';
-
-/**
- * Default fragment shader for objects.
- *
- * @public
- * @const
- * @type {String}
- */
-
-var DEFAULT_FRAGMENT_SHADER = exports.DEFAULT_FRAGMENT_SHADER = 'precision mediump float;\n#define GLSLIFY 1\n\n/**\n * Shader uniforms.\n */\n\nuniform vec4 color;\n\n#ifdef HAS_MAP\nuniform sampler2D map;\n#endif\n\n/**\n * Shader IO.\n */\n\n#ifdef HAS_POSITIONS\nvarying vec3 vposition;\n#endif\n\n#ifdef HAS_NORMALS\nvarying vec3 vnormal;\n#endif\n\n#ifdef HAS_UVS\nvarying vec2 vuv;\n#endif\n\n/**\n * Shader entry.\n */\n\nvoid main() {\n#ifdef HAS_MAP\n#ifdef HAS_UVS\n  gl_FragColor = vec4(texture2D(map, vuv).rgb, 1.0);\n#else\n  gl_FragColor = color;\n#endif\n#else\n  gl_FragColor = color;\n#endif\n}\n';
-
-/**
- * Current object command counter.
- *
- * @type {Number}
- */
-
-var OBJECT_COMMAND_COUNTER = 0;
-
-/**
- * ObjectCommand constructor.
- * @see ObjectCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(ObjectCommand, [null].concat(args)))();
-};
-
-/**
- * ObjectCommand class.
- *
- * @public
- * @class ObjectCommand
- * @extends Command
- */
-
-var ObjectCommand = exports.ObjectCommand = function (_Command) {
-  _inherits(ObjectCommand, _Command);
-
-  _createClass(ObjectCommand, null, [{
-    key: 'id',
-
-    /**
-     * Returns the next object ID
-     *
-     * @public
-     * @static
-     * @return {Number}
-     */
-
-    value: function id() {
-      return OBJECT_COMMAND_COUNTER++;
-    }
-
-    /**
-     * ObjectCommand class constructor.
-     *
-     * @param {Context} ctx
-     * @param {Object} opts
-     */
-
-  }]);
-
-  function ObjectCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, ObjectCommand);
-
-    var defaults = _extends({}, opts.defaults);
-    var _model = _glMat2.default.identity([]);
-
-    var render = null;
-    var draw = opts.draw || null;
-    var map = opts.map || null;
-
-    /**
-     * Updates state and internal matrices.
-     *
-     * @private
-     * @param {(Object)?} state
-     */
-
-    var update = function update(state) {
-      if ('scale' in state) {
-        _glVec4.default.copy(_this.scale, state.scale);
-      }
-
-      if ('position' in state) {
-        _glVec4.default.copy(_this.position, state.position);
-      }
-
-      if ('rotation' in state) {
-        _glQuat2.default.copy(_this.rotation, state.rotation);
-      }
-
-      if ('color' in state) {
-        _glVec2.default.copy(_this.color, state.color);
-      }
-
-      // update uniform model matrix
-      _glMat2.default.identity(_model);
-      _glMat2.default.multiply(_model, _model, _glMat2.default.fromQuat([], _this.rotation));
-      _glMat2.default.translate(_model, _model, _this.position);
-      _glMat2.default.scale(_model, _model, _this.scale);
-
-      // apply and set contextual transform
-      if (ctx.previous && ctx.previous.id != _this.id) {
-        _glMat2.default.copy(_this.transform, _glMat2.default.multiply([], ctx.previous.transform, _model));
-      } else {
-        _glMat2.default.copy(_this.transform, _model);
-      }
-
-      // copy transform to uniform model matrix
-      _glMat2.default.copy(_model, _this.transform);
-    };
-
-    /**
-     * Configures object state. This function
-     * may create a new render function from regl
-     *
-     * @private
-     */
-
-    var configure = function configure() {
-      // reset draw function
-      if (!opts.draw) {
-        draw = null;
-      }
-      // use regl draw command if draw() function
-      // was not provided
-      if (!draw) {
-        var geometry = opts.geometry || null;
-        var elements = geometry ? geometry.primitive.cells : undefined;
-        var attributes = _extends({}, opts.attributes);
-        var shaderDefines = {};
-
-        var uniforms = _extends({}, opts.uniforms, {
-          color: function color() {
-            return _this.color.elements;
-          },
-          model: function model() {
-            return _model;
-          }
-        });
-
-        defaults.count = opts.count || undefined;
-        defaults.elements = opts.elements || elements || undefined;
-        defaults.primitive = opts.primitive || 'triangles';
-
-        if (geometry) {
-          if (_this) {
-            _this.geometry = geometry;
-          }
-
-          if (geometry.primitive.positions) {
-            shaderDefines.HAS_POSITIONS = '';
-            attributes.position = geometry.primitive.positions;
-          }
-
-          if (geometry.primitive.normals) {
-            shaderDefines.HAS_NORMALS = '';
-            attributes.normal = geometry.primitive.normals;
-          }
-
-          if (geometry.primitive.uvs) {
-            shaderDefines.HAS_UVS = '';
-            attributes.uv = geometry.primitive.uvs;
-          }
-        }
-
-        if (map && map.texture) {
-          uniforms.map = function () {
-            if (map && map.texture) {
-              if ('function' == typeof map) {
-                map();
-              }
-              return map.texture;
-            }
-
-            return null;
-          };
-        } else if (map) {
-          map.once('load', function () {
-            return configure();
-          });
-        }
-
-        if (!opts.primitive && opts.wireframe) {
-          opts.primitive = 'lines';
-        }
-
-        var reglOptions = _extends({}, opts.regl, {
-          uniforms: uniforms,
-          attributes: attributes,
-          vert: opts.vert || DEFAULT_VERTEX_SHADER,
-          frag: opts.frag || DEFAULT_FRAGMENT_SHADER,
-          count: null == opts.count ? undefined : ctx.regl.prop('count'),
-          elements: null == elements ? undefined : ctx.regl.prop('elements'),
-          primitive: function primitive() {
-            if (_this.wireframe) {
-              return 'line loop';
-            } else {
-              return defaults.primitive;
-            }
-          }
-        });
-
-        if (uniforms.map) {
-          shaderDefines.HAS_MAP = '';
-        }
-
-        reglOptions.frag = (0, _glslInjectDefines2.default)(reglOptions.frag, shaderDefines);
-        reglOptions.vert = (0, _glslInjectDefines2.default)(reglOptions.vert, shaderDefines);
-
-        for (var key in reglOptions) {
-          if (undefined == reglOptions[key]) {
-            delete reglOptions[key];
-          }
-        }
-
-        draw = ctx.regl(reglOptions);
-      }
-
-      // configure render command
-      render = opts.render || function (_, state) {
-        var next = arguments.length <= 2 || arguments[2] === undefined ? function () {
-          return void 0;
-        } : arguments[2];
-
-        var args = null;
-
-        ctx.push(_this);
-
-        if ('function' == typeof state) {
-          args = [_extends({}, defaults)];
-          next = state;
-        } else if (Array.isArray(state)) {
-          args = [state.map(function (o) {
-            return Object.assign(_extends({}, defaults), o);
-          })];
-        } else {
-          args = [_extends({}, defaults, state)];
-        }
-
-        if (opts.before) {
-          opts.before.apply(opts, _toConsumableArray(args));
-        }
-
-        update.apply(undefined, _toConsumableArray(args));
-        draw.apply(undefined, _toConsumableArray(args));
-        next.apply(undefined, _toConsumableArray(args));
-
-        if (opts.after) {
-          opts.after.apply(opts, _toConsumableArray(args));
-        }
-
-        ctx.pop();
+}(),
+    _glslInjectDefines = require("glsl-inject-defines"),
+    _glslInjectDefines2 = _interopRequireDefault(_glslInjectDefines),
+    _math = require("../math"),
+    _command = require("./command"),
+    _utils = require("../utils"),
+    _glslify = require("glslify"),
+    _glslify2 = _interopRequireDefault(_glslify),
+    _glMat = require("gl-mat4"),
+    _glMat2 = _interopRequireDefault(_glMat),
+    _glVec = require("gl-vec4"),
+    _glVec2 = _interopRequireDefault(_glVec),
+    _glVec3 = require("gl-vec3"),
+    _glVec4 = _interopRequireDefault(_glVec3),
+    _glQuat = require("gl-quat"),
+    _glQuat2 = _interopRequireDefault(_glQuat),
+    DEFAULT_VERTEX_SHADER = exports.DEFAULT_VERTEX_SHADER = "precision highp float;\n#define GLSLIFY 1\n\n/**\n * Shader uniforms.\n */\n\nuniform mat4 projection;\nuniform mat4 model;\nuniform mat4 view;\n\n/**\n * Shader IO.\n */\n\n#ifdef HAS_POSITIONS\nattribute vec3 position;\nvarying vec3 vposition;\n#endif\n\n#ifdef HAS_NORMALS\nattribute vec3 normal;\nvarying vec3 vnormal;\n#endif\n\n#ifdef HAS_UVS\nattribute vec2 uv;\nvarying vec2 vuv;\n#endif\n\n/**\n * Shader entry.\n */\n\nvoid main() {\n#ifdef HAS_POSITIONS\n  gl_Position = projection * view * model * vec4(position, 1.0);\n#elif defined HAS_NORMALS\n  gl_Position = projection * view * model * vec4(normal, 1.0);\n#elif defined HAS_UVS\n  gl_Position = projection * view * model * vec4(vec3(uv, 1.0), 1.0);\n#endif\n\n#ifdef HAS_POSITIONS\n  vposition = position;\n#endif\n\n#ifdef HAS_NORMALS\n  vnormal = normal;\n#endif\n\n#ifdef HAS_UVS\n  vuv = uv;\n#endif\n}\n",
+    DEFAULT_FRAGMENT_SHADER = exports.DEFAULT_FRAGMENT_SHADER = "precision mediump float;\n#define GLSLIFY 1\n\n/**\n * Shader uniforms.\n */\n\nuniform vec4 color;\n\n#ifdef HAS_MAP\nuniform sampler2D map;\n#endif\n\n/**\n * Shader IO.\n */\n\n#ifdef HAS_POSITIONS\nvarying vec3 vposition;\n#endif\n\n#ifdef HAS_NORMALS\nvarying vec3 vnormal;\n#endif\n\n#ifdef HAS_UVS\nvarying vec2 vuv;\n#endif\n\n/**\n * Shader entry.\n */\n\nvoid main() {\n#ifdef HAS_MAP\n#ifdef HAS_UVS\n  gl_FragColor = vec4(texture2D(map, vuv).rgb, 1.0);\n#else\n  gl_FragColor = color;\n#endif\n#else\n  gl_FragColor = color;\n#endif\n}\n",
+    OBJECT_COMMAND_COUNTER = 0;exports.default = function () {
+  for (var e = arguments.length, n = Array(e), t = 0; t < e; t++) {
+    n[t] = arguments[t];
+  }return new (Function.prototype.bind.apply(ObjectCommand, [null].concat(n)))();
+};var ObjectCommand = exports.ObjectCommand = function (e) {
+  function n(e) {
+    var t = arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, n);var o = _extends({}, t.defaults),
+        r = _glMat2.default.identity([]),
+        i = null,
+        l = t.draw || null,
+        a = t.map || null,
+        u = function u(n) {
+      "scale" in n && _glVec4.default.copy(c.scale, n.scale), "position" in n && _glVec4.default.copy(c.position, n.position), "rotation" in n && _glQuat2.default.copy(c.rotation, n.rotation), "color" in n && _glVec2.default.copy(c.color, n.color), _glMat2.default.identity(r), _glMat2.default.multiply(r, r, _glMat2.default.fromQuat([], c.rotation)), _glMat2.default.translate(r, r, c.position), _glMat2.default.scale(r, r, c.scale), e.previous && e.previous.id != c.id ? _glMat2.default.copy(c.transform, _glMat2.default.multiply([], e.previous.transform, r)) : _glMat2.default.copy(c.transform, r), _glMat2.default.copy(r, c.transform);
+    },
+        f = function n() {
+      if (t.draw || (l = null), !l) {
+        var f = t.geometry || null,
+            s = f ? f.primitive.cells : void 0,
+            p = _extends({}, t.attributes),
+            _ = {},
+            d = _extends({}, t.uniforms, { color: function color() {
+            return c.color.elements;
+          }, model: function model() {
+            return r;
+          } });o.count = t.count || void 0, o.elements = t.elements || s || void 0, o.primitive = t.primitive || "triangles", f && (c && (c.geometry = f), f.primitive.positions && (_.HAS_POSITIONS = "", p.position = f.primitive.positions), f.primitive.normals && (_.HAS_NORMALS = "", p.normal = f.primitive.normals), f.primitive.uvs && (_.HAS_UVS = "", p.uv = f.primitive.uvs)), a && a.texture ? d.map = function () {
+          return a && a.texture ? ("function" == typeof a && a(), a.texture) : null;
+        } : a && a.once("load", function () {
+          return n();
+        }), !t.primitive && t.wireframe && (t.primitive = "lines");var m = _extends({}, t.regl, { uniforms: d, attributes: p, vert: t.vert || DEFAULT_VERTEX_SHADER, frag: t.frag || DEFAULT_FRAGMENT_SHADER, count: null == t.count ? void 0 : e.regl.prop("count"), elements: null == s ? void 0 : e.regl.prop("elements"), primitive: function primitive() {
+            return c.wireframe ? "line loop" : o.primitive;
+          } });d.map && (_.HAS_MAP = ""), m.frag = (0, _glslInjectDefines2.default)(m.frag, _), m.vert = (0, _glslInjectDefines2.default)(m.vert, _);for (var v in m) {
+          void 0 == m[v] && delete m[v];
+        }l = e.regl(m);
+      }i = t.render || function (n, r) {
+        var i = arguments.length <= 2 || void 0 === arguments[2] ? function () {} : arguments[2],
+            a = null;e.push(c), "function" == typeof r ? (a = [_extends({}, o)], i = r) : a = Array.isArray(r) ? [r.map(function (e) {
+          return Object.assign(_extends({}, o), e);
+        })] : [_extends({}, o, r)], t.before && t.before.apply(t, _toConsumableArray(a)), u.apply(void 0, _toConsumableArray(a)), l.apply(void 0, _toConsumableArray(a)), i.apply(void 0, _toConsumableArray(a)), t.after && t.after.apply(t, _toConsumableArray(a)), e.pop();
       };
-    };
-
-    // initial configuration
-    configure();
-
-    // calls current target  render function
-
-    /**
-     * Object ID.
-     *
-     * @type {Number}
-     */
-
-    var _this = _possibleConstructorReturn(this, (ObjectCommand.__proto__ || Object.getPrototypeOf(ObjectCommand)).call(this, function () {
-      return render.apply(undefined, arguments);
-    }));
-
-    _this.id = opts.id || ObjectCommand.id();
-
-    /**
-     * Object type name.
-     *
-     * @type {String}
-     */
-
-    _this.type = opts.type || 'object';
-
-    /**
-     * Object scale vector.
-     *
-     * @type {Vector}
-     */
-
-    _this.scale = opts.scale ? new (Function.prototype.bind.apply(_math.Vector, [null].concat(_toConsumableArray(opts.scale))))() : new _math.Vector(1, 1, 1);
-
-    /**
-     * Object scale vector.
-     *
-     * @type {Vector}
-     */
-
-    _this.position = opts.position ? new (Function.prototype.bind.apply(_math.Vector, [null].concat(_toConsumableArray(opts.position))))() : new _math.Vector(0, 0, 0);
-
-    /**
-     * Object rotation quaternion
-     *
-     * @type {Quaternion}
-     */
-
-    _this.rotation = opts.rotation ? new (Function.prototype.bind.apply(_math.Quaternion, [null].concat(_toConsumableArray(opts.rotation))))() : new _math.Quaternion();
-
-    /**
-     * Object transform matrix
-     *
-     * @type {Array}
-     */
-
-    _this.transform = _glMat2.default.identity([]);
-
-    /**
-     * Boolean to indicate if object should be drawn
-     * with a line primitive.
-     *
-     * @type {Boolean}
-     */
-
-    _this.wireframe = false;
-
-    /**
-     * Object color property.
-     *
-     * @type {Vector}
-     */
-
-    _this.color = opts.color ? new (Function.prototype.bind.apply(_math.Vector, [null].concat(_toConsumableArray(opts.color))))() : new _math.Vector(197 / 255, 148 / 255, 149 / 255, 1.0);
-
-    /**
-     * Object map if given.
-     *
-     * @type {Media}
-     */
-
-    (0, _utils.define)(_this, 'map', {
-      get: function get() {
-        return map;
-      },
-      set: function set(value) {
-        if (value && value.texture) {
-          map = value;
-          configure();
-        } else if (null == value) {
-          map = null;
-          configure();
-        }
-      }
-    });
-    return _this;
-  }
-
-  return ObjectCommand;
+    };f();var c = _possibleConstructorReturn(this, (n.__proto__ || Object.getPrototypeOf(n)).call(this, function () {
+      return i.apply(void 0, arguments);
+    }));return c.id = t.id || n.id(), c.type = t.type || "object", c.scale = t.scale ? new (Function.prototype.bind.apply(_math.Vector, [null].concat(_toConsumableArray(t.scale))))() : new _math.Vector(1, 1, 1), c.position = t.position ? new (Function.prototype.bind.apply(_math.Vector, [null].concat(_toConsumableArray(t.position))))() : new _math.Vector(0, 0, 0), c.rotation = t.rotation ? new (Function.prototype.bind.apply(_math.Quaternion, [null].concat(_toConsumableArray(t.rotation))))() : new _math.Quaternion(), c.transform = _glMat2.default.identity([]), c.wireframe = !1, c.color = t.color ? new (Function.prototype.bind.apply(_math.Vector, [null].concat(_toConsumableArray(t.color))))() : new _math.Vector(197 / 255, 148 / 255, 149 / 255, 1), (0, _utils.define)(c, "map", { get: function get() {
+        return a;
+      }, set: function set(e) {
+        e && e.texture ? (a = e, f()) : null == e && (a = null, f());
+      } }), c;
+  }return _inherits(n, e), _createClass(n, null, [{ key: "id", value: function value() {
+      return OBJECT_COMMAND_COUNTER++;
+    } }]), n;
 }(_command.Command);
 
 },{"../math":23,"../utils":28,"./command":4,"gl-mat4":47,"gl-quat":72,"gl-vec3":129,"gl-vec4":159,"glsl-inject-defines":177,"glslify":187}],11:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.OrientationCommand = undefined;
-
-var _command = require('./command');
-
-var _utils = require('../utils');
-
-var _domEvents = require('dom-events');
-
-var _domEvents2 = _interopRequireDefault(_domEvents);
-
-var _raf = require('raf');
-
-var _raf2 = _interopRequireDefault(_raf);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * Global orientation state object.
- *
- * @private
- */
-
-var globalState = {
-  absolute: null,
-
-  currentAlpha: 0, // z
-  currentBeta: 0, // x
-  currentGamma: 0, // y
-
-  deltaAlpha: 0,
-  deltaBeta: 0,
-  deltaGamma: 0,
-
-  prevAlpha: 0,
-  prevBeta: 0,
-  prevGamma: 0
-};
-
-// update global device orientation state
-_domEvents2.default.on(window, 'deviceorientation', function (e) {
-  // ZXY
-  var alpha = e.alpha;
-  var beta = e.beta;
-  var gamma = e.gamma;
-  var absolute = e.absolute;
-
-  Object.assign(globalState, {
-    absolute: absolute,
-
-    currentAlpha: alpha,
-    currentBeta: beta,
-    currentGamma: gamma,
-
-    deltaAlpha: alpha - globalState.currentAlpha,
-    deltaBeta: beta - globalState.currentBeta,
-    deltaGamma: gamma - globalState.currentGamma,
-
-    prevAlpha: globalState.currentAlpha,
-    prevBeta: globalState.currentBeta,
-    prevGamma: globalState.currentGamma
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.OrientationCommand = void 0;var _command = require("./command"),
+    _utils = require("../utils"),
+    _domEvents = require("dom-events"),
+    _domEvents2 = _interopRequireDefault(_domEvents),
+    _raf = require("raf"),
+    _raf2 = _interopRequireDefault(_raf),
+    globalState = { absolute: null, currentAlpha: 0, currentBeta: 0, currentGamma: 0, deltaAlpha: 0, deltaBeta: 0, deltaGamma: 0, prevAlpha: 0, prevBeta: 0, prevGamma: 0 };_domEvents2.default.on(window, "deviceorientation", function (e) {
+  var t = e.alpha,
+      a = e.beta,
+      n = e.gamma,
+      r = e.absolute;Object.assign(globalState, { absolute: r, currentAlpha: t, currentBeta: a, currentGamma: n, deltaAlpha: t - globalState.currentAlpha, deltaBeta: a - globalState.currentBeta, deltaGamma: n - globalState.currentGamma, prevAlpha: globalState.currentAlpha, prevBeta: globalState.currentBeta, prevGamma: globalState.currentGamma }), (0, _raf2.default)(function () {
+    return Object.assign(globalState, { deltaAlpha: 0, deltaBeta: 0, deltaGamma: 0 });
   });
-
-  (0, _raf2.default)(function () {
-    return Object.assign(globalState, {
-      deltaAlpha: 0,
-      deltaBeta: 0,
-      deltaGamma: 0
-    });
-  });
-});
-
-/**
- * Orientation function.
- *
- * @see OrientationCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(OrientationCommand, [null].concat(args)))();
-};
-
-/**
- * OrientationCommand class
- *
- * @public
- * @class OrientationCommand
- * @extends Command
- */
-
-var OrientationCommand = exports.OrientationCommand = function (_Command) {
-  _inherits(OrientationCommand, _Command);
-
-  /**
-   * OrientationCommand class constructor.
-   *
-   * @param {Context} ctx
-   * @param {(Object)?) opts
-   */
-
-  function OrientationCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, OrientationCommand);
-
-    /**
-     * Orientation state.
-     *
-     * @private
-     * @type {Object}
-     */
-
-    var state = {
-      absolute: null,
-
-      currentAlpha: 0, // z
-      currentBeta: 0, // x
-      currentGamma: 0, // y
-
-      deltaAlpha: 0,
-      deltaBeta: 0,
-      deltaGamma: 0,
-
-      prevAlpha: 0,
-      prevBeta: 0,
-      prevGamma: 0
-    };
-
-    var _this = _possibleConstructorReturn(this, (OrientationCommand.__proto__ || Object.getPrototypeOf(OrientationCommand)).call(this, function (_, block) {
-      Object.assign(state, globalState);
-      if ('function' == typeof block) {
-        block(_this);
-      }
-    }));
-
-    var _loop = function _loop(prop) {
-      (0, _utils.define)(_this, prop, { get: function get() {
-          return state[prop];
+}), exports.default = function () {
+  for (var e = arguments.length, t = Array(e), a = 0; a < e; a++) {
+    t[a] = arguments[a];
+  }return new (Function.prototype.bind.apply(OrientationCommand, [null].concat(t)))();
+};var OrientationCommand = exports.OrientationCommand = function (e) {
+  function t(e) {
+    arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var a = { absolute: null, currentAlpha: 0, currentBeta: 0, currentGamma: 0, deltaAlpha: 0, deltaBeta: 0, deltaGamma: 0, prevAlpha: 0, prevBeta: 0, prevGamma: 0 },
+        n = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, function (e, t) {
+      Object.assign(a, globalState), "function" == typeof t && t(n);
+    })),
+        r = function r(e) {
+      (0, _utils.define)(n, e, { get: function get() {
+          return a[e];
         } });
-    };
-
-    for (var prop in state) {
-      _loop(prop);
-    }
-
-    /**
-     * Resets current state
-     *
-     * @public
-     * @return {OrientationCommand}
-     */
-
-    _this.reset = function () {
-      for (var _prop in state) {
-        if ('number' == typeof state[_prop]) {
-          state[_prop] = 0;
-        } else {
-          state[_prop] = null;
-        }
-      }
-      return _this;
-    };
-    return _this;
-  }
-
-  return OrientationCommand;
+    };for (var o in a) {
+      r(o);
+    }return n.reset = function () {
+      for (var e in a) {
+        "number" == typeof a[e] ? a[e] = 0 : a[e] = null;
+      }return n;
+    }, n;
+  }return _inherits(t, e), t;
 }(_command.Command);
 
 },{"../utils":28,"./command":4,"dom-events":34,"raf":197}],12:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PhotoCommand = undefined;
-
-var _utils = require('../utils');
-
-var _media = require('./media');
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * PhotoCommand constructor.
- * @see PhotoCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(PhotoCommand, [null].concat(args)))();
-};
-
-/**
- * PhotoCommand class.
- *
- * @public
- * @class PhotoCommand
- * @extends MediaCommand
- */
-
-var PhotoCommand = exports.PhotoCommand = function (_MediaCommand) {
-  _inherits(PhotoCommand, _MediaCommand);
-
-  /**
-   * PhotoCommand class constructor.
-   *
-   * @constructor
-   * @param {Context} ctx
-   * @param {String} src
-   * @param {(Object)?} initialState
-   */
-
-  function PhotoCommand(ctx, src) {
-    var initialState = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-    _classCallCheck(this, PhotoCommand);
-
-    var source = null;
-
-    var manifest = {
-      image: {
-        stream: true,
-        type: 'image',
-        src: src
-      }
-    };
-
-    /**
-     * Sets an internal photo source property
-     * value. This function is used
-     * to proxy a class method to a photo
-     * element property
-     *
-     * @private
-     * @param {String} method
-     * @param {...Mixed} args
-     * @return {PhotoCommand|Mixed}
-     */
-
-    var _this = _possibleConstructorReturn(this, (PhotoCommand.__proto__ || Object.getPrototypeOf(PhotoCommand)).call(this, ctx, manifest, initialState));
-
-    var set = function set(property, value) {
-      if (source) {
-        if (undefined === value) {
-          return source[property];
-        } else {
-          (0, _utils.debug)('PhotoCommand: set %s=%s', property, value);
-          source[property] = value;
-        }
-      } else {
-        _this.once('load', function () {
-          _this[property] = value;
-        });
-      }
-      return _this;
-    };
-
-    /**
-     * Source attribute accessor.
-     *
-     * @type {String}
-     */
-
-    (0, _utils.define)(_this, 'src', {
-      get: function get() {
-        return source && source.src ? source.src : _this.manifest && _this.manifest.image ? _this.manifest.image.src : null;
-      },
-
-      set: function set(value) {
-        if (source && 'string' == typeof value) {
-          source.src = value;
-          if (_this.manifest && _this.manifest.image) {
-            _this.manifest.image.src = value;
-            _this.reset();
-            _this.load();
-          }
-        }
-      }
-    });
-
-    /**
-     * Photo texture target.
-     *
-     * @type {REGLTexture}
-     */
-
-    _this.texture = null;
-
-    /**
-     * Callback when photo  has loaded.
-     *
-     * @type {Function}
-     */
-
-    _this.onloaded = function (_ref) {
-      var image = _ref.image;
-
-      source = image;
-      _this.texture = ctx.regl.texture(image);
-      _this.emit('load');
-    };
-    return _this;
-  }
-
-  return PhotoCommand;
+function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.PhotoCommand = void 0;var _utils = require("../utils"),
+    _media = require("./media");exports.default = function () {
+  for (var e = arguments.length, t = Array(e), o = 0; o < e; o++) {
+    t[o] = arguments[o];
+  }return new (Function.prototype.bind.apply(PhotoCommand, [null].concat(t)))();
+};var PhotoCommand = exports.PhotoCommand = function (e) {
+  function t(e, o) {
+    var n = arguments.length <= 2 || void 0 === arguments[2] ? {} : arguments[2];_classCallCheck(this, t);var r = null,
+        i = { image: { stream: !0, type: "image", src: o } },
+        a = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e, i, n));return (0, _utils.define)(a, "src", { get: function get() {
+        return r && r.src ? r.src : a.manifest && a.manifest.image ? a.manifest.image.src : null;
+      }, set: function set(e) {
+        r && "string" == typeof e && (r.src = e, a.manifest && a.manifest.image && (a.manifest.image.src = e, a.reset(), a.load()));
+      } }), a.texture = null, a.onloaded = function (t) {
+      var o = t.image;r = o, a.texture = e.regl.texture(o), a.emit("load");
+    }, a;
+  }return _inherits(t, e), t;
 }(_media.MediaCommand);
 
 },{"../utils":28,"./media":8}],13:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SphereCommand = undefined;
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.SphereCommand = void 0;var _extends = Object.assign || function (e) {
+  for (var t = 1; t < arguments.length; t++) {
+    var r = arguments[t];for (var o in r) {
+      Object.prototype.hasOwnProperty.call(r, o) && (e[o] = r[o]);
     }
-  }return target;
-};
-
-var _sphere = require('../geometry/sphere');
-
-var _object = require('./object');
-
-var _glMat = require('gl-mat4');
-
-var _glMat2 = _interopRequireDefault(_glMat);
-
-var _glslify = require('glslify');
-
-var _glslify2 = _interopRequireDefault(_glslify);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * SphereCommand constructor.
- * @see SphereCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(SphereCommand, [null].concat(args)))();
-};
-
-/**
- * SphereCommand class.
- *
- * @public
- * @class SphereCommand
- * @extends ObjectCommand
- */
-
-var SphereCommand = exports.SphereCommand = function (_ObjectCommand) {
-  _inherits(SphereCommand, _ObjectCommand);
-
-  function SphereCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, SphereCommand);
-
-    var geometry = new _sphere.SphereGeometry(opts);
-    var defaults = {};
-    var uniforms = {};
-
-    return _possibleConstructorReturn(this, (SphereCommand.__proto__ || Object.getPrototypeOf(SphereCommand)).call(this, ctx, _extends({}, opts, {
-      type: 'sphere',
-      defaults: defaults,
-      uniforms: uniforms,
-      geometry: geometry
-    })));
-  }
-
-  return SphereCommand;
+  }return e;
+},
+    _sphere = require("../geometry/sphere"),
+    _object = require("./object"),
+    _glMat = require("gl-mat4"),
+    _glMat2 = _interopRequireDefault(_glMat),
+    _glslify = require("glslify"),
+    _glslify2 = _interopRequireDefault(_glslify);exports.default = function () {
+  for (var e = arguments.length, t = Array(e), r = 0; r < e; r++) {
+    t[r] = arguments[r];
+  }return new (Function.prototype.bind.apply(SphereCommand, [null].concat(t)))();
+};var SphereCommand = exports.SphereCommand = function (e) {
+  function t(e) {
+    var r = arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var o = new _sphere.SphereGeometry(r),
+        n = {},
+        i = {};return _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e, _extends({}, r, { type: "sphere", defaults: n, uniforms: i, geometry: o })));
+  }return _inherits(t, e), t;
 }(_object.ObjectCommand);
 
 },{"../geometry/sphere":20,"./object":10,"gl-mat4":47,"glslify":187}],14:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.TouchCommand = undefined;
-
-var _touchPosition = require('touch-position');
-
-var _command = require('./command');
-
-var _domEvents = require('dom-events');
-
-var _domEvents2 = _interopRequireDefault(_domEvents);
-
-var _raf = require('raf');
-
-var _raf2 = _interopRequireDefault(_raf);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * Touch function.
- *
- * @see TouchCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(TouchCommand, [null].concat(args)))();
-};
-
-/**
- * TouchCommand class.
- *
- * @public
- * @class TouchCommand
- * @extends Command
- */
-
-var TouchCommand = exports.TouchCommand = function (_Command) {
-  _inherits(TouchCommand, _Command);
-
-  /**
-   * TouchCommand class constructor.
-   *
-   * @param {Context} ctx
-   * @param {(Object)?} opts
-   */
-
-  function TouchCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, TouchCommand);
-
-    var _this = _possibleConstructorReturn(this, (TouchCommand.__proto__ || Object.getPrototypeOf(TouchCommand)).call(this, function (_, block) {
-      if ('function' == typeof block) {
-        block(_this);
-      }
-    }));
-
-    var touch = (0, _touchPosition.emitter)({ element: ctx.domElement });
-
-    _domEvents2.default.on(ctx.domElement, 'touchstart', function (e) {
-      var x = e.touches[0].clientX;
-      var y = e.touches[0].clientY;
-      e.preventDefault();
-      Object.assign(_this, {
-        touches: e.targetTouches,
-
-        currentX: x,
-        currentY: y,
-
-        deltaX: 0,
-        deltaY: 0,
-
-        prevX: _this.currentX,
-        prevY: _this.currentY
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.TouchCommand = void 0;var _touchPosition = require("touch-position"),
+    _command = require("./command"),
+    _domEvents = require("dom-events"),
+    _domEvents2 = _interopRequireDefault(_domEvents),
+    _raf = require("raf"),
+    _raf2 = _interopRequireDefault(_raf);exports.default = function () {
+  for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+    t[n] = arguments[n];
+  }return new (Function.prototype.bind.apply(TouchCommand, [null].concat(t)))();
+};var TouchCommand = exports.TouchCommand = function (e) {
+  function t(e) {
+    arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var n = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, function (e, t) {
+      "function" == typeof t && t(n);
+    })),
+        o = (0, _touchPosition.emitter)({ element: e.domElement });return _domEvents2.default.on(e.domElement, "touchstart", function (e) {
+      var t = e.touches[0].clientX,
+          o = e.touches[0].clientY;e.preventDefault(), Object.assign(n, { touches: e.targetTouches, currentX: t, currentY: o, deltaX: 0, deltaY: 0, prevX: n.currentX, prevY: n.currentY });
+    }), _domEvents2.default.on(e.domElement, "touchend", function (e) {
+      e.preventDefault(), Object.assign(n, { touches: 0, currentX: 0, currentY: 0, deltaX: 0, deltaY: 0, prevX: 0, prevY: 0 });
+    }), o.on("move", function (e) {
+      var t = e.clientX,
+          o = e.clientY;Object.assign(n, { deltaX: t - n.currentX, deltaY: o - n.currentY }), (0, _raf2.default)(function () {
+        return Object.assign(n, { deltaX: 0, deltaY: 0 });
       });
-    });
-
-    _domEvents2.default.on(ctx.domElement, 'touchend', function (e) {
-      e.preventDefault();
-      Object.assign(_this, {
-        touches: 0,
-
-        currentX: 0,
-        currentY: 0,
-
-        deltaX: 0,
-        deltaY: 0,
-
-        prevX: 0,
-        prevY: 0
-      });
-    });
-
-    touch.on('move', function (t) {
-      var x = t.clientX;
-      var y = t.clientY;
-      Object.assign(_this, {
-        deltaX: x - _this.currentX,
-        deltaY: y - _this.currentY
-      });
-
-      (0, _raf2.default)(function () {
-        return Object.assign(_this, {
-          deltaX: 0,
-          deltaY: 0
-        });
-      });
-    });
-
-    /**
-     * Current active touches
-     *
-     * @type {Number}
-     */
-
-    _this.touches = null;
-
-    /**
-     * Previous X coordinate.
-     *
-     * @type {Number}
-     */
-
-    _this.prevX = 0;
-
-    /**
-     * Previous Y coordinate.
-     *
-     * @type {Number}
-     */
-
-    _this.prevY = 0;
-
-    /**
-     * Current X coordinate.
-     *
-     * @type {Number}
-     */
-
-    _this.currentX = 0;
-
-    /**
-     * Current Y coordinate.
-     *
-     * @type {Number}
-     */
-
-    _this.currentY = 0;
-
-    /**
-     * Delta between previous and.
-     * current X coordinates.
-     *
-     * @type {Number}
-     */
-
-    _this.deltaX = 0;
-
-    /**
-     * Delta between previous and.
-     * current Y coordinates.
-     *
-     * @type {Number}
-     */
-
-    _this.deltaY = 0;
-    return _this;
-  }
-
-  return TouchCommand;
+    }), n.touches = null, n.prevX = 0, n.prevY = 0, n.currentX = 0, n.currentY = 0, n.deltaX = 0, n.deltaY = 0, n;
+  }return _inherits(t, e), t;
 }(_command.Command);
 
 },{"./command":4,"dom-events":34,"raf":197,"touch-position":237}],15:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.TriangleCommand = undefined;
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.TriangleCommand = void 0;var _extends = Object.assign || function (e) {
+  for (var t = 1; t < arguments.length; t++) {
+    var n = arguments[t];for (var o in n) {
+      Object.prototype.hasOwnProperty.call(n, o) && (e[o] = n[o]);
     }
-  }return target;
-};
-
-var _triangle = require('../geometry/triangle');
-
-var _object = require('./object');
-
-var _glslify = require('glslify');
-
-var _glslify2 = _interopRequireDefault(_glslify);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-// @TODO(werle) - move this into a glsl file
-var vert = '\nprecision mediump float;\n\nuniform mat4 projection;\nuniform mat4 model;\nuniform mat4 view;\n\nattribute vec2 position;\nvoid main() {\n  gl_Position = projection * view * model * vec4(position, 0.0, 1.0);\n}\n';
-
-/**
- * TriangleCommand constructor.
- * @see TriangleCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(TriangleCommand, [null].concat(args)))();
-};
-
-/**
- * TriangleCommand class.
- *
- * @public
- * @class TriangleCommand
- * @extends Command
- */
-
-var TriangleCommand = exports.TriangleCommand = function (_ObjectCommand) {
-  _inherits(TriangleCommand, _ObjectCommand);
-
-  function TriangleCommand(ctx) {
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-    _classCallCheck(this, TriangleCommand);
-
-    var geometry = new _triangle.TriangleGeometry(opts.geometry);
-    var uniforms = {};
-    var defaults = {};
-
-    return _possibleConstructorReturn(this, (TriangleCommand.__proto__ || Object.getPrototypeOf(TriangleCommand)).call(this, ctx, _extends({}, opts, {
-      type: 'triangle',
-      defaults: defaults,
-      uniforms: uniforms,
-      geometry: geometry,
-      count: 3,
-      vert: vert
-    })));
-  }
-
-  return TriangleCommand;
+  }return e;
+},
+    _triangle = require("../geometry/triangle"),
+    _object = require("./object"),
+    _glslify = require("glslify"),
+    _glslify2 = _interopRequireDefault(_glslify),
+    vert = "\nprecision mediump float;\n\nuniform mat4 projection;\nuniform mat4 model;\nuniform mat4 view;\n\nattribute vec2 position;\nvoid main() {\n  gl_Position = projection * view * model * vec4(position, 0.0, 1.0);\n}\n";exports.default = function () {
+  for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+    t[n] = arguments[n];
+  }return new (Function.prototype.bind.apply(TriangleCommand, [null].concat(t)))();
+};var TriangleCommand = exports.TriangleCommand = function (e) {
+  function t(e) {
+    var n = arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var o = new _triangle.TriangleGeometry(n.geometry),
+        r = {},
+        i = {};return _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e, _extends({}, n, { type: "triangle", defaults: i, uniforms: r, geometry: o, count: 3, vert: vert })));
+  }return _inherits(t, e), t;
 }(_object.ObjectCommand);
 
 },{"../geometry/triangle":21,"./object":10,"glslify":187}],16:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.VideoCommand = undefined;
-
-var _utils = require('../utils');
-
-var _media = require('./media');
-
-var _domEvents = require('dom-events');
-
-var _domEvents2 = _interopRequireDefault(_domEvents);
-
-var _clamp = require('clamp');
-
-var _clamp2 = _interopRequireDefault(_clamp);
-
-var _raf = require('raf');
-
-var _raf2 = _interopRequireDefault(_raf);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * VideoCommand constructor.
- * @see VideoCommand
- */
-
-exports.default = function () {
-  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return new (Function.prototype.bind.apply(VideoCommand, [null].concat(args)))();
-};
-
-/**
- * VideoCommand class.
- *
- * @public
- * @extends MediaCommand
- */
-
-var VideoCommand = exports.VideoCommand = function (_MediaCommand) {
-  _inherits(VideoCommand, _MediaCommand);
-
-  /**
-   * VideoCommand class constructor.
-   *
-   * @constructor
-   * @param {Context} ctx
-   * @param {String} src
-   * @param {(Object)?} initialState
-   */
-
-  function VideoCommand(ctx, src) {
-    var initialState = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-    _classCallCheck(this, VideoCommand);
-
-    var source = null;
-    var volume = 0;
-    var isMuted = false;
-    var isPaused = true;
-    var isPlaying = false;
-
-    var manifest = {
-      video: {
-        stream: true,
-        type: 'video',
-        src: src
-      }
-    };
-
-    /**
-     * Calls internal video source method
-     * with arguments. This function is used
-     * to proxy a class method to a video
-     * element method.
-     *
-     * @private
-     * @param {String} method
-     * @param {...Mixed} args
-     * @return {VideoCommand}
-     */
-
-    var call = function call(method) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        args[_key2 - 1] = arguments[_key2];
-      }
-
-      if (source) {
-        var _source;
-
-        (0, _utils.debug)('VideoCommand: call %s(%j)', method, args);
-        (_source = source)[method].apply(_source, args);
-      } else {
-        _this.once('load', function () {
-          return _this[method].apply(_this, args);
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.VideoCommand = void 0;var _utils = require("../utils"),
+    _media = require("./media"),
+    _domEvents = require("dom-events"),
+    _domEvents2 = _interopRequireDefault(_domEvents),
+    _clamp = require("clamp"),
+    _clamp2 = _interopRequireDefault(_clamp),
+    _raf = require("raf"),
+    _raf2 = _interopRequireDefault(_raf);exports.default = function () {
+  for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+    t[n] = arguments[n];
+  }return new (Function.prototype.bind.apply(VideoCommand, [null].concat(t)))();
+};var VideoCommand = exports.VideoCommand = function (e) {
+  function t(e, n) {
+    var o = arguments.length <= 2 || void 0 === arguments[2] ? {} : arguments[2];_classCallCheck(this, t);var r = null,
+        i = 0,
+        u = !1,
+        a = !0,
+        f = !1,
+        c = { video: { stream: !0, type: "video", src: n } },
+        l = function l(e) {
+      for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), o = 1; o < t; o++) {
+        n[o - 1] = arguments[o];
+      }if (r) {
+        var i;(0, _utils.debug)("VideoCommand: call %s(%j)", e, n), (i = r)[e].apply(i, n);
+      } else p.once("load", function () {
+        return p[e].apply(p, n);
+      });return p;
+    },
+        s = function s(e, t) {
+      if (r) {
+        if (void 0 === t) return r[e];(0, _utils.debug)("VideoCommand: set %s=%s", e, t), r[e] = t;
+      } else p.once("load", function () {
+        p[e] = t;
+      });return p;
+    },
+        d = function d(e) {
+      for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), o = 1; o < t; o++) {
+        n[o - 1] = arguments[o];
+      }return p.emit.apply(p, [e].concat(n)), p;
+    },
+        p = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e, c, o));return p.once("load", function () {
+      Object.assign(r, o);var e = function e(_e, t) {
+        _domEvents2.default.on(r, _e, function () {
+          for (var n = arguments.length, o = Array(n), r = 0; r < n; r++) {
+            o[r] = arguments[r];
+          }d.apply(void 0, [t || _e].concat(o));
         });
-      }
-      return _this;
-    };
-
-    /**
-     * Sets an internal video source property
-     * value. This function is used
-     * to proxy a class method to a video
-     * element property
-     *
-     * @private
-     * @param {String} method
-     * @param {...Mixed} args
-     * @return {VideoCommand|Mixed}
-     */
-
-    var set = function set(property, value) {
-      if (source) {
-        if (undefined === value) {
-          return source[property];
-        } else {
-          (0, _utils.debug)('VideoCommand: set %s=%s', property, value);
-          source[property] = value;
-        }
-      } else {
-        _this.once('load', function () {
-          _this[property] = value;
-        });
-      }
-      return _this;
-    };
-
-    /**
-     * Emits an event on the instance.
-     *
-     * @private
-     * @param {String} event
-     * @param {...Mixed} args
-     * @return {VideoCommand}
-     */
-
-    var emit = function emit(event) {
-      for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-        args[_key3 - 1] = arguments[_key3];
-      }
-
-      _this.emit.apply(_this, [event].concat(args));
-      return _this;
-    };
-
-    // set initial video state
-    var _this = _possibleConstructorReturn(this, (VideoCommand.__proto__ || Object.getPrototypeOf(VideoCommand)).call(this, ctx, manifest, initialState));
-
-    _this.once('load', function () {
-      // set initial set on source
-      Object.assign(source, initialState);
-
-      var proxy = function proxy(event, override) {
-        _domEvents2.default.on(source, event, function () {
-          for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-            args[_key4] = arguments[_key4];
-          }
-
-          emit.apply(undefined, [override || event].concat(args));
-        });
-      };
-
-      // proxy source events
-
-      var _loop = function _loop(key) {
-        if (key.match(/^on[a-z]/)) {
-          proxy(key.replace(/^on/, ''));
-          (0, _utils.define)(_this, key, {
-            get: function get() {
-              return source[key];
-            },
-            set: function set(value) {
-              return source[key] = value;
-            }
-          });
-        }
-      };
-
-      for (var key in HTMLVideoElement.prototype) {
-        _loop(key);
-      }
-
-      volume = source.volume;
-      isMuted = source.muted;
-      isPlaying = source.paused;
-    });
-
-    // set to playing state
-    _this.on('playing', function () {
-      isPlaying = true;
-      isPaused = false;
-    });
-
-    // set to paused state
-    _this.on('pause', function () {
-      isPlaying = false;
-      isPaused = true;
-    });
-
-    // set volume mute state
-    _this.on('mute', function () {
-      isMuted = true;
-    });
-
-    _this.on('unmute', function () {
-      isMuted = false;
-    });
-
-    /**
-     * Source attribute accessor.
-     *
-     * @type {String}
-     */
-
-    (0, _utils.define)(_this, 'src', {
-      get: function get() {
-        return source && source.src ? source.src : _this.manifest && _this.manifest.video ? _this.manifest.video.src : null;
       },
-
-      set: function set(value) {
-        if (source && 'string' == typeof value) {
-          source.src = value;
-          if (_this.manifest && _this.manifest.video) {
-            _this.manifest.video.src = value;
-            _this.reset();
-            _this.load();
-          }
-        }
-      }
-    })
-
-    // proxy all configurable video properties that serve
-    // some kind of real purpose
-    // @TODO(werle) - support text tracks
-    ;['playbackRate', 'currentTime', 'crossOrigin', 'currentSrc', 'duration', 'seekable', 'volume', 'paused', 'played', 'prefix', 'poster', 'title', 'muted', 'loop'].map(function (property) {
-      return (0, _utils.define)(_this, property, {
-        get: function get() {
-          return source[property];
-        },
-        set: function set(value) {
-          source[property] = value;
-        }
-      });
-    });
-
-    // proxy dimensions
-    (0, _utils.define)(_this, 'width', { get: function get() {
-        return source.videoWidth;
-      } });
-    (0, _utils.define)(_this, 'height', { get: function get() {
-        return source.videoHeight;
-      } });
-    (0, _utils.define)(_this, 'aspectRatio', {
-      get: function get() {
-        return source.videoWidth / source.videoHeight;
-      }
-    });
-
-    // expose DOM element
-    (0, _utils.define)(_this, 'domElement', { get: function get() {
-        return source;
-      } });
-
-    /**
-     * Video texture target.
-     *
-     * @type {REGLTexture}
-     */
-
-    _this.texture = null;
-
-    /**
-     * Plays the video.
-     *
-     * @return {VideoCommand}
-     */
-
-    _this.play = function () {
-      return call('play');
-    };
-
-    /**
-     * Pauses the video.
-     *
-     * @return {VideoCommand}
-     */
-
-    _this.pause = function () {
-      return call('pause');
-    };
-
-    /**
-     * Mutes the video
-     *
-     * @return {VideoCommand}
-     */
-
-    _this.mute = function () {
-      return set('muted', true) && emit('mute');
-    };
-
-    /**
-     * Unutes the video
-     *
-     * @return {VideoCommand}
-     */
-
-    _this.unmute = function () {
-      return set('muted', false) && emit('unmute');
-    };
-
-    /**
-     * Callback when video  has loaded.
-     *
-     * @type {Function}
-     */
-
-    _this.onloaded = function (_ref) {
-      var video = _ref.video;
-
-      source = video;
-      _this.texture = ctx.regl.texture({
-        mag: 'linear',
-        min: 'linear',
-        wrap: ['clamp', 'clamp'],
-        data: video
-      });
-
-      _this.emit('load');
-
-      var lastRead = 0;
-      _this._read = function () {
-        var now = Date.now();
-        if (isPlaying && now - lastRead >= 64 && _this.isDoneLoading && video.readyState >= video.HAVE_ENOUGH_DATA) {
-          lastRead = now;
-          (0, _utils.debug)('VideoCommand: read');
-          _this.texture(video);
-        }
+          t = function t(_t) {
+        _t.match(/^on[a-z]/) && (e(_t.replace(/^on/, "")), (0, _utils.define)(p, _t, { get: function get() {
+            return r[_t];
+          }, set: function set(e) {
+            return r[_t] = e;
+          } }));
+      };for (var n in HTMLVideoElement.prototype) {
+        t(n);
+      }i = r.volume, u = r.muted, f = r.paused;
+    }), p.on("playing", function () {
+      f = !0, a = !1;
+    }), p.on("pause", function () {
+      f = !1, a = !0;
+    }), p.on("mute", function () {
+      u = !0;
+    }), p.on("unmute", function () {
+      u = !1;
+    }), (0, _utils.define)(p, "src", { get: function get() {
+        return r && r.src ? r.src : p.manifest && p.manifest.video ? p.manifest.video.src : null;
+      }, set: function set(e) {
+        r && "string" == typeof e && (r.src = e, p.manifest && p.manifest.video && (p.manifest.video.src = e, p.reset(), p.load()));
+      } }), ["playbackRate", "currentTime", "crossOrigin", "currentSrc", "duration", "seekable", "volume", "paused", "played", "prefix", "poster", "title", "muted", "loop"].map(function (e) {
+      return (0, _utils.define)(p, e, { get: function get() {
+          return r[e];
+        }, set: function set(t) {
+          r[e] = t;
+        } });
+    }), (0, _utils.define)(p, "width", { get: function get() {
+        return r.videoWidth;
+      } }), (0, _utils.define)(p, "height", { get: function get() {
+        return r.videoHeight;
+      } }), (0, _utils.define)(p, "aspectRatio", { get: function get() {
+        return r.videoWidth / r.videoHeight;
+      } }), (0, _utils.define)(p, "domElement", { get: function get() {
+        return r;
+      } }), p.texture = null, p.play = function () {
+      return l("play");
+    }, p.pause = function () {
+      return l("pause");
+    }, p.mute = function () {
+      return s("muted", !0) && d("mute");
+    }, p.unmute = function () {
+      return s("muted", !1) && d("unmute");
+    }, p.onloaded = function (t) {
+      var n = t.video;r = n, p.texture = e.regl.texture({ mag: "linear", min: "linear", wrap: ["clamp", "clamp"], data: n }), p.emit("load");var o = 0;p._read = function () {
+        var e = Date.now();f && e - o >= 64 && p.isDoneLoading && n.readyState >= n.HAVE_ENOUGH_DATA && (o = e, (0, _utils.debug)("VideoCommand: read"), p.texture(n));
       };
-    };
-    return _this;
-  }
-
-  return VideoCommand;
+    }, p;
+  }return _inherits(t, e), t;
 }(_media.MediaCommand);
 
 },{"../utils":28,"./media":8,"clamp":30,"dom-events":34,"raf":197}],17:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof3 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof2 = typeof Symbol === "function" && _typeof3(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Context = exports.defaults = undefined;
-
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof2(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof2(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof2 = "function" == typeof Symbol && "symbol" == _typeof3(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof3(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof3(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.Context = exports.defaults = void 0;var _typeof = "function" == typeof Symbol && "symbol" === _typeof2(Symbol.iterator) ? function (e) {
+  return "undefined" == typeof e ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : "undefined" == typeof e ? "undefined" : _typeof2(e);
+},
+    _createClass = function () {
+  function e(e, t) {
+    for (var n = 0; n < t.length; n++) {
+      var o = t[n];o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o);
     }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  }return function (t, n, o) {
+    return n && e(t.prototype, n), o && e(t, o), t;
   };
-}();
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
+}(),
+    _extends = Object.assign || function (e) {
+  for (var t = 1; t < arguments.length; t++) {
+    var n = arguments[t];for (var o in n) {
+      Object.prototype.hasOwnProperty.call(n, o) && (e[o] = n[o]);
     }
-  }return target;
-};
-// @TODO(werle) - consider using multi-regl
-
-
-/**
- * Module symbols.
- */
-
-var _events = require('events');
-
-var _domEvents = require('dom-events');
-
-var _domEvents2 = _interopRequireDefault(_domEvents);
-
-var _glslify = require('glslify');
-
-var _glslify2 = _interopRequireDefault(_glslify);
-
-var _regl = require('regl');
-
-var _regl2 = _interopRequireDefault(_regl);
-
-var _symbols = require('./symbols');
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * Context class defaults.
- *
- * @public
- * @const
- * @type {Object}
- */
-
-var defaults = exports.defaults = {
-  clear: {
-    // @TODO(werle) - use a color module
-    color: [17 / 255, 17 / 255, 17 / 255, 1],
-    depth: 1
-  }
-};
-
-/**
- * Creates a new Context instance with
- * sane defaults.
- *
- * @param {Object} opts
- */
-
-exports.default = function (state, opts) {
-  return new Context(_extends({}, defaults, state), opts);
-};
-
-/**
- * Context class.
- *
- * @public
- * @class Context
- * @extends EventEmitter
- */
-
-var Context = exports.Context = function (_EventEmitter) {
-  _inherits(Context, _EventEmitter);
-
-  /**
-   * Context class constructor.
-   *
-   * @param {(Object)?} initialState
-   * @param {(Object)?} opts
-   */
-
-  function Context() {
-    var initialState = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-    var createRegl = arguments.length <= 2 || arguments[2] === undefined ? _regl2.default : arguments[2];
-
-    _classCallCheck(this, Context);
-
-    var _this = _possibleConstructorReturn(this, (Context.__proto__ || Object.getPrototypeOf(Context)).call(this));
-
-    var reglOptions = _extends({}, opts.regl);
-    if (opts.element && 'CANVAS' == opts.element.nodeName) {
-      reglOptions.canvas = opts.element;
-    } else if (opts.element && opts.element.nodeName) {
-      reglOptions.container = opts.element;
-    } else if ('string' == typeof opts.element) {
-      reglOptions.container = opts.element;
-    }
-
-    console.log(opts.regl);
-    _this[_symbols.$regl] = createRegl(opts.regl);
-    _this[_symbols.$stack] = [];
-    _this[_symbols.$state] = initialState;
-    _this[_symbols.$current] = null;
-    _this[_symbols.$previous] = null;
-    _this[_symbols.$hasFocus] = false;
-    _this[_symbols.$domElement] = _this[_symbols.$regl]._gl.canvas;
-
-    _this.setMaxListeners(Infinity);
-
-    _domEvents2.default.on(_this[_symbols.$domElement], 'focus', function () {
-      return _this.focus();
-    });
-    _domEvents2.default.on(_this[_symbols.$domElement], 'blur', function () {
-      return _this.blur();
-    });
-    _domEvents2.default.on(window, 'blur', function () {
-      return _this.blur();
-    });
-    return _this;
-  }
-
-  /**
-   * Current command getter.
-   *
-   * @getter
-   * @type {Command}
-   */
-
-  _createClass(Context, [{
-    key: 'focus',
-
-    /**
-     * Focuses context.
-     *
-     * @return {Context}
-     */
-
-    value: function focus() {
-      this[_symbols.$hasFocus] = true;
-      this.emit('focus');
-      return this;
-    }
-
-    /**
-     * Blurs context.
-     *
-     * @return {Context}
-     */
-
-  }, {
-    key: 'blur',
-    value: function blur() {
-      this[_symbols.$hasFocus] = false;
-      this.emit('blur');
-      return this;
-    }
-
-    /**
-     * Pushes command to context stack.
-     *
-     * @param {Command} command
-     * @return {Context}
-     */
-
-  }, {
-    key: 'push',
-    value: function push(command) {
-      if ('function' == typeof command) {
-        this[_symbols.$stack].push(command);
-        this[_symbols.$previous] = this[_symbols.$current];
-        this[_symbols.$current] = command;
-      }
-      return this;
-    }
-
-    /**
-     * Pops tail of context command stack.
-     *
-     * @return {Context}
-     */
-
-  }, {
-    key: 'pop',
-    value: function pop() {
-      var command = this[_symbols.$stack].pop();
-      this[_symbols.$current] = this[_symbols.$previous];
-      this[_symbols.$previous] = this[_symbols.$stack][this[_symbols.$stack].length - 1];
-      return command;
-    }
-
-    /**
-     * Updates command context state.
-     *
-     * @param {Function|Block}
-     * @return {Context}
-     */
-
-  }, {
-    key: 'update',
-    value: function update(block) {
-      if (block && 'object' == (typeof block === 'undefined' ? 'undefined' : _typeof(block))) {
-        Object.assign(this[_symbols.$state], block);
-      }
-      return this;
-    }
-
-    /**
-     * Clears the clear buffers in regl.
-     *
-     * @return {Context}
-     */
-
-  }, {
-    key: 'clear',
-    value: function clear() {
-      this.regl.clear(this[_symbols.$state].clear);
-      return this;
-    }
-  }, {
-    key: 'current',
-    get: function get() {
+  }return e;
+},
+    _events = require("events"),
+    _domEvents = require("dom-events"),
+    _domEvents2 = _interopRequireDefault(_domEvents),
+    _glslify = require("glslify"),
+    _glslify2 = _interopRequireDefault(_glslify),
+    _regl = require("regl"),
+    _regl2 = _interopRequireDefault(_regl),
+    _symbols = require("./symbols"),
+    defaults = exports.defaults = { clear: { color: [17 / 255, 17 / 255, 17 / 255, 1], depth: 1 } };exports.default = function (e, t) {
+  return new Context(_extends({}, defaults, e), t);
+};var Context = exports.Context = function (e) {
+  function t() {
+    var e = arguments.length <= 0 || void 0 === arguments[0] ? {} : arguments[0],
+        n = arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1],
+        o = arguments.length <= 2 || void 0 === arguments[2] ? _regl2.default : arguments[2];_classCallCheck(this, t);var s = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this)),
+        r = _extends({}, n.regl);return n.element && "CANVAS" == n.element.nodeName ? r.canvas = n.element : n.element && n.element.nodeName ? r.container = n.element : "string" == typeof n.element && (r.container = n.element), console.log(n.regl), s[_symbols.$regl] = o(n.regl), s[_symbols.$stack] = [], s[_symbols.$state] = e, s[_symbols.$current] = null, s[_symbols.$previous] = null, s[_symbols.$hasFocus] = !1, s[_symbols.$domElement] = s[_symbols.$regl]._gl.canvas, s.setMaxListeners(1 / 0), _domEvents2.default.on(s[_symbols.$domElement], "focus", function () {
+      return s.focus();
+    }), _domEvents2.default.on(s[_symbols.$domElement], "blur", function () {
+      return s.blur();
+    }), _domEvents2.default.on(window, "blur", function () {
+      return s.blur();
+    }), s;
+  }return _inherits(t, e), _createClass(t, [{ key: "focus", value: function value() {
+      return this[_symbols.$hasFocus] = !0, this.emit("focus"), this;
+    } }, { key: "blur", value: function value() {
+      return this[_symbols.$hasFocus] = !1, this.emit("blur"), this;
+    } }, { key: "push", value: function value(e) {
+      return "function" == typeof e && (this[_symbols.$stack].push(e), this[_symbols.$previous] = this[_symbols.$current], this[_symbols.$current] = e), this;
+    } }, { key: "pop", value: function value() {
+      var e = this[_symbols.$stack].pop();return this[_symbols.$current] = this[_symbols.$previous], this[_symbols.$previous] = this[_symbols.$stack][this[_symbols.$stack].length - 1], e;
+    } }, { key: "update", value: function value(e) {
+      return e && "object" == ("undefined" == typeof e ? "undefined" : _typeof(e)) && Object.assign(this[_symbols.$state], e), this;
+    } }, { key: "clear", value: function value() {
+      return this.regl.clear(this[_symbols.$state].clear), this;
+    } }, { key: "current", get: function get() {
       return this[_symbols.$current];
-    }
-
-    /**
-     * Previous command getter.
-     *
-     * @getter
-     * @type {Command}
-     */
-
-  }, {
-    key: 'previous',
-    get: function get() {
+    } }, { key: "previous", get: function get() {
       return this[_symbols.$previous];
-    }
-
-    /**
-     * Current stack depth.
-     *
-     * @type {Number}
-     */
-
-  }, {
-    key: 'depth',
-    get: function get() {
+    } }, { key: "depth", get: function get() {
       return this[_symbols.$stack].length;
-    }
-
-    /**
-     * DOM element associated with this
-     * command context.
-     *
-     * @getter
-     * @type {Element}
-     */
-
-  }, {
-    key: 'domElement',
-    get: function get() {
+    } }, { key: "domElement", get: function get() {
       return this[_symbols.$domElement];
-    }
-
-    /**
-     * Boolean indicating if context has
-     * focus.
-     *
-     * @getter
-     * @type {Boolean}
-     */
-
-  }, {
-    key: 'hasFocus',
-    get: function get() {
+    } }, { key: "hasFocus", get: function get() {
       return this[_symbols.$hasFocus];
-    }
-
-    /**
-     * regl instance.
-     *
-     * @getter
-     * @type {Function}
-     */
-
-  }, {
-    key: 'regl',
-    get: function get() {
+    } }, { key: "regl", get: function get() {
       return this[_symbols.$regl];
-    }
-
-    /**
-     * State object.
-     *
-     * @getter
-     * @type {Object}
-     */
-
-  }, {
-    key: 'state',
-    get: function get() {
+    } }, { key: "state", get: function get() {
       return this[_symbols.$stack];
-    }
-  }]);
-
-  return Context;
+    } }]), t;
 }(_events.EventEmitter);
 
 },{"./symbols":27,"dom-events":34,"events":35,"glslify":187,"regl":231}],18:[function(require,module,exports){
-'use strict';
-
-/**
- * Geometry class.
- *
- * @public
- * @class Geometry
- */
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+"use strict";
+function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}Object.defineProperty(exports, "__esModule", { value: !0 });var _createClass = function () {
+  function e(e, t) {
+    for (var i = 0; i < t.length; i++) {
+      var n = t[i];n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
     }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  }return function (t, i, n) {
+    return i && e(t.prototype, i), n && e(t, n), t;
   };
-}();
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-var Geometry = exports.Geometry = function () {
-
-  /**
-   * Geometry class constructor.
-   *
-   * @param {(Object)?} initialState
-   */
-
-  function Geometry(initialState) {
-    _classCallCheck(this, Geometry);
-
-    Object.assign(this, initialState || {});
-    this.primitive = this.primitive || null;
-  }
-
-  /**
-   * An array of position values sourced from
-   * the geometry primitive.
-   *
-   * @getter
-   * @type {Array}
-   */
-
-  _createClass(Geometry, [{
-    key: 'update',
-
-    /**
-     * Abstract update method to be overloaded
-     */
-
-    value: function update() {
+}(),
+    Geometry = exports.Geometry = function () {
+  function e(t) {
+    _classCallCheck(this, e), Object.assign(this, t || {}), this.primitive = this.primitive || null;
+  }return _createClass(e, [{ key: "update", value: function value() {
       return this;
-    }
-  }, {
-    key: 'positions',
-    get: function get() {
+    } }, { key: "positions", get: function get() {
       return this.primitive ? this.primitive.positions : null;
-    }
-
-    /**
-     * An array of normal values sourced from
-     * the geometry primitive.
-     *
-     * @getter
-     * @type {Array}
-     */
-
-  }, {
-    key: 'normals',
-    get: function get() {
+    } }, { key: "normals", get: function get() {
       return this.primitive ? this.primitive.normals : null;
-    }
-
-    /**
-     * An array of uv values sourced from
-     * the geometry primitive.
-     *
-     * @getter
-     * @type {Array}
-     */
-
-  }, {
-    key: 'uvs',
-    get: function get() {
+    } }, { key: "uvs", get: function get() {
       return this.primitive ? this.primitive.uvs : null;
-    }
-
-    /**
-     * An array of cell values sourced from
-     * the geometry primitive.
-     *
-     * @getter
-     * @type {Array}
-     */
-
-  }, {
-    key: 'cells',
-    get: function get() {
+    } }, { key: "cells", get: function get() {
       return this.primitive ? this.primitive.cells : null;
-    }
-  }]);
-
-  return Geometry;
+    } }]), e;
 }();
 
 },{}],19:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.BoxGeometry = undefined;
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.BoxGeometry = void 0;var _createClass = function () {
+  function e(e, t) {
+    for (var o = 0; o < t.length; o++) {
+      var r = t[o];r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(e, r.key, r);
     }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  }return function (t, o, r) {
+    return o && e(t.prototype, o), r && e(t, r), t;
   };
-}();
-
-var _geo3dBox = require('geo-3d-box');
-
-var _geo3dBox2 = _interopRequireDefault(_geo3dBox);
-
-var _geometry = require('../geometry');
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * BoxGeometry class.
- *
- * @public
- * @class BoxGeometry
- * @extends Geometry
- * @see https://www.npmjs.com/package/geo-3d-box
- */
-
-var BoxGeometry = exports.BoxGeometry = function (_Geometry) {
-  _inherits(BoxGeometry, _Geometry);
-
-  /**
-   * BoxGeometry class constructor.
-   *
-   * @param {(Object)?} opts
-   * @param {(Number)?} opts.size
-   * @param {(Number)?} opts.segments
-   * @param {(Object)?} primitive
-   */
-
-  function BoxGeometry() {
-    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-    var _ref$size = _ref.size;
-    var size = _ref$size === undefined ? 1 : _ref$size;
-    var _ref$segments = _ref.segments;
-    var segments = _ref$segments === undefined ? 2 : _ref$segments;
-    var primitive = arguments[1];
-
-    _classCallCheck(this, BoxGeometry);
-
-    primitive = primitive || (0, _geo3dBox2.default)({ size: size, segments: segments });
-    return _possibleConstructorReturn(this, (BoxGeometry.__proto__ || Object.getPrototypeOf(BoxGeometry)).call(this, { size: size, segments: segments, primitive: primitive }));
-  }
-
-  /**
-   * Updates BoxGeometry state
-   *
-   * @return {BoxGeometry}
-   */
-
-  _createClass(BoxGeometry, [{
-    key: 'update',
-    value: function update() {
-      var segments = this.segments;
-      var size = this.size;
-      this.primitive = (0, _geo3dBox2.default)({ size: size, segments: segments });
-      return this;
-    }
-  }]);
-
-  return BoxGeometry;
+}(),
+    _geo3dBox = require("geo-3d-box"),
+    _geo3dBox2 = _interopRequireDefault(_geo3dBox),
+    _geometry = require("../geometry"),
+    BoxGeometry = exports.BoxGeometry = function (e) {
+  function t() {
+    var e = arguments.length <= 0 || void 0 === arguments[0] ? {} : arguments[0],
+        o = e.size,
+        r = void 0 === o ? 1 : o,
+        n = e.segments,
+        i = void 0 === n ? 2 : n,
+        u = arguments[1];return _classCallCheck(this, t), u = u || (0, _geo3dBox2.default)({ size: r, segments: i }), _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, { size: r, segments: i, primitive: u }));
+  }return _inherits(t, e), _createClass(t, [{ key: "update", value: function value() {
+      var e = this.segments,
+          t = this.size;return this.primitive = (0, _geo3dBox2.default)({ size: t, segments: e }), this;
+    } }]), t;
 }(_geometry.Geometry);
 
 },{"../geometry":18,"geo-3d-box":36}],20:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SphereGeometry = undefined;
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.SphereGeometry = void 0;var _createClass = function () {
+  function e(e, t) {
+    for (var r = 0; r < t.length; r++) {
+      var o = t[r];o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o);
     }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  }return function (t, r, o) {
+    return r && e(t.prototype, r), o && e(t, o), t;
   };
-}();
-
-var _primitiveSphere = require('primitive-sphere');
-
-var _primitiveSphere2 = _interopRequireDefault(_primitiveSphere);
-
-var _geometry = require('../geometry');
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * SphereGeometry class.
- *
- * @public
- * @class SphereGeometry
- * @extends Geometry
- * @see https://www.npmjs.com/package/primitive-sphere
- */
-
-var SphereGeometry = exports.SphereGeometry = function (_Geometry) {
-  _inherits(SphereGeometry, _Geometry);
-
-  /**
-   * SphereGeometry class constructor.
-   *
-   * @param {(Object)?} opts
-   * @param {(Number)?} opts.radius
-   * @param {(Number)?} opts.segments
-   * @param {(Object)?} primitive
-   */
-
-  function SphereGeometry() {
-    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-    var _ref$radius = _ref.radius;
-    var radius = _ref$radius === undefined ? 1 : _ref$radius;
-    var _ref$segments = _ref.segments;
-    var segments = _ref$segments === undefined ? 128 : _ref$segments;
-    var primitive = arguments[1];
-
-    _classCallCheck(this, SphereGeometry);
-
-    primitive = primitive || (0, _primitiveSphere2.default)(radius, { segments: segments });
-    return _possibleConstructorReturn(this, (SphereGeometry.__proto__ || Object.getPrototypeOf(SphereGeometry)).call(this, { radius: radius, segments: segments, primitive: primitive }));
-  }
-
-  /**
-   * Updates SphereGeometry state
-   *
-   * @return {SphereGeometry}
-   */
-
-  _createClass(SphereGeometry, [{
-    key: 'update',
-    value: function update() {
-      var segments = this.segments;
-      var radius = this.radius;
-      this.primitive = (0, _primitiveSphere2.default)(radius, { segments: segments });
-      return this;
-    }
-  }]);
-
-  return SphereGeometry;
+}(),
+    _primitiveSphere = require("primitive-sphere"),
+    _primitiveSphere2 = _interopRequireDefault(_primitiveSphere),
+    _geometry = require("../geometry"),
+    SphereGeometry = exports.SphereGeometry = function (e) {
+  function t() {
+    var e = arguments.length <= 0 || void 0 === arguments[0] ? {} : arguments[0],
+        r = e.radius,
+        o = void 0 === r ? 1 : r,
+        n = e.segments,
+        i = void 0 === n ? 128 : n,
+        u = arguments[1];return _classCallCheck(this, t), u = u || (0, _primitiveSphere2.default)(o, { segments: i }), _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, { radius: o, segments: i, primitive: u }));
+  }return _inherits(t, e), _createClass(t, [{ key: "update", value: function value() {
+      var e = this.segments,
+          t = this.radius;return this.primitive = (0, _primitiveSphere2.default)(t, { segments: e }), this;
+    } }]), t;
 }(_geometry.Geometry);
 
 },{"../geometry":18,"primitive-sphere":196}],21:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.TriangleGeometry = undefined;
-
-var _geometry = require('../geometry');
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * TriangleGeometry class.
- *
- * @public
- * @class TriangleGeometry
- * @see https://www.npmjs.com/package/primitive-sphere
- */
-
-var TriangleGeometry = exports.TriangleGeometry = function (_Geometry) {
-  _inherits(TriangleGeometry, _Geometry);
-
-  /**
-   * TriangleGeometry class constructor.
-   */
-
-  function TriangleGeometry(primitive) {
-    _classCallCheck(this, TriangleGeometry);
-
-    primitive = primitive || {
-      positions: [[-0.0, +1.0], [+1.0, -1.0], [-1.0, -1.0]],
-
-      normals: [[-0.00000, +0.57735], [+0.57735, -0.57735], [-0.57735, -0.57735]],
-
-      uvs: [[-0.0, +1.0], [+1.0, -1.0], [-1.0, -1.0]]
-    };
-
-    return _possibleConstructorReturn(this, (TriangleGeometry.__proto__ || Object.getPrototypeOf(TriangleGeometry)).call(this, { primitive: primitive }));
-  }
-
-  return TriangleGeometry;
+function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.TriangleGeometry = void 0;var _geometry = require("../geometry"),
+    TriangleGeometry = exports.TriangleGeometry = function (e) {
+  function t(e) {
+    return _classCallCheck(this, t), e = e || { positions: [[-0, 1], [1, -1], [-1, -1]], normals: [[-0, .57735], [.57735, -.57735], [-.57735, -.57735]], uvs: [[-0, 1], [1, -1], [-1, -1]] }, _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, { primitive: e }));
+  }return _inherits(t, e), t;
 }(_geometry.Geometry);
 
 },{"../geometry":18}],22:[function(require,module,exports){
-'use strict';
-
-/**
- * Module exports.
- */
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Box = exports.Audio = exports.Video = exports.Photo = exports.Media = exports.Frame = exports.Touch = exports.Mouse = exports.Camera = exports.Sphere = exports.Object = exports.Triangle = exports.Keyboard = exports.Orientation = exports.Math = exports.Utils = exports.Context = exports.Command = undefined;
-
-var _commands = require('./commands');
-
-Object.defineProperty(exports, 'Command', {
-  enumerable: true,
-  get: function get() {
+"use strict";
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _interopRequireWildcard(e) {
+  if (e && e.__esModule) return e;var r = {};if (null != e) for (var t in e) {
+    Object.prototype.hasOwnProperty.call(e, t) && (r[t] = e[t]);
+  }return r.default = e, r;
+}Object.defineProperty(exports, "__esModule", { value: !0 }), exports.Box = exports.Audio = exports.Video = exports.Photo = exports.Media = exports.Frame = exports.Touch = exports.Mouse = exports.Camera = exports.Sphere = exports.Object = exports.Triangle = exports.Keyboard = exports.Orientation = exports.Math = exports.Utils = exports.Context = exports.Command = void 0;var _commands = require("./commands");Object.defineProperty(exports, "Command", { enumerable: !0, get: function get() {
     return _commands.Command;
-  }
-});
-
-var _context = require('./context');
-
-Object.defineProperty(exports, 'Context', {
-  enumerable: true,
-  get: function get() {
+  } });var _context = require("./context");Object.defineProperty(exports, "Context", { enumerable: !0, get: function get() {
     return _context.Context;
-  }
-});
-
-var _utils = require('./utils');
-
-var _Utils = _interopRequireWildcard(_utils);
-
-var _math = require('./math');
-
-var _Math = _interopRequireWildcard(_math);
-
-var _orientation = require('./commands/orientation');
-
-var _orientation2 = _interopRequireDefault(_orientation);
-
-var _keyboard = require('./commands/keyboard');
-
-var _keyboard2 = _interopRequireDefault(_keyboard);
-
-var _triangle = require('./commands/triangle');
-
-var _triangle2 = _interopRequireDefault(_triangle);
-
-var _object = require('./commands/object');
-
-var _object2 = _interopRequireDefault(_object);
-
-var _sphere = require('./commands/sphere');
-
-var _sphere2 = _interopRequireDefault(_sphere);
-
-var _camera = require('./commands/camera');
-
-var _camera2 = _interopRequireDefault(_camera);
-
-var _mouse = require('./commands/mouse');
-
-var _mouse2 = _interopRequireDefault(_mouse);
-
-var _touch = require('./commands/touch');
-
-var _touch2 = _interopRequireDefault(_touch);
-
-var _frame = require('./commands/frame');
-
-var _frame2 = _interopRequireDefault(_frame);
-
-var _media = require('./commands/media');
-
-var _media2 = _interopRequireDefault(_media);
-
-var _photo = require('./commands/photo');
-
-var _photo2 = _interopRequireDefault(_photo);
-
-var _video = require('./commands/video');
-
-var _video2 = _interopRequireDefault(_video);
-
-var _audio = require('./commands/audio');
-
-var _audio2 = _interopRequireDefault(_audio);
-
-var _box = require('./commands/box');
-
-var _box2 = _interopRequireDefault(_box);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _interopRequireWildcard(obj) {
-  if (obj && obj.__esModule) {
-    return obj;
-  } else {
-    var newObj = {};if (obj != null) {
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-      }
-    }newObj.default = obj;return newObj;
-  }
-}
-
-exports.Utils = _Utils;
-exports.Math = _Math;
-
-/**
- * Axis command API.
- */
-
-exports.Orientation = _orientation2.default;
-exports.Keyboard = _keyboard2.default;
-exports.Triangle = _triangle2.default;
-exports.Object = _object2.default;
-exports.Sphere = _sphere2.default;
-exports.Camera = _camera2.default;
-exports.Mouse = _mouse2.default;
-exports.Touch = _touch2.default;
-exports.Frame = _frame2.default;
-exports.Media = _media2.default;
-exports.Photo = _photo2.default;
-exports.Video = _video2.default;
-exports.Audio = _audio2.default;
-exports.Box = _box2.default;
+  } });var _utils = require("./utils"),
+    _Utils = _interopRequireWildcard(_utils),
+    _math = require("./math"),
+    _Math = _interopRequireWildcard(_math),
+    _orientation = require("./commands/orientation"),
+    _orientation2 = _interopRequireDefault(_orientation),
+    _keyboard = require("./commands/keyboard"),
+    _keyboard2 = _interopRequireDefault(_keyboard),
+    _triangle = require("./commands/triangle"),
+    _triangle2 = _interopRequireDefault(_triangle),
+    _object = require("./commands/object"),
+    _object2 = _interopRequireDefault(_object),
+    _sphere = require("./commands/sphere"),
+    _sphere2 = _interopRequireDefault(_sphere),
+    _camera = require("./commands/camera"),
+    _camera2 = _interopRequireDefault(_camera),
+    _mouse = require("./commands/mouse"),
+    _mouse2 = _interopRequireDefault(_mouse),
+    _touch = require("./commands/touch"),
+    _touch2 = _interopRequireDefault(_touch),
+    _frame = require("./commands/frame"),
+    _frame2 = _interopRequireDefault(_frame),
+    _media = require("./commands/media"),
+    _media2 = _interopRequireDefault(_media),
+    _photo = require("./commands/photo"),
+    _photo2 = _interopRequireDefault(_photo),
+    _video = require("./commands/video"),
+    _video2 = _interopRequireDefault(_video),
+    _audio = require("./commands/audio"),
+    _audio2 = _interopRequireDefault(_audio),
+    _box = require("./commands/box"),
+    _box2 = _interopRequireDefault(_box);exports.Utils = _Utils, exports.Math = _Math, exports.Orientation = _orientation2.default, exports.Keyboard = _keyboard2.default, exports.Triangle = _triangle2.default, exports.Object = _object2.default, exports.Sphere = _sphere2.default, exports.Camera = _camera2.default, exports.Mouse = _mouse2.default, exports.Touch = _touch2.default, exports.Frame = _frame2.default, exports.Media = _media2.default, exports.Photo = _photo2.default, exports.Video = _video2.default, exports.Audio = _audio2.default, exports.Box = _box2.default;
 
 },{"./commands":6,"./commands/audio":1,"./commands/box":2,"./commands/camera":3,"./commands/frame":5,"./commands/keyboard":7,"./commands/media":8,"./commands/mouse":9,"./commands/object":10,"./commands/orientation":11,"./commands/photo":12,"./commands/sphere":13,"./commands/touch":14,"./commands/triangle":15,"./commands/video":16,"./context":17,"./math":23,"./utils":28}],23:[function(require,module,exports){
-'use strict';
-
-/**
- * Module exports.
- */
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _quaternion = require('./quaternion');
-
-Object.defineProperty(exports, 'Quaternion', {
-  enumerable: true,
-  get: function get() {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: !0 });var _quaternion = require("./quaternion");Object.defineProperty(exports, "Quaternion", { enumerable: !0, get: function get() {
     return _quaternion.Quaternion;
-  }
-});
-
-var _vector = require('./vector');
-
-Object.defineProperty(exports, 'Vector', {
-  enumerable: true,
-  get: function get() {
+  } });var _vector = require("./vector");Object.defineProperty(exports, "Vector", { enumerable: !0, get: function get() {
     return _vector.Vector;
-  }
-});
+  } });
 
 },{"./quaternion":24,"./vector":25}],24:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Quaternion = undefined;
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}function _possibleConstructorReturn(e, t) {
+  if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return !t || "object" !== ("undefined" == typeof t ? "undefined" : _typeof(t)) && "function" != typeof t ? e : t;
+}function _inherits(e, t) {
+  if ("function" != typeof t && null !== t) throw new TypeError("Super expression must either be null or a function, not " + ("undefined" == typeof t ? "undefined" : _typeof(t)));e.prototype = Object.create(t && t.prototype, { constructor: { value: e, enumerable: !1, writable: !0, configurable: !0 } }), t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : e.__proto__ = t);
+}var _typeof = "function" == typeof Symbol && "symbol" == _typeof2(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.Quaternion = void 0;var _createClass = function () {
+  function e(e, t) {
+    for (var n = 0; n < t.length; n++) {
+      var r = t[n];r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(e, r.key, r);
     }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  }return function (t, n, r) {
+    return n && e(t.prototype, n), r && e(t, r), t;
   };
-}();
-
-var _defined = require('defined');
-
-var _defined2 = _interopRequireDefault(_defined);
-
-var _glQuat = require('gl-quat');
-
-var _glQuat2 = _interopRequireDefault(_glQuat);
-
-var _vector = require('./vector');
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
-  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-/**
- * Quaternion class.
- *
- * @public
- * @class Quaternion
- * @extends Vector
- */
-
-var Quaternion = exports.Quaternion = function (_Vector) {
-  _inherits(Quaternion, _Vector);
-
-  /**
-   * Quaternion class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {Number} x
-   * @param {Number} y
-   * @param {Number} z
-   * @param {Number} w
-   */
-
-  function Quaternion() {
-    var x = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-    var y = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
-    var z = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
-    var w = arguments.length <= 3 || arguments[3] === undefined ? 1 : arguments[3];
-
-    _classCallCheck(this, Quaternion);
-
-    return _possibleConstructorReturn(this, (Quaternion.__proto__ || Object.getPrototypeOf(Quaternion)).call(this, (0, _defined2.default)(x, 0), (0, _defined2.default)(y, 0), (0, _defined2.default)(z, 0), (0, _defined2.default)(w, 1)));
-  }
-
-  /**
-   * Rotates target at given orientation.
-   *
-   * @public
-   * @param {Quaternion} target
-   * @param {Object} angles
-   * @param {Number} interpolationFactor
-   */
-
-  _createClass(Quaternion, null, [{
-    key: 'slerpTargetFromAxisAngles',
-    value: function slerpTargetFromAxisAngles(target, angles) {
-      var interpolationFactor = arguments.length <= 2 || arguments[2] === undefined ? 0.1 : arguments[2];
-
-      var multiply = function multiply() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        return _glQuat2.default.multiply.apply(_glQuat2.default, [[]].concat(args));
-      };
-      var slerp = function slerp(t) {
-        for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-          args[_key2 - 1] = arguments[_key2];
-        }
-
-        return _glQuat2.default.slerp.apply(_glQuat2.default, [t, t].concat(args));
-      };
-      var set = function set() {
+}(),
+    _defined = require("defined"),
+    _defined2 = _interopRequireDefault(_defined),
+    _glQuat = require("gl-quat"),
+    _glQuat2 = _interopRequireDefault(_glQuat),
+    _vector = require("./vector"),
+    Quaternion = exports.Quaternion = function (e) {
+  function t() {
+    var e = arguments.length <= 0 || void 0 === arguments[0] ? 0 : arguments[0],
+        n = arguments.length <= 1 || void 0 === arguments[1] ? 0 : arguments[1],
+        r = arguments.length <= 2 || void 0 === arguments[2] ? 0 : arguments[2],
+        o = arguments.length <= 3 || void 0 === arguments[3] ? 1 : arguments[3];return _classCallCheck(this, t), _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, (0, _defined2.default)(e, 0), (0, _defined2.default)(n, 0), (0, _defined2.default)(r, 0), (0, _defined2.default)(o, 1)));
+  }return _inherits(t, e), _createClass(t, null, [{ key: "slerpTargetFromAxisAngles", value: function value(e, t) {
+      var n = arguments.length <= 2 || void 0 === arguments[2] ? .1 : arguments[2],
+          r = function r() {
+        for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
+          t[n] = arguments[n];
+        }return _glQuat2.default.multiply.apply(_glQuat2.default, [[]].concat(t));
+      },
+          o = function o(e) {
+        for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) {
+          n[r - 1] = arguments[r];
+        }return _glQuat2.default.slerp.apply(_glQuat2.default, [e, e].concat(n));
+      },
+          u = function u() {
         return _glQuat2.default.setAxisAngle.apply(_glQuat2.default, arguments);
-      };
-
-      var vx = _vector.XVector3,
-          vy = _vector.YVector3,
-          vz = _vector.ZVector3;
-      var ax = angles.x,
-          ay = angles.y,
-          az = angles.z;
-      var x = _scratchX,
-          y = _scratchY,
-          z = _scratchZ;
-
-      var f = interpolationFactor;
-      var t = target;
-
-      set(x, vx, ax);
-      set(y, vy, ay);
-      set(z, vz, az);
-
-      slerp(t, multiply(multiply(x, y), z), f);
-    }
-  }]);
-
-  return Quaternion;
-}(_vector.Vector);
-
-var _scratchX = new Quaternion();
-var _scratchY = new Quaternion();
-var _scratchZ = new Quaternion();
+      },
+          a = _vector.XVector3,
+          i = _vector.YVector3,
+          l = _vector.ZVector3,
+          c = t.x,
+          f = t.y,
+          s = t.z,
+          _ = _scratchX,
+          d = _scratchY,
+          p = _scratchZ,
+          y = n,
+          h = e;u(_, a, c), u(d, i, f), u(p, l, s), o(h, r(r(_, d), p), y);
+    } }]), t;
+}(_vector.Vector),
+    _scratchX = new Quaternion(),
+    _scratchY = new Quaternion(),
+    _scratchZ = new Quaternion();
 
 },{"./vector":25,"defined":33,"gl-quat":72}],25:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
+"use strict";
 
 var _typeof3 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _typeof2 = typeof Symbol === "function" && _typeof3(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof3(obj);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ZVector3 = exports.YVector3 = exports.XVector3 = exports.Vector = undefined;
-
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}function _toConsumableArray(e) {
+  if (Array.isArray(e)) {
+    for (var t = 0, n = Array(e.length); t < e.length; t++) {
+      n[t] = e[t];
+    }return n;
+  }return Array.from(e);
+}function _classCallCheck(e, t) {
+  if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
+}var _typeof2 = "function" == typeof Symbol && "symbol" == _typeof3(Symbol.iterator) ? function (e) {
+  return typeof e === "undefined" ? "undefined" : _typeof3(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof3(e);
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.ZVector3 = exports.YVector3 = exports.XVector3 = exports.Vector = void 0;var _typeof = "function" == typeof Symbol && "symbol" === _typeof2(Symbol.iterator) ? function (e) {
+  return "undefined" == typeof e ? "undefined" : _typeof2(e);
+} : function (e) {
+  return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : "undefined" == typeof e ? "undefined" : _typeof2(e);
+},
+    _createClass = function () {
+  function e(e, t) {
+    for (var n = 0; n < t.length; n++) {
+      var r = t[n];r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(e, r.key, r);
     }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  }return function (t, n, r) {
+    return n && e(t.prototype, n), r && e(t, r), t;
   };
-}();
-
-var _utils = require('../utils');
-
-var _defined = require('defined');
-
-var _defined2 = _interopRequireDefault(_defined);
-
-var _glVec = require('gl-vec4');
-
-var _glVec2 = _interopRequireDefault(_glVec);
-
-var _glVec3 = require('gl-vec3');
-
-var _glVec4 = _interopRequireDefault(_glVec3);
-
-var _glVec5 = require('gl-vec2');
-
-var _glVec6 = _interopRequireDefault(_glVec5);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }return arr2;
-  } else {
-    return Array.from(arr);
-  }
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-/**
- * Vector class.
- *
- * @public
- * @class Vector
- */
-
-var Vector = exports.Vector = function () {
-
-  /**
-   * Vector class contructor.
-   *
-   * @param {...Mixed} input
-   */
-
-  function Vector() {
-    var _this = this;
-
-    for (var _len = arguments.length, input = Array(_len), _key = 0; _key < _len; _key++) {
-      input[_key] = arguments[_key];
-    }
-
-    _classCallCheck(this, Vector);
-
-    if (1 == input.length && 'object' == _typeof(input[0])) {
-      var tmp = input[0];
-      input[0] = tmp.x || tmp[0] || undefined;
-      input[1] = tmp.y || tmp[1] || undefined;
-      input[2] = tmp.z || tmp[2] || undefined;
-      input[3] = tmp.w || tmp[3] || undefined;
-      input = input.filter(function (x) {
-        return undefined !== x;
+}(),
+    _utils = require("../utils"),
+    _defined = require("defined"),
+    _defined2 = _interopRequireDefault(_defined),
+    _glVec = require("gl-vec4"),
+    _glVec2 = _interopRequireDefault(_glVec),
+    _glVec3 = require("gl-vec3"),
+    _glVec4 = _interopRequireDefault(_glVec3),
+    _glVec5 = require("gl-vec2"),
+    _glVec6 = _interopRequireDefault(_glVec5),
+    Vector = exports.Vector = function () {
+  function e() {
+    for (var t = this, n = arguments.length, r = Array(n), i = 0; i < n; i++) {
+      r[i] = arguments[i];
+    }if (_classCallCheck(this, e), 1 == r.length && "object" == _typeof(r[0])) {
+      var o = r[0];r[0] = o.x || o[0] || void 0, r[1] = o.y || o[1] || void 0, r[2] = o.z || o[2] || void 0, r[3] = o.w || o[3] || void 0, r = r.filter(function (e) {
+        return void 0 !== e;
       });
-    }
-
-    this.elements = new Float64Array([].concat(_toConsumableArray(input)));
-
-    (0, _utils.define)(this, '0', {
-      get: function get() {
-        return _this.elements[0];
-      },
-      set: function set(v) {
-        return _this.elements[0] = v;
-      }
-    });
-
-    (0, _utils.define)(this, '1', {
-      get: function get() {
-        return _this.elements[1];
-      },
-      set: function set(v) {
-        return _this.elements[1] = v;
-      }
-    });
-
-    (0, _utils.define)(this, '2', {
-      get: function get() {
-        return _this.elements[2];
-      },
-      set: function set(v) {
-        return _this.elements[2] = v;
-      }
-    });
-
-    (0, _utils.define)(this, '3', {
-      get: function get() {
-        return _this.elements[3];
-      },
-      set: function set(v) {
-        return _this.elements[3] = v;
-      }
-    });
-
-    (0, _utils.define)(this, 'r', {
-      get: function get() {
-        return _this.elements[0];
-      },
-      set: function set(v) {
-        return _this.elements[0] = v;
-      }
-    });
-
-    (0, _utils.define)(this, 'g', {
-      get: function get() {
-        return _this.elements[1];
-      },
-      set: function set(v) {
-        return _this.elements[1] = v;
-      }
-    });
-
-    (0, _utils.define)(this, 'b', {
-      get: function get() {
-        return _this.elements[2];
-      },
-      set: function set(v) {
-        return _this.elements[2] = v;
-      }
-    });
-
-    (0, _utils.define)(this, 'a', {
-      get: function get() {
-        return _this.elements[3];
-      },
-      set: function set(v) {
-        return _this.elements[3] = v;
-      }
-    });
-  }
-
-  _createClass(Vector, [{
-    key: 'set',
-
-    /**
-     * Set components-wise values
-     *
-     * @param {Number} x
-     * @param {Number} y
-     * @param {Number} z
-     * @param {Number} w
-     * @return {Vector}
-     */
-
-    value: function set(x, y, z, w) {
-      if (x instanceof Vector) {
-        return this.set(x.x, x.y, x.z, x.w);
-      }
-
-      switch (arguments.length) {
-        case 4:
-          this.elements[3] = (0, _defined2.default)(w, this.elements[3]);
-        case 3:
-          this.elements[2] = (0, _defined2.default)(z, this.elements[2]);
-        case 2:
-          this.elements[1] = (0, _defined2.default)(y, this.elements[1]);
-        case 1:
-          this.elements[0] = (0, _defined2.default)(x, this.elements[0]);
-      }
-      return this;
-    }
-
-    /**
-     * Converts the vector into
-     * a normal Array.
-     *
-     * @return {Array}
-     */
-
-  }, {
-    key: 'toArray',
-    value: function toArray() {
+    }this.elements = new Float64Array([].concat(_toConsumableArray(r))), (0, _utils.define)(this, "0", { get: function get() {
+        return t.elements[0];
+      }, set: function set(e) {
+        return t.elements[0] = e;
+      } }), (0, _utils.define)(this, "1", { get: function get() {
+        return t.elements[1];
+      }, set: function set(e) {
+        return t.elements[1] = e;
+      } }), (0, _utils.define)(this, "2", { get: function get() {
+        return t.elements[2];
+      }, set: function set(e) {
+        return t.elements[2] = e;
+      } }), (0, _utils.define)(this, "3", { get: function get() {
+        return t.elements[3];
+      }, set: function set(e) {
+        return t.elements[3] = e;
+      } }), (0, _utils.define)(this, "r", { get: function get() {
+        return t.elements[0];
+      }, set: function set(e) {
+        return t.elements[0] = e;
+      } }), (0, _utils.define)(this, "g", { get: function get() {
+        return t.elements[1];
+      }, set: function set(e) {
+        return t.elements[1] = e;
+      } }), (0, _utils.define)(this, "b", { get: function get() {
+        return t.elements[2];
+      }, set: function set(e) {
+        return t.elements[2] = e;
+      } }), (0, _utils.define)(this, "a", { get: function get() {
+        return t.elements[3];
+      }, set: function set(e) {
+        return t.elements[3] = e;
+      } });
+  }return _createClass(e, [{ key: "set", value: function value(t, n, r, i) {
+      if (t instanceof e) return this.set(t.x, t.y, t.z, t.w);switch (arguments.length) {case 4:
+          this.elements[3] = (0, _defined2.default)(i, this.elements[3]);case 3:
+          this.elements[2] = (0, _defined2.default)(r, this.elements[2]);case 2:
+          this.elements[1] = (0, _defined2.default)(n, this.elements[1]);case 1:
+          this.elements[0] = (0, _defined2.default)(t, this.elements[0]);}return this;
+    } }, { key: "toArray", value: function value() {
       return [].concat(_toConsumableArray(this.elements));
-    }
-
-    /**
-     * Returns a JSON serializable value.
-     *
-     * @return {Array}
-     */
-
-  }, {
-    key: 'toJSON',
-    value: function toJSON() {
+    } }, { key: "toJSON", value: function value() {
       return this.toArray();
-    }
-
-    /**
-     * Returns the underlying vector
-     * array value.
-     *
-     * @return {Float64Array}
-     */
-
-  }, {
-    key: 'valueOf',
-    value: function valueOf() {
+    } }, { key: "valueOf", value: function value() {
       return this.elements;
-    }
-
-    /**
-     * Iterator protocol implementation.
-     */
-
-  }, {
-    key: Symbol.iterator,
-    value: function value() {
+    } }, { key: Symbol.iterator, value: function value() {
       return this.toArray()[Symbol.iterator]();
-    }
-  }, {
-    key: 'length',
-    get: function get() {
+    } }, { key: "length", get: function get() {
       return this.elements.length;
-    },
-    set: function set(value) {
-      void value;
-    }
-
-    /**
-     * Returns a reference to the underlying
-     * vector elements.
-     *
-     * @getter
-     * @type {Float64Array}
-     */
-
-  }, {
-    key: 'ref',
-    get: function get() {
+    }, set: function set(e) {} }, { key: "ref", get: function get() {
       return this.elements;
-    }
-
-    /**
-     * Returns the component count of the vector
-     *
-     * @getter
-     * @type {Number}
-     */
-
-  }, {
-    key: 'componentLength',
-    get: function get() {
+    } }, { key: "componentLength", get: function get() {
       return this.elements.length;
-    }
-
-    /**
-     * x component-wise getter.
-     *
-     * @getter
-     * @type {Number}
-     */
-
-  }, {
-    key: 'x',
-    get: function get() {
+    } }, { key: "x", get: function get() {
       return this.elements[0];
-    }
-
-    /**
-     * x component-wise setter.
-     *
-     * @setter
-     * @type {Number}
-     */
-
-    , set: function set(x) {
-      this.elements[0] = x;
-    }
-
-    /**
-     * y component-wise getter.
-     *
-     * @getter
-     * @type {Number}
-     */
-
-  }, {
-    key: 'y',
-    get: function get() {
+    }, set: function set(e) {
+      this.elements[0] = e;
+    } }, { key: "y", get: function get() {
       return this.elements[1];
-    }
-
-    /**
-     * y component-wise setter.
-     *
-     * @setter
-     * @type {Number}
-     */
-
-    , set: function set(y) {
-      this.elements[1] = y;
-    }
-
-    /**
-     * z component-wise getter.
-     *
-     * @getter
-     * @type {Number}
-     */
-
-  }, {
-    key: 'z',
-    get: function get() {
+    }, set: function set(e) {
+      this.elements[1] = e;
+    } }, { key: "z", get: function get() {
       return this.elements[2];
-    }
-
-    /**
-     * z component-wise setter.
-     *
-     * @setter
-     * @type {Number}
-     */
-
-    , set: function set(z) {
-      this.elements[2] = z;
-    }
-
-    /**
-     * w component-wise getter.
-     *
-     * @getter
-     * @type {Number}
-     */
-
-  }, {
-    key: 'w',
-    get: function get() {
+    }, set: function set(e) {
+      this.elements[2] = e;
+    } }, { key: "w", get: function get() {
       return this[3];
-    }
-
-    /**
-     * w component-wise setter.
-     *
-     * @setter
-     * @type {Number}
-     */
-
-    , set: function set(w) {
-      this.elements[3] = w;
-    }
-  }]);
-
-  return Vector;
-}();
-
-/**
- * Instanced x, y, z vectors
- */
-
-var XVector3 = exports.XVector3 = new Vector(1, 0, 0);
-var YVector3 = exports.YVector3 = new Vector(0, 1, 0);
-var ZVector3 = exports.ZVector3 = new Vector(0, 0, 1);
+    }, set: function set(e) {
+      this.elements[3] = e;
+    } }]), e;
+}(),
+    XVector3 = exports.XVector3 = new Vector(1, 0, 0),
+    YVector3 = exports.YVector3 = new Vector(0, 1, 0),
+    ZVector3 = exports.ZVector3 = new Vector(0, 0, 1);
 
 },{"../utils":28,"defined":33,"gl-vec2":99,"gl-vec3":129,"gl-vec4":159}],26:[function(require,module,exports){
 module.exports={
@@ -5445,241 +1613,63 @@ module.exports={
 }
 
 },{}],27:[function(require,module,exports){
-'use strict';
-
-/**
- * `current' command symbol.
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var $current = exports.$current = Symbol('current');
-
-/**
- * `previous' command symbol.
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-var $previous = exports.$previous = Symbol('previous');
-
-/**
- * `element' symbol.
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-var $domElement = exports.$domElement = Symbol('element');
-
-/**
- * regl context symbol.
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-var $regl = exports.$regl = Symbol('regl');
-
-/**
- * `hasFocus' boolean symbol.
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-var $hasFocus = exports.$hasFocus = Symbol('hasFocus');
-
-/**
- * Symbol for an internal run method.
- *
- * @public
- * @const
- * @symbol nun
- */
-
-var $run = exports.$run = Symbol('run');
-
-/**
- * Symbol for an internal reference
- *
- * @public
- * @const
- * @symbol ref
- */
-
-var $ref = exports.$ref = Symbol('ref');
-
-/**
- * Symbol for an internal context
- *
- * @public
- * @const
- * @symbol ctx
- */
-
-var $ctx = exports.$ctx = Symbol('ctx');
-
-/**
- * Symbol for an internal stack.
- *
- * @public
- * @const
- * @symbol stack
- */
-
-var $stack = exports.$stack = Symbol('stack');
-
-/**
- * Symbol for an internal state.
- *
- * @public
- * @const
- * @symbol state
- */
-
-var $state = exports.$state = Symbol('state');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: !0 });var $current = exports.$current = Symbol("current"),
+    $previous = exports.$previous = Symbol("previous"),
+    $domElement = exports.$domElement = Symbol("element"),
+    $regl = exports.$regl = Symbol("regl"),
+    $hasFocus = exports.$hasFocus = Symbol("hasFocus"),
+    $run = exports.$run = Symbol("run"),
+    $ref = exports.$ref = Symbol("ref"),
+    $ctx = exports.$ctx = Symbol("ctx"),
+    $stack = exports.$stack = Symbol("stack"),
+    $state = exports.$state = Symbol("state");
 
 },{}],28:[function(require,module,exports){
-'use strict';
-
-/**
- * Module dependencies.
- */
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getScreenOrientation = exports.isDOMElementInViewport = exports.lerp = exports.debug = exports.radians = exports.define = undefined;
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
+"use strict";
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e };
+}Object.defineProperty(exports, "__esModule", { value: !0 }), exports.getScreenOrientation = exports.isDOMElementInViewport = exports.lerp = exports.debug = exports.radians = exports.define = void 0;var _extends = Object.assign || function (e) {
+  for (var t = 1; t < arguments.length; t++) {
+    var r = arguments[t];for (var n in r) {
+      Object.prototype.hasOwnProperty.call(r, n) && (e[n] = r[n]);
     }
-  }return target;
-};
-
-var _package = require('./package');
-
-var _debug = require('debug');
-
-var _debug2 = _interopRequireDefault(_debug);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
-/**
- * Define property helper.
- *
- * @public
- * @param {Object} a
- * @param {String} b
- * @param {Object} c
- */
-
-var define = exports.define = function define(a, b, c) {
-  return Object.defineProperty(a, b, _extends({}, c));
-};
-
-/**
- * Converts input degrees to radians
- *
- * @public
- * @param {Number} n
- * @return {Number}
- */
-
-var radians = exports.radians = function radians(n) {
-  return n == n ? n * Math.PI / 180.0 : 0;
-};
-
-/**
- * Utility debug output
- *
- * @public
- * @param {String} fmt
- * @param {...Mixed} args
- */
-
-var debug = exports.debug = (0, _debug2.default)('[axis@' + _package.version + ']');
-
-/**
- * Simple linear inerpolation function.
- *
- * @public
- * @param {Number} v0
- * @param {Number} v1
- * @param {Number} t
- * @return {Number}
- */
-
-var lerp = exports.lerp = function lerp(v0, v1, t) {
-  return v0 * (1 - t) + v1 * t;
-};
-
-/**
- * Predicate function to determine if a given DOM
- * element is in the window's viewport.
- *
- * @public
- * @param {Element} domElement
- * @return {Boolean}
- */
-
-var isDOMElementInViewport = exports.isDOMElementInViewport = function isDOMElementInViewport(domElement) {
-  var _document$documentEle = document.documentElement;
-  var clientWidth = _document$documentEle.clientWidth;
-  var clientHeight = _document$documentEle.clientHeight;
-
-  var _domElement$getBoundi = domElement.getBoundingClientRect();
-
-  var top = _domElement$getBoundi.top;
-  var left = _domElement$getBoundi.left;
-  var bottom = _domElement$getBoundi.bottom;
-  var right = _domElement$getBoundi.right;
-  var _window = window;
-  var innerWidth = _window.innerWidth;
-  var innerHeight = _window.innerHeight;
-
-  var height = innerHeight || clientHeight;
-  var width = innerWidth || clientWidth;
-  return bottom > 0 && right > 0 && left < width && top < height;
-};
-
-/**
- * Returns the screen orientation angle.
- * Borrowed from https://github.com/hawksley/eleVR-Web-Player/blob/master/lib/util.js
- *
- * @return {Number}
- */
-
-var getScreenOrientation = exports.getScreenOrientation = function getScreenOrientation() {
-  switch (window.screen.orientation || window.screen.mozOrientation) {
-    case 'landscape-primary':
-      return 90;
-    case 'landscape-secondary':
-      return -90;
-    case 'portrait-secondary':
-      return 180;
-    case 'portrait-primary':
-      return 0;
-  }
-
-  return window.orientation || 0;
+  }return e;
+},
+    _package = require("./package"),
+    _debug = require("debug"),
+    _debug2 = _interopRequireDefault(_debug),
+    define = exports.define = function (e, t, r) {
+  return Object.defineProperty(e, t, _extends({}, r));
+},
+    radians = exports.radians = function (e) {
+  return e == e ? e * Math.PI / 180 : 0;
+},
+    debug = exports.debug = (0, _debug2.default)("[axis@" + _package.version + "]"),
+    lerp = exports.lerp = function (e, t, r) {
+  return e * (1 - r) + t * r;
+},
+    isDOMElementInViewport = exports.isDOMElementInViewport = function (e) {
+  var t = document.documentElement,
+      r = t.clientWidth,
+      n = t.clientHeight,
+      i = e.getBoundingClientRect(),
+      o = i.top,
+      a = i.left,
+      s = i.bottom,
+      u = i.right,
+      d = window,
+      p = d.innerWidth,
+      c = d.innerHeight,
+      l = c || n,
+      g = p || r;return s > 0 && u > 0 && a < g && o < l;
+},
+    getScreenOrientation = exports.getScreenOrientation = function () {
+  switch (window.screen.orientation || window.screen.mozOrientation) {case "landscape-primary":
+      return 90;case "landscape-secondary":
+      return -90;case "portrait-secondary":
+      return 180;case "portrait-primary":
+      return 0;}return window.orientation || 0;
 };
 
 },{"./package":26,"debug":31}],29:[function(require,module,exports){

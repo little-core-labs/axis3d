@@ -58,6 +58,7 @@
   },
   "browserify": {
     "transform": [
+      "rollupify",
       "babelify"
     ]
   },
@@ -82,7 +83,9 @@
     "bunny": "^1.0.1",
     "glslify": "^5.1.0",
     "glslify-babel": "^1.0.1",
+    "rollupify": "^0.3.4",
     "standard": "^8.0.0",
+    "uglifyify": "^3.0.3",
     "web-audio-analyser": "^2.0.1"
   }
 }
