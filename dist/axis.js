@@ -3970,8 +3970,8 @@ var defaults = exports.defaults = {
  * @param {Object} opts
  */
 
-exports.default = function (opts) {
-  return new Context(_extends({}, defaults, opts));
+exports.default = function (state, opts) {
+  return new Context(_extends({}, defaults, state), opts);
 };
 
 /**
@@ -4010,6 +4010,7 @@ var Context = exports.Context = function (_EventEmitter) {
       reglOptions.container = opts.element;
     }
 
+    console.log(opts.regl);
     _this[_symbols.$regl] = createRegl(opts.regl);
     _this[_symbols.$stack] = [];
     _this[_symbols.$state] = initialState;
@@ -5388,18 +5389,21 @@ module.exports={
     "gl-vec2": "^1.0.0",
     "gl-vec3": "^1.0.3",
     "gl-vec4": "^1.0.1",
+    "glsl-fast-gaussian-blur": "^1.0.2",
     "glsl-inject-defines": "^1.0.3",
     "hls.js": "^0.6.2-5",
     "ios-safe-audio-context": "^1.0.1",
     "is-android": "^1.0.1",
     "is-ios": "^1.0.0",
     "is-mobile-device": "^1.0.0",
+    "is-power-of-two": "^1.0.0",
     "keycode": "^2.1.4",
     "mouse-change": "^1.3.0",
     "mouse-wheel": "^1.2.0",
     "omnitone": "^0.1.6",
     "pointer-lock": "0.0.4",
     "primitive-capsule": "^2.0.2",
+    "primitive-plane": "^1.0.1",
     "primitive-quad": "^1.0.1",
     "primitive-sphere": "^2.0.0",
     "primitive-torus": "^1.0.4",
