@@ -6,6 +6,8 @@
 
 import { debug, define } from '../utils'
 import { MediaCommand } from '../media'
+import isPowerOfTwo from 'is-power-of-two'
+import raf from 'raf'
 
 /**
  * ImageCommand constructor.
@@ -40,9 +42,22 @@ export class ImageCommand extends MediaCommand {
       image: {
         stream: true,
         type: 'image',
-        src: src
+        src: 'string' == typeof src ? src : undefined
+      },
+
+      regl: {
+        blend: {
+          enable: true,
+          func: {src: 'src alpha', dst: 'one minus src alpha'},
+        },
       }
     }
+
+    const textureState = Object.assign({
+      wrap: ['clamp', 'clamp'],
+      mag: 'linear',
+      min: 'linear',
+    }, initialState.texture)
 
     // sanitize initialState object
     for (let key in initialState) {
@@ -53,20 +68,34 @@ export class ImageCommand extends MediaCommand {
 
     super(ctx, manifest, initialState)
 
+    this.on('load', () => {
+      const needsMipmaps = (
+        isPowerOfTwo(source.height) &&
+        isPowerOfTwo(source.width)
+      )
+
+      if (needsMipmaps) {
+        textureState.mipmap = needsMipmaps
+        textureState.min = 'linear mipmap nearest'
+      }
+    })
+
     this.once('load', () => {
-      // set initial set on source
-      Object.assign(source, initialState)
+      if (source instanceof Image) {
+        // set initial set on source
+        Object.assign(source, initialState)
+      }
     })
 
-    // proxy dimensions
-    define(this, 'width', { get: () => source.width })
-    define(this, 'height', { get: () => source.height })
-    define(this, 'aspectRatio', {
-      get: () => source ? source.width / source.height : 1
-    })
+    // dimensions
+    define(this, 'width', { get: () => source.width || source.shape[0] || 0})
+    define(this, 'height', { get: () => source.height || source.shape[1] || 0})
+    define(this, 'aspectRatio', { get: () => this.width/this.height || 1 })
 
-    // expose DOM element
-    define(this, 'domElement', { get: () => source })
+    // expose DOM element when available
+    define(this, 'domElement', {
+      get: () => source instanceof Node ? source : null
+    })
 
     this.type = 'image'
 
@@ -131,11 +160,14 @@ export class ImageCommand extends MediaCommand {
 
     this.texture = initialState && initialState.texture ?
       initialState.texture :
-        ctx.regl.texture({
-          wrap: ['clamp', 'clamp'],
-          mag: 'linear',
-          min: 'linear',
-        })
+        ctx.regl.texture({ ...textureState })
+
+    if ('object' == typeof src) {
+      source = src
+      Object.assign(textureState, src)
+      this.texture({ ...textureState })
+      raf(() => this.emit('load'))
+    }
 
     /**
      * Callback when image has loaded.
@@ -145,7 +177,8 @@ export class ImageCommand extends MediaCommand {
 
     this.onloaded = ({image}) => {
       source = image
-      this.texture(image)
+      textureState.data = source
+      this.texture({ ...textureState })
       this.emit('load')
     }
   }

@@ -47,7 +47,7 @@ export const defaults = {
  * @param {Object} opts
  */
 
-export default (opts) => new Context({...defaults, ...opts})
+export default (state, opts) => new Context({...defaults, ...state}, opts)
 
 /**
  * Context class.
@@ -78,6 +78,7 @@ export class Context extends EventEmitter {
       reglOptions.container = opts.element
     }
 
+    console.log(opts.regl)
     this[$regl] = createRegl(opts.regl)
     this[$stack] = []
     this[$state] = initialState

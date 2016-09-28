@@ -15,7 +15,7 @@ import clamp from 'clamp'
  * @param {KeyboardCommand} keyboard
  */
 
-export default (orbitCamera, {keyboard}, {dx = 0, dy = 0} = {}) => {
+export default (orbitCamera, {keyboard}, opts = {}, {dx = 0, dy = 0} = {}) => {
   keyboard && keyboard(() => {
     const friction = orbitCamera.friction
     let c = 0.07
@@ -28,21 +28,21 @@ export default (orbitCamera, {keyboard}, {dx = 0, dy = 0} = {}) => {
     }
 
     if (keyboard.aliasMappings.value('up', keys)) {
-      dx = dx - step
+      dx = dx + step
       orbitCamera.orientation.x -= step
       keyboard.aliasMappings.off('down', keys)
     } else if (keyboard.aliasMappings.value('down', keys)) {
-      dx = dx + step
+      dx = dx - step
       orbitCamera.orientation.x += step
       keyboard.aliasMappings.off('up', keys)
     }
 
     if (keyboard.aliasMappings.value('left', keys)) {
-      dy = dy - step
+      dy = dy + step
       orbitCamera.orientation.y -= step
       keyboard.aliasMappings.off('right', keys)
     } else if (keyboard.aliasMappings.value('right', keys)) {
-      dy = dy + step
+      dy = dy - step
       orbitCamera.orientation.y += step
       keyboard.aliasMappings.off('left', keys)
     }
@@ -50,5 +50,6 @@ export default (orbitCamera, {keyboard}, {dx = 0, dy = 0} = {}) => {
     c = 0.075
     if (dx) { orbitCamera.orientation.x += c*dx}
     if (dy) { orbitCamera.orientation.y += c*dy}
+
   })
 }

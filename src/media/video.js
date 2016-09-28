@@ -3,10 +3,10 @@
 /**
  * Module dependencies.
  */
-
-import { debug, define, isPowerOfTwo } from '../utils'
+import { debug, define } from '../utils'
 import { MediaCommand } from '../media'
 import { ImageCommand } from './image'
+import isPowerOfTwo from 'is-power-of-two'
 import events from 'dom-events'
 import clamp from 'clamp'
 import raf from 'raf'
@@ -51,12 +51,12 @@ export class VideoCommand extends MediaCommand {
      * @private
      */
 
-    const textureState = {
-      flipY: true,
+    const textureState = Object.assign({
+      format: 'rgba',
       wrap: ['clamp', 'clamp'],
       mag: 'linear',
       min: 'linear',
-    }
+    }, initialState.texture)
 
     /**
      * Video manifest for resl.
@@ -145,6 +145,15 @@ export class VideoCommand extends MediaCommand {
 
     // set mesh type
     this.type = 'video'
+
+    this.on('load', () => {
+      const needsMipmaps = (
+        isPowerOfTwo(source.videoHeight) &&
+        isPowerOfTwo(source.videoWidth)
+      )
+
+      textureState.mipmap = needsMipmaps
+    })
 
     this.once('load', () => {
       // set initial set on source
@@ -247,10 +256,7 @@ export class VideoCommand extends MediaCommand {
         if (source) {
           source[property] = value
         } else {
-          this.once('load', () => {
-            console.log('set', property, value)
-            source[property] = value
-          })
+          this.once('load', () => { source[property] = value })
         }
       }
     }))
@@ -323,21 +329,21 @@ export class VideoCommand extends MediaCommand {
 
     this.onloaded = ({video}) => {
       source = video
-      const needsMipmaps = source.videoHeight
+
+      this.emit('load')
 
       if (null == poster) {
         this.texture({ ...textureState, data: video})
       }
 
-      this.emit('load')
-
       let lastRead = 0
-      this._read = () => {
+      this._read = (done) => {
         const now = Date.now()
         if (isPlaying && (now - lastRead >= 64) && this.isDoneLoading && video.readyState >= video.HAVE_ENOUGH_DATA) {
           lastRead = now
           debug('VideoCommand: read')
           this.texture({ ...textureState, data: video})
+          done()
         }
       }
     }
@@ -354,6 +360,8 @@ export class VideoCommand extends MediaCommand {
         if (value) {
           if (source) {
             source.poster = value
+          } else {
+            this.once('load', () => { source.poster = value })
           }
 
           if (null == poster) {

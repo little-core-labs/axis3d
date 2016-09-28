@@ -14,10 +14,10 @@ import Mouse from 'axis3d/input/mouse'
 import raf from 'raf'
 
 // axis context
-const ctx = Context()
+const ctx = Context({}, {regl: {attributes: {antialias: true}}})
 
 // objects
-const camera = Camera(ctx, {attributes: {antialias: true}})
+const camera = Camera(ctx)
 const frame = Frame(ctx)
 const video = Video(ctx, '/paramotor.mp4')
 const plane = Plane(ctx, {map: video})

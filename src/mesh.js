@@ -81,11 +81,14 @@ export class MeshCommand extends Command {
    */
 
   constructor(ctx, opts = {}) {
-    const defaults = {...opts.defaults}
+    const reglOptions = { ...opts.regl }
+    const defaults = { ...opts.defaults }
     const model = mat4.identity([])
 
     let boundingBox = null
+    let blending = null
     let render = null
+    let envmap = null
     let draw = opts.draw || null
     let map = opts.map || null
 
@@ -120,6 +123,8 @@ export class MeshCommand extends Command {
       if ('map' in state && map != state.map) {
         map = state.map
         configure()
+      } else if ('envmap' in state && envmap != state.envmap) {
+        this.envmap = state.map
       }
 
       // update uniform model matrix
@@ -205,19 +210,18 @@ export class MeshCommand extends Command {
           opts.primitive = 'lines'
         }
 
-        const reglOptions = {
-          ...opts.regl,
-          uniforms,
-          attributes,
-          vert: opts.vert || DEFAULT_VERTEX_SHADER,
-          frag: opts.frag || DEFAULT_FRAGMENT_SHADER,
+        Object.assign(reglOptions, {
+          uniforms, attributes,
+          vert: undefined !== opts.vert ? opts.vert : DEFAULT_VERTEX_SHADER,
+          frag: undefined !== opts.frag ? opts.frag : DEFAULT_FRAGMENT_SHADER,
           count: null == opts.count ? undefined : ctx.regl.prop('count'),
+          blend: blending ? blending : false,
           elements: null == elements ? undefined : ctx.regl.prop('elements'),
           primitive: () => {
             if (this.wireframe) { return 'line loop' }
             else { return defaults.primitive }
           }
-        }
+        })
 
         if (uniforms.map) {
           shaderDefines.HAS_MAP = ''
@@ -227,7 +231,7 @@ export class MeshCommand extends Command {
         reglOptions.vert = injectDefines(reglOptions.vert, shaderDefines)
 
         for (let key in reglOptions) {
-          if (undefined == reglOptions[key]) {
+          if (undefined === reglOptions[key]) {
             delete reglOptions[key]
           }
         }
@@ -399,13 +403,53 @@ export class MeshCommand extends Command {
     define(this, 'map', {
       get: () => map,
       set: (value) => {
-        if (value && value.texture && map != value) {
-          map = value
-          configure()
-        } else if (null == value) {
+        if (value) {
+          if (value.texture && (value != map || value.texture != map)) {
+            map = value
+            configure()
+          } else if (value && value != map) {
+            map = value
+            configure()
+          }
+        } else if (null == value && null != map) {
           map = null
           configure()
         }
+      }
+    })
+
+    /**
+     * Mesh texture environment map if given.
+     *
+     * @type {Media}
+     */
+
+    define(this, 'envmap', {
+      get: () => envmap,
+      set: (value) => {
+        if (null == value) {
+          envmap = null
+        } else {
+          envmap = value
+          this.map = value
+          this.scale.x = -1
+        }
+      }
+    })
+
+    this.envmap = opts.envmap
+
+    /**
+     * Toggles blending.
+     *
+     * @type {Boolean}
+     */
+
+    define(this, 'blending', {
+      get: () => blending,
+      set: (value) => {
+        blending = value
+        configure()
       }
     })
   }

@@ -86,7 +86,7 @@ export class ControllerCommand extends Command {
 
     const state = Object.assign({
       interpolationFactor: 0.1,
-      orientation: new Vector(0, 0, 0),
+      orientation: Object.assign(new Vector(0, 0, 0), opts.orientation),
       quaternions: {
         x: new Quaternion(), y: new Quaternion(), z: new Quaternion()
       },
@@ -128,7 +128,10 @@ export class ControllerCommand extends Command {
 
     const updateState = (updates) => {
       if (updates && 'object' == typeof updates) {
-        Object.assign(state, updates)
+        Object.assign(state, updates, {
+          orientation: Object.assign(state.orientation, updates.orientation),
+          quaternions: Object.assign(state.orientation, updates.orientation),
+        })
       }
     }
 

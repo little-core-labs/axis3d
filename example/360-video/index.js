@@ -22,7 +22,10 @@ const camera = Camera(ctx)
 const frame = Frame(ctx)
 //const video = Video(ctx, '/paramotor.mp4')
 const video = Video(ctx, 'https://videos.littlstar.com/03bc68e1-ffbb-4b12-b13f-cb34351a2b20/web.mp4')
-const sphere = Sphere(ctx, { map: video })
+const sphere = Sphere(ctx, {
+  envmap: video,
+  //invertMapS: true
+})
 
 // inputs
 const keyboard = Keyboard(ctx)
@@ -35,16 +38,17 @@ const orbitController = OrbitCameraController(ctx, {
   invert: true,
 })
 
-// focus now
-ctx.focus()
 
 // orient controllers to "center" of video/video
 raf(() => {
-  orbitController.orientation.y = Math.PI / 2
+  orbitController.orientation.y = 3 * Math.PI / 2
 
   // play next frame
   video.play()
   video.mute()
+
+  // focus now
+  ctx.focus()
 })
 
 // expose useful things to window
@@ -56,7 +60,7 @@ frame(({time}) => {
   orbitController()
 
   // draw camera scene
-  camera({fov: 70*Math.PI/180}, () => {
+  camera({fov: 66*Math.PI/180}, () => {
     sphere()
   })
 })
