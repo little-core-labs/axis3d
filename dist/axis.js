@@ -1,5 +1,5 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Axis = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -15,10 +15,11 @@ function _interopRequireDefault(e) {
   return typeof e === "undefined" ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.AudioCommand = void 0;var _utils = require("../utils"),
-    _media = require("./media"),
-    _domEvents = require("dom-events"),
-    _domEvents2 = _interopRequireDefault(_domEvents);exports.default = function () {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.AudioCommand = void 0;var _utils = require("../utils");
+var _media = require("./media");
+var _domEvents = require("dom-events");
+var _domEvents2 = _interopRequireDefault(_domEvents);
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
     t[n] = arguments[n];
   }return new (Function.prototype.bind.apply(AudioCommand, [null].concat(t)))();
@@ -103,7 +104,7 @@ function _interopRequireDefault(e) {
 }(_media.MediaCommand);
 
 },{"../utils":28,"./media":8,"dom-events":34}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -125,13 +126,14 @@ function _interopRequireDefault(e) {
       Object.prototype.hasOwnProperty.call(o, r) && (e[r] = o[r]);
     }
   }return e;
-},
-    _box = require("../geometry/box"),
-    _object = require("./object"),
-    _glMat = require("gl-mat4"),
-    _glMat2 = _interopRequireDefault(_glMat),
-    _glslify = require("glslify"),
-    _glslify2 = _interopRequireDefault(_glslify);exports.default = function () {
+};
+var _box = require("../geometry/box");
+var _object = require("./object");
+var _glMat = require("gl-mat4");
+var _glMat2 = _interopRequireDefault(_glMat);
+var _glslify = require("glslify");
+var _glslify2 = _interopRequireDefault(_glslify);
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), o = 0; o < e; o++) {
     t[o] = arguments[o];
   }return new (Function.prototype.bind.apply(BoxCommand, [null].concat(t)))();
@@ -143,7 +145,7 @@ function _interopRequireDefault(e) {
 }(_object.ObjectCommand);
 
 },{"../geometry/box":19,"./object":10,"gl-mat4":47,"glslify":187}],3:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -165,25 +167,26 @@ function _interopRequireDefault(e) {
       Object.prototype.hasOwnProperty.call(r, n) && (e[n] = r[n]);
     }
   }return e;
-},
-    _utils = require("../utils"),
-    _object = require("./object"),
-    _math = require("../math"),
-    _defined = require("defined"),
-    _defined2 = _interopRequireDefault(_defined),
-    _glMat = require("gl-mat4"),
-    _glMat2 = _interopRequireDefault(_glMat),
-    _glVec = require("gl-vec3"),
-    _glVec2 = _interopRequireDefault(_glVec);exports.default = function () {
+};
+var _utils = require("../utils");
+var _object = require("./object");
+var _math = require("../math");
+var _defined = require("defined");
+var _defined2 = _interopRequireDefault(_defined);
+var _glMat = require("gl-mat4");
+var _glMat2 = _interopRequireDefault(_glMat);
+var _glVec = require("gl-vec3");
+var _glVec2 = _interopRequireDefault(_glVec);
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), r = 0; r < e; r++) {
     t[r] = arguments[r];
   }return new (Function.prototype.bind.apply(CameraCommand, [null].concat(t)))();
-};var scratch = _glMat2.default.identity([]),
-    DEFAULT_CAMERA_ORIENTATION_ORIGIN = exports.DEFAULT_CAMERA_ORIENTATION_ORIGIN = new _math.Vector((0, _utils.radians)(90), 0, 0),
-    DEFAULT_CAMERA_FIELD_OF_VIEW = exports.DEFAULT_CAMERA_FIELD_OF_VIEW = (0, _utils.radians)(60),
-    DEFAULT_CAMERA_NEAR = exports.DEFAULT_CAMERA_NEAR = .01,
-    DEFAULT_CAMERA_FAR = exports.DEFAULT_CAMERA_FAR = 1e3,
-    CameraCommand = exports.CameraCommand = function (e) {
+};var scratch = _glMat2.default.identity([]);
+var DEFAULT_CAMERA_ORIENTATION_ORIGIN = exports.DEFAULT_CAMERA_ORIENTATION_ORIGIN = new _math.Vector((0, _utils.radians)(90), 0, 0);
+var DEFAULT_CAMERA_FIELD_OF_VIEW = exports.DEFAULT_CAMERA_FIELD_OF_VIEW = (0, _utils.radians)(60);
+var DEFAULT_CAMERA_NEAR = exports.DEFAULT_CAMERA_NEAR = .01;
+var DEFAULT_CAMERA_FAR = exports.DEFAULT_CAMERA_FAR = 1e3;
+var CameraCommand = exports.CameraCommand = function (e) {
   function t(e) {
     var r = arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var n = new _math.Vector(0, 1, 0),
         o = new _math.Vector(0, 0, 0),
@@ -254,7 +257,7 @@ function _interopRequireDefault(e) {
 }(_object.ObjectCommand);
 
 },{"../math":23,"../utils":28,"./object":10,"defined":33,"gl-mat4":47,"gl-vec3":129}],4:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -284,13 +287,13 @@ function _defineProperty(e, n, t) {
   }return function (n, t, o) {
     return t && e(n.prototype, t), o && e(n, o), n;
   };
-}(),
-    _symbols = require("../symbols"),
-    noop = function noop() {},
-    encode = exports.encode = function (e) {
+}();
+var _symbols = require("../symbols");
+var noop = function noop() {};
+var encode = exports.encode = function (e) {
   return "(" + String(e) + ")";
-},
-    Command = exports.Command = function (e) {
+};
+var Command = exports.Command = function (e) {
   function n(e) {
     var t;_classCallCheck(this, n);var o = _possibleConstructorReturn(this, (n.__proto__ || Object.getPrototypeOf(n)).call(this, n.codegen(commandRunnerWrap)));e = "function" == typeof e ? e : noop;var r = _defineProperty({}, _symbols.$run, e),
         i = o[_symbols.$ctx] = new CommandContext(o, r),
@@ -307,8 +310,8 @@ function _defineProperty(e, n, t) {
   }return _inherits(n, e), _createClass(n, null, [{ key: "codegen", value: function value(e) {
       return "\n    var fn = " + encode(e) + ";\n    fn.apply(this, arguments);\n    return this;";
     } }]), n;
-}(Function),
-    CommandContext = exports.CommandContext = function () {
+}(Function);
+var CommandContext = exports.CommandContext = function () {
   function e(n, t) {
     _classCallCheck(this, e), this[_symbols.$ref] = n, Object.assign(this, t || {});
   }return _createClass(e, [{ key: "ref", get: function get() {
@@ -317,7 +320,7 @@ function _defineProperty(e, n, t) {
 }();
 
 },{"../symbols":27}],5:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -331,8 +334,9 @@ function _classCallCheck(t, e) {
   return typeof t === "undefined" ? "undefined" : _typeof2(t);
 } : function (t) {
   return t && "function" == typeof Symbol && t.constructor === Symbol ? "symbol" : typeof t === "undefined" ? "undefined" : _typeof2(t);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.FrameCommand = void 0;var _command = require("./command"),
-    _utils = require("../utils");exports.default = function () {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.FrameCommand = void 0;var _command = require("./command");
+var _utils = require("../utils");
+exports.default = function () {
   for (var t = arguments.length, e = Array(t), n = 0; n < t; n++) {
     e[n] = arguments[n];
   }return new (Function.prototype.bind.apply(FrameCommand, [null].concat(e)))();
@@ -369,7 +373,8 @@ function _classCallCheck(t, e) {
 }(_command.Command);
 
 },{"../utils":28,"./command":4}],6:[function(require,module,exports){
-"use strict";
+'use strict';
+
 Object.defineProperty(exports, "__esModule", { value: !0 });var _orientation = require("./orientation");Object.defineProperty(exports, "OrientationCommand", { enumerable: !0, get: function get() {
     return _orientation.OrientationCommand;
   } });var _triangle = require("./triangle");Object.defineProperty(exports, "TriangleCommand", { enumerable: !0, get: function get() {
@@ -401,7 +406,7 @@ Object.defineProperty(exports, "__esModule", { value: !0 });var _orientation = r
   } });
 
 },{"./audio":1,"./camera":3,"./command":4,"./frame":5,"./keyboard":7,"./media":8,"./mouse":9,"./object":10,"./orientation":11,"./photo":12,"./sphere":13,"./touch":14,"./triangle":15,"./video":16}],7:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -417,14 +422,15 @@ function _interopRequireDefault(e) {
   return typeof e === "undefined" ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.KeyboardCommand = exports.mappings = void 0;var _command = require("./command"),
-    _utils = require("../utils"),
-    _keycode = require("keycode"),
-    _keycode2 = _interopRequireDefault(_keycode),
-    _domEvents = require("dom-events"),
-    _domEvents2 = _interopRequireDefault(_domEvents),
-    _raf = require("raf"),
-    _raf2 = _interopRequireDefault(_raf);exports.default = function () {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.KeyboardCommand = exports.mappings = void 0;var _command = require("./command");
+var _utils = require("../utils");
+var _keycode = require("keycode");
+var _keycode2 = _interopRequireDefault(_keycode);
+var _domEvents = require("dom-events");
+var _domEvents2 = _interopRequireDefault(_domEvents);
+var _raf = require("raf");
+var _raf2 = _interopRequireDefault(_raf);
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
     t[n] = arguments[n];
   }return new (Function.prototype.bind.apply(KeyboardCommand, [null].concat(t)))();
@@ -440,8 +446,8 @@ function _interopRequireDefault(e) {
     return this[e].some(function (e) {
       return Boolean(t[e]);
     });
-  } },
-    KeyboardCommand = exports.KeyboardCommand = function (e) {
+  } };
+var KeyboardCommand = exports.KeyboardCommand = function (e) {
   function t(e) {
     arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1];_classCallCheck(this, t);var n = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, function (e, t) {
       "function" == typeof t && t(n);
@@ -476,7 +482,7 @@ function _interopRequireDefault(e) {
 }(_command.Command);
 
 },{"../utils":28,"./command":4,"dom-events":34,"keycode":188,"raf":197}],8:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -492,15 +498,16 @@ function _interopRequireDefault(e) {
   return typeof e === "undefined" ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.MediaCommand = void 0;var _utils = require("../utils"),
-    _events = require("events"),
-    _object = require("./object"),
-    _resl = require("resl"),
-    _resl2 = _interopRequireDefault(_resl),
-    _raf = require("raf"),
-    _raf2 = _interopRequireDefault(_raf),
-    reload_TIMEOUT = 1e3,
-    noop = function noop() {};exports.default = function () {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.MediaCommand = void 0;var _utils = require("../utils");
+var _events = require("events");
+var _object = require("./object");
+var _resl = require("resl");
+var _resl2 = _interopRequireDefault(_resl);
+var _raf = require("raf");
+var _raf2 = _interopRequireDefault(_raf);
+var reload_TIMEOUT = 1e3;
+var noop = function noop() {};
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
     t[n] = arguments[n];
   }return new (Function.prototype.bind.apply(MediaCommand, [null].concat(t)))();
@@ -564,7 +571,7 @@ function _interopRequireDefault(e) {
 }(_object.ObjectCommand);
 
 },{"../utils":28,"./object":10,"events":35,"raf":197,"resl":232}],9:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -580,15 +587,16 @@ function _interopRequireDefault(e) {
   return typeof e === "undefined" ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.MouseCommand = void 0;var _mouseChange = require("mouse-change"),
-    _mouseChange2 = _interopRequireDefault(_mouseChange),
-    _mouseWheel = require("mouse-wheel"),
-    _mouseWheel2 = _interopRequireDefault(_mouseWheel),
-    _command = require("./command"),
-    _domEvents = require("dom-events"),
-    _domEvents2 = _interopRequireDefault(_domEvents),
-    _raf = require("raf"),
-    _raf2 = _interopRequireDefault(_raf);exports.default = function () {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.MouseCommand = void 0;var _mouseChange = require("mouse-change");
+var _mouseChange2 = _interopRequireDefault(_mouseChange);
+var _mouseWheel = require("mouse-wheel");
+var _mouseWheel2 = _interopRequireDefault(_mouseWheel);
+var _command = require("./command");
+var _domEvents = require("dom-events");
+var _domEvents2 = _interopRequireDefault(_domEvents);
+var _raf = require("raf");
+var _raf2 = _interopRequireDefault(_raf);
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
     t[n] = arguments[n];
   }return new (Function.prototype.bind.apply(MouseCommand, [null].concat(t)))();
@@ -613,7 +621,7 @@ function _interopRequireDefault(e) {
 }(_command.Command);
 
 },{"./command":4,"dom-events":34,"mouse-change":189,"mouse-wheel":192,"raf":197}],10:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -641,8 +649,8 @@ function _interopRequireDefault(e) {
       Object.prototype.hasOwnProperty.call(t, o) && (e[o] = t[o]);
     }
   }return e;
-},
-    _createClass = function () {
+};
+var _createClass = function () {
   function e(e, n) {
     for (var t = 0; t < n.length; t++) {
       var o = n[t];o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o);
@@ -650,25 +658,26 @@ function _interopRequireDefault(e) {
   }return function (n, t, o) {
     return t && e(n.prototype, t), o && e(n, o), n;
   };
-}(),
-    _glslInjectDefines = require("glsl-inject-defines"),
-    _glslInjectDefines2 = _interopRequireDefault(_glslInjectDefines),
-    _math = require("../math"),
-    _command = require("./command"),
-    _utils = require("../utils"),
-    _glslify = require("glslify"),
-    _glslify2 = _interopRequireDefault(_glslify),
-    _glMat = require("gl-mat4"),
-    _glMat2 = _interopRequireDefault(_glMat),
-    _glVec = require("gl-vec4"),
-    _glVec2 = _interopRequireDefault(_glVec),
-    _glVec3 = require("gl-vec3"),
-    _glVec4 = _interopRequireDefault(_glVec3),
-    _glQuat = require("gl-quat"),
-    _glQuat2 = _interopRequireDefault(_glQuat),
-    DEFAULT_VERTEX_SHADER = exports.DEFAULT_VERTEX_SHADER = "precision highp float;\n#define GLSLIFY 1\n\n/**\n * Shader uniforms.\n */\n\nuniform mat4 projection;\nuniform mat4 model;\nuniform mat4 view;\n\n/**\n * Shader IO.\n */\n\n#ifdef HAS_POSITIONS\nattribute vec3 position;\nvarying vec3 vposition;\n#endif\n\n#ifdef HAS_NORMALS\nattribute vec3 normal;\nvarying vec3 vnormal;\n#endif\n\n#ifdef HAS_UVS\nattribute vec2 uv;\nvarying vec2 vuv;\n#endif\n\n/**\n * Shader entry.\n */\n\nvoid main() {\n#ifdef HAS_POSITIONS\n  gl_Position = projection * view * model * vec4(position, 1.0);\n#elif defined HAS_NORMALS\n  gl_Position = projection * view * model * vec4(normal, 1.0);\n#elif defined HAS_UVS\n  gl_Position = projection * view * model * vec4(vec3(uv, 1.0), 1.0);\n#endif\n\n#ifdef HAS_POSITIONS\n  vposition = position;\n#endif\n\n#ifdef HAS_NORMALS\n  vnormal = normal;\n#endif\n\n#ifdef HAS_UVS\n  vuv = uv;\n#endif\n}\n",
-    DEFAULT_FRAGMENT_SHADER = exports.DEFAULT_FRAGMENT_SHADER = "precision mediump float;\n#define GLSLIFY 1\n\n/**\n * Shader uniforms.\n */\n\nuniform vec4 color;\n\n#ifdef HAS_MAP\nuniform sampler2D map;\n#endif\n\n/**\n * Shader IO.\n */\n\n#ifdef HAS_POSITIONS\nvarying vec3 vposition;\n#endif\n\n#ifdef HAS_NORMALS\nvarying vec3 vnormal;\n#endif\n\n#ifdef HAS_UVS\nvarying vec2 vuv;\n#endif\n\n/**\n * Shader entry.\n */\n\nvoid main() {\n#ifdef HAS_MAP\n#ifdef HAS_UVS\n  gl_FragColor = vec4(texture2D(map, vuv).rgb, 1.0);\n#else\n  gl_FragColor = color;\n#endif\n#else\n  gl_FragColor = color;\n#endif\n}\n",
-    OBJECT_COMMAND_COUNTER = 0;exports.default = function () {
+}();
+var _glslInjectDefines = require("glsl-inject-defines");
+var _glslInjectDefines2 = _interopRequireDefault(_glslInjectDefines);
+var _math = require("../math");
+var _command = require("./command");
+var _utils = require("../utils");
+var _glslify = require("glslify");
+var _glslify2 = _interopRequireDefault(_glslify);
+var _glMat = require("gl-mat4");
+var _glMat2 = _interopRequireDefault(_glMat);
+var _glVec = require("gl-vec4");
+var _glVec2 = _interopRequireDefault(_glVec);
+var _glVec3 = require("gl-vec3");
+var _glVec4 = _interopRequireDefault(_glVec3);
+var _glQuat = require("gl-quat");
+var _glQuat2 = _interopRequireDefault(_glQuat);
+var DEFAULT_VERTEX_SHADER = exports.DEFAULT_VERTEX_SHADER = "precision highp float;\n#define GLSLIFY 1\n\n/**\n * Shader uniforms.\n */\n\nuniform mat4 projection;\nuniform mat4 model;\nuniform mat4 view;\n\n/**\n * Shader IO.\n */\n\n#ifdef HAS_POSITIONS\nattribute vec3 position;\nvarying vec3 vposition;\n#endif\n\n#ifdef HAS_NORMALS\nattribute vec3 normal;\nvarying vec3 vnormal;\n#endif\n\n#ifdef HAS_UVS\nattribute vec2 uv;\nvarying vec2 vuv;\n#endif\n\n/**\n * Shader entry.\n */\n\nvoid main() {\n#ifdef HAS_POSITIONS\n  gl_Position = projection * view * model * vec4(position, 1.0);\n#elif defined HAS_NORMALS\n  gl_Position = projection * view * model * vec4(normal, 1.0);\n#elif defined HAS_UVS\n  gl_Position = projection * view * model * vec4(vec3(uv, 1.0), 1.0);\n#endif\n\n#ifdef HAS_POSITIONS\n  vposition = position;\n#endif\n\n#ifdef HAS_NORMALS\n  vnormal = normal;\n#endif\n\n#ifdef HAS_UVS\n  vuv = uv;\n#endif\n}\n";
+var DEFAULT_FRAGMENT_SHADER = exports.DEFAULT_FRAGMENT_SHADER = "precision mediump float;\n#define GLSLIFY 1\n\n/**\n * Shader uniforms.\n */\n\nuniform vec4 color;\n\n#ifdef HAS_MAP\nuniform sampler2D map;\n#endif\n\n/**\n * Shader IO.\n */\n\n#ifdef HAS_POSITIONS\nvarying vec3 vposition;\n#endif\n\n#ifdef HAS_NORMALS\nvarying vec3 vnormal;\n#endif\n\n#ifdef HAS_UVS\nvarying vec2 vuv;\n#endif\n\n/**\n * Shader entry.\n */\n\nvoid main() {\n#ifdef HAS_MAP\n#ifdef HAS_UVS\n  gl_FragColor = vec4(texture2D(map, vuv).rgb, 1.0);\n#else\n  gl_FragColor = color;\n#endif\n#else\n  gl_FragColor = color;\n#endif\n}\n";
+var OBJECT_COMMAND_COUNTER = 0;
+exports.default = function () {
   for (var e = arguments.length, n = Array(e), t = 0; t < e; t++) {
     n[t] = arguments[t];
   }return new (Function.prototype.bind.apply(ObjectCommand, [null].concat(n)))();
@@ -720,7 +729,7 @@ function _interopRequireDefault(e) {
 }(_command.Command);
 
 },{"../math":23,"../utils":28,"./command":4,"gl-mat4":47,"gl-quat":72,"gl-vec3":129,"gl-vec4":159,"glsl-inject-defines":177,"glslify":187}],11:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -736,13 +745,14 @@ function _interopRequireDefault(e) {
   return typeof e === "undefined" ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.OrientationCommand = void 0;var _command = require("./command"),
-    _utils = require("../utils"),
-    _domEvents = require("dom-events"),
-    _domEvents2 = _interopRequireDefault(_domEvents),
-    _raf = require("raf"),
-    _raf2 = _interopRequireDefault(_raf),
-    globalState = { absolute: null, currentAlpha: 0, currentBeta: 0, currentGamma: 0, deltaAlpha: 0, deltaBeta: 0, deltaGamma: 0, prevAlpha: 0, prevBeta: 0, prevGamma: 0 };_domEvents2.default.on(window, "deviceorientation", function (e) {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.OrientationCommand = void 0;var _command = require("./command");
+var _utils = require("../utils");
+var _domEvents = require("dom-events");
+var _domEvents2 = _interopRequireDefault(_domEvents);
+var _raf = require("raf");
+var _raf2 = _interopRequireDefault(_raf);
+var globalState = { absolute: null, currentAlpha: 0, currentBeta: 0, currentGamma: 0, deltaAlpha: 0, deltaBeta: 0, deltaGamma: 0, prevAlpha: 0, prevBeta: 0, prevGamma: 0 };
+_domEvents2.default.on(window, "deviceorientation", function (e) {
   var t = e.alpha,
       a = e.beta,
       n = e.gamma,
@@ -774,7 +784,7 @@ function _interopRequireDefault(e) {
 }(_command.Command);
 
 },{"../utils":28,"./command":4,"dom-events":34,"raf":197}],12:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -788,8 +798,9 @@ function _classCallCheck(e, t) {
   return typeof e === "undefined" ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.PhotoCommand = void 0;var _utils = require("../utils"),
-    _media = require("./media");exports.default = function () {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.PhotoCommand = void 0;var _utils = require("../utils");
+var _media = require("./media");
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), o = 0; o < e; o++) {
     t[o] = arguments[o];
   }return new (Function.prototype.bind.apply(PhotoCommand, [null].concat(t)))();
@@ -808,7 +819,7 @@ function _classCallCheck(e, t) {
 }(_media.MediaCommand);
 
 },{"../utils":28,"./media":8}],13:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -830,13 +841,14 @@ function _interopRequireDefault(e) {
       Object.prototype.hasOwnProperty.call(r, o) && (e[o] = r[o]);
     }
   }return e;
-},
-    _sphere = require("../geometry/sphere"),
-    _object = require("./object"),
-    _glMat = require("gl-mat4"),
-    _glMat2 = _interopRequireDefault(_glMat),
-    _glslify = require("glslify"),
-    _glslify2 = _interopRequireDefault(_glslify);exports.default = function () {
+};
+var _sphere = require("../geometry/sphere");
+var _object = require("./object");
+var _glMat = require("gl-mat4");
+var _glMat2 = _interopRequireDefault(_glMat);
+var _glslify = require("glslify");
+var _glslify2 = _interopRequireDefault(_glslify);
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), r = 0; r < e; r++) {
     t[r] = arguments[r];
   }return new (Function.prototype.bind.apply(SphereCommand, [null].concat(t)))();
@@ -849,7 +861,7 @@ function _interopRequireDefault(e) {
 }(_object.ObjectCommand);
 
 },{"../geometry/sphere":20,"./object":10,"gl-mat4":47,"glslify":187}],14:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -865,12 +877,13 @@ function _interopRequireDefault(e) {
   return typeof e === "undefined" ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.TouchCommand = void 0;var _touchPosition = require("touch-position"),
-    _command = require("./command"),
-    _domEvents = require("dom-events"),
-    _domEvents2 = _interopRequireDefault(_domEvents),
-    _raf = require("raf"),
-    _raf2 = _interopRequireDefault(_raf);exports.default = function () {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.TouchCommand = void 0;var _touchPosition = require("touch-position");
+var _command = require("./command");
+var _domEvents = require("dom-events");
+var _domEvents2 = _interopRequireDefault(_domEvents);
+var _raf = require("raf");
+var _raf2 = _interopRequireDefault(_raf);
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
     t[n] = arguments[n];
   }return new (Function.prototype.bind.apply(TouchCommand, [null].concat(t)))();
@@ -894,7 +907,7 @@ function _interopRequireDefault(e) {
 }(_command.Command);
 
 },{"./command":4,"dom-events":34,"raf":197,"touch-position":237}],15:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -916,12 +929,13 @@ function _interopRequireDefault(e) {
       Object.prototype.hasOwnProperty.call(n, o) && (e[o] = n[o]);
     }
   }return e;
-},
-    _triangle = require("../geometry/triangle"),
-    _object = require("./object"),
-    _glslify = require("glslify"),
-    _glslify2 = _interopRequireDefault(_glslify),
-    vert = "\nprecision mediump float;\n\nuniform mat4 projection;\nuniform mat4 model;\nuniform mat4 view;\n\nattribute vec2 position;\nvoid main() {\n  gl_Position = projection * view * model * vec4(position, 0.0, 1.0);\n}\n";exports.default = function () {
+};
+var _triangle = require("../geometry/triangle");
+var _object = require("./object");
+var _glslify = require("glslify");
+var _glslify2 = _interopRequireDefault(_glslify);
+var vert = "\nprecision mediump float;\n\nuniform mat4 projection;\nuniform mat4 model;\nuniform mat4 view;\n\nattribute vec2 position;\nvoid main() {\n  gl_Position = projection * view * model * vec4(position, 0.0, 1.0);\n}\n";
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
     t[n] = arguments[n];
   }return new (Function.prototype.bind.apply(TriangleCommand, [null].concat(t)))();
@@ -934,7 +948,7 @@ function _interopRequireDefault(e) {
 }(_object.ObjectCommand);
 
 },{"../geometry/triangle":21,"./object":10,"glslify":187}],16:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -950,14 +964,15 @@ function _interopRequireDefault(e) {
   return typeof e === "undefined" ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.VideoCommand = void 0;var _utils = require("../utils"),
-    _media = require("./media"),
-    _domEvents = require("dom-events"),
-    _domEvents2 = _interopRequireDefault(_domEvents),
-    _clamp = require("clamp"),
-    _clamp2 = _interopRequireDefault(_clamp),
-    _raf = require("raf"),
-    _raf2 = _interopRequireDefault(_raf);exports.default = function () {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.VideoCommand = void 0;var _utils = require("../utils");
+var _media = require("./media");
+var _domEvents = require("dom-events");
+var _domEvents2 = _interopRequireDefault(_domEvents);
+var _clamp = require("clamp");
+var _clamp2 = _interopRequireDefault(_clamp);
+var _raf = require("raf");
+var _raf2 = _interopRequireDefault(_raf);
+exports.default = function () {
   for (var e = arguments.length, t = Array(e), n = 0; n < e; n++) {
     t[n] = arguments[n];
   }return new (Function.prototype.bind.apply(VideoCommand, [null].concat(t)))();
@@ -1050,7 +1065,7 @@ function _interopRequireDefault(e) {
 }(_media.MediaCommand);
 
 },{"../utils":28,"./media":8,"clamp":30,"dom-events":34,"raf":197}],17:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof3 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -1070,8 +1085,8 @@ function _interopRequireDefault(e) {
   return "undefined" == typeof e ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : "undefined" == typeof e ? "undefined" : _typeof2(e);
-},
-    _createClass = function () {
+};
+var _createClass = function () {
   function e(e, t) {
     for (var n = 0; n < t.length; n++) {
       var o = t[n];o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o);
@@ -1079,30 +1094,31 @@ function _interopRequireDefault(e) {
   }return function (t, n, o) {
     return n && e(t.prototype, n), o && e(t, o), t;
   };
-}(),
-    _extends = Object.assign || function (e) {
+}();
+var _extends = Object.assign || function (e) {
   for (var t = 1; t < arguments.length; t++) {
     var n = arguments[t];for (var o in n) {
       Object.prototype.hasOwnProperty.call(n, o) && (e[o] = n[o]);
     }
   }return e;
-},
-    _events = require("events"),
-    _domEvents = require("dom-events"),
-    _domEvents2 = _interopRequireDefault(_domEvents),
-    _glslify = require("glslify"),
-    _glslify2 = _interopRequireDefault(_glslify),
-    _regl = require("regl"),
-    _regl2 = _interopRequireDefault(_regl),
-    _symbols = require("./symbols"),
-    defaults = exports.defaults = { clear: { color: [17 / 255, 17 / 255, 17 / 255, 1], depth: 1 } };exports.default = function (e, t) {
+};
+var _events = require("events");
+var _domEvents = require("dom-events");
+var _domEvents2 = _interopRequireDefault(_domEvents);
+var _glslify = require("glslify");
+var _glslify2 = _interopRequireDefault(_glslify);
+var _regl = require("regl");
+var _regl2 = _interopRequireDefault(_regl);
+var _symbols = require("./symbols");
+var defaults = exports.defaults = { clear: { color: [17 / 255, 17 / 255, 17 / 255, 1], depth: 1 } };
+exports.default = function (e, t) {
   return new Context(_extends({}, defaults, e), t);
 };var Context = exports.Context = function (e) {
   function t() {
     var e = arguments.length <= 0 || void 0 === arguments[0] ? {} : arguments[0],
         n = arguments.length <= 1 || void 0 === arguments[1] ? {} : arguments[1],
         o = arguments.length <= 2 || void 0 === arguments[2] ? _regl2.default : arguments[2];_classCallCheck(this, t);var s = _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this)),
-        r = _extends({}, n.regl);return n.element && "CANVAS" == n.element.nodeName ? r.canvas = n.element : n.element && n.element.nodeName ? r.container = n.element : "string" == typeof n.element && (r.container = n.element), console.log(n.regl), s[_symbols.$regl] = o(n.regl), s[_symbols.$stack] = [], s[_symbols.$state] = e, s[_symbols.$current] = null, s[_symbols.$previous] = null, s[_symbols.$hasFocus] = !1, s[_symbols.$domElement] = s[_symbols.$regl]._gl.canvas, s.setMaxListeners(1 / 0), _domEvents2.default.on(s[_symbols.$domElement], "focus", function () {
+        r = _extends({}, n.regl);return n.element && "CANVAS" == n.element.nodeName ? r.canvas = n.element : n.element && n.element.nodeName ? r.container = n.element : "string" == typeof n.element && (r.container = n.element), s[_symbols.$regl] = o(n.regl), s[_symbols.$stack] = [], s[_symbols.$state] = e, s[_symbols.$current] = null, s[_symbols.$previous] = null, s[_symbols.$hasFocus] = !1, s[_symbols.$domElement] = s[_symbols.$regl]._gl.canvas, s.setMaxListeners(1 / 0), _domEvents2.default.on(s[_symbols.$domElement], "focus", function () {
       return s.focus();
     }), _domEvents2.default.on(s[_symbols.$domElement], "blur", function () {
       return s.blur();
@@ -1139,7 +1155,8 @@ function _interopRequireDefault(e) {
 }(_events.EventEmitter);
 
 },{"./symbols":27,"dom-events":34,"events":35,"glslify":187,"regl":231}],18:[function(require,module,exports){
-"use strict";
+'use strict';
+
 function _classCallCheck(e, t) {
   if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function");
 }Object.defineProperty(exports, "__esModule", { value: !0 });var _createClass = function () {
@@ -1150,8 +1167,8 @@ function _classCallCheck(e, t) {
   }return function (t, i, n) {
     return i && e(t.prototype, i), n && e(t, n), t;
   };
-}(),
-    Geometry = exports.Geometry = function () {
+}();
+var Geometry = exports.Geometry = function () {
   function e(t) {
     _classCallCheck(this, e), Object.assign(this, t || {}), this.primitive = this.primitive || null;
   }return _createClass(e, [{ key: "update", value: function value() {
@@ -1168,7 +1185,7 @@ function _classCallCheck(e, t) {
 }();
 
 },{}],19:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -1192,11 +1209,11 @@ function _interopRequireDefault(e) {
   }return function (t, o, r) {
     return o && e(t.prototype, o), r && e(t, r), t;
   };
-}(),
-    _geo3dBox = require("geo-3d-box"),
-    _geo3dBox2 = _interopRequireDefault(_geo3dBox),
-    _geometry = require("../geometry"),
-    BoxGeometry = exports.BoxGeometry = function (e) {
+}();
+var _geo3dBox = require("geo-3d-box");
+var _geo3dBox2 = _interopRequireDefault(_geo3dBox);
+var _geometry = require("../geometry");
+var BoxGeometry = exports.BoxGeometry = function (e) {
   function t() {
     var e = arguments.length <= 0 || void 0 === arguments[0] ? {} : arguments[0],
         o = e.size,
@@ -1211,7 +1228,7 @@ function _interopRequireDefault(e) {
 }(_geometry.Geometry);
 
 },{"../geometry":18,"geo-3d-box":36}],20:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -1235,11 +1252,11 @@ function _interopRequireDefault(e) {
   }return function (t, r, o) {
     return r && e(t.prototype, r), o && e(t, o), t;
   };
-}(),
-    _primitiveSphere = require("primitive-sphere"),
-    _primitiveSphere2 = _interopRequireDefault(_primitiveSphere),
-    _geometry = require("../geometry"),
-    SphereGeometry = exports.SphereGeometry = function (e) {
+}();
+var _primitiveSphere = require("primitive-sphere");
+var _primitiveSphere2 = _interopRequireDefault(_primitiveSphere);
+var _geometry = require("../geometry");
+var SphereGeometry = exports.SphereGeometry = function (e) {
   function t() {
     var e = arguments.length <= 0 || void 0 === arguments[0] ? {} : arguments[0],
         r = e.radius,
@@ -1254,7 +1271,7 @@ function _interopRequireDefault(e) {
 }(_geometry.Geometry);
 
 },{"../geometry":18,"primitive-sphere":196}],21:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -1268,15 +1285,16 @@ function _classCallCheck(e, t) {
   return typeof e === "undefined" ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : typeof e === "undefined" ? "undefined" : _typeof2(e);
-};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.TriangleGeometry = void 0;var _geometry = require("../geometry"),
-    TriangleGeometry = exports.TriangleGeometry = function (e) {
+};Object.defineProperty(exports, "__esModule", { value: !0 }), exports.TriangleGeometry = void 0;var _geometry = require("../geometry");
+var TriangleGeometry = exports.TriangleGeometry = function (e) {
   function t(e) {
     return _classCallCheck(this, t), e = e || { positions: [[-0, 1], [1, -1], [-1, -1]], normals: [[-0, .57735], [.57735, -.57735], [-.57735, -.57735]], uvs: [[-0, 1], [1, -1], [-1, -1]] }, _possibleConstructorReturn(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, { primitive: e }));
   }return _inherits(t, e), t;
 }(_geometry.Geometry);
 
 },{"../geometry":18}],22:[function(require,module,exports){
-"use strict";
+'use strict';
+
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e };
 }function _interopRequireWildcard(e) {
@@ -1287,41 +1305,43 @@ function _interopRequireDefault(e) {
     return _commands.Command;
   } });var _context = require("./context");Object.defineProperty(exports, "Context", { enumerable: !0, get: function get() {
     return _context.Context;
-  } });var _utils = require("./utils"),
-    _Utils = _interopRequireWildcard(_utils),
-    _math = require("./math"),
-    _Math = _interopRequireWildcard(_math),
-    _orientation = require("./commands/orientation"),
-    _orientation2 = _interopRequireDefault(_orientation),
-    _keyboard = require("./commands/keyboard"),
-    _keyboard2 = _interopRequireDefault(_keyboard),
-    _triangle = require("./commands/triangle"),
-    _triangle2 = _interopRequireDefault(_triangle),
-    _object = require("./commands/object"),
-    _object2 = _interopRequireDefault(_object),
-    _sphere = require("./commands/sphere"),
-    _sphere2 = _interopRequireDefault(_sphere),
-    _camera = require("./commands/camera"),
-    _camera2 = _interopRequireDefault(_camera),
-    _mouse = require("./commands/mouse"),
-    _mouse2 = _interopRequireDefault(_mouse),
-    _touch = require("./commands/touch"),
-    _touch2 = _interopRequireDefault(_touch),
-    _frame = require("./commands/frame"),
-    _frame2 = _interopRequireDefault(_frame),
-    _media = require("./commands/media"),
-    _media2 = _interopRequireDefault(_media),
-    _photo = require("./commands/photo"),
-    _photo2 = _interopRequireDefault(_photo),
-    _video = require("./commands/video"),
-    _video2 = _interopRequireDefault(_video),
-    _audio = require("./commands/audio"),
-    _audio2 = _interopRequireDefault(_audio),
-    _box = require("./commands/box"),
-    _box2 = _interopRequireDefault(_box);exports.Utils = _Utils, exports.Math = _Math, exports.Orientation = _orientation2.default, exports.Keyboard = _keyboard2.default, exports.Triangle = _triangle2.default, exports.Object = _object2.default, exports.Sphere = _sphere2.default, exports.Camera = _camera2.default, exports.Mouse = _mouse2.default, exports.Touch = _touch2.default, exports.Frame = _frame2.default, exports.Media = _media2.default, exports.Photo = _photo2.default, exports.Video = _video2.default, exports.Audio = _audio2.default, exports.Box = _box2.default;
+  } });var _utils = require("./utils");
+var _Utils = _interopRequireWildcard(_utils);
+var _math = require("./math");
+var _Math = _interopRequireWildcard(_math);
+var _orientation = require("./commands/orientation");
+var _orientation2 = _interopRequireDefault(_orientation);
+var _keyboard = require("./commands/keyboard");
+var _keyboard2 = _interopRequireDefault(_keyboard);
+var _triangle = require("./commands/triangle");
+var _triangle2 = _interopRequireDefault(_triangle);
+var _object = require("./commands/object");
+var _object2 = _interopRequireDefault(_object);
+var _sphere = require("./commands/sphere");
+var _sphere2 = _interopRequireDefault(_sphere);
+var _camera = require("./commands/camera");
+var _camera2 = _interopRequireDefault(_camera);
+var _mouse = require("./commands/mouse");
+var _mouse2 = _interopRequireDefault(_mouse);
+var _touch = require("./commands/touch");
+var _touch2 = _interopRequireDefault(_touch);
+var _frame = require("./commands/frame");
+var _frame2 = _interopRequireDefault(_frame);
+var _media = require("./commands/media");
+var _media2 = _interopRequireDefault(_media);
+var _photo = require("./commands/photo");
+var _photo2 = _interopRequireDefault(_photo);
+var _video = require("./commands/video");
+var _video2 = _interopRequireDefault(_video);
+var _audio = require("./commands/audio");
+var _audio2 = _interopRequireDefault(_audio);
+var _box = require("./commands/box");
+var _box2 = _interopRequireDefault(_box);
+exports.Utils = _Utils, exports.Math = _Math, exports.Orientation = _orientation2.default, exports.Keyboard = _keyboard2.default, exports.Triangle = _triangle2.default, exports.Object = _object2.default, exports.Sphere = _sphere2.default, exports.Camera = _camera2.default, exports.Mouse = _mouse2.default, exports.Touch = _touch2.default, exports.Frame = _frame2.default, exports.Media = _media2.default, exports.Photo = _photo2.default, exports.Video = _video2.default, exports.Audio = _audio2.default, exports.Box = _box2.default;
 
 },{"./commands":6,"./commands/audio":1,"./commands/box":2,"./commands/camera":3,"./commands/frame":5,"./commands/keyboard":7,"./commands/media":8,"./commands/mouse":9,"./commands/object":10,"./commands/orientation":11,"./commands/photo":12,"./commands/sphere":13,"./commands/touch":14,"./commands/triangle":15,"./commands/video":16,"./context":17,"./math":23,"./utils":28}],23:[function(require,module,exports){
-"use strict";
+'use strict';
+
 Object.defineProperty(exports, "__esModule", { value: !0 });var _quaternion = require("./quaternion");Object.defineProperty(exports, "Quaternion", { enumerable: !0, get: function get() {
     return _quaternion.Quaternion;
   } });var _vector = require("./vector");Object.defineProperty(exports, "Vector", { enumerable: !0, get: function get() {
@@ -1329,7 +1349,7 @@ Object.defineProperty(exports, "__esModule", { value: !0 });var _quaternion = re
   } });
 
 },{"./quaternion":24,"./vector":25}],24:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -1353,13 +1373,13 @@ function _interopRequireDefault(e) {
   }return function (t, n, r) {
     return n && e(t.prototype, n), r && e(t, r), t;
   };
-}(),
-    _defined = require("defined"),
-    _defined2 = _interopRequireDefault(_defined),
-    _glQuat = require("gl-quat"),
-    _glQuat2 = _interopRequireDefault(_glQuat),
-    _vector = require("./vector"),
-    Quaternion = exports.Quaternion = function (e) {
+}();
+var _defined = require("defined");
+var _defined2 = _interopRequireDefault(_defined);
+var _glQuat = require("gl-quat");
+var _glQuat2 = _interopRequireDefault(_glQuat);
+var _vector = require("./vector");
+var Quaternion = exports.Quaternion = function (e) {
   function t() {
     var e = arguments.length <= 0 || void 0 === arguments[0] ? 0 : arguments[0],
         n = arguments.length <= 1 || void 0 === arguments[1] ? 0 : arguments[1],
@@ -1392,13 +1412,13 @@ function _interopRequireDefault(e) {
           y = n,
           h = e;u(_, a, c), u(d, i, f), u(p, l, s), o(h, r(r(_, d), p), y);
     } }]), t;
-}(_vector.Vector),
-    _scratchX = new Quaternion(),
-    _scratchY = new Quaternion(),
-    _scratchZ = new Quaternion();
+}(_vector.Vector);
+var _scratchX = new Quaternion();
+var _scratchY = new Quaternion();
+var _scratchZ = new Quaternion();
 
 },{"./vector":25,"defined":33,"gl-quat":72}],25:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _typeof3 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -1420,8 +1440,8 @@ function _interopRequireDefault(e) {
   return "undefined" == typeof e ? "undefined" : _typeof2(e);
 } : function (e) {
   return e && "function" == typeof Symbol && e.constructor === Symbol ? "symbol" : "undefined" == typeof e ? "undefined" : _typeof2(e);
-},
-    _createClass = function () {
+};
+var _createClass = function () {
   function e(e, t) {
     for (var n = 0; n < t.length; n++) {
       var r = t[n];r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(e, r.key, r);
@@ -1429,17 +1449,17 @@ function _interopRequireDefault(e) {
   }return function (t, n, r) {
     return n && e(t.prototype, n), r && e(t, r), t;
   };
-}(),
-    _utils = require("../utils"),
-    _defined = require("defined"),
-    _defined2 = _interopRequireDefault(_defined),
-    _glVec = require("gl-vec4"),
-    _glVec2 = _interopRequireDefault(_glVec),
-    _glVec3 = require("gl-vec3"),
-    _glVec4 = _interopRequireDefault(_glVec3),
-    _glVec5 = require("gl-vec2"),
-    _glVec6 = _interopRequireDefault(_glVec5),
-    Vector = exports.Vector = function () {
+}();
+var _utils = require("../utils");
+var _defined = require("defined");
+var _defined2 = _interopRequireDefault(_defined);
+var _glVec = require("gl-vec4");
+var _glVec2 = _interopRequireDefault(_glVec);
+var _glVec3 = require("gl-vec3");
+var _glVec4 = _interopRequireDefault(_glVec3);
+var _glVec5 = require("gl-vec2");
+var _glVec6 = _interopRequireDefault(_glVec5);
+var Vector = exports.Vector = function () {
   function e() {
     for (var t = this, n = arguments.length, r = Array(n), i = 0; i < n; i++) {
       r[i] = arguments[i];
@@ -1517,10 +1537,10 @@ function _interopRequireDefault(e) {
     }, set: function set(e) {
       this.elements[3] = e;
     } }]), e;
-}(),
-    XVector3 = exports.XVector3 = new Vector(1, 0, 0),
-    YVector3 = exports.YVector3 = new Vector(0, 1, 0),
-    ZVector3 = exports.ZVector3 = new Vector(0, 0, 1);
+}();
+var XVector3 = exports.XVector3 = new Vector(1, 0, 0);
+var YVector3 = exports.YVector3 = new Vector(0, 1, 0);
+var ZVector3 = exports.ZVector3 = new Vector(0, 0, 1);
 
 },{"../utils":28,"defined":33,"gl-vec2":99,"gl-vec3":129,"gl-vec4":159}],26:[function(require,module,exports){
 module.exports={
@@ -1583,6 +1603,7 @@ module.exports={
   },
   "browserify": {
     "transform": [
+      "rollupify",
       "babelify"
     ]
   },
@@ -1607,26 +1628,30 @@ module.exports={
     "bunny": "^1.0.1",
     "glslify": "^5.1.0",
     "glslify-babel": "^1.0.1",
+    "rollupify": "^0.3.4",
     "standard": "^8.0.0",
+    "uglifyify": "^3.0.3",
     "web-audio-analyser": "^2.0.1"
   }
 }
 
 },{}],27:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: !0 });var $current = exports.$current = Symbol("current"),
-    $previous = exports.$previous = Symbol("previous"),
-    $domElement = exports.$domElement = Symbol("element"),
-    $regl = exports.$regl = Symbol("regl"),
-    $hasFocus = exports.$hasFocus = Symbol("hasFocus"),
-    $run = exports.$run = Symbol("run"),
-    $ref = exports.$ref = Symbol("ref"),
-    $ctx = exports.$ctx = Symbol("ctx"),
-    $stack = exports.$stack = Symbol("stack"),
-    $state = exports.$state = Symbol("state");
+'use strict';
+
+Object.defineProperty(exports, "__esModule", { value: !0 });var $current = exports.$current = Symbol("current");
+var $previous = exports.$previous = Symbol("previous");
+var $domElement = exports.$domElement = Symbol("element");
+var $regl = exports.$regl = Symbol("regl");
+var $hasFocus = exports.$hasFocus = Symbol("hasFocus");
+var $run = exports.$run = Symbol("run");
+var $ref = exports.$ref = Symbol("ref");
+var $ctx = exports.$ctx = Symbol("ctx");
+var $stack = exports.$stack = Symbol("stack");
+var $state = exports.$state = Symbol("state");
 
 },{}],28:[function(require,module,exports){
-"use strict";
+'use strict';
+
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e };
 }Object.defineProperty(exports, "__esModule", { value: !0 }), exports.getScreenOrientation = exports.isDOMElementInViewport = exports.lerp = exports.debug = exports.radians = exports.define = void 0;var _extends = Object.assign || function (e) {
@@ -1635,21 +1660,21 @@ function _interopRequireDefault(e) {
       Object.prototype.hasOwnProperty.call(r, n) && (e[n] = r[n]);
     }
   }return e;
-},
-    _package = require("./package"),
-    _debug = require("debug"),
-    _debug2 = _interopRequireDefault(_debug),
-    define = exports.define = function (e, t, r) {
+};
+var _package = require("./package");
+var _debug = require("debug");
+var _debug2 = _interopRequireDefault(_debug);
+var define = exports.define = function (e, t, r) {
   return Object.defineProperty(e, t, _extends({}, r));
-},
-    radians = exports.radians = function (e) {
+};
+var radians = exports.radians = function (e) {
   return e == e ? e * Math.PI / 180 : 0;
-},
-    debug = exports.debug = (0, _debug2.default)("[axis@" + _package.version + "]"),
-    lerp = exports.lerp = function (e, t, r) {
+};
+var debug = exports.debug = (0, _debug2.default)("[axis@" + _package.version + "]");
+var lerp = exports.lerp = function (e, t, r) {
   return e * (1 - r) + t * r;
-},
-    isDOMElementInViewport = exports.isDOMElementInViewport = function (e) {
+};
+var isDOMElementInViewport = exports.isDOMElementInViewport = function (e) {
   var t = document.documentElement,
       r = t.clientWidth,
       n = t.clientHeight,
@@ -1663,8 +1688,8 @@ function _interopRequireDefault(e) {
       c = d.innerHeight,
       l = c || n,
       g = p || r;return s > 0 && u > 0 && a < g && o < l;
-},
-    getScreenOrientation = exports.getScreenOrientation = function () {
+};
+var getScreenOrientation = exports.getScreenOrientation = function () {
   switch (window.screen.orientation || window.screen.mozOrientation) {case "landscape-primary":
       return 90;case "landscape-secondary":
       return -90;case "portrait-secondary":
