@@ -12,14 +12,14 @@ import clamp from 'clamp'
  * the x axis for mouse inputs.
  */
 
-const X_AXIS_MOUSE_FRICTION = 0.0033
+const X_AXIS_MOUSE_FRICTION = 0.0025125
 
 /**
  * Local friction applied to rotations around
  * the y axis for mouse inputs.
  */
 
-const Y_AXIS_MOUSE_FRICTION = 0.0046
+const Y_AXIS_MOUSE_FRICTION = 0.003366
 
 /**
  * Applies orientation changes to orbit orbitCamera from
@@ -41,8 +41,8 @@ export default (orbitCamera, {mouse}, opts = {}) => {
 
     // update if a singled button is pressed
     if (1 == mouse.buttons && (dy || dx)) {
-      orbitCamera.orientation.x += (false == opts.invert ? 1 : -1)*xf*dy*friction + (c*Math.random())
-      orbitCamera.orientation.y += (false == opts.invert ? 1 : -1)*0.8*yf*dx*friction + (c*Math.random())
+      orbitCamera.orientation.x += c + (false == opts.invert ? 1 : -1)*xf*dy*friction
+      orbitCamera.orientation.y += c + (false == opts.invert ? 1 : -1)*0.8*yf*dx*friction
     }
 
     // clamp at north/south poles

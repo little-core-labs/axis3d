@@ -78,7 +78,6 @@ export class Context extends EventEmitter {
       reglOptions.container = opts.element
     }
 
-    console.log(opts.regl)
     this[$regl] = createRegl(opts.regl)
     this[$stack] = []
     this[$state] = initialState

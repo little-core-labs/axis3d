@@ -31,7 +31,7 @@ STANDARD := $(BIN)/standard
 ##
 # Module source (js)
 #
-SRC := $(wildcard src/*.js src/*/*.js)
+SRC := $(wildcard src/*.js src/*/*.js src/*/*/*.js)
 
 ##
 # Main javascript entry

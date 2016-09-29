@@ -40,10 +40,6 @@ export class ControllerCommand extends Command {
 
   constructor(ctx, opts = {}, update = () => void 0) {
     super((_, updates) => {
-      if (false == ctx.hasFocus) {
-        return
-      }
-
       if (updates && 'target' in updates) {
         target = updates.target
       }

@@ -157,7 +157,10 @@ export class VideoCommand extends MediaCommand {
         isPowerOfTwo(source.videoWidth)
       )
 
-      textureState.mipmap = needsMipmaps
+      if (needsMipmaps) {
+        textureState.mipmap = needsMipmaps
+        textureState.min = 'linear mipmap nearest'
+      }
     })
 
     this.once('load', () => {
