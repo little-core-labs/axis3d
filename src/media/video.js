@@ -53,10 +53,13 @@ export class VideoCommand extends MediaCommand {
 
     const textureState = Object.assign({
       format: 'rgba',
+      flipY: true,
       wrap: ['clamp', 'clamp'],
       mag: 'linear',
       min: 'linear',
     }, initialState.texture)
+
+    delete initialState.texture
 
     /**
      * Video manifest for resl.
@@ -65,12 +68,14 @@ export class VideoCommand extends MediaCommand {
      */
 
     const manifest = {
-      video: {
+      video: Object.assign({
         stream: true,
         type: 'video',
         src: src
-      }
+      }, initialState.manifest)
     }
+
+    delete initialState.manifest
 
     /**
      * Calls internal video source method
@@ -197,14 +202,6 @@ export class VideoCommand extends MediaCommand {
     // set volume mute state
     this.on('mute', () => { isMuted = true })
     this.on('unmute', () => { isMuted = false })
-
-    this.on('seeking', () => {
-
-    })
-
-    this.on('seeked', () => {
-
-    })
 
     /**
      * Source attribute accessor.

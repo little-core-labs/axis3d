@@ -85,7 +85,7 @@ export class ControllerCommand extends Command {
      */
 
     const state = Object.assign({
-      interpolationFactor: 0.1,
+      interpolationFactor: 0.15,
       orientation: Object.assign(new Vector(0, 0, 0), opts.orientation),
       quaternions: {
         x: new Quaternion(), y: new Quaternion(), z: new Quaternion()

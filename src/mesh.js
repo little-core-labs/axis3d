@@ -429,10 +429,15 @@ export class MeshCommand extends Command {
       set: (value) => {
         if (null == value) {
           envmap = null
-        } else {
+        } else if (value != envmap) {
           envmap = value
           this.map = value
           this.scale.x = -1
+
+          // @TODO(werle) flipY should be exposed from texture constructor
+          if (envmap.texture && envmap.texture && envmap.texture._texture.flipY) {
+            this.scale.y = -1
+          }
         }
       }
     })
