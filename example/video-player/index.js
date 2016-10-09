@@ -11,10 +11,7 @@ import Plane from 'axis3d/mesh/plane'
 import Video from 'axis3d/media/video'
 import Frame from 'axis3d/frame'
 import Mouse from 'axis3d/input/mouse'
-<<<<<<< HEAD
-=======
 import clamp from 'clamp'
->>>>>>> 2.0.x
 import raf from 'raf'
 
 // axis context
@@ -32,15 +29,10 @@ Object.assign(window, {
 
 camera.position.z = 1
 
-<<<<<<< HEAD
-raf(() => video.play())
-=======
 //raf(() => video.play())
->>>>>>> 2.0.x
 
 // axis animation frame loop
 frame(({time, viewportWidth, viewportHeight}) => {
-  //if (
   const aspectRatio = viewportWidth/viewportHeight
   const height = plane.size.y
   const width = plane.size.x
@@ -48,9 +40,6 @@ frame(({time, viewportWidth, viewportHeight}) => {
   const fov = 2.0*Math.atan((width/aspectRatio) / (2.0*dist))
   // draw camera scene
   camera({fov}, () => {
-<<<<<<< HEAD
-    plane.scale.set(1, height / video.aspectRatio, 1)
-=======
     let min = Math.min, max = Math.max
     let ph = height, pw = width
     let wh = viewportHeight, ww = viewportWidth
@@ -80,7 +69,6 @@ frame(({time, viewportWidth, viewportHeight}) => {
     }
 
     plane.scale.set(x, y, 1)
->>>>>>> 2.0.x
     plane()
   })
 })
