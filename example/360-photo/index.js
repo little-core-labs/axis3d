@@ -49,12 +49,7 @@ frame((_) => {
   orbitController()
 
   // draw camera scene
-<<<<<<< HEAD
-  camera(() => { sphere() })
-=======
   camera(() => {
-    sphere(({model}) => {
-    })
+    sphere(({model}) => { })
   })
->>>>>>> 2.0.x
 })
