@@ -20,8 +20,10 @@ const ctx = Context()
 // objects
 const camera = Camera(ctx)
 const frame = Frame(ctx)
-const image = Image(ctx, '/govball.jpg', {crossorigin: true})
+const image = Image(ctx, '/govball.jpg')
 const sphere = Sphere(ctx, { map: image })
+
+Object.assign(window, {camera, frame, image, sphere})
 
 // inputs
 const keyboard = Keyboard(ctx)
@@ -42,10 +44,17 @@ raf(() => {
 })
 
 // axis animation frame loop
-frame(({time}) => {
+frame((_) => {
   // update controller states
   orbitController()
 
   // draw camera scene
+<<<<<<< HEAD
   camera(() => { sphere() })
+=======
+  camera(() => {
+    sphere(({model}) => {
+    })
+  })
+>>>>>>> 2.0.x
 })
