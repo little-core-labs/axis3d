@@ -58,7 +58,6 @@
   },
   "browserify": {
     "transform": [
-      "rollupify",
       "babelify"
     ]
   },
