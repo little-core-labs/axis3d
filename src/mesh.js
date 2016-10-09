@@ -97,7 +97,7 @@ export class MeshCommand extends Command {
     const previous = {
       rotation: new Quaternion(0, 0, 0, 1),
       position: new Vector(0, 0, 0),
-      scale: new Vector(0, 0, 0),
+      scale: new Vector(1, 1, 1),
       color: new Vector(0, 0, 0, 0),
     }
 
@@ -112,35 +112,47 @@ export class MeshCommand extends Command {
       let needsUpdate = !hasInitialUpdate
 
       if ('scale' in state) {
-        if (vec3.distance(previous.scale, state.scale)) {
-          needsUpdate = true
-          vec3.copy(this.scale, state.scale)
-        }
+        vec3.copy(this.scale, state.scale)
       }
 
       if ('position' in state) {
-        if (vec3.distance(previous.position, state.position)) {
-          needsUpdate = true
-          vec3.copy(this.position, state.position)
-        }
+        vec3.copy(this.position, state.position)
       }
 
       if ('rotation' in state) {
-        if (vec4.distance(previous.rotation, state.rotation)) {
-          needsUpdate = true
-          quat.copy(this.rotation, state.rotation)
-        }
+        quat.copy(this.rotation, state.rotation)
       }
 
       if ('color' in state) {
-        if (vec4.distance(previous.color, state.color)) {
-          needsUpdate = true
-          vec4.copy(this.color, state.color)
-        }
+        vec4.copy(this.color, state.color)
       }
 
       if ('wireframe' in state) {
         this.wireframe = Boolean(state.wireframe)
+      }
+
+      if (vec3.distance(previous.scale, this.scale)) {
+        previous.scale = this.scale
+        needsUpdate = true
+      }
+
+      if (vec4.distance(previous.color, this.color)) {
+        previous.color = this.color
+        needsUpdate = true
+      }
+
+      if (vec3.distance(previous.position, this.position)) {
+        previous.position = this.position
+        needsUpdate = true
+      }
+
+      if (vec4.distance(previous.rotation, this.rotation)) {
+        previous.rotation = this.rotation
+        needsUpdate = true
+      }
+
+      if (ctx.previous && ctx.previous.id != this.id) {
+        needsUpdate = true
       }
 
       if ('map' in state && map != state.map) {
@@ -152,12 +164,8 @@ export class MeshCommand extends Command {
         this.envmap = state.map
       }
 
-      if (ctx.previous && ctx.previous.id != this.id) {
-        needsUpdate = true
-      }
-
       if (false == needsUpdate) {
-        return
+        //return
       }
 
       hasInitialUpdate = true
@@ -172,9 +180,9 @@ export class MeshCommand extends Command {
 
       // update uniform model matrix
       mat4.identity(model)
+      mat4.scale(model, model, this.scale)
       mat4.translate(model, model, this.position)
       mat4.multiply(model, model, mat4.fromQuat([], this.rotation))
-      mat4.scale(model, model, this.scale)
 
       // apply and set contextual transform
       if (ctx.previous && ctx.previous.id != this.id) {
@@ -183,11 +191,6 @@ export class MeshCommand extends Command {
       } else {
         mat4.copy(this.transform, model)
       }
-
-      previous.rotation = this.rotation
-      previous.position = this.position
-      previous.color = this.color
-      previous.scale = this.scale
     }
 
     /**
@@ -342,11 +345,6 @@ export class MeshCommand extends Command {
 
         ctx.pop()
       })
-
-      previous.rotation = this.rotation
-      previous.position = this.position
-      previous.color = this.color
-      previous.scale = this.scale
     }
 
     // calls current target  render function
