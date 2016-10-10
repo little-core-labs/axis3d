@@ -270,7 +270,8 @@ export class MeshCommand extends Command {
           frag: undefined !== opts.frag ? opts.frag : DEFAULT_FRAGMENT_SHADER,
           blend: blending ? blending : false,
           primitive: () => {
-            if (this.wireframe) { return 'line loop' }
+            if (this.wireframe) { return 'lines' }
+            else if (opts.primitive) { return opts.primitive }
             else { return defaults.primitive }
           }
         })

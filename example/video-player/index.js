@@ -46,26 +46,18 @@ frame(({time, viewportWidth, viewportHeight}) => {
     let vh = video.height, vw = video.width
     let vr = vw/vh
     let wr = ww/wh
-    let x = clamp(vw/ww, 0, 1)
-    let y = clamp(wh/vh, 0, 1)
+    let x = ww <= vw ? 1 : clamp(vw/ww, 0, 1)
+    let y = wh <= vh ? 1 : clamp(wh/vh, 0, 1)/vr
 
-    // not enough window width
-    if (ww/wh > 2) {
-      y = ww <= vw ? 1/vr : y/vr
-      x =  y * vr
-      console.log('a', ww <= vw, x, y)
-      //x = ww <= vw ? 1 : x * vr
-    } else if (ww/wh < 2) {
-      //x = ww <= vw ? 1 : x
-      x = 1
-      y = (vw/ww)/vr
-      //y = (ww/wh)/vr
-      //y = x / vr
-      console.log('b', x, y)
+    if (vr != x/y) {
+      if (ww/wh > 2) {
+        y = wh/ww
+        x = (wh * vr)/ww
+      } else {
+      console.log('fo')
+        y = y/vr
+      }
     } else {
-      y = 1/vr
-      x = 1
-      console.log('c')
     }
 
     plane.scale.set(x, y, 1)

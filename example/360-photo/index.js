@@ -44,12 +44,12 @@ raf(() => {
 })
 
 // axis animation frame loop
-frame((_) => {
+frame(() => {
   // update controller states
   orbitController()
 
   // draw camera scene
   camera(() => {
-    sphere(({model}) => { })
+    sphere()
   })
 })
