@@ -51,16 +51,6 @@ export const $regl = Symbol('regl')
 export const $hasFocus = Symbol('hasFocus')
 
 /**
- * 'isFullscreen' boolean
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-export const $isFullscreen = Symbol('isFullscreen')
-
-/**
  * Symbol for an internal run method.
  *
  * @public
