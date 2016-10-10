@@ -27,7 +27,6 @@ frame(({time}) => {
   camera(() => {
 
     quat.setAxisAngle(rotation, [1, 0, 0], time)
-
         
     box({rotation: rotation})
   })

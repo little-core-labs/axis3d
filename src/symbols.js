@@ -1,7 +1,7 @@
 'use strict'
 
 /**
- * `current' command symbol.
+ * 'current' command symbol.
  *
  * @public
  * @const
@@ -11,7 +11,7 @@
 export const $current = Symbol('current')
 
 /**
- * `previous' command symbol.
+ * 'previous' command symbol.
  *
  * @public
  * @const
@@ -21,7 +21,7 @@ export const $current = Symbol('current')
 export const $previous = Symbol('previous')
 
 /**
- * `element' symbol.
+ * 'element' symbol.
  *
  * @public
  * @const
@@ -41,7 +41,7 @@ export const $domElement = Symbol('element')
 export const $regl = Symbol('regl')
 
 /**
- * `hasFocus' boolean symbol.
+ * 'hasFocus' boolean symbol.
  *
  * @public
  * @const
@@ -49,6 +49,16 @@ export const $regl = Symbol('regl')
  */
 
 export const $hasFocus = Symbol('hasFocus')
+
+/**
+ * 'isFullscreen' boolean
+ *
+ * @public
+ * @const
+ * @type {Symbol}
+ */
+
+export const $isFullscreen = Symbol('isFullscreen')
 
 /**
  * Symbol for an internal run method.

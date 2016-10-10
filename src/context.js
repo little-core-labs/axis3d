@@ -23,6 +23,7 @@ import {
   $stack,
   $state,
   $regl,
+  $isFullscreen
 } from './symbols'
 
 /**
@@ -87,6 +88,7 @@ export class Context extends EventEmitter {
     this[$hasFocus] = false
     this[$domElement] = this[$regl]._gl.canvas
     this[$reglContext] = null
+    this[$isFullscreen] = false
 
     this.setMaxListeners(Infinity)
 
