@@ -22,7 +22,7 @@ import {
   $current,
   $stack,
   $state,
-  $regl,
+  $regl
 } from './symbols'
 
 /**
