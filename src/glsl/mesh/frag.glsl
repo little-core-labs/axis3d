@@ -5,6 +5,7 @@ precision mediump float;
  */
 
 uniform vec4 color;
+uniform float opacity;
 
 #ifdef HAS_MAP
 uniform sampler2D map;
@@ -37,4 +38,6 @@ void main() {
 #else
   gl_FragColor = color;
 #endif
+
+  gl_FragColor.a = opacity;
 }
