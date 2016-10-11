@@ -206,8 +206,8 @@ export class Context extends EventEmitter {
 
   push(command) {
     if ('function' == typeof command) {
+      this[$previous] = this[$stack][this[$stack].length - 1] || this[$previous]
       this[$stack].push(command)
-      this[$previous] = this[$current]
       this[$current] = command
     }
     return this
@@ -221,8 +221,8 @@ export class Context extends EventEmitter {
 
   pop() {
     let command = this[$stack].pop()
-    this[$current] = this[$previous]
-    this[$previous] = this[$stack][this[$stack].length - 1]
+    this[$previous] = command || this[$previous]
+    this[$current] = this[$stack][this[$stack].length - 1]
     return command
   }
 
@@ -248,6 +248,9 @@ export class Context extends EventEmitter {
 
   clear() {
     this.regl.clear(this[$state].clear)
+    this[$current] = null
+    this[$previous] = null
+    this[$stack].splice(0, this[$stack].length)
     return this
   }
 }

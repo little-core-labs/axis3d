@@ -10,6 +10,7 @@ import { Vector } from './math'
 import coalesce from 'defined'
 import mat4 from 'gl-mat4'
 import vec3 from 'gl-vec3'
+import quat from 'gl-quat'
 
 /**
  * CameraCommand constructor.
@@ -94,7 +95,7 @@ export class CameraCommand extends MeshCommand {
 
   constructor(ctx, opts = {}) {
     const worldUp = new Vector(0, 1, 0)
-    const target = new Vector(0, 0, 0)
+    const target = opts.target || new Vector(0, 0, 0)
     const front = new Vector(0, 0, -1)
     const right = new Vector(1, 0, 0)
     const eye = new Vector(0, 0, 0)
@@ -103,7 +104,7 @@ export class CameraCommand extends MeshCommand {
     const projection = mat4.identity([])
     const view = mat4.identity([])
 
-    const orientation = Object.assign(DEFAULT_CAMERA_ORIENTATION_ORIGIN, { })
+    const orientation = Object.create(DEFAULT_CAMERA_ORIENTATION_ORIGIN)
 
     const state = {
       viewportHeight: coalesce(opts.viewportHeight, 1),
@@ -141,6 +142,22 @@ export class CameraCommand extends MeshCommand {
       sync('near')
       sync('viewportWidth')
       sync('viewportHeight')
+
+      if ('position' in updates) {
+        vec3.copy(this.position, updates.position)
+      }
+
+      if ('target' in updates) {
+        vec3.copy(target, updates.target)
+      }
+
+      if ('rotation' in updates) {
+        quat.copy(this.rotation, updates.rotation)
+      }
+
+      if ('orientation' in updates) {
+        quat.copy(orientation, updates.orientation)
+      }
 
       const position = this.position
       const aspect = state.viewportWidth / state.viewportHeight

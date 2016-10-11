@@ -91,12 +91,14 @@ export class MeshCommand extends Command {
     let blending = null
     let render = null
     let envmap = null
+    let depth = null
     let draw = opts.draw || null
     let map = opts.map || null
 
     const previous = {
       rotation: new Quaternion(0, 0, 0, 1),
       position: new Vector(0, 0, 0),
+      opacity: 1,
       scale: new Vector(1, 1, 1),
       color: new Vector(0, 0, 0, 0),
     }
@@ -129,6 +131,14 @@ export class MeshCommand extends Command {
 
       if ('wireframe' in state) {
         this.wireframe = Boolean(state.wireframe)
+      }
+
+      if ('opacity' in state) {
+        this.opacity = state.opacity
+      }
+
+      if ('blending' in state) {
+        this.blending = state.blending
       }
 
       if (vec3.distance(previous.scale, this.scale)) {
@@ -215,6 +225,9 @@ export class MeshCommand extends Command {
 
         const uniforms = {
           ...opts.uniforms,
+          opacity() {
+            return null != self.opacity ? parseFloat(self.opacity) : 1
+          },
           color() { return self.color ? self.color.elements : [0, 0, 0, 0]},
           model() { return model },
         }
@@ -261,6 +274,7 @@ export class MeshCommand extends Command {
 
         Object.assign(reglOptions, {
           context: {
+            ...reglOptions.context,
             color: uniforms.color(),
             model: uniforms.model(),
           },
@@ -268,8 +282,14 @@ export class MeshCommand extends Command {
           uniforms, attributes,
           vert: undefined !== opts.vert ? opts.vert : DEFAULT_VERTEX_SHADER,
           frag: undefined !== opts.frag ? opts.frag : DEFAULT_FRAGMENT_SHADER,
-          blend: blending ? blending : false,
-          primitive: () => {
+          blend: null != blending ? blending : {
+            enable: true,
+            func: {
+              src: 'src alpha',
+              dst: 'one minus src alpha'
+            },
+          },
+          primitive: null == geometry ? undefined : () => {
             if (this.wireframe) { return 'lines' }
             else if (opts.primitive) { return opts.primitive }
             else { return defaults.primitive }
@@ -287,6 +307,8 @@ export class MeshCommand extends Command {
 
           if (opts.count) {
             reglOptions.count = opts.count
+          } else if (geometry && geometry.primitive) {
+            reglOptions.count = geometry.primitive.count
           }
         }
 
@@ -328,21 +350,19 @@ export class MeshCommand extends Command {
           args = [{...defaults, ...state}]
         }
 
-        if (opts.before) {
-          opts.before(...args)
-        }
-
         const props = Array.isArray(state)
           ? state.map((o) => ({ ...defaults, ...o }))
           : ({...defaults, ...state})
 
+        const block = () => {
+          next({...(ctx[$reglContext] || {}), ...reglOptions.context })
+        }
+
+        opts.before && opts.before(...args)
         update(...args)
         draw(props)
-        next({...(ctx[$reglContext] || {}), ...reglOptions.context, })
-
-        if (opts.after) {
-          opts.after(...args)
-        }
+        block()
+        opts.after && opts.after({...defaults, ...state}, block)
 
         ctx.pop()
       })
@@ -423,6 +443,14 @@ export class MeshCommand extends Command {
     this.color = opts.color ?
       new Vector(...opts.color) :
       new Vector(197/255, 148/255, 149/255, 1.0)
+
+    /**
+     * Mesh opacity.
+     *
+     * @type {Number}
+     */
+
+    this.opacity = opts.opacity || 1
 
     /**
      * Computed bounding
@@ -511,18 +539,33 @@ export class MeshCommand extends Command {
       }
     })
 
+    // set envmap from input
     this.envmap = opts.envmap
 
     /**
      * Toggles blending.
      *
-     * @type {Boolean}
+     * @type {Boolean|Object}
      */
 
     define(this, 'blending', {
       get: () => blending,
       set: (value) => {
         blending = value
+        configure()
+      }
+    })
+
+    /**
+     * Toggles depth.
+     *
+     * @type {Boolean|Object}
+     */
+
+    define(this, 'depth', {
+      get: () => depth,
+      set: (value) => {
+        depth = value
         configure()
       }
     })
