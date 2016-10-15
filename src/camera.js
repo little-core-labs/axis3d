@@ -115,15 +115,19 @@ export class CameraCommand extends MeshCommand {
     }
 
     const context = {
-      projection: ({viewportWidth, viewportHeight}) => {
+      projection({viewportWidth, viewportHeight}) {
         update({viewportWidth, viewportHeight})
         return projection
       },
 
-      view: ({viewportWidth, viewportHeight}) => {
+      view({viewportWidth, viewportHeight}) {
         update({viewportWidth, viewportHeight})
         return view
-      }
+      },
+
+      aspect({viewportWidth, viewportHeight}) {
+        return viewportWidth/viewportHeight
+      },
     }
 
     const uniforms = { ...context }

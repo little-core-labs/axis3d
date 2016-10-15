@@ -1,6 +1,12 @@
 'use strict'
 
 /**
+ * Module dependencies.
+ */
+
+import Wireframe from 'screen-projected-lines'
+
+/**
  * Geometry class.
  *
  * @public
@@ -18,6 +24,7 @@ export class Geometry {
   constructor(initialState) {
     Object.assign(this, initialState || {})
     this.primitive = this.primitive || null
+    this.wireframe = this.primitive ? Wireframe(this.primitive) : null
   }
 
   /**

@@ -206,9 +206,9 @@ export class Context extends EventEmitter {
 
   push(command) {
     if ('function' == typeof command) {
-      this[$previous] = this[$stack][this[$stack].length - 1] || this[$previous]
       this[$stack].push(command)
       this[$current] = command
+      this[$previous] = this[$stack][this[$stack].length - 2]
     }
     return this
   }
@@ -221,8 +221,8 @@ export class Context extends EventEmitter {
 
   pop() {
     let command = this[$stack].pop()
-    this[$previous] = command || this[$previous]
     this[$current] = this[$stack][this[$stack].length - 1]
+    this[$previous] = command
     return command
   }
 

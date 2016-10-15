@@ -25,7 +25,7 @@ import quat from 'gl-quat'
  * @type {String}
  */
 
-export const DEFAULT_VERTEX_SHADER = glslify('./glsl/mesh/vert.glsl')
+export const DEFAULT_VERTEX_SHADER = glslify(__dirname + '/glsl/mesh/vert.glsl')
 
 /**
  * Default fragment shader for a mesh.
@@ -35,7 +35,7 @@ export const DEFAULT_VERTEX_SHADER = glslify('./glsl/mesh/vert.glsl')
  * @type {String}
  */
 
-export const DEFAULT_FRAGMENT_SHADER = glslify('./glsl/mesh/frag.glsl')
+export const DEFAULT_FRAGMENT_SHADER = glslify(__dirname + '/glsl/mesh/frag.glsl')
 
 /**
  * Current mesh command counter.
@@ -88,10 +88,10 @@ export class MeshCommand extends Command {
 
     let hasInitialUpdate = false
     let boundingBox = null
-    let blending = null
+    let blending = opts.blending || null
     let render = null
     let envmap = null
-    let depth = null
+    let depth = opts.depth || null
     let draw = opts.draw || null
     let map = opts.map || null
 
@@ -115,6 +115,7 @@ export class MeshCommand extends Command {
 
       if ('scale' in state) {
         vec3.copy(this.scale, state.scale)
+        needsUpdate = true
       }
 
       if ('position' in state) {
@@ -127,37 +128,21 @@ export class MeshCommand extends Command {
 
       if ('color' in state) {
         vec4.copy(this.color, state.color)
+        needsUpdate = true
       }
 
       if ('wireframe' in state) {
         this.wireframe = Boolean(state.wireframe)
+        needsUpdate = true
       }
 
       if ('opacity' in state) {
         this.opacity = state.opacity
+        needsUpdate = true
       }
 
       if ('blending' in state) {
         this.blending = state.blending
-      }
-
-      if (vec3.distance(previous.scale, this.scale)) {
-        previous.scale = this.scale
-        needsUpdate = true
-      }
-
-      if (vec4.distance(previous.color, this.color)) {
-        previous.color = this.color
-        needsUpdate = true
-      }
-
-      if (vec3.distance(previous.position, this.position)) {
-        previous.position = this.position
-        needsUpdate = true
-      }
-
-      if (vec4.distance(previous.rotation, this.rotation)) {
-        previous.rotation = this.rotation
         needsUpdate = true
       }
 
@@ -175,7 +160,7 @@ export class MeshCommand extends Command {
       }
 
       if (false == needsUpdate) {
-        //return
+        return
       }
 
       hasInitialUpdate = true
@@ -196,6 +181,7 @@ export class MeshCommand extends Command {
 
       // apply and set contextual transform
       if (ctx.previous && ctx.previous.id != this.id) {
+        //console.log(this.type, ctx.previous.type)
         mat4.multiply(this.transform, ctx.previous.transform, model)
         mat4.copy(model, this.transform)
       } else {
@@ -282,6 +268,7 @@ export class MeshCommand extends Command {
           uniforms, attributes,
           vert: undefined !== opts.vert ? opts.vert : DEFAULT_VERTEX_SHADER,
           frag: undefined !== opts.frag ? opts.frag : DEFAULT_FRAGMENT_SHADER,
+          depth: null != depth ? depth : {enable: true},
           blend: null != blending ? blending : {
             enable: true,
             func: {
@@ -331,7 +318,9 @@ export class MeshCommand extends Command {
           }
         }
 
-        draw = ctx.regl(reglOptions)
+        if (reglOptions.vert && reglOptions.frag) {
+          draw = ctx.regl(reglOptions)
+        }
       }
 
       // configure render command
@@ -363,7 +352,6 @@ export class MeshCommand extends Command {
         draw(props)
         block()
         opts.after && opts.after({...defaults, ...state}, block)
-
         ctx.pop()
       })
     }

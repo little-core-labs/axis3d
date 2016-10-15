@@ -4,7 +4,56 @@
  * Module dependencies.
  */
 
-import { MeshCommand } from './mesh'
+import { SphereGeometry } from './geometry/sphere'
+import { BoxGeometry } from './geometry/box'
+import { Command } from './command'
+import glslify from 'glslify'
+import mat4 from 'gl-mat4'
+
+const defaultGeometry = new SphereGeometry({radius: 100})
+
+const frag = `
+precision mediump float;
+
+uniform sampler2D texture;
+uniform float opacity;
+uniform float time;
+varying vec2 vuv;
+
+void main () {
+  const int n = 8;
+  float d = 0.001;
+  vec3 c = texture2D(texture, vuv).rgb;
+
+  for (int i = 0; i < n; i++) {
+    c += texture2D(texture, vuv + vec2(+d, +d)).rgb;
+    c += texture2D(texture, vuv + vec2(-d, +d)).rgb;
+    c += texture2D(texture, vuv + vec2(+d, -d)).rgb;
+    c += texture2D(texture, vuv + vec2(-d, -d)).rgb;
+    d *= 1.6 * float(i) + sin(time);
+  }
+
+  gl_FragColor = vec4(0.9*c/(1.0 + 4.0*float(n)), opacity);
+}
+`
+
+const vert = (glslify`
+precision highp float;
+#pragma glslify: linevoffset = require('screen-projected-lines')
+#pragma glslify: snoise = require('glsl-noise/simplex/4d')
+
+uniform mat4 projection;
+uniform mat4 model;
+uniform mat4 view;
+attribute vec3 position;
+varying vec2 vuv;
+
+void main() {
+  mat4 proj = projection * view * model;
+  vuv = 0.5*(1.0 + position.xy);
+  gl_Position = proj * vec4(position, 1.0);
+}
+`).split('\n').slice(1).join('\n')
 
 /**
  * FeedbackCommand constructor.
@@ -18,10 +67,10 @@ export default (...args) => new FeedbackCommand(...args)
  *
  * @public
  * @class FeedbackCommand
- * @extends MeshCommand
+ * @extends Command
  */
 
-export class FeedbackCommand extends MeshCommand {
+export class FeedbackCommand extends Command {
 
   /**
    * FeedbackCommand class constructor.
@@ -33,60 +82,58 @@ export class FeedbackCommand extends MeshCommand {
     const regl = ctx.regl
     const texture = regl.texture()
     const fb = regl.framebuffer({color: texture})
-    super(ctx, {
-      ...opts,
-      type: 'feedback',
+    const draw = regl({
+      vert,
+      frag,
+
+      depth: { enable: false },
+      //cull: { enable: true, face: 'back'},
+      elements() {
+        if (ctx.current && ctx.current.geometry) {
+          return ctx.current.geometry.cells
+        } else {
+          return defaultGeometry.cells
+        }
+      },
+
+      attributes: {
+        position() {
+          if (ctx.current && ctx.current.geometry) {
+            return ctx.current.geometry.positions
+          } else {
+            return defaultGeometry.positions
+          }
+        }
+      },
+
       uniforms: {
         texture: texture,
-        time: regl.context('time'),
+        opacity: (ctx, {opacity}) => null != opacity ? opacity : 1,
+        model: (ctx, {model, scale}) => mat4.scale([], model || mat4.identity([]), scale || [1, 1, 1]),
       },
-      geometry: {
-        primitive: {
-          count: 3,
-          positions: [
-            -4, +4,
-            -4, -4,
-            +4, +0,
-          ]
-        }
-      },
-      frag: `
-      precision mediump float;
-      uniform sampler2D texture;
-      uniform float time;
-      varying vec2 uv;
-      void main () {
-        float d = 0.001;
-        vec3 c = texture2D(texture,uv).rgb;
-        const int n = 8;
-        for (int i = 0; i < n; i++) {
-          c += texture2D(texture,uv+vec2(d,d)).rgb;
-          c += texture2D(texture,uv+vec2(-d,d)).rgb;
-          c += texture2D(texture,uv+vec2(d,-d)).rgb;
-          c += texture2D(texture,uv+vec2(-d,-d)).rgb;
-          d *= 1.6;
-        }
-        gl_FragColor = vec4(c*0.9/(1.0+float(n)*4.0),1);
-      }
-      `,
-      vert: `
-      precision mediump float;
-      attribute vec2 position;
-      varying vec2 uv;
-      void main () {
-      uv = (1.0+position)*0.5;
-        gl_Position = vec4(position,0,1);
-      }
-      `,
-      before(state, block) {
 
-        texture({copy: true, mag: 'linear', min: 'linear'})
-        if ('function' == typeof ctx.previous) {
-          ctx.previous({framebuffer: fb})
-          //console.log(ctx.previous.type)
-        }
-        //debugger
+      blend: {
+        enable: true,
+        func: {
+          src: 'src alpha',
+          dst: 'one minus src alpha'
+        },
+      },
+
+      primitive(ctx, {primitive = 'triangles'} = {}) {
+        return opts.primitive || primitive
       }
+    })
+
+    super((_, state = {}, block = () => void 0) => {
+      if ('function' == typeof state) {
+        block = state
+        state = {}
+      }
+
+      draw(state || {})
+      block()
+      texture({copy: true, mag: 'linear', min: 'linear'})
     })
   }
 }

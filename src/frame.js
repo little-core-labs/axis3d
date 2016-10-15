@@ -37,6 +37,7 @@ export class FrameCommand extends Command {
     let reglContext = null
     let isRunning = false
     let tick = null
+    const regl = ctx.regl
 
     const queue = []
 
@@ -47,7 +48,7 @@ export class FrameCommand extends Command {
       }
     })
 
-    const scope = ctx.regl({
+    const scope = regl({
       context: {
         resolution: ({viewportWidth, viewportHeight}) => ([
           viewportWidth, viewportHeight
@@ -55,9 +56,10 @@ export class FrameCommand extends Command {
       },
 
       uniforms: {
+        time: regl.context('time'),
         resolution: ({viewportWidth, viewportHeight}) => ([
           viewportWidth, viewportHeight
-        ])
+        ]),
       }
     })
 
@@ -69,7 +71,7 @@ export class FrameCommand extends Command {
 
     this.start = () => {
       if (isRunning) { return this }
-      tick = ctx.regl.frame((_, ...args) => {
+      tick = regl.frame((_, ...args) => {
         scope((_) => {
           reglContext = _
           ctx[$reglContext] = reglContext

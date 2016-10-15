@@ -40,7 +40,6 @@ frame(({time, viewportWidth, viewportHeight}) => {
   const fov = 2.0*Math.atan((width/aspectRatio) / (2.0*dist))
   // draw camera scene
   camera({fov}, () => {
-    let min = Math.min, max = Math.max
     let ph = height, pw = width
     let wh = viewportHeight, ww = viewportWidth
     let vh = video.height, vw = video.width
