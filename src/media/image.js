@@ -199,5 +199,9 @@ export class ImageCommand extends MediaCommand {
       texture({ ...textureState })
       this.emit('load')
     }
+
+    this.refresh = () => {
+      texture({ ...textureState })
+    }
   }
 }

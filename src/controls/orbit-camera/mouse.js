@@ -12,14 +12,14 @@ import clamp from 'clamp'
  * the x axis for mouse inputs.
  */
 
-const X_AXIS_MOUSE_FRICTION = 0.0033
+const X_AXIS_MOUSE_FRICTION = 0.007
 
 /**
  * Local friction applied to rotations around
  * the y axis for mouse inputs.
  */
 
-const Y_AXIS_MOUSE_FRICTION = 0.0033
+const Y_AXIS_MOUSE_FRICTION = 0.005
 
 /**
  * Applies orientation changes to orbit orbitCamera from
@@ -49,7 +49,7 @@ export default (orbitCamera, {mouse}, opts = {}) => {
   })
 
   // update field of view from mouse wheel
-  mouse && mouse(() => {
+  false != opts.wheel && mouse && mouse(() => {
     const c = 0.033
     const dv = c*friction*mouse.wheel.deltaY
     if (!orbitCamera.fov) { orbitCamera.fov = 0 }

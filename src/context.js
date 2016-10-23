@@ -79,7 +79,7 @@ export class Context extends EventEmitter {
       reglOptions.container = opts.element
     }
 
-    this[$regl] = createRegl(opts.regl)
+    this[$regl] = createRegl(reglOptions)
     this[$stack] = []
     this[$state] = initialState
     this[$current] = null

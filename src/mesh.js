@@ -303,8 +303,13 @@ export class MeshCommand extends Command {
           shaderDefines.HAS_MAP = ''
         }
 
-        reglOptions.frag = injectDefines(reglOptions.frag, shaderDefines)
-        reglOptions.vert = injectDefines(reglOptions.vert, shaderDefines)
+        if (reglOptions.frag) {
+          reglOptions.frag = injectDefines(reglOptions.frag, shaderDefines)
+        }
+
+        if (reglOptions.vert) {
+          reglOptions.vert = injectDefines(reglOptions.vert, shaderDefines)
+        }
 
         for (let key in reglOptions) {
           if (undefined === reglOptions[key]) {
