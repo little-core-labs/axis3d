@@ -59,7 +59,7 @@ export class AmbisonicAudioControllerCommand extends ControllerCommand {
         audioContext = defaultAudioContext
       }
 
-      this.target.on('load', () => {
+      this.target && this.target.on('load', () => {
         const target = this.target
         const source = this.source
 
