@@ -506,6 +506,7 @@ export class MeshCommand extends Command {
       set: (value) => {
         if (null == value) {
           envmap = null
+          setMap(null)
         } else if (value != envmap) {
           envmap = value
           setMap(value)
