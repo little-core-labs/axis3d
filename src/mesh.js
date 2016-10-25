@@ -123,6 +123,25 @@ export class MeshCommand extends Command {
     }
 
     /**
+     * Sets environment mesh map.
+     *
+     * @private
+     * @param {Media|null} value
+     */
+
+    const setEnvMap = (value) => {
+      if (value && value != envmap) {
+        if (value) {
+          envmap = value
+          setMap(envmap)
+        }
+      } else if (null === value && null != envmap) {
+        envmap = null
+        setMap(null)
+      }
+    }
+
+    /**
      * Updates state and internal matrices.
      *
      * @private
@@ -161,7 +180,7 @@ export class MeshCommand extends Command {
       if ('map' in state && map != state.map) {
         setMap(state.map)
       } else if ('envmap' in state && envmap != state.envmap) {
-        this.envmap = state.map
+        setEnvMap(state.envmap)
       }
 
       if (envmap) {
@@ -503,15 +522,7 @@ export class MeshCommand extends Command {
 
     define(this, 'envmap', {
       get: () => envmap,
-      set: (value) => {
-        if (null == value) {
-          envmap = null
-          setMap(null)
-        } else if (value != envmap) {
-          envmap = value
-          setMap(value)
-        }
-      }
+      set: (value) => setEnvMap(value)
     })
 
     // set envmap from input
