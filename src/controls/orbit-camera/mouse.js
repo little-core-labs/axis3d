@@ -49,7 +49,7 @@ export default (orbitCamera, {mouse}, opts = {}) => {
   })
 
   // update field of view from mouse wheel
-  false != opts.wheel && mouse && mouse(() => {
+  mouse && mouse(() => {
     const c = 0.033
     const dv = c*friction*mouse.wheel.deltaY
     if (!orbitCamera.fov) { orbitCamera.fov = 0 }

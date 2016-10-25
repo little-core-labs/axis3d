@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/media/audio.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/camera.js~CameraCommand.html">CameraCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/command.js~Command.html">Command</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/command.js~CommandContext.html">CommandContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/context.js~Context.html">Context</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controller.js~ControllerCommand.html">ControllerCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/feedback.js~FeedbackCommand.html">FeedbackCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/frame.js~FrameCommand.html">FrameCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fullscreen.js~FullscreenCommand.html">FullscreenCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media.js~MediaCommand.html">MediaCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh.js~MeshCommand.html">MeshCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FAR">DEFAULT_CAMERA_FAR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FIELD_OF_VIEW">DEFAULT_CAMERA_FIELD_OF_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_NEAR">DEFAULT_CAMERA_NEAR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_ORIENTATION_ORIGIN">DEFAULT_CAMERA_ORIENTATION_ORIGIN</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-encode">encode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_FRAGMENT_SHADER">DEFAULT_FRAGMENT_SHADER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_VERTEX_SHADER">DEFAULT_VERTEX_SHADER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$ctx">$ctx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$current">$current</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$domElement">$domElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$hasFocus">$hasFocus</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$previous">$previous</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$ref">$ref</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$regl">$regl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$reglContext">$reglContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$run">$run</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$stack">$stack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$state">$state</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-debug">debug</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-define">define</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-getScreenOrientation">getScreenOrientation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-isDOMElementInViewport">isDOMElementInViewport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lerp">lerp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-radians">radians</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">controls/ambisonic-audio</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ambisonic-audio/index.js~AmbisonicAudioControllerCommand.html">AmbisonicAudioControllerCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">controls/first-person-camera</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/first-person-camera/index.js~FirstPersonCameraController.html">FirstPersonCameraController</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">controls/orbit-camera</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/orbit-camera/index.js~OrbitCameraController.html">OrbitCameraController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_FRICTION">DEFAULT_FRICTION</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">geometry</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/box.js~BoxGeometry.html">BoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/plane.js~PlaneGeometry.html">PlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/sphere.js~SphereGeometry.html">SphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/triangle.js~TriangleGeometry.html">TriangleGeometry</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">input</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/keyboard.js~KeyboardCommand.html">KeyboardCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/mouse.js~MouseCommand.html">MouseCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/orientation.js~OrientationCommand.html">OrientationCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/touch.js~TouchCommand.html">TouchCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/quaternion.js~Quaternion.html">Quaternion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-XVector3">XVector3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-YVector3">YVector3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ZVector3">ZVector3</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">media</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/audio.js~AudioCommand.html">AudioCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/image.js~ImageCommand.html">ImageCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/video.js~VideoCommand.html">VideoCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">mesh</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/box.js~BoxCommand.html">BoxCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/plane.js~PlaneCommand.html">PlaneCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/sphere.js~SphereCommand.html">SphereCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/triangle.js~TriangleCommand.html">TriangleCommand</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/media/audio.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
+
+/**
+ * Module dependencies.
+ */
+
+import { debug, define } from &apos;../utils&apos;
+import { MediaCommand } from &apos;../media&apos;
+import events from &apos;dom-events&apos;
+
+/**
+ * AudioCommand constructor.
+ * @see AudioCommand
+ */
+
+export default (...args) =&gt; new AudioCommand(...args)
+
+/**
+ * AudioCommand class.
+ *
+ * @public
+ * @extends MediaCommand
+ */
+
+export class AudioCommand extends MediaCommand {
+
+  /**
+   * AudioCommand class constructor.
+   *
+   * @constructor
+   * @param {Context} ctx
+   * @param {String} src
+   * @param {Object} [initialState]
+   */
+
+  constructor(ctx, src, initialState = {}) {
+    let source = null
+    let volume = 0
+    let isMuted = false
+    let isPaused = true
+    let isPlaying = false
+
+    const manifest = {
+      audio: {
+        stream: true,
+        type: &apos;audio&apos;,
+        src: src
+      }
+    }
+
+    /**
+     * Calls internal audio source method
+     * with arguments. This function is used
+     * to proxy a class method to a audio
+     * element method.
+     *
+     * @private
+     * @param {String} method
+     * @param {...Mixed} args
+     * @return {AudioCommand}
+     */
+
+    const call = (method, ...args) =&gt; {
+      if (source) {
+        debug(&apos;AudioCommand: call %s(%j)&apos;, method, args)
+        source[method](...args)
+      } else {
+        this.once(&apos;load&apos;, () =&gt; this[method](...args))
+      }
+      return this
+    }
+
+    /**
+     * Sets an internal audio source property
+     * value. This function is used
+     * to proxy a class method to a audio
+     * element property
+     *
+     * @private
+     * @param {String} method
+     * @param {...Mixed} args
+     * @return {AudioCommand|Mixed}
+     */
+
+    const set = (property, value) =&gt; {
+      if (source) {
+        if (undefined === value) {
+          return source[property]
+        } else {
+          debug(&apos;AudioCommand: set %s=%s&apos;, property, value)
+          source[property] = value
+        }
+      } else {
+        this.once(&apos;load&apos;, () =&gt; { this[property] = value })
+      }
+      return this
+    }
+
+    /**
+     * Emits an event on the instance.
+     *
+     * @private
+     * @param {String} event
+     * @param {...Mixed} args
+     * @return {AudioCommand}
+     */
+
+    const emit = (event, ...args) =&gt; {
+      this.emit(event, ...args)
+      return this
+    }
+
+    // sanitize initialState object
+    for (let key in initialState) {
+      if (undefined === initialState[key]) {
+        delete initialState[key]
+      }
+    }
+
+    super(ctx, manifest, initialState)
+
+    // set initial audio state
+    this.once(&apos;load&apos;, () =&gt; {
+      // set initial set on source
+      Object.assign(source, initialState)
+
+      const proxy = (event, override) =&gt; {
+        events.on(source, event, (...args) =&gt; {
+          emit(override || event, ...args)
+        })
+      }
+
+      // proxy source events
+      for (let key in HTMLAudioElement.prototype) {
+        if (key.match(/^on[a-z]/)) {
+          proxy(key.replace(/^on/, &apos;&apos;))
+          define(this, key, {
+            get: () =&gt; source[key],
+            set: (value) =&gt; source[key] = value
+          })
+        }
+      }
+
+      volume = source.volume
+      isMuted = source.muted
+      isPlaying = source.paused
+    })
+
+    // set to playing state
+    this.on(&apos;playing&apos;, () =&gt; {
+      isPlaying = true
+      isPaused = false
+    })
+
+    // set to paused state
+    this.on(&apos;pause&apos;, () =&gt; {
+      isPlaying = false
+      isPaused = true
+    })
+
+    // set volume mute state
+    this.on(&apos;mute&apos;, () =&gt; {
+      isMuted = true
+    })
+
+    this.on(&apos;unmute&apos;, () =&gt; {
+      isMuted = false
+    })
+
+    /**
+     * Source attribute accessor.
+     *
+     * @type {String}
+     */
+
+    define(this, &apos;src&apos;, {
+      get: () =&gt; {
+        return (source &amp;&amp; source.src) ?
+          source.src :
+          (this.manifest &amp;&amp; this.manifest.audio) ?
+            this.manifest.audio.src :
+            null
+      },
+
+      set: (value) =&gt; {
+        if (source &amp;&amp; &apos;string&apos; == typeof value) {
+          source.src = value
+          if (this.manifest &amp;&amp; this.manifest.audio) {
+            this.manifest.audio.src = value
+            this.reset()
+            this.load()
+          }
+        }
+      }
+    })
+
+    // proxy all configurable audio properties that serve
+    // some kind of real purpose
+    // @TODO(werle) - support text tracks
+    ;[
+      &apos;currentTime&apos;,
+      &apos;crossOrigin&apos;,
+      &apos;currentSrc&apos;,
+      &apos;duration&apos;,
+      &apos;seekable&apos;,
+      &apos;volume&apos;,
+      &apos;paused&apos;,
+      &apos;played&apos;,
+      &apos;prefix&apos;,
+      &apos;muted&apos;,
+      &apos;loop&apos;,
+    ].map((property) =&gt; define(this, property, {
+      get: () =&gt; source[property],
+      set: (value) =&gt; { source[property] = value }
+    }))
+
+    // expose DOM element
+    define(this, &apos;domElement&apos;, { get: () =&gt; source })
+
+    /**
+     * Plays the audio.
+     *
+     * @return {AudioCommand}
+     */
+
+    this.play = () =&gt; call(&apos;play&apos;)
+
+    /**
+     * Pauses the audio.
+     *
+     * @return {AudioCommand}
+     */
+
+    this.pause = () =&gt; call(&apos;pause&apos;)
+
+    /**
+     * Mutes the audio
+     *
+     * @return {AudioCommand}
+     */
+
+    this.mute = () =&gt; set(&apos;muted&apos;, true) &amp;&amp; emit(&apos;mute&apos;)
+
+    /**
+     * Unutes the audio
+     *
+     * @return {AudioCommand}
+     */
+
+    this.unmute = () =&gt; set(&apos;muted&apos;, false) &amp;&amp; emit(&apos;unmute&apos;)
+
+    /**
+     * Callback when audio has loaded.
+     *
+     * @type {Function}
+     */
+
+    this.onloaded = ({audio}) =&gt; {
+      source = audio
+    }
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

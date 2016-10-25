@@ -32,7 +32,7 @@ export class MouseCommand extends Command {
    * MouseCommand class constructor.
    *
    * @param {Context} ctx
-   * @param {(Object)?} opts
+   * @param {Object} [opts]
    */
 
   constructor(ctx, opts = {}) {

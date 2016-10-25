@@ -32,7 +32,7 @@ export class KeyboardCommand extends Command {
    * KeyboardCommand class constructor.
    *
    * @param {Context} ctx
-   * @param {(Object)?) opts
+   * @param {Object} [opts]
    */
 
   constructor(ctx, opts = {}) {

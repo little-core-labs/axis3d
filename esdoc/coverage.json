@@ -1,0 +1,208 @@
+{
+  "coverage": "86.69%",
+  "expectCount": 203,
+  "actualCount": 176,
+  "files": {
+    "src/symbols.js": {
+      "expectCount": 11,
+      "actualCount": 11,
+      "undocumentLines": []
+    },
+    "src/controls/ambisonic-audio/index.js": {
+      "expectCount": 3,
+      "actualCount": 2,
+      "undocumentLines": [
+        62
+      ]
+    },
+    "src/media/audio.js": {
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
+    },
+    "src/mesh/box.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        29
+      ]
+    },
+    "src/geometry/box.js": {
+      "expectCount": 4,
+      "actualCount": 3,
+      "undocumentLines": [
+        44
+      ]
+    },
+    "src/camera.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "src/command.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "src/context.js": {
+      "expectCount": 16,
+      "actualCount": 16,
+      "undocumentLines": []
+    },
+    "src/controller.js": {
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
+    },
+    "src/mesh.js": {
+      "expectCount": 17,
+      "actualCount": 12,
+      "undocumentLines": [
+        164,
+        177,
+        241,
+        159,
+        154
+      ]
+    },
+    "src/controls/orbit-camera/index.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    },
+    "src/feedback.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/controls/first-person-camera/index.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/frame.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/fullscreen.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/geometry.js": {
+      "expectCount": 9,
+      "actualCount": 7,
+      "undocumentLines": [
+        26,
+        27
+      ]
+    },
+    "src/media/image.js": {
+      "expectCount": 6,
+      "actualCount": 3,
+      "undocumentLines": [
+        203,
+        179,
+        101
+      ]
+    },
+    "src/input/keyboard.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/media.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
+    },
+    "src/input/mouse.js": {
+      "expectCount": 10,
+      "actualCount": 9,
+      "undocumentLines": [
+        46
+      ]
+    },
+    "src/input/orientation.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/mesh/plane.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        29
+      ]
+    },
+    "src/geometry/plane.js": {
+      "expectCount": 4,
+      "actualCount": 3,
+      "undocumentLines": [
+        52
+      ]
+    },
+    "src/math/quaternion.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/mesh/sphere.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        28
+      ]
+    },
+    "src/geometry/sphere.js": {
+      "expectCount": 4,
+      "actualCount": 3,
+      "undocumentLines": [
+        44
+      ]
+    },
+    "src/input/touch.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
+    },
+    "src/mesh/triangle.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        41
+      ]
+    },
+    "src/geometry/triangle.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/math/vector.js": {
+      "expectCount": 23,
+      "actualCount": 18,
+      "undocumentLines": [
+        254,
+        255,
+        38,
+        81,
+        85
+      ]
+    },
+    "src/media/video.js": {
+      "expectCount": 10,
+      "actualCount": 7,
+      "undocumentLines": [
+        397,
+        391,
+        152
+      ]
+    },
+    "src/utils.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    }
+  }
+}

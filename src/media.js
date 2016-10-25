@@ -52,7 +52,7 @@ export class MediaCommand extends MeshCommand {
    * @constructor
    * @param {Object} ctx
    * @param {Object} manifest
-   * @param {(Object)?} initialState
+   * @param {Object} [initialState]
    */
 
   constructor(ctx, manifest, initialState = {}) {

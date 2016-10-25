@@ -104,10 +104,29 @@ export class MeshCommand extends Command {
     }
 
     /**
+     * Sets mesh map.
+     *
+     * @private
+     * @param {Media|null} value
+     */
+
+    const setMap = (value) => {
+      if (value && value != map) {
+        if (value) {
+          map = value
+          configure()
+        }
+      } else if (null === value && null != map) {
+        map = null
+        configure()
+      }
+    }
+
+    /**
      * Updates state and internal matrices.
      *
      * @private
-     * @param {(Object)?} state
+     * @param {Object} [state]
      */
 
     const update = (state) => {
@@ -151,9 +170,8 @@ export class MeshCommand extends Command {
       }
 
       if ('map' in state && map != state.map) {
+        setMap(state.map)
         needsUpdate = true
-        map = state.map
-        configure()
       } else if ('envmap' in state && envmap != state.envmap) {
         needsUpdate = true
         this.envmap = state.map
@@ -168,7 +186,7 @@ export class MeshCommand extends Command {
       if (envmap) {
         this.scale.x = -1
         // @TODO(werle) flipY should be exposed from texture constructor
-        if (envmap.texture && envmap.texture && envmap.texture._texture.flipY) {
+        if (envmap.texture && envmap.texture._texture.flipY) {
           this.scale.y = -1
         }
       }
@@ -181,7 +199,6 @@ export class MeshCommand extends Command {
 
       // apply and set contextual transform
       if (ctx.previous && ctx.previous.id != this.id) {
-        //console.log(this.type, ctx.previous.type)
         mat4.multiply(this.transform, ctx.previous.transform, model)
         mat4.copy(model, this.transform)
       } else {
@@ -498,20 +515,7 @@ export class MeshCommand extends Command {
 
     define(this, 'map', {
       get: () => map,
-      set: (value) => {
-        if (value) {
-          if (value.texture && (value != map || value.texture != map)) {
-            map = value
-            configure()
-          } else if (value && value != map) {
-            map = value
-            configure()
-          }
-        } else if (null == value && null != map) {
-          map = null
-          configure()
-        }
-      }
+      set: (value) => setMap(value)
     })
 
     /**
@@ -527,7 +531,7 @@ export class MeshCommand extends Command {
           envmap = null
         } else if (value != envmap) {
           envmap = value
-          this.map = value
+          setMap(value)
         }
       }
     })

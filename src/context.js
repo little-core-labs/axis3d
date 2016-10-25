@@ -63,8 +63,8 @@ export class Context extends EventEmitter {
   /**
    * Context class constructor.
    *
-   * @param {(Object)?} initialState
-   * @param {(Object)?} opts
+   * @param {Objects} [initialState]
+   * @param {Object} [opts]
    */
 
   constructor(initialState = {}, opts = {}, createRegl = regl) {
@@ -229,7 +229,7 @@ export class Context extends EventEmitter {
   /**
    * Updates command context state.
    *
-   * @param {Function|Block}
+   * @param {Function|Object} block
    * @return {Context}
    */
 

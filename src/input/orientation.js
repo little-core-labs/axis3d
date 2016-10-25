@@ -92,7 +92,7 @@ export class OrientationCommand extends Command {
    * OrientationCommand class constructor.
    *
    * @param {Context} ctx
-   * @param {(Object)?) opts
+   * @param {Object} [opts]
    */
 
   constructor(ctx, opts = {}) {

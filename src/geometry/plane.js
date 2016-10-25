@@ -21,14 +21,14 @@ export class PlaneGeometry extends Geometry {
   /**
    * PlaneGeometry class constructor.
    *
-   * @param {(Object)?} opts
-   * @param {(Object)?} opts.size
-   * @param {(Number)?} opts.size.x
-   * @param {(Number)?} opts.size.y
-   * @param {(Object)?} opts.segments
-   * @param {(Number)?} opts.segments.x
-   * @param {(Number)?} opts.segments.y
-   * @param {(Object)?} primitive
+   * @param {Object} opts
+   * @param {Object} opts.size
+   * @param {Number} opts.size.x
+   * @param {Number} opts.size.y
+   * @param {Object} opts.segments
+   * @param {Number} opts.segments.x
+   * @param {Number} opts.segments.y
+   * @param {Object} primitive
    */
 
   constructor({size = {x : 1, y: 1}, segments = {x: 1, y: 1}} = {}, primitive) {

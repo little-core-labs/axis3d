@@ -31,7 +31,7 @@ export class TouchCommand extends Command {
    * TouchCommand class constructor.
    *
    * @param {Context} ctx
-   * @param {(Object)?} opts
+   * @param {Object} [opts]
    */
 
   constructor(ctx, opts = {}) {

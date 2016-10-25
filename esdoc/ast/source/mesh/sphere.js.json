@@ -1,0 +1,1243 @@
+{
+  "type": "Program",
+  "start": 0,
+  "end": 591,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 33,
+      "column": 0
+    }
+  },
+  "sourceType": "module",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "start": 0,
+      "end": 12,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 12
+        }
+      },
+      "expression": {
+        "type": "Literal",
+        "start": 0,
+        "end": 12,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 12
+          }
+        },
+        "value": "use strict",
+        "rawValue": "use strict",
+        "raw": "'use strict'",
+        "leadingComments": null,
+        "trailingComments": null
+      },
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Module dependencies.\n ",
+          "start": 14,
+          "end": 45,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 3
+            }
+          },
+          "range": [
+            14,
+            45
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ImportDeclaration",
+      "start": 47,
+      "end": 98,
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 0
+        },
+        "end": {
+          "line": 7,
+          "column": 51
+        }
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "start": 56,
+          "end": 70,
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 9
+            },
+            "end": {
+              "line": 7,
+              "column": 23
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "start": 56,
+            "end": 70,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 9
+              },
+              "end": {
+                "line": 7,
+                "column": 23
+              }
+            },
+            "name": "SphereGeometry",
+            "leadingComments": null
+          },
+          "local": {
+            "type": "Identifier",
+            "start": 56,
+            "end": 70,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 9
+              },
+              "end": {
+                "line": 7,
+                "column": 23
+              }
+            },
+            "name": "SphereGeometry",
+            "leadingComments": [
+              {
+                "type": "Block",
+                "value": "*\n * Module dependencies.\n ",
+                "start": 14,
+                "end": 45,
+                "loc": {
+                  "start": {
+                    "line": 3,
+                    "column": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 3
+                  }
+                },
+                "range": [
+                  14,
+                  45
+                ]
+              }
+            ]
+          },
+          "leadingComments": null
+        }
+      ],
+      "importKind": "value",
+      "source": {
+        "type": "Literal",
+        "start": 78,
+        "end": 98,
+        "loc": {
+          "start": {
+            "line": 7,
+            "column": 31
+          },
+          "end": {
+            "line": 7,
+            "column": 51
+          }
+        },
+        "value": "../geometry/sphere",
+        "rawValue": "../geometry/sphere",
+        "raw": "'../geometry/sphere'"
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Module dependencies.\n ",
+          "start": 14,
+          "end": 45,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 3
+            }
+          },
+          "range": [
+            14,
+            45
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ImportDeclaration",
+      "start": 99,
+      "end": 136,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 8,
+          "column": 37
+        }
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "start": 108,
+          "end": 119,
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 9
+            },
+            "end": {
+              "line": 8,
+              "column": 20
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "start": 108,
+            "end": 119,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 9
+              },
+              "end": {
+                "line": 8,
+                "column": 20
+              }
+            },
+            "name": "MeshCommand"
+          },
+          "local": {
+            "type": "Identifier",
+            "start": 108,
+            "end": 119,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 9
+              },
+              "end": {
+                "line": 8,
+                "column": 20
+              }
+            },
+            "name": "MeshCommand"
+          }
+        }
+      ],
+      "importKind": "value",
+      "source": {
+        "type": "Literal",
+        "start": 127,
+        "end": 136,
+        "loc": {
+          "start": {
+            "line": 8,
+            "column": 28
+          },
+          "end": {
+            "line": 8,
+            "column": 37
+          }
+        },
+        "value": "../mesh",
+        "rawValue": "../mesh",
+        "raw": "'../mesh'"
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "start": 137,
+      "end": 163,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 0
+        },
+        "end": {
+          "line": 9,
+          "column": 26
+        }
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "start": 144,
+          "end": 148,
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 7
+            },
+            "end": {
+              "line": 9,
+              "column": 11
+            }
+          },
+          "local": {
+            "type": "Identifier",
+            "start": 144,
+            "end": 148,
+            "loc": {
+              "start": {
+                "line": 9,
+                "column": 7
+              },
+              "end": {
+                "line": 9,
+                "column": 11
+              }
+            },
+            "name": "mat4"
+          }
+        }
+      ],
+      "importKind": "value",
+      "source": {
+        "type": "Literal",
+        "start": 154,
+        "end": 163,
+        "loc": {
+          "start": {
+            "line": 9,
+            "column": 17
+          },
+          "end": {
+            "line": 9,
+            "column": 26
+          }
+        },
+        "value": "gl-mat4",
+        "rawValue": "gl-mat4",
+        "raw": "'gl-mat4'"
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "start": 164,
+      "end": 190,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 26
+        }
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "start": 171,
+          "end": 175,
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 7
+            },
+            "end": {
+              "line": 10,
+              "column": 11
+            }
+          },
+          "local": {
+            "type": "Identifier",
+            "start": 171,
+            "end": 175,
+            "loc": {
+              "start": {
+                "line": 10,
+                "column": 7
+              },
+              "end": {
+                "line": 10,
+                "column": 11
+              }
+            },
+            "name": "glsl"
+          }
+        }
+      ],
+      "importKind": "value",
+      "source": {
+        "type": "Literal",
+        "start": 181,
+        "end": 190,
+        "loc": {
+          "start": {
+            "line": 10,
+            "column": 17
+          },
+          "end": {
+            "line": 10,
+            "column": 26
+          }
+        },
+        "value": "glslify",
+        "rawValue": "glslify",
+        "raw": "'glslify'",
+        "leadingComments": null,
+        "trailingComments": null
+      },
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * SphereCommand constructor.\n * @see SphereCommand\n ",
+          "start": 192,
+          "end": 251,
+          "loc": {
+            "start": {
+              "line": 12,
+              "column": 0
+            },
+            "end": {
+              "line": 15,
+              "column": 3
+            }
+          },
+          "range": [
+            192,
+            251
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "start": 253,
+      "end": 307,
+      "loc": {
+        "start": {
+          "line": 17,
+          "column": 0
+        },
+        "end": {
+          "line": 17,
+          "column": 54
+        }
+      },
+      "declaration": {
+        "type": "ArrowFunctionExpression",
+        "start": 268,
+        "end": 307,
+        "loc": {
+          "start": {
+            "line": 17,
+            "column": 15
+          },
+          "end": {
+            "line": 17,
+            "column": 54
+          }
+        },
+        "id": null,
+        "generator": false,
+        "expression": true,
+        "async": false,
+        "params": [
+          {
+            "type": "RestElement",
+            "start": 269,
+            "end": 276,
+            "loc": {
+              "start": {
+                "line": 17,
+                "column": 16
+              },
+              "end": {
+                "line": 17,
+                "column": 23
+              }
+            },
+            "argument": {
+              "type": "Identifier",
+              "start": 272,
+              "end": 276,
+              "loc": {
+                "start": {
+                  "line": 17,
+                  "column": 19
+                },
+                "end": {
+                  "line": 17,
+                  "column": 23
+                }
+              },
+              "name": "args",
+              "leadingComments": null
+            },
+            "leadingComments": null
+          }
+        ],
+        "body": {
+          "type": "NewExpression",
+          "start": 281,
+          "end": 307,
+          "loc": {
+            "start": {
+              "line": 17,
+              "column": 28
+            },
+            "end": {
+              "line": 17,
+              "column": 54
+            }
+          },
+          "callee": {
+            "type": "Identifier",
+            "start": 285,
+            "end": 298,
+            "loc": {
+              "start": {
+                "line": 17,
+                "column": 32
+              },
+              "end": {
+                "line": 17,
+                "column": 45
+              }
+            },
+            "name": "SphereCommand"
+          },
+          "arguments": [
+            {
+              "type": "SpreadElement",
+              "start": 299,
+              "end": 306,
+              "loc": {
+                "start": {
+                  "line": 17,
+                  "column": 46
+                },
+                "end": {
+                  "line": 17,
+                  "column": 53
+                }
+              },
+              "argument": {
+                "type": "Identifier",
+                "start": 302,
+                "end": 306,
+                "loc": {
+                  "start": {
+                    "line": 17,
+                    "column": 49
+                  },
+                  "end": {
+                    "line": 17,
+                    "column": 53
+                  }
+                },
+                "name": "args"
+              }
+            }
+          ],
+          "trailingComments": null
+        },
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * SphereCommand constructor.\n * @see SphereCommand\n ",
+            "start": 192,
+            "end": 251,
+            "loc": {
+              "start": {
+                "line": 12,
+                "column": 0
+              },
+              "end": {
+                "line": 15,
+                "column": 3
+              }
+            },
+            "range": [
+              192,
+              251
+            ]
+          }
+        ],
+        "trailingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * SphereCommand class.\n *\n * @public\n * @class SphereCommand\n * @extends MeshCommand\n ",
+            "start": 309,
+            "end": 402,
+            "loc": {
+              "start": {
+                "line": 19,
+                "column": 0
+              },
+              "end": {
+                "line": 25,
+                "column": 3
+              }
+            },
+            "range": [
+              309,
+              402
+            ]
+          }
+        ]
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * SphereCommand constructor.\n * @see SphereCommand\n ",
+          "start": 192,
+          "end": 251,
+          "loc": {
+            "start": {
+              "line": 12,
+              "column": 0
+            },
+            "end": {
+              "line": 15,
+              "column": 3
+            }
+          },
+          "range": [
+            192,
+            251
+          ]
+        }
+      ],
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * SphereCommand class.\n *\n * @public\n * @class SphereCommand\n * @extends MeshCommand\n ",
+          "start": 309,
+          "end": 402,
+          "loc": {
+            "start": {
+              "line": 19,
+              "column": 0
+            },
+            "end": {
+              "line": 25,
+              "column": 3
+            }
+          },
+          "range": [
+            309,
+            402
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 404,
+      "end": 590,
+      "loc": {
+        "start": {
+          "line": 27,
+          "column": 0
+        },
+        "end": {
+          "line": 32,
+          "column": 1
+        }
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "start": 411,
+        "end": 590,
+        "loc": {
+          "start": {
+            "line": 27,
+            "column": 7
+          },
+          "end": {
+            "line": 32,
+            "column": 1
+          }
+        },
+        "id": {
+          "type": "Identifier",
+          "start": 417,
+          "end": 430,
+          "loc": {
+            "start": {
+              "line": 27,
+              "column": 13
+            },
+            "end": {
+              "line": 27,
+              "column": 26
+            }
+          },
+          "name": "SphereCommand",
+          "leadingComments": null
+        },
+        "superClass": {
+          "type": "Identifier",
+          "start": 439,
+          "end": 450,
+          "loc": {
+            "start": {
+              "line": 27,
+              "column": 35
+            },
+            "end": {
+              "line": 27,
+              "column": 46
+            }
+          },
+          "name": "MeshCommand"
+        },
+        "body": {
+          "type": "ClassBody",
+          "start": 451,
+          "end": 590,
+          "loc": {
+            "start": {
+              "line": 27,
+              "column": 47
+            },
+            "end": {
+              "line": 32,
+              "column": 1
+            }
+          },
+          "body": [
+            {
+              "type": "MethodDefinition",
+              "start": 455,
+              "end": 588,
+              "loc": {
+                "start": {
+                  "line": 28,
+                  "column": 2
+                },
+                "end": {
+                  "line": 31,
+                  "column": 3
+                }
+              },
+              "computed": false,
+              "key": {
+                "type": "Identifier",
+                "start": 455,
+                "end": 466,
+                "loc": {
+                  "start": {
+                    "line": 28,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 28,
+                    "column": 13
+                  }
+                },
+                "name": "constructor"
+              },
+              "static": false,
+              "kind": "constructor",
+              "value": {
+                "type": "FunctionExpression",
+                "start": 466,
+                "end": 588,
+                "loc": {
+                  "start": {
+                    "line": 28,
+                    "column": 13
+                  },
+                  "end": {
+                    "line": 31,
+                    "column": 3
+                  }
+                },
+                "id": null,
+                "generator": false,
+                "expression": false,
+                "async": false,
+                "params": [
+                  {
+                    "type": "Identifier",
+                    "start": 467,
+                    "end": 470,
+                    "loc": {
+                      "start": {
+                        "line": 28,
+                        "column": 14
+                      },
+                      "end": {
+                        "line": 28,
+                        "column": 17
+                      }
+                    },
+                    "name": "ctx"
+                  },
+                  {
+                    "type": "AssignmentPattern",
+                    "start": 472,
+                    "end": 481,
+                    "loc": {
+                      "start": {
+                        "line": 28,
+                        "column": 19
+                      },
+                      "end": {
+                        "line": 28,
+                        "column": 28
+                      }
+                    },
+                    "operator": "=",
+                    "left": {
+                      "type": "Identifier",
+                      "start": 472,
+                      "end": 476,
+                      "loc": {
+                        "start": {
+                          "line": 28,
+                          "column": 19
+                        },
+                        "end": {
+                          "line": 28,
+                          "column": 23
+                        }
+                      },
+                      "name": "opts"
+                    },
+                    "right": {
+                      "type": "ObjectExpression",
+                      "start": 479,
+                      "end": 481,
+                      "loc": {
+                        "start": {
+                          "line": 28,
+                          "column": 26
+                        },
+                        "end": {
+                          "line": 28,
+                          "column": 28
+                        }
+                      },
+                      "properties": []
+                    }
+                  }
+                ],
+                "body": {
+                  "type": "BlockStatement",
+                  "start": 483,
+                  "end": 588,
+                  "loc": {
+                    "start": {
+                      "line": 28,
+                      "column": 30
+                    },
+                    "end": {
+                      "line": 31,
+                      "column": 3
+                    }
+                  },
+                  "body": [
+                    {
+                      "type": "VariableDeclaration",
+                      "start": 489,
+                      "end": 530,
+                      "loc": {
+                        "start": {
+                          "line": 29,
+                          "column": 4
+                        },
+                        "end": {
+                          "line": 29,
+                          "column": 45
+                        }
+                      },
+                      "declarations": [
+                        {
+                          "type": "VariableDeclarator",
+                          "start": 495,
+                          "end": 530,
+                          "loc": {
+                            "start": {
+                              "line": 29,
+                              "column": 10
+                            },
+                            "end": {
+                              "line": 29,
+                              "column": 45
+                            }
+                          },
+                          "id": {
+                            "type": "Identifier",
+                            "start": 495,
+                            "end": 503,
+                            "loc": {
+                              "start": {
+                                "line": 29,
+                                "column": 10
+                              },
+                              "end": {
+                                "line": 29,
+                                "column": 18
+                              }
+                            },
+                            "name": "geometry"
+                          },
+                          "init": {
+                            "type": "NewExpression",
+                            "start": 506,
+                            "end": 530,
+                            "loc": {
+                              "start": {
+                                "line": 29,
+                                "column": 21
+                              },
+                              "end": {
+                                "line": 29,
+                                "column": 45
+                              }
+                            },
+                            "callee": {
+                              "type": "Identifier",
+                              "start": 510,
+                              "end": 524,
+                              "loc": {
+                                "start": {
+                                  "line": 29,
+                                  "column": 25
+                                },
+                                "end": {
+                                  "line": 29,
+                                  "column": 39
+                                }
+                              },
+                              "name": "SphereGeometry"
+                            },
+                            "arguments": [
+                              {
+                                "type": "Identifier",
+                                "start": 525,
+                                "end": 529,
+                                "loc": {
+                                  "start": {
+                                    "line": 29,
+                                    "column": 40
+                                  },
+                                  "end": {
+                                    "line": 29,
+                                    "column": 44
+                                  }
+                                },
+                                "name": "opts"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "kind": "const"
+                    },
+                    {
+                      "type": "ExpressionStatement",
+                      "start": 535,
+                      "end": 584,
+                      "loc": {
+                        "start": {
+                          "line": 30,
+                          "column": 4
+                        },
+                        "end": {
+                          "line": 30,
+                          "column": 53
+                        }
+                      },
+                      "expression": {
+                        "type": "CallExpression",
+                        "start": 535,
+                        "end": 584,
+                        "loc": {
+                          "start": {
+                            "line": 30,
+                            "column": 4
+                          },
+                          "end": {
+                            "line": 30,
+                            "column": 53
+                          }
+                        },
+                        "callee": {
+                          "type": "Super",
+                          "start": 535,
+                          "end": 540,
+                          "loc": {
+                            "start": {
+                              "line": 30,
+                              "column": 4
+                            },
+                            "end": {
+                              "line": 30,
+                              "column": 9
+                            }
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Identifier",
+                            "start": 541,
+                            "end": 544,
+                            "loc": {
+                              "start": {
+                                "line": 30,
+                                "column": 10
+                              },
+                              "end": {
+                                "line": 30,
+                                "column": 13
+                              }
+                            },
+                            "name": "ctx"
+                          },
+                          {
+                            "type": "ObjectExpression",
+                            "start": 546,
+                            "end": 583,
+                            "loc": {
+                              "start": {
+                                "line": 30,
+                                "column": 15
+                              },
+                              "end": {
+                                "line": 30,
+                                "column": 52
+                              }
+                            },
+                            "properties": [
+                              {
+                                "type": "SpreadProperty",
+                                "start": 548,
+                                "end": 555,
+                                "loc": {
+                                  "start": {
+                                    "line": 30,
+                                    "column": 17
+                                  },
+                                  "end": {
+                                    "line": 30,
+                                    "column": 24
+                                  }
+                                },
+                                "argument": {
+                                  "type": "Identifier",
+                                  "start": 551,
+                                  "end": 555,
+                                  "loc": {
+                                    "start": {
+                                      "line": 30,
+                                      "column": 20
+                                    },
+                                    "end": {
+                                      "line": 30,
+                                      "column": 24
+                                    }
+                                  },
+                                  "name": "opts"
+                                }
+                              },
+                              {
+                                "type": "Property",
+                                "start": 557,
+                                "end": 571,
+                                "loc": {
+                                  "start": {
+                                    "line": 30,
+                                    "column": 26
+                                  },
+                                  "end": {
+                                    "line": 30,
+                                    "column": 40
+                                  }
+                                },
+                                "method": false,
+                                "shorthand": false,
+                                "computed": false,
+                                "key": {
+                                  "type": "Identifier",
+                                  "start": 557,
+                                  "end": 561,
+                                  "loc": {
+                                    "start": {
+                                      "line": 30,
+                                      "column": 26
+                                    },
+                                    "end": {
+                                      "line": 30,
+                                      "column": 30
+                                    }
+                                  },
+                                  "name": "type"
+                                },
+                                "value": {
+                                  "type": "Literal",
+                                  "start": 563,
+                                  "end": 571,
+                                  "loc": {
+                                    "start": {
+                                      "line": 30,
+                                      "column": 32
+                                    },
+                                    "end": {
+                                      "line": 30,
+                                      "column": 40
+                                    }
+                                  },
+                                  "value": "sphere",
+                                  "rawValue": "sphere",
+                                  "raw": "'sphere'"
+                                },
+                                "kind": "init"
+                              },
+                              {
+                                "type": "Property",
+                                "start": 573,
+                                "end": 581,
+                                "loc": {
+                                  "start": {
+                                    "line": 30,
+                                    "column": 42
+                                  },
+                                  "end": {
+                                    "line": 30,
+                                    "column": 50
+                                  }
+                                },
+                                "method": false,
+                                "shorthand": true,
+                                "computed": false,
+                                "key": {
+                                  "type": "Identifier",
+                                  "start": 573,
+                                  "end": 581,
+                                  "loc": {
+                                    "start": {
+                                      "line": 30,
+                                      "column": 42
+                                    },
+                                    "end": {
+                                      "line": 30,
+                                      "column": 50
+                                    }
+                                  },
+                                  "name": "geometry"
+                                },
+                                "kind": "init",
+                                "value": {
+                                  "type": "Identifier",
+                                  "start": 573,
+                                  "end": 581,
+                                  "loc": {
+                                    "start": {
+                                      "line": 30,
+                                      "column": 42
+                                    },
+                                    "end": {
+                                      "line": 30,
+                                      "column": 50
+                                    }
+                                  },
+                                  "name": "geometry"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * SphereCommand class.\n *\n * @public\n * @class SphereCommand\n * @extends MeshCommand\n ",
+            "start": 309,
+            "end": 402,
+            "loc": {
+              "start": {
+                "line": 19,
+                "column": 0
+              },
+              "end": {
+                "line": 25,
+                "column": 3
+              }
+            },
+            "range": [
+              309,
+              402
+            ]
+          }
+        ],
+        "trailingComments": []
+      },
+      "specifiers": [],
+      "source": null,
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * SphereCommand class.\n *\n * @public\n * @class SphereCommand\n * @extends MeshCommand\n ",
+          "start": 309,
+          "end": 402,
+          "loc": {
+            "start": {
+              "line": 19,
+              "column": 0
+            },
+            "end": {
+              "line": 25,
+              "column": 3
+            }
+          },
+          "range": [
+            309,
+            402
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -21,10 +21,10 @@ export class SphereGeometry extends Geometry {
   /**
    * SphereGeometry class constructor.
    *
-   * @param {(Object)?} opts
-   * @param {(Number)?} opts.radius
-   * @param {(Number)?} opts.segments
-   * @param {(Object)?} primitive
+   * @param {Object} [opts]
+   * @param {Number} [opts.radius]
+   * @param {Number} [opts.segments]
+   * @param {Object} [primitive]
    */
 
   constructor({radius = 1, segments = 128} = {}, primitive) {

@@ -83,7 +83,7 @@ export class CommandContext {
    * CommandContext class constructor.
    *
    * @param {Command} cmd
-   * @param {(Object)?} state
+   * @param {Object} [state]
    */
 
   constructor(cmd, state) {

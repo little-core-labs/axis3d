@@ -18,7 +18,7 @@ export class Geometry {
   /**
    * Geometry class constructor.
    *
-   * @param {(Object)?} initialState
+   * @param {Object} [initialState]
    */
 
   constructor(initialState) {

@@ -1,0 +1,287 @@
+{
+  "type": "Program",
+  "start": 0,
+  "end": 118,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 9,
+      "column": 0
+    }
+  },
+  "sourceType": "module",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "start": 0,
+      "end": 12,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 12
+        }
+      },
+      "expression": {
+        "type": "Literal",
+        "start": 0,
+        "end": 12,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 12
+          }
+        },
+        "value": "use strict",
+        "rawValue": "use strict",
+        "raw": "'use strict'",
+        "leadingComments": null,
+        "trailingComments": null
+      },
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Module exports.\n ",
+          "start": 14,
+          "end": 40,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 3
+            }
+          },
+          "range": [
+            14,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 42,
+      "end": 83,
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 0
+        },
+        "end": {
+          "line": 7,
+          "column": 41
+        }
+      },
+      "declaration": null,
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "start": 51,
+          "end": 61,
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 9
+            },
+            "end": {
+              "line": 7,
+              "column": 19
+            }
+          },
+          "local": {
+            "type": "Identifier",
+            "start": 51,
+            "end": 61,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 9
+              },
+              "end": {
+                "line": 7,
+                "column": 19
+              }
+            },
+            "name": "Quaternion",
+            "leadingComments": null
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 51,
+            "end": 61,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 9
+              },
+              "end": {
+                "line": 7,
+                "column": 19
+              }
+            },
+            "name": "Quaternion",
+            "leadingComments": [
+              {
+                "type": "Block",
+                "value": "*\n * Module exports.\n ",
+                "start": 14,
+                "end": 40,
+                "loc": {
+                  "start": {
+                    "line": 3,
+                    "column": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 3
+                  }
+                },
+                "range": [
+                  14,
+                  40
+                ]
+              }
+            ]
+          },
+          "leadingComments": null
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 69,
+        "end": 83,
+        "loc": {
+          "start": {
+            "line": 7,
+            "column": 27
+          },
+          "end": {
+            "line": 7,
+            "column": 41
+          }
+        },
+        "value": "./quaternion",
+        "rawValue": "./quaternion",
+        "raw": "'./quaternion'"
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Module exports.\n ",
+          "start": 14,
+          "end": 40,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 3
+            }
+          },
+          "range": [
+            14,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 84,
+      "end": 117,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 8,
+          "column": 33
+        }
+      },
+      "declaration": null,
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "start": 93,
+          "end": 99,
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 9
+            },
+            "end": {
+              "line": 8,
+              "column": 15
+            }
+          },
+          "local": {
+            "type": "Identifier",
+            "start": 93,
+            "end": 99,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 9
+              },
+              "end": {
+                "line": 8,
+                "column": 15
+              }
+            },
+            "name": "Vector"
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 93,
+            "end": 99,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 9
+              },
+              "end": {
+                "line": 8,
+                "column": 15
+              }
+            },
+            "name": "Vector"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 107,
+        "end": 117,
+        "loc": {
+          "start": {
+            "line": 8,
+            "column": 23
+          },
+          "end": {
+            "line": 8,
+            "column": 33
+          }
+        },
+        "value": "./vector",
+        "rawValue": "./vector",
+        "raw": "'./vector'"
+      }
+    }
+  ]
+}

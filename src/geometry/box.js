@@ -21,10 +21,10 @@ export class BoxGeometry extends Geometry {
   /**
    * BoxGeometry class constructor.
    *
-   * @param {(Object)?} opts
-   * @param {(Number)?} opts.size
-   * @param {(Number)?} opts.segments
-   * @param {(Object)?} primitive
+   * @param {Object} opts
+   * @param {Number} opts.size
+   * @param {Number} opts.segments
+   * @param {Object} primitive
    */
 
   constructor({size = 1, segments = 2} = {}, primitive) {

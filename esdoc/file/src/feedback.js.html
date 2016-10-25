@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/feedback.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/camera.js~CameraCommand.html">CameraCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/command.js~Command.html">Command</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/command.js~CommandContext.html">CommandContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/context.js~Context.html">Context</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controller.js~ControllerCommand.html">ControllerCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/feedback.js~FeedbackCommand.html">FeedbackCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/frame.js~FrameCommand.html">FrameCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/fullscreen.js~FullscreenCommand.html">FullscreenCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media.js~MediaCommand.html">MediaCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh.js~MeshCommand.html">MeshCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FAR">DEFAULT_CAMERA_FAR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FIELD_OF_VIEW">DEFAULT_CAMERA_FIELD_OF_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_NEAR">DEFAULT_CAMERA_NEAR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_ORIENTATION_ORIGIN">DEFAULT_CAMERA_ORIENTATION_ORIGIN</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-encode">encode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_FRAGMENT_SHADER">DEFAULT_FRAGMENT_SHADER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_VERTEX_SHADER">DEFAULT_VERTEX_SHADER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$ctx">$ctx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$current">$current</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$domElement">$domElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$hasFocus">$hasFocus</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$previous">$previous</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$ref">$ref</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$regl">$regl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$reglContext">$reglContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$run">$run</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$stack">$stack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$state">$state</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-debug">debug</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-define">define</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-getScreenOrientation">getScreenOrientation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-isDOMElementInViewport">isDOMElementInViewport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lerp">lerp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-radians">radians</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">controls/ambisonic-audio</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ambisonic-audio/index.js~AmbisonicAudioControllerCommand.html">AmbisonicAudioControllerCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">controls/first-person-camera</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/first-person-camera/index.js~FirstPersonCameraController.html">FirstPersonCameraController</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">controls/orbit-camera</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/orbit-camera/index.js~OrbitCameraController.html">OrbitCameraController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_FRICTION">DEFAULT_FRICTION</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">geometry</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/box.js~BoxGeometry.html">BoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/plane.js~PlaneGeometry.html">PlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/sphere.js~SphereGeometry.html">SphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/triangle.js~TriangleGeometry.html">TriangleGeometry</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">input</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/keyboard.js~KeyboardCommand.html">KeyboardCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/mouse.js~MouseCommand.html">MouseCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/orientation.js~OrientationCommand.html">OrientationCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/touch.js~TouchCommand.html">TouchCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/quaternion.js~Quaternion.html">Quaternion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-XVector3">XVector3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-YVector3">YVector3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ZVector3">ZVector3</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">media</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/audio.js~AudioCommand.html">AudioCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/image.js~ImageCommand.html">ImageCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/video.js~VideoCommand.html">VideoCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">mesh</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/box.js~BoxCommand.html">BoxCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/plane.js~PlaneCommand.html">PlaneCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/sphere.js~SphereCommand.html">SphereCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/triangle.js~TriangleCommand.html">TriangleCommand</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/feedback.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
+
+/**
+ * Module dependencies.
+ */
+
+import { SphereGeometry } from &apos;./geometry/sphere&apos;
+import { BoxGeometry } from &apos;./geometry/box&apos;
+import { Command } from &apos;./command&apos;
+import glslify from &apos;glslify&apos;
+import mat4 from &apos;gl-mat4&apos;
+
+const defaultGeometry = new SphereGeometry({radius: 100})
+
+const frag = `
+precision mediump float;
+
+uniform sampler2D texture;
+uniform float opacity;
+uniform float time;
+varying vec2 vuv;
+
+void main () {
+  const int n = 8;
+  float d = 0.001;
+  vec3 c = texture2D(texture, vuv).rgb;
+
+  for (int i = 0; i &lt; n; i++) {
+    c += texture2D(texture, vuv + vec2(+d, +d)).rgb;
+    c += texture2D(texture, vuv + vec2(-d, +d)).rgb;
+    c += texture2D(texture, vuv + vec2(+d, -d)).rgb;
+    c += texture2D(texture, vuv + vec2(-d, -d)).rgb;
+    d *= 1.6 * float(i) + sin(time);
+  }
+
+  gl_FragColor = vec4(0.9*c/(1.0 + 4.0*float(n)), opacity);
+}
+`
+
+const vert = (glslify`
+precision highp float;
+#pragma glslify: linevoffset = require(&apos;screen-projected-lines&apos;)
+#pragma glslify: snoise = require(&apos;glsl-noise/simplex/4d&apos;)
+
+uniform mat4 projection;
+uniform mat4 model;
+uniform mat4 view;
+attribute vec3 position;
+varying vec2 vuv;
+
+void main() {
+  mat4 proj = projection * view * model;
+  vuv = 0.5*(1.0 + position.xy);
+  gl_Position = proj * vec4(position, 1.0);
+}
+`).split(&apos;\n&apos;).slice(1).join(&apos;\n&apos;)
+
+/**
+ * FeedbackCommand constructor.
+ * @see FeedbackCommand
+ */
+
+export default (...args) =&gt; new FeedbackCommand(...args)
+
+/**
+ * FeedbackCommand class.
+ *
+ * @public
+ * @class FeedbackCommand
+ * @extends Command
+ */
+
+export class FeedbackCommand extends Command {
+
+  /**
+   * FeedbackCommand class constructor.
+   *
+   * @param {Context} ctx
+   */
+
+  constructor(ctx, opts = {}) {
+    const regl = ctx.regl
+    const texture = regl.texture()
+    const fb = regl.framebuffer({color: texture})
+    const draw = regl({
+      vert,
+      frag,
+
+      depth: { enable: false },
+      //cull: { enable: true, face: &apos;back&apos;},
+      elements() {
+        if (ctx.current &amp;&amp; ctx.current.geometry) {
+          return ctx.current.geometry.cells
+        } else {
+          return defaultGeometry.cells
+        }
+      },
+
+      attributes: {
+        position() {
+          if (ctx.current &amp;&amp; ctx.current.geometry) {
+            return ctx.current.geometry.positions
+          } else {
+            return defaultGeometry.positions
+          }
+        }
+      },
+
+      uniforms: {
+        texture: texture,
+        opacity: (ctx, {opacity}) =&gt; null != opacity ? opacity : 1,
+        model: (ctx, {model, scale}) =&gt; mat4.scale([], model || mat4.identity([]), scale || [1, 1, 1]),
+      },
+
+      blend: {
+        enable: true,
+        func: {
+          src: &apos;src alpha&apos;,
+          dst: &apos;one minus src alpha&apos;
+        },
+      },
+
+      primitive(ctx, {primitive = &apos;triangles&apos;} = {}) {
+        return opts.primitive || primitive
+      }
+    })
+
+    super((_, state = {}, block = () =&gt; void 0) =&gt; {
+      if (&apos;function&apos; == typeof state) {
+        block = state
+        state = {}
+      }
+
+      draw(state || {})
+      block()
+      texture({copy: true, mag: &apos;linear&apos;, min: &apos;linear&apos;})
+    })
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -34,7 +34,7 @@ export class VideoCommand extends MediaCommand {
    * @constructor
    * @param {Context} ctx
    * @param {String} src
-   * @param {(Object)?} initialState
+   * @param {Object} [initialState]
    */
 
   constructor(ctx, src, initialState = {}) {

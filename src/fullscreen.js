@@ -30,16 +30,16 @@ export class FullscreenCommand extends Command {
    *
    * @constructor
    * @param {Object} ctx
-   * @param {(Object)?} opts
+   * @param {Object} [opts]
    */
 
   constructor(ctx) {
-    // set fullscreen to target canvas element  
+    // set fullscreen to target canvas element
     const fs = fullscreen(ctx.domElement)
 
     // toggle fullscreen
     super((_, {enabled}) => {
-      if(enabled) {
+      if (enabled) {
         fs.request()
       } else {
         fs.release()
