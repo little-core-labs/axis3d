@@ -42,9 +42,14 @@ export class VideoCommand extends MediaCommand {
     let poster = null
     let volume = 0
     let texture = null
+
     let isMuted = false
     let isPaused = true
     let isPlaying = false
+
+    let wantsMute = false
+    let wantsPause = false
+    let wantsPlay = false
 
     /**
      * Texture state used for regl texture updates.
@@ -279,13 +284,32 @@ export class VideoCommand extends MediaCommand {
     // expose DOM element
     define(this, 'domElement', { get: () => source })
 
+    // overload
+    const reload = this.reload
+    this.reload = () => {
+      if (source) {
+        source.pause()
+        source.currentTime = 0
+        source.load()
+
+        if (wantsPlay) {
+          source.play()
+        }
+
+        if (wantsMute) {
+          source.muted = true
+        }
+      }
+      return this
+    }
+
     /**
      * Plays the video.
      *
      * @return {VideoCommand}
      */
 
-    this.play = () => call('play')
+    this.play = () => (wantsPlay = true) && call('play')
 
     /**
      * Pauses the video.
@@ -293,7 +317,7 @@ export class VideoCommand extends MediaCommand {
      * @return {VideoCommand}
      */
 
-    this.pause = () => call('pause')
+    this.pause = () => (wantsPause = true) && call('pause')
 
     /**
      * Mutes the video
@@ -301,7 +325,7 @@ export class VideoCommand extends MediaCommand {
      * @return {VideoCommand}
      */
 
-    this.mute = () => set('muted', true) && emit('mute')
+    this.mute = () => (wantsMute = true) && set('muted', true) && emit('mute')
 
     /**
      * Unutes the video
@@ -309,7 +333,7 @@ export class VideoCommand extends MediaCommand {
      * @return {VideoCommand}
      */
 
-    this.unmute = () => set('muted', false) && emit('unmute')
+    this.unmute = () => !(wantsMute = false) && set('muted', false) && emit('unmute')
 
     /**
      * Callback when video  has loaded.
@@ -320,17 +344,16 @@ export class VideoCommand extends MediaCommand {
     this.onloaded = ({video}) => {
       source = video
 
-      this.emit('load')
-
       if (null == poster) {
-        textureState.data = video
+        textureState.data = source
         texture({ ...textureState })
       }
 
       let lastRead = 0
+      'function' == typeof source.load && source.load()
       this._read = (done) => {
         const now = Date.now()
-        if (isPlaying && (now - lastRead >= 64) && this.isDoneLoading && video.readyState >= video.HAVE_ENOUGH_DATA) {
+        if (isPlaying && (now - lastRead >= 64) && source.readyState >= source.HAVE_ENOUGH_DATA) {
           lastRead = now
           debug('VideoCommand: read')
           textureState.data = source

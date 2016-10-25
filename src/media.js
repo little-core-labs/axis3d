@@ -17,7 +17,7 @@ import raf from 'raf'
  * @type {Number}
  */
 
-const RELOAD_TIMEOUT = 1000
+const DEFAULT_RELOAD_TIMEOUT = 1000
 
 /**
  * No-op to return undefined
@@ -56,7 +56,7 @@ export class MediaCommand extends MeshCommand {
    */
 
   constructor(ctx, manifest, initialState = {}) {
-    let timeout = RELOAD_TIMEOUT
+    let timeout = DEFAULT_RELOAD_TIMEOUT
 
     let isDoneLoading = false
     let isCancelled = false
@@ -67,8 +67,7 @@ export class MediaCommand extends MeshCommand {
     // load when called as a function
     super(ctx, {
       type: 'media',
-      render: (_, state, next) => this.read(next),
-      draw: () => this.read(),
+      render: (_, state, next) => this.read(next)
     })
 
     // mixin and initialize EventEmitter
@@ -227,7 +226,7 @@ export class MediaCommand extends MeshCommand {
           debug('retrying....')
           this.reload()
         }
-      }, RELOAD_TIMEOUT)
+      }, timeout)
 
       isLoading = true
       raf(() => resl({
@@ -248,7 +247,7 @@ export class MediaCommand extends MeshCommand {
 
         onProgress: (...args) => {
           hasProgress = true
-          isDoneLoading = false
+          //isDoneLoading = false
           void (this.onprogress || noop)(...args)
           this.emit('progress', ...args)
         },

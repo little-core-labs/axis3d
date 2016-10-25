@@ -93,7 +93,7 @@ export class MeshCommand extends Command {
     let envmap = null
     let depth = opts.depth || null
     let draw = opts.draw || null
-    let map = opts.map || null
+    let map = null
 
     const previous = {
       rotation: new Quaternion(0, 0, 0, 1),
@@ -525,9 +525,6 @@ export class MeshCommand extends Command {
       set: (value) => setEnvMap(value)
     })
 
-    // set envmap from input
-    this.envmap = opts.envmap
-
     /**
      * Toggles blending.
      *
@@ -557,6 +554,12 @@ export class MeshCommand extends Command {
     })
 
     // initial configuration
-    configure()
+    if (opts.envmap) {
+      setEnvMap(opts.envmap)
+    } else if (opts.map) {
+      setMap(opts.map)
+    } else {
+      configure()
+    }
   }
 }
