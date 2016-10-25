@@ -15,7 +15,8 @@ import clamp from 'clamp'
 import raf from 'raf'
 
 // axis context
-const ctx = Context({}, {regl: {attributes: {antialias: true}}})
+//const ctx = Context({}, {regl: {attributes: {antialias: true}}})
+const ctx = Context()
 
 // objects
 const camera = Camera(ctx)
@@ -29,7 +30,10 @@ Object.assign(window, {
 
 camera.position.z = 1
 
-//raf(() => video.play())
+raf(() => {
+  ctx.focus()
+  video.play()
+})
 
 // axis animation frame loop
 frame(({time, viewportWidth, viewportHeight}) => {

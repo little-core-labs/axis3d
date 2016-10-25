@@ -130,11 +130,8 @@ export class MeshCommand extends Command {
      */
 
     const update = (state) => {
-      let needsUpdate = !hasInitialUpdate
-
       if ('scale' in state) {
         vec3.copy(this.scale, state.scale)
-        needsUpdate = true
       }
 
       if ('position' in state) {
@@ -147,41 +144,25 @@ export class MeshCommand extends Command {
 
       if ('color' in state) {
         vec4.copy(this.color, state.color)
-        needsUpdate = true
       }
 
       if ('wireframe' in state) {
         this.wireframe = Boolean(state.wireframe)
-        needsUpdate = true
       }
 
       if ('opacity' in state) {
         this.opacity = state.opacity
-        needsUpdate = true
       }
 
       if ('blending' in state) {
         this.blending = state.blending
-        needsUpdate = true
-      }
-
-      if (ctx.previous && ctx.previous.id != this.id) {
-        needsUpdate = true
       }
 
       if ('map' in state && map != state.map) {
         setMap(state.map)
-        needsUpdate = true
       } else if ('envmap' in state && envmap != state.envmap) {
-        needsUpdate = true
         this.envmap = state.map
       }
-
-      if (false == needsUpdate) {
-        return
-      }
-
-      hasInitialUpdate = true
 
       if (envmap) {
         this.scale.x = -1
@@ -260,12 +241,8 @@ export class MeshCommand extends Command {
 
         if (map && map.texture) {
           uniforms.map = () => {
-            if (map && map.texture) {
-              if ('function' == typeof map) { map() }
-              return map.texture
-            }
-
-            return null
+            if ('function' == typeof map) { map() }
+            return map.texture
           }
         } else if (map) {
           map.once('load', () => configure())
