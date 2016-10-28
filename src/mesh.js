@@ -256,6 +256,19 @@ export class MeshCommand extends Command {
             shaderDefines.HAS_UVS = ''
             attributes.uv = geometry.primitive.uvs
           }
+
+          if (geometry.wireframe) {
+            const wireframe = geometry.wireframe
+            if (wireframe.nextPositions) {
+              shaderDefines.HAS_NEXT_POSITIONS = ''
+              attributes.nextPosition = wireframe.nextPositions
+            }
+
+            if (wireframe.directions) {
+              shaderDefines.HAS_DIRECTIONS = ''
+              attributes.direction = wireframe.directions
+            }
+          }
         }
 
         if (map && map.texture) {
@@ -302,7 +315,6 @@ export class MeshCommand extends Command {
               props = props || {}
               return props.elements || geometry ? geometry.cells : null
             },
-
           })
 
           if (opts.count) {
@@ -336,7 +348,7 @@ export class MeshCommand extends Command {
           }
         }
 
-        if (reglOptions.vert && reglOptions.frag) {
+        if (this.geometry && reglOptions.vert && reglOptions.frag) {
           draw = ctx.regl(reglOptions)
         }
       }

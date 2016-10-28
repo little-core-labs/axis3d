@@ -66,10 +66,12 @@ export class OrbitCameraController extends ControllerCommand {
       const mouse = inputs.mouse
       const touch = inputs.touch
 
-      if (orientation) { applyOrientationInput(this, {orientation}, opts) }
-      if (keyboard) { applyKeyboardInput(this, {keyboard}, opts) }
-      if (touch) { applyTouchInput(this, {touch}, opts) }
-      if (mouse) { applyMouseInput(this, {mouse}, opts) }
+      if (ctx.hasFocus) {
+        if (orientation) { applyOrientationInput(this, {orientation}, opts) }
+        if (keyboard) { applyKeyboardInput(this, {keyboard}, opts) }
+        if (touch) { applyTouchInput(this, {touch}, opts) }
+        if (mouse) { applyMouseInput(this, {mouse}, opts) }
+      }
 
       quat.copy(camera.rotation, this.rotation)
     })
