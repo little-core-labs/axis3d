@@ -126,7 +126,7 @@ export class ControllerCommand extends Command {
       if (updates && 'object' == typeof updates) {
         Object.assign(state, updates, {
           orientation: Object.assign(state.orientation, updates.orientation),
-          quaternions: Object.assign(state.orientation, updates.orientation),
+          quaternions: Object.assign(state.quaternions, updates.quaternions),
         })
       }
     }

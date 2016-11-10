@@ -21,13 +21,13 @@ const ctx = Context()
 const camera = Camera(ctx)
 const frame = Frame(ctx)
 const image = Image(ctx, '/govball.jpg')
-const sphere = Sphere(ctx, { map: image })
+const sphere = Sphere(ctx, { envmap: image })
 
 Object.assign(window, {camera, frame, image, sphere})
 
 // inputs
 const keyboard = Keyboard(ctx)
-const mouse = Mouse(ctx, {allowWheel: true})
+const mouse = Mouse(ctx)
 
 // orbit controller
 const orbitController = OrbitCameraController(ctx, {
