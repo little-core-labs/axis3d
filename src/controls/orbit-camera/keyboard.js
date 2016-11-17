@@ -5,7 +5,6 @@
  */
 
 import { radians } from '../../utils'
-import clamp from 'clamp'
 
 /**
  * Applies orientation changes to orbit orbitCamera from
@@ -48,8 +47,7 @@ export default (orbitCamera, {keyboard}, opts = {}, {dx = 0, dy = 0} = {}) => {
     }
 
     c = 0.075
-    if (dx) { orbitCamera.orientation.x += c*dx}
-    if (dy) { orbitCamera.orientation.y += c*dy}
-
+    if (dx) { orbitCamera.orientation.x += c*dx }
+    if (dy) { orbitCamera.orientation.y += c*dy }
   })
 }

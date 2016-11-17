@@ -4,8 +4,6 @@
  * Module dependencies.
  */
 
-import { radians } from '../../utils'
-import clamp from 'clamp'
 
 /**
  * Local friction applied to rotations around
@@ -43,9 +41,6 @@ export default (orbitCamera, {mouse}, opts = {}) => {
       orbitCamera.orientation.x += (false == opts.invert ? 1 : -1)*xf*dy*friction
       orbitCamera.orientation.y += (false == opts.invert ? 1 : -1)*yf*dx*friction
     }
-
-    // clamp at north/south poles
-    orbitCamera.orientation.x = clamp(orbitCamera.orientation.x, radians(-90), radians(90))
   })
 
   // update field of view from mouse wheel
@@ -54,6 +49,5 @@ export default (orbitCamera, {mouse}, opts = {}) => {
     const dv = c*friction*mouse.wheel.deltaY
     if (!orbitCamera.fov) { orbitCamera.fov = 0 }
     orbitCamera.target.fov += dv
-    orbitCamera.target.fov = clamp(orbitCamera.target.fov, radians(0.1) , radians(120))
   })
 }

@@ -5,7 +5,6 @@
  */
 
 import { radians } from '../../utils'
-import clamp from 'clamp'
 
 /**
  * Applies orientation changes to orbit orbitCamera from

@@ -73,6 +73,9 @@ export class OrbitCameraController extends ControllerCommand {
         if (mouse) { applyMouseInput(this, {mouse}, opts) }
       }
 
+      // clamp at north/south poles
+      this.orientation.x = clamp(this.orientation.x, radians(-89), radians(89))
+      target.fov = clamp(target.fov, radians(0.1) , radians(120))
       quat.copy(camera.rotation, this.rotation)
     })
 
