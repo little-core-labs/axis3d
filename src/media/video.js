@@ -357,8 +357,7 @@ export class VideoCommand extends MediaCommand {
           lastRead = now
           debug('VideoCommand: read')
           textureState.data = source
-          raf(() => texture({ ...textureState }))
-          raf(() => done())
+          texture({ ...textureState })
         }
       }
     }
