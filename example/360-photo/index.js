@@ -23,7 +23,7 @@ const frame = Frame(ctx)
 const image = Image(ctx, '/govball.jpg')
 const sphere = Sphere(ctx, { envmap: image })
 
-Object.assign(window, {camera, frame, image, sphere})
+Object.assign(window, {ctx, camera, frame, image, sphere})
 
 // inputs
 const keyboard = Keyboard(ctx)
@@ -37,10 +37,12 @@ const orbitController = OrbitCameraController(ctx, {
 })
 
 // orient controllers to "center" of image/video
-raf(() => {
-  orbitController.orientation.y = Math.PI / 2
-  // focus now
-  ctx.focus()
+image.once('load', () => {
+  raf(() => {
+    orbitController.orientation.y = Math.PI / 2
+    // focus now
+    ctx.focus()
+  })
 })
 
 // axis animation frame loop
@@ -50,6 +52,6 @@ frame(() => {
 
   // draw camera scene
   camera(() => {
-    sphere()
+    sphere({scale: [100, 100, 100]})
   })
 })

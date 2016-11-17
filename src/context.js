@@ -70,7 +70,14 @@ export class Context extends EventEmitter {
   constructor(initialState = {}, opts = {}, createRegl = regl) {
     super()
 
-    const reglOptions = { ...opts.regl }
+    const reglOptions = {
+      ...opts.regl,
+      extensions: [
+        ...(opts.regl? opts.regl.extensions : []),
+        'OES_texture_float',
+        'WEBGL_compressed_texture_s3tc',
+      ]
+    }
     if (opts.element && 'CANVAS' == opts.element.nodeName) {
       reglOptions.canvas = opts.element
     } else if (opts.element && opts.element.nodeName) {

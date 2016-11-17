@@ -56,6 +56,6 @@ frame(({time}) => {
 
   // draw camera scene
   camera(() => {
-    sphere()
+    sphere({scale: [100, 100, 100]})
   })
 })

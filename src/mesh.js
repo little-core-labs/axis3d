@@ -184,10 +184,13 @@ export class MeshCommand extends Command {
       }
 
       if (envmap) {
-        this.scale.x = -1
+        if (this.scale.x >= 0) {
+          this.scale.x *= -1
+        }
+
         // @TODO(werle) flipY should be exposed from texture constructor
         if (envmap.texture && envmap.texture._texture.flipY) {
-          this.scale.y = -1
+          this.scale.y *= -1
         }
       }
 
@@ -272,6 +275,11 @@ export class MeshCommand extends Command {
         }
 
         if (map && map.texture) {
+          shaderDefines.HAS_MAP = ''
+          uniforms.isMapLoaded = () => {
+            if ('function' == typeof map) { map() }
+            return Boolean(map.isDoneLoading || map.hasProgress)
+          }
           uniforms.map = () => {
             if ('function' == typeof map) { map() }
             return map.texture
@@ -322,10 +330,6 @@ export class MeshCommand extends Command {
           } else if (geometry && geometry.primitive) {
             reglOptions.count = geometry.primitive.count
           }
-        }
-
-        if (uniforms.map) {
-          shaderDefines.HAS_MAP = ''
         }
 
         if (reglOptions.frag) {

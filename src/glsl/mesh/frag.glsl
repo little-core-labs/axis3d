@@ -1,6 +1,4 @@
-#ifdef GL_ES
 precision mediump float;
-#endif
 
 /**
  * Shader uniforms.
@@ -11,6 +9,7 @@ uniform float opacity;
 
 #ifdef HAS_MAP
 uniform sampler2D map;
+uniform bool isMapLoaded;
 #endif
 
 /**
@@ -36,7 +35,11 @@ varying vec2 vuv;
 #pragma glslify: export(main)
 void main() {
 #if defined(HAS_MAP) && defined(HAS_UVS)
-  gl_FragColor = texture2D(map, vuv);
+  if (isMapLoaded) {
+    gl_FragColor = texture2D(map, vuv);
+  } else {
+    discard;
+  }
 #else
   gl_FragColor = color;
 #endif

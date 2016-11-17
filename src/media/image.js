@@ -4,9 +4,17 @@
  * Module dependencies.
  */
 
-import { debug, define } from '../utils'
+import {
+  clampToMaxSize,
+  makePowerOfTwo,
+  define,
+  debug,
+} from '../utils'
+
 import { MediaCommand } from '../media'
 import isPowerOfTwo from 'is-power-of-two'
+import getPixels from 'get-pixels'
+import toCanvas from 'image-to-canvas'
 import raf from 'raf'
 
 /**
@@ -36,8 +44,10 @@ export class ImageCommand extends MediaCommand {
    */
 
   constructor(ctx, src, initialState = {}) {
+    let buffer = null
     let source = null
     let texture = null
+    let isConvertingToBuffer = false
 
     const manifest = {
       image: {
@@ -49,16 +59,30 @@ export class ImageCommand extends MediaCommand {
       regl: {
         blend: {
           enable: true,
-          func: {src: 'src alpha', dst: 'one minus src alpha'},
+          func: {
+            src: 'src alpha',
+            dst: 'one minus src alpha'
+          },
         },
       }
     }
 
     const textureState = Object.assign({
+      alignment: 4,
+      flipY: true,
       wrap: ['clamp', 'clamp'],
-      mag: 'linear',
       min: 'linear',
+      mag: 'linear',
+
+      get data() {
+        if (buffer) {
+          return buffer
+        } else if (source) {
+          return source
+        }
+      },
     }, initialState.texture)
+
 
     // sanitize initialState object
     for (let key in initialState) {
@@ -68,18 +92,6 @@ export class ImageCommand extends MediaCommand {
     }
 
     super(ctx, manifest, initialState)
-
-    this.on('load', () => {
-      const needsMipmaps = (
-        isPowerOfTwo(source.height) &&
-        isPowerOfTwo(source.width)
-      )
-
-      if (needsMipmaps) {
-        textureState.mipmap = needsMipmaps
-        textureState.min = 'linear mipmap nearest'
-      }
-    })
 
     this.once('load', () => {
       if (source instanceof Image) {
@@ -175,16 +187,31 @@ export class ImageCommand extends MediaCommand {
     })
 
     if (initialState && initialState.texture) {
-      texture = initialState.textureState
-    } else {
-      texture = ctx.regl.texture({ ...textureState })
+      texture = initialState.texture
     }
 
     if ('object' == typeof src) {
-      source = src
+      if (src.source) {
+        source = src.source
+      } else if (src.buffer) {
+        buffer = src.buffer
+      }
+      delete src.buffer
+      delete src.source
       Object.assign(textureState, src)
-      texture({ ...textureState, src})
+      raf(() => this.refresh())
       raf(() => this.emit('load'))
+    }
+
+    /**
+     * Refreshes image texture with current
+     * texture state.
+     */
+
+    this.refresh = () => {
+      if (textureState.data) {
+        texture({ ...textureState })
+      }
     }
 
     /**
@@ -194,14 +221,63 @@ export class ImageCommand extends MediaCommand {
      */
 
     this.onloaded = ({image}) => {
-      source = image
-      textureState.data = source
-      raf(() => texture({ ...textureState }))
-      this.emit('load')
-    }
+      const needsMipmaps = Boolean(source && (
+        !isPowerOfTwo(source.height) ||
+        !isPowerOfTwo(source.width)
+      ))
 
-    this.refresh = () => {
-      texture({ ...textureState })
+      source = clampToMaxSize(image, ctx.regl.limits.maxTextureSize)
+
+      textureState.mipmap = needsMipmaps
+
+      if (needsMipmaps) {
+        if (!isPowerOfTwo(source.width) || !isPowerOfTwo(source.height)) {
+          const {wrap, min, mag} = textureState
+          if ('clamp' != wrap[0] || 'clamp' != wrap[1]) {
+            source = makePowerOfTwo(source)
+          } else if ('linear' != min && 'linear' != mag) {
+            source = makePowerOfTwo(source)
+          }
+        }
+        textureState.min = 'linear mipmap nearest'
+      }
+
+      if (source) {
+        if (texture) { texture.destroy() }
+        texture = ctx.regl.texture({ ...textureState })
+      }
+
+      if (isPowerOfTwo(source.width) && isPowerOfTwo(source.height)) {
+        this.emit('load')
+      } else if (buffer) {
+        this.emit('load')
+      } else if (null == buffer && false == isConvertingToBuffer) {
+        isConvertingToBuffer = true
+        this.emit('beforebuffer')
+        raf(() => toCanvas(source, (canvas) => {
+          canvas && getPixels(canvas.toDataURL('image/png'), (err, pixels) => {
+            if (err) { return this.emit('error', err) }
+            buffer = pixels.data
+            delete pixels.data
+            Object.assign(textureState, pixels)
+            this.emit('buffer')
+            try {
+              textureState.format = 'rgba s3tc dxt5'
+              this.refresh()
+            } catch (e) { try {
+              textureState.format = 'rgba s3tc dxt3'
+              this.refresh()
+            } catch (e) { try {
+              textureState.format = 'rgba s3tc dxt1'
+              this.refresh()
+            } catch (e) {
+              this.emit('error', e)
+            }}}
+          })
+        }))
+      }
+
+      raf(() => this.refresh())
     }
   }
 }

@@ -8,6 +8,12 @@ import { version } from './package'
 import createDebug from 'debug'
 
 /**
+ * Math dependencies.
+ */
+
+const { round, floor, pow, } = Math
+
+/**
  * Define property helper.
  *
  * @public
@@ -84,4 +90,79 @@ export const getScreenOrientation = () => {
   }
 
   return window.orientation || 0
+}
+
+/**
+ * Finds the nearest power of two for a
+ * given number value.
+ */
+
+export const nearestPowerOfTwo = (value) => pow(2, round(Math.log(value) / Math.LN2))
+
+/**
+ * Convert an image or canvas to the nearest power
+ * of two.
+ * Borrowed from https://github.com/mrdoob/three.js/blob/dev/src/renderers/webgl/WebGLTextures.js
+ *
+ * @param {HTMLImageElement|HTMLCanvasElement} image
+ * @return {HTMLImageElement|HTMLCanvasElement}
+ */
+
+export const makePowerOfTwo = (image) => {
+	if (image instanceof HTMLImageElement || image instanceof HTMLCanvasElement) {
+		const canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas')
+		const context = canvas.getContext('2d')
+
+		canvas.width = nearestPowerOfTwo(image.width)
+		canvas.height = nearestPowerOfTwo(image.height)
+		context.drawImage(image, 0, 0, canvas.width, canvas.height)
+
+		return canvas
+	}
+
+	return image
+}
+
+/**
+ */
+
+export const createCanvas = () => document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas')
+
+/**
+ * Scale image using a canvas.
+ * Warning: Scaling through the canvas will only work with
+ * images that use premultiplied alpha.
+ *
+ * Borrowed from https://github.com/mrdoob/three.js/blob/dev/src/renderers/webgl/WebGLTextures.js
+ *
+ * @param {HTMLImageElement|HTMLCanvasElement} image
+ * @param {Number} maxSize
+ * @return {HTMLImageElement|HTMLCanvasElement}
+ */
+
+export const scaleWithCanvas = (image, scale) => {
+  const canvas = createCanvas()
+  const context = canvas.getContext( '2d' )
+
+  canvas.width = Math.floor(image.width * scale)
+  canvas.height = Math.floor(image.height * scale)
+
+  context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height)
+  return canvas
+}
+
+/**
+ * Clamp an image to a max size.
+ *
+ * @param {HTMLImageElement|HTMLCanvasElement} image
+ * @param {Number} maxSize
+ * @return {HTMLImageElement|HTMLCanvasElement}
+ */
+
+export const clampToMaxSize = (image, maxSize) => {
+	if (image.width > maxSize || image.height > maxSize) {
+    return scaleWithCanvas(image, maxSize/Math.max(image.width, image.height))
+  } else {
+    return image
+  }
 }
