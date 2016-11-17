@@ -165,20 +165,20 @@ export class ImageCommand extends MediaCommand {
         if (texture && null === value) {
           texture.destroy()
           texture = ctx.regl.texture({ ...textureState })
-        } else {
-          texture = ctx.regl.texture({ ...textureState })
-        }
-
-        if (value && texture) {
-          texture.destroy()
+        } if (value) {
+          if (texture) {
+            texture.destroy()
+          }
           texture = value
         }
       }
     })
 
-    this.texture = initialState && initialState.texture ?
-      initialState.texture :
-        ctx.regl.texture({ ...textureState })
+    if (initialState && initialState.texture) {
+      texture = initialState.textureState
+    } else {
+      texture = ctx.regl.texture({ ...textureState })
+    }
 
     if ('object' == typeof src) {
       source = src
@@ -196,7 +196,7 @@ export class ImageCommand extends MediaCommand {
     this.onloaded = ({image}) => {
       source = image
       textureState.data = source
-      texture({ ...textureState })
+      raf(() => texture({ ...textureState }))
       this.emit('load')
     }
 
