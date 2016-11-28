@@ -98,9 +98,11 @@ node_modules: package.json
 ##
 # Builds documentation
 #
-doc: node_modules $(SRC)
-	./scripts/generate_documentation.sh $(CWD) public/doc
+esdoc: node_modules esdoc.json $(SRC)
+	./scripts/esdoc.sh esdoc.json
 
+##
+# Runs an example and web server
 
 .PHONY: example/*
 example/*: NODE_PATH="$(NODE_PATH):$(CWD)/example/"
