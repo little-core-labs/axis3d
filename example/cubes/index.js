@@ -17,7 +17,7 @@ const box = Box(ctx)
 const count = 40
 const color = [0, 0, 0, 1]
 const rotation = [0, 0, 0, 1]
-const positions = Array(count).fill(0).map((_, i) => vec3.random([], i))
+const positions = Array(count).fill(0).map((_, i) => vec3.random([], i + 4))
 
 frame(({time}) => {
   quat.copy(rotation,
@@ -29,9 +29,9 @@ frame(({time}) => {
     for (let i = 0; i < count; ++i) {
       const position = positions[i]
       quat.setAxisAngle(rotation, [1, 0, 0], (i+1)*0.25*time)
-      color[0] = (Math.sin(time)*i*.125) % 255
-      color[1] = (Math.cos(time)*i*.0125) % 255
-      color[2] = time * 0.125 % 255
+      color[0] = 0.125*(i+1)*Math.sin(time) % 255
+      color[1] = 0.125*(i+1)*Math.cos(time) % 255
+      color[2] = 0.0625*i*time % 255
       box({rotation, position, color})
     }
   })
