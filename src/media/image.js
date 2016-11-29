@@ -221,62 +221,26 @@ export class ImageCommand extends MediaCommand {
      */
 
     this.onloaded = ({image}) => {
-      const needsMipmaps = Boolean(source && (
-        !isPowerOfTwo(source.height) ||
-        !isPowerOfTwo(source.width)
+      source = clampToMaxSize(
+        image,
+        ctx.regl.limits.maxTextureSize,
+        !(isPowerOfTwo(image.width) || isPowerOfTwo(image.height))
+      )
+
+      const needsMipmaps = Boolean(image && (
+        !isPowerOfTwo(image.height) ||
+        !isPowerOfTwo(image.width)
       ))
 
-      source = clampToMaxSize(image, ctx.regl.limits.maxTextureSize)
-
-      textureState.mipmap = needsMipmaps
-
       if (needsMipmaps) {
-        if (!isPowerOfTwo(source.width) || !isPowerOfTwo(source.height)) {
-          const {wrap, min, mag} = textureState
-          if ('clamp' != wrap[0] || 'clamp' != wrap[1]) {
-            source = makePowerOfTwo(source)
-          } else if ('linear' != min && 'linear' != mag) {
-            source = makePowerOfTwo(source)
-          }
-        }
+        textureState.mipmap = needsMipmaps
         textureState.min = 'linear mipmap nearest'
       }
 
-      if (source) {
-        if (texture) { texture.destroy() }
-        texture = ctx.regl.texture({ ...textureState })
-      }
+      if (texture) { texture.destroy() }
+      texture = ctx.regl.texture({ ...textureState })
 
-      if (isPowerOfTwo(source.width) && isPowerOfTwo(source.height)) {
-        this.emit('load')
-      } else if (buffer) {
-        this.emit('load')
-      } else if (null == buffer && false == isConvertingToBuffer) {
-        isConvertingToBuffer = true
-        this.emit('beforebuffer')
-        raf(() => toCanvas(source, (canvas) => {
-          canvas && getPixels(canvas.toDataURL('image/png'), (err, pixels) => {
-            if (err) { return this.emit('error', err) }
-            buffer = pixels.data
-            delete pixels.data
-            Object.assign(textureState, pixels)
-            this.emit('buffer')
-            try {
-              textureState.format = 'rgba s3tc dxt5'
-              this.refresh()
-            } catch (e) { try {
-              textureState.format = 'rgba s3tc dxt3'
-              this.refresh()
-            } catch (e) { try {
-              textureState.format = 'rgba s3tc dxt1'
-              this.refresh()
-            } catch (e) {
-              this.emit('error', e)
-            }}}
-          })
-        }))
-      }
-
+      this.emit('load')
       raf(() => this.refresh())
     }
   }

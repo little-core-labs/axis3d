@@ -124,9 +124,13 @@ export const makePowerOfTwo = (image) => {
 }
 
 /**
+ * Creates a canvas DOM element.
+ *
+ * @return {HTMLCanvasElement}
  */
 
-export const createCanvas = () => document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas')
+export const createCanvas = () =>
+  document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas')
 
 /**
  * Scale image using a canvas.
@@ -140,14 +144,21 @@ export const createCanvas = () => document.createElementNS('http://www.w3.org/19
  * @return {HTMLImageElement|HTMLCanvasElement}
  */
 
-export const scaleWithCanvas = (image, scale) => {
+export const scaleWithCanvas = (image, scale, scaleNearestPowerOfTwo) => {
   const canvas = createCanvas()
-  const context = canvas.getContext( '2d' )
+  const context = canvas.getContext('2d')
+  let {width, height} = image
+
+  if (scaleNearestPowerOfTwo) {
+    width = nearestPowerOfTwo(width)
+    height = nearestPowerOfTwo(height)
+  }
 
   canvas.width = Math.floor(image.width * scale)
   canvas.height = Math.floor(image.height * scale)
 
-  context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height)
+  context.drawImage(image, 0, 0, width, height,
+                    0, 0, canvas.width, canvas.height)
   return canvas
 }
 
@@ -159,10 +170,11 @@ export const scaleWithCanvas = (image, scale) => {
  * @return {HTMLImageElement|HTMLCanvasElement}
  */
 
-export const clampToMaxSize = (image, maxSize) => {
+export const clampToMaxSize = (image, maxSize, scaleNearestPowerOfTwo) => {
 	if (image.width > maxSize || image.height > maxSize) {
-    return scaleWithCanvas(image, maxSize/Math.max(image.width, image.height))
+    const scale = maxSize/Math.max(image.width, image.height)
+    return scaleWithCanvas(image, scale, scaleNearestPowerOfTwo)
   } else {
-    return image
+    return scaleNearestPowerOfTwo ? makePowerOfTwo(image) : image
   }
 }

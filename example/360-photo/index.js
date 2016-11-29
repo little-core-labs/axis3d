@@ -39,7 +39,7 @@ const orbitController = OrbitCameraController(ctx, {
 // orient controllers to "center" of image/video
 image.once('load', () => {
   raf(() => {
-    orbitController.orientation.y = Math.PI / 2
+    orbitController.orientation.y = Math.PI / 4
     // focus now
     ctx.focus()
   })
@@ -47,11 +47,9 @@ image.once('load', () => {
 
 // axis animation frame loop
 frame(() => {
-  // update controller states
-  orbitController()
-
   // draw camera scene
   camera(() => {
-    sphere({scale: [100, 100, 100]})
+    orbitController({interpolationFactor: 0.07})
+    sphere({scale: [1, 1, 1]})
   })
 })

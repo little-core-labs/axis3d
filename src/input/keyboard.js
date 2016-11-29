@@ -1,5 +1,5 @@
-'use strict'
 
+'use strict'
 /**
  * Module dependencies.
  */
@@ -42,9 +42,7 @@ export class KeyboardCommand extends Command {
       }
     })
 
-    ctx.on('blur', () => {
-      raf(() => this.reset())
-    })
+    ctx.on('blur', () => { this.reset() })
 
     /**
      * Keyboard state.
@@ -77,9 +75,17 @@ export class KeyboardCommand extends Command {
         'super', 'ctrl', 'alt', 'fn',
       ],
 
-      on(which, keys) { return this[which].map((key) => keys[key] = true) },
-      off(which, keys) { return this[which].map((key) => keys[key] = false) },
-      value(which, keys) { return this[which].some((key) => Boolean(keys[key])) },
+      on(which, keys = state.keys) {
+        return this[which].map((key) => keys[key] = true)
+      },
+
+      off(which, keys = state.keys) {
+        return this[which].map((key) => keys[key] = false)
+      },
+
+      value(which, keys = state.keys) {
+        return this[which].some((key) => Boolean(keys[key]))
+      },
     }
 
     /**
@@ -163,6 +169,6 @@ export class KeyboardCommand extends Command {
         // set key name
         state.keys[keycode(code)] = false
       }
-    })
+    }, false)
   }
 }

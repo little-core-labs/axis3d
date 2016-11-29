@@ -17,37 +17,39 @@ import { radians } from '../../utils'
 export default (orbitCamera, {keyboard}, opts = {}, {dx = 0, dy = 0} = {}) => {
   keyboard && keyboard(() => {
     const friction = orbitCamera.friction
-    let c = 0.07
+    let c = 0.05
     const step = c*friction
-    const keys = keyboard.keys
 
     // @TODO(werle) - should we reset keyboard state ?
-    if (keyboard.aliasMappings.value('control', keys)) {
+    if (keyboard.aliasMappings.value('control')) {
       return
     }
 
-    if (keyboard.aliasMappings.value('up', keys)) {
+    if (keyboard.aliasMappings.value('up')) {
       dx = dx + step
       orbitCamera.orientation.x -= step
-      keyboard.aliasMappings.off('down', keys)
-    } else if (keyboard.aliasMappings.value('down', keys)) {
+      keyboard.aliasMappings.off('down')
+    } else if (keyboard.aliasMappings.value('down')) {
       dx = dx - step
       orbitCamera.orientation.x += step
-      keyboard.aliasMappings.off('up', keys)
+      keyboard.aliasMappings.off('up')
     }
 
-    if (keyboard.aliasMappings.value('left', keys)) {
+    if (keyboard.aliasMappings.value('left')) {
       dy = dy + step
       orbitCamera.orientation.y -= step
-      keyboard.aliasMappings.off('right', keys)
-    } else if (keyboard.aliasMappings.value('right', keys)) {
+      keyboard.aliasMappings.off('right')
+    } else if (keyboard.aliasMappings.value('right')) {
       dy = dy - step
       orbitCamera.orientation.y += step
-      keyboard.aliasMappings.off('left', keys)
+      keyboard.aliasMappings.off('left')
     }
 
-    c = 0.075
-    if (dx) { orbitCamera.orientation.x += c*dx }
-    if (dy) { orbitCamera.orientation.y += c*dy }
+    c = 0.25
+    dx *= c
+    dy *= c
+
+    if (dx) { orbitCamera.orientation.x += dx }
+    if (dy) { orbitCamera.orientation.y += dy }
   })
 }

@@ -51,11 +51,9 @@ Object.assign(window, {camera, sphere, video})
 
 // axis animation frame loop
 frame(({time}) => {
-  // update controller states
-  orbitController()
-
   // draw camera scene
   camera(() => {
+    orbitController({interpolationFactor: 0.07})
     sphere({scale: [100, 100, 100]})
   })
 })
