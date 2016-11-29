@@ -49,7 +49,7 @@ image.once('load', () => {
 frame(() => {
   // draw camera scene
   camera(() => {
-    orbitController({interpolationFactor: 0.07})
-    sphere({scale: [1, 1, 1]})
+    orbitController({sloppy: true, interpolationFactor: 0.1, zoom: {fov: true}})
+    sphere({scale: [100, 100, 100]})
   })
 })

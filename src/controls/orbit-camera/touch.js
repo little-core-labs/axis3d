@@ -11,21 +11,27 @@ import clamp from 'clamp'
  * Applies touch changes to orbit orbitCamera from
  * touch input
  *
- * @param {OrbitorbitCameraController} orbitCamera
- * @param {TouchCommand} touch
+ * @param {Object} opts
+ * @param {OrbitCameraController} opts.camera
+ * @param {TouchCommand} opts.touch
+ * @param {Object} opts.state
  */
 
-export default (orbitCamera, {touch}) => {
+export default ({
+  camera,
+  touch,
+  state,
+} = {}) => {
   // update orientation from touch input
   touch && touch(() => {
-    const friction = orbitCamera.friction
+    const friction = camera.friction
     const dx = touch.deltaX
     const dy = touch.deltaY
     const c = 0.075
 
     if (touch.touches && touch.touches.length) {
-      orbitCamera.orientation.x -= c*dy*friction
-      orbitCamera.orientation.y -= c*dx*friction
+      camera.orientation.x -= c*dy*friction
+      camera.orientation.y -= c*dx*friction
     }
   })
 }

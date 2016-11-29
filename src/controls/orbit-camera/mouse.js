@@ -17,18 +17,27 @@ const X_AXIS_MOUSE_FRICTION = 0.005
  * the y axis for mouse inputs.
  */
 
-const Y_AXIS_MOUSE_FRICTION = 0.006
+const Y_AXIS_MOUSE_FRICTION = 0.004
 
 /**
  * Applies orientation changes to orbit orbitCamera from
  * mouse input
  *
- * @param {OrbitorbitCameraController} orbitCamera
- * @param {MouseCommand} mouse
+ * @param {Object} opts
+ * @param {OrbitCameraController} opts.camera
+ * @param {MouseCommand} opts.mouse
+ * @param {Object} opts.state
  */
 
-export default (orbitCamera, {mouse}, opts = {}) => {
-  const friction = orbitCamera.friction
+export default ({
+  camera,
+  mouse,
+  state,
+} = {}) => {
+  const friction = camera.friction
+  const invert = state.invert || false
+  const zoom = state.zoom || {fov: false}
+
   // update orientation from coordinates
   mouse && mouse(() => {
     const xf = X_AXIS_MOUSE_FRICTION
@@ -38,8 +47,8 @@ export default (orbitCamera, {mouse}, opts = {}) => {
 
     // update if a singled button is pressed
     if (1 == mouse.buttons && (dy || dx)) {
-      orbitCamera.orientation.x += (false == opts.invert ? 1 : -1)*xf*dy*friction
-      orbitCamera.orientation.y += (false == opts.invert ? 1 : -1)*yf*dx*friction
+      camera.orientation.x += (false == invert ? 1 : -1)*xf*dy*friction
+      camera.orientation.y += (false == invert ? 1 : -1)*yf*dx*friction
     }
   })
 
@@ -47,7 +56,11 @@ export default (orbitCamera, {mouse}, opts = {}) => {
   mouse && mouse(() => {
     const c = 0.033
     const dv = c*friction*mouse.wheel.deltaY
-    if (!orbitCamera.fov) { orbitCamera.fov = 0 }
-    orbitCamera.target.fov += dv
+    if (zoom && zoom.fov) {
+      if (!camera.fov) { camera.fov = 0 }
+      camera.target.fov += dv
+    } else if (false !== zoom) {
+      camera.target.position.z += dv
+    }
   })
 }

@@ -52,6 +52,7 @@ export class OrbitCameraController extends ControllerCommand {
 
   constructor(ctx, opts = {}) {
     super(ctx, { ...opts }, (_, updates, target) => {
+      const interpolationFactor = this.interpolationFactor
       const friction = this.friction
       const camera = updates.target || this.target
       const inputs = this.inputs || {}
@@ -67,10 +68,10 @@ export class OrbitCameraController extends ControllerCommand {
       const touch = inputs.touch
 
       if (ctx.hasFocus) {
-        if (orientation) { applyOrientationInput(this, {orientation}, opts) }
-        if (keyboard) { applyKeyboardInput(this, {keyboard}, opts) }
-        if (touch) { applyTouchInput(this, {touch}, opts) }
-        if (mouse) { applyMouseInput(this, {mouse}, opts) }
+        if (orientation) { applyOrientationInput({camera: this, orientation, state: {...opts, ...updates}}) }
+        if (keyboard) { applyKeyboardInput({camera: this, keyboard, state: {...opts, ...updates}}) }
+        if (mouse) { applyMouseInput({camera: this, mouse, state: {...opts, ...updates}}) }
+        if (touch) { applyTouchInput({camera: this, touch, state: {...opts, ...updates}}) }
       }
 
       // clamp at north/south poles

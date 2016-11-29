@@ -36,7 +36,7 @@ const orbitController = OrbitCameraController(ctx, {
 
 // orient controllers to "center" of video/video
 raf(() => {
-  orbitController.orientation.y = -Math.PI / 2
+  orbitController.orientation.y = Math.PI / 4
 
   // play next frame
   video.play()
@@ -53,7 +53,7 @@ Object.assign(window, {camera, sphere, video})
 frame(({time}) => {
   // draw camera scene
   camera(() => {
-    orbitController({interpolationFactor: 0.07})
+    orbitController({sloppy: true, interpolationFactor: 0.1, zoom: {fov: true}})
     sphere({scale: [100, 100, 100]})
   })
 })

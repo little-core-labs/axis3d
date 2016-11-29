@@ -39,6 +39,16 @@ export class ControllerCommand extends Command {
    */
 
   constructor(ctx, opts = {}, update = () => void 0) {
+    const state = Object.assign({
+      interpolationFactor: 1,
+      orientation: Object.assign(new Vector(0, 0, 0), opts.orientation),
+      sloppy: false,
+    }, opts)
+
+    let rotation = new Quaternion()
+    let target = opts.target || null
+    let source = opts.source || null
+
     super((_, updates) => {
       if (updates && 'target' in updates) {
         target = updates.target
@@ -48,6 +58,7 @@ export class ControllerCommand extends Command {
         source = updates.source
       }
 
+      update(_, {...state}, target, source)
       updateState(updates)
       syncTarget()
 
@@ -55,106 +66,29 @@ export class ControllerCommand extends Command {
         updates(_)
       }
 
-      update(_, {...state}, target, source)
-
-      for (let fn of middleware) {
-        fn(this, _, {...state}, target, source)
-      }
     })
-
-    /**
-     * ControllerCommand middleware
-     *
-     * @private
-     * @const
-     * @type {Array}
-     */
-
-    const middleware = []
-
-    /**
-     * ControllerCommand state.
-     *
-     * @private
-     * @const
-     * @type {Object}
-     */
-
-    const state = Object.assign({
-      interpolationFactor: 1,
-      orientation: Object.assign(new Vector(0, 0, 0), opts.orientation),
-      quaternions: {
-        x: new Quaternion(), y: new Quaternion(), z: new Quaternion()
-      },
-    }, opts)
-
-    /**
-     * ControllerCommand rotation quaternion.
-     *
-     * @private
-     * @type {Quaternion}
-     */
-
-    let rotation = new Quaternion()
-
-    /**
-     * Target MeshCommand instance.
-     *
-     * @private
-     * @type {MeshCommand}
-     */
-
-    let target = opts.target || null
-
-    /**
-     * Source MeshCommand instance.
-     *
-     * @private
-     * @type {MeshCommand}
-     */
-
-    let source = opts.source || null
-
-    /**
-     * Updates controller state.
-     *
-     * @private
-     * @param {Object} updates
-     */
 
     const updateState = (updates) => {
       if (updates && 'object' == typeof updates) {
         Object.assign(state, updates, {
           orientation: Object.assign(state.orientation, updates.orientation),
-          quaternions: Object.assign(state.quaternions, updates.quaternions),
         })
       }
     }
-
-    /**
-     * Syncs controller state to target.
-     *
-     * @private
-     */
 
     const syncTarget = () => {
       rotateTarget()
     }
 
-    /**
-     * Rotates target at given orientation.
-     *
-     * @private
-     */
-
     const rotateTarget = () => {
-      Quaternion.slerpTargetFromAxisAngles(rotation,
-                                           state.orientation,
-                                           state.interpolationFactor)
+      const slerp = state.sloppy ?
+        Quaternion.sloppySlerpTargetFromAxisAngles :
+        Quaternion.slerpTargetFromAxisAngles
+      slerp(rotation, state.orientation, state.interpolationFactor)
     }
 
     /**
-     * Target getter.
+     * .target getter.
      *
      * @public
      * @getter
@@ -164,7 +98,7 @@ export class ControllerCommand extends Command {
     define(this, 'target', { get: () => target })
 
     /**
-     * Rotation getter.
+     * .rotation getter.
      *
      * @public
      * @getter
@@ -174,7 +108,7 @@ export class ControllerCommand extends Command {
     define(this, 'rotation', { get: () => rotation })
 
     /**
-     * Source getter.
+     * .source getter.
      *
      * @public
      * @getter
@@ -184,7 +118,7 @@ export class ControllerCommand extends Command {
     define(this, 'source', { get: () => source })
 
     /**
-     * Orientation getter.
+     * .orientation getter.
      *
      * @public
      * @getter
@@ -194,70 +128,13 @@ export class ControllerCommand extends Command {
     define(this, 'orientation', { get: () => state.orientation })
 
     /**
-     * Connects this controller to an input
-     * object.
+     * .interpolationFactor getter.
      *
      * @public
-     * @param {MeshCommand} object
-     * @return {ControllerCommand}
+     * @getter
+     * @type {Vector}
      */
 
-    this.connect = (object) => {
-      if ('function' == typeof object) {
-        target = object
-      }
-      return this
-    }
-
-    /**
-     * Sets the x axis angle orientation in
-     * radians.
-     *
-     * @param {Number} radians
-     * @return {ControllerCommand}
-     */
-
-    this.setAxisAngleX = (radians) => {
-      state.orientation.x = radians
-      return this
-    }
-
-    /**
-     * Sets the y axis angle orientation in
-     * radians.
-     *
-     * @param {Number} radians
-     * @return {ControllerCommand}
-     */
-
-    this.setAxisAngleY = (radians) => {
-      state.orientation.y = radians
-      return this
-    }
-
-    /**
-     * Sets the z axis angle orientation in
-     * radians.
-     *
-     * @param {Number} radians
-     * @return {ControllerCommand}
-     */
-
-    this.setAxisAngleZ = (radians) => {
-      state.orientation.z = radians
-      return this
-    }
-
-    /**
-     * Installs controller middleware.
-     *
-     * @param {Function} fn
-     * @return {ControllerCommand}
-     */
-
-    this.use = (fn) => {
-      middleware.push(fn)
-      return this
-    }
+    define(this, 'interpolationFactor', { get: () => state.interpolationFactor })
   }
 }
