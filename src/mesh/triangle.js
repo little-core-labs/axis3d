@@ -39,7 +39,7 @@ export default (...args) => new TriangleCommand(...args)
 
 export class TriangleCommand extends MeshCommand {
   constructor(ctx, opts = {}) {
-    const geometry = new TriangleGeometry(opts.geometry)
+    const geometry = new TriangleGeometry(opts)
     super(ctx, { ...opts, count: 3, type: 'triangle', geometry, vert })
   }
 }

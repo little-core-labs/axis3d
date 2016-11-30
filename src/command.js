@@ -47,8 +47,8 @@ export class Command extends Function {
   static codegen(fn) {
     return `
     var fn = ${encode(fn)};
-    fn.apply(this, arguments);
-    return this;`
+    return fn.apply(this, arguments);
+    `
   }
 
   /**
@@ -116,7 +116,7 @@ export class CommandContext {
 
 function commandRunnerWrap(ctx, run, ...args) {
   if (this && 'function' == typeof run) {
-    run.apply(run, [ctx, ...args])
+    return run.apply(run, [ctx, ...args])
   }
   return this
 }

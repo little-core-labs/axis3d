@@ -27,7 +27,7 @@ export default (...args) => new PlaneCommand(...args)
 
 export class PlaneCommand extends MeshCommand {
   constructor(ctx, opts = {}) {
-    const geometry = new PlaneGeometry(opts.geometry)
+    const geometry = new PlaneGeometry(opts)
     super(ctx, { ...opts, type: 'plane', geometry })
   }
 }

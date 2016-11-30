@@ -27,7 +27,7 @@ export default (...args) => new BoxCommand(...args)
 
 export class BoxCommand extends MeshCommand {
   constructor(ctx, opts = {}) {
-    const geometry = new BoxGeometry(opts.geometry)
+    const geometry = new BoxGeometry(opts)
     super(ctx, { ...opts, type: 'box', geometry })
   }
 }
