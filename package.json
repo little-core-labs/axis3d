@@ -21,6 +21,7 @@
     "babel-plugin-glslify": "^1.0.2",
     "bound-points": "^1.0.0",
     "clamp": "^1.0.1",
+    "color-shader-functions": "^0.0.2",
     "debug": "^2.2.0",
     "define-properties": "^1.1.2",
     "defined": "^1.0.0",

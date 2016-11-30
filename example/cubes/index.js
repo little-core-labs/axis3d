@@ -1,5 +1,6 @@
 'use strict'
 
+import VignetteBackground from 'axis3d/backgrounds/vignette'
 import Context from 'axis3d/context'
 import Camera from 'axis3d/camera'
 import Plane from 'axis3d/mesh/plane'
@@ -10,10 +11,11 @@ import Box from 'axis3d/mesh/box'
 import raf from 'raf'
 
 const ctx = Context()
+const box = Box(ctx)
 const frame = Frame(ctx)
 const camera = Camera(ctx, {position: [0, 0, -5]})
+const background = VignetteBackground(ctx)
 
-const box = Box(ctx)
 const count = 40
 const color = [0, 0, 0, 1]
 const rotation = [0, 0, 0, 1]
@@ -26,6 +28,12 @@ frame(({time}) => {
                           quat.setAxisAngle([], [1, 0, 0], -Math.sin(0.125*time))))
 
   camera({position: [10, 0, 0], rotation}, () => {
+    background({
+      reduction: -4*Math.cos(time),
+      boost: 0.125*Math.sin(time),
+      color: [ Math.sin(time) % 255, Math.cos(time) % 255, time % 255, 1 ]
+    })
+
     for (let i = 0; i < count; ++i) {
       const position = positions[i]
       quat.setAxisAngle(rotation, [1, 0, 0], (i+1)*0.25*time)
