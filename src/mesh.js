@@ -277,12 +277,19 @@ export class MeshCommand extends Command {
         if (map && map.texture) {
           shaderDefines.HAS_MAP = ''
           uniforms.isMapLoaded = () => {
-            if ('function' == typeof map) { map() }
-            return Boolean(map.isDoneLoading || map.hasProgress)
+            if ('function' == typeof map && map.texture) {
+              map()
+            }
+            if (null != map.isDoneLoading && null != map.hasProgress) {
+              return Boolean(map.isDoneLoading || map.hasProgress)
+            } else {
+              return true
+            }
           }
+
           uniforms.map = () => {
             if ('function' == typeof map) { map() }
-            return map.texture
+            return map.texture || map
           }
         } else if (map) {
           map.once('load', () => configure())
