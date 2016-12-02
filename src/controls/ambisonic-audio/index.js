@@ -23,7 +23,7 @@ import { define, radians } from '../../utils'
  * @see AmbisonicAudioControllerCommand
  */
 
-export default (...args) => new AmbisonicAudioControllerCommand(...args)
+module.exports = exports = (...args) => new AmbisonicAudioControllerCommand(...args)
 
 /**
  * AmbisonicAudioControllerCommand class

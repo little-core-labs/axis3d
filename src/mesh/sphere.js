@@ -14,7 +14,7 @@ import glsl from 'glslify'
  * @see SphereCommand
  */
 
-export default (...args) => new SphereCommand(...args)
+module.exports = exports = (...args) => new SphereCommand(...args)
 
 /**
  * SphereCommand class.

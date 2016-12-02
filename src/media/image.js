@@ -22,7 +22,7 @@ import raf from 'raf'
  * @see ImageCommand
  */
 
-export default (...args) => new ImageCommand(...args)
+module.exports = exports = (...args) => new ImageCommand(...args)
 
 /**
  * ImageCommand class.

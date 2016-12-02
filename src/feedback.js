@@ -21,7 +21,7 @@ uniform float time;
 varying vec2 vuv;
 
 void main () {
-  const int n = 8;
+  const int n = 7;
   float d = 0.001;
   vec3 c = texture2D(texture, vuv).rgb;
 
@@ -60,7 +60,7 @@ void main() {
  * @see FeedbackCommand
  */
 
-export default (...args) => new FeedbackCommand(...args)
+module.exports = exports = (...args) => new FeedbackCommand(...args)
 
 /**
  * FeedbackCommand class.

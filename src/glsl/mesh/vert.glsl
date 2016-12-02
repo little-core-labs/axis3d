@@ -53,13 +53,13 @@ void main() {
 #elif defined HAS_NORMALS
   pos = projection * view * model * vec4(normal, 1.0);
 #elif defined HAS_UVS
-  pos = projection * view * model * vec4(vec3(uv, 1.0), 1.0);
+  pos = projection * view * model * vec4(uv, 0.0, 1.0);
 #endif
 
   gl_Position = pos;
 
 #ifdef HAS_POSITIONS
-  vposition = position;
+  vposition = (model * vec4(position, 1.0)).xyz;
 #endif
 
 #ifdef HAS_NORMALS

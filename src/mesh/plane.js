@@ -15,7 +15,7 @@ import glsl from 'glslify'
  * @see PlaneCommand
  */
 
-export default (...args) => new PlaneCommand(...args)
+module.exports = exports = (...args) => new PlaneCommand(...args)
 
 /**
  * PlaneCommand class.

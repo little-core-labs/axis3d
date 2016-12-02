@@ -48,7 +48,7 @@ export const defaults = {
  * @param {Object} opts
  */
 
-export default (state, opts) => new Context({...defaults, ...state}, opts)
+module.exports = exports = (state, opts) => new Context({...defaults, ...state}, opts)
 
 /**
  * Context class.
@@ -75,9 +75,10 @@ export class Context extends EventEmitter {
       extensions: [
         ...(opts.regl? opts.regl.extensions : []),
         'OES_texture_float',
-        'WEBGL_compressed_texture_s3tc',
+        'webgl_draw_buffers',
       ]
     }
+
     if (opts.element && 'CANVAS' == opts.element.nodeName) {
       reglOptions.canvas = opts.element
     } else if (opts.element && opts.element.nodeName) {
@@ -167,6 +168,17 @@ export class Context extends EventEmitter {
 
   get regl() {
     return this[$regl]
+  }
+
+  /**
+   * Most recent regl instance context.
+   *
+   * @getter
+   * @type {Object}
+   */
+
+  get reglContext() {
+    return this[$reglContext]
   }
 
   /**

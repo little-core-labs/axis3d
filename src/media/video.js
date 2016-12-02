@@ -16,7 +16,7 @@ import raf from 'raf'
  * @see Video
  */
 
-export default (...args) => new VideoCommand(...args)
+module.exports = exports = (...args) => new VideoCommand(...args)
 
 /**
  * VideoCommand class.

@@ -17,7 +17,7 @@ import vec3 from 'gl-vec3'
  * @param {KeyboardCommand} keyboard
  */
 
-export default (fpCamera, {keyboard}) => {
+module.exports = exports = (fpCamera, {keyboard}) => {
   const { mouse } = fpCamera.inputs
   const position = fpCamera.target.position
   const front = new Vector(0, 0, -1)

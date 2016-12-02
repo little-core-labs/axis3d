@@ -21,7 +21,7 @@ import applyTouchInput from './touch'
  * @see OrbitCameraController
  */
 
-export default (...args) => new OrbitCameraController(...args)
+module.exports = exports = (...args) => new OrbitCameraController(...args)
 
 /**
  * Default friction value applied to inputs.

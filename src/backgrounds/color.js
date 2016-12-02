@@ -18,7 +18,7 @@ export const DEFAULT_COLOR = new Vector(121/255.0, 117/255.0, 114/255.0, 1)
  * @see ColorBackgroundCommand
  */
 
-export default (...args) => new ColorBackgroundCommand(...args)
+module.exports = exports = (...args) => new ColorBackgroundCommand(...args)
 
 /**
  * ColorBackgroundCommand class.

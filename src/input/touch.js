@@ -15,7 +15,7 @@ import raf from 'raf'
  * @see TouchCommand
  */
 
-export default (...args) => new TouchCommand(...args)
+module.exports = exports = (...args) => new TouchCommand(...args)
 
 /**
  * TouchCommand class.

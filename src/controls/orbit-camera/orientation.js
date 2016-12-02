@@ -16,7 +16,7 @@ import { radians } from '../../utils'
  * @param {Object} opts.state
  */
 
-export default ({
+module.exports = exports = ({
   orientation,
   camera,
   state,

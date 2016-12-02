@@ -17,7 +17,7 @@ import clamp from 'clamp'
  * @param {Object} opts.state
  */
 
-export default ({
+module.exports = exports = ({
   camera,
   touch,
   state,

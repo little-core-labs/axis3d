@@ -50,7 +50,7 @@ let MESH_COMMAND_COUNTER = 0
  * @see MeshCommand
  */
 
-export default (...args) => new MeshCommand(...args)
+module.exports = exports = (...args) => new MeshCommand(...args)
 
 /**
  * MeshCommand class.
@@ -307,8 +307,6 @@ export class MeshCommand extends Command {
           },
 
           uniforms, attributes,
-          vert: undefined !== opts.vert ? opts.vert : DEFAULT_VERTEX_SHADER,
-          frag: undefined !== opts.frag ? opts.frag : DEFAULT_FRAGMENT_SHADER,
           depth: null != depth ? depth : {enable: true},
           blend: null != blending ? blending : {
             enable: true,
@@ -323,6 +321,14 @@ export class MeshCommand extends Command {
             else { return defaults.primitive }
           }
         })
+
+        if (null !== opts.frag && false !== opts.frag) {
+          reglOptions.frag = opts.frag || DEFAULT_FRAGMENT_SHADER
+        }
+
+        if (null !== opts.vert && false !== opts.vert) {
+          reglOptions.vert = opts.vert || DEFAULT_VERTEX_SHADER
+        }
 
         if (geometry) {
           Object.assign(reglOptions, {
@@ -359,7 +365,7 @@ export class MeshCommand extends Command {
           }
         }
 
-        if (this.geometry && reglOptions.vert && reglOptions.frag) {
+        if (this.geometry) {
           draw = ctx.regl(reglOptions)
         }
       }

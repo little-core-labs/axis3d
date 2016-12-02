@@ -33,7 +33,7 @@ const noop = () => void 0
  * @see MediaCommand
  */
 
-export default (...args) => new MediaCommand(...args)
+module.exports = exports = (...args) => new MediaCommand(...args)
 
 /**
  * MediaCommand class.

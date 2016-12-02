@@ -29,7 +29,7 @@ const Y_AXIS_MOUSE_FRICTION = 0.004
  * @param {Object} opts.state
  */
 
-export default ({
+module.exports = exports = ({
   camera,
   mouse,
   state,

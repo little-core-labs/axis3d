@@ -16,7 +16,7 @@ import raf from 'raf'
  * @see MouseCommand
  */
 
-export default (...args) => new MouseCommand(...args)
+module.exports = exports = (...args) => new MouseCommand(...args)
 
 /**
  * MouseCommand class.

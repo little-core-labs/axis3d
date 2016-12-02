@@ -21,7 +21,7 @@ import { Vector } from '../../math'
  * @see FirstPersonCameraController
  */
 
-export default (...args) => new FirstPersonCameraController(...args)
+module.exports = exports = (...args) => new FirstPersonCameraController(...args)
 
 /**
  * FirstPersonCameraController class

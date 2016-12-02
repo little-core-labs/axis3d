@@ -21,6 +21,13 @@ const YVECTOR = new Vector(0, 1, 0)
 const ZVECTOR = new Vector(0, 0, 1)
 
 /**
+ * ControllerCommand class constructor alias.
+ * @see ControllerCommand
+ */
+
+module.exports = exports = (...args) => new ControllerCommand(...args)
+
+/**
  * ControllerCommand class.
  *
  * @public

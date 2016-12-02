@@ -29,7 +29,7 @@ const Y_AXIS_MOUSE_FRICTION = 0.0046
  * @param {MouseCommand} mouse
  */
 
-export default (fpCamera, {mouse}, opts = {}) => {
+module.exports = exports = (fpCamera, {mouse}, opts = {}) => {
   const friction = fpCamera.friction
   // update orientation from coordinates
   mouse && mouse(() => {

@@ -76,7 +76,7 @@ events.on(window, 'deviceorientation', (e) => {
  * @see OrientationCommand
  */
 
-export default (...args) => new OrientationCommand(...args)
+module.exports = exports = (...args) => new OrientationCommand(...args)
 
 /**
  * OrientationCommand class

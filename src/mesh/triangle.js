@@ -27,7 +27,7 @@ void main() {
  * @see TriangleCommand
  */
 
-export default (...args) => new TriangleCommand(...args)
+module.exports = exports = (...args) => new TriangleCommand(...args)
 
 /**
  * TriangleCommand class.

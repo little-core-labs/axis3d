@@ -15,7 +15,7 @@ import glsl from 'glslify'
  * @see BoxCommand
  */
 
-export default (...args) => new BoxCommand(...args)
+module.exports = exports = (...args) => new BoxCommand(...args)
 
 /**
  * BoxCommand class.

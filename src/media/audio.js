@@ -13,7 +13,7 @@ import events from 'dom-events'
  * @see AudioCommand
  */
 
-export default (...args) => new AudioCommand(...args)
+module.exports = exports = (...args) => new AudioCommand(...args)
 
 /**
  * AudioCommand class.

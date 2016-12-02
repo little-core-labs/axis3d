@@ -13,7 +13,7 @@ import { define } from './utils'
  * @see FrameCommand
  */
 
-export default (...args) => new FrameCommand(...args)
+module.exports = exports = (...args) => new FrameCommand(...args)
 
 /**
  * FrameCommand class.

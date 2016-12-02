@@ -15,7 +15,7 @@ import { radians } from '../../utils'
  * @param {KeyboardCommand} keyboard
  */
 
-export default ({
+module.exports = exports = ({
   keyboard,
   camera,
   state,

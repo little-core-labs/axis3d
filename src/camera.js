@@ -17,7 +17,7 @@ import quat from 'gl-quat'
  * @see CameraCommand
  */
 
-export default (...args) => new CameraCommand(...args)
+module.exports = exports = (...args) => new CameraCommand(...args)
 
 /**
  * Scratch matrix

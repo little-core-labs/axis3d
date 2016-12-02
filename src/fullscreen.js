@@ -12,7 +12,7 @@ import fullscreen from 'fullscreen'
  * @see FullscreenCommand
  */
 
-export default (...args) => new FullscreenCommand(...args)
+module.exports = exports = (...args) => new FullscreenCommand(...args)
 
 /**
  * Fullscreen class.

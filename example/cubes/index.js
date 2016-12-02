@@ -33,9 +33,9 @@ frame(({time}) => {
   rotate(0.125*time)
   camera({position: [10, 0, 0], rotation}, () => {
     background({
-      mix: 1,
-      reduction: 1.5,
-      //reduction: 0 - Math.cos(time),
+      mix: 1 - Math.cos(time),
+      //reduction: 0.5,
+      reduction: 1 - Math.cos(time),
       color: [
         Math.sin(0.25*time) % 255,
         Math.cos(0.50*time) % 255,

@@ -16,7 +16,7 @@ import raf from 'raf'
  * @see KeyboardCommand
  */
 
-export default (...args) => new KeyboardCommand(...args)
+module.exports = exports = (...args) => new KeyboardCommand(...args)
 
 /**
  * KeyboardCommand class
