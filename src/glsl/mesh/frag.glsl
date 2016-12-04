@@ -44,5 +44,10 @@ void main() {
   gl_FragColor = color;
 #endif
 
-  gl_FragColor.a = opacity;
+  // explicit alpha channel
+  if (color.a < 1.0) {
+    gl_FragColor.a = color.a;
+  } else {
+    gl_FragColor.a = opacity;
+  }
 }

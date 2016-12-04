@@ -46,11 +46,11 @@ export class ControllerCommand extends Command {
    */
 
   constructor(ctx, opts = {}, update = () => void 0) {
-    const state = Object.assign({
+    const state = Object.assign(opts, {
       interpolationFactor: 1,
       orientation: Object.assign(new Vector(0, 0, 0), opts.orientation),
       sloppy: false,
-    }, opts)
+    })
 
     let rotation = new Quaternion()
     let target = opts.target || null

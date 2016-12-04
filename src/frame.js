@@ -39,34 +39,41 @@ export class FrameCommand extends Command {
     let reglContext = null
     let isRunning = false
     let tick = null
+    const cancel = () => {
+      if (tick) {
+        reglContext = null
+        tick.cancel()
+        tick = null
+        queue.splice(0, -1)
+      }
+    }
 
     super((_, refresh) => {
       queue.push(refresh)
       if (false == isRunning) {
         tick = regl.frame((_, ...args) => {
-          scope((_) => {
-            reglContext = _
-            ctx[$reglContext] = reglContext
-            fbo.resize(reglContext.viewportWidth,
-                       reglContext.viewportHeight)
-            ctx.clear()
-            for (let refresh of queue) {
-              if ('function' == typeof refresh) {
-                refresh(reglContext, ...args)
-              }
-            }
-          })
+          try {
+            isRunning = true
+            scope((_) => {
+              reglContext = _
+              ctx[$reglContext] = reglContext
+              fbo.resize(reglContext.viewportWidth,
+                         reglContext.viewportHeight)
+                         ctx.clear()
+                         for (let refresh of queue) {
+                           if ('function' == typeof refresh) {
+                             refresh(reglContext, ...args)
+                           }
+                         }
+            })
+          } catch (e) {
+            console.error(e.stack || e)
+            cancel()
+          }
         })
       }
 
-      return () => {
-        if (tick) {
-          reglContext = null
-          tick.cancel()
-          tick = null
-          queue.splice(0, -1)
-        }
-      }
+      return cancel
     })
 
     const scope = regl({

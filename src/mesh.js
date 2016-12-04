@@ -84,6 +84,7 @@ export class MeshCommand extends Command {
   constructor(ctx, opts = {}) {
     const reglOptions = { ...opts.regl }
     const defaults = { ...opts.defaults }
+    const transform = mat4.identity([])
     const model = mat4.identity([])
 
     let hasInitialUpdate = false
@@ -92,6 +93,7 @@ export class MeshCommand extends Command {
     let render = null
     let envmap = null
     let depth = opts.depth || null
+    let cull = opts.cull || null
     let draw = opts.draw || null
     let map = null
 
@@ -194,18 +196,30 @@ export class MeshCommand extends Command {
         }
       }
 
-      // update uniform model matrix
+      //
+      // The following implements:
+      //   M = T * R * S
+      //   M' = Mp * M
+      // where
+      //   Mp is the parent model
+      //   T is the translation matrix
+      //   R is the rotation matrix
+      //   S is the scale matrix
+      //
+
+      mat4.identity(transform)
       mat4.identity(model)
-      mat4.scale(model, model, this.scale)
+
+      // M
       mat4.translate(model, model, this.position)
       mat4.multiply(model, model, mat4.fromQuat([], this.rotation))
+      mat4.scale(model, model, this.scale)
 
-      // apply and set contextual transform
+      // M'
       if (ctx.previous && ctx.previous.id != this.id) {
-        mat4.multiply(this.transform, ctx.previous.transform, model)
-        mat4.copy(model, this.transform)
+        mat4.multiply(transform, ctx.previous.transform, model)
       } else {
-        mat4.copy(this.transform, model)
+        mat4.copy(transform, model)
       }
     }
 
@@ -234,7 +248,7 @@ export class MeshCommand extends Command {
           opacity() {
             return null != self.opacity ? parseFloat(self.opacity) : 1
           },
-          color() { return self.color ? self.color.elements : [0, 0, 0, 0]},
+          color() { return self.color ? [...self.color] : [0, 0, 0, 0]},
           model() { return model },
         }
 
@@ -296,7 +310,7 @@ export class MeshCommand extends Command {
         }
 
         if (!opts.primitive && opts.wireframe) {
-          opts.primitive = 'lines'
+          opts.primitive = 'line strip'
         }
 
         Object.assign(reglOptions, {
@@ -307,6 +321,7 @@ export class MeshCommand extends Command {
           },
 
           uniforms, attributes,
+          cull: null != cull ? cull : {enable: true},
           depth: null != depth ? depth : {enable: true},
           blend: null != blending ? blending : {
             enable: true,
@@ -396,8 +411,8 @@ export class MeshCommand extends Command {
 
         opts.before && opts.before(...args)
         update(...args)
-        draw(props)
         block()
+        draw(props)
         opts.after && opts.after({...defaults, ...state}, block)
         ctx.pop()
       })
@@ -458,7 +473,7 @@ export class MeshCommand extends Command {
      * @type {Array}
      */
 
-    this.transform = mat4.identity([])
+    define(this, 'transform', { get() { return transform } })
 
     /**
      * Boolean to indicate if mesh should be drawn
@@ -578,6 +593,20 @@ export class MeshCommand extends Command {
       get: () => depth,
       set: (value) => {
         depth = value
+        configure()
+      }
+    })
+
+    /**
+     * Toggles face culling.
+     *
+     * @type {Boolean|Object}
+     */
+
+    define(this, 'cull', {
+      get: () => cull,
+      set: (value) => {
+        cull = value
         configure()
       }
     })

@@ -184,15 +184,7 @@ export class CameraCommand extends MeshCommand {
       // set projection
       mat4.perspective(projection, fov, aspect, near, far)
 
-      // update transform from context if present
-      if (ctx.previous && ctx.previous.id != this.id) {
-        mat4.copy(this.transform, mat4.multiply([], ctx.previous.transform, view))
-      } else {
-        mat4.copy(this.transform, view)
-      }
-
       // update view matrix
-      mat4.copy(view, this.transform)
       mat4.lookAt(view, position, target, up)
       mat4.multiply(view, view, mat4.fromQuat([], this.rotation))
 

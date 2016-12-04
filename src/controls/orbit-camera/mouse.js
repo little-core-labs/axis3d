@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+import clamp from 'clamp'
 
 /**
  * Local friction applied to rotations around
@@ -60,7 +61,7 @@ module.exports = exports = ({
       if (!camera.fov) { camera.fov = 0 }
       camera.target.fov += dv
     } else if (false !== zoom) {
-      camera.target.position.z += dv
+      camera.target.position.z = clamp(camera.target.position.z + dv, 0, Infinity)
     }
   })
 }

@@ -35,6 +35,7 @@ float random(vec3 scale, float seed) {
 }
 
 void main() {
+  float alpha = color.a;
   vec3 base = color.xyz;
   vec4 c = color;
 
@@ -58,5 +59,5 @@ void main() {
 	float k = 0.5*length(vec2(x, y));
 
 	base += vec3(pow(k, 2.0));
-	gl_FragColor = vec4(base * vignette + vec3(n), 1.0);
+	gl_FragColor = vec4(base * vignette + vec3(n), alpha);
 }

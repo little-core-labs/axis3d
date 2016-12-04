@@ -34,18 +34,23 @@ export class AmbientLightCommand extends Command {
     color = new Vector(1.0, 1.0, 1.0, 1.0),
   } = {}) {
     const {regl} = ctx
+    const textures = {
+      position: regl.texture({type: 'float'}),
+      normal: regl.texture({type: 'float'}),
+      albedo: regl.texture({type: 'float'}),
+    }
+
     const fbo = regl.framebuffer({
-      color: [
-        regl.texture({type: 'float'}), // albedo
-      ]
+      color: [textures.albedo, textures.normal]
     })
 
     const gbuffer = GBuffer(ctx, {fbo})
     const draw = regl({
       vert, frag,
-
       uniforms: {
-        albedoTexture: fbo.color[0],
+        positionTexture: () => textures.position,
+        normalTexture: () => textures.normal,
+        albedoTexture: () => textures.albedo,
         intensity: () => clamp(intensity, -1, 1),
         color: () => [...color],
       },
