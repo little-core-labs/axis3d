@@ -39,11 +39,7 @@ const plane = Plane(ctx, {
   color: [0.8, 0.8, 0.8, 1],
   size: {x: 300, y: 300},
 
-  rotation: quat.multiply(
-    [],
-    quat.setAxisAngle([], [1, 0, 0], Math.PI/2),
-    quat.setAxisAngle([], [0, 1, 0], Math.PI)
-  ),
+  rotation: quat.setAxisAngle([], [1, 0, 0], Math.PI/2),
 })
 
 const frame = Frame(ctx)
@@ -79,7 +75,7 @@ Object.assign(window, {
   ctx,
 })
 
-// swap targets every 10s
+// swap targets every 10s following new target
 window.target = sphere.position
 let i = 0
 setInterval(() => {
@@ -96,7 +92,7 @@ frame(({time}) => {
 
   // lerp into scene
   if (!mouse.wheel.deltaY) {
-    vec3.lerp(camera.position, camera.position, [0, 0, 200], 0.0125)
+    vec3.lerp(camera.position, camera.position, [0, 0, 300], 0.0125)
   }
 
   // viewer
