@@ -20,22 +20,22 @@ const frag = `
 precision mediump float;
 
 uniform float interpolation;
-uniform sampler2D albedo;
+uniform sampler2D albedoTexture;
 uniform float opacity;
 uniform float time;
 varying vec2 vuv;
 
 void main () {
   const int n = 1;
+  vec4 source = texture2D(albedoTexture, vuv);
   float d = 0.01;
-  vec4 source = texture2D(albedo, vuv);
   vec3 c = vec3(source.rgb);
 
   for (int i = 0; i < n; i++) {
-    c += texture2D(albedo, vuv + vec2(+d, +d)).rgb;
-    c += texture2D(albedo, vuv + vec2(-d, +d)).rgb;
-    c += texture2D(albedo, vuv + vec2(+d, -d)).rgb;
-    c += texture2D(albedo, vuv + vec2(-d, -d)).rgb;
+    c += texture2D(albedoTexture, vuv + vec2(+d, +d)).rgb;
+    c += texture2D(albedoTexture, vuv + vec2(-d, +d)).rgb;
+    c += texture2D(albedoTexture, vuv + vec2(+d, -d)).rgb;
+    c += texture2D(albedoTexture, vuv + vec2(-d, -d)).rgb;
     d *= 1.6 * float(i) + sin(time);
   }
 
@@ -87,7 +87,7 @@ export class FeedbackCommand extends Object3DCommand {
   constructor(ctx, {interpolation = 1 - 0.11} = {}) {
     const {regl} = ctx
     const texture = regl.texture()
-    const fb = regl.framebuffer({color: texture})
+    const fb = regl.framebuffer({depth: true, color: texture})
     const draw = regl({
       vert, frag,
       depth: { enable: true },
@@ -116,7 +116,7 @@ export class FeedbackCommand extends Object3DCommand {
         },
 
         opacity: ({}, {opacity}) => null != opacity ? opacity : 1,
-        albedo: () => texture,
+        albedoTexture: () => texture,
         time: ({time}) => time,
 
         // 3d
@@ -145,12 +145,9 @@ export class FeedbackCommand extends Object3DCommand {
         }
 
         block()
+
         if (ctx.reglContext) {
-          texture({
-            copy: true,
-            mag: 'linear',
-            min: 'linear'
-          })
+          texture({copy: true, mag: 'linear', min: 'linear'})
           draw(state || {})
         }
       }

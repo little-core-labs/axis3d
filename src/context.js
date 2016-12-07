@@ -12,6 +12,7 @@ import regl from 'regl'
 import {
   $isDestroyed,
   $reglContext,
+  $framebuffer,
   $domElement,
   $hasFocus,
   $scope,
@@ -58,7 +59,16 @@ export class Context extends EventEmitter {
 
   constructor(initialState = {}, opts = {}, createRegl = regl) {
     super()
-    const reglOptions = {
+
+    this[$stack] = []
+    this[$state] = initialState
+    this[$caller] = null
+    this[$scope] = null
+    this[$hasFocus] = false
+    this[$reglContext] = null
+
+    this.setMaxListeners(Infinity)
+    createRegl({
       ...(opts.regl || {}),
       extensions: [
         ...(opts.regl? opts.regl.extensions || [] : []),
@@ -72,12 +82,15 @@ export class Context extends EventEmitter {
 
       onDone: (err, regl) => {
         if (err) {
-          console.error(err.stack || err)
-        } else {
-          this[$regl] = regl
+          return this.emit('error', err)
         }
+
+        this[$regl] = regl
+        this[$domElement] = this[$regl]._gl.canvas
+        this[$framebuffer] = regl.framebuffer({depth: true})
+        this[$isDestroyed] = false
       }
-    }
+    })
 
     if (opts.element && 'CANVAS' == opts.element.nodeName) {
       reglOptions.canvas = opts.element
@@ -87,29 +100,20 @@ export class Context extends EventEmitter {
       reglOptions.container = opts.element
     }
 
-    createRegl(reglOptions)
-    this[$stack] = []
-    this[$state] = initialState
-    this[$caller] = null
-    this[$scope] = null
-    this[$hasFocus] = false
-    this[$domElement] = this[$regl]._gl.canvas
-    this[$reglContext] = null
-    this[$isDestroyed] = false
 
-    this.setMaxListeners(Infinity)
-
+    // DOM events
     events.on(this[$domElement], 'focus', () => this.focus())
     events.on(this[$domElement], 'blur', () => this.blur())
     events.on(window, 'blur', () => this.blur())
   }
 
+  get reglContext() { return this[$reglContext] }
+  get framebuffer() { return this[$framebuffer] }
+  get domElement() { return this[$domElement] }
+  get hasFocus() { return this[$hasFocus] }
   get caller() { return this[$caller] }
   get scope() { return this[$scope] }
   get depth() { return this[$stack].length }
-  get domElement() { return this[$domElement] }
-  get hasFocus() { return this[$hasFocus] }
-  get reglContext() { return this[$reglContext] }
   get state() { return this[$stack] }
   get regl() { return this[$regl] }
 
