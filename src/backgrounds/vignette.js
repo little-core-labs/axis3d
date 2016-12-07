@@ -45,6 +45,7 @@ export class VignetteBackgroundCommand extends Command {
       const defines = {}
       const uniforms = {
         interpolation: () => mix,
+        resolution: ({resolution}) => resolution,
         reduction: () => reduction,
         height: regl.context('viewportHeight'),
         width: regl.context('viewportWidth'),

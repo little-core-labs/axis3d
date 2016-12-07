@@ -51,12 +51,7 @@ export class VideoCommand extends MediaCommand {
     let wantsPause = false
     let wantsPlay = false
 
-    /**
-     * Texture state used for regl texture updates.
-     *
-     * @private
-     */
-
+    // Texture state used for regl texture updates.
     const textureState = Object.assign({
       format: 'rgba',
       flipY: true,
@@ -65,14 +60,7 @@ export class VideoCommand extends MediaCommand {
       min: 'linear',
     }, initialState.texture)
 
-    delete initialState.texture
-
-    /**
-     * Video manifest for resl.
-     *
-     * @private
-     */
-
+    // Video manifest for resl.
     const manifest = {
       video: Object.assign({
         stream: true,
@@ -81,20 +69,21 @@ export class VideoCommand extends MediaCommand {
       }, initialState.manifest)
     }
 
+    // sanitize initialState object
     delete initialState.manifest
+    delete initialState.texture
+    for (let key in initialState) {
+      if (undefined === initialState[key]) {
+        delete initialState[key]
+      }
+    }
 
-    /**
-     * Calls internal video source method
-     * with arguments. This function is used
-     * to proxy a class method to a video
-     * element method.
-     *
-     * @private
-     * @param {String} method
-     * @param {...Mixed} args
-     * @return {VideoCommand}
-     */
-
+    //
+    // Calls internal video source method
+    // with arguments. This function is used
+    // to proxy a class method to a video
+    // element method.
+    //
     const call = (method, ...args) => {
       if (source) {
         debug('Video: call %s(%j)', method, args)
@@ -105,18 +94,12 @@ export class VideoCommand extends MediaCommand {
       return this
     }
 
-    /**
-     * Sets an internal video source property
-     * value. This function is used
-     * to proxy a class method to a video
-     * element property
-     *
-     * @private
-     * @param {String} method
-     * @param {...Mixed} args
-     * @return {VideoCommand|Mixed}
-     */
-
+    //
+    // Sets an internal video source property
+    // value. This function is used
+    // to proxy a class method to a video
+    // element property
+    //
     const set = (property, value) => {
       if (source) {
         if (undefined === value) {
@@ -131,31 +114,38 @@ export class VideoCommand extends MediaCommand {
       return this
     }
 
-    /**
-     * Emits an event on the instance.
-     *
-     * @private
-     * @param {String} event
-     * @param {...Mixed} args
-     * @return {VideoCommand}
-     */
-
+    //
+    // Emits an event on the instance.
+    //
     const emit = (event, ...args) => {
       this.emit(event, ...args)
       return this
     }
 
-    // sanitize initialState object
-    for (let key in initialState) {
-      if (undefined === initialState[key]) {
-        delete initialState[key]
+    //
+    // Sets video texture
+    //
+    const setTexture = (value) => {
+      if (texture && null === value) {
+        texture.destroy()
+        texture = ctx.regl.texture({ ...textureState })
+      } else {
+        texture = ctx.regl.texture({ ...textureState })
+      }
+
+      if (value && texture) {
+        texture.destroy()
+        texture = value
       }
     }
 
     super(ctx, manifest, initialState)
 
-    // set mesh type
-    this.type = 'video'
+    setTexture(
+      initialState && initialState.texture ?
+        initialState.texture :
+        ctx.regl.texture({ ...textureState })
+    )
 
     this.on('load', () => {
       const needsMipmaps = (
@@ -172,7 +162,6 @@ export class VideoCommand extends MediaCommand {
     this.once('load', () => {
       // set initial set on source
       Object.assign(source, initialState)
-
       const proxy = (event, override) => {
         events.on(source, event, (...args) => {
           emit(override || event, ...args)
@@ -212,32 +201,9 @@ export class VideoCommand extends MediaCommand {
     this.on('mute', () => { isMuted = true })
     this.on('unmute', () => { isMuted = false })
 
-    /**
-     * Source attribute accessor.
-     *
-     * @type {String}
-     */
-
-    define(this, 'src', {
-      get: () => {
-        return (source && source.src) ?
-          source.src :
-          (this.manifest && this.manifest.video) ?
-            this.manifest.video.src :
-            null
-      },
-
-      set: (value) => {
-        if (source && 'string' == typeof value) {
-          source.src = value
-          if (this.manifest && this.manifest.video) {
-            this.manifest.video.src = value
-            this.reset()
-            this.load()
-          }
-        }
-      }
-    })
+    //
+    // Source attribute accessor.
+    //
 
     // proxy all configurable video properties that serve
     // some kind of real purpose
@@ -267,20 +233,10 @@ export class VideoCommand extends MediaCommand {
       }
     }))
 
-    // proxy dimensions
-    define(this, 'width', { get: () => source ? source.videoWidth : 0})
-    define(this, 'height', { get: () => source ? source.videoHeight : 0})
-    define(this, 'aspectRatio', {
-      get: () => {
-        if (source) {
-          return source.videoWidth/source.videoHeight
-        } else if (poster) {
-          return poster.aspectRatio
-        }
-
-        return 1
-      }
-    })
+    // set poster if applicable
+    if (initialState && initialState.poster) {
+      this.poster = initialState.poster
+    }
 
     // expose DOM element
     define(this, 'domElement', { get: () => source })
@@ -301,47 +257,12 @@ export class VideoCommand extends MediaCommand {
           source.muted = true
         }
       }
+
+      reload()
       return this
     }
 
-    /**
-     * Plays the video.
-     *
-     * @return {VideoCommand}
-     */
-
-    this.play = () => (wantsPlay = true) && call('play')
-
-    /**
-     * Pauses the video.
-     *
-     * @return {VideoCommand}
-     */
-
-    this.pause = () => (wantsPause = true) && call('pause')
-
-    /**
-     * Mutes the video
-     *
-     * @return {VideoCommand}
-     */
-
-    this.mute = () => (wantsMute = true) && set('muted', true) && emit('mute')
-
-    /**
-     * Unutes the video
-     *
-     * @return {VideoCommand}
-     */
-
-    this.unmute = () => !(wantsMute = false) && set('muted', false) && emit('unmute')
-
-    /**
-     * Callback when video  has loaded.
-     *
-     * @type {Function}
-     */
-
+    // Callback when video  has loaded.
     this.onloaded = ({video}) => {
       source = video
 
@@ -350,8 +271,11 @@ export class VideoCommand extends MediaCommand {
         texture({ ...textureState })
       }
 
+      if ('function' == typeof source.load) {
+        source.load()
+      }
+
       let lastRead = 0
-      'function' == typeof source.load && source.load()
       this._read = (done) => {
         const now = Date.now()
         if (isPlaying && (now - lastRead >= 64) && source.readyState >= source.HAVE_ENOUGH_DATA) {
@@ -363,34 +287,36 @@ export class VideoCommand extends MediaCommand {
       }
     }
 
-    /**
-     * Image texture target.
-     *
-     * @type {REGLTexture}
-     */
+    //
+    // Public methods
+    //
+    this.play = () => (wantsPlay = true) && call('play')
+    this.pause = () => (wantsPause = true) && call('pause')
+    this.mute = () => (wantsMute = true) && set('muted', true) && emit('mute')
+    this.unmute = () => !(wantsMute = false) && set('muted', false) && emit('unmute')
 
-    define(this, 'texture', {
-      get: () => texture,
-      set: (value) => {
-        if (texture && null === value) {
-          texture.destroy()
-          texture = ctx.regl.texture({ ...textureState })
+    //
+    // Public properties
+    //
+    define(this, 'width', { get: () => source ? source.videoWidth : 0})
+    define(this, 'height', { get: () => source ? source.videoHeight : 0})
+    define(this, 'aspectRatio', { get: () => {
+      if (source) {
+        return source.videoWidth/source.videoHeight
+      } else if (poster) {
+        return poster.aspectRatio
         } else {
-          texture = ctx.regl.texture({ ...textureState })
-        }
-
-        if (value && texture) {
-          texture.destroy()
-          texture = value
+          return 1
         }
       }
     })
 
-    /**
-     * Video poster image.
-     *
-     * @type {ImageCommand|String}
-     */
+    define(this, 'texture', {
+      get: () => texture,
+      set: (value) => {
+        setTexture(value)
+      }
+    })
 
     define(this, 'poster', {
       get: () => source ? source.poster : null,
@@ -411,13 +337,27 @@ export class VideoCommand extends MediaCommand {
       },
     })
 
-    this.texture = initialState && initialState.texture ?
-      initialState.texture :
-        ctx.regl.texture({ ...textureState })
+    define(this, 'src', {
+      get: () => {
+        if (source && source.src) {
+          return source.src
+        } else if (this.manifest && this.manifest.video) {
+          return this.manifest.video.src
+        } else {
+          return null
+        }
+      },
 
-    // set poster if applicable
-    if (initialState && initialState.poster) {
-      this.poster = initialState.poster
-    }
+      set: (value) => {
+        if (source && 'string' == typeof value) {
+          source.src = value
+          if (this.manifest && this.manifest.video) {
+            this.manifest.video.src = value
+            this.reset()
+            this.load()
+          }
+        }
+      }
+    })
   }
 }

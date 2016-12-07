@@ -34,17 +34,6 @@ Object.assign(window, {camera})
 frame(({time}) => {
   rotate(0.125*time)
   camera({position: [10, 0, 0]}, () => {
-    background({
-      mix: 1 - Math.cos(time),
-      reduction: 1 - Math.cos(time),
-      color: [
-        Math.sin(0.25*time) % 255,
-        Math.cos(0.50*time) % 255,
-        Math.sin(0.25*time) % 255,
-        1
-      ]
-    })
-
     for (let i = 0; i < count; ++i) {
       const position = positions[i]
       rotate((i+1)*0.25*time)

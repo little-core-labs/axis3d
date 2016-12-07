@@ -35,7 +35,7 @@ export class Vector {
       input = input.filter((x) => undefined !== x)
     }
 
-    const elements = new Float64Array([...input])
+    const elements = new Float32Array([...input])
     define(this, 'elements', { get:() => elements })
     const mappings = [
       [0, 1, 2, 3],

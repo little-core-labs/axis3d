@@ -1,111 +1,19 @@
 'use strict'
 
 /**
- * 'caller' command symbol.
- *
- * @public
- * @const
- * @type {Symbol}
+ * Private symbols used within the project
+ * sorted here in alphabetical order.
  */
 
 export const $caller = Symbol('caller')
-
-/**
- * 'scope' command symbol.
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-export const $scope = Symbol('scope')
-
-/**
- * 'element' symbol.
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-export const $domElement = Symbol('element')
-
-/**
- * regl context symbol.
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-export const $regl = Symbol('regl')
-
-/**
- * 'hasFocus' boolean symbol.
- *
- * @public
- * @const
- * @type {Symbol}
- */
-
-export const $hasFocus = Symbol('hasFocus')
-
-/**
- * Symbol for an internal run method.
- *
- * @public
- * @const
- * @symbol nun
- */
-
-export const $run = Symbol('run')
-
-/**
- * Symbol for an internal reference
- *
- * @public
- * @const
- * @symbol ref
- */
-
-export const $ref = Symbol('ref')
-
-/**
- * Symbol for an internal context
- *
- * @public
- * @const
- * @symbol ctx
- */
-
 export const $ctx = Symbol('ctx')
-
-/**
- * Symbol for an internal stack.
- *
- * @public
- * @const
- * @symbol stack
- */
-
-export const $stack = Symbol('stack')
-
-/**
- * Symbol for an internal state.
- *
- * @public
- * @const
- * @symbol state
- */
-
-export const $state = Symbol('state')
-
-/**
- * Symbol for a regl context.
- *
- * @public
- * @const
- * @symbol reglContext
- */
-
+export const $domElement = Symbol('element')
+export const $hasFocus = Symbol('hasFocus')
+export const $isDestroyed = Symbol('isDestroyed')
+export const $ref = Symbol('ref')
+export const $regl = Symbol('regl')
 export const $reglContext = Symbol('reglContext')
+export const $run = Symbol('run')
+export const $scope = Symbol('scope')
+export const $stack = Symbol('stack')
+export const $state = Symbol('state')

@@ -4,37 +4,52 @@
  * Module dependencies.
  */
 
-import OrbitCameraController from 'axis3d/controller/orbit-camera'
+import { OrbitCameraController } from 'axis3d/controller'
 import VignetteBackground from 'axis3d/backgrounds/vignette'
 import AmbientLight from 'axis3d/light/ambient'
-import Feedback from 'axis3d/feedback'
-import Context from 'axis3d/context'
-import Camera from 'axis3d/camera'
-import Sphere from 'axis3d/mesh/sphere'
-import Mouse from 'axis3d/input/mouse'
-import Plane from 'axis3d/mesh/plane'
-import Frame from 'axis3d/frame'
-import Image from 'axis3d/media/image'
+import { Mouse } from 'axis3d/input'
+import { Image } from 'axis3d/media'
+
+import {
+  Feedback,
+  Context,
+  Camera,
+  Frame,
+} from 'axis3d'
+
+import {
+  Sphere,
+  Plane,
+  Box,
+} from 'axis3d/mesh'
+
+
 import clamp from 'clamp'
 import quat from 'gl-quat'
 import mat4 from 'gl-mat4'
 import vec3 from 'gl-vec3'
 import raf from 'raf'
-import Box from 'axis3d/mesh/box'
 
 const ctx = Context()
-
 const background = VignetteBackground(ctx)
 const feedback = Feedback(ctx)
-const camera = Camera(ctx, {position: [1600, 1600, 1600]})
+const camera = Camera(ctx, {
+  position: [1600, 1600, 1600],
+  scale: [.5, .5, .5],
+})
+
 const world = Sphere(ctx, {
-  //wireframe: true,
+  color: [0.8, 0.8, 0.85, .8],
+  radius: 500,
+})
+
+const wireframe = Sphere(ctx, {
   color: [0.8, 0.8, 0.85, .5],
   radius: 500,
-  envmap: Image(ctx, '/govball.jpg')
 })
 
 const sphere = Sphere(ctx)
+const image = Image(ctx, '/govball.jpg')
 const light = AmbientLight(ctx)
 const plane = Plane(ctx, {
   wireframe: true,
@@ -87,65 +102,115 @@ setInterval(() => {
 const scale = [0, 0, 0]
 feedback({scale})
 
+// background loop
 frame(({time}) => {
   // vignette background effect
-  color[1] = 0.025*time % 128
-  color[2] = Math.sin(0.25*time) % 255
-  background({reduction: 5, color})
+  color[1] = 0.025*time % 255
+  color[2] = Math.sin(0.025*time) % 255
+  background({reduction: 2, color})
+})
 
+// camera control
+frame(({time}) => {
+  // lerp to target
+  camera({
+    target: vec3.lerp([], camera.target, target, 0.025)
+  })
+})
+
+// controller loop
+frame(({time}) => {
   // update controller state
   controller()
-
   mouse(({wheel}) => {
     // lerp into scene
     if (!wheel.deltaY) {
-      vec3.lerp(camera.position, camera.position, [0, 0, 50], 0.0125)
+      vec3.lerp(camera.position, camera.position, [0, 0, 100], 0.0125)
     }
   })
+})
 
-  // viewer
+// world
+frame(({time}) => {
+  camera(() => {
+    // draw world
+    wireframe({
+      wireframe: true,
+      scale: [1, 1, 1],
+      rotation: quat.setAxisAngle([], [1, 0, 0], 0.05*time)
+    }, () => {
+      world({
+        envmap: image,
+        scale: [-0.99, -0.99, 0.99],
+      })
+    })
+  })
+})
+
+// plane
+frame(({time}) => {
+  camera(() => {
+    plane({position: [0, 0, 0]})
+  })
+})
+
+// box
+frame(({time}) => {
   const off = 20
   const d = 40
   let s = 0
 
-  // lerp to target
-  camera({scale: [.5, .5, .5], target: vec3.lerp([], camera.target, target, 0.025)}, () => {
+  camera(() => {
+    // orbit box around origin
+    s = 2 + (0.5 - 0.5*Math.cos(time))
+    translate(s + 300, s + 0.5, s + 10)
+    vec3.transformQuat(
+      position, position,
+      quat.multiply(
+        quat.setAxisAngle([], [1, 0, 0], 0.5*time),
+        quat.setAxisAngle([], [0, 1, 0], 0.5*time),
+        quat.setAxisAngle([], [0, 0, 1], 0.5*time))
+    )
 
-    // draw world
-    world({scale: [-1, -1, 1], rotation: quat.setAxisAngle([], [1, 0, 0], 0.05*time)}, () => {
-      vec3.lerp(scale, scale, [.99, .90, .99], 0.125)
-      // draw world feedback
-      feedback({scale})
-
-      // draw plane in world
-      plane()
-
-      // orbit box around origin
-      s = 2 + (0.5 - 0.5*Math.cos(time))
-      translate(s + 300, s + 0.5, s + 10)
-      vec3.transformQuat(
-        position, position,
-        quat.multiply(
-          quat.setAxisAngle([], [1, 0, 0], 0.5*time),
-          quat.setAxisAngle([], [0, 1, 0], 0.5*time),
-          quat.setAxisAngle([], [0, 0, 1], 0.5*time))
-      )
-
-      // draw box with feedback
-      s = clamp(off + (1.0 - 1.0*Math.cos(time)), 0, Infinity)
-      box({position, opacity: 0, scale: [2*s, 2*s, 2*s], before: () => {
+    // draw box with feedback
+    s = clamp(off + (1.0 - 1.0*Math.cos(time)), 0, Infinity)
+    box({
+      position,
+      opacity: 0,
+      scale: [2*s, 2*s, 2*s],
+      before() {
         // reflect world on box
-        feedback({scale: [2+Math.cos(time), 2+Math.sin(time), 1+Math.cos(time)]})
-      }})
+        feedback({
+          scale: [2+Math.cos(time), 2+Math.sin(time), 1+Math.cos(time)]
+        })
+      }
+    })
+  })
+})
 
-      // oscillate sphere
-      translate(s + (d - d*Math.sin(time)), s + (0.5 - 0.5*Math.cos(time)), 0)
-      s = off + (0.5 - 0.5*Math.cos(time))
-      // draw sphere with feedback
-      sphere({position, scale: [s, s, s], before: () => {
+// sphere
+frame(({time}) => {
+  camera(() => {
+    const off = 20
+    const d = 40
+    let s = 0
+
+    // oscillate sphere
+    s = clamp(off + (1.0 - 1.0*Math.cos(time)), 0, Infinity)
+    translate(s + (d - d*Math.sin(time)), s + (0.5 - 0.5*Math.cos(time)), 0)
+    s = off + (0.5 - 0.5*Math.cos(time))
+
+    // draw sphere with feedback
+    sphere({
+      position,
+      opacity: 0,
+      scale: [s, s, s],
+      before() {
         // reflect world on sphere
-        feedback({scale: [1, 1, 1]})
-      }})
+        feedback({
+          scale: [1, 1, 1]
+        })
+      }
     })
   })
 })

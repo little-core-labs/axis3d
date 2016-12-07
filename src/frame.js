@@ -39,7 +39,26 @@ export class FrameCommand extends Command {
     let reglContext = null
     let isRunning = false
     let tick = null
-    const cancel = () => {
+
+    const injectContext = regl({
+      context: {
+        resolution: ({viewportWidth: w,
+                      viewportHeight: h}) => ([ w, h ])
+      }
+    })
+
+    super((_, refresh) => {
+      queue.push(refresh)
+      frame()
+      return cancel
+    })
+
+    //
+    // cancels regl animation frame loop,
+    // resets state, and removes the caputured
+    // regl context from the axis context
+    //
+    function cancel() {
       if (tick) {
         queue.splice(0, -1)
         tick.cancel()
@@ -49,47 +68,40 @@ export class FrameCommand extends Command {
       }
     }
 
-    super((_, refresh) => {
-      queue.push(refresh)
+    //
+    // Function to handle regl animation
+    // frame loop logic that captures the regl context
+    // and stores it on the axis context. It also
+    // clears the drawing canvas, resets the axis context,
+    // and calls all queued frame refresh functions
+    //
+    function frame() {
       if (false == isRunning) {
+            isRunning = true
         tick = regl.frame((_, ...args) => {
           try {
-            isRunning = true
-            scope((_) => {
+            injectContext((_) => {
               reglContext = _
               ctx[$reglContext] = reglContext
-              fbo.resize(reglContext.viewportWidth,
-                         reglContext.viewportHeight)
-                         ctx.clear()
-                         for (let refresh of queue) {
-                           if ('function' == typeof refresh) {
-                             refresh(reglContext, ...args)
-                           }
-                         }
+              const {
+                viewportWidth: width,
+                viewportHeight: height,
+              } = reglContext
+              fbo.resize(width, height)
+              ctx.reset()
+              ctx.clear()
+              for (let refresh of queue) {
+                if ('function' == typeof refresh) {
+                  refresh(reglContext, ...args)
+                }
+              }
             })
           } catch (e) {
-            console.error(e.stack || e)
+            ctx.emit('error', e)
             cancel()
           }
         })
       }
-
-      return cancel
-    })
-
-    const scope = regl({
-      context: {
-        resolution: ({viewportWidth, viewportHeight}) => ([
-          viewportWidth, viewportHeight
-        ])
-      },
-
-      uniforms: {
-        time: regl.context('time'),
-        resolution: ({viewportWidth, viewportHeight}) => ([
-          viewportWidth, viewportHeight
-        ]),
-      }
-    })
+    }
   }
 }

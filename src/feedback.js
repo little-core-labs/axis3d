@@ -4,14 +4,17 @@
  * Module dependencies.
  */
 
-import { SphereGeometry } from './geometry/sphere'
-import { BoxGeometry } from './geometry/box'
 import { Object3DCommand } from './object'
+import { PlaneGeometry } from './geometry'
+import { BoxGeometry } from './geometry/box'
 import glslify from 'glslify'
 import mat4 from 'gl-mat4'
 
-const defaultGeometry = new SphereGeometry({radius: 100})
 const identity = mat4.identity([])
+const defaultGeometry = new PlaneGeometry({
+  segments: {},
+  size: {},
+})
 
 const frag = `
 precision mediump float;
@@ -82,12 +85,11 @@ export class FeedbackCommand extends Object3DCommand {
    */
 
   constructor(ctx, {interpolation = 1 - 0.11} = {}) {
-    const regl = ctx.regl
+    const {regl} = ctx
     const texture = regl.texture()
     const fb = regl.framebuffer({color: texture})
     const draw = regl({
-      vert,
-      frag,
+      vert, frag,
       depth: { enable: true },
       cull: { enable: true, face: 'back'},
       elements() {
@@ -113,13 +115,17 @@ export class FeedbackCommand extends Object3DCommand {
           return newInterpolation || interpolation
         },
 
-        opacity: (ctx, {opacity}) => null != opacity ? opacity : 1,
+        opacity: ({}, {opacity}) => null != opacity ? opacity : 1,
         albedo: () => texture,
+        time: ({time}) => time,
 
         // 3d
         projection: ({projection}) => projection || identity,
-        model: ({local}) => mat4.multiply([], ctx.scope.local || identity, local),
         view: ({view}) => view || identity,
+        model: ({local}) => {
+          const transform = ctx.scope ? ctx.scope.local : identity
+          return mat4.multiply([], transform, local)
+        },
       },
 
       blend: {
@@ -132,8 +138,7 @@ export class FeedbackCommand extends Object3DCommand {
     })
 
     super(ctx, {
-      inherit: true,
-      draw: (state = {}, block = () => void 0) => {
+      draw(state = {}, block = () => void 0) {
         if ('function' == typeof state) {
           block = state
           state = {}
@@ -150,7 +155,5 @@ export class FeedbackCommand extends Object3DCommand {
         }
       }
     })
-
-    this.type = 'feedback'
   }
 }

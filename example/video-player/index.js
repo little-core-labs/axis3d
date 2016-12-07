@@ -7,6 +7,7 @@
 import Keyboard from 'axis3d/input/keyboard'
 import Context from 'axis3d/context'
 import Camera from 'axis3d/camera'
+import events from 'dom-events'
 import Plane from 'axis3d/mesh/plane'
 import Video from 'axis3d/media/video'
 import Frame from 'axis3d/frame'
@@ -23,6 +24,7 @@ const camera = Camera(ctx)
 const frame = Frame(ctx)
 const video = Video(ctx, '/paramotor.mp4')
 const plane = Plane(ctx, {map: video})
+//const plane = Plane(ctx)
 
 Object.assign(window, {
   ctx, camera, frame, video, plane
@@ -30,8 +32,20 @@ Object.assign(window, {
 
 raf(() => {
   ctx.focus()
-  video.play()
 })
+
+let isPlaying = false
+events.on(ctx.domElement, 'click', ontouch)
+events.on(ctx.domElement, 'touch', ontouch)
+function ontouch() {
+  if (isPlaying) {
+    video.pause()
+    isPlaying = false
+  } else {
+    video.play()
+    isPlaying = true
+  }
+}
 
 // axis animation frame loop
 frame(({viewportWidth, viewportHeight}) => {
@@ -40,7 +54,6 @@ frame(({viewportWidth, viewportHeight}) => {
   const width = plane.size.x || 1
   const dist = camera.position.z - plane.position.z
   const fov = 2.0*Math.atan((width/aspectRatio) / (2.0*dist))
-
   // draw camera scene
   camera({fov, position: [0, 0, 1]}, () => {
     let ph = height, pw = width
@@ -63,7 +76,6 @@ frame(({viewportWidth, viewportHeight}) => {
     x = x || 1
     y = y || 1
 
-    plane({scale: [x, -y, 1]}, ({scale}) => {
-    })
+    plane({scale: [x, -y, 1]})
   })
 })

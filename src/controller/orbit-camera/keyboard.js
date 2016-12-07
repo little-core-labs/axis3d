@@ -37,13 +37,13 @@ module.exports = exports = ({
       mappings.off('down')
     } else if (mappings.value('down')) {
       dx = dx - step
-      orientation[1] += step
+      orientation[0] += step
       mappings.off('up')
     }
 
     if (mappings.value('left')) {
       dy = dy + step
-      orientation[0] -= step
+      orientation[1] -= step
       mappings.off('right')
     } else if (mappings.value('right')) {
       dy = dy - step
