@@ -2,18 +2,21 @@
 
 import VignetteBackground from 'axis3d/backgrounds/vignette'
 import AmbientLight from 'axis3d/light/ambient'
-import Geometry from 'axis3d/geometry'
-import Context from 'axis3d/context'
-import Camera from 'axis3d/camera'
+import { Geometry } from 'axis3d/geometry'
+import { Mesh } from 'axis3d/mesh'
 import Bunny from 'bunny'
-import Frame from 'axis3d/frame'
-import Mesh from 'axis3d/mesh'
 import quat from 'gl-quat'
 import raf from 'raf'
 
+import {
+  Context,
+  Camera,
+  Frame,
+} from 'axis3d'
+
 const ctx = Context()
 const frame = Frame(ctx)
-const bunny = Mesh(ctx, {geometry: Geometry({primitive: Bunny})})
+const bunny = Mesh(ctx, {geometry: new Geometry({primitive: Bunny})})
 const light = AmbientLight(ctx)
 const camera = Camera(ctx, {position: [0, 0, -5]})
 const background = VignetteBackground(ctx)
@@ -25,13 +28,16 @@ const rotate = (radians) => {
   quat.multiply(rotation, x, y)
 }
 
-//setTimeout(() => cancel(), 100)
-const cancel = frame(({time}) => {
+window.bunny = bunny
+frame(({time}) => {
   rotate(0.125*time)
-  camera({position: [9, 0, 0], rotation}, () => {
+  camera({
+    rotation,
+    position: [9, 0, 0],
+  }, () => {
     light({intensity: Math.cos(time)}, () => {
       background({mix: 1, reduction: 2})
-      bunny({scale: [0.75, 0.75, 0.75]})
+      bunny({scale: [0.5, 0.5, 0.5]})
     })
   })
 })

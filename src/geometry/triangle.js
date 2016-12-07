@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import { Geometry } from '../geometry'
+import { Geometry } from './geometry'
 
 /**
  * TriangleGeometry class.

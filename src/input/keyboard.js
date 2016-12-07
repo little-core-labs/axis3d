@@ -36,32 +36,8 @@ export class KeyboardCommand extends Command {
    */
 
   constructor(ctx, opts = {}) {
-    super((_, block) => {
-      if ('function' == typeof block) {
-        block(this)
-      }
-    })
-
-    ctx.on('blur', () => { this.reset() })
-
-    /**
-     * Keyboard state.
-     *
-     * @private
-     * @type {Object}
-     */
-
-    const state = {
-      keycodes: {},
-      keys: {}
-    }
-
-    /**
-     * Alias key mappings.
-     *
-     * @const
-     * @type {Object}
-     */
+    const keycodes = {}
+    const keys = {}
 
     const mappings = {
       up: ['up', 'w'],
@@ -75,76 +51,17 @@ export class KeyboardCommand extends Command {
         'super', 'ctrl', 'alt', 'fn',
       ],
 
-      on(which, keys = state.keys) {
+      on(which) {
         return this[which].map((key) => keys[key] = true)
       },
 
-      off(which, keys = state.keys) {
+      off(which) {
         return this[which].map((key) => keys[key] = false)
       },
 
-      value(which, keys = state.keys) {
+      value(which) {
         return this[which].some((key) => Boolean(keys[key]))
       },
-    }
-
-    /**
-     * State alias key mappings.
-     *
-     * @public
-     * @getter
-     * @type {Object}
-     */
-
-    define(this, 'aliasMappings', { get: () => mappings })
-
-    /**
-     * Key codes map getter.
-     *
-     * @getter
-     * @type {Object}
-     */
-
-    define(this, 'keycodes', { get: () => state.keycodes })
-
-    /**
-     * Key names map getter.
-     *
-     * @getter
-     * @type {Object}
-     */
-
-    define(this, 'keys', { get: () => state.keys })
-
-    /**
-     * Predicate to determine if
-     * any key is pressed.
-     *
-     * @getter
-     * @type {Boolean}
-     */
-
-    define(this, 'isKeydown', {
-      get: () => Object.keys(state.keys).some((key) => state.keys[key])
-    })
-
-    /**
-     * Resets keyboard state by setting all keycodes
-     * and keys to `false'.
-     *
-     * @public
-     * @return {KeyboardCommand}
-     */
-
-    this.reset = () => {
-      for (let code in state.keycodes) {
-        state.keycodes[code] = false
-      }
-
-      for (let key in state.keys) {
-        state.keys[key] = false
-      }
-      return this
     }
 
     // update keydown states
@@ -153,9 +70,9 @@ export class KeyboardCommand extends Command {
       const code = e.which || e.keyCode || e.charCode
       if (null != code) {
         // set key code
-        state.keycodes[code] = true
+        keycodes[code] = true
         // set key name
-        state.keys[keycode(code)] = true
+        keys[keycode(code)] = true
       }
     }, false)
 
@@ -165,10 +82,47 @@ export class KeyboardCommand extends Command {
       const code = e.which || e.keyCode || e.charCode
       if (null != code) {
         // set key code
-        state.keycodes[code] = false
+        keycodes[code] = false
         // set key name
-        state.keys[keycode(code)] = false
+        keys[keycode(code)] = false
       }
     }, false)
+
+    ctx.on('blur', () => { reset() })
+    super((_, state, block) => {
+      if ('function' == typeof state) {
+        block = state
+        state = {}
+      }
+
+      state = state || {}
+      block = block || function() {}
+      block({
+        ...state,
+        mappings,
+        keycodes,
+        keys,
+      })
+    })
+
+    function reset() {
+      for (let code in keycodes) {
+        keycodes[code] = false
+      }
+
+      for (let key in keys) {
+        keys[key] = false
+      }
+    }
+
+    //
+    // Public properties.
+    //
+    define(this, 'aliasMappings', { get: () => mappings })
+    define(this, 'keycodes', { get: () => keycodes })
+    define(this, 'keys', { get: () => keys })
+    define(this, 'isKeydown', {
+      get: () => Object.keys(keys).some((key) => keys[key])
+    })
   }
 }

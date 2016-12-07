@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-import { debug, define } from './utils'
+import { debug, define } from '../utils'
 import { EventEmitter } from 'events'
-import { MeshCommand } from './mesh'
+import { Object3DCommand } from '../object'
 import resl from 'resl'
 import raf from 'raf'
 
@@ -40,10 +40,10 @@ module.exports = exports = (...args) => new MediaCommand(...args)
  *
  * @public
  * @class MediaCommand
- * @extends Command
+ * @extends Object3DCommand
  */
 
-export class MediaCommand extends MeshCommand {
+export class MediaCommand extends Object3DCommand {
 
   /**
    * MediaCommand class constructor that loads
@@ -67,7 +67,7 @@ export class MediaCommand extends MeshCommand {
     // load when called as a function
     super(ctx, {
       type: 'media',
-      render: (_, state, next) => this.read(next)
+      draw: (_, state, block) => this.read(block)
     })
 
     // mixin and initialize EventEmitter

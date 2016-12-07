@@ -4,18 +4,20 @@
  * Module dependencies.
  */
 
-import { Quaternion, Vector } from './math'
-import { $reglContext } from './symbols'
+import { Quaternion, Vector } from '../math'
+import { Object3DCommand } from '../object'
+import { $reglContext } from '../symbols'
 import getBoundingBox from 'bound-points'
 import injectDefines from 'glsl-inject-defines'
-import { Command } from './command'
-import { define } from './utils'
+import { define } from '../utils'
 import glslify from 'glslify'
 import mat4 from 'gl-mat4'
 import vec4 from 'gl-vec4'
 import vec3 from 'gl-vec3'
 import vec2 from 'gl-vec2'
 import quat from 'gl-quat'
+
+const identity = mat4.identity([])
 
 /**
  * Default vertex shader for a mesh.
@@ -25,7 +27,7 @@ import quat from 'gl-quat'
  * @type {String}
  */
 
-export const DEFAULT_VERTEX_SHADER = glslify(__dirname + '/glsl/mesh/vert.glsl')
+export const DEFAULT_VERTEX_SHADER = glslify(__dirname + '/../glsl/mesh/vert.glsl')
 
 /**
  * Default fragment shader for a mesh.
@@ -35,15 +37,7 @@ export const DEFAULT_VERTEX_SHADER = glslify(__dirname + '/glsl/mesh/vert.glsl')
  * @type {String}
  */
 
-export const DEFAULT_FRAGMENT_SHADER = glslify(__dirname + '/glsl/mesh/frag.glsl')
-
-/**
- * Current mesh command counter.
- *
- * @type {Number}
- */
-
-let MESH_COMMAND_COUNTER = 0
+export const DEFAULT_FRAGMENT_SHADER = glslify(__dirname + '/../glsl/mesh/frag.glsl')
 
 /**
  * MeshCommand constructor.
@@ -60,19 +54,7 @@ module.exports = exports = (...args) => new MeshCommand(...args)
  * @extends Command
  */
 
-export class MeshCommand extends Command {
-
-  /**
-   * Returns the next mesh D
-   *
-   * @public
-   * @static
-   * @return {Number}
-   */
-
-  static id() {
-    return MESH_COMMAND_COUNTER ++
-  }
+export class MeshCommand extends Object3DCommand {
 
   /**
    * MeshCommand class constructor.
@@ -84,11 +66,9 @@ export class MeshCommand extends Command {
   constructor(ctx, opts = {}) {
     const reglOptions = { ...opts.regl }
     const defaults = { ...opts.defaults }
-    const transform = mat4.identity([])
-    const model = mat4.identity([])
 
-    let hasInitialUpdate = false
     let boundingBox = null
+    let geometry = opts.geometry || null
     let blending = opts.blending || null
     let render = null
     let envmap = null
@@ -96,14 +76,6 @@ export class MeshCommand extends Command {
     let cull = opts.cull || null
     let draw = opts.draw || null
     let map = null
-
-    const previous = {
-      rotation: new Quaternion(0, 0, 0, 1),
-      position: new Vector(0, 0, 0),
-      opacity: 1,
-      scale: new Vector(1, 1, 1),
-      color: new Vector(0, 0, 0, 0),
-    }
 
     /**
      * Sets mesh map.
@@ -151,18 +123,6 @@ export class MeshCommand extends Command {
      */
 
     const update = (state) => {
-      if ('scale' in state) {
-        vec3.copy(this.scale, state.scale)
-      }
-
-      if ('position' in state) {
-        vec3.copy(this.position, state.position)
-      }
-
-      if ('rotation' in state) {
-        quat.copy(this.rotation, state.rotation)
-      }
-
       if ('color' in state) {
         vec4.copy(this.color, state.color)
       }
@@ -184,43 +144,6 @@ export class MeshCommand extends Command {
       } else if ('envmap' in state && envmap != state.envmap) {
         setEnvMap(state.envmap)
       }
-
-      if (envmap) {
-        if (this.scale.x >= 0) {
-          this.scale.x *= -1
-        }
-
-        // @TODO(werle) flipY should be exposed from texture constructor
-        if (envmap.texture && envmap.texture._texture.flipY) {
-          this.scale.y *= -1
-        }
-      }
-
-      //
-      // The following implements:
-      //   M = T * R * S
-      //   M' = Mp * M
-      // where
-      //   Mp is the parent model
-      //   T is the translation matrix
-      //   R is the rotation matrix
-      //   S is the scale matrix
-      //
-
-      mat4.identity(transform)
-      mat4.identity(model)
-
-      // M
-      mat4.translate(model, model, this.position)
-      mat4.multiply(model, model, mat4.fromQuat([], this.rotation))
-      mat4.scale(model, model, this.scale)
-
-      // M'
-      if (ctx.previous && ctx.previous.id != this.id) {
-        mat4.multiply(transform, ctx.previous.transform, model)
-      } else {
-        mat4.copy(transform, model)
-      }
     }
 
     /**
@@ -231,32 +154,28 @@ export class MeshCommand extends Command {
      */
 
     const configure = () => {
-      const self = this
-      if (!self) { return }
+      if (!this) { return }
       // reset draw function
       if (!opts.draw) { draw = null }
       // use regl draw command if draw() function
       // was not provided
       if (false !== draw && 'function' != typeof draw) {
-        const geometry = opts.geometry || null
         const elements = geometry ? geometry.primitive.cells : undefined
         const attributes = {...opts.attributes}
         const shaderDefines = {}
 
         const uniforms = {
           ...opts.uniforms,
-          opacity() {
-            return null != self.opacity ? parseFloat(self.opacity) : 1
-          },
-          color() { return self.color ? [...self.color] : [0, 0, 0, 0]},
-          model() { return model },
+          opacity: (ctx, {opacity}) => null != opacity ? opacity : 1,
+          color: () => [...(this.color || [0, 0, 0, 0])],
+
+          // 3d
+          projection: ({projection}) => projection  || identity,
+          model: ({local}) => local || identity,
+          view: ({view}) => view  || identity,
         }
 
         defaults.primitive = opts.primitive || 'triangles'
-
-        if (geometry && !this.geometry) {
-          this.geometry = geometry
-        }
 
         if (geometry) {
           if (geometry.primitive.positions) {
@@ -291,9 +210,10 @@ export class MeshCommand extends Command {
         if (map && map.texture) {
           shaderDefines.HAS_MAP = ''
           uniforms.isMapLoaded = () => {
-            if ('function' == typeof map && map.texture) {
+            if ('function' == typeof map) {
               map()
             }
+
             if (null != map.isDoneLoading && null != map.hasProgress) {
               return Boolean(map.isDoneLoading || map.hasProgress)
             } else {
@@ -309,19 +229,15 @@ export class MeshCommand extends Command {
           map.once('load', () => configure())
         }
 
-        if (!opts.primitive && opts.wireframe) {
-          opts.primitive = 'line strip'
-        }
-
         Object.assign(reglOptions, {
           context: {
             ...reglOptions.context,
+            geometry: () => geometry || null,
             color: uniforms.color(),
-            model: uniforms.model(),
           },
 
           uniforms, attributes,
-          cull: null != cull ? cull : {enable: true},
+          //cull: null != cull ? cull : {enable: true},
           depth: null != depth ? depth : {enable: true},
           blend: null != blending ? blending : {
             enable: true,
@@ -330,8 +246,9 @@ export class MeshCommand extends Command {
               dst: 'one minus src alpha'
             },
           },
+
           primitive: null == geometry ? undefined : () => {
-            if (this.wireframe) { return 'lines' }
+            if (this.wireframe) { return 'line strip' }
             else if (opts.primitive) { return opts.primitive }
             else { return defaults.primitive }
           }
@@ -346,12 +263,11 @@ export class MeshCommand extends Command {
         }
 
         if (geometry) {
-          Object.assign(reglOptions, {
-            elements: geometry && geometry.cells || function (ctx, props) {
+          reglOptions.elements =
+            geometry && geometry.cells || function (ctx, props) {
               props = props || {}
               return props.elements || geometry ? geometry.cells : null
-            },
-          })
+            }
 
           if (opts.count) {
             reglOptions.count = opts.count
@@ -380,17 +296,17 @@ export class MeshCommand extends Command {
           }
         }
 
-        if (this.geometry) {
+        if (geometry) {
           draw = ctx.regl(reglOptions)
         }
       }
+    }
 
-      // configure render command
-      render = opts.render || ((_, state = {}, next = () => void 0) => {
+    // calls current target render function
+    super(ctx, {
+      ...opts,
+      draw: (state = {}, next = () => void 0) => {
         let args = null
-
-        ctx.push(this)
-
         if ('function' == typeof state) {
           args = [{...defaults}]
           next = state
@@ -401,6 +317,7 @@ export class MeshCommand extends Command {
           args = [{...defaults, ...state}]
         }
 
+        const noop = () => void 0
         const props = Array.isArray(state)
           ? state.map((o) => ({ ...defaults, ...o }))
           : ({...defaults, ...state})
@@ -409,124 +326,41 @@ export class MeshCommand extends Command {
           next({...(ctx[$reglContext] || {}), ...reglOptions.context })
         }
 
-        opts.before && opts.before(...args)
+        (state.before || opts.before || noop)(...args);
+
         update(...args)
+
+        if (ctx.reglContext) {
+          draw(props)
+        }
+
         block()
-        draw(props)
-        opts.after && opts.after({...defaults, ...state}, block)
-        ctx.pop()
-      })
-    }
 
-    // calls current target  render function
-    super((...args) => render(...args))
+        void (state.after || opts.after || noop)({
+          ...defaults,
+          ...state
+        }, block);
+      }
+    })
 
-    /**
-     * Mesh ID.
-     *
-     * @type {Number}
-     */
-
-    this.id = opts.id || MeshCommand.id()
-
-    /**
-     * Mesh type name.
-     *
-     * @type {String}
-     */
-
-    this.type = opts.type || 'object'
-
-    /**
-     * Mesh scale vector.
-     *
-     * @type {Vector}
-     */
-
-    this.scale = opts.scale ?
-      new Vector(...opts.scale) :
-      new Vector(1, 1, 1)
-
-    /**
-     * Mesh position vector.
-     *
-     * @type {Vector}
-     */
-
-    this.position = opts.position ?
-      new Vector(...opts.position) :
-      new Vector(0, 0, 0)
-
-    /**
-     * Mesh rotation quaternion
-     *
-     * @type {Quaternion}
-     */
-
-    this.rotation = opts.rotation ?
-      new Quaternion(...opts.rotation) :
-      new Quaternion()
-
-    /**
-     * Mesh transform matrix
-     *
-     * @type {Array}
-     */
-
-    define(this, 'transform', { get() { return transform } })
-
-    /**
-     * Boolean to indicate if mesh should be drawn
-     * with a line primitive.
-     *
-     * @type {Boolean}
-     */
-
-    this.wireframe = false
-
-    /**
-     * Mesh color property.
-     *
-     * @type {Vector}
-     */
-
-    this.color = opts.color ?
-      new Vector(...opts.color) :
-      new Vector(197/255, 148/255, 149/255, 1.0)
-
-    /**
-     * Mesh opacity.
-     *
-     * @type {Number}
-     */
-
+    this.type = 'mesh'
+    this.color = new Vector(...(opts.color || [197/255, 148/255, 149/255, 1]))
     this.opacity = opts.opacity || 1
-
-    /**
-     * Computed bounding
-     *
-     * @type {Array<Vector>}
-     */
+    this.wireframe = null != opts.wireframe ? Boolean(opts.wireframe) : false
 
     define(this, 'boundingBox', {
       get() {
-        if (null == this.geometry) {
+        if (null == geometry) {
           return null
         } else if (boundingBox) {
           return boundingBox
         }
 
         boundingBox =
-          getBoundingBox(this.geometry.positions).map((p) => new Vector(...p))
+          getBoundingBox(geometry.positions).map((p) => new Vector(...p))
         return boundingBox
       }
     })
-
-    /**
-     * Computed size.
-     *
-     * @type {Vector}
-     */
 
     define(this, 'size', {
       get() {
@@ -535,45 +369,41 @@ export class MeshCommand extends Command {
           return null
         }
 
+        let size = null
+        const dimension = boundingBox[0].length
         const min = boundingBox[0]
         const max = boundingBox[1]
-        const dimension = boundingBox[0].length
 
         switch (dimension) {
-          case 3: return vec3.subtract(new Vector(0, 0, 0), max, min)
-          case 2: return vec2.subtract(new Vector(0, 0, 0), max, min)
+          case 3: size = vec3.subtract(new Vector(0, 0, 0), max, min); break
+          case 2: size = vec2.subtract(new Vector(0, 0), max, min); break
           default: return null
+        }
+
+        switch (dimension) {
+          case 3: return vec3.multiply(size, size, this.scale)
+          case 2: return vec2.multiply(size, size, this.scale)
         }
       }
     })
 
-    /**
-     * Mesh texture map if given.
-     *
-     * @type {Media}
-     */
+    define(this, 'geometry', {
+      get: () => geometry,
+      set: (value) => {
+        geometry = value
+        configure()
+      }
+    })
 
     define(this, 'map', {
       get: () => map,
       set: (value) => setMap(value)
     })
 
-    /**
-     * Mesh texture environment map if given.
-     *
-     * @type {Media}
-     */
-
     define(this, 'envmap', {
       get: () => envmap,
       set: (value) => setEnvMap(value)
     })
-
-    /**
-     * Toggles blending.
-     *
-     * @type {Boolean|Object}
-     */
 
     define(this, 'blending', {
       get: () => blending,
@@ -583,12 +413,6 @@ export class MeshCommand extends Command {
       }
     })
 
-    /**
-     * Toggles depth.
-     *
-     * @type {Boolean|Object}
-     */
-
     define(this, 'depth', {
       get: () => depth,
       set: (value) => {
@@ -596,12 +420,6 @@ export class MeshCommand extends Command {
         configure()
       }
     })
-
-    /**
-     * Toggles face culling.
-     *
-     * @type {Boolean|Object}
-     */
 
     define(this, 'cull', {
       get: () => cull,

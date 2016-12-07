@@ -40,7 +40,6 @@ export class Quaternion extends Vector {
    * @param {Number} z
    * @param {Number} w
    */
-
   constructor(x = 0, y = 0, z = 0, w = 1) {
     super(coalesce(x, 0),
           coalesce(y, 0),
@@ -62,8 +61,8 @@ export class Quaternion extends Vector {
   static slerpTargetFromAxisAngles(target,
                                    angles,
                                    interpolationFactor = 0.1) {
+    const ax = angles[0], ay = angles[1], az = angles[2]
     const vx = XVector3, vy = YVector3, vz = ZVector3
-    const ax = angles.x, ay = angles.y, az = angles.z
     const x = _scratchX, y = _scratchY, z = _scratchZ
 
     const f = clamp(interpolationFactor, 0, 1)
@@ -89,9 +88,11 @@ export class Quaternion extends Vector {
    * @param {Number} interpolationFactor
    */
 
-  static sloppySlerpTargetFromAxisAngles(target, angles, interpolationFactor = 0.1) {
+  static sloppySlerpTargetFromAxisAngles(target,
+                                         angles,
+                                         interpolationFactor = 0.1) {
+    const ax = angles[0], ay = angles[1], az = angles[2]
     const vx = XVector3, vy = YVector3, vz = ZVector3
-    const ax = angles.x, ay = angles.y, az = angles.z
     const x = _scratchX, y = _scratchY, z = _scratchZ
 
     const f = clamp(interpolationFactor, 0, 1)

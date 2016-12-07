@@ -1,0 +1,5 @@
+- Move all inline GLSL into glsl files
+- Refactor feedback to use gbuffer
+- Create material interface to define shaders affected by light sources
+- Mesh default shader should draw normals
+- Make MediaCommand and child classes functional

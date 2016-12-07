@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 import { debug, define } from '../utils'
-import { MediaCommand } from '../media'
+import { MediaCommand } from './media'
 import { ImageCommand } from './image'
 import isPowerOfTwo from 'is-power-of-two'
 import events from 'dom-events'
@@ -59,6 +59,7 @@ export class VideoCommand extends MediaCommand {
 
     const textureState = Object.assign({
       format: 'rgba',
+      flipY: true,
       wrap: ['clamp', 'clamp'],
       mag: 'linear',
       min: 'linear',

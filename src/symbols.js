@@ -1,24 +1,24 @@
 'use strict'
 
 /**
- * 'current' command symbol.
+ * 'caller' command symbol.
  *
  * @public
  * @const
  * @type {Symbol}
  */
 
-export const $current = Symbol('current')
+export const $caller = Symbol('caller')
 
 /**
- * 'previous' command symbol.
+ * 'scope' command symbol.
  *
  * @public
  * @const
  * @type {Symbol}
  */
 
-export const $previous = Symbol('previous')
+export const $scope = Symbol('scope')
 
 /**
  * 'element' symbol.

@@ -35,52 +35,42 @@ export class Vector {
       input = input.filter((x) => undefined !== x)
     }
 
-    this.elements = new Float64Array([...input])
+    const elements = new Float64Array([...input])
+    define(this, 'elements', { get:() => elements })
+    const mappings = [
+      [0, 1, 2, 3],
+      ['x', 'y', 'z', 'w'],
+      ['r', 'g', 'b', 'a'],
+    ]
 
-    define(this, '0', {
-      get: () => this.elements[0],
-      set: (v) => this.elements[0] = v,
-    })
-
-    define(this, '1', {
-      get: () => this.elements[1],
-      set: (v) => this.elements[1] = v,
-    })
-
-    define(this, '2', {
-      get: () => this.elements[2],
-      set: (v) => this.elements[2] = v,
-    })
-
-    define(this, '3', {
-      get: () => this.elements[3],
-      set: (v) => this.elements[3] = v,
-    })
-
-    define(this, 'r', {
-      get: () => this.elements[0],
-      set: (v) => this.elements[0] = v,
-    })
-
-    define(this, 'g', {
-      get: () => this.elements[1],
-      set: (v) => this.elements[1] = v,
-    })
-
-    define(this, 'b', {
-      get: () => this.elements[2],
-      set: (v) => this.elements[2] = v,
-    })
-
-    define(this, 'a', {
-      get: () => this.elements[3],
-      set: (v) => this.elements[3] = v,
-    })
+    for (let mapping of mappings) {
+      for (let i = 0; i < mapping.length; ++i) {
+        if (null == elements[i]) { break }
+        define(this, mapping[i], {
+          enumerable: null != elements[i],
+          get: () => elements[i],
+          set: (v) => elements[i] = v
+        })
+      }
+    }
   }
+
+  /**
+   * Vector length getter.
+   *
+   * @type {Number}
+   * @public
+   */
 
   get length() {
     return this.elements.length
   }
+
+  /**
+   * Dummy length setter.
+   *
+   * @private
+   */
 
   set length(value) {
     void value
@@ -110,78 +100,6 @@ export class Vector {
   }
 
   /**
-   * x component-wise getter.
-   *
-   * @getter
-   * @type {Number}
-   */
-
-  get x() { return this.elements[0] }
-
-  /**
-   * x component-wise setter.
-   *
-   * @setter
-   * @type {Number}
-   */
-
-  set x(x) { this.elements[0] = x }
-
-  /**
-   * y component-wise getter.
-   *
-   * @getter
-   * @type {Number}
-   */
-
-  get y() { return this.elements[1] }
-
-  /**
-   * y component-wise setter.
-   *
-   * @setter
-   * @type {Number}
-   */
-
-  set y(y) { this.elements[1] = y }
-
-  /**
-   * z component-wise getter.
-   *
-   * @getter
-   * @type {Number}
-   */
-
-  get z() { return this.elements[2] }
-
-  /**
-   * z component-wise setter.
-   *
-   * @setter
-   * @type {Number}
-   */
-
-  set z(z) { this.elements[2] = z }
-
-  /**
-   * w component-wise getter.
-   *
-   * @getter
-   * @type {Number}
-   */
-
-  get w() { return this[3] }
-
-  /**
-   * w component-wise setter.
-   *
-   * @setter
-   * @type {Number}
-   */
-
-  set w(w) { this.elements[3] = w }
-
-  /**
    * Set components-wise values
    *
    * @param {Number} x
@@ -196,6 +114,7 @@ export class Vector {
       return this.set(x.x, x.y, x.z, x.w)
     }
 
+    // switch fall through component setter
     switch (arguments.length) {
       case 4: this.elements[3] = coalesce(w, this.elements[3]);
       case 3: this.elements[2] = coalesce(z, this.elements[2]);

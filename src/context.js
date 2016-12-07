@@ -18,8 +18,8 @@ import {
   $reglContext,
   $domElement,
   $hasFocus,
-  $previous,
-  $current,
+  $scope,
+  $caller,
   $stack,
   $state,
   $regl
@@ -90,8 +90,8 @@ export class Context extends EventEmitter {
     this[$regl] = createRegl(reglOptions)
     this[$stack] = []
     this[$state] = initialState
-    this[$current] = null
-    this[$previous] = null
+    this[$caller] = null
+    this[$scope] = null
     this[$hasFocus] = false
     this[$domElement] = this[$regl]._gl.canvas
     this[$reglContext] = null
@@ -110,19 +110,19 @@ export class Context extends EventEmitter {
    * @type {Command}
    */
 
-  get current() {
-    return this[$current]
+  get caller() {
+    return this[$caller]
   }
 
   /**
-   * Previous command getter.
+   * Currently scoped command getter.
    *
    * @getter
    * @type {Command}
    */
 
-  get previous() {
-    return this[$previous]
+  get scope() {
+    return this[$scope]
   }
 
   /**
@@ -225,9 +225,9 @@ export class Context extends EventEmitter {
 
   push(command) {
     if ('function' == typeof command) {
+      this[$scope] = this[$stack][this[$stack].length - 1]
       this[$stack].push(command)
-      this[$current] = command
-      this[$previous] = this[$stack][this[$stack].length - 2]
+      this[$caller] = command
     }
     return this
   }
@@ -240,8 +240,8 @@ export class Context extends EventEmitter {
 
   pop() {
     let command = this[$stack].pop()
-    this[$current] = this[$stack][this[$stack].length - 1]
-    this[$previous] = command
+    this[$caller] = this[$stack][this[$stack].length - 1]
+    this[$scope] = command
     return command
   }
 
@@ -267,8 +267,8 @@ export class Context extends EventEmitter {
 
   clear() {
     this.regl.clear(this[$state].clear)
-    this[$current] = null
-    this[$previous] = null
+    this[$caller] = null
+    this[$scope] = null
     this[$stack].splice(0, this[$stack].length)
     return this
   }

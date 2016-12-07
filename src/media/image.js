@@ -4,18 +4,18 @@
  * Module dependencies.
  */
 
+import { MediaCommand } from './media'
+import isPowerOfTwo from 'is-power-of-two'
+import getPixels from 'get-pixels'
+import toCanvas from 'image-to-canvas'
+import raf from 'raf'
+
 import {
   clampToMaxSize,
   makePowerOfTwo,
   define,
   debug,
 } from '../utils'
-
-import { MediaCommand } from '../media'
-import isPowerOfTwo from 'is-power-of-two'
-import getPixels from 'get-pixels'
-import toCanvas from 'image-to-canvas'
-import raf from 'raf'
 
 /**
  * ImageCommand constructor.

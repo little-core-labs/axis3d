@@ -28,22 +28,21 @@ Object.assign(window, {
   ctx, camera, frame, video, plane
 })
 
-camera.position.z = 1
-
 raf(() => {
   ctx.focus()
   video.play()
 })
 
 // axis animation frame loop
-frame(({time, viewportWidth, viewportHeight}) => {
-  const aspectRatio = viewportWidth/viewportHeight
-  const height = plane.size.y
-  const width = plane.size.x
+frame(({viewportWidth, viewportHeight}) => {
+  const aspectRatio = viewportWidth/viewportHeight || 1
+  const height = plane.size.y || 1
+  const width = plane.size.x || 1
   const dist = camera.position.z - plane.position.z
   const fov = 2.0*Math.atan((width/aspectRatio) / (2.0*dist))
+
   // draw camera scene
-  camera({fov}, () => {
+  camera({fov, position: [0, 0, 1]}, () => {
     let ph = height, pw = width
     let wh = viewportHeight, ww = viewportWidth
     let vh = video.height, vw = video.width
@@ -61,7 +60,10 @@ frame(({time, viewportWidth, viewportHeight}) => {
       }
     }
 
-    plane.scale.set(x, y, 1)
-    plane()
+    x = x || 1
+    y = y || 1
+
+    plane({scale: [x, -y, 1]}, ({scale}) => {
+    })
   })
 })

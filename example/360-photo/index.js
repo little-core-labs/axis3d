@@ -4,15 +4,21 @@
  * Module dependencies.
  */
 
-import OrbitCameraController from 'axis3d/controls/orbit-camera'
-import Keyboard from 'axis3d/input/keyboard'
-import Context from 'axis3d/context'
-import Camera from 'axis3d/camera'
-import Sphere from 'axis3d/mesh/sphere'
-import Mouse from 'axis3d/input/mouse'
-import Image from 'axis3d/media/image'
-import Frame from 'axis3d/frame'
+import { OrbitCameraController } from 'axis3d/controller'
+import { Sphere } from 'axis3d/mesh'
+import { Image } from 'axis3d/media'
 import raf from 'raf'
+
+import {
+  Keyboard,
+  Mouse,
+} from 'axis3d/input'
+
+import {
+  Context,
+  Camera,
+  Frame,
+} from 'axis3d'
 
 // axis context
 const ctx = Context()
@@ -39,7 +45,7 @@ const orbitController = OrbitCameraController(ctx, {
 // orient controllers to "center" of image/video
 image.once('load', () => {
   raf(() => {
-    orbitController.orientation.y = Math.PI / 4
+    orbitController({orientation: [0, Math.PI / 4, 0]})
     // focus now
     ctx.focus()
   })
@@ -49,7 +55,11 @@ image.once('load', () => {
 frame(() => {
   // draw camera scene
   camera(() => {
-    orbitController({sloppy: true, interpolationFactor: 0.1, zoom: {fov: true}})
-    sphere({scale: [100, 100, 100]})
+    sphere({scale: [-100, -100, 100]})
+    orbitController({
+      interpolationFactor: 0.1,
+      sloppy: true,
+      zoom: {fov: true}
+    })
   })
 })

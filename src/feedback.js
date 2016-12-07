@@ -6,11 +6,12 @@
 
 import { SphereGeometry } from './geometry/sphere'
 import { BoxGeometry } from './geometry/box'
-import { Command } from './command'
+import { Object3DCommand } from './object'
 import glslify from 'glslify'
 import mat4 from 'gl-mat4'
 
 const defaultGeometry = new SphereGeometry({radius: 100})
+const identity = mat4.identity([])
 
 const frag = `
 precision mediump float;
@@ -72,7 +73,7 @@ module.exports = exports = (...args) => new FeedbackCommand(...args)
  * @extends Command
  */
 
-export class FeedbackCommand extends Command {
+export class FeedbackCommand extends Object3DCommand {
 
   /**
    * FeedbackCommand class constructor.
@@ -87,11 +88,11 @@ export class FeedbackCommand extends Command {
     const draw = regl({
       vert,
       frag,
-      depth: { enable: true},
+      depth: { enable: true },
       cull: { enable: true, face: 'back'},
       elements() {
-        if (ctx.current && ctx.current.geometry) {
-          return ctx.current.geometry.cells
+        if (ctx.scope && ctx.scope.geometry) {
+          return ctx.scope.geometry.cells
         } else {
           return defaultGeometry.cells
         }
@@ -99,8 +100,8 @@ export class FeedbackCommand extends Command {
 
       attributes: {
         position() {
-          if (ctx.current && ctx.current.geometry) {
-            return ctx.current.geometry.positions
+          if (ctx.scope && ctx.scope.geometry) {
+            return ctx.scope.geometry.positions
           } else {
             return defaultGeometry.positions
           }
@@ -108,12 +109,17 @@ export class FeedbackCommand extends Command {
       },
 
       uniforms: {
-        interpolation: (_, {interpolation: newInterpolation}) => {
+        interpolation: (_, {interpolation: newInterpolation} = {}) => {
           return newInterpolation || interpolation
         },
-        albedo: () => texture,
+
         opacity: (ctx, {opacity}) => null != opacity ? opacity : 1,
-        model: (ctx, {model, scale}) => mat4.scale([], model || mat4.identity([]), scale || [1, 1, 1]),
+        albedo: () => texture,
+
+        // 3d
+        projection: ({projection}) => projection || identity,
+        model: ({local}) => mat4.multiply([], ctx.scope.local || identity, local),
+        view: ({view}) => view || identity,
       },
 
       blend: {
@@ -125,15 +131,26 @@ export class FeedbackCommand extends Command {
       },
     })
 
-    super((_, state = {}, block = () => void 0) => {
-      if ('function' == typeof state) {
-        block = state
-        state = {}
-      }
+    super(ctx, {
+      inherit: true,
+      draw: (state = {}, block = () => void 0) => {
+        if ('function' == typeof state) {
+          block = state
+          state = {}
+        }
 
-      draw(state || {})
-      block()
-      texture({copy: true, mag: 'linear', min: 'linear'})
+        block()
+        if (ctx.reglContext) {
+          texture({
+            copy: true,
+            mag: 'linear',
+            min: 'linear'
+          })
+          draw(state || {})
+        }
+      }
     })
+
+    this.type = 'feedback'
   }
 }

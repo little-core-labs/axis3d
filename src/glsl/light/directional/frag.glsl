@@ -4,6 +4,8 @@ precision mediump float;
  * Shader uniforms.
  */
 
+uniform sampler2D positionTexture;
+uniform sampler2D normalTexture;
 uniform sampler2D albedoTexture;
 uniform float intensity;
 uniform vec4 color;

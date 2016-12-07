@@ -5,7 +5,7 @@
  */
 
 import { BoxGeometry } from '../geometry/box'
-import { MeshCommand } from '../mesh'
+import { MeshCommand } from './mesh'
 import mat4 from 'gl-mat4'
 import glsl from 'glslify'
 

@@ -5,7 +5,7 @@
  */
 
 import PrimitivePlane from 'primitive-plane'
-import { Geometry } from '../geometry'
+import { Geometry } from './geometry'
 
 /**
  * PlaneGeometry class.

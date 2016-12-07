@@ -4,15 +4,21 @@
  * Module dependencies.
  */
 
-import OrbitCameraController from 'axis3d/controls/orbit-camera'
-import Keyboard from 'axis3d/input/keyboard'
-import Context from 'axis3d/context'
-import Camera from 'axis3d/camera'
-import Sphere from 'axis3d/mesh/sphere'
-import Mouse from 'axis3d/input/mouse'
-import Video from 'axis3d/media/video'
-import Frame from 'axis3d/frame'
+import { OrbitCameraController } from 'axis3d/controller'
+import { Sphere } from 'axis3d/mesh'
+import { Video } from 'axis3d/media'
 import raf from 'raf'
+
+import {
+  Keyboard,
+  Mouse,
+} from 'axis3d/input'
+
+import {
+  Context,
+  Camera,
+  Frame,
+} from 'axis3d'
 
 // axis context
 const ctx = Context()
@@ -36,7 +42,6 @@ const orbitController = OrbitCameraController(ctx, {
 
 // orient controllers to "center" of video/video
 raf(() => {
-  orbitController.orientation.y = Math.PI / 4
 
   // play next frame
   video.play()
@@ -44,6 +49,7 @@ raf(() => {
 
   // focus now
   ctx.focus()
+  setTimeout(() => orbitController({orientation: [0, 3*Math.PI / 2, 0]}))
 })
 
 // expose useful things to window
@@ -53,7 +59,10 @@ Object.assign(window, {camera, sphere, video})
 frame(({time}) => {
   // draw camera scene
   camera(() => {
-    orbitController({sloppy: true, interpolationFactor: 0.1, zoom: {fov: true}})
-    sphere({scale: [100, 100, 100]})
+    sphere({scale: [-100, -100, 100]})
+    orbitController({
+      interpolationFactor: 0.1,
+      zoom: {fov: true}
+    })
   })
 })

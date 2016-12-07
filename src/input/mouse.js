@@ -35,16 +35,23 @@ export class MouseCommand extends Command {
    * @param {Object} [opts]
    */
 
-  constructor(ctx, opts = {}) {
-    super((_, block) => {
-      if ('function' == typeof block) {
-        block(this)
-      }
-    })
+  constructor(ctx, {
+    allowWheel = true,
+    currentX = 0,
+    currentY = 0,
+    buttons = 0,
+    deltaX = 0,
+    deltaY = 0,
+    prevX = 0,
+    prevY = 0,
+  } = {}) {
+    const wheel = {
+      currentX: 0, currentY: 0,
+      deltaX: 0, deltaY: 0,
+      prevX: 0, prevY: 0,
+    }
 
-    ctx.on('blur', () => {
-      this.buttons = 0
-    })
+    ctx.on('blur', () => { buttons = 0 })
 
     // focus/blur context on mouse down
     events.on(document, 'mousedown', (e) => {
@@ -55,117 +62,82 @@ export class MouseCommand extends Command {
       }
     })
 
-    /**
-     * Count of buttons currently pressed.
-     *
-     * @type {Number}
-     */
-
-    this.buttons = 0
-
-    /**
-     * Previous X coordinate.
-     *
-     * @type {Number}
-     */
-
-    this.prevX = 0
-
-    /**
-     * Previous Y coordinate.
-     *
-     * @type {Number}
-     */
-
-    this.prevY = 0
-
-    /**
-     * Current X coordinate.
-     *
-     * @type {Number}
-     */
-
-    this.currentX = 0
-
-    /**
-     * Current Y coordinate.
-     *
-     * @type {Number}
-     */
-
-    this.currentY = 0
-
-    /**
-     * Delta between previous and.
-     * current X coordinates.
-     *
-     * @type {Number}
-     */
-
-    this.deltaX = 0
-
-    /**
-     * Delta between previous and.
-     * current Y coordinates.
-     *
-     * @type {Number}
-     */
-
-    this.deltaY = 0
-
-    /**
-     * The amount of scrolling vertically,
-     * horizontally and depth-wise in pixels.
-     *
-     * @see https://www.npmjs.com/package/mouse-wheel
-     */
-
-    this.wheel = {
-      currentX: 0, currentY: 0,
-      deltaX: 0, deltaY: 0,
-      prevX: 0, prevY: 0,
-    }
-
     // update state on mouse change and reset
     // delta values on next animation frame
-    onMouseChange(ctx.domElement, (buttons, x, y) => {
-      Object.assign(this, {
-        buttons,
-        currentX: x,
-        currentY: y,
-        deltaX: x - this.currentX,
-        deltaY: y - this.currentY,
-        prevX: this.currentX,
-        prevY: this.currentY,
-      })
-
-      raf(() => Object.assign(this, {
-        deltaX: 0,
-        deltaY: 0,
-      }))
+    onMouseChange(ctx.domElement, (b, x, y) => {
+      synchronizeMouse(b, x, y)
     })
 
     // update mouse wheel deltas and then
     // reset them on the next animation frame
     onMouseWheel(ctx.domElement, (dx, dy, dz) => {
-      if (false === opts.allowWheel) { return }
-      Object.assign(this.wheel, {
-        currentX: this.wheel.currentX + dx,
-        currentY: this.wheel.currentY + dy,
-        currentZ: this.wheel.currentZ + dz,
+      if (false === allowWheel) { return }
+      Object.assign(wheel, {
+        currentX: wheel.currentX + dx,
+        currentY: wheel.currentY + dy,
+        currentZ: wheel.currentZ + dz,
         deltaX: dx,
         deltaY: dy,
         deltaZ: dz,
-        prevX: this.wheel.currentX,
-        prevY: this.wheel.currentY,
-        prevZ: this.wheel.currentZ,
+        prevX: wheel.currentX,
+        prevY: wheel.currentY,
+        prevZ: wheel.currentZ,
       })
 
-      raf(() => Object.assign(this.wheel, {
+      raf(() => Object.assign(wheel, {
         deltaX: 0,
         deltaY: 0,
         deltaZ: 0,
       }))
     })
+
+    super((_, state, block) => {
+      if ('function' == typeof state) {
+        block = state
+        state = {}
+      }
+
+      state = state || {}
+      block = block || function() {}
+
+      if ('allowWheel' in state) { allowWheel = state.allowWheel }
+      if ('currentX' in state) { currentX = state.currentX }
+      if ('currentY' in state) { currentY = state.currentY }
+
+      synchronizeMouse(buttons, currentX, currentY)
+
+      block({
+        ...state,
+        allowWheel,
+        currentX,
+        currentY,
+        buttons,
+        deltaX,
+        deltaY,
+        prevX,
+        prevY,
+        wheel,
+      })
+    })
+
+    function synchronizeMouse(b, x, y) {
+      buttons = b
+
+      if (currentX == x && currentY == y) {
+        return
+      }
+
+      prevX = currentX
+      prevY = currentY
+      deltaX = x - currentX
+      deltaY = y - currentY
+      currentX = x
+      currentY = y
+
+      raf(() => {
+        deltaX = 0
+        deltaY = 0
+      })
+    }
   }
 }

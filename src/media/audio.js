@@ -5,7 +5,7 @@
  */
 
 import { debug, define } from '../utils'
-import { MediaCommand } from '../media'
+import { MediaCommand } from './media'
 import events from 'dom-events'
 
 /**

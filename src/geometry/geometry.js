@@ -7,13 +7,6 @@
 import Wireframe from 'screen-projected-lines'
 
 /**
- * Geometry class constructor alias.
- * @see Geometry
- */
-
-module.exports = exports = (...args) => new Geometry(...args)
-
-/**
  * Geometry class.
  *
  * @public

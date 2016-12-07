@@ -12,9 +12,18 @@ import vec3 from 'gl-vec3'
 import mat3 from 'gl-mat3'
 import raf from 'raf'
 
-import { XVector3, YVector3, ZVector3, } from '../../math/vector'
-import { Quaternion, Vector, } from '../../math'
-import { ControllerCommand } from '../../controller'
+import {
+  XVector3,
+  YVector3,
+  ZVector3,
+} from '../../math/vector'
+
+import {
+  Quaternion,
+  Vector,
+} from '../../math'
+
+import { AbstractControllerCommand } from '../abstract-controller'
 import { define, radians } from '../../utils'
 
 /**
@@ -30,10 +39,10 @@ module.exports = exports = (...args) => new AmbisonicAudioControllerCommand(...a
  *
  * @public
  * @class AmbisonicAudioControllerCommand
- * @extends ControllerCommand
+ * @extends AbstractControllerCommand
  */
 
-export class AmbisonicAudioControllerCommand extends ControllerCommand {
+export class AmbisonicAudioControllerCommand extends AbstractControllerCommand {
 
   /**
    * AmbisonicAudioControllerCommand class constructor.

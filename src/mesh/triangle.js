@@ -5,7 +5,7 @@
  */
 
 import { TriangleGeometry } from '../geometry/triangle'
-import { MeshCommand } from '../mesh'
+import { MeshCommand } from './mesh'
 import glsl from 'glslify'
 
 // @TODO(werle) - move this into a glsl file

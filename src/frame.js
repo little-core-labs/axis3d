@@ -41,10 +41,11 @@ export class FrameCommand extends Command {
     let tick = null
     const cancel = () => {
       if (tick) {
-        reglContext = null
-        tick.cancel()
-        tick = null
         queue.splice(0, -1)
+        tick.cancel()
+        ctx[$reglContext] =
+        reglContext =
+        tick = null
       }
     }
 

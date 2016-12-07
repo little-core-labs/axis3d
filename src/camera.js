@@ -5,7 +5,7 @@
  */
 
 import { define, radians } from './utils'
-import { MeshCommand } from './mesh'
+import { Object3DCommand } from './object'
 import { Vector } from './math'
 import coalesce from 'defined'
 import mat4 from 'gl-mat4'
@@ -84,7 +84,7 @@ export const DEFAULT_CAMERA_FAR = 1000.0
  * @extends Command
  */
 
-export class CameraCommand extends MeshCommand {
+export class CameraCommand extends Object3DCommand {
 
   /**
    * Camera class constructor.
@@ -101,228 +101,126 @@ export class CameraCommand extends MeshCommand {
     const eye = new Vector(0, 0, 0)
     const up = new Vector(0, 0, 0)
 
+    const orientation = Object.create(DEFAULT_CAMERA_ORIENTATION_ORIGIN)
     const projection = mat4.identity([])
     const view = mat4.identity([])
 
-    const orientation = Object.create(DEFAULT_CAMERA_ORIENTATION_ORIGIN)
-
-    const state = {
-      viewportHeight: coalesce(opts.viewportHeight, 1),
-      viewportWidth: coalesce(opts.viewportWidth, 1),
-      near: coalesce(opts.near, DEFAULT_CAMERA_NEAR),
-      far: coalesce(opts.far, DEFAULT_CAMERA_FAR),
-      fov: coalesce(opts.fov, opts.fieldOfView, DEFAULT_CAMERA_FIELD_OF_VIEW),
-    }
+    let viewportHeight = coalesce(opts.viewportHeight, 1)
+    let viewportWidth = coalesce(opts.viewportWidth, 1)
+    let near = coalesce(opts.near, DEFAULT_CAMERA_NEAR)
+    let far = coalesce(opts.far, DEFAULT_CAMERA_FAR)
+    let fov = coalesce(opts.fov, opts.fieldOfView, DEFAULT_CAMERA_FIELD_OF_VIEW)
 
     const context = {
-      projection({viewportWidth, viewportHeight}) {
-        update({viewportWidth, viewportHeight})
-        return projection
-      },
-
-      view({viewportWidth, viewportHeight}) {
-        update({viewportWidth, viewportHeight})
-        return view
-      },
-
-      aspect({viewportWidth, viewportHeight}) {
-        return viewportWidth/viewportHeight
-      },
+      projection: () => projection,
+      aspect: () => viewportWidth/viewportHeight,
+      view: () => view,
     }
 
-    const uniforms = { ...context }
-    const render = ctx.regl({context, uniforms})
+    const injectContext = ctx.regl({context})
+    const update = (state) => {
+      state = state || {}
 
-    const update = (updates) => {
-      const sync = (prop) => {
-        if (prop in updates) {
-          state[prop] = updates[prop]
-        }
+      if (ctx.reglContext) {
+        viewportHeight = coalesce(ctx.reglContext.viewportHeight, 1)
+        viewportWidth = coalesce(ctx.reglContext.viewportWidth, 1)
       }
 
-      // sycn properties
-      sync('fov')
-      sync('far')
-      sync('near')
-      sync('viewportWidth')
-      sync('viewportHeight')
-
-      if ('position' in updates) {
-        vec3.copy(this.position, updates.position)
+      if ('fov' in state) {
+        fov = state.fov
       }
 
-      if ('target' in updates) {
-        vec3.copy(target, updates.target)
+      if ('far' in state) {
+        far = state.far
       }
 
-      if ('rotation' in updates) {
-        quat.copy(this.rotation, updates.rotation)
+      if ('near' in state) {
+        near = state.near
       }
 
-      if ('orientation' in updates) {
-        quat.copy(orientation, updates.orientation)
+      if ('viewportWidth' in state) {
+        viewportWidth = state.viewportWidth
       }
 
-      const position = this.position
-      const aspect = state.viewportWidth / state.viewportHeight
+      if ('viewportHeight' in state) {
+        viewportHeight = state.viewportHeight
+      }
+
+      if ('orientation' in state) {
+        quat.copy(orientation, state.orientation)
+      }
+
+      if ('target' in state) {
+        vec3.copy(target, state.target)
+      }
+
+      const aspect = viewportWidth/viewportHeight
       const vector = new Vector(0, 0, 0)
-      const near = state.near
-      const far = state.far
-      const fov = state.fov
+      const {
+        position,
+        rotation,
+        scale,
+      } = this
 
-      // update camera direction vectors
+      // compute front vector from orientation euler
       vec3.set(front,
-        Math.cos(orientation.x) * Math.cos(orientation.y),
-        Math.sin(orientation.y),
-        Math.sin(orientation.x) * Math.sin(orientation.y)
+        Math.cos(orientation[0]) * Math.cos(orientation[1]),
+        Math.sin(orientation[1]),
+        Math.sin(orientation[0]) * Math.sin(orientation[1])
       )
 
+      // normalize front vector and compute
+      // corresponding right and worldUp vectors
       vec3.normalize(front, front)
       vec3.copy(right, vec3.normalize([], vec3.cross([], front, worldUp)))
       vec3.copy(up, vec3.normalize([], vec3.cross([], right, front)))
 
       // set projection
+      // @TODO(werle) - mat4.orhto()
       mat4.perspective(projection, fov, aspect, near, far)
 
-      // update view matrix
-      mat4.lookAt(view, position, target, up)
-      mat4.multiply(view, view, mat4.fromQuat([], this.rotation))
+      // update view matrix with scaled
+      // position and target vectors
+      const center = vec3.multiply([], position || [0, 0, 0], scale)
+      mat4.lookAt(view, center, vec3.multiply([], target, scale), up)
 
-      // set eye vector
+      // scale and rotate view matrix
+      mat4.multiply(view, view, mat4.fromQuat([], rotation))
+      mat4.scale(view, view, scale)
+
+      // compute eye vector from the inverse view matrix
       mat4.invert(scratch, view)
       vec3.set(eye, scratch[12], scratch[13], scratch[14])
-      return this
     }
 
     super(ctx, {
       ...opts,
-      draw: false,
-      render(_, state, ...args) {
-        if ('object' == typeof state) {
-          update(state)
-          render(state, ...args)
-        } else if ('function' == typeof state) {
-          render(state)
+      draw(state, block) {
+        let needsUpdate = false
+        if ('function' == typeof state) {
+          block = state
+          state = {}
+        } else if ('object' == typeof state) {
+          needsUpdate = true
         }
+
+				if (needsUpdate) {
+          update(state)
+        }
+
+        injectContext(block)
       }
     })
 
-    /**
-     * Camera field of view value.
-     *
-     * @type {Number}
-     */
+    // initial update
+    update({})
 
-    define(this, 'fov', {
-      get: () => state.fov,
-      set: (fov) => update({fov})
-    })
-
-    /**
-     * Camera far value.
-     *
-     * @type {Number}
-     */
-
-    define(this, 'far', {
-      get: () => state.far,
-      set: (far) => update({far})
-    })
-
-    /**
-     * Camera near value.
-     *
-     * @type {Number}
-     */
-
-    define(this, 'near', {
-      get: () => state.near,
-      set: (near) => update({near})
-    })
-
-    /**
-     * Camera projection value.
-     *
-     * @type {Number}
-     */
-
-    define(this, 'projection', { get: () => projection })
-
-    /**
-     * Camera view matrix value.
-     *
-     * @type {Number}
-     */
-
-    define(this, 'view', { get: () => view })
-
-    /**
-     * Camera world up vector.
-     *
-     * @type {Vector}
-     */
-
-    define(this, 'worldUp', { get: () => worldUp })
-
-    /**
-     * Camera front vector.
-     *
-     * @type {Vector}
-     */
-
-    define(this, 'front', { get: () => front })
-
-    /**
-     * Camera right vector.
-     *
-     * @type {Vector}
-     */
-
-    define(this, 'right', { get: () => right })
-
-    /**
-     * Camera eye vector.
-     *
-     * @type {Vector}
-     */
-
-    define(this, 'eye', { get: () => eye })
-
-    /**
-     * Camera up vector.
-     *
-     * @type {Vector}
-     */
-
-    define(this, 'up', { get: () => up })
-
-    /**
-     * Camera lookAt target vector.
-     *
-     * @type {Vector}
-     */
-
-    define(this, 'target', { get: () => target })
-
-    /**
-     * Camera orientation vector.
-     *
-     * @type {Vector}
-     */
-
-    define(this, 'orientation', { get: () => orientation })
-
-    /**
-     * Looks at a target vector.
-     *
-     * @type {Number}
-     */
-
-    define(this, 'lookAt', {
-      value(vector) {
-        vec3.copy(target, vector)
-        return this
-      }
-    })
+    //
+    // Public properties
+    //
+    define(this, 'target', { get() { return target } })
+    define(this, 'near', { get() { return near } })
+    define(this, 'far', { get() { return far } })
+    define(this, 'fov', { get() { return fov } })
   }
 }

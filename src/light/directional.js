@@ -40,7 +40,7 @@ export class AmbientLightCommand extends Command {
     const draw = regl({
       vert, frag,
       uniforms: {
-        albedoTexture: () => textures.albedo,
+        normalTexture: () => textures.normal,
         intensity: () => clamp(intensity, -1, 1),
         color: () => [...color],
       },

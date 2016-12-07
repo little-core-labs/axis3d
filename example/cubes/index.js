@@ -29,12 +29,13 @@ const rotate = (radians) => {
   quat.multiply(rotation, x, y)
 }
 
+Object.assign(window, {camera})
+
 frame(({time}) => {
   rotate(0.125*time)
-  camera({position: [10, 0, 0], rotation}, () => {
+  camera({position: [10, 0, 0]}, () => {
     background({
       mix: 1 - Math.cos(time),
-      //reduction: 0.5,
       reduction: 1 - Math.cos(time),
       color: [
         Math.sin(0.25*time) % 255,
