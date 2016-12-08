@@ -34,120 +34,90 @@ export class TouchCommand extends Command {
    * @param {Object} [opts]
    */
 
-  constructor(ctx, opts = {}) {
-    super((_, block) => {
-      if ('function' == typeof block) {
-        block(this)
-      }
-    })
-
-    const touch = TouchPosition({element: ctx.domElement})
-
+  constructor(ctx, {
+    touches = null,
+    currentX = 0,
+    currentY = 0,
+    deltaX = 0,
+    deltaY = 0,
+    prevX = 0,
+    prevY = 0,
+    touch = TouchPosition({element: ctx.domElement}),
+  } = {}) {
     events.on(ctx.domElement, 'touchstart', (e) => {
       const x = e.touches[0].clientX
       const y = e.touches[0].clientY
       e.preventDefault()
-      Object.assign(this, {
-        touches: e.targetTouches,
-
-        currentX: x,
-        currentY: y,
-
-        deltaX: 0,
-        deltaY: 0,
-
-        prevX: this.currentX,
-        prevY: this.currentY,
-      })
-
+      touches = e.targetTouches
+      currentX = x
+      currentY = y
+      deltaX = 0
+      deltaY = 0
+      prevX = 0
+      prevY = 0
     })
 
     events.on(ctx.domElement, 'touchend', (e) => {
       e.preventDefault()
-      Object.assign(this, {
-        touches: 0,
-
-        currentX: 0,
-        currentY: 0,
-
-        deltaX: 0,
-        deltaY: 0,
-
-        prevX: 0,
-        prevY: 0,
+      raf(() => {
+        touches = null
+        currentX = 0
+        currentY = 0
+        deltaX = 0
+        deltaY = 0
+        prevX = 0
+        prevY = 0
       })
     })
 
-    touch.on('move', (t) => {
-      const x = t.clientX
-      const y = t.clientY
-      Object.assign(this, {
-        deltaX: x - this.currentX,
-        deltaY: y - this.currentY,
-      })
-
-      raf(() => Object.assign(this, {
-        deltaX: 0,
-        deltaY: 0,
-      }))
+    touch.on('move', ({clientX, clientY}) => {
+      synchronizeTouch(touches, clientX, clientY)
     })
 
-    /**
-     * Current active touches
-     *
-     * @type {Number}
-     */
+    super((_, state, block) => {
+      if ('function' == typeof state) {
+        block = state
+        state = {}
+      }
 
-    this.touches = null
+      state = state || {}
+      block = block || function() {}
 
-    /**
-     * Previous X coordinate.
-     *
-     * @type {Number}
-     */
+      if ('currentX' in state) { currentX = state.currentX }
+      if ('currentY' in state) { currentY = state.currentY }
 
-    this.prevX = 0
+      synchronizeTouch(touches, currentX, currentY)
 
-    /**
-     * Previous Y coordinate.
-     *
-     * @type {Number}
-     */
+      block({
+        ...state,
+        currentX,
+        currentY,
+        touches,
+        deltaX,
+        deltaY,
+        prevX,
+        prevY,
+      })
+    })
 
-    this.prevY = 0
+    function synchronizeTouch(t, x, y) {
+      touches = t
 
-    /**
-     * Current X coordinate.
-     *
-     * @type {Number}
-     */
+      if (currentX == x && currentY == y) {
+        return
+      }
 
-    this.currentX = 0
+      prevX = currentX
+      prevY = currentY
+      deltaX = x - currentX
+      deltaY = y - currentY
+      currentX = x
+      currentY = y
 
-    /**
-     * Current Y coordinate.
-     *
-     * @type {Number}
-     */
-
-    this.currentY = 0
-
-    /**
-     * Delta between previous and.
-     * current X coordinates.
-     *
-     * @type {Number}
-     */
-
-    this.deltaX = 0
-
-    /**
-     * Delta between previous and.
-     * current Y coordinates.
-     *
-     * @type {Number}
-     */
-
-    this.deltaY = 0
+      raf(() => {
+        deltaX = 0
+        deltaY = 0
+      })
+    }
   }
 }

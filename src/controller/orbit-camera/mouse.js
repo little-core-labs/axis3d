@@ -40,13 +40,13 @@ module.exports = exports = ({
     deltaX: dx,
     deltaY: dy,
   }) => {
-    const xf = X_AXIS_MOUSE_FRICTION
-    const yf = Y_AXIS_MOUSE_FRICTION
+    const xf = 0.0033
+    const yf = 0.004
 
     // update if a singled button is pressed
     if (1 == buttons && (dy || dx)) {
-      orientation[0] += (false == invert ? 1 : -1)*xf*dy*friction
-      orientation[1] += (false == invert ? 1 : -1)*yf*dx*friction
+      orientation[0] += ((false == invert ? 1 : -1)*xf*dy)/(friction || 0.01)
+      orientation[1] += ((false == invert ? 1 : -1)*yf*dx)/(friction || 0.01)
     }
   })
 

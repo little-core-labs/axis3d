@@ -11,6 +11,7 @@ import raf from 'raf'
 
 import {
   Keyboard,
+  Touch,
   Mouse,
 } from 'axis3d/input'
 
@@ -24,7 +25,7 @@ import {
 const ctx = Context()
 
 // objects
-const camera = Camera(ctx)
+const camera = Camera(ctx, {fov: Math.PI/2.5})
 const frame = Frame(ctx)
 const image = Image(ctx, '/govball.jpg')
 const sphere = Sphere(ctx, { envmap: image })
@@ -34,10 +35,11 @@ Object.assign(window, {ctx, camera, frame, image, sphere})
 // inputs
 const keyboard = Keyboard(ctx)
 const mouse = Mouse(ctx)
+const touch = Touch(ctx)
 
 // orbit controller
 const orbitController = OrbitCameraController(ctx, {
-  inputs: {mouse, keyboard},
+  inputs: {mouse, touch, keyboard},
   target: camera,
   invert: true,
 })
@@ -51,15 +53,21 @@ image.once('load', () => {
   })
 })
 
+frame(() => {
+  touch(({touches}) => {
+    orbitController({
+      interpolationFactor: touches ? 1 : 0.07,
+      friction: 0.7,
+      sloppy: true,
+      zoom: {fov: true}
+    })
+  })
+})
+
 // axis animation frame loop
 frame(() => {
   // draw camera scene
   camera(() => {
     sphere({scale: [-100, -100, 100]})
-    orbitController({
-      interpolationFactor: 0.1,
-      sloppy: true,
-      zoom: {fov: true}
-    })
   })
 })

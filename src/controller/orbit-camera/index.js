@@ -93,6 +93,15 @@ export class OrbitCameraController extends AbstractControllerCommand {
             zoom,
           })
 
+          touchInput && applyTouchInput({
+            orientation,
+            touchInput,
+            friction,
+            invert,
+            camera,
+            zoom,
+          })
+
           // @TODO(werle) -
           // * device orientation
           // * touch
