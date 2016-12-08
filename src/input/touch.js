@@ -44,10 +44,13 @@ export class TouchCommand extends Command {
     prevY = 0,
     touch = TouchPosition({element: ctx.domElement}),
   } = {}) {
+    let hasMovement = false
+    let hasTouch = false
     events.on(ctx.domElement, 'touchstart', (e) => {
       const x = e.touches[0].clientX
       const y = e.touches[0].clientY
       e.preventDefault()
+      hasTouch = true
       touches = e.targetTouches
       currentX = x
       currentY = y
@@ -60,6 +63,8 @@ export class TouchCommand extends Command {
     events.on(ctx.domElement, 'touchend', (e) => {
       e.preventDefault()
       raf(() => {
+        hasMovement = false
+        hasTouch = false
         touches = null
         currentX = 0
         currentY = 0
@@ -71,6 +76,7 @@ export class TouchCommand extends Command {
     })
 
     touch.on('move', ({clientX, clientY}) => {
+      hasMovement = true
       synchronizeTouch(touches, clientX, clientY)
     })
 
@@ -90,6 +96,8 @@ export class TouchCommand extends Command {
 
       block({
         ...state,
+        hasMovement,
+        hasTouch,
         currentX,
         currentY,
         touches,

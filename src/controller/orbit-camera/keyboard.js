@@ -23,8 +23,8 @@ module.exports = exports = ({
   keyboard && keyboard(({mappings}) => {
     let dx = 0
     let dy = 0
-    let c = 0.08
-    const step = c*friction
+    let c = 0.02
+    const step = c/friction
 
     // @TODO(werle) - should we reset keyboard state ?
     if (mappings.value('control')) {
@@ -33,11 +33,11 @@ module.exports = exports = ({
 
     if (mappings.value('up')) {
       dx = dx + step
-      orientation[0] -= step
+      orientation[0] -= 0.9*step
       mappings.off('down')
     } else if (mappings.value('down')) {
       dx = dx - step
-      orientation[0] += step
+      orientation[0] += 0.9*step
       mappings.off('up')
     }
 

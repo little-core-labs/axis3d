@@ -40,8 +40,8 @@ module.exports = exports = ({
     deltaX: dx,
     deltaY: dy,
   }) => {
-    const xf = 0.0033
-    const yf = 0.004
+    const xf = 0.001
+    const yf = 0.0012
 
     // update if a singled button is pressed
     if (1 == buttons && (dy || dx)) {

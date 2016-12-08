@@ -16,13 +16,13 @@ module.exports = exports = ({
   zoom = {fov: false},
 } = {}) => {
   touch(({
-    touches,
+    hasTouch,
     deltaX: dx,
     deltaY: dy,
   }) => {
-    const z = 0.0028
-    if (touches) {
-      orientation[0] += ((false == invert ? 1 : -1)*(0.5*z)*dy)/(friction || 0.01)
+    const z = 0.003
+    if (hasTouch) {
+      orientation[0] += ((false == invert ? 1 : -1)*(0.75*z)*dy)/(friction || 0.01)
       orientation[1] += ((false == invert ? 1 : -1)*z*dx)/(friction || 0.01)
     }
   })
