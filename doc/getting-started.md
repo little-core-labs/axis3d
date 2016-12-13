@@ -39,7 +39,7 @@ automatically appended to the `body` DOM element.
   <tr>
     <td>
 
-```js
+<pre lang="js">
 import { Triangle } from 'axis3d/mesh'
 import {
   Context,
@@ -57,7 +57,7 @@ frame(({time}) => {
     triangle({color: [0, 0, 1, 1]})
   })
 })
-```
+</pre>
 
     </td>
     <td><img src="assets/hello-world.png"></td>
