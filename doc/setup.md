@@ -73,7 +73,7 @@ targets.
 
 # <a name="see-also"></a> See Also
 
-* [Installation](instll.md)
+* [Installation](install.md)
 * [Getting Started](getting-started.md)
 * [Hello World](hello-world.md)
 * [Makefile Targets](makefile.md)
