@@ -11,14 +11,14 @@ import clamp from 'clamp'
  * the x axis for mouse inputs.
  */
 
-const X_AXIS_MOUSE_FRICTION = 0.0033
+const X_AXIS_MOUSE_FRICTION = 0.005
 
 /**
  * Local friction applied to rotations around
  * the y axis for mouse inputs.
  */
 
-const Y_AXIS_MOUSE_FRICTION = 0.004
+const Y_AXIS_MOUSE_FRICTION = 0.006
 
 /**
  * Applies orientation changes to orbit orbitCamera from

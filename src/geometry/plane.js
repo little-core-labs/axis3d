@@ -21,11 +21,24 @@ export class PlaneGeometry extends Geometry {
     segments = {x: 1, y: 1},
     size = {x: 1, y: 1},
   } = {}) {
+    segments = (
+      'number' == typeof segments ?
+       {x: segments, y: segments} :
+       segments
+    )
+
+    size = (
+      'number' == typeof size ?
+      {x: size, y: size} :
+      size
+    )
+
     const complex = PrimitivePlane(
       segments.x, segments.y,
       size.x, size.y,
       {quad: false}
     )
+
     super({size, segments, complex})
   }
 

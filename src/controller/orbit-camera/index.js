@@ -80,7 +80,6 @@ export class OrbitCameraController extends AbstractControllerCommand {
             touch: touchInput,
           } = inputs
 
-
           friction = clamp(friction, 0, 1)
 
           keyboardInput && applyKeyboardInput({

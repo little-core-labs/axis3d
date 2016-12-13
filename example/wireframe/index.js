@@ -26,18 +26,28 @@ import raf from 'raf'
 
 const ctx = Context()
 const frame = Frame(ctx)
+const plane = Plane(ctx, {
+  wireframe: true,
+  rotation: quat.setAxisAngle([], [1, 0, 0], Math.PI/2),
+  segments: 16,
+  color: [0.8, 0.8, 1.0, 0.9],
+  size: 10,
+})
 const draw = Mesh(ctx, {
   wireframe: true,
   geometry: new Geometry({complex})
 })
 
 const orbitCamera = OrbitCameraController(ctx, {
-  camera: Camera(ctx, {position: [0, 0, 20]}),
-  inputs: {mouse: Mouse(ctx)}
+  inputs: {mouse: Mouse(ctx)},
+  camera: Camera(ctx, {
+    position: [-5, 12, 18]
+  }),
 })
 
 frame(({time}) => {
   orbitCamera(() => {
+    plane()
     draw()
   })
 })
