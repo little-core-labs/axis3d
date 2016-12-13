@@ -3,6 +3,8 @@
 /**
  * Module dependencies.
  */
+
+import makeVideoPlayableInline from 'iphone-inline-video'
 import { debug, define } from '../utils'
 import { MediaCommand } from './media'
 import { ImageCommand } from './image'
@@ -86,8 +88,12 @@ export class VideoCommand extends MediaCommand {
     //
     const call = (method, ...args) => {
       if (source) {
-        debug('Video: call %s(%j)', method, args)
-        source[method](...args)
+        debug('VideoCommand: call %s(%j)', method, args)
+        const ret = source[method](...args)
+        if (ret && 'function' == typeof ret.catch) {
+          ret.catch((err) => this.emit('error', err))
+        }
+        window.source = source
       } else {
         this.once('load', () => this[method](...args))
       }
@@ -164,6 +170,7 @@ export class VideoCommand extends MediaCommand {
       Object.assign(source, initialState)
       const proxy = (event, override) => {
         events.on(source, event, (...args) => {
+          debug("VideoCommand: event: %s", event)
           emit(override || event, ...args)
         })
       }
@@ -186,6 +193,10 @@ export class VideoCommand extends MediaCommand {
     })
 
     // set to playing state
+    this.on('play', () => {
+      isPlaying = true
+      isPaused = false
+    })
     this.on('playing', () => {
       isPlaying = true
       isPaused = false
@@ -264,6 +275,9 @@ export class VideoCommand extends MediaCommand {
 
     // Callback when video  has loaded.
     this.onloaded = ({video}) => {
+      video.setAttribute('playsinline', true)
+      makeVideoPlayableInline(video)
+
       source = video
 
       if (null == poster) {
@@ -278,7 +292,8 @@ export class VideoCommand extends MediaCommand {
       let lastRead = 0
       this._read = (done) => {
         const now = Date.now()
-        if (isPlaying && (now - lastRead >= 64) && source.readyState >= source.HAVE_ENOUGH_DATA) {
+        //console.log(source.readyState, source.HAVE_ENOUGH_DATA, isPlaying, (now - lastRead))
+        if (true && (now - lastRead >= 64) && source.readyState >= source.HAVE_ENOUGH_DATA) {
           lastRead = now
           debug('VideoCommand: read')
           textureState.data = source

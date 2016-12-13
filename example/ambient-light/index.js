@@ -16,7 +16,7 @@ import {
 
 const ctx = Context()
 const frame = Frame(ctx)
-const bunny = Mesh(ctx, {geometry: new Geometry({primitive: Bunny})})
+const bunny = Mesh(ctx, {geometry: new Geometry({complex: Bunny})})
 const light = AmbientLight(ctx)
 const camera = Camera(ctx, {position: [0, 0, -5]})
 const background = VignetteBackground(ctx)

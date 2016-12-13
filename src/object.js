@@ -12,13 +12,6 @@ import vec4 from 'gl-vec4'
 import vec3 from 'gl-vec3'
 import vec2 from 'gl-vec2'
 import quat from 'gl-quat'
-import raf from 'raf'
-
-/**
- * Current object command counter.
- *
- * @type {Number}
- */
 
 let OBJECT_COMMAND_COUNTER = 0
 
@@ -40,7 +33,7 @@ module.exports = exports = (...args) => new Object3DCommand(...args)
 export class Object3DCommand extends Command {
 
   /**
-   * Returns the next object D
+   * Returns the next object ID
    *
    * @public
    * @static
@@ -77,25 +70,28 @@ export class Object3DCommand extends Command {
 
     // world
     const transform = mat4.identity([])
-    const local = mat4.identity([])
+    const model = mat4.identity([])
 
     // regl context
     const injectContext = ctx.regl({
       context: {
         transform: () => transform,
-        position: () => position,
-        rotation: () => rotation,
-        parent: ({local: parent}) => parent,
-        scale: () => scale,
-        local: () => local,
+        model: () => model,
+        id: () => id,
       }
     })
 
     //
     // Updates state and internal matrices.
     //
-    const update = (state) => {
-      if ('scale' in state) {
+    const update = (state = {}) => {
+      mat4.identity(model)
+      mat4.identity(transform)
+      vec3.copy(scale, initial.scale)
+      vec3.copy(position, initial.position)
+      quat.copy(rotation, initial.rotation)
+
+      if (state.scale) {
         if (state.scale.length && 3 == state.scale.length) {
           vec3.copy(scale, state.scale)
         } else {
@@ -103,7 +99,7 @@ export class Object3DCommand extends Command {
         }
       }
 
-      if ('position' in state) {
+      if (state.position) {
         if (state.position.length && 3 == state.position.length) {
           vec3.copy(position, state.position)
         } else {
@@ -111,7 +107,7 @@ export class Object3DCommand extends Command {
         }
       }
 
-      if ('rotation' in state) {
+      if (state.rotation) {
         if (state.rotation.length && 4 == state.rotation.length) {
           quat.copy(rotation, state.rotation)
         } else {
@@ -120,29 +116,21 @@ export class Object3DCommand extends Command {
       }
 
       //
-      // The following implements:
       //   M = T * R * S
       //   M' = Mp * M
-      // where
-      //   Mp is the parent model
-      //   T is the translation matrix
-      //   R is the rotation matrix
-      //   S is the scale matrix
       //
 
-      mat4.identity(transform)
-      mat4.identity(local)
-
       // M
-      mat4.translate(local, local, position)
-      mat4.multiply(local, local, mat4.fromQuat([], rotation))
-      mat4.scale(local, local, scale)
+      mat4.translate(model, model, position)
+      mat4.multiply(model, model, mat4.fromQuat([], rotation))
+      mat4.scale(model, model, scale)
 
       // M'
-      if (ctx.scope && ctx.scope.id != id && ctx.scope.id > 0) {
-        mat4.multiply(ctx.scope.transform, transform, local)
+      const {transform: parentTransform} = ctx.reglContext
+      if (parentTransform) {
+        mat4.multiply(transform, parentTransform, model)
       } else {
-        mat4.copy(transform, local)
+        mat4.copy(transform, model)
       }
     }
 
@@ -156,9 +144,8 @@ export class Object3DCommand extends Command {
       state = state || {}
       block = block || function() {}
 
-      // update state and push this
-      // command to context stack
-      update(state)
+      // push this command to context stack
+      update({...state})
       ctx.push(this)
 
       // inject context suitable for
@@ -173,11 +160,9 @@ export class Object3DCommand extends Command {
           position,
           rotation,
           scale,
-          local,
         }, block)
 
-        // remove this command from the stack
-        // by popping it from the context
+        // remove this command from the context stack
         ctx.pop()
       })
     })
@@ -186,10 +171,9 @@ export class Object3DCommand extends Command {
     // Public properties
     //
     define(this, 'id', { get() { return id } })
+    define(this, 'scale', { get() { return scale } })
     define(this, 'position', { get() { return position } })
     define(this, 'rotation', { get() { return rotation } })
-    define(this, 'scale', { get() { return scale } })
-    define(this, 'local', { get() { return local } })
     define(this, 'transform', { get() { return transform } })
   }
 }

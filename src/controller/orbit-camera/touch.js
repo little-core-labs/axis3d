@@ -10,10 +10,8 @@ import clamp from 'clamp'
 module.exports = exports = ({
   touchInput: touch,
   orientation,
-  friction,
-  camera,
-  invert = false,
-  zoom = {fov: false},
+  friction = 1,
+    invert = false,
 } = {}) => {
   touch(({
     hasTouch,

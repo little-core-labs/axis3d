@@ -24,7 +24,7 @@ varying vec3 vposition;
 varying vec3 vnormal;
 #endif
 
-#ifdef HAS_UVS
+#if defined(HAS_UVS)
 varying vec2 vuv;
 #endif
 

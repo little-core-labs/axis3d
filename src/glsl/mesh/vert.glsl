@@ -4,11 +4,15 @@ precision highp float;
  * Shader dependcies.
  */
 
+#pragma glslify: linevoffset = require('screen-projected-lines')
+
 /**
  * Shader uniforms.
  */
 
 uniform float aspect;
+uniform float wireframeThickness;
+uniform bool wireframe;
 uniform mat4 projection;
 uniform mat4 model;
 uniform mat4 view;
@@ -16,6 +20,14 @@ uniform mat4 view;
 /**
  * Shader IO.
  */
+
+#ifdef HAS_NEXT_POSITIONS
+attribute vec3 nextPosition;
+#endif
+
+#ifdef HAS_DIRECTIONS
+attribute float direction;
+#endif
 
 #ifdef HAS_POSITIONS
 attribute vec3 position;
@@ -27,17 +39,9 @@ attribute vec3 normal;
 varying vec3 vnormal;
 #endif
 
-#ifdef HAS_UVS
+#if defined(HAS_UVS) && defined(HAS_MAP)
 attribute vec2 uv;
 varying vec2 vuv;
-#endif
-
-#ifdef HAS_DIRECTIONS
-attribute float direction;
-#endif
-
-#ifdef HAS_NEXT_POSITIONS
-attribute vec3 nextPosition;
 #endif
 
 /**
@@ -46,19 +50,20 @@ attribute vec3 nextPosition;
 
 #pragma glslify: export(main)
 void main() {
-  vec4 pos = vec4(0.0);
-
-#ifdef HAS_POSITIONS
-  pos = projection * view * model * vec4(position, 1.0);
-#elif defined HAS_NORMALS
-  pos = projection * view * model * vec4(normal, 1.0);
-#elif defined HAS_UVS
-  pos = projection * view * model * vec4(uv, 0.0, 1.0);
+  if (wireframe) {
+#if defined(HAS_NEXT_POSITIONS) && !defined(HAS_MAP)
+    vec4 p = projection * view * model * vec4(position, 1.0);
+    vec4 n = projection * view * model * vec4(nextPosition, 1.0);
+    vec4 off = linevoffset(p, n, direction, aspect);
+    gl_Position = p + off*wireframeThickness;
 #endif
+  } else {
+#if defined HAS_POSITIONS
+    gl_Position = projection * view * model * vec4(position, 1.0);
+#endif
+  }
 
-  gl_Position = pos;
-
-#ifdef HAS_POSITIONS
+#if defined HAS_POSITIONS
   vposition = (model * vec4(position, 1.0)).xyz;
 #endif
 
@@ -66,7 +71,7 @@ void main() {
   vnormal = normal;
 #endif
 
-#ifdef HAS_UVS
+#if defined(HAS_UVS) && defined(HAS_MAP)
   vuv = uv;
 #endif
 }

@@ -1,0 +1,429 @@
+{
+  "type": "Program",
+  "start": 0,
+  "end": 184,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 12,
+      "column": 0
+    }
+  },
+  "sourceType": "module",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "start": 0,
+      "end": 12,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 12
+        }
+      },
+      "expression": {
+        "type": "Literal",
+        "start": 0,
+        "end": 12,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 12
+          }
+        },
+        "value": "use strict",
+        "rawValue": "use strict",
+        "raw": "'use strict'",
+        "leadingComments": null,
+        "trailingComments": null
+      },
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Module exports.\n ",
+          "start": 14,
+          "end": 40,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 3
+            }
+          },
+          "range": [
+            14,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 42,
+      "end": 65,
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 0
+        },
+        "end": {
+          "line": 7,
+          "column": 23
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 49,
+          "end": 52,
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 7
+            },
+            "end": {
+              "line": 7,
+              "column": 10
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 49,
+            "end": 52,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 7
+              },
+              "end": {
+                "line": 7,
+                "column": 10
+              }
+            },
+            "name": "Box",
+            "leadingComments": null
+          },
+          "leadingComments": null
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 58,
+        "end": 65,
+        "loc": {
+          "start": {
+            "line": 7,
+            "column": 16
+          },
+          "end": {
+            "line": 7,
+            "column": 23
+          }
+        },
+        "value": "./box",
+        "rawValue": "./box",
+        "raw": "'./box'"
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Module exports.\n ",
+          "start": 14,
+          "end": 40,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 3
+            }
+          },
+          "range": [
+            14,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 66,
+      "end": 91,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 8,
+          "column": 25
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 73,
+          "end": 77,
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 7
+            },
+            "end": {
+              "line": 8,
+              "column": 11
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 73,
+            "end": 77,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 7
+              },
+              "end": {
+                "line": 8,
+                "column": 11
+              }
+            },
+            "name": "Mesh"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 83,
+        "end": 91,
+        "loc": {
+          "start": {
+            "line": 8,
+            "column": 17
+          },
+          "end": {
+            "line": 8,
+            "column": 25
+          }
+        },
+        "value": "./mesh",
+        "rawValue": "./mesh",
+        "raw": "'./mesh'"
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 92,
+      "end": 119,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 0
+        },
+        "end": {
+          "line": 9,
+          "column": 27
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 99,
+          "end": 104,
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 7
+            },
+            "end": {
+              "line": 9,
+              "column": 12
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 99,
+            "end": 104,
+            "loc": {
+              "start": {
+                "line": 9,
+                "column": 7
+              },
+              "end": {
+                "line": 9,
+                "column": 12
+              }
+            },
+            "name": "Plane"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 110,
+        "end": 119,
+        "loc": {
+          "start": {
+            "line": 9,
+            "column": 18
+          },
+          "end": {
+            "line": 9,
+            "column": 27
+          }
+        },
+        "value": "./plane",
+        "rawValue": "./plane",
+        "raw": "'./plane'"
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 120,
+      "end": 149,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 29
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 127,
+          "end": 133,
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 7
+            },
+            "end": {
+              "line": 10,
+              "column": 13
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 127,
+            "end": 133,
+            "loc": {
+              "start": {
+                "line": 10,
+                "column": 7
+              },
+              "end": {
+                "line": 10,
+                "column": 13
+              }
+            },
+            "name": "Sphere"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 139,
+        "end": 149,
+        "loc": {
+          "start": {
+            "line": 10,
+            "column": 19
+          },
+          "end": {
+            "line": 10,
+            "column": 29
+          }
+        },
+        "value": "./sphere",
+        "rawValue": "./sphere",
+        "raw": "'./sphere'"
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 150,
+      "end": 183,
+      "loc": {
+        "start": {
+          "line": 11,
+          "column": 0
+        },
+        "end": {
+          "line": 11,
+          "column": 33
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 157,
+          "end": 165,
+          "loc": {
+            "start": {
+              "line": 11,
+              "column": 7
+            },
+            "end": {
+              "line": 11,
+              "column": 15
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 157,
+            "end": 165,
+            "loc": {
+              "start": {
+                "line": 11,
+                "column": 7
+              },
+              "end": {
+                "line": 11,
+                "column": 15
+              }
+            },
+            "name": "Triangle"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 171,
+        "end": 183,
+        "loc": {
+          "start": {
+            "line": 11,
+            "column": 21
+          },
+          "end": {
+            "line": 11,
+            "column": 33
+          }
+        },
+        "value": "./triangle",
+        "rawValue": "./triangle",
+        "raw": "'./triangle'"
+      }
+    }
+  ]
+}

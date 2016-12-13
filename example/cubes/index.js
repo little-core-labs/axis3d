@@ -3,7 +3,6 @@
 import VignetteBackground from 'axis3d/backgrounds/vignette'
 import Context from 'axis3d/context'
 import Camera from 'axis3d/camera'
-import Image from 'axis3d/media/image'
 import Plane from 'axis3d/mesh/plane'
 import Frame from 'axis3d/frame'
 import quat from 'gl-quat'
@@ -14,9 +13,8 @@ import raf from 'raf'
 const ctx = Context()
 const box = Box(ctx)
 const frame = Frame(ctx)
-const image = Image(ctx, '/govball.jpg')
 const camera = Camera(ctx, {position: [0, 0, -5]})
-const background = VignetteBackground(ctx, {map: image})
+const background = VignetteBackground(ctx)
 
 const count = 40
 const color = [0, 0, 0, 1]
@@ -33,6 +31,7 @@ Object.assign(window, {camera})
 
 frame(({time}) => {
   rotate(0.125*time)
+  background()
   camera({position: [10, 0, 0]}, () => {
     for (let i = 0; i < count; ++i) {
       const position = positions[i]

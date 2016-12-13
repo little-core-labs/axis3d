@@ -36,32 +36,18 @@ export class FrameCommand extends Command {
    */
 
   constructor(ctx, opts = {}) {
+    const {regl} = ctx
     const queue = []
-    const regl = ctx.regl
 
     const texture = regl.texture()
     let reglContext = null
     let isRunning = false
     let tick = null
 
-    // capture framebuffer in frame texture
-    ctx.framebuffer({
-      depth: true,
-    })
-
     const injectContext = regl({
-      framebuffer: ctx.framebuffer,
       context: {
-        resolution: ({viewportWidth: w, viewportHeight: h}) => ([w, h])
+        resolution: ({viewportWidth: w, viewportHeight: h}) => ([w, h]),
       }
-    })
-
-    const renderFramebuffer = ctx.regl({
-      vert, frag,
-      attributes: {position: [[-4, -4], [4, -4], [0, 4]]},
-      uniforms: {albedoTexture: texture},
-      depth: {enable: false},
-      count: 3,
     })
 
     super((_, refresh) => {
@@ -103,10 +89,6 @@ export class FrameCommand extends Command {
             viewportHeight: height,
           } = reglContext
 
-          if (ctx.framebuffer) {
-            ctx.framebuffer.resize(width, height)
-          }
-
           try {
             injectContext((_) => {
               // clear
@@ -120,11 +102,8 @@ export class FrameCommand extends Command {
                 }
               }
 
-              // copy
-              texture({copy: true, mag: 'linear', min: 'linear'})
             })
 
-            renderFramebuffer()
           } catch (e) {
             ctx.emit('error', e)
             cancel()

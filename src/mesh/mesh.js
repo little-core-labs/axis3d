@@ -10,7 +10,9 @@ import { $reglContext } from '../symbols'
 import getBoundingBox from 'bound-points'
 import injectDefines from 'glsl-inject-defines'
 import { define } from '../utils'
+import coalesce from 'defined'
 import glslify from 'glslify'
+import clamp from 'clamp'
 import mat4 from 'gl-mat4'
 import vec4 from 'gl-vec4'
 import vec3 from 'gl-vec3'
@@ -19,24 +21,7 @@ import quat from 'gl-quat'
 
 const identity = mat4.identity([])
 
-/**
- * Default vertex shader for a mesh.
- *
- * @public
- * @const
- * @type {String}
- */
-
 export const DEFAULT_VERTEX_SHADER = glslify(__dirname + '/../glsl/mesh/vert.glsl')
-
-/**
- * Default fragment shader for a mesh.
- *
- * @public
- * @const
- * @type {String}
- */
-
 export const DEFAULT_FRAGMENT_SHADER = glslify(__dirname + '/../glsl/mesh/frag.glsl')
 
 /**
@@ -65,146 +50,192 @@ export class MeshCommand extends Object3DCommand {
 
   constructor(ctx, opts = {}) {
     const reglOptions = { ...opts.regl }
-    const defaults = { ...opts.defaults }
 
     let boundingBox = null
-    let geometry = opts.geometry || null
-    let blending = opts.blending || null
     let render = null
-    let envmap = null
-    let depth = opts.depth || null
-    let cull = opts.cull || null
     let draw = opts.draw || null
-    let map = null
+    let map = opts.map
 
-    /**
-     * Sets mesh map.
-     *
-     * @private
-     * @param {Media|null} value
-     */
+    let wireframeThickness = coalesce(opts.wireframeThickness, 0.0125)
+    let wireframe = true === opts.wireframe ? true : false
+    let geometry = opts.geometry || null
+    let opacity = opts.opacity || 1
+    let color = new Vector(...(opts.color || [197/255, 148/255, 149/255, 1]))
 
-    const setMap = (value) => {
-      if (value && value != map) {
-        if (value) {
-          map = value
-          configure()
+    const cull = {
+      enable: false,
+      face: 'back',
+      ...opts.cull
+    }
+
+    const depth = {
+      enable: true,
+      range: [0, 1],
+      mask: true,
+      func: 'less',
+      ...opts.depth,
+    }
+
+    const blend = {
+      equation: 'add',
+      enable: false,
+      color: [0, 0, 0, 0],
+      func: {src: 'src alpha', dst: 'one minus src alpha'},
+      ...opts.blend,
+    }
+
+    const initial = {
+      wireframeThickness: wireframeThickness,
+      wireframe: wireframe,
+      opacity: opacity,
+      color: [...color],
+      depth: {...depth},
+      blend: {...blend},
+      cull: {...cull},
+      map: map
+    }
+
+    const update = (state) => {
+      let needsUpdate = false
+
+      Object.assign(depth, initial.depth)
+      Object.assign(blend, initial.blend)
+      Object.assign(cull, initial.cull)
+      vec4.copy(color, initial.color)
+
+      if (state.color) {
+        vec4.copy(color, state.color)
+      }
+
+      if (wireframe != state.wireframe &&
+          'boolean' == typeof state.wireframe) {
+        wireframe = state.wireframe
+      } else if (wireframe != initial.wireframe) {
+        wireframe = initial.wireframe
+      }
+
+      if (opacity != state.opacity &&
+         'number' == typeof state.opacity ) {
+        opacity = state.opacity
+      } else if (opacity != initial.opacity) {
+        opacity = initial.opacity
+      }
+
+      if (wireframeThickness != state.wireframeThickness &&
+         'number' == typeof state.wireframeThickness ) {
+        wireframeThickness = state.wireframeThickness
+      } else if (wireframeThickness != initial.wireframeThickness) {
+        wireframeThickness = initial.wireframeThickness
+      }
+
+      //
+      if (state.map && map != state.map) {
+        map = state.map
+        needsUpdate = true
+      } else {
+        // map not set with initial map somehow
+        if (null == map && initial.map) {
+          map = initial.map
+          needsUpdate = true
         }
-      } else if (null === value && null != map) {
-        map = null
+      }
+
+      if (needsUpdate) {
         configure()
       }
     }
 
-    /**
-     * Sets environment mesh map.
-     *
-     * @private
-     * @param {Media|null} value
-     */
-
-    const setEnvMap = (value) => {
-      if (value && value != envmap) {
-        if (value) {
-          envmap = value
-          setMap(envmap)
-        }
-      } else if (null === value && null != envmap) {
-        envmap = null
-        setMap(null)
+    const computeBoundingBox = () => {
+      if (null == geometry) {
+        return null
+      } else if (boundingBox) {
+        return boundingBox
       }
+
+      return (
+        boundingBox =
+          getBoundingBox(geometry.positions)
+          .map((p) => new Vector(...p))
+      )
     }
 
-    /**
-     * Updates state and internal matrices.
-     *
-     * @private
-     * @param {Object} [state]
-     */
+    const computeSize = () => {
+      computeBoundingBox()
 
-    const update = (state) => {
-      if ('color' in state) {
-        vec4.copy(this.color, state.color)
+      if (null == boundingBox) {
+        return null
       }
 
-      if ('wireframe' in state) {
-        this.wireframe = Boolean(state.wireframe)
+      let size = null
+      const dimension = boundingBox[0].length
+      const min = boundingBox[0]
+      const max = boundingBox[1]
+
+      switch (dimension) {
+        case 3: size = vec3.subtract(new Vector(0, 0, 0), max, min); break
+        case 2: size = vec2.subtract(new Vector(0, 0), max, min); break
+        default: return null
       }
 
-      if ('opacity' in state) {
-        this.opacity = state.opacity
-      }
-
-      if ('blending' in state) {
-        this.blending = state.blending
-      }
-
-      if ('map' in state && map != state.map) {
-        setMap(state.map)
-      } else if ('envmap' in state && envmap != state.envmap) {
-        setEnvMap(state.envmap)
+      switch (dimension) {
+        case 3: return vec3.multiply(size, size, this.scale)
+        case 2: return vec2.multiply(size, size, this.scale)
       }
     }
-
-    /**
-     * Configures mesh state. This function
-     * may create a new render function from regl
-     *
-     * @private
-     */
 
     const configure = () => {
-      if (!this) { return }
       // reset draw function
       if (!opts.draw) { draw = null }
       // use regl draw command if draw() function
       // was not provided
       if (false !== draw && 'function' != typeof draw) {
-        const elements = geometry ? geometry.primitive.cells : undefined
+        const elements = geometry ? geometry.complex.cells : undefined
         const attributes = {...opts.attributes}
         const shaderDefines = {}
 
         const uniforms = {
           ...opts.uniforms,
+
+          wireframeThickness: ({}, {
+            wireframeThickness: newWireFrameThickness
+          } = {}) => newWireFrameThickness || wireframeThickness,
+
+          wireframe: () => Boolean(wireframe),
           opacity: (ctx, {opacity}) => null != opacity ? opacity : 1,
-          color: () => [...(this.color || [0, 0, 0, 0])],
+          aspect: ({aspect}) => aspect  || 1.0,
+          color: () => [...(color || [0, 0, 0, 0])],
 
           // 3d
           projection: ({projection}) => projection  || identity,
-          model: ({local}) => local || identity,
+          model: ({transform}) => transform || identity,
           view: ({view}) => view  || identity,
         }
 
-        defaults.primitive = opts.primitive || 'triangles'
-
         if (geometry) {
-          if (geometry.primitive.positions) {
-            shaderDefines.HAS_POSITIONS = ''
-            attributes.position = geometry.primitive.positions
-          }
-
-          if (geometry.primitive.normals) {
-            shaderDefines.HAS_NORMALS = ''
-            attributes.normal = geometry.primitive.normals
-          }
-
-          if (geometry.primitive.uvs) {
-            shaderDefines.HAS_UVS = ''
-            attributes.uv = geometry.primitive.uvs
-          }
-
-          if (geometry.wireframe) {
-            const wireframe = geometry.wireframe
-            if (wireframe.nextPositions) {
-              shaderDefines.HAS_NEXT_POSITIONS = ''
-              attributes.nextPosition = wireframe.nextPositions
-            }
-
-            if (wireframe.directions) {
-              shaderDefines.HAS_DIRECTIONS = ''
-              attributes.direction = wireframe.directions
+          // helper function to set attribute that dynamically
+          // selects wireframe simplex or mesh simplex
+          const attr = (name, macro) => {
+            const pl = n => `${n}s`
+            const w = geometry.wireframe
+            const p = geometry.complex
+            if (p[pl(name)] || w[pl(name)]) {
+              shaderDefines[macro] = ''
+              attributes[name] = () => {
+                if (wireframe) {
+                  return (w[pl(name)] || p[pl(name)] || null)
+                } else {
+                  return (p[pl(name)] || w[pl(name)] || null)
+                }
+              }
             }
           }
+
+          attr('position', 'HAS_POSITIONS')
+          attr('normal', 'HAS_NORMALS')
+          attr('uv', 'HAS_UVS')
+
+          attr('nextPosition', 'HAS_NEXT_POSITIONS')
+          attr('direction', 'HAS_DIRECTIONS')
         }
 
         if (map && map.texture) {
@@ -237,22 +268,70 @@ export class MeshCommand extends Object3DCommand {
           },
 
           uniforms, attributes,
-          //cull: null != cull ? cull : {enable: true},
-          depth: null != depth ? depth : {enable: true},
-          blend: null != blending ? blending : {
-            enable: true,
-            func: {
-              src: 'src alpha',
-              dst: 'one minus src alpha'
-            },
+
+          cull: {
+            enable: () => cull.enable,
+            face: () => cull.face,
+          },
+
+          blend: {
+            equation: () => blend.equation,
+            enable: () => blend.enable,
+            color: () => blend.color,
+            func: () => blend.func,
+          },
+
+          depth: {
+            enable: () => depth.enable,
+            range: () => depth.range,
+            mask: () => depth.mask,
+            func: depth.func,
           },
 
           primitive: null == geometry ? undefined : () => {
-            if (this.wireframe) { return 'line strip' }
-            else if (opts.primitive) { return opts.primitive }
-            else { return defaults.primitive }
+            if (wireframe) {
+              return geometry.wireframe ? 'triangles' : 'line strip'
+            } else if ('string' == typeof opts.primitive) {
+              return opts.primitive
+            } else {
+              return 'triangles'
+            }
           }
         })
+
+        if (geometry && geometry.complex.cells) {
+          Object.assign(reglOptions, {
+            elements: ({}, {count} = {}) => {
+              let cells = null
+              if (wireframe && geometry.wireframe && geometry.wireframe.cells) {
+                cells = geometry.wireframe.cells
+              } else if (geometry && geometry.complex.cells) {
+                cells = geometry.complex.cells
+              }
+
+              if (cells) {
+                count = coalesce(count, cells.length)
+                count = clamp(Math.floor(count), 0, cells.length)
+                cells = cells.slice(0, count)
+              }
+
+              return cells
+            }
+          })
+
+        } else if (geometry) {
+          Object.assign(reglOptions, {
+            count: ({}, {count} = {}) => {
+              if (null != count) { return count }
+              else if (opts.count) { return opts.count }
+              else if (geometry && geometry.complex) {
+                return geometry.complex.positions.length
+              } else {
+                return null
+              }
+            }
+          })
+        }
 
         if (null !== opts.frag && false !== opts.frag) {
           reglOptions.frag = opts.frag || DEFAULT_FRAGMENT_SHADER
@@ -260,20 +339,6 @@ export class MeshCommand extends Object3DCommand {
 
         if (null !== opts.vert && false !== opts.vert) {
           reglOptions.vert = opts.vert || DEFAULT_VERTEX_SHADER
-        }
-
-        if (geometry) {
-          reglOptions.elements =
-            geometry && geometry.cells || function (ctx, props) {
-              props = props || {}
-              return props.elements || geometry ? geometry.cells : null
-            }
-
-          if (opts.count) {
-            reglOptions.count = opts.count
-          } else if (geometry && geometry.primitive) {
-            reglOptions.count = geometry.primitive.count
-          }
         }
 
         if (reglOptions.frag) {
@@ -290,152 +355,66 @@ export class MeshCommand extends Object3DCommand {
           }
         }
 
-        for (let key in defaults) {
-          if (undefined === defaults[key]) {
-            delete defaults[key]
-          }
-        }
-
         if (geometry) {
           draw = ctx.regl(reglOptions)
         }
       }
     }
 
-    // calls current target render function
     super(ctx, {
       ...opts,
-      draw: (state = {}, next = () => void 0) => {
-        let args = null
-        if ('function' == typeof state) {
-          args = [{...defaults}]
-          next = state
-          state = {}
-        } else if (Array.isArray(state)) {
-          args = [state.map((o) => Object.assign({...defaults}, o))]
-        } else {
-          args = [{...defaults, ...state}]
-        }
-
+      //
+      // Draws mesh and with given state and
+      // then calling an optional given block
+      //
+      draw(state = {}, block = () => void 0) {
         const noop = () => void 0
-        const props = Array.isArray(state)
-          ? state.map((o) => ({ ...defaults, ...o }))
-          : ({...defaults, ...state})
 
-        const block = () => {
-          next({...(ctx[$reglContext] || {}), ...reglOptions.context })
+        if ('function' == typeof state) {
+          block = state
+          state = {}
         }
 
-        (state.before || opts.before || noop)(...args);
+        state = state || {}
+        block = block || function() {}
 
-        update(...args)
+        void (state.before || opts.before || noop)({
+          ...state,
+          wireframe,
+          geometry,
+          opacity,
+          color,
+        });
+
+        update(state)
 
         if (ctx.reglContext) {
-          draw(props)
+          if ('function' == typeof draw) {
+            draw(state)
+          }
         }
 
-        block()
+        block(ctx.reglContext || {})
 
         void (state.after || opts.after || noop)({
-          ...defaults,
-          ...state
-        }, block);
+          ...state,
+          wireframe,
+          geometry,
+          opacity,
+          color,
+        });
       }
     })
 
-    this.type = 'mesh'
-    this.color = new Vector(...(opts.color || [197/255, 148/255, 149/255, 1]))
-    this.opacity = opts.opacity || 1
-    this.wireframe = null != opts.wireframe ? Boolean(opts.wireframe) : false
-
-    define(this, 'boundingBox', {
-      get() {
-        if (null == geometry) {
-          return null
-        } else if (boundingBox) {
-          return boundingBox
-        }
-
-        boundingBox =
-          getBoundingBox(geometry.positions).map((p) => new Vector(...p))
-        return boundingBox
-      }
-    })
-
-    define(this, 'size', {
-      get() {
-        // trigger compute with getter
-        if (null == this.boundingBox) {
-          return null
-        }
-
-        let size = null
-        const dimension = boundingBox[0].length
-        const min = boundingBox[0]
-        const max = boundingBox[1]
-
-        switch (dimension) {
-          case 3: size = vec3.subtract(new Vector(0, 0, 0), max, min); break
-          case 2: size = vec2.subtract(new Vector(0, 0), max, min); break
-          default: return null
-        }
-
-        switch (dimension) {
-          case 3: return vec3.multiply(size, size, this.scale)
-          case 2: return vec2.multiply(size, size, this.scale)
-        }
-      }
-    })
-
-    define(this, 'geometry', {
-      get: () => geometry,
-      set: (value) => {
-        geometry = value
-        configure()
-      }
-    })
-
-    define(this, 'map', {
-      get: () => map,
-      set: (value) => setMap(value)
-    })
-
-    define(this, 'envmap', {
-      get: () => envmap,
-      set: (value) => setEnvMap(value)
-    })
-
-    define(this, 'blending', {
-      get: () => blending,
-      set: (value) => {
-        blending = value
-        configure()
-      }
-    })
-
-    define(this, 'depth', {
-      get: () => depth,
-      set: (value) => {
-        depth = value
-        configure()
-      }
-    })
-
-    define(this, 'cull', {
-      get: () => cull,
-      set: (value) => {
-        cull = value
-        configure()
-      }
-    })
+    //
+    // Public properties
+    //
+    define(this, 'boundingBox', { get: () => computeBoundingBox() })
+    define(this, 'geometry', { get: () => geometry })
+    define(this, 'color', { get: () => color })
+    define(this, 'size', { get: () => computeSize() })
 
     // initial configuration
-    if (opts.envmap) {
-      setEnvMap(opts.envmap)
-    } else if (opts.map) {
-      setMap(opts.map)
-    } else {
-      configure()
-    }
+    configure()
   }
 }

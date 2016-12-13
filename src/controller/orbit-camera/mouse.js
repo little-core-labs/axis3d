@@ -29,10 +29,10 @@ const Y_AXIS_MOUSE_FRICTION = 0.004
 module.exports = exports = ({
   mouseInput: mouse,
   orientation,
+  position,
   friction,
-  camera,
   invert = false,
-  zoom = {fov: false},
+  zoom = true,
 } = {}) => {
   // update orientation from coordinates
   mouse && mouse(({
@@ -54,18 +54,10 @@ module.exports = exports = ({
   mouse && mouse(({wheel}) => {
     const c = 0.033
     const dv = c*friction*wheel.deltaY
-    if (zoom && zoom.fov) {
-      camera({
-        fov: (camera.fov || 0) + dv
-      })
+    if (zoom && 'number' == typeof zoom.fov) {
+      zoom.fov = (zoom.fov || 0) + dv
     } else if (false !== zoom) {
-      camera({
-        position: [
-          camera.position.x,
-          camera.position.y,
-          clamp(camera.position.z + dv, 0, Infinity)
-        ]
-      })
+      position[2] = clamp(position[2] + dv, 0, Infinity)
     }
   })
 }

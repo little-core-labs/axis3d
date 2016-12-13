@@ -43,81 +43,73 @@ module.exports = exports = (...args) => new AmbisonicAudioControllerCommand(...a
  */
 
 export class AmbisonicAudioControllerCommand extends AbstractControllerCommand {
-
-  /**
-   * AmbisonicAudioControllerCommand class constructor.
-   *
-   * @param {Context} ctx
-   * @param {Object} opts
-   */
-
-  constructor(ctx, opts = {}) {
-    let foaDecoder = null
-    let audioContext = null
+  constructor(ctx, {
+    audioContext = defaultAudioContext,
+    media = null,
+  } = {}) {
     let isFoaDecoderInitialized = false
+    let foaDecoder = null
 
-    super(ctx, { ...opts }, (_, updates = {}, target) => { })
+    const {regl} = ctx
+    const injectContext = regl({
+      context: {
+        foaDecoder: () => foaDecoder,
+        audioContext: ({audioContext: currentAudioContext}) => {
+          return currentAudioContext || audioContext
+        },
+      }
+    })
 
-    define(this, 'audioContext', { get: () => audioContext })
-    define(this, 'foaDecoder', { get: () => foaDecoder })
+    super(ctx)
 
-    if (opts) {
-      if (opts.audioContext instanceof window.AudioContext) {
-        audioContext = opts.audioContext
-      } else {
-        audioContext = defaultAudioContext
+    audio && audio.on('load', () => {
+      const source = this.source
+
+      if (!audio || !source) {
+        // @TODO(werle) - log error
+        return
+      } else if (null != foaDecoder) {
+        // @TODO(werle) - log error
+        return
       }
 
-      this.target && this.target.on('load', () => {
-        const target = this.target
-        const source = this.source
+      foaDecoder = omnitone.createFOADecoder(
+        audioContext,
+        audio.domElement,
+        Object.assign({ channelMap: [0, 1, 2, 3] }, opts)
+      )
 
-        if (!target || !source) {
-          // @TODO(werle) - log error
-          return
-        } else if (null != foaDecoder) {
-          // @TODO(werle) - log error
-          return
-        }
+      foaDecoder.initialize()
+      .then(() => { isFoaDecoderInitialized = true })
+      .catch((err) => { emit('error', err) })
 
-        foaDecoder = omnitone.createFOADecoder(
-          audioContext,
-          target.domElement,
-          Object.assign({ channelMap: [0, 1, 2, 3] }, opts)
-        )
-
-        foaDecoder.initialize()
-        .then(() => isFoaDecoderInitialized = true)
-        .catch((err) => emit('error', err))
-
-        let foaDecoderLoopFrame = null
-        let foaDecoderLoop = () => {
-          if (foaDecoderLoopFrame) {
-            foaDecoderLoopFrame = raf(foaDecoderLoop)
-          }
-
-          const mat = []
-          mat3.fromQuat(mat, source.rotation)
-          mat3.translate(mat, mat, vec3.negate([], target.position))
-          foaDecoder.setRotationMatrix(mat)
-        }
-
-        target.on('playing', () => {
-          if (foaDecoderLoopFrame) {
-            raf.cancel(foaDecoderLoopFrame)
-            foaDecoderLoopFrame = null
-          }
-
+      let foaDecoderLoopFrame = null
+      let foaDecoderLoop = () => {
+        if (foaDecoderLoopFrame) {
           foaDecoderLoopFrame = raf(foaDecoderLoop)
-        })
+        }
 
-        target.on('pause', () => {
-          if (foaDecoderLoopFrame) {
-            raf.cancel(foaDecoderLoopFrame)
-            foaDecoderLoopFrame = null
-          }
-        })
+        const mat = []
+        mat3.fromQuat(mat, source.rotation)
+        mat3.translate(mat, mat, vec3.negate([], audio.position))
+        foaDecoder.setRotationMatrix(mat)
+      }
+
+      audio.on('playing', () => {
+        if (foaDecoderLoopFrame) {
+          raf.cancel(foaDecoderLoopFrame)
+          foaDecoderLoopFrame = null
+        }
+
+        foaDecoderLoopFrame = raf(foaDecoderLoop)
       })
-    }
+
+      audio.on('pause', () => {
+        if (foaDecoderLoopFrame) {
+          raf.cancel(foaDecoderLoopFrame)
+          foaDecoderLoopFrame = null
+        }
+      })
+    })
   }
 }

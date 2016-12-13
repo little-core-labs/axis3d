@@ -1,0 +1,363 @@
+{
+  "type": "Program",
+  "start": 0,
+  "end": 172,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 11,
+      "column": 0
+    }
+  },
+  "sourceType": "module",
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "start": 0,
+      "end": 12,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 12
+        }
+      },
+      "expression": {
+        "type": "Literal",
+        "start": 0,
+        "end": 12,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 12
+          }
+        },
+        "value": "use strict",
+        "rawValue": "use strict",
+        "raw": "'use strict'",
+        "leadingComments": null,
+        "trailingComments": null
+      },
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Module exports.\n ",
+          "start": 14,
+          "end": 40,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 3
+            }
+          },
+          "range": [
+            14,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 42,
+      "end": 81,
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 0
+        },
+        "end": {
+          "line": 7,
+          "column": 39
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 49,
+          "end": 60,
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 7
+            },
+            "end": {
+              "line": 7,
+              "column": 18
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 49,
+            "end": 60,
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 7
+              },
+              "end": {
+                "line": 7,
+                "column": 18
+              }
+            },
+            "name": "Orientation",
+            "leadingComments": null
+          },
+          "leadingComments": null
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 66,
+        "end": 81,
+        "loc": {
+          "start": {
+            "line": 7,
+            "column": 24
+          },
+          "end": {
+            "line": 7,
+            "column": 39
+          }
+        },
+        "value": "./orientation",
+        "rawValue": "./orientation",
+        "raw": "'./orientation'"
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Module exports.\n ",
+          "start": 14,
+          "end": 40,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 3
+            }
+          },
+          "range": [
+            14,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 82,
+      "end": 115,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 8,
+          "column": 33
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 89,
+          "end": 97,
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 7
+            },
+            "end": {
+              "line": 8,
+              "column": 15
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 89,
+            "end": 97,
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 7
+              },
+              "end": {
+                "line": 8,
+                "column": 15
+              }
+            },
+            "name": "Keyboard"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 103,
+        "end": 115,
+        "loc": {
+          "start": {
+            "line": 8,
+            "column": 21
+          },
+          "end": {
+            "line": 8,
+            "column": 33
+          }
+        },
+        "value": "./keyboard",
+        "rawValue": "./keyboard",
+        "raw": "'./keyboard'"
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 116,
+      "end": 143,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 0
+        },
+        "end": {
+          "line": 9,
+          "column": 27
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 123,
+          "end": 128,
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 7
+            },
+            "end": {
+              "line": 9,
+              "column": 12
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 123,
+            "end": 128,
+            "loc": {
+              "start": {
+                "line": 9,
+                "column": 7
+              },
+              "end": {
+                "line": 9,
+                "column": 12
+              }
+            },
+            "name": "Mouse"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 134,
+        "end": 143,
+        "loc": {
+          "start": {
+            "line": 9,
+            "column": 18
+          },
+          "end": {
+            "line": 9,
+            "column": 27
+          }
+        },
+        "value": "./mouse",
+        "rawValue": "./mouse",
+        "raw": "'./mouse'"
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 144,
+      "end": 171,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 27
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 151,
+          "end": 156,
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 7
+            },
+            "end": {
+              "line": 10,
+              "column": 12
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 151,
+            "end": 156,
+            "loc": {
+              "start": {
+                "line": 10,
+                "column": 7
+              },
+              "end": {
+                "line": 10,
+                "column": 12
+              }
+            },
+            "name": "Touch"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 162,
+        "end": 171,
+        "loc": {
+          "start": {
+            "line": 10,
+            "column": 18
+          },
+          "end": {
+            "line": 10,
+            "column": 27
+          }
+        },
+        "value": "./touch",
+        "rawValue": "./touch",
+        "raw": "'./touch'"
+      }
+    }
+  ]
+}

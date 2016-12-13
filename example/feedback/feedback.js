@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-import { Object3DCommand } from './object'
-import { PlaneGeometry } from './geometry'
-import { BoxGeometry } from './geometry/box'
+import { Object3DCommand } from 'axis3d/object'
+import { PlaneGeometry } from 'axis3d/geometry'
+import { BoxGeometry } from 'axis3d/geometry/box'
 import glslify from 'glslify'
 import mat4 from 'gl-mat4'
 
@@ -77,22 +77,20 @@ module.exports = exports = (...args) => new FeedbackCommand(...args)
  */
 
 export class FeedbackCommand extends Object3DCommand {
-
-  /**
-   * FeedbackCommand class constructor.
-   *
-   * @param {Context} ctx
-   */
-
   constructor(ctx, {interpolation = 1 - 0.11} = {}) {
     const {regl} = ctx
     const texture = regl.texture()
     const fb = regl.framebuffer({depth: true, color: texture})
     const draw = regl({
       vert, frag,
-      depth: { enable: true },
       cull: { enable: true, face: 'back'},
-      elements() {
+      depth: { enable: true },
+      blend: {
+        func: {src: 'src alpha', dst: 'one minus src alpha'},
+        enable: true,
+      },
+
+      elements({geometry}) {
         if (ctx.scope && ctx.scope.geometry) {
           return ctx.scope.geometry.cells
         } else {
@@ -115,26 +113,16 @@ export class FeedbackCommand extends Object3DCommand {
           return newInterpolation || interpolation
         },
 
-        opacity: ({}, {opacity}) => null != opacity ? opacity : 1,
         albedoTexture: () => texture,
+        opacity: ({}, {opacity}) => null != opacity ? opacity : 1,
         time: ({time}) => time,
 
         // 3d
         projection: ({projection}) => projection || identity,
+        model: ({transform}) => ctx.scope.transform || identity,
         view: ({view}) => view || identity,
-        model: ({local}) => {
-          const transform = ctx.scope ? ctx.scope.local : identity
-          return mat4.multiply([], transform, local)
-        },
       },
 
-      blend: {
-        enable: true,
-        func: {
-          src: 'src alpha',
-          dst: 'one minus src alpha'
-        },
-      },
     })
 
     super(ctx, {

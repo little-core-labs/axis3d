@@ -16,6 +16,11 @@ module.exports = exports = (...args) => new GBufferComand(...args)
 export class GBufferComand extends Command {
   constructor(ctx, {fbo = null} = {}) {
     const {regl} = ctx
+
+    if (!regl.hasExtension('webgl_draw_buffers')) {
+      throw new Error("GbufferCommand needs the 'webgl_draw_buffers' extension.")
+    }
+
     fbo = fbo || regl.framebuffer({
       color: [
         regl.texture({type: 'float'}), // albedo
@@ -26,15 +31,15 @@ export class GBufferComand extends Command {
 
     const defines = {}
 
-    if (fbo.color[0]) {
+    if (fbo.color && fbo.color[0]) {
       defines.HAS_ALBEDO = ''
     }
 
-    if (fbo.color[1]) {
+    if (fbo.color && fbo.color[1]) {
       defines.HAS_NORMALS = ''
     }
 
-    if (fbo.color[2]) {
+    if (fbo.color && fbo.color[2]) {
       defines.HAS_POSITIONS = ''
     }
 
@@ -67,7 +72,8 @@ export class GBufferComand extends Command {
       }
 
       if (needsResize) {
-        fbo.resize(viewportWidth, viewportHeight)
+        try { fbo.resize(viewportWidth, viewportHeight) }
+        catch(e) {console.error(e)}
       }
 
       captureGeometryBuffer((...args) => {

@@ -41,3 +41,5 @@ magnificat.wav
 lib/
 .DS_Store
 yarn.lock
+artic.mp4
+build/

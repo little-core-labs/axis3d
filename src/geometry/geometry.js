@@ -5,74 +5,60 @@
  */
 
 import Wireframe from 'screen-projected-lines'
-
-/**
- * Geometry class.
- *
- * @public
- * @class Geometry
- */
+import normals from 'angle-normals'
 
 export class Geometry {
-
-  /**
-   * Geometry class constructor.
-   *
-   * @param {Object} [initialState]
-   */
-
   constructor(initialState) {
     Object.assign(this, initialState || {})
-    this.primitive = this.primitive || null
-    this.wireframe = this.primitive ? Wireframe(this.primitive) : null
+    this.complex = this.complex || null
+    this.wireframe = null == this.complex ? null : Wireframe(this.complex, {
+      attributes: {
+        normals: this.complex.cells && this.complex.positions && normals(
+          this.complex.cells,
+          this.complex.positions
+        )
+      }
+    })
+
+    if (this.wireframe) {
+      this.wireframe.normals = this.wireframe.attributes.normals
+    }
   }
 
   /**
    * An array of position values sourced from
-   * the geometry primitive.
-   *
-   * @getter
-   * @type {Array}
+   * the geometry complex.
    */
 
   get positions() {
-    return this.primitive ? this.primitive.positions : null
+    return this.complex ? this.complex.positions : null
   }
 
   /**
    * An array of normal values sourced from
-   * the geometry primitive.
-   *
-   * @getter
-   * @type {Array}
+   * the geometry complex.
    */
 
   get normals() {
-    return this.primitive ? this.primitive.normals : null
+    return this.complex ? this.complex.normals : null
   }
 
   /**
    * An array of uv values sourced from
-   * the geometry primitive.
-   *
-   * @getter
-   * @type {Array}
+   * the geometry complex.
    */
 
   get uvs() {
-    return this.primitive ? this.primitive.uvs : null
+    return this.complex ? this.complex.uvs : null
   }
 
   /**
    * An array of cell values sourced from
-   * the geometry primitive.
-   *
-   * @getter
-   * @type {Array}
+   * the geometry complex.
    */
 
   get cells() {
-    return this.primitive ? this.primitive.cells : null
+    return this.complex ? this.complex.cells : null
   }
 
   /**

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/mesh/mesh.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/camera.js~CameraCommand.html">CameraCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/command.js~Command.html">Command</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/command.js~CommandContext.html">CommandContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/context.js~Context.html">Context</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/frame.js~FrameCommand.html">FrameCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/gbuffer.js~GBufferComand.html">GBufferComand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/object.js~Object3DCommand.html">Object3DCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FAR">DEFAULT_CAMERA_FAR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FIELD_OF_VIEW">DEFAULT_CAMERA_FIELD_OF_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_NEAR">DEFAULT_CAMERA_NEAR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_ORIENTATION_ORIGIN">DEFAULT_CAMERA_ORIENTATION_ORIGIN</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$caller">$caller</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$ctx">$ctx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$domElement">$domElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$hasFocus">$hasFocus</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$isDestroyed">$isDestroyed</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$ref">$ref</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$regl">$regl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$reglContext">$reglContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$run">$run</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$scope">$scope</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$stack">$stack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-$state">$state</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-clampToMaxSize">clampToMaxSize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-createCanvas">createCanvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-debug">debug</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-define">define</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-getScreenOrientation">getScreenOrientation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-isDOMElementInViewport">isDOMElementInViewport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lerp">lerp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makePowerOfTwo">makePowerOfTwo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-nearestPowerOfTwo">nearestPowerOfTwo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-radians">radians</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-scaleWithCanvas">scaleWithCanvas</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">backgrounds</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/backgrounds/color.js~ColorBackgroundCommand.html">ColorBackgroundCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/backgrounds/vignette.js~VignetteBackgroundCommand.html">VignetteBackgroundCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_COLOR">DEFAULT_COLOR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_COLOR">DEFAULT_COLOR</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">controller</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controller/abstract-controller.js~AbstractControllerCommand.html">AbstractControllerCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">controller/ambisonic-audio</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controller/ambisonic-audio/index.js~AmbisonicAudioControllerCommand.html">AmbisonicAudioControllerCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">controller/orbit-camera</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controller/orbit-camera/index.js~OrbitCameraController.html">OrbitCameraController</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_FRICTION">DEFAULT_FRICTION</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">extra</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/extra/fullscreen.js~FullscreenCommand.html">FullscreenCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">geometry</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/box.js~BoxGeometry.html">BoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/plane.js~PlaneGeometry.html">PlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/sphere.js~SphereGeometry.html">SphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/triangle.js~TriangleGeometry.html">TriangleGeometry</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">input</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/keyboard.js~KeyboardCommand.html">KeyboardCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/mouse.js~MouseCommand.html">MouseCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/orientation.js~OrientationCommand.html">OrientationCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/touch.js~TouchCommand.html">TouchCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/ambient.js~AmbientLightCommand.html">AmbientLightCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/directional.js~AmbientLightCommand.html">AmbientLightCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/quaternion.js~Quaternion.html">Quaternion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-XVector3">XVector3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-YVector3">YVector3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ZVector3">ZVector3</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">media</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/audio.js~AudioCommand.html">AudioCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/image.js~ImageCommand.html">ImageCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/media.js~MediaCommand.html">MediaCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/media/video.js~VideoCommand.html">VideoCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">mesh</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/box.js~BoxCommand.html">BoxCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/mesh.js~MeshCommand.html">MeshCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/plane.js~PlaneCommand.html">PlaneCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/sphere.js~SphereCommand.html">SphereCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/triangle.js~TriangleCommand.html">TriangleCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_FRAGMENT_SHADER">DEFAULT_FRAGMENT_SHADER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_VERTEX_SHADER">DEFAULT_VERTEX_SHADER</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/mesh/mesh.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
+
+/**
+ * Module dependencies.
+ */
+
+import { Quaternion, Vector } from &apos;../math&apos;
+import { Object3DCommand } from &apos;../object&apos;
+import { $reglContext } from &apos;../symbols&apos;
+import getBoundingBox from &apos;bound-points&apos;
+import injectDefines from &apos;glsl-inject-defines&apos;
+import { define } from &apos;../utils&apos;
+import coalesce from &apos;defined&apos;
+import glslify from &apos;glslify&apos;
+import clamp from &apos;clamp&apos;
+import mat4 from &apos;gl-mat4&apos;
+import vec4 from &apos;gl-vec4&apos;
+import vec3 from &apos;gl-vec3&apos;
+import vec2 from &apos;gl-vec2&apos;
+import quat from &apos;gl-quat&apos;
+
+const identity = mat4.identity([])
+
+export const DEFAULT_VERTEX_SHADER = glslify(__dirname + &apos;/../glsl/mesh/vert.glsl&apos;)
+export const DEFAULT_FRAGMENT_SHADER = glslify(__dirname + &apos;/../glsl/mesh/frag.glsl&apos;)
+
+/**
+ * MeshCommand constructor.
+ * @see MeshCommand
+ */
+
+module.exports = exports = (...args) =&gt; new MeshCommand(...args)
+
+/**
+ * MeshCommand class.
+ *
+ * @public
+ * @class MeshCommand
+ * @extends Command
+ */
+
+export class MeshCommand extends Object3DCommand {
+
+  /**
+   * MeshCommand class constructor.
+   *
+   * @param {Context} ctx
+   * @param {Object} opts
+   */
+
+  constructor(ctx, opts = {}) {
+    const reglOptions = { ...opts.regl }
+
+    let boundingBox = null
+    let render = null
+    let draw = opts.draw || null
+    let map = null
+
+    let wireframeThickness = coalesce(opts.wireframeThickness, 0.125)
+    let wireframe = true === opts.wireframe ? true : false
+    let geometry = opts.geometry || null
+    let opacity = opts.opacity || 1
+    let color = new Vector(...(opts.color || [197/255, 148/255, 149/255, 1]))
+
+    const cull = {
+      enable: false,
+      face: &apos;back&apos;,
+      ...opts.cull
+    }
+
+    const depth = {
+      enable: true,
+      range: [0, 1],
+      mask: true,
+      func: &apos;less&apos;,
+      ...opts.depth,
+    }
+
+    const blend = {
+      equation: &apos;add&apos;,
+      enable: false,
+      color: [0, 0, 0, 0],
+      func: {src: &apos;src alpha&apos;, dst: &apos;one minus src alpha&apos;},
+      ...opts.blend,
+    }
+
+    const initial = {
+      wireframeThickness: wireframeThickness,
+      wireframe: wireframe,
+      opacity: opacity,
+      color: [...color],
+      depth: {...depth},
+      blend: {...blend},
+      cull: {...cull},
+      map: map
+    }
+
+    const setMap = (value) =&gt; {
+      if (value &amp;&amp; value != map) {
+        if (value) {
+          map = value
+          configure()
+        }
+      } else if (null === value &amp;&amp; null != map) {
+        map = null
+      }
+    }
+
+    const update = (state) =&gt; {
+      let needsUpdate = false
+
+      Object.assign(depth, initial.depth)
+      Object.assign(blend, initial.blend)
+      Object.assign(cull, initial.cull)
+      vec4.copy(color, initial.color)
+
+      if (state.color) {
+        vec4.copy(color, state.color)
+      }
+
+      if (wireframe != state.wireframe &amp;&amp;
+          &apos;boolean&apos; == typeof state.wireframe) {
+        wireframe = state.wireframe
+      } else if (wireframe != initial.wireframe) {
+        wireframe = initial.wireframe
+      }
+
+      if (opacity != state.opacity &amp;&amp;
+         &apos;number&apos; == typeof state.opacity ) {
+        opacity = state.opacity
+      } else if (opacity != initial.opacity) {
+        opacity = initial.opacity
+      }
+
+      if (wireframeThickness != state.wireframeThickness &amp;&amp;
+         &apos;number&apos; == typeof state.wireframeThickness ) {
+        wireframeThickness = state.wireframeThickness
+      } else if (wireframeThickness != initial.wireframeThickness) {
+        wireframeThickness = initial.wireframeThickness
+      }
+
+      //
+      if (state.map &amp;&amp; map != state.map) {
+        setMap(state.map)
+        needsUpdate = true
+      } else {
+        // map not set with initial map somehow
+        if (null == map &amp;&amp; initial.map) {
+          map = initial.map
+          needsUpdate = true
+        }
+      }
+
+      if (needsUpdate) {
+        configure()
+      }
+    }
+
+    const computeBoundingBox = () =&gt; {
+      if (null == geometry) {
+        return null
+      } else if (boundingBox) {
+        return boundingBox
+      }
+
+      return (
+        boundingBox =
+          getBoundingBox(geometry.positions)
+          .map((p) =&gt; new Vector(...p))
+      )
+    }
+
+    const computeSize = () =&gt; {
+      // trigger compute with getter
+      if (null == boundingBox) {
+        return null
+      }
+
+      let size = null
+      const dimension = boundingBox[0].length
+      const min = boundingBox[0]
+      const max = boundingBox[1]
+
+      switch (dimension) {
+        case 3: size = vec3.subtract(new Vector(0, 0, 0), max, min); break
+        case 2: size = vec2.subtract(new Vector(0, 0), max, min); break
+        default: return null
+      }
+
+      switch (dimension) {
+        case 3: return vec3.multiply(size, size, this.scale)
+        case 2: return vec2.multiply(size, size, this.scale)
+      }
+    }
+
+    const configure = () =&gt; {
+      // reset draw function
+      if (!opts.draw) { draw = null }
+      // use regl draw command if draw() function
+      // was not provided
+      if (false !== draw &amp;&amp; &apos;function&apos; != typeof draw) {
+        const elements = geometry ? geometry.primitive.cells : undefined
+        const attributes = {...opts.attributes}
+        const shaderDefines = {}
+
+        const uniforms = {
+          ...opts.uniforms,
+
+          wireframeThickness: ({}, {
+            wireframeThickness: newWireFrameThickness
+          } = {}) =&gt; newWireFrameThickness || wireframeThickness,
+
+          wireframe: () =&gt; Boolean(wireframe),
+          opacity: (ctx, {opacity}) =&gt; null != opacity ? opacity : 1,
+          aspect: ({aspect}) =&gt; aspect  || 1.0,
+          color: () =&gt; [...(color || [0, 0, 0, 0])],
+
+          // 3d
+          projection: ({projection}) =&gt; projection  || identity,
+          model: ({transform}) =&gt; transform || identity,
+          view: ({view}) =&gt; view  || identity,
+        }
+
+        if (geometry) {
+          // helper function to set attribute that dynamically
+          // selects wireframe simplex or mesh simplex
+          const attr = (name, macro) =&gt; {
+            const pl = n =&gt; `${n}s`
+            const w = geometry.wireframe
+            const p = geometry.primitive
+            if (p[pl(name)] || w[pl(name)]) {
+              shaderDefines[macro] = &apos;&apos;
+              attributes[name] = () =&gt; {
+                if (wireframe) {
+                  return (w[pl(name)] || p[pl(name)] || null)
+                } else {
+                  return (p[pl(name)] || w[pl(name)] || null)
+                }
+              }
+            }
+          }
+
+          attr(&apos;position&apos;, &apos;HAS_POSITIONS&apos;)
+          attr(&apos;normal&apos;, &apos;HAS_NORMALS&apos;)
+          attr(&apos;uv&apos;, &apos;HAS_UVS&apos;)
+
+          attr(&apos;nextPosition&apos;, &apos;HAS_NEXT_POSITIONS&apos;)
+          attr(&apos;direction&apos;, &apos;HAS_DIRECTIONS&apos;)
+        }
+
+        if (map &amp;&amp; map.texture) {
+          shaderDefines.HAS_MAP = &apos;&apos;
+          uniforms.isMapLoaded = () =&gt; {
+            if (&apos;function&apos; == typeof map) {
+              map()
+            }
+
+            if (null != map.isDoneLoading &amp;&amp; null != map.hasProgress) {
+              return Boolean(map.isDoneLoading || map.hasProgress)
+            } else {
+              return true
+            }
+          }
+
+          uniforms.map = () =&gt; {
+            if (&apos;function&apos; == typeof map) { map() }
+            return map.texture || map
+          }
+        } else if (map) {
+          map.once(&apos;load&apos;, () =&gt; configure())
+        }
+
+        Object.assign(reglOptions, {
+          context: {
+            ...reglOptions.context,
+            geometry: () =&gt; geometry || null,
+            color: uniforms.color(),
+          },
+
+          uniforms, attributes,
+
+          cull: {
+            enable: () =&gt; cull.enable,
+            face: () =&gt; cull.face,
+          },
+
+          blend: {
+            equation: () =&gt; blend.equation,
+            enable: () =&gt; blend.enable,
+            color: () =&gt; blend.color,
+            func: () =&gt; blend.func,
+          },
+
+          depth: {
+            enable: () =&gt; depth.enable,
+            range: () =&gt; depth.range,
+            mask: () =&gt; depth.mask,
+            func: depth.func,
+          },
+
+          primitive: null == geometry ? undefined : () =&gt; {
+            if (wireframe) {
+              return geometry.wireframe ? &apos;triangles&apos; : &apos;line strip&apos;
+            } else if (&apos;string&apos; == typeof opts.primitive) {
+              return opts.primitive
+            } else {
+              return &apos;triangles&apos;
+            }
+          }
+        })
+
+        if (geometry &amp;&amp; geometry.primitive.cells) {
+          Object.assign(reglOptions, {
+            elements: ({}, {count} = {}) =&gt; {
+              let cells = null
+              if (wireframe &amp;&amp; geometry.wireframe &amp;&amp; geometry.wireframe.cells) {
+                cells = geometry.wireframe.cells
+              } else if (geometry &amp;&amp; geometry.primitive.cells) {
+                cells = geometry.primitive.cells
+              }
+
+              count = coalesce(count, cells.length - 1)
+              if (cells) {
+                count = clamp(Math.floor(count), 0, 3*(cells.length - 1))
+                cells = cells.slice(0, count)
+              }
+
+              return cells
+            }
+          })
+
+        } else if (geometry) {
+          Object.assign(reglOptions, {
+            count: ({}, {count} = {}) =&gt; {
+              if (null != count) { return count }
+              else if (opts.count) { return opts.count }
+              else if (geometry &amp;&amp; geometry.primitive) {
+                return geometry.primitive.positions.length
+              } else {
+                return null
+              }
+            }
+          })
+        }
+
+        if (null !== opts.frag &amp;&amp; false !== opts.frag) {
+          reglOptions.frag = opts.frag || DEFAULT_FRAGMENT_SHADER
+        }
+
+        if (null !== opts.vert &amp;&amp; false !== opts.vert) {
+          reglOptions.vert = opts.vert || DEFAULT_VERTEX_SHADER
+        }
+
+        if (reglOptions.frag) {
+          reglOptions.frag = injectDefines(reglOptions.frag, shaderDefines)
+        }
+
+        if (reglOptions.vert) {
+          reglOptions.vert = injectDefines(reglOptions.vert, shaderDefines)
+        }
+
+        for (let key in reglOptions) {
+          if (undefined === reglOptions[key]) {
+            delete reglOptions[key]
+          }
+        }
+
+        if (geometry) {
+          draw = ctx.regl(reglOptions)
+        }
+      }
+    }
+
+    super(ctx, {
+      ...opts,
+      //
+      // Draws mesh and with given state and
+      // then calling an optional given block
+      //
+      draw(state = {}, block = () =&gt; void 0) {
+        const noop = () =&gt; void 0
+
+        if (&apos;function&apos; == typeof state) {
+          block = state
+          state = {}
+        }
+
+        state = state || {}
+        block = block || function() {}
+
+        void (state.before || opts.before || noop)({
+          ...state,
+          wireframe,
+          geometry,
+          opacity,
+          color,
+        });
+
+        update(state)
+
+        if (ctx.reglContext) {
+          draw(state)
+        }
+
+        block(ctx.reglContext || {})
+
+        void (state.after || opts.after || noop)({
+          ...state,
+          wireframe,
+          geometry,
+          opacity,
+          color,
+        });
+      }
+    })
+
+    //
+    // Public properties
+    //
+    define(this, &apos;boundingBox&apos;, { get() { return computeBoundingBox() } })
+    define(this, &apos;geometry&apos;, { get: () =&gt; geometry })
+    define(this, &apos;color&apos;, { get: () =&gt; color })
+    define(this, &apos;size&apos;, { get() { return computeSize() } })
+
+    // initial map if given
+    if (opts.map) {
+      setMap(opts.map)
+    }
+
+    // initial configuration
+    configure()
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

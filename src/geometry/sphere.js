@@ -13,23 +13,13 @@ import { Geometry } from './geometry'
  * @public
  * @class SphereGeometry
  * @extends Geometry
- * @see https://www.npmjs.com/package/primitive-sphere
+ * @see https://www.npmjs.com/package/complex-sphere
  */
 
 export class SphereGeometry extends Geometry {
-
-  /**
-   * SphereGeometry class constructor.
-   *
-   * @param {Object} [opts]
-   * @param {Number} [opts.radius]
-   * @param {Number} [opts.segments]
-   * @param {Object} [primitive]
-   */
-
-  constructor({radius = 1, segments = 28} = {}, primitive) {
-    primitive = primitive || PrimitiveSphere(radius, {segments})
-    super({radius, segments, primitive})
+  constructor({radius = 1, segments = 28} = {}) {
+    const complex = PrimitiveSphere(radius, {segments})
+    super({radius, segments, complex})
   }
 
   /**
@@ -41,7 +31,7 @@ export class SphereGeometry extends Geometry {
   update() {
     const segments = this.segments
     const radius = this.radius
-    this.primitive = PrimitiveSphere(radius, {segments})
+    this.complex = PrimitiveSphere(radius, {segments})
     return this
   }
 }

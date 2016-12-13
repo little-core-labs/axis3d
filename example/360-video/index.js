@@ -23,14 +23,16 @@ import {
 } from 'axis3d'
 
 // axis context
-const ctx = Context()
-//const ctx = Context({}, {regl: {attributes: {antialias: true}}})
+//const ctx = Context()
+const ctx = Context({}, {regl: {attributes: {antialias: true}}})
+ctx.on('error', (e) => console.error(e))
 
 // objects
 const camera = Camera(ctx, {fov: 75 * Math.PI/180})
 const frame = Frame(ctx)
-const video = Video(ctx, '/paramotor.mp4')
-const sphere = Sphere(ctx, { envmap: video })
+//const video = Video(ctx, '/paramotor.mp4')
+const video = Video(ctx, '/artic.mp4')
+const sphere = Sphere(ctx, { map: video })
 
 // inputs
 const keyboard = Keyboard(ctx)
@@ -38,22 +40,20 @@ const mouse = Mouse(ctx)
 const touch = Touch(ctx)
 
 // orbit controller
-const orbitController = OrbitCameraController(ctx, {
+const orbitCamera = OrbitCameraController(ctx, {
   inputs: {mouse, touch, keyboard},
-  target: camera,
   invert: true,
+  camera,
 })
 
 // orient controllers to "center" of video/video
 const orientation = [0, 3*Math.PI / 2, 0]
-raf(() => {
-
-  // play next frame
-  //video.mute()
-
-  // focus now
-  ctx.focus()
-  setTimeout(() => orbitController({orientation}))
+video.once('load', () => {
+  raf(() => {
+    orbitCamera({orientation})
+    // focus now
+    ctx.focus()
+  })
 })
 
 // expose useful things to window
@@ -75,6 +75,7 @@ function onclick(e) {
 let to = 0
 events.on(ctx.domElement, 'touchstart', ontouch)
 function ontouch(e) {
+  clearTimeout(to)
   e.preventDefault()
   to = setTimeout(() => {
     clearTimeout(to)
@@ -86,23 +87,17 @@ function ontouch(e) {
   }, 350)
 }
 
-// controller loop
-frame(({time}) => {
+// render loop
+frame(() => {
+  // draw camera scene
   touch(({touches}) => {
-    // draw camera scene
-    orbitController({
+    orbitCamera({
       interpolationFactor: touches ? 0.5 : 0.2,
-      friction: touches ? 0.7 : 0.3,
+      friction: touches ? 2 : 0.3,
       sloppy: true,
       zoom: {fov: true}
+    }, () => {
+      sphere({scale: [-100, -100, 100]})
     })
-  })
-})
-
-// render loop
-frame(({time}) => {
-  // draw camera scene
-  camera(() => {
-    sphere({scale: [-100, -100, 100]})
   })
 })

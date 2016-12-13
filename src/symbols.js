@@ -8,7 +8,6 @@
 export const $caller = Symbol('caller')
 export const $ctx = Symbol('ctx')
 export const $domElement = Symbol('element')
-export const $framebuffer = Symbol('framebuffer')
 export const $hasFocus = Symbol('hasFocus')
 export const $isDestroyed = Symbol('isDestroyed')
 export const $ref = Symbol('ref')

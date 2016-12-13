@@ -74,132 +74,64 @@ export class MediaCommand extends Object3DCommand {
     EventEmitter.call(this)
     Object.assign(this, EventEmitter.prototype)
     this.setMaxListeners(Infinity)
+    this.on('error', (err) => ctx.emit('error', err))
 
     // preload unless otherwise specified
     if (initialState && false !== initialState.preload) {
       raf(() => this.load())
     }
 
-    /**
-     * Manifest object getter.
-     *
-     * @type {Object}
-     */
-
     define(this, 'manifest', { get: () => manifest })
-
-    /**
-     * Boolean predicate to indicate if media has
-     * completed loaded enough data. All data may not be
-     * loaded if media is a streaming source.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
     define(this, 'isDoneLoading', { get: () => isDoneLoading })
-
-    /**
-     * Boolean predicate to indicate if media has
-     * load progress.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
+    define(this, 'isCancelled', { get: () => isCancelled })
     define(this, 'hasProgress', { get: () => hasProgress })
-
-    /**
-     * Boolean predicate to indicate if media has
-     * begun loading.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
     define(this, 'isLoading', { get: () => isLoading })
-
-    /**
-     * Boolean predicate to indicate if media loading
-     * encountered an error.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
     define(this, 'hasError', { get: () => hasError })
-
-    /**
-     * Boolean predicate to indicate if media enough
-     * has data to read from.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
     define(this, 'hasData', {
       get: () => !hasError && (isDoneLoading || hasProgress)
     })
-
-    /**
-     * Boolean predicate to indicate if media loading has
-     * been cancelled.
-     *
-     * @public
-     * @getter
-     * @type {Boolean}
-     */
-
-    define(this, 'isCancelled', { get: () => isCancelled })
-
-    /**
-     * Updates media state with
-     * new manifest object. This function
-     * merges an input manifest with the existing.
-     *
-     * @param {Object} newManifest
-     * @return {MediaCommand}
-     */
 
     this.update = (newManifest) => {
       Object.assign(manifest, newManifest)
       return this
     }
 
-    /**
-     * Calls an abstract _read() method.
-     *
-     * @return {MediaCommand}
-     */
 
     this.read = (done = () => void 0) => {
       this._read(done)
       return this
     }
 
-    /**
-     * Abstract reader method.
-     *
-     * @return {MediaCommand}
-     */
-
     this._read = (done = () => void 0) => {
       done()
       return this
     }
 
-    /**
-     * Begins loading of resources described in
-     * the manifest object.
-     *
-     * @public
-     * @return {Boolean}
-     */
+    this.reload = () => {
+      this.reset()
+      this.load()
+      return this
+    }
+
+    this.reset = () => {
+      isDoneLoading = false
+      isCancelled = false
+      hasProgress = false
+      isLoading = false
+      hasError = false
+      return this
+    }
+
+    this.cancel = () => {
+      this.reset()
+      isCancelled = true
+      return this
+    }
+
+    this.setTimeout = (value) => {
+      timeout = value
+      return this
+    }
 
     this.load = () => {
       const requested = {}
@@ -220,14 +152,18 @@ export class MediaCommand extends Object3DCommand {
         return false
       }
 
-      // retry timeout
-      retryTimeout = setTimeout(() => {
+      const retry = () => {
         clearTimeout(retryTimeout)
-        if (hasError || ((hasProgress || isLoading) && !isDoneLoading)) {
-          debug('retrying....')
-          this.reload()
-        }
-      }, timeout)
+        retryTimeout = setTimeout(() => {
+          clearTimeout(retryTimeout)
+          if (hasError || ((hasProgress || isLoading) && !isDoneLoading)) {
+            debug('retrying....')
+            this.reload()
+          }
+        }, timeout)
+      }
+
+      retry()
 
       isLoading = true
       raf(() => resl({
@@ -244,6 +180,7 @@ export class MediaCommand extends Object3DCommand {
           isDoneLoading = true
           void (this.onerror || noop)(...args)
           this.emit('error', ...args)
+          retry()
         },
 
         onProgress: (...args) => {
@@ -254,61 +191,6 @@ export class MediaCommand extends Object3DCommand {
       }))
 
       return true
-    }
-
-    /**
-     * Resets state and reloads resources.
-     *
-     * @public
-     * @return {MediaCommand}
-     */
-
-    this.reload = () => {
-      this.reset()
-      this.load()
-      return this
-    }
-
-    /**
-     * Resets state.
-     *
-     * @public
-     * @return {MediaCommand}
-     */
-
-    this.reset = () => {
-      isDoneLoading = false
-      isCancelled = false
-      hasProgress = false
-      isLoading = false
-      hasError = false
-      return this
-    }
-
-    /**
-     * Cancels loading.
-     *
-     * @public
-     * @return {MediaCommand}
-     */
-
-    this.cancel = () => {
-      this.reset()
-      isCancelled = true
-      return this
-    }
-
-    /**
-     * Sets the timeout for loading of the media.
-     *
-     * @public
-     * @param {Number} timeout
-     * @return {MediaCommand}
-     */
-
-    this.setTimeout = (value) => {
-      timeout = value
-      return this
     }
   }
 }

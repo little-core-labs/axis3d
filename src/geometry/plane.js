@@ -13,31 +13,20 @@ import { Geometry } from './geometry'
  * @public
  * @class PlaneGeometry
  * @extends Geometry
- * @see https://www.npmjs.com/package/primitive-plane
+ * @see https://www.npmjs.com/package/complex-plane
  */
 
 export class PlaneGeometry extends Geometry {
-
-  /**
-   * PlaneGeometry class constructor.
-   *
-   * @param {Object} opts
-   * @param {Object} opts.size
-   * @param {Number} opts.size.x
-   * @param {Number} opts.size.y
-   * @param {Object} opts.segments
-   * @param {Number} opts.segments.x
-   * @param {Number} opts.segments.y
-   * @param {Object} primitive
-   */
-
-  constructor({size = {x : 1, y: 1}, segments = {x: 1, y: 1}} = {}, primitive) {
-    primitive = primitive || PrimitivePlane(
-      size.x, size.y,
+  constructor({
+    segments = {x: 1, y: 1},
+    size = {x: 1, y: 1},
+  } = {}) {
+    const complex = PrimitivePlane(
       segments.x, segments.y,
-      { quad: false }
+      size.x, size.y,
+      {quad: false}
     )
-    super({size, segments, primitive})
+    super({size, segments, complex})
   }
 
   /**
@@ -49,7 +38,7 @@ export class PlaneGeometry extends Geometry {
   update() {
     const segments = this.segments
     const size = this.size
-    this.primitive = PrimitivePlane({size, segments})
+    this.complex = PrimitivePlane({size, segments})
     return this
   }
 }

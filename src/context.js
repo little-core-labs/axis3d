@@ -12,7 +12,6 @@ import regl from 'regl'
 import {
   $isDestroyed,
   $reglContext,
-  $framebuffer,
   $domElement,
   $hasFocus,
   $scope,
@@ -68,16 +67,21 @@ export class Context extends EventEmitter {
     this[$reglContext] = null
 
     this.setMaxListeners(Infinity)
+    opts.regl = opts.regl || opts.gl || {}
     createRegl({
-      ...(opts.regl || {}),
+      ...(opts.regl),
+      attributes: {
+        ...(opts.regl.attributes || {}),
+        premultipliedAlpha: true,
+      },
       extensions: [
-        ...(opts.regl? opts.regl.extensions || [] : []),
+        ...(opts.regl.extensions || []),
         'OES_texture_float',
+        'webgl_draw_buffers',
       ],
 
       optionalExtensions: [
-        ...(opts.regl? opts.regl.optionalExtensions || [] : []),
-        'webgl_draw_buffers',
+        ...(opts.regl.optionalExtensions || []),
       ],
 
       onDone: (err, regl) => {
@@ -87,7 +91,6 @@ export class Context extends EventEmitter {
 
         this[$regl] = regl
         this[$domElement] = this[$regl]._gl.canvas
-        this[$framebuffer] = regl.framebuffer({depth: true})
         this[$isDestroyed] = false
       }
     })
@@ -108,7 +111,6 @@ export class Context extends EventEmitter {
   }
 
   get reglContext() { return this[$reglContext] }
-  get framebuffer() { return this[$framebuffer] }
   get domElement() { return this[$domElement] }
   get hasFocus() { return this[$hasFocus] }
   get caller() { return this[$caller] }

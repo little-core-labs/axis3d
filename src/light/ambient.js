@@ -77,7 +77,9 @@ export class AmbientLightCommand extends Command {
         }
       }
 
-      gbuffer((...args) => { scope(...args) })
+      gbuffer((...args) => {
+        scope(...args)
+      })
       draw()
     })
   }

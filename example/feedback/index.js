@@ -13,7 +13,6 @@ import { Mouse } from 'axis3d/input'
 import { Image } from 'axis3d/media'
 
 import {
-  Feedback,
   Context,
   Camera,
   Frame,
@@ -24,6 +23,8 @@ import {
   Plane,
   Box,
 } from 'axis3d/mesh'
+
+import Feedback from './feedback'
 
 import clamp from 'clamp'
 import quat from 'gl-quat'
@@ -37,19 +38,23 @@ const frame = Frame(ctx)
 const light = AmbientLight(ctx)
 const mouse = Mouse(ctx)
 const sphere = Sphere(ctx)
-const feedback = Feedback(ctx, {scale: [0, 0, 0]})
+const feedback = Feedback(ctx, {scale: [1, 1, 1]})
 const background = VignetteBackground(ctx)
 
-const camera = Camera(ctx, {
-  position: [1600, 1600, 1600],
-  scale: [.5, .5, .5],
+const position = [1600, 1600, 1600]
+const camera = Camera(ctx, {position})
+
+const orbitCamera = OrbitCameraController(ctx, {
+  orientation: [Math.PI/8, -0.3, 0],
+  inputs: {mouse},
+  camera, position
 })
 
 const world = Sphere(ctx, {
-  envmap: Image(ctx, '/govball.jpg'),
   radius: 500,
   scale: [-0.99, -0.99, 0.99],
   color: [0.8, 0.8, 0.85, .8],
+  map: Image(ctx, '/govball.jpg'),
 })
 
 const wireframe = Sphere(ctx, {
@@ -67,22 +72,10 @@ const plane = Plane(ctx, {
   size: {x: 300, y: 300},
 })
 
-const controller = OrbitCameraController(ctx, {
-  orientation: [Math.PI/8, -0.3, 0],
-  inputs: {mouse},
-  target: camera,
-})
-
-// reusable position vector
-const position = [0, 0, 0]
-const translate = (x, y, z) => {
-  position[0] = x
-  position[1] = y
-  position[2] = z
-}
 
 Object.assign(window, {
-  controller,
+  orbitCamera,
+  wireframe,
   feedback,
   camera,
   sphere,
@@ -110,98 +103,75 @@ frame(({time}) => {
   background({reduction: 2, color})
 })
 
-// camera control
+// mouse input loop
 frame(({time}) => {
-  // lerp to target
-  camera({
-    target: vec3.lerp([], camera.target, target, 0.025)
-  })
-})
-
-// controller loop
-frame(({time}) => {
-  // update controller state
-  controller()
   mouse(({wheel}) => {
     // lerp into scene
     if (!wheel.deltaY) {
-      vec3.lerp(camera.position, camera.position, [0, 0, 100], 0.0125)
+      vec3.lerp(position, position, [0, 0, 300], 0.0125)
     }
   })
 })
 
 // world
 frame(({time}) => {
-  const rotation = quat.setAxisAngle([], [1, 0, 0], 0.05*time)
-  camera(() => {
+  orbitCamera({
+    position,
+    target: vec3.lerp([], camera.target, target, 0.025)
+  }, ({position: newPosition} = {}) => {
+    //vec3.copy(position, newPosition || position)
+    const rotation = quat.setAxisAngle([], [1, 0, 0], 0.05*time)
     // draw world
     wireframe({rotation}, () => {
-      world()
-    })
-  })
-})
+      world(() => { })
+      plane({position: [0, 0, 0]})
+      const off = 20
+      quat.multiply(
+        quat.setAxisAngle(rotation, [1, 0, 0], 0.5*time),
+        quat.setAxisAngle([], [0, 1, 0], 0.5*time),
+        quat.setAxisAngle([], [0, 0, 1], 0.5*time)
+      )
 
-// plane
-frame(({time}) => {
-  camera(() => {
-    plane({position: [0, 0, 0]})
-  })
-})
+      // orbit box around origin
+      let sx = 1 + (0.5-0.5*Math.cos(time))
 
-// box
-frame(({time}) => {
-  const off = 20
-  const rotation = quat.multiply(
-    quat.setAxisAngle([], [1, 0, 0], 0.5*time),
-    quat.setAxisAngle([], [0, 1, 0], 0.5*time),
-    quat.setAxisAngle([], [0, 0, 1], 0.5*time)
-  )
+      // draw box with feedback
+      let sy = clamp(off + (1.0-1.0*Math.cos(time)), 0, Infinity)
+      box({
+        position: vec3.transformQuat([], [sx+300, sx+0.5, sx+10], rotation),
+        opacity: 0,
+        scale: [2*sy, 1*sy, 2*sy],
+        before() {
+          // reflect world on box
+          feedback({
+            scale: [2+Math.cos(time), 2+Math.sin(time), 1+Math.cos(time)]
+          })
+        }
+      })
 
-  camera(() => {
-    // orbit box around origin
-    let s = 2 + (0.5 - 0.5*Math.cos(time))
-    translate(s + 300, s + 0.5, s + 10)
-    vec3.transformQuat(position, position, rotation)
+      const d = 40
+      let s = 0
 
-    // draw box with feedback
-    s = clamp(off + (1.0 - 1.0*Math.cos(time)), 0, Infinity)
-    box({
-      position,
-      opacity: 0,
-      scale: [2*s, 2*s, 2*s],
-      before() {
-        // reflect world on box
-        feedback({
-          scale: [2+Math.cos(time), 2+Math.sin(time), 1+Math.cos(time)]
-        })
-      }
-    })
-  })
-})
+      // oscillate sphere
+      sx = clamp(off + (1.0 - 1.0*Math.cos(time)), 0, Infinity)
+      sy = off + (0.5 - 0.5*Math.cos(time))
 
-// sphere
-frame(({time}) => {
-  camera(() => {
-    const off = 20
-    const d = 40
-    let s = 0
-
-    // oscillate sphere
-    s = clamp(off + (1.0 - 1.0*Math.cos(time)), 0, Infinity)
-    translate(s + (d - d*Math.sin(time)), s + (0.5 - 0.5*Math.cos(time)), 0)
-    s = off + (0.5 - 0.5*Math.cos(time))
-
-    // draw sphere with feedback
-    sphere({
-      position,
-      opacity: 0,
-      scale: [s, s, s],
-      before() {
-        // reflect world on sphere
-        feedback({
-          scale: [1, 1, 1]
-        })
-      }
+      // draw sphere with feedback
+      sphere({
+        position: [
+          sx + (d-d*Math.sin(time)),
+          sx + (0.5-0.5*Math.cos(time)),
+          0
+        ],
+        opacity: 0,
+        scale: [sy, sy, sy],
+        before() {
+          // reflect world on sphere
+          feedback({
+            scale: [1, 1, 1]
+          })
+        }
+      })
     })
   })
 })

@@ -24,12 +24,12 @@ export class BoxGeometry extends Geometry {
    * @param {Object} opts
    * @param {Number} opts.size
    * @param {Number} opts.segments
-   * @param {Object} primitive
+   * @param {Object} complex
    */
 
-  constructor({size = 1, segments = 2} = {}, primitive) {
-    primitive = primitive || PrimitiveBox({size, segments})
-    super({size, segments, primitive})
+  constructor({size = 1, segments = 2} = {}, complex) {
+    complex = complex || PrimitiveBox({size, segments})
+    super({size, segments, complex})
   }
 
   /**
@@ -41,7 +41,7 @@ export class BoxGeometry extends Geometry {
   update() {
     const segments = this.segments
     const size = this.size
-    this.primitive = PrimitiveBox({size, segments})
+    this.complex = PrimitiveBox({size, segments})
     return this
   }
 }

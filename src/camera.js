@@ -12,69 +12,22 @@ import mat4 from 'gl-mat4'
 import vec3 from 'gl-vec3'
 import quat from 'gl-quat'
 
+// Scratch matrix
+const scratch = mat4.identity([])
+
+export const DEFAULT_CAMERA_FAR = 1000.0
+export const DEFAULT_CAMERA_NEAR = 0.01
+export const DEFAULT_CAMERA_FIELD_OF_VIEW = radians(60)
+export const DEFAULT_CAMERA_ORIENTATION_ORIGIN =
+  // pitch, yaw, roll
+  new Vector(radians(90), 0, 0)
+
 /**
  * CameraCommand constructor.
  * @see CameraCommand
  */
 
 module.exports = exports = (...args) => new CameraCommand(...args)
-
-/**
- * Scratch matrix
- *
- * @private
- * @const
- * @type {mat4}
- */
-
-const scratch = mat4.identity([])
-
-/**
- * Euler angle of the origin camera orientation
- * express in radians.
- *
- * @public
- * @const
- * @type {Vector}
- */
-
-export const DEFAULT_CAMERA_ORIENTATION_ORIGIN =
-  // pitch, yaw, roll
-  new Vector(radians(90), 0, 0)
-
-/**
- * Default field of view frustrum angle for the
- * persective camera projection. This value is
- * expressed in radians.
- *
- * @public
- * @const
- * @type {Number}
- */
-
-export const DEFAULT_CAMERA_FIELD_OF_VIEW = radians(60)
-
-/**
- * Default near value for the persective camera
- * projection.
- *
- * @public
- * @const
- * @type {Number}
- */
-
-export const DEFAULT_CAMERA_NEAR = 0.01
-
-/**
- * Default far value for the persective camera
- * projection.
- *
- * @public
- * @const
- * @type {Number}
- */
-
-export const DEFAULT_CAMERA_FAR = 1000.0
 
 /**
  * CameraCommand class.
@@ -113,6 +66,7 @@ export class CameraCommand extends Object3DCommand {
 
     const context = {
       projection: () => projection,
+      transform: () => mat4.identity([]),
       aspect: () => viewportWidth/viewportHeight,
       view: () => view,
     }
@@ -219,8 +173,6 @@ export class CameraCommand extends Object3DCommand {
     // Public properties
     //
     define(this, 'target', { get() { return target } })
-    define(this, 'near', { get() { return near } })
-    define(this, 'far', { get() { return far } })
     define(this, 'fov', { get() { return fov } })
   }
 }

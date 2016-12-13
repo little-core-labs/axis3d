@@ -1,18 +1,51 @@
 {
-  "coverage": "86.69%",
-  "expectCount": 203,
-  "actualCount": 176,
+  "coverage": "60%",
+  "expectCount": 170,
+  "actualCount": 102,
   "files": {
     "src/symbols.js": {
-      "expectCount": 11,
-      "actualCount": 11,
-      "undocumentLines": []
-    },
-    "src/controls/ambisonic-audio/index.js": {
-      "expectCount": 3,
-      "actualCount": 2,
+      "expectCount": 12,
+      "actualCount": 1,
       "undocumentLines": [
-        62
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    "src/controller/abstract-controller.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        31
+      ]
+    },
+    "src/light/directional.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        32
+      ]
+    },
+    "src/light/ambient.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        32
+      ]
+    },
+    "src/controller/ambisonic-audio/index.js": {
+      "expectCount": 2,
+      "actualCount": 1,
+      "undocumentLines": [
+        46
       ]
     },
     "src/media/audio.js": {
@@ -36,97 +69,134 @@
     },
     "src/camera.js": {
       "expectCount": 6,
-      "actualCount": 6,
-      "undocumentLines": []
+      "actualCount": 2,
+      "undocumentLines": [
+        18,
+        20,
+        19,
+        21
+      ]
+    },
+    "src/backgrounds/color.js": {
+      "expectCount": 3,
+      "actualCount": 1,
+      "undocumentLines": [
+        14,
+        31
+      ]
     },
     "src/command.js": {
       "expectCount": 6,
-      "actualCount": 6,
-      "undocumentLines": []
-    },
-    "src/context.js": {
-      "expectCount": 16,
-      "actualCount": 16,
-      "undocumentLines": []
-    },
-    "src/controller.js": {
-      "expectCount": 7,
-      "actualCount": 7,
-      "undocumentLines": []
-    },
-    "src/mesh.js": {
-      "expectCount": 17,
-      "actualCount": 12,
+      "actualCount": 4,
       "undocumentLines": [
-        164,
-        177,
-        241,
-        159,
-        154
+        74,
+        79
       ]
     },
-    "src/controls/orbit-camera/index.js": {
-      "expectCount": 5,
-      "actualCount": 5,
-      "undocumentLines": []
+    "src/context.js": {
+      "expectCount": 19,
+      "actualCount": 10,
+      "undocumentLines": [
+        116,
+        24,
+        118,
+        114,
+        115,
+        120,
+        113,
+        117,
+        119
+      ]
     },
-    "src/feedback.js": {
-      "expectCount": 2,
-      "actualCount": 2,
-      "undocumentLines": []
+    "src/backgrounds/vignette.js": {
+      "expectCount": 3,
+      "actualCount": 1,
+      "undocumentLines": [
+        15,
+        32
+      ]
     },
-    "src/controls/first-person-camera/index.js": {
+    "src/mesh/mesh.js": {
       "expectCount": 4,
-      "actualCount": 4,
-      "undocumentLines": []
+      "actualCount": 2,
+      "undocumentLines": [
+        25,
+        24
+      ]
+    },
+    "src/controller/orbit-camera/index.js": {
+      "expectCount": 3,
+      "actualCount": 2,
+      "undocumentLines": [
+        18
+      ]
     },
     "src/frame.js": {
-      "expectCount": 4,
-      "actualCount": 4,
-      "undocumentLines": []
-    },
-    "src/fullscreen.js": {
       "expectCount": 2,
       "actualCount": 2,
       "undocumentLines": []
     },
-    "src/geometry.js": {
-      "expectCount": 9,
-      "actualCount": 7,
+    "src/extra/fullscreen.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/gbuffer.js": {
+      "expectCount": 2,
+      "actualCount": 0,
       "undocumentLines": [
-        26,
-        27
+        16,
+        17
+      ]
+    },
+    "src/geometry/geometry.js": {
+      "expectCount": 9,
+      "actualCount": 5,
+      "undocumentLines": [
+        10,
+        11,
+        13,
+        14
       ]
     },
     "src/media/image.js": {
-      "expectCount": 6,
-      "actualCount": 3,
+      "expectCount": 5,
+      "actualCount": 4,
       "undocumentLines": [
-        203,
-        179,
-        101
+        113
       ]
     },
     "src/input/keyboard.js": {
-      "expectCount": 3,
-      "actualCount": 3,
+      "expectCount": 2,
+      "actualCount": 2,
       "undocumentLines": []
     },
-    "src/media.js": {
+    "src/media/media.js": {
       "expectCount": 9,
-      "actualCount": 9,
-      "undocumentLines": []
-    },
-    "src/input/mouse.js": {
-      "expectCount": 10,
-      "actualCount": 9,
+      "actualCount": 2,
       "undocumentLines": [
-        46
+        125,
+        136,
+        100,
+        110,
+        116,
+        131,
+        94
       ]
     },
-    "src/input/orientation.js": {
+    "src/input/mouse.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/object.js": {
       "expectCount": 3,
       "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/input/orientation.js": {
+      "expectCount": 2,
+      "actualCount": 2,
       "undocumentLines": []
     },
     "src/mesh/plane.js": {
@@ -144,8 +214,8 @@
       ]
     },
     "src/math/quaternion.js": {
-      "expectCount": 3,
-      "actualCount": 3,
+      "expectCount": 4,
+      "actualCount": 4,
       "undocumentLines": []
     },
     "src/mesh/sphere.js": {
@@ -157,14 +227,15 @@
     },
     "src/geometry/sphere.js": {
       "expectCount": 4,
-      "actualCount": 3,
+      "actualCount": 2,
       "undocumentLines": [
-        44
+        20,
+        34
       ]
     },
     "src/input/touch.js": {
-      "expectCount": 9,
-      "actualCount": 9,
+      "expectCount": 2,
+      "actualCount": 2,
       "undocumentLines": []
     },
     "src/mesh/triangle.js": {
@@ -180,28 +251,29 @@
       "undocumentLines": []
     },
     "src/math/vector.js": {
-      "expectCount": 23,
-      "actualCount": 18,
+      "expectCount": 13,
+      "actualCount": 11,
       "undocumentLines": [
-        254,
-        255,
-        38,
-        81,
-        85
+        173,
+        174
       ]
     },
     "src/media/video.js": {
-      "expectCount": 10,
-      "actualCount": 7,
+      "expectCount": 9,
+      "actualCount": 2,
       "undocumentLines": [
-        397,
-        391,
-        152
+        310,
+        277,
+        309,
+        308,
+        249,
+        257,
+        311
       ]
     },
     "src/utils.js": {
-      "expectCount": 6,
-      "actualCount": 6,
+      "expectCount": 11,
+      "actualCount": 11,
       "undocumentLines": []
     }
   }

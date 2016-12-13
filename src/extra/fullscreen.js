@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import { Command } from './command'
+import { Command } from '../command'
 import fullscreen from 'fullscreen'
 
 /**

@@ -15,6 +15,8 @@ import { lerp, radians } from '../../utils'
 import applyMouseInput from './mouse'
 import applyTouchInput from './touch'
 
+export const DEFAULT_FRICTION = 0.68
+
 /**
  * OrbitCameraController function.
  *
@@ -22,16 +24,6 @@ import applyTouchInput from './touch'
  */
 
 module.exports = exports = (...args) => new OrbitCameraController(...args)
-
-/**
- * Default friction value applied to inputs.
- *
- * @public
- * @const
- * @type {Number}
- */
-
-export const DEFAULT_FRICTION = 0.68
 
 /**
  * OrbitCameraController class
@@ -51,24 +43,34 @@ export class OrbitCameraController extends AbstractControllerCommand {
    */
 
   constructor(ctx, opts = {}) {
-    let { inputs = {} } = opts
+    let {
+      camera,
+      inputs = {},
+      position = [...camera.position],
+    } = opts
     super(ctx, {
       ...opts,
       update({
         interpolationFactor,
         orientation,
+        rotation = camera.rotation,
+        position: newPosition = null,
         friction = opts.friction || DEFAULT_FRICTION,
+        target = camera.target,
         invert = opts.invert,
-        target: camera,
-        zoom = opts.zoom,
+        scale = camera.scale,
+        zoom = opts.zoom || true,
       } = {}, block) {
-        // clamp friction coef to 0 <= f <= 1
-        friction = clamp(friction, 0, 1)
+        if (zoom && true === zoom.fov) {
+          zoom.fov = camera.fov
+        } else if (zoom && 'number' != typeof zoom.fov) {
+          delete zoom.fov
+        }
 
-        // apply inputs if context has focus,
-        // but fall through and update camera regardless
-        // so interpolated values are still set as time
-        // moves forward
+        if (newPosition) {
+          vec3.copy(position, newPosition)
+        }
+
         if (ctx.hasFocus) {
           // supported inputs
           const {
@@ -77,6 +79,9 @@ export class OrbitCameraController extends AbstractControllerCommand {
             mouse: mouseInput,
             touch: touchInput,
           } = inputs
+
+
+          friction = clamp(friction, 0, 1)
 
           keyboardInput && applyKeyboardInput({
             keyboardInput,
@@ -87,6 +92,7 @@ export class OrbitCameraController extends AbstractControllerCommand {
           mouseInput && applyMouseInput({
             orientation,
             mouseInput,
+            position,
             friction,
             invert,
             camera,
@@ -104,16 +110,19 @@ export class OrbitCameraController extends AbstractControllerCommand {
 
           // @TODO(werle) -
           // * device orientation
-          // * touch
           // * webvr
           // * joystick
         }
 
-        const fov = clamp(camera.fov, radians(1.1) , radians(120))
+        let fov = camera.fov
+        if (zoom && zoom.fov) {
+          fov = clamp(zoom.fov, radians(1.1) , radians(120))
+        }
         // clamp at north/south poles
         orientation[0] = clamp(orientation[0], radians(-90), radians(90))
-        camera({fov})
-        block()
+        camera({fov, rotation, position, target}, () => {
+          block()
+        })
       }
     })
   }

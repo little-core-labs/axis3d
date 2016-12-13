@@ -1,12 +1,6 @@
 'use strict'
 
 /**
- * No-op to return this only
- */
-
-const noop = () => this
-
-/**
  * Module symbols.
  */
 
@@ -16,16 +10,15 @@ import {
   $ref,
 } from './symbols'
 
-/**
- * Encode a function for execution within a
- * Command instance context.
- *
- * @public
- * @param {Function} fn
- * @return {String}
- */
+const encode = (fn) => `(${String(fn)})`
+const noop = () => this
 
-export const encode = (fn) => `(${String(fn)})`
+function commandRunnerWrap(ctx, run, ...args) {
+  if (this && 'function' == typeof run) {
+    return run.apply(run, [ctx, ...args])
+  }
+  return this
+}
 
 /**
  * Command class.
@@ -78,45 +71,12 @@ export class Command extends Function {
  */
 
 export class CommandContext {
-
-  /**
-   * CommandContext class constructor.
-   *
-   * @param {Command} cmd
-   * @param {Object} [state]
-   */
-
   constructor(cmd, state) {
     this[$ref] = cmd
     Object.assign(this, state || {})
   }
 
-  /**
-   * Returns a reference to the command.
-   * This is used in the commandRunnerWrap
-   * function.
-   *
-   * @getter
-   * @private
-   */
-
-  get ref() { return this[$ref] }
-}
-
-/**
- * Command runner wrap that calls a
- * commands internal run ($run) function.
- *
- * @private
- * @param {CommandContext} ctx
- * @param {Function} fn
- * @param {...Mixed} args
- * @return {Mixed}
- */
-
-function commandRunnerWrap(ctx, run, ...args) {
-  if (this && 'function' == typeof run) {
-    return run.apply(run, [ctx, ...args])
+  get ref() {
+    return this[$ref]
   }
-  return this
 }
