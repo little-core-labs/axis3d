@@ -20,14 +20,6 @@ const frag = glslify(__dirname + '/../glsl/light/ambient/frag.glsl')
 
 module.exports = exports = (...args) => new AmbientLightCommand(...args)
 
-/**
- * AmbientLightCommand class.
- *
- * @public
- * @class AmbientLightCommand
- * @extends Command
- */
-
 export class AmbientLightCommand extends Command {
   constructor(ctx, {
     intensity = 1.0,

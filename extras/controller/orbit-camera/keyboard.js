@@ -4,27 +4,22 @@
  * Module dependencies.
  */
 
-import { radians } from '../../utils'
+import { radians } from 'axis3d/utils'
+import quat from 'gl-quat'
 
 /**
  * Applies orientation changes to orbit orbitCamera from
  * keyboard input
- *
- * @param {Object} opts
- * @param {OrbitorbitCameraController} orbitCamera
- * @param {KeyboardCommand} keyboard
  */
 
 module.exports = exports = ({
+  interpolationFactor,
   keyboardInput: keyboard,
-  orientation,
-  friction,
+  damping,
+  euler
 } = {}) => {
   keyboard && keyboard(({mappings}) => {
-    let dx = 0
-    let dy = 0
-    let c = 0.02
-    const step = c/friction
+    const step = 0.08*damping
 
     // @TODO(werle) - should we reset keyboard state ?
     if (mappings.value('control')) {
@@ -32,30 +27,19 @@ module.exports = exports = ({
     }
 
     if (mappings.value('up')) {
-      dx = dx + step
-      orientation[0] -= 0.9*step
       mappings.off('down')
+      euler[0] -= 0.9*step
     } else if (mappings.value('down')) {
-      dx = dx - step
-      orientation[0] += 0.9*step
       mappings.off('up')
+      euler[0] += 0.9*step
     }
 
     if (mappings.value('left')) {
-      dy = dy + step
-      orientation[1] -= step
       mappings.off('right')
+      euler[1] -= step
     } else if (mappings.value('right')) {
-      dy = dy - step
-      orientation[1] += step
       mappings.off('left')
+      euler[1] += step
     }
-
-    c = 0.25
-    dx *= c
-    dy *= c
-
-    if (dx) { orientation[0] += dx }
-    if (dy) { orientation[1] += dy }
   })
 }

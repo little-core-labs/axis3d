@@ -36,7 +36,7 @@ varying vec2 vuv;
 void main() {
 #if defined(HAS_MAP) && defined(HAS_UVS)
   if (isMapLoaded) {
-    gl_FragColor = texture2D(map, vuv);
+    gl_FragColor = texture2D(map, vec2(1.0 - vuv.x, 1.0 - vuv.y));
   } else {
     discard;
   }

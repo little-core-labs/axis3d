@@ -26,14 +26,6 @@ module.exports = exports = (...args) => new TouchCommand(...args)
  */
 
 export class TouchCommand extends Command {
-
-  /**
-   * TouchCommand class constructor.
-   *
-   * @param {Context} ctx
-   * @param {Object} [opts]
-   */
-
   constructor(ctx, {
     touches = null,
     currentX = 0,
@@ -46,6 +38,16 @@ export class TouchCommand extends Command {
   } = {}) {
     let hasMovement = false
     let hasTouch = false
+
+    // focus/blur context on mouse down
+    events.on(document, 'touchstart', (e) => {
+      if (e.target == ctx.domElement) {
+        ctx.focus()
+      } else {
+        ctx.blur()
+      }
+    })
+
     events.on(ctx.domElement, 'touchstart', (e) => {
       const x = e.touches[0].clientX
       const y = e.touches[0].clientY

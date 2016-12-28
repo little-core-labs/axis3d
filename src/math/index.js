@@ -6,3 +6,4 @@
 
 export { Quaternion } from './quaternion'
 export { Vector } from './vector'
+export { Euler } from './euler'

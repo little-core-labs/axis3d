@@ -15,30 +15,11 @@ import raf from 'raf'
 
 /**
  * VideoCommand constructor.
- * @see Video
  */
 
 module.exports = exports = (...args) => new VideoCommand(...args)
 
-/**
- * VideoCommand class.
- *
- * @public
- * @class VideoCommand
- * @extends MediaCommand
- */
-
 export class VideoCommand extends MediaCommand {
-
-  /**
-   * VideoCommand class constructor.
-   *
-   * @constructor
-   * @param {Context} ctx
-   * @param {String} src
-   * @param {Object} [initialState]
-   */
-
   constructor(ctx, src, initialState = {}) {
     let source = null
     let poster = null
@@ -292,7 +273,6 @@ export class VideoCommand extends MediaCommand {
       let lastRead = 0
       this._read = (done) => {
         const now = Date.now()
-        //console.log(source.readyState, source.HAVE_ENOUGH_DATA, isPlaying, (now - lastRead))
         if (true && (now - lastRead >= 64) && source.readyState >= source.HAVE_ENOUGH_DATA) {
           lastRead = now
           debug('VideoCommand: read')

@@ -1,5 +1,8 @@
 'use strict'
 
+import { OrbitCameraController } from '../../extras/controller'
+import quat from 'gl-quat'
+
 import {
   Context,
   Camera,
@@ -11,11 +14,22 @@ import {
   Box,
 } from 'axis3d/mesh'
 
-import quat from 'gl-quat'
+import {
+  Orientation,
+  Touch,
+  Mouse,
+} from 'axis3d/input'
 
 const ctx = Context()
 const frame = Frame(ctx)
 const camera = Camera(ctx, {position: [0, 0, 5]})
+const orientation =  Orientation(ctx)
+const mouse = Mouse(ctx)
+const touch = Touch(ctx)
+const orbitCamera = OrbitCameraController(ctx, {
+  camera: camera,
+  inputs: {orientation, touch, mouse},
+})
 
 const BlueSphereInBoxWireframe = (ctx) => {
   const box = Box(ctx, {
@@ -37,13 +51,13 @@ const BlueSphereInBoxWireframe = (ctx) => {
 const draw = BlueSphereInBoxWireframe(ctx)
 
 frame(({time}) => {
-  camera({
-    rotation: quat.multiply(
-      quat.setAxisAngle([], [1, 0, 0], 0.1*time),
-      quat.setAxisAngle([], [0, 1, 0], 0.15*time),
-      quat.setAxisAngle([], [0, 0, 1], -0.08*time)
-    ),
-  }, () => {
+  orbitCamera({ }, () => {
     draw()
+    draw({position: [-2, 0, 0]})
+    draw({position: [2, 0, 0]})
+    draw({
+      position: [0, 2, Math.cos(time)],
+      color: [0.8, 0.6, Math.cos(0.5*time), 1]
+    })
   })
 })

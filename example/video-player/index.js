@@ -24,7 +24,6 @@ const camera = Camera(ctx)
 const frame = Frame(ctx)
 const video = Video(ctx, '/paramotor.mp4')
 const plane = Plane(ctx, {map: video})
-//const plane = Plane(ctx)
 
 Object.assign(window, {
   ctx, camera, frame, video, plane
@@ -76,6 +75,6 @@ frame(({viewportWidth, viewportHeight}) => {
     x = x || 1
     y = y || 1
 
-    plane({scale: [x, -y, 1]})
+    plane({scale: [x, y, 1]})
   })
 })

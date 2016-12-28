@@ -15,13 +15,6 @@ import quat from 'gl-quat'
 // Scratch matrix
 const scratch = mat4.identity([])
 
-export const DEFAULT_CAMERA_FAR = 1000.0
-export const DEFAULT_CAMERA_NEAR = 0.01
-export const DEFAULT_CAMERA_FIELD_OF_VIEW = radians(60)
-export const DEFAULT_CAMERA_ORIENTATION_ORIGIN =
-  // pitch, yaw, roll
-  new Vector(radians(90), 0, 0)
-
 /**
  * CameraCommand constructor.
  * @see CameraCommand
@@ -29,32 +22,26 @@ export const DEFAULT_CAMERA_ORIENTATION_ORIGIN =
 
 module.exports = exports = (...args) => new CameraCommand(...args)
 
-/**
- * CameraCommand class.
- *
- * @public
- * @class CameraCommand
- * @extends Command
- */
+export const DEFAULT_CAMERA_FAR = 1000.0
+export const DEFAULT_CAMERA_NEAR = 0.01
+export const DEFAULT_CAMERA_FIELD_OF_VIEW = radians(60)
+export const DEFAULT_CAMERA_ORIENTATION_ORIGIN = Object.freeze(
+  // pitch, yaw, roll
+  new Vector(radians(90), radians(0), radians(0))
+)
 
 export class CameraCommand extends Object3DCommand {
-
-  /**
-   * Camera class constructor.
-   *
-   * @param {Context} ctx
-   * @param {Object} opts
-   */
-
   constructor(ctx, opts = {}) {
     const worldUp = new Vector(0, 1, 0)
     const target = opts.target || new Vector(0, 0, 0)
-    const front = new Vector(0, 0, -1)
-    const right = new Vector(1, 0, 0)
-    const eye = new Vector(0, 0, 0)
-    const up = new Vector(0, 0, 0)
 
-    const orientation = Object.create(DEFAULT_CAMERA_ORIENTATION_ORIGIN)
+    const right = new Vector(0, 0, 0) // computed
+    const front = new Vector(0, 0, 0) // computed
+    const up = new Vector(0, 0, 0) // computed
+
+    const eye = new Vector(0, 0, 0)
+
+    const orientation = Object.assign({}, DEFAULT_CAMERA_ORIENTATION_ORIGIN)
     const projection = mat4.identity([])
     const view = mat4.identity([])
 
@@ -101,15 +88,18 @@ export class CameraCommand extends Object3DCommand {
       }
 
       if ('orientation' in state) {
-        quat.copy(orientation, state.orientation)
+        vec3.copy(orientation, state.orientation)
       }
 
       if ('target' in state) {
         vec3.copy(target, state.target)
       }
 
+      if ('worldUp' in state) {
+        vec3.copy(worldUp, state.worldUp)
+      }
+
       const aspect = viewportWidth/viewportHeight
-      const vector = new Vector(0, 0, 0)
       const {
         position,
         rotation,
@@ -144,7 +134,7 @@ export class CameraCommand extends Object3DCommand {
 
       // compute eye vector from the inverse view matrix
       mat4.invert(scratch, view)
-      vec3.set(eye, scratch[12], scratch[13], scratch[14])
+      vec3.set(eye, eye[12], eye[13], eye[14])
     }
 
     super(ctx, {

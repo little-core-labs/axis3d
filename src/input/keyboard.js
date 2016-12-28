@@ -5,10 +5,8 @@
  */
 
 import { Command } from '../command'
-import { define } from '../utils'
 import keycode from 'keycode'
 import events from 'dom-events'
-import raf from 'raf'
 
 /**
  * Keyboard function.
@@ -18,51 +16,13 @@ import raf from 'raf'
 
 module.exports = exports = (...args) => new KeyboardCommand(...args)
 
-/**
- * KeyboardCommand class
- *
- * @public
- * @class KeyboardCommand
- * @extends Command
- */
-
 export class KeyboardCommand extends Command {
-
-  /**
-   * KeyboardCommand class constructor.
-   *
-   * @param {Context} ctx
-   * @param {Object} [opts]
-   */
-
   constructor(ctx, opts = {}) {
     const keycodes = {}
     const keys = {}
-
-    const mappings = {
-      up: ['up', 'w'],
-      down: ['down', 's'],
-      left: ['left', 'a'],
-      right: ['right', 'd'],
-      control: [
-        'control',
-        'right command', 'left command',
-        'right control', 'left control',
-        'super', 'ctrl', 'alt', 'fn',
-      ],
-
-      on(which) {
-        return this[which].map((key) => keys[key] = true)
-      },
-
-      off(which) {
-        return this[which].map((key) => keys[key] = false)
-      },
-
-      value(which) {
-        return this[which].some((key) => Boolean(keys[key]))
-      },
-    }
+    const mappings = new KeyboardCommandMappings(keys, {
+      mapping: opts.mapping || {}
+    })
 
     // update keydown states
     events.on(document, 'keydown', (e) => {
@@ -114,15 +74,42 @@ export class KeyboardCommand extends Command {
         keys[key] = false
       }
     }
+  }
+}
 
-    //
-    // Public properties.
-    //
-    define(this, 'aliasMappings', { get: () => mappings })
-    define(this, 'keycodes', { get: () => keycodes })
-    define(this, 'keys', { get: () => keys })
-    define(this, 'isKeydown', {
-      get: () => Object.keys(keys).some((key) => keys[key])
-    })
+export class KeyboardCommandMappings {
+  constructor(keys = {}, extension = {mapping: {}}) {
+    this.keys = keys
+    this.map = {
+      ...extension.mapping,
+      up: ['up', ...(extension.mapping.up || [])],
+      down: ['down', ...(extension.mapping.down || [])],
+      left: ['left', ...(extension.mapping.left || [])],
+      right: ['right', ...(extension.mapping.right || [])],
+      control: [
+        'right command',
+        'right control',
+        'left command',
+        'left control',
+        'control',
+        'super',
+        'ctrl',
+        'alt',
+        'fn',
+        ...(extension.mapping.control || [])
+      ],
+    }
+  }
+
+  on(which) {
+    return this.map[which].map((key) => this.keys[key] = true)
+  }
+
+  off(which) {
+    return this.map[which].map((key) => this.keys[key] = false)
+  }
+
+  value(which) {
+    return this.map[which].some((key) => Boolean(this.keys[key]))
   }
 }

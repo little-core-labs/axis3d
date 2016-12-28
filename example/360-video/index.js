@@ -4,13 +4,15 @@
  * Module dependencies.
  */
 
-import { OrbitCameraController } from 'axis3d/controller'
+import { OrbitCameraController } from '../../extras/controller'
 import { Sphere } from 'axis3d/mesh'
 import { Video } from 'axis3d/media'
 import events from 'dom-events'
+import quat from 'gl-quat'
 import raf from 'raf'
 
 import {
+  Orientation,
   Keyboard,
   Touch,
   Mouse,
@@ -25,32 +27,49 @@ import {
 // axis context
 //const ctx = Context()
 const ctx = Context({}, {regl: {attributes: {antialias: true}}})
-ctx.on('error', (e) => console.error(e))
+ctx.on('error', (e) => console.error(e.stack || e))
 
 // objects
 const camera = Camera(ctx, {fov: 75 * Math.PI/180})
 const frame = Frame(ctx)
-//const video = Video(ctx, '/paramotor.mp4')
-const video = Video(ctx, '/artic.mp4')
+const video = Video(ctx, '/paramotor.mp4')
+//const video = Video(ctx, '/artic.mp4')
 const sphere = Sphere(ctx, { map: video })
 
 // inputs
-const keyboard = Keyboard(ctx)
 const mouse = Mouse(ctx)
 const touch = Touch(ctx)
+const orientation = Orientation(ctx)
+const keyboard = Keyboard(ctx, {
+  mapping: {
+    up: ['w', 'k'],
+    down: ['s', 'j'],
+    left: ['a', 'h'],
+    right: ['d', 'l']
+  }
+})
 
 // orbit controller
 const orbitCamera = OrbitCameraController(ctx, {
-  inputs: {mouse, touch, keyboard},
+  camera: camera,
   invert: true,
-  camera,
+  rotation: {
+    y: quat.setAxisAngle([], [0, 1, 0], 0.5*Math.PI),
+  },
+  inputs: {
+    orientation,
+    keyboard,
+    touch,
+    mouse,
+  },
 })
 
 // orient controllers to "center" of video/video
-const orientation = [0, 3*Math.PI / 2, 0]
 video.once('load', () => {
   raf(() => {
-    orbitCamera({orientation})
+    orbitCamera({
+      orientation: [0, 3*Math.PI / 2, 0]
+    })
     // focus now
     ctx.focus()
   })
@@ -90,14 +109,18 @@ function ontouch(e) {
 // render loop
 frame(() => {
   // draw camera scene
-  touch(({touches}) => {
+  touch(({touches}) => mouse(({buttons}) => keyboard(({mappings}) => {
+    const hasInteraction = Boolean(
+      touches ||
+      buttons ||
+      ['up', 'down', 'left', 'right'].some((x) => mappings.value(x))
+    )
+
     orbitCamera({
-      interpolationFactor: touches ? 0.5 : 0.2,
-      friction: touches ? 2 : 0.3,
-      sloppy: true,
+      interpolationFactor: hasInteraction ? 0.25 : 0.1,
       zoom: {fov: true}
     }, () => {
-      sphere({scale: [-100, -100, 100]})
+      sphere({scale: [100, 100, 100]})
     })
-  })
+  })))
 })

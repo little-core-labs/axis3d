@@ -1,6 +1,6 @@
 'use strict'
 
-import VignetteBackground from 'axis3d/backgrounds/vignette'
+import VignetteBackground from '../../extras/backgrounds/vignette'
 import AmbientLight from 'axis3d/light/ambient'
 import { Geometry } from 'axis3d/geometry'
 import { Mesh } from 'axis3d/mesh'

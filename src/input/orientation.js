@@ -4,17 +4,39 @@
  * Module dependencies.
  */
 
-import { Quaternion } from '../math'
+import 'webvr-polyfill'
 import { Command } from '../command'
 import events from 'dom-events'
+import clamp from 'clamp'
 import quat from 'gl-quat'
+import vec3 from 'gl-vec3'
 import raf from 'raf'
+
+import { computeQuaternion } from '../math/euler'
+import { computeEuler } from '../math/quaternion'
+import {
+  Quaternion,
+  Vector,
+  Euler,
+} from '../math'
 
 import {
   getScreenOrientation,
   radians,
   define,
 } from '../utils'
+
+
+// VRFRameData
+const vrFrameData = new VRFrameData()
+const vrDisplays = []
+navigator.getVRDisplays()
+.then((displays) => {
+  Object.assign(vrDisplays, displays)
+})
+.catch((err) => {
+  console.error(err.stack || err)
+})
 
 //
 // Global orientation state object.
@@ -24,7 +46,7 @@ const globalState = {
   absolute: null,
 
   currentAlpha: 0, // z
-  currentBeta: 0, // x
+  currentBeta: 90, // x
   currentGamma: 0, // y
 
   deltaAlpha: 0,
@@ -41,11 +63,10 @@ events.on(window, 'deviceorientation', (e) => {
   // ZXY
   const { alpha, beta, gamma, absolute } = e
 
-  if (alpha && beta && gamma) {
-    global.hasDeviceOrientation = true
-  }
-
-  if (false == global.hasDeviceOrientation) {
+  if (null != alpha && null != beta && null != gamma) {
+    globalState.hasDeviceOrientation = true
+  } else {
+    globalState.hasDeviceOrientation = false
     return
   }
 
@@ -72,6 +93,19 @@ events.on(window, 'deviceorientation', (e) => {
   }))
 })
 
+events.on(window, 'devicemotion', (e) => {
+  Object.assign(globalState, {
+    accelerationIncludingGravity: e.accelerationIncludingGravity,
+    acceleration: e.acceleration,
+    rotationRate: e.rotationRate,
+    interval: e.interval,
+  })
+})
+
+events.on(window, 'orientationchange', () => {
+  console.log('orientationchange',screen.orientation)
+})
+
 /**
  * Orientation function.
  *
@@ -80,28 +114,12 @@ events.on(window, 'deviceorientation', (e) => {
 
 module.exports = exports = (...args) => new OrientationCommand(...args)
 
-/**
- * OrientationCommand class
- *
- * @public
- * @class OrientationCommand
- * @extends Command
- */
-
 export class OrientationCommand extends Command {
-
-  /**
-   * OrientationCommand class constructor.
-   *
-   * @param {Context} ctx
-   * @param {Object} [opts]
-   */
-
   constructor(ctx, {
   } = {}) {
-    const deviceOrientation = new Quaternion()
-    const screenTransform = new Quaternion()
+    let preferDeviceRotation = false
     const deviceRotation = new Quaternion()
+    const deviceEuler = new Euler()
 
     super((_, state, block) => {
       if ('function' == typeof state) {
@@ -112,80 +130,60 @@ export class OrientationCommand extends Command {
       state = state || {}
       block = block || function() {}
 
-      computeDeviceRotation()
 
-      const {
-        absolute = null,
-        currentAlpha = 0,
-        currentBeta = 0,
-        currentGamma = 0,
-        deltaAlpha = 0,
-        deltaBeta = 0,
-        deltaGamma = 0,
-        prevAlpha = 0,
-        prevBeta = 0,
-        prevGamma = 0,
-      } = globalState
+      if (vrDisplays.length && /emulated/i.test(vrDisplays[0].displayName)) {
+        computeDeviceRotation()
+      } else {
+        computeDeviceRotationFromVRFrameData()
+      }
 
       block({
-        absolute,
-        currentAlpha,
-        currentBeta,
-        currentGamma,
-        deltaAlpha,
-        deltaBeta,
-        deltaGamma,
-        prevAlpha,
-        prevBeta,
-        prevGamma,
-        rotation: deviceRotation,
+        ...globalState,
+        deviceRotation,
+        deviceEuler,
       })
     })
 
+    const r22 = Math.sqrt(0.5)
+    const world = quat.fromValues(-r22, 0, 0, r22)
+
+    function computeDeviceRotationFromVRFrameData() {
+      if (vrDisplays.length) {
+        vrDisplays[0].getFrameData(vrFrameData)
+        deviceRotation.set(
+          ...(vrFrameData.pose.orientation || [0, 0, 0, 1])
+        )
+        deviceEuler.set(...computeEuler(deviceRotation))
+      }
+    }
+
     function computeDeviceRotation() {
-      // borrowed from https://github.com/hawksley/eleVR-Web-Player/blob/master/js/phonevr.js
       const {
-        currentAlpha,
-        currentBeta,
-        currentGamma
+        currentAlpha: alpha,
+        currentBeta: beta,
+        currentGamma: gamma,
       } = globalState
 
-      const screenOrientation = 0.5*radians(getScreenOrientation())
-      const z = 0.5*radians(currentAlpha)
-      const x = 0.5*radians(currentBeta)
-      const y = 0.5*radians(currentGamma)
-      const cX = Math.cos(x)
-      const cY = Math.cos(y)
-      const cZ = Math.cos(z)
-      const sX = Math.sin(x)
-      const sY = Math.sin(y)
-      const sZ = Math.sin(z)
+      const angle = getScreenOrientation()
 
-      deviceOrientation.set(
-        (cX * cY * cZ - sX * sY * sZ),
-        (sX * cY * cZ - cX * sY * sZ),
-        (cX * sY * cZ + sX * cY * sZ),
-        (cX * cY * sZ + sX * sY * cZ)
-      )
+      deviceEuler.set(
+        radians(beta),
+        radians(alpha),
+        radians(-gamma))
 
-      screenTransform.set(
-        0,
-        0,
-        -Math.sin(screenTransform),
-        Math.cos(screenTransform)
-      )
+      quat.copy(
+        deviceRotation,
+        computeQuaternion(deviceEuler, 'yxz'))
 
       quat.multiply(
         deviceRotation,
-        deviceOrientation,
-        screenTransform)
+        deviceRotation,
+        [0, Math.sin(-0.5*angle), 0, Math.cos(-0.5*angle)])
 
-      // @see https://github.com/hawksley/eleVR-Web-Player/blob/master/js/phonevr.js#L53
-      const r22 = Math.sqrt(0.5);
       quat.multiply(
         deviceRotation,
-        quat.fromValues(-r22, 0, 0, r22),
-        deviceRotation);
+        deviceRotation,
+        world)
     }
- }
+  }
 }

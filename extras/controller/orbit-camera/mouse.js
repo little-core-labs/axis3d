@@ -5,33 +5,14 @@
  */
 
 import clamp from 'clamp'
+import quat from 'gl-quat'
 
-/**
- * Local friction applied to rotations around
- * the x axis for mouse inputs.
- */
-
-const X_AXIS_MOUSE_FRICTION = 0.005
-
-/**
- * Local friction applied to rotations around
- * the y axis for mouse inputs.
- */
-
-const Y_AXIS_MOUSE_FRICTION = 0.006
-
-/**
- * Applies orientation changes to orbit orbitCamera from
- * mouse input
- *
- */
-
-module.exports = exports = ({
+module.exports = ({
   mouseInput: mouse,
-  orientation,
   position,
-  friction,
+  damping,
   invert = false,
+  euler,
   zoom = true,
 } = {}) => {
   // update orientation from coordinates
@@ -40,20 +21,19 @@ module.exports = exports = ({
     deltaX: dx,
     deltaY: dy,
   }) => {
-    const xf = 0.001
-    const yf = 0.0012
-
     // update if a singled button is pressed
     if (1 == buttons && (dy || dx)) {
-      orientation[0] += ((false == invert ? 1 : -1)*xf*dy)/(friction || 0.01)
-      orientation[1] += ((false == invert ? 1 : -1)*yf*dx)/(friction || 0.01)
+      const xValue = (false == invert ? -1 : 1)*0.005*dy*damping
+      const yValue = (false == invert ? -1 : 1)*0.008*dx*damping
+      euler[0] += xValue
+      euler[1] += yValue
     }
   })
 
   // update field of view from mouse wheel
   mouse && mouse(({wheel}) => {
     const c = 0.033
-    const dv = c*friction*wheel.deltaY
+    const dv = c*damping*wheel.deltaY
     if (zoom && 'number' == typeof zoom.fov) {
       zoom.fov = (zoom.fov || 0) + dv
     } else if (false !== zoom) {

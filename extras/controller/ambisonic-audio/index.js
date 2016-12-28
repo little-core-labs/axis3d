@@ -16,15 +16,15 @@ import {
   XVector3,
   YVector3,
   ZVector3,
-} from '../../math/vector'
+} from 'axis3d/math/vector'
 
 import {
   Quaternion,
   Vector,
-} from '../../math'
+} from 'axis3d/math'
 
 import { AbstractControllerCommand } from '../abstract-controller'
-import { define, radians } from '../../utils'
+import { define, radians } from 'axis3d/utils'
 
 /**
  * AmbisonicAudioControllerCommand function.

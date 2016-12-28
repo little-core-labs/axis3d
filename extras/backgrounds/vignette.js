@@ -5,12 +5,12 @@
  */
 
 import injectDefines from 'glsl-inject-defines'
-import { Command } from '../command'
-import { Vector } from '../math/vector'
+import { Command } from 'axis3d/command'
+import { Vector } from 'axis3d/math/vector'
 import glslify from 'glslify'
 
-const vert = glslify(__dirname + '/../glsl/backgrounds/vignette/vert.glsl')
-const frag = glslify(__dirname + '/../glsl/backgrounds/vignette/frag.glsl')
+const vert = glslify(__dirname + '/glsl/vignette/vert.glsl')
+const frag = glslify(__dirname + '/glsl/vignette/frag.glsl')
 
 export const DEFAULT_COLOR = new Vector(121/255.0, 117/255.0, 114/255.0, 1)
 

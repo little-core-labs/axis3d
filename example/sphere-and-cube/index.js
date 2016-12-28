@@ -11,6 +11,13 @@ import {
   Box,
 } from 'axis3d/mesh'
 
+import {
+  Orientation,
+  Touch,
+  Mouse,
+} from 'axis3d/input'
+
+import { OrbitCameraController } from '../../extras/controller'
 import quat from 'gl-quat'
 import vec3 from 'gl-vec3'
 import raf from 'raf'
@@ -24,6 +31,14 @@ const world = Sphere(ctx, {
 })
 const sphere = Sphere(ctx, {raidus: 1})
 const camera = Camera(ctx)
+const orientation =  Orientation(ctx)
+const mouse = Mouse(ctx)
+const touch = Touch(ctx)
+const orbitCamera = OrbitCameraController(ctx, {
+  camera: camera,
+  inputs: {orientation, touch, mouse},
+})
+
 const positions = []
 const count = 5
 
@@ -33,7 +48,7 @@ for (let i = 0; i < count; ++i) {
 }
 
 frame(({time}) => {
-  camera({
+  orbitCamera({
     rotation: quat.multiply(
       quat.setAxisAngle([], [1, 0, 0], 0.125*time),
       quat.setAxisAngle([], [0, 1, 0], 0.125*time),
@@ -41,16 +56,11 @@ frame(({time}) => {
     ),
     position: [0, 0, 40]
   }, () => {
-    const cellCount = (300*time % world.geometry.wireframe.cells.length)|0
+    const cellCount = (600*time % world.geometry.wireframe.cells.length)|0
     world({
       count: cellCount,
-      wireframeThickness: 0.01 + Math.sin(time),
-      color: [
-        0.8 + Math.sin(0.05*time) % 1,
-        0.8 + Math.sin(0.05*time) % 1,
-        0.8 + Math.sin(0.05*time) % 1,
-        0.8 + Math.sin(0.05*time) % 1
-      ],
+      wireframeThickness: 0.1,
+      color: [ 0.8, 0.8, 0.8, 0.8, ],
     }, () => {
       sphere({
         wireframe: true,

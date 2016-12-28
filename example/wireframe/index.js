@@ -15,9 +15,13 @@ import {
   Mesh
 } from 'axis3d/mesh'
 
-import { OrbitCameraController } from 'axis3d/controller'
+import { OrbitCameraController } from '../../extras/controller'
 import { Geometry } from 'axis3d/geometry'
-import { Mouse } from 'axis3d/input'
+import {
+  Orientation,
+  Touch,
+  Mouse,
+} from 'axis3d/input'
 
 import complex from 'bunny'
 import quat from 'gl-quat'
@@ -33,13 +37,18 @@ const plane = Plane(ctx, {
   color: [0.8, 0.8, 1.0, 0.9],
   size: 10,
 })
+
 const draw = Mesh(ctx, {
   wireframe: true,
   geometry: new Geometry({complex})
 })
 
+
+const orientation =  Orientation(ctx)
+const mouse = Mouse(ctx)
+const touch = Touch(ctx)
 const orbitCamera = OrbitCameraController(ctx, {
-  inputs: {mouse: Mouse(ctx)},
+  inputs: {orientation, touch, mouse},
   camera: Camera(ctx, {
     position: [-5, 12, 18]
   }),

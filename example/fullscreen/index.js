@@ -1,14 +1,14 @@
 'use strict';
 
+import Fullscreen from '../../extras/fullscreen'
 import Context from 'axis3d/context'
 import Camera from 'axis3d/camera'
-import Plane from 'axis3d/mesh/plane'
-import Box from 'axis3d/mesh/box'
 import Sphere from 'axis3d/mesh/sphere'
+import Plane from 'axis3d/mesh/plane'
 import Frame from 'axis3d/frame'
-import Fullscreen from 'axis3d/extra/fullscreen'
 import quat from 'gl-quat'
 import vec3 from 'gl-vec3'
+import Box from 'axis3d/mesh/box'
 import raf from 'raf'
 
 const ctx = Context()

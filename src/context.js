@@ -77,11 +77,11 @@ export class Context extends EventEmitter {
       extensions: [
         ...(opts.regl.extensions || []),
         'OES_texture_float',
-        'webgl_draw_buffers',
       ],
 
       optionalExtensions: [
         ...(opts.regl.optionalExtensions || []),
+        'webgl_draw_buffers',
       ],
 
       onDone: (err, regl) => {

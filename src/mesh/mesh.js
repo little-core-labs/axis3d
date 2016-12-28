@@ -376,7 +376,7 @@ export class MeshCommand extends Object3DCommand {
         }
 
         state = state || {}
-        block = block || function() {}
+        block = block || noop
 
         void (state.before || opts.before || noop)({
           ...state,
@@ -384,7 +384,7 @@ export class MeshCommand extends Object3DCommand {
           geometry,
           opacity,
           color,
-        });
+        })
 
         update(state)
 
@@ -402,7 +402,7 @@ export class MeshCommand extends Object3DCommand {
           geometry,
           opacity,
           color,
-        });
+        })
       }
     })
 
