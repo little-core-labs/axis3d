@@ -9,14 +9,28 @@ import quat from 'gl-quat'
 import vec3 from 'gl-vec3'
 
 import { AbstractControllerCommand } from '../abstract-controller'
-import applyOrientationInput from './orientation'
 import { computeQuaternion } from 'axis3d/math/euler'
-import { computeEuler, clampQuaternion } from 'axis3d/math/quaternion'
+import { computeEuler } from 'axis3d/math/quaternion'
+import { radians } from 'axis3d/utils'
+
+// inputs
+import applyOrientationInput from './orientation'
 import applyKeyboardInput from './keyboard'
 import applyMouseInput from './mouse'
 import applyTouchInput from './touch'
-import { Quaternion } from 'axis3d/math'
-import { radians } from 'axis3d/utils'
+
+import {
+  Quaternion,
+  Vector,
+} from 'axis3d/math'
+
+function clampQuaternion(q, min, max) {
+  const euler = computeEuler(q)
+  euler[0] = clamp(euler[0], min, max)
+  euler[1] = clamp(euler[1], min, max)
+  euler[2] = clamp(euler[2], min, max)
+  return quat.copy(q, computeQuaternion(euler))
+}
 
 module.exports = exports = (...args) => new OrbitCameraController(...args)
 
@@ -32,28 +46,32 @@ export class OrbitCameraController extends AbstractControllerCommand {
       camera: initialCamera,
       inputs: initialInputs = {},
       clampX: initialClampX = true,
-      position: initialPosition = [...(initial.camera || {}).position],
+      position: initialPosition = null,
       interpolationFactor: initialInterpolationFactor = 1,
     } = initial
 
-    const rotation = new Quaternion(...(initial.rotation || []))
+    const position = new Vector(0, 0, 0)
+    const rotation = new Quaternion()
     const xyRotation = new Quaternion()
     const orientationRotation = new Quaternion()
+    const initialRotation = new Quaternion(...(initial.rotation || []))
+
+    position.set(...(initialPosition || []))
 
     super(ctx, {
       ...initial, update(updates, block) {
         let {
           interpolationFactor = initialInterpolationFactor,
           clampX: wantsClampX = initialClampX,
-          position = initialPosition,
           rotation: offsetRotation = [0, 0, 0, 1],
           camera = initialCamera,
           euler = initialEuler,
 
-          inputs = initialInputs,
           damping = initial.damping || DEFAULT_DAMPING,
+          inputs = initialInputs,
           invert = initial.invert,
           zoom = initial.zoom || true,
+          fov,
 
           orientation,
           xAxisRotation,
@@ -63,17 +81,24 @@ export class OrbitCameraController extends AbstractControllerCommand {
 
         damping = clamp(damping, 0, 1)
 
+
+        // read current camera state
+        camera(({
+          position: currentPosition,
+          fov: currentFov,
+        }) => {
+          if (null == initialPosition) {
+            initialPosition = currentPosition
+            vec3.copy(position, initialPosition)
+          }
+          fov = currentFov
+        })
+
         // coerce zoom into something useable
         if (zoom && true === zoom.fov) {
-          zoom.fov = camera.fov
+          zoom.fov = fov
         } else if (zoom && 'number' != typeof zoom.fov) {
           delete zoom.fov
-        }
-
-        // clamp fov if fov zoom requested
-        let fov = camera.fov
-        if (zoom && zoom.fov) {
-          fov = clamp(zoom.fov, radians(1.1) , radians(120))
         }
 
         // supported controller inputs
@@ -150,12 +175,22 @@ export class OrbitCameraController extends AbstractControllerCommand {
           interpolationFactor
         )
 
-        quat.copy(
+        quat.slerp(
           rotation,
-          multiply(q0, multiply(multiply(q1, multiply(xyRotation, rxy)), q0))
+          rotation,
+          multiply(
+            multiply(q0, multiply(multiply(q1, multiply(xyRotation, rxy)), q0)),
+            initialRotation,
+          ),
+          interpolationFactor
         )
 
-        camera({ ...updates, position, rotation}, () => {
+        // clamp fov if fov zoom requested
+        if (zoom && zoom.fov) {
+          fov = clamp(zoom.fov, radians(1.1) , radians(120))
+        }
+
+        camera({ ...updates, position, rotation, fov }, () => {
           block()
         })
       }

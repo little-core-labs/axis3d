@@ -4,22 +4,11 @@
  * Module dependencies.
  */
 
+import { registerStat } from './stats'
 import { EventEmitter } from 'events'
 import events from 'dom-events'
 import glsl from 'glslify'
 import regl from 'regl'
-
-import {
-  $isDestroyed,
-  $reglContext,
-  $domElement,
-  $hasFocus,
-  $scope,
-  $caller,
-  $stack,
-  $state,
-  $regl
-} from './symbols'
 
 export const defaults = {
   clear: {
@@ -39,32 +28,17 @@ export const defaults = {
 module.exports = exports = (state, opts) =>
   new Context({...defaults, ...state}, opts)
 
-/**
- * Context class.
- *
- * @public
- * @class Context
- * @extends EventEmitter
- */
-
 export class Context extends EventEmitter {
-
-  /**
-   * Context class constructor.
-   *
-   * @param {Objects} [initialState]
-   * @param {Object} [opts]
-   */
-
   constructor(initialState = {}, opts = {}, createRegl = regl) {
+    registerStat('Context')
     super()
 
-    this[$stack] = []
-    this[$state] = initialState
-    this[$caller] = null
-    this[$scope] = null
-    this[$hasFocus] = false
-    this[$reglContext] = null
+    this._stack = []
+    this._state = initialState
+    this._caller = null
+    this._scope = null
+    this._hasFocus = false
+    this._reglContext = null
 
     this.setMaxListeners(Infinity)
     opts.regl = opts.regl || opts.gl || {}
@@ -81,7 +55,6 @@ export class Context extends EventEmitter {
 
       optionalExtensions: [
         ...(opts.regl.optionalExtensions || []),
-        'webgl_draw_buffers',
       ],
 
       onDone: (err, regl) => {
@@ -89,9 +62,9 @@ export class Context extends EventEmitter {
           return this.emit('error', err)
         }
 
-        this[$regl] = regl
-        this[$domElement] = this[$regl]._gl.canvas
-        this[$isDestroyed] = false
+        this._regl = regl
+        this._domElement = this._regl._gl.canvas
+        this._isDestroyed = false
       }
     })
 
@@ -105,19 +78,19 @@ export class Context extends EventEmitter {
 
 
     // DOM events
-    events.on(this[$domElement], 'focus', () => this.focus())
-    events.on(this[$domElement], 'blur', () => this.blur())
+    events.on(this._domElement, 'focus', () => this.focus())
+    events.on(this._domElement, 'blur', () => this.blur())
     events.on(window, 'blur', () => this.blur())
   }
 
-  get reglContext() { return this[$reglContext] }
-  get domElement() { return this[$domElement] }
-  get hasFocus() { return this[$hasFocus] }
-  get caller() { return this[$caller] }
-  get scope() { return this[$scope] }
-  get depth() { return this[$stack].length }
-  get state() { return this[$stack] }
-  get regl() { return this[$regl] }
+  get reglContext() { return this._reglContext }
+  get domElement() { return this._domElement }
+  get hasFocus() { return this._hasFocus }
+  get caller() { return this._caller }
+  get scope() { return this._scope }
+  get depth() { return this._stack.length }
+  get state() { return this._stack }
+  get regl() { return this._regl }
 
   /**
    * Focuses context.
@@ -126,7 +99,7 @@ export class Context extends EventEmitter {
    */
 
   focus() {
-    this[$hasFocus] = true
+    this._hasFocus = true
     this.emit('focus')
     return this
   }
@@ -138,7 +111,7 @@ export class Context extends EventEmitter {
    */
 
   blur() {
-    this[$hasFocus] = false
+    this._hasFocus = false
     this.emit('blur')
     return this
   }
@@ -152,9 +125,9 @@ export class Context extends EventEmitter {
 
   push(command) {
     if ('function' == typeof command) {
-      this[$scope] = this[$stack][this[$stack].length - 1]
-      this[$stack].push(command)
-      this[$caller] = command
+      this._scope = this._stack[this._stack.length - 1]
+      this._stack.push(command)
+      this._caller = command
     }
     return this
   }
@@ -166,9 +139,9 @@ export class Context extends EventEmitter {
    */
 
   pop() {
-    let command = this[$stack].pop()
-    this[$caller] = this[$stack][this[$stack].length - 1]
-    this[$scope] = command
+    let command = this._stack.pop()
+    this._caller = this._stack[this._stack.length - 1]
+    this._scope = command
     return command
   }
 
@@ -181,7 +154,7 @@ export class Context extends EventEmitter {
 
   update(block) {
     if (block && 'object' == typeof block) {
-      Object.assign(this[$state], block)
+      Object.assign(this._state, block)
     }
     return this
   }
@@ -193,20 +166,21 @@ export class Context extends EventEmitter {
    */
 
   reset() {
-    this[$caller] = null
-    this[$scope] = null
-    this[$stack].splice(0, this[$stack].length)
+    this._caller = null
+    this._scope = null
+    this._stack.splice(0, this._stack.length)
   }
 
   /**
+   * @TODO(werle) - move this Frame as a context function
    * Clears the clear buffers in regl.
    *
    * @return {Context}
    */
 
   clear() {
-    if (this[$regl] && this[$state]) {
-      this[$regl].clear(this[$state].clear)
+    if (this._regl && this._state) {
+      this._regl.clear(this._state.clear)
     }
     return this
   }
@@ -221,19 +195,19 @@ export class Context extends EventEmitter {
   destroy() {
     this.clear()
 
-    if (this[$regl] && 'function' == typeof this[$regl].destroy) {
-      this[$regl].destroy()
+    if (this._regl && 'function' == typeof this._regl.destroy) {
+      this._regl.destroy()
     }
 
-    this[$state] = {}
-    this[$stack] = []
-    this[$hasFocus] = false
+    this._state = {}
+    this._stack = []
+    this._hasFocus = false
 
-    delete this[$regl]
-    delete this[$scope]
-    delete this[$caller]
-    delete this[$domElement]
-    delete this[$reglContext]
+    delete this._regl
+    delete this._scope
+    delete this._caller
+    delete this._domElement
+    delete this._reglContext
     return this
   }
 }

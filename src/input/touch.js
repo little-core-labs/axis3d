@@ -5,27 +5,13 @@
  */
 
 import { emitter as TouchPosition } from 'touch-position'
+import { registerStat } from '../stats'
 import { Command } from '../command'
 import events from 'dom-events'
 import raf from 'raf'
 
-/**
- * Touch function.
- *
- * @see TouchCommand
- */
-
-module.exports = exports = (...args) => new TouchCommand(...args)
-
-/**
- * TouchCommand class.
- *
- * @public
- * @class TouchCommand
- * @extends Command
- */
-
-export class TouchCommand extends Command {
+module.exports = exports = (...args) => new TouchInputCommand(...args)
+export class TouchInputCommand extends Command {
   constructor(ctx, {
     touches = null,
     currentX = 0,
@@ -36,6 +22,8 @@ export class TouchCommand extends Command {
     prevY = 0,
     touch = TouchPosition({element: ctx.domElement}),
   } = {}) {
+    registerStat('TouchInput')
+
     let hasMovement = false
     let hasTouch = false
 
@@ -82,7 +70,7 @@ export class TouchCommand extends Command {
       synchronizeTouch(touches, clientX, clientY)
     })
 
-    super((_, state, block) => {
+    super((state, block) => {
       if ('function' == typeof state) {
         block = state
         state = {}

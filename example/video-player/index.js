@@ -1,80 +1,83 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
+import {
+  Material,
+  Texture,
+  Context,
+  Camera,
+  Frame,
+  Mesh,
+} from 'axis3d'
 
-import Keyboard from 'axis3d/input/keyboard'
-import Context from 'axis3d/context'
-import Camera from 'axis3d/camera'
-import events from 'dom-events'
-import Plane from 'axis3d/mesh/plane'
-import Video from 'axis3d/media/video'
-import Frame from 'axis3d/frame'
-import Mouse from 'axis3d/input/mouse'
+import {
+  Quaternion
+} from 'axis3d/math'
+
+import {
+  PlaneGeometry
+} from 'axis3d/geometry'
+
+import quat from 'gl-quat'
 import clamp from 'clamp'
-import raf from 'raf'
 
-// axis context
-//const ctx = Context({}, {regl: {attributes: {antialias: true}}})
+// fullscreen canvas
 const ctx = Context()
 
-// objects
-const camera = Camera(ctx)
+// video dom element
+const video = document.createElement('video')
+
+const material = Material(ctx, { map: Texture(ctx, {data: video}) })
+const camera = Camera(ctx, {position: [0, 0, 5]})
 const frame = Frame(ctx)
-const video = Video(ctx, '/paramotor.mp4')
-const plane = Plane(ctx, {map: video})
+const plane = Mesh(ctx, { geometry: PlaneGeometry(ctx) })
 
-Object.assign(window, {
-  ctx, camera, frame, video, plane
-})
+video.autoplay = true
+video.loop = true
+video.src = 'paramotor.mp4'
 
-raf(() => {
-  ctx.focus()
-})
+video.load()
+video.play()
 
-let isPlaying = false
-events.on(ctx.domElement, 'click', ontouch)
-events.on(ctx.domElement, 'touch', ontouch)
-function ontouch() {
-  if (isPlaying) {
-    video.pause()
-    isPlaying = false
-  } else {
-    video.play()
-    isPlaying = true
-  }
-}
-
-// axis animation frame loop
-frame(({viewportWidth, viewportHeight}) => {
+frame(({time, viewportWidth, viewportHeight}) => {
   const aspectRatio = viewportWidth/viewportHeight || 1
-  const height = plane.size.y || 1
-  const width = plane.size.x || 1
-  const dist = camera.position.z - plane.position.z
-  const fov = 2.0*Math.atan((width/aspectRatio) / (2.0*dist))
-  // draw camera scene
-  camera({fov, position: [0, 0, 1]}, () => {
-    let ph = height, pw = width
-    let wh = viewportHeight, ww = viewportWidth
-    let vh = video.height, vw = video.width
-    let vr = vw/vh
-    let wr = ww/wh
-    let x = ww <= vw ? 1 : clamp(ww/vw, 0, 1)
-    let y = wh <= vh ? 1 : clamp(wh/vh, 0, 1)/vr
 
-    if (vr != x/y) {
-      if (ww/wh > 2) {
-        x = (wh * vr)/ww
-        y = wh/ww
-      } else if (ww/wh < 2) {
-        y = x/vr
+  let height = 0
+  let width = 0
+  let dist = 0
+  let fov = 0
+
+  plane({draw: false}, ({size, position: planePosition}) => {
+    height = size.y || 1
+    width = size.x || 1
+    camera(({position: cameraPosition}) => {
+      dist = cameraPosition.z - planePosition.z
+      fov = 2.0*Math.atan((width/aspectRatio) / (2.0*dist))
+    })
+  })
+
+  camera({fov}, () => {
+    material(() => {
+      let ph = height, pw = width
+      let wh = viewportHeight, ww = viewportWidth
+      let vh = video.height, vw = video.width
+      let vr = vw/vh
+      let wr = ww/wh
+      let x = ww <= vw ? 1 : clamp(ww/vw, 0, 1)
+      let y = wh <= vh ? 1 : clamp(wh/vh, 0, 1)/vr
+
+      if (vr != x/y) {
+        if (ww/wh > 2) {
+          x = (wh * vr)/ww
+          y = wh/ww
+        } else if (ww/wh < 2) {
+          y = x/vr
+        }
       }
-    }
 
-    x = x || 1
-    y = y || 1
+      x = x || 1
+      y = y || 1
 
-    plane({scale: [x, y, 1]})
+      plane({scale: [x, -y, 1]})
+    })
   })
 })

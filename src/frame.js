@@ -4,38 +4,19 @@
  * Module dependencies.
  */
 
-import { $reglContext } from './symbols'
 import { Command } from './command'
 import { define } from './utils'
-import glslify from 'glslify'
 
-const vert = glslify(__dirname + '/glsl/frame/vert.glsl')
-const frag = glslify(__dirname + '/glsl/frame/frag.glsl')
-
-/**
- * FrameCommand constructor.
- * @see FrameCommand
- */
+import {
+  incrementStat,
+  registerStat,
+  resetStat
+} from './stats'
 
 module.exports = exports = (...args) => new FrameCommand(...args)
-
-/**
- * FrameCommand class.
- *
- * @public
- * @class FrameCommand
- * @extends Command
- */
-
 export class FrameCommand extends Command {
-
-  /**
-   * FrameCommand class constructor.
-   *
-   * @param {Context} ctx
-   */
-
   constructor(ctx, opts = {}) {
+    incrementStat('Frame')
     const {regl} = ctx
     const queue = []
 
@@ -50,8 +31,9 @@ export class FrameCommand extends Command {
       }
     })
 
-    super((_, refresh) => {
+    super((refresh) => {
       queue.push(refresh)
+      registerStat('Frame refresh')
       frame()
       return cancel
     })
@@ -65,7 +47,7 @@ export class FrameCommand extends Command {
       if (tick) {
         queue.splice(0, -1)
         tick.cancel()
-        ctx[$reglContext] =
+        ctx._reglContext =
         reglContext =
         tick = null
       }
@@ -83,7 +65,7 @@ export class FrameCommand extends Command {
         isRunning = true
         tick = regl.frame((_, ...args) => {
           reglContext = _
-          ctx[$reglContext] = reglContext
+          ctx._reglContext = reglContext
           const {
             viewportWidth: width,
             viewportHeight: height,

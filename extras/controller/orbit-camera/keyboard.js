@@ -18,7 +18,8 @@ module.exports = exports = ({
   damping,
   euler
 } = {}) => {
-  keyboard && keyboard(({mappings}) => {
+  keyboard && keyboard(({keys}) => {
+    const mappings = new KeyboardCommandMappings(keys)
     const step = 0.08*damping
 
     // @TODO(werle) - should we reset keyboard state ?
@@ -27,19 +28,38 @@ module.exports = exports = ({
     }
 
     if (mappings.value('up')) {
-      mappings.off('down')
       euler[0] -= 0.9*step
     } else if (mappings.value('down')) {
-      mappings.off('up')
       euler[0] += 0.9*step
     }
 
     if (mappings.value('left')) {
-      mappings.off('right')
       euler[1] -= step
     } else if (mappings.value('right')) {
-      mappings.off('left')
       euler[1] += step
     }
   })
+}
+
+class KeyboardCommandMappings {
+  constructor(keys = {}, extension = {mapping: {}}) {
+    this.keys = keys
+    this.map = {
+      ...extension.mapping,
+      up: ['up', ...(extension.mapping.up || [])],
+      down: ['down', ...(extension.mapping.down || [])],
+      left: ['left', ...(extension.mapping.left || [])],
+      right: ['right', ...(extension.mapping.right || [])],
+      control: [
+        'right command', 'right control',
+        'left command', 'left control',
+        'control', 'super', 'ctrl', 'alt', 'fn',
+        ...(extension.mapping.control || [])
+      ],
+    }
+  }
+
+  value(which) {
+    return this.map[which].some((key) => Boolean(this.keys[key]))
+  }
 }

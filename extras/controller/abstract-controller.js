@@ -20,7 +20,7 @@ export class AbstractControllerCommand extends Command {
     const zAxisRotation = new Quaternion(...(rotation.z || []))
 
     // controller update function
-    super((_, state, block) => {
+    super((state, block) => {
       if ('function' == typeof state) {
         block = state
         state = {}

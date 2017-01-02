@@ -1,113 +1,5 @@
 window.esdocSearchIndex = [
   [
-    "axis3d/src/symbols.js~$caller",
-    "variable/index.html#static-variable-$caller",
-    "<span>$caller</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$ctx",
-    "variable/index.html#static-variable-$ctx",
-    "<span>$ctx</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$domelement",
-    "variable/index.html#static-variable-$domElement",
-    "<span>$domElement</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$hasfocus",
-    "variable/index.html#static-variable-$hasFocus",
-    "<span>$hasFocus</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$isdestroyed",
-    "variable/index.html#static-variable-$isDestroyed",
-    "<span>$isDestroyed</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$ref",
-    "variable/index.html#static-variable-$ref",
-    "<span>$ref</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$regl",
-    "variable/index.html#static-variable-$regl",
-    "<span>$regl</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$reglcontext",
-    "variable/index.html#static-variable-$reglContext",
-    "<span>$reglContext</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$run",
-    "variable/index.html#static-variable-$run",
-    "<span>$run</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$scope",
-    "variable/index.html#static-variable-$scope",
-    "<span>$scope</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$stack",
-    "variable/index.html#static-variable-$stack",
-    "<span>$stack</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/symbols.js~$state",
-    "variable/index.html#static-variable-$state",
-    "<span>$state</span> <span class=\"search-result-import-path\">axis3d/src/symbols.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/controller/abstract-controller.js~abstractcontrollercommand",
-    "class/src/controller/abstract-controller.js~AbstractControllerCommand.html",
-    "<span>AbstractControllerCommand</span> <span class=\"search-result-import-path\">axis3d/src/controller/abstract-controller.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/light/ambient.js~ambientlightcommand",
-    "class/src/light/ambient.js~AmbientLightCommand.html",
-    "<span>AmbientLightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/ambient.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/light/directional.js~ambientlightcommand",
-    "class/src/light/directional.js~AmbientLightCommand.html",
-    "<span>AmbientLightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/directional.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/controller/ambisonic-audio/index.js~ambisonicaudiocontrollercommand",
-    "class/src/controller/ambisonic-audio/index.js~AmbisonicAudioControllerCommand.html",
-    "<span>AmbisonicAudioControllerCommand</span> <span class=\"search-result-import-path\">axis3d/src/controller/ambisonic-audio/index.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/media/audio.js~audiocommand",
-    "class/src/media/audio.js~AudioCommand.html",
-    "<span>AudioCommand</span> <span class=\"search-result-import-path\">axis3d/src/media/audio.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/mesh/box.js~boxcommand",
-    "class/src/mesh/box.js~BoxCommand.html",
-    "<span>BoxCommand</span> <span class=\"search-result-import-path\">axis3d/src/mesh/box.js</span>",
-    "class"
-  ],
-  [
     "axis3d/src/geometry/box.js~boxgeometry",
     "class/src/geometry/box.js~BoxGeometry.html",
     "<span>BoxGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/box.js</span>",
@@ -120,21 +12,9 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "axis3d/src/backgrounds/color.js~colorbackgroundcommand",
-    "class/src/backgrounds/color.js~ColorBackgroundCommand.html",
-    "<span>ColorBackgroundCommand</span> <span class=\"search-result-import-path\">axis3d/src/backgrounds/color.js</span>",
-    "class"
-  ],
-  [
     "axis3d/src/command.js~command",
     "class/src/command.js~Command.html",
     "<span>Command</span> <span class=\"search-result-import-path\">axis3d/src/command.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/command.js~commandcontext",
-    "class/src/command.js~CommandContext.html",
-    "<span>CommandContext</span> <span class=\"search-result-import-path\">axis3d/src/command.js</span>",
     "class"
   ],
   [
@@ -168,51 +48,15 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "axis3d/src/backgrounds/color.js~default_color",
-    "variable/index.html#static-variable-DEFAULT_COLOR",
-    "<span>DEFAULT_COLOR</span> <span class=\"search-result-import-path\">axis3d/src/backgrounds/color.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/backgrounds/vignette.js~default_color",
-    "variable/index.html#static-variable-DEFAULT_COLOR",
-    "<span>DEFAULT_COLOR</span> <span class=\"search-result-import-path\">axis3d/src/backgrounds/vignette.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/mesh/mesh.js~default_fragment_shader",
-    "variable/index.html#static-variable-DEFAULT_FRAGMENT_SHADER",
-    "<span>DEFAULT_FRAGMENT_SHADER</span> <span class=\"search-result-import-path\">axis3d/src/mesh/mesh.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/controller/orbit-camera/index.js~default_friction",
-    "variable/index.html#static-variable-DEFAULT_FRICTION",
-    "<span>DEFAULT_FRICTION</span> <span class=\"search-result-import-path\">axis3d/src/controller/orbit-camera/index.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/mesh/mesh.js~default_vertex_shader",
-    "variable/index.html#static-variable-DEFAULT_VERTEX_SHADER",
-    "<span>DEFAULT_VERTEX_SHADER</span> <span class=\"search-result-import-path\">axis3d/src/mesh/mesh.js</span>",
-    "variable"
+    "axis3d/src/math/euler.js~euler",
+    "class/src/math/euler.js~Euler.html",
+    "<span>Euler</span> <span class=\"search-result-import-path\">axis3d/src/math/euler.js</span>",
+    "class"
   ],
   [
     "axis3d/src/frame.js~framecommand",
     "class/src/frame.js~FrameCommand.html",
     "<span>FrameCommand</span> <span class=\"search-result-import-path\">axis3d/src/frame.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/extra/fullscreen.js~fullscreencommand",
-    "class/src/extra/fullscreen.js~FullscreenCommand.html",
-    "<span>FullscreenCommand</span> <span class=\"search-result-import-path\">axis3d/src/extra/fullscreen.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/gbuffer.js~gbuffercomand",
-    "class/src/gbuffer.js~GBufferComand.html",
-    "<span>GBufferComand</span> <span class=\"search-result-import-path\">axis3d/src/gbuffer.js</span>",
     "class"
   ],
   [
@@ -222,57 +66,45 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "axis3d/src/media/image.js~imagecommand",
-    "class/src/media/image.js~ImageCommand.html",
-    "<span>ImageCommand</span> <span class=\"search-result-import-path\">axis3d/src/media/image.js</span>",
+    "axis3d/src/geometry_buffer.js~geometrybuffercomand",
+    "class/src/geometry_buffer.js~GeometryBufferComand.html",
+    "<span>GeometryBufferComand</span> <span class=\"search-result-import-path\">axis3d/src/geometry_buffer.js</span>",
     "class"
   ],
   [
-    "axis3d/src/input/keyboard.js~keyboardcommand",
-    "class/src/input/keyboard.js~KeyboardCommand.html",
-    "<span>KeyboardCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/keyboard.js</span>",
+    "axis3d/src/input/keyboard.js~keyboardinputcommand",
+    "class/src/input/keyboard.js~KeyboardInputCommand.html",
+    "<span>KeyboardInputCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/keyboard.js</span>",
     "class"
   ],
   [
-    "axis3d/src/media/media.js~mediacommand",
-    "class/src/media/media.js~MediaCommand.html",
-    "<span>MediaCommand</span> <span class=\"search-result-import-path\">axis3d/src/media/media.js</span>",
+    "axis3d/src/material.js~materialcommand",
+    "class/src/material.js~MaterialCommand.html",
+    "<span>MaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material.js</span>",
     "class"
   ],
   [
-    "axis3d/src/mesh/mesh.js~meshcommand",
-    "class/src/mesh/mesh.js~MeshCommand.html",
-    "<span>MeshCommand</span> <span class=\"search-result-import-path\">axis3d/src/mesh/mesh.js</span>",
+    "axis3d/src/mesh.js~meshcommand",
+    "class/src/mesh.js~MeshCommand.html",
+    "<span>MeshCommand</span> <span class=\"search-result-import-path\">axis3d/src/mesh.js</span>",
     "class"
   ],
   [
-    "axis3d/src/input/mouse.js~mousecommand",
-    "class/src/input/mouse.js~MouseCommand.html",
-    "<span>MouseCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/mouse.js</span>",
+    "axis3d/src/input/mouse.js~mouseinputcommand",
+    "class/src/input/mouse.js~MouseInputCommand.html",
+    "<span>MouseInputCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/mouse.js</span>",
     "class"
   ],
   [
-    "axis3d/src/object.js~object3dcommand",
-    "class/src/object.js~Object3DCommand.html",
-    "<span>Object3DCommand</span> <span class=\"search-result-import-path\">axis3d/src/object.js</span>",
+    "axis3d/src/object3d.js~object3dcommand",
+    "class/src/object3d.js~Object3DCommand.html",
+    "<span>Object3DCommand</span> <span class=\"search-result-import-path\">axis3d/src/object3d.js</span>",
     "class"
   ],
   [
-    "axis3d/src/controller/orbit-camera/index.js~orbitcameracontroller",
-    "class/src/controller/orbit-camera/index.js~OrbitCameraController.html",
-    "<span>OrbitCameraController</span> <span class=\"search-result-import-path\">axis3d/src/controller/orbit-camera/index.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/input/orientation.js~orientationcommand",
-    "class/src/input/orientation.js~OrientationCommand.html",
-    "<span>OrientationCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/orientation.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/mesh/plane.js~planecommand",
-    "class/src/mesh/plane.js~PlaneCommand.html",
-    "<span>PlaneCommand</span> <span class=\"search-result-import-path\">axis3d/src/mesh/plane.js</span>",
+    "axis3d/src/input/orientation.js~orientationinputcommand",
+    "class/src/input/orientation.js~OrientationInputCommand.html",
+    "<span>OrientationInputCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/orientation.js</span>",
     "class"
   ],
   [
@@ -288,27 +120,27 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "axis3d/src/mesh/sphere.js~spherecommand",
-    "class/src/mesh/sphere.js~SphereCommand.html",
-    "<span>SphereCommand</span> <span class=\"search-result-import-path\">axis3d/src/mesh/sphere.js</span>",
-    "class"
-  ],
-  [
     "axis3d/src/geometry/sphere.js~spheregeometry",
     "class/src/geometry/sphere.js~SphereGeometry.html",
     "<span>SphereGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/sphere.js</span>",
     "class"
   ],
   [
-    "axis3d/src/input/touch.js~touchcommand",
-    "class/src/input/touch.js~TouchCommand.html",
-    "<span>TouchCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/touch.js</span>",
+    "axis3d/src/stats.js~stat",
+    "class/src/stats.js~Stat.html",
+    "<span>Stat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
     "class"
   ],
   [
-    "axis3d/src/mesh/triangle.js~trianglecommand",
-    "class/src/mesh/triangle.js~TriangleCommand.html",
-    "<span>TriangleCommand</span> <span class=\"search-result-import-path\">axis3d/src/mesh/triangle.js</span>",
+    "axis3d/src/texture.js~texturecommand",
+    "class/src/texture.js~TextureCommand.html",
+    "<span>TextureCommand</span> <span class=\"search-result-import-path\">axis3d/src/texture.js</span>",
+    "class"
+  ],
+  [
+    "axis3d/src/input/touch.js~touchinputcommand",
+    "class/src/input/touch.js~TouchInputCommand.html",
+    "<span>TouchInputCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/touch.js</span>",
     "class"
   ],
   [
@@ -321,18 +153,6 @@ window.esdocSearchIndex = [
     "axis3d/src/math/vector.js~vector",
     "class/src/math/vector.js~Vector.html",
     "<span>Vector</span> <span class=\"search-result-import-path\">axis3d/src/math/vector.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/media/video.js~videocommand",
-    "class/src/media/video.js~VideoCommand.html",
-    "<span>VideoCommand</span> <span class=\"search-result-import-path\">axis3d/src/media/video.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/backgrounds/vignette.js~vignettebackgroundcommand",
-    "class/src/backgrounds/vignette.js~VignetteBackgroundCommand.html",
-    "<span>VignetteBackgroundCommand</span> <span class=\"search-result-import-path\">axis3d/src/backgrounds/vignette.js</span>",
     "class"
   ],
   [
@@ -360,16 +180,40 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "axis3d/src/math/quaternion.js~computeeuler",
+    "function/index.html#static-function-computeEuler",
+    "<span>computeEuler</span> <span class=\"search-result-import-path\">axis3d/src/math/quaternion.js</span>",
+    "function"
+  ],
+  [
+    "axis3d/src/math/euler.js~computequaternion",
+    "function/index.html#static-function-computeQuaternion",
+    "<span>computeQuaternion</span> <span class=\"search-result-import-path\">axis3d/src/math/euler.js</span>",
+    "function"
+  ],
+  [
     "axis3d/src/utils.js~createcanvas",
     "variable/index.html#static-variable-createCanvas",
     "<span>createCanvas</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
     "variable"
   ],
   [
+    "axis3d/src/stats.js~createstatlist",
+    "function/index.html#static-function-createStatList",
+    "<span>createStatList</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "function"
+  ],
+  [
     "axis3d/src/utils.js~debug",
     "variable/index.html#static-variable-debug",
     "<span>debug</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
     "variable"
+  ],
+  [
+    "axis3d/src/stats.js~decrementstat",
+    "function/index.html#static-function-decrementStat",
+    "<span>decrementStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "function"
   ],
   [
     "axis3d/src/context.js~defaults",
@@ -388,6 +232,18 @@ window.esdocSearchIndex = [
     "variable/index.html#static-variable-getScreenOrientation",
     "<span>getScreenOrientation</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
     "variable"
+  ],
+  [
+    "axis3d/src/stats.js~headstat",
+    "function/index.html#static-function-headStat",
+    "<span>headStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "function"
+  ],
+  [
+    "axis3d/src/stats.js~incrementstat",
+    "function/index.html#static-function-incrementStat",
+    "<span>incrementStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "function"
   ],
   [
     "axis3d/src/utils.js~isdomelementinviewport",
@@ -420,10 +276,34 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "axis3d/src/stats.js~registerstat",
+    "function/index.html#static-function-registerStat",
+    "<span>registerStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "function"
+  ],
+  [
+    "axis3d/src/stats.js~resetstat",
+    "function/index.html#static-function-resetStat",
+    "<span>resetStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "function"
+  ],
+  [
     "axis3d/src/utils.js~scalewithcanvas",
     "variable/index.html#static-variable-scaleWithCanvas",
     "<span>scaleWithCanvas</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
     "variable"
+  ],
+  [
+    "axis3d/src/stats.js~stats",
+    "variable/index.html#static-variable-stats",
+    "<span>stats</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/stats.js~tailstat",
+    "function/index.html#static-function-tailStat",
+    "<span>tailStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "function"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~array",
@@ -756,36 +636,6 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "src/backgrounds/color.js",
-    "file/src/backgrounds/color.js.html",
-    "src/backgrounds/color.js",
-    "file"
-  ],
-  [
-    "src/backgrounds/color.js~colorbackgroundcommand#constructor",
-    "class/src/backgrounds/color.js~ColorBackgroundCommand.html#instance-constructor-constructor",
-    "src/backgrounds/color.js~ColorBackgroundCommand#constructor",
-    "method"
-  ],
-  [
-    "src/backgrounds/image.js",
-    "file/src/backgrounds/image.js.html",
-    "src/backgrounds/image.js",
-    "file"
-  ],
-  [
-    "src/backgrounds/vignette.js",
-    "file/src/backgrounds/vignette.js.html",
-    "src/backgrounds/vignette.js",
-    "file"
-  ],
-  [
-    "src/backgrounds/vignette.js~vignettebackgroundcommand#constructor",
-    "class/src/backgrounds/vignette.js~VignetteBackgroundCommand.html#instance-constructor-constructor",
-    "src/backgrounds/vignette.js~VignetteBackgroundCommand#constructor",
-    "method"
-  ],
-  [
     "src/camera.js",
     "file/src/camera.js.html",
     "src/camera.js",
@@ -808,24 +658,6 @@ window.esdocSearchIndex = [
     "class/src/command.js~Command.html#instance-constructor-constructor",
     "src/command.js~Command#constructor",
     "method"
-  ],
-  [
-    "src/command.js~command.codegen",
-    "class/src/command.js~Command.html#static-method-codegen",
-    "src/command.js~Command.codegen",
-    "method"
-  ],
-  [
-    "src/command.js~commandcontext#constructor",
-    "class/src/command.js~CommandContext.html#instance-constructor-constructor",
-    "src/command.js~CommandContext#constructor",
-    "method"
-  ],
-  [
-    "src/command.js~commandcontext#ref",
-    "class/src/command.js~CommandContext.html#instance-get-ref",
-    "src/command.js~CommandContext#ref",
-    "member"
   ],
   [
     "src/context.js",
@@ -936,84 +768,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/controller/abstract-controller.js",
-    "file/src/controller/abstract-controller.js.html",
-    "src/controller/abstract-controller.js",
-    "file"
-  ],
-  [
-    "src/controller/abstract-controller.js~abstractcontrollercommand#constructor",
-    "class/src/controller/abstract-controller.js~AbstractControllerCommand.html#instance-constructor-constructor",
-    "src/controller/abstract-controller.js~AbstractControllerCommand#constructor",
-    "method"
-  ],
-  [
-    "src/controller/ambisonic-audio/index.js",
-    "file/src/controller/ambisonic-audio/index.js.html",
-    "src/controller/ambisonic-audio/index.js",
-    "file"
-  ],
-  [
-    "src/controller/ambisonic-audio/index.js~ambisonicaudiocontrollercommand#constructor",
-    "class/src/controller/ambisonic-audio/index.js~AmbisonicAudioControllerCommand.html#instance-constructor-constructor",
-    "src/controller/ambisonic-audio/index.js~AmbisonicAudioControllerCommand#constructor",
-    "method"
-  ],
-  [
-    "src/controller/index.js",
-    "file/src/controller/index.js.html",
-    "src/controller/index.js",
-    "file"
-  ],
-  [
-    "src/controller/orbit-camera/index.js",
-    "file/src/controller/orbit-camera/index.js.html",
-    "src/controller/orbit-camera/index.js",
-    "file"
-  ],
-  [
-    "src/controller/orbit-camera/index.js~orbitcameracontroller#constructor",
-    "class/src/controller/orbit-camera/index.js~OrbitCameraController.html#instance-constructor-constructor",
-    "src/controller/orbit-camera/index.js~OrbitCameraController#constructor",
-    "method"
-  ],
-  [
-    "src/controller/orbit-camera/keyboard.js",
-    "file/src/controller/orbit-camera/keyboard.js.html",
-    "src/controller/orbit-camera/keyboard.js",
-    "file"
-  ],
-  [
-    "src/controller/orbit-camera/mouse.js",
-    "file/src/controller/orbit-camera/mouse.js.html",
-    "src/controller/orbit-camera/mouse.js",
-    "file"
-  ],
-  [
-    "src/controller/orbit-camera/orientation.js",
-    "file/src/controller/orbit-camera/orientation.js.html",
-    "src/controller/orbit-camera/orientation.js",
-    "file"
-  ],
-  [
-    "src/controller/orbit-camera/touch.js",
-    "file/src/controller/orbit-camera/touch.js.html",
-    "src/controller/orbit-camera/touch.js",
-    "file"
-  ],
-  [
-    "src/extra/fullscreen.js",
-    "file/src/extra/fullscreen.js.html",
-    "src/extra/fullscreen.js",
-    "file"
-  ],
-  [
-    "src/extra/fullscreen.js~fullscreencommand#constructor",
-    "class/src/extra/fullscreen.js~FullscreenCommand.html#instance-constructor-constructor",
-    "src/extra/fullscreen.js~FullscreenCommand#constructor",
-    "method"
-  ],
-  [
     "src/frame.js",
     "file/src/frame.js.html",
     "src/frame.js",
@@ -1026,18 +780,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/gbuffer.js",
-    "file/src/gbuffer.js.html",
-    "src/gbuffer.js",
-    "file"
-  ],
-  [
-    "src/gbuffer.js~gbuffercomand#constructor",
-    "class/src/gbuffer.js~GBufferComand.html#instance-constructor-constructor",
-    "src/gbuffer.js~GBufferComand#constructor",
-    "method"
-  ],
-  [
     "src/geometry/box.js",
     "file/src/geometry/box.js.html",
     "src/geometry/box.js",
@@ -1047,18 +789,6 @@ window.esdocSearchIndex = [
     "src/geometry/box.js~boxgeometry#constructor",
     "class/src/geometry/box.js~BoxGeometry.html#instance-constructor-constructor",
     "src/geometry/box.js~BoxGeometry#constructor",
-    "method"
-  ],
-  [
-    "src/geometry/box.js~boxgeometry#primitive",
-    "class/src/geometry/box.js~BoxGeometry.html#instance-member-primitive",
-    "src/geometry/box.js~BoxGeometry#primitive",
-    "member"
-  ],
-  [
-    "src/geometry/box.js~boxgeometry#update",
-    "class/src/geometry/box.js~BoxGeometry.html#instance-method-update",
-    "src/geometry/box.js~BoxGeometry#update",
     "method"
   ],
   [
@@ -1080,6 +810,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/geometry/geometry.js~geometry#complex",
+    "class/src/geometry/geometry.js~Geometry.html#instance-member-complex",
+    "src/geometry/geometry.js~Geometry#complex",
+    "member"
+  ],
+  [
     "src/geometry/geometry.js~geometry#constructor",
     "class/src/geometry/geometry.js~Geometry.html#instance-constructor-constructor",
     "src/geometry/geometry.js~Geometry#constructor",
@@ -1096,18 +832,6 @@ window.esdocSearchIndex = [
     "class/src/geometry/geometry.js~Geometry.html#instance-get-positions",
     "src/geometry/geometry.js~Geometry#positions",
     "member"
-  ],
-  [
-    "src/geometry/geometry.js~geometry#primitive",
-    "class/src/geometry/geometry.js~Geometry.html#instance-member-primitive",
-    "src/geometry/geometry.js~Geometry#primitive",
-    "member"
-  ],
-  [
-    "src/geometry/geometry.js~geometry#update",
-    "class/src/geometry/geometry.js~Geometry.html#instance-method-update",
-    "src/geometry/geometry.js~Geometry#update",
-    "method"
   ],
   [
     "src/geometry/geometry.js~geometry#uvs",
@@ -1140,18 +864,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/geometry/plane.js~planegeometry#primitive",
-    "class/src/geometry/plane.js~PlaneGeometry.html#instance-member-primitive",
-    "src/geometry/plane.js~PlaneGeometry#primitive",
-    "member"
-  ],
-  [
-    "src/geometry/plane.js~planegeometry#update",
-    "class/src/geometry/plane.js~PlaneGeometry.html#instance-method-update",
-    "src/geometry/plane.js~PlaneGeometry#update",
-    "method"
-  ],
-  [
     "src/geometry/sphere.js",
     "file/src/geometry/sphere.js.html",
     "src/geometry/sphere.js",
@@ -1161,18 +873,6 @@ window.esdocSearchIndex = [
     "src/geometry/sphere.js~spheregeometry#constructor",
     "class/src/geometry/sphere.js~SphereGeometry.html#instance-constructor-constructor",
     "src/geometry/sphere.js~SphereGeometry#constructor",
-    "method"
-  ],
-  [
-    "src/geometry/sphere.js~spheregeometry#primitive",
-    "class/src/geometry/sphere.js~SphereGeometry.html#instance-member-primitive",
-    "src/geometry/sphere.js~SphereGeometry#primitive",
-    "member"
-  ],
-  [
-    "src/geometry/sphere.js~spheregeometry#update",
-    "class/src/geometry/sphere.js~SphereGeometry.html#instance-method-update",
-    "src/geometry/sphere.js~SphereGeometry#update",
     "method"
   ],
   [
@@ -1194,6 +894,18 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/geometry_buffer.js",
+    "file/src/geometry_buffer.js.html",
+    "src/geometry_buffer.js",
+    "file"
+  ],
+  [
+    "src/geometry_buffer.js~geometrybuffercomand#constructor",
+    "class/src/geometry_buffer.js~GeometryBufferComand.html#instance-constructor-constructor",
+    "src/geometry_buffer.js~GeometryBufferComand#constructor",
+    "method"
+  ],
+  [
     "src/index.js",
     "file/src/index.js.html",
     "src/index.js",
@@ -1212,9 +924,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/input/keyboard.js~keyboardcommand#constructor",
-    "class/src/input/keyboard.js~KeyboardCommand.html#instance-constructor-constructor",
-    "src/input/keyboard.js~KeyboardCommand#constructor",
+    "src/input/keyboard.js~keyboardinputcommand#constructor",
+    "class/src/input/keyboard.js~KeyboardInputCommand.html#instance-constructor-constructor",
+    "src/input/keyboard.js~KeyboardInputCommand#constructor",
     "method"
   ],
   [
@@ -1224,9 +936,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/input/mouse.js~mousecommand#constructor",
-    "class/src/input/mouse.js~MouseCommand.html#instance-constructor-constructor",
-    "src/input/mouse.js~MouseCommand#constructor",
+    "src/input/mouse.js~mouseinputcommand#constructor",
+    "class/src/input/mouse.js~MouseInputCommand.html#instance-constructor-constructor",
+    "src/input/mouse.js~MouseInputCommand#constructor",
     "method"
   ],
   [
@@ -1236,9 +948,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/input/orientation.js~orientationcommand#constructor",
-    "class/src/input/orientation.js~OrientationCommand.html#instance-constructor-constructor",
-    "src/input/orientation.js~OrientationCommand#constructor",
+    "src/input/orientation.js~orientationinputcommand#constructor",
+    "class/src/input/orientation.js~OrientationInputCommand.html#instance-constructor-constructor",
+    "src/input/orientation.js~OrientationInputCommand#constructor",
     "method"
   ],
   [
@@ -1248,34 +960,40 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/input/touch.js~touchcommand#constructor",
-    "class/src/input/touch.js~TouchCommand.html#instance-constructor-constructor",
-    "src/input/touch.js~TouchCommand#constructor",
+    "src/input/touch.js~touchinputcommand#constructor",
+    "class/src/input/touch.js~TouchInputCommand.html#instance-constructor-constructor",
+    "src/input/touch.js~TouchInputCommand#constructor",
     "method"
   ],
   [
-    "src/light/ambient.js",
-    "file/src/light/ambient.js.html",
-    "src/light/ambient.js",
+    "src/material.js",
+    "file/src/material.js.html",
+    "src/material.js",
     "file"
   ],
   [
-    "src/light/ambient.js~ambientlightcommand#constructor",
-    "class/src/light/ambient.js~AmbientLightCommand.html#instance-constructor-constructor",
-    "src/light/ambient.js~AmbientLightCommand#constructor",
+    "src/material.js~materialcommand#constructor",
+    "class/src/material.js~MaterialCommand.html#instance-constructor-constructor",
+    "src/material.js~MaterialCommand#constructor",
     "method"
   ],
   [
-    "src/light/directional.js",
-    "file/src/light/directional.js.html",
-    "src/light/directional.js",
+    "src/math/euler.js",
+    "file/src/math/euler.js.html",
+    "src/math/euler.js",
     "file"
   ],
   [
-    "src/light/directional.js~ambientlightcommand#constructor",
-    "class/src/light/directional.js~AmbientLightCommand.html#instance-constructor-constructor",
-    "src/light/directional.js~AmbientLightCommand#constructor",
+    "src/math/euler.js~euler#constructor",
+    "class/src/math/euler.js~Euler.html#instance-constructor-constructor",
+    "src/math/euler.js~Euler#constructor",
     "method"
+  ],
+  [
+    "src/math/euler.js~euler#order",
+    "class/src/math/euler.js~Euler.html#instance-member-order",
+    "src/math/euler.js~Euler#order",
+    "member"
   ],
   [
     "src/math/index.js",
@@ -1293,18 +1011,6 @@ window.esdocSearchIndex = [
     "src/math/quaternion.js~quaternion#constructor",
     "class/src/math/quaternion.js~Quaternion.html#instance-constructor-constructor",
     "src/math/quaternion.js~Quaternion#constructor",
-    "method"
-  ],
-  [
-    "src/math/quaternion.js~quaternion.slerptargetfromaxisangles",
-    "class/src/math/quaternion.js~Quaternion.html#static-method-slerpTargetFromAxisAngles",
-    "src/math/quaternion.js~Quaternion.slerpTargetFromAxisAngles",
-    "method"
-  ],
-  [
-    "src/math/quaternion.js~quaternion.sloppyslerptargetfromaxisangles",
-    "class/src/math/quaternion.js~Quaternion.html#static-method-sloppySlerpTargetFromAxisAngles",
-    "src/math/quaternion.js~Quaternion.sloppySlerpTargetFromAxisAngles",
     "method"
   ],
   [
@@ -1368,298 +1074,76 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/media/audio.js",
-    "file/src/media/audio.js.html",
-    "src/media/audio.js",
+    "src/mesh.js",
+    "file/src/mesh.js.html",
+    "src/mesh.js",
     "file"
   ],
   [
-    "src/media/audio.js~audiocommand#constructor",
-    "class/src/media/audio.js~AudioCommand.html#instance-constructor-constructor",
-    "src/media/audio.js~AudioCommand#constructor",
+    "src/mesh.js~meshcommand#constructor",
+    "class/src/mesh.js~MeshCommand.html#instance-constructor-constructor",
+    "src/mesh.js~MeshCommand#constructor",
     "method"
   ],
   [
-    "src/media/audio.js~audiocommand#mute",
-    "class/src/media/audio.js~AudioCommand.html#instance-member-mute",
-    "src/media/audio.js~AudioCommand#mute",
-    "member"
-  ],
-  [
-    "src/media/audio.js~audiocommand#onloaded",
-    "class/src/media/audio.js~AudioCommand.html#instance-member-onloaded",
-    "src/media/audio.js~AudioCommand#onloaded",
-    "member"
-  ],
-  [
-    "src/media/audio.js~audiocommand#pause",
-    "class/src/media/audio.js~AudioCommand.html#instance-member-pause",
-    "src/media/audio.js~AudioCommand#pause",
-    "member"
-  ],
-  [
-    "src/media/audio.js~audiocommand#play",
-    "class/src/media/audio.js~AudioCommand.html#instance-member-play",
-    "src/media/audio.js~AudioCommand#play",
-    "member"
-  ],
-  [
-    "src/media/audio.js~audiocommand#unmute",
-    "class/src/media/audio.js~AudioCommand.html#instance-member-unmute",
-    "src/media/audio.js~AudioCommand#unmute",
-    "member"
-  ],
-  [
-    "src/media/image.js",
-    "file/src/media/image.js.html",
-    "src/media/image.js",
+    "src/object3d.js",
+    "file/src/object3d.js.html",
+    "src/object3d.js",
     "file"
   ],
   [
-    "src/media/image.js~imagecommand#constructor",
-    "class/src/media/image.js~ImageCommand.html#instance-constructor-constructor",
-    "src/media/image.js~ImageCommand#constructor",
+    "src/object3d.js~object3dcommand#constructor",
+    "class/src/object3d.js~Object3DCommand.html#instance-constructor-constructor",
+    "src/object3d.js~Object3DCommand#constructor",
     "method"
   ],
   [
-    "src/media/image.js~imagecommand#onloaded",
-    "class/src/media/image.js~ImageCommand.html#instance-member-onloaded",
-    "src/media/image.js~ImageCommand#onloaded",
-    "member"
-  ],
-  [
-    "src/media/image.js~imagecommand#refresh",
-    "class/src/media/image.js~ImageCommand.html#instance-member-refresh",
-    "src/media/image.js~ImageCommand#refresh",
-    "member"
-  ],
-  [
-    "src/media/image.js~imagecommand#type",
-    "class/src/media/image.js~ImageCommand.html#instance-member-type",
-    "src/media/image.js~ImageCommand#type",
-    "member"
-  ],
-  [
-    "src/media/index.js",
-    "file/src/media/index.js.html",
-    "src/media/index.js",
-    "file"
-  ],
-  [
-    "src/media/media.js",
-    "file/src/media/media.js.html",
-    "src/media/media.js",
-    "file"
-  ],
-  [
-    "src/media/media.js~mediacommand#cancel",
-    "class/src/media/media.js~MediaCommand.html#instance-member-cancel",
-    "src/media/media.js~MediaCommand#cancel",
-    "member"
-  ],
-  [
-    "src/media/media.js~mediacommand#constructor",
-    "class/src/media/media.js~MediaCommand.html#instance-constructor-constructor",
-    "src/media/media.js~MediaCommand#constructor",
+    "src/object3d.js~object3dcommand.id",
+    "class/src/object3d.js~Object3DCommand.html#static-method-id",
+    "src/object3d.js~Object3DCommand.id",
     "method"
   ],
   [
-    "src/media/media.js~mediacommand#load",
-    "class/src/media/media.js~MediaCommand.html#instance-member-load",
-    "src/media/media.js~MediaCommand#load",
-    "member"
-  ],
-  [
-    "src/media/media.js~mediacommand#read",
-    "class/src/media/media.js~MediaCommand.html#instance-member-read",
-    "src/media/media.js~MediaCommand#read",
-    "member"
-  ],
-  [
-    "src/media/media.js~mediacommand#reload",
-    "class/src/media/media.js~MediaCommand.html#instance-member-reload",
-    "src/media/media.js~MediaCommand#reload",
-    "member"
-  ],
-  [
-    "src/media/media.js~mediacommand#reset",
-    "class/src/media/media.js~MediaCommand.html#instance-member-reset",
-    "src/media/media.js~MediaCommand#reset",
-    "member"
-  ],
-  [
-    "src/media/media.js~mediacommand#settimeout",
-    "class/src/media/media.js~MediaCommand.html#instance-member-setTimeout",
-    "src/media/media.js~MediaCommand#setTimeout",
-    "member"
-  ],
-  [
-    "src/media/media.js~mediacommand#update",
-    "class/src/media/media.js~MediaCommand.html#instance-member-update",
-    "src/media/media.js~MediaCommand#update",
-    "member"
-  ],
-  [
-    "src/media/microphone.js",
-    "file/src/media/microphone.js.html",
-    "src/media/microphone.js",
+    "src/stats.js",
+    "file/src/stats.js.html",
+    "src/stats.js",
     "file"
   ],
   [
-    "src/media/video.js",
-    "file/src/media/video.js.html",
-    "src/media/video.js",
-    "file"
-  ],
-  [
-    "src/media/video.js~videocommand#constructor",
-    "class/src/media/video.js~VideoCommand.html#instance-constructor-constructor",
-    "src/media/video.js~VideoCommand#constructor",
+    "src/stats.js~stat#constructor",
+    "class/src/stats.js~Stat.html#instance-constructor-constructor",
+    "src/stats.js~Stat#constructor",
     "method"
   ],
   [
-    "src/media/video.js~videocommand#mute",
-    "class/src/media/video.js~VideoCommand.html#instance-member-mute",
-    "src/media/video.js~VideoCommand#mute",
+    "src/stats.js~stat#info",
+    "class/src/stats.js~Stat.html#instance-member-info",
+    "src/stats.js~Stat#info",
     "member"
   ],
   [
-    "src/media/video.js~videocommand#onloaded",
-    "class/src/media/video.js~VideoCommand.html#instance-member-onloaded",
-    "src/media/video.js~VideoCommand#onloaded",
+    "src/stats.js~stat#name",
+    "class/src/stats.js~Stat.html#instance-member-name",
+    "src/stats.js~Stat#name",
     "member"
   ],
   [
-    "src/media/video.js~videocommand#pause",
-    "class/src/media/video.js~VideoCommand.html#instance-member-pause",
-    "src/media/video.js~VideoCommand#pause",
+    "src/stats.js~stat#timestamp",
+    "class/src/stats.js~Stat.html#instance-member-timestamp",
+    "src/stats.js~Stat#timestamp",
     "member"
   ],
   [
-    "src/media/video.js~videocommand#play",
-    "class/src/media/video.js~VideoCommand.html#instance-member-play",
-    "src/media/video.js~VideoCommand#play",
-    "member"
-  ],
-  [
-    "src/media/video.js~videocommand#poster",
-    "class/src/media/video.js~VideoCommand.html#instance-member-poster",
-    "src/media/video.js~VideoCommand#poster",
-    "member"
-  ],
-  [
-    "src/media/video.js~videocommand#reload",
-    "class/src/media/video.js~VideoCommand.html#instance-member-reload",
-    "src/media/video.js~VideoCommand#reload",
-    "member"
-  ],
-  [
-    "src/media/video.js~videocommand#unmute",
-    "class/src/media/video.js~VideoCommand.html#instance-member-unmute",
-    "src/media/video.js~VideoCommand#unmute",
-    "member"
-  ],
-  [
-    "src/mesh/box.js",
-    "file/src/mesh/box.js.html",
-    "src/mesh/box.js",
+    "src/texture.js",
+    "file/src/texture.js.html",
+    "src/texture.js",
     "file"
   ],
   [
-    "src/mesh/box.js~boxcommand#constructor",
-    "class/src/mesh/box.js~BoxCommand.html#instance-constructor-constructor",
-    "src/mesh/box.js~BoxCommand#constructor",
+    "src/texture.js~texturecommand#constructor",
+    "class/src/texture.js~TextureCommand.html#instance-constructor-constructor",
+    "src/texture.js~TextureCommand#constructor",
     "method"
-  ],
-  [
-    "src/mesh/capsule.js",
-    "file/src/mesh/capsule.js.html",
-    "src/mesh/capsule.js",
-    "file"
-  ],
-  [
-    "src/mesh/index.js",
-    "file/src/mesh/index.js.html",
-    "src/mesh/index.js",
-    "file"
-  ],
-  [
-    "src/mesh/mesh.js",
-    "file/src/mesh/mesh.js.html",
-    "src/mesh/mesh.js",
-    "file"
-  ],
-  [
-    "src/mesh/mesh.js~meshcommand#constructor",
-    "class/src/mesh/mesh.js~MeshCommand.html#instance-constructor-constructor",
-    "src/mesh/mesh.js~MeshCommand#constructor",
-    "method"
-  ],
-  [
-    "src/mesh/plane.js",
-    "file/src/mesh/plane.js.html",
-    "src/mesh/plane.js",
-    "file"
-  ],
-  [
-    "src/mesh/plane.js~planecommand#constructor",
-    "class/src/mesh/plane.js~PlaneCommand.html#instance-constructor-constructor",
-    "src/mesh/plane.js~PlaneCommand#constructor",
-    "method"
-  ],
-  [
-    "src/mesh/sphere.js",
-    "file/src/mesh/sphere.js.html",
-    "src/mesh/sphere.js",
-    "file"
-  ],
-  [
-    "src/mesh/sphere.js~spherecommand#constructor",
-    "class/src/mesh/sphere.js~SphereCommand.html#instance-constructor-constructor",
-    "src/mesh/sphere.js~SphereCommand#constructor",
-    "method"
-  ],
-  [
-    "src/mesh/torus.js",
-    "file/src/mesh/torus.js.html",
-    "src/mesh/torus.js",
-    "file"
-  ],
-  [
-    "src/mesh/triangle.js",
-    "file/src/mesh/triangle.js.html",
-    "src/mesh/triangle.js",
-    "file"
-  ],
-  [
-    "src/mesh/triangle.js~trianglecommand#constructor",
-    "class/src/mesh/triangle.js~TriangleCommand.html#instance-constructor-constructor",
-    "src/mesh/triangle.js~TriangleCommand#constructor",
-    "method"
-  ],
-  [
-    "src/object.js",
-    "file/src/object.js.html",
-    "src/object.js",
-    "file"
-  ],
-  [
-    "src/object.js~object3dcommand#constructor",
-    "class/src/object.js~Object3DCommand.html#instance-constructor-constructor",
-    "src/object.js~Object3DCommand#constructor",
-    "method"
-  ],
-  [
-    "src/object.js~object3dcommand.id",
-    "class/src/object.js~Object3DCommand.html#static-method-id",
-    "src/object.js~Object3DCommand.id",
-    "method"
-  ],
-  [
-    "src/symbols.js",
-    "file/src/symbols.js.html",
-    "src/symbols.js",
-    "file"
   ],
   [
     "src/utils.js",

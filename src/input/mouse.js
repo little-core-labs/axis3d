@@ -4,52 +4,31 @@
  * Module dependencies.
  */
 
+import { registerStat } from '../stats'
 import onMouseChange from 'mouse-change'
 import onMouseWheel from 'mouse-wheel'
 import { Command } from '../command'
 import events from 'dom-events'
 import raf from 'raf'
 
-/**
- * Mouse function.
- *
- * @see MouseCommand
- */
+module.exports = exports = (...args) => new MouseInputCommand(...args)
+export class MouseInputCommand extends Command {
+  constructor(ctx, { allowWheel = true } = {}) {
+    registerStat('MouseInput')
 
-module.exports = exports = (...args) => new MouseCommand(...args)
-
-/**
- * MouseCommand class.
- *
- * @public
- * @class MouseCommand
- * @extends Command
- */
-
-export class MouseCommand extends Command {
-
-  /**
-   * MouseCommand class constructor.
-   *
-   * @param {Context} ctx
-   * @param {Object} [opts]
-   */
-
-  constructor(ctx, {
-    allowWheel = true,
-    currentX = 0,
-    currentY = 0,
-    buttons = 0,
-    deltaX = 0,
-    deltaY = 0,
-    prevX = 0,
-    prevY = 0,
-  } = {}) {
     const wheel = {
       currentX: 0, currentY: 0,
       deltaX: 0, deltaY: 0,
       prevX: 0, prevY: 0,
     }
+
+    let currentX = 0
+    let currentY = 0
+    let buttons = 0
+    let deltaX = 0
+    let deltaY = 0
+    let prevX = 0
+    let prevY = 0
 
     ctx.on('blur', () => { buttons = 0 })
 
@@ -91,7 +70,7 @@ export class MouseCommand extends Command {
       }))
     })
 
-    super((_, state, block) => {
+    super((state, block) => {
       if ('function' == typeof state) {
         block = state
         state = {}

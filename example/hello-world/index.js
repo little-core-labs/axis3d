@@ -1,30 +1,32 @@
 'use strict'
 
 import {
-  Triangle,
-  Box
-} from 'axis3d/mesh'
-
-import {
+  Material,
   Context,
   Camera,
   Frame,
-}  from 'axis3d'
+  Mesh,
+} from 'axis3d'
 
+import { BoxGeometry } from 'axis3d/geometry'
+import * as stats from 'axis3d/stats'
 import quat from 'gl-quat'
 
 const ctx = Context()
+
+const rotation = [0, 0, 0, 1]
+const material = Material(ctx)
+const camera = Camera(ctx, {position: [0, 0, 5]})
 const frame = Frame(ctx)
-const camera = Camera(ctx)
-const triangle = Triangle(ctx)
-const box = Box(ctx)
+const angle = [0, 0, 0, 1]
+const box = Mesh(ctx, { geometry: BoxGeometry(ctx) })
 
 frame(({time}) => {
-  camera({
-    rotation: [0, 0, 0, 1],
-    position: [0, 0, 1]
-  }, () => {
-    triangle({color: [0, 0, 1, 1]})
-    box({scale: [0.5, 0.5, 0.5], color: [0, 1, 0, 1]})
+  quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
+  quat.slerp(rotation, rotation, angle, 0.01)
+  camera({rotation}, () => {
+    material({color: [0, 0, 1, 1]}, () => {
+      box({wireframe: true})
+    })
   })
 })

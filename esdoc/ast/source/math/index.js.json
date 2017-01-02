@@ -1,14 +1,14 @@
 {
   "type": "Program",
   "start": 0,
-  "end": 118,
+  "end": 150,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 9,
+      "line": 10,
       "column": 0
     }
   },
@@ -281,6 +281,89 @@
         "value": "./vector",
         "rawValue": "./vector",
         "raw": "'./vector'"
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 118,
+      "end": 149,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 0
+        },
+        "end": {
+          "line": 9,
+          "column": 31
+        }
+      },
+      "declaration": null,
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "start": 127,
+          "end": 132,
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 9
+            },
+            "end": {
+              "line": 9,
+              "column": 14
+            }
+          },
+          "local": {
+            "type": "Identifier",
+            "start": 127,
+            "end": 132,
+            "loc": {
+              "start": {
+                "line": 9,
+                "column": 9
+              },
+              "end": {
+                "line": 9,
+                "column": 14
+              }
+            },
+            "name": "Euler"
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 127,
+            "end": 132,
+            "loc": {
+              "start": {
+                "line": 9,
+                "column": 9
+              },
+              "end": {
+                "line": 9,
+                "column": 14
+              }
+            },
+            "name": "Euler"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 140,
+        "end": 149,
+        "loc": {
+          "start": {
+            "line": 9,
+            "column": 22
+          },
+          "end": {
+            "line": 9,
+            "column": 31
+          }
+        },
+        "value": "./euler",
+        "rawValue": "./euler",
+        "raw": "'./euler'"
       }
     }
   ]

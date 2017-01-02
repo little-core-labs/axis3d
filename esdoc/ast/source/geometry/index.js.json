@@ -1,14 +1,14 @@
 {
   "type": "Program",
   "start": 0,
-  "end": 242,
+  "end": 194,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 12,
+      "line": 8,
       "column": 0
     }
   },
@@ -44,238 +44,68 @@
         },
         "value": "use strict",
         "rawValue": "use strict",
-        "raw": "'use strict'",
-        "leadingComments": null,
-        "trailingComments": null
-      },
-      "trailingComments": [
-        {
-          "type": "Block",
-          "value": "*\n * Module exports.\n ",
-          "start": 14,
-          "end": 40,
-          "loc": {
-            "start": {
-              "line": 3,
-              "column": 0
-            },
-            "end": {
-              "line": 5,
-              "column": 3
-            }
-          },
-          "range": [
-            14,
-            40
-          ]
-        }
-      ]
+        "raw": "'use strict'"
+      }
     },
     {
       "type": "ExportNamedDeclaration",
-      "start": 42,
-      "end": 85,
+      "start": 14,
+      "end": 53,
       "loc": {
         "start": {
-          "line": 7,
+          "line": 3,
           "column": 0
         },
         "end": {
-          "line": 7,
-          "column": 43
+          "line": 3,
+          "column": 39
         }
       },
-      "declaration": null,
       "specifiers": [
         {
-          "type": "ExportSpecifier",
-          "start": 51,
-          "end": 67,
-          "loc": {
-            "start": {
-              "line": 7,
-              "column": 9
-            },
-            "end": {
-              "line": 7,
-              "column": 25
-            }
-          },
-          "local": {
-            "type": "Identifier",
-            "start": 51,
-            "end": 67,
-            "loc": {
-              "start": {
-                "line": 7,
-                "column": 9
-              },
-              "end": {
-                "line": 7,
-                "column": 25
-              }
-            },
-            "name": "TriangleGeometry",
-            "leadingComments": null
-          },
-          "exported": {
-            "type": "Identifier",
-            "start": 51,
-            "end": 67,
-            "loc": {
-              "start": {
-                "line": 7,
-                "column": 9
-              },
-              "end": {
-                "line": 7,
-                "column": 25
-              }
-            },
-            "name": "TriangleGeometry",
-            "leadingComments": [
-              {
-                "type": "Block",
-                "value": "*\n * Module exports.\n ",
-                "start": 14,
-                "end": 40,
-                "loc": {
-                  "start": {
-                    "line": 3,
-                    "column": 0
-                  },
-                  "end": {
-                    "line": 5,
-                    "column": 3
-                  }
-                },
-                "range": [
-                  14,
-                  40
-                ]
-              }
-            ]
-          },
-          "leadingComments": null
-        }
-      ],
-      "source": {
-        "type": "Literal",
-        "start": 75,
-        "end": 85,
-        "loc": {
-          "start": {
-            "line": 7,
-            "column": 33
-          },
-          "end": {
-            "line": 7,
-            "column": 43
-          }
-        },
-        "value": "./sphere",
-        "rawValue": "./sphere",
-        "raw": "'./sphere'"
-      },
-      "leadingComments": [
-        {
-          "type": "Block",
-          "value": "*\n * Module exports.\n ",
-          "start": 14,
-          "end": 40,
+          "type": "Identifier",
+          "start": 21,
+          "end": 37,
           "loc": {
             "start": {
               "line": 3,
-              "column": 0
+              "column": 7
             },
             "end": {
-              "line": 5,
-              "column": 3
-            }
-          },
-          "range": [
-            14,
-            40
-          ]
-        }
-      ]
-    },
-    {
-      "type": "ExportNamedDeclaration",
-      "start": 86,
-      "end": 127,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 0
-        },
-        "end": {
-          "line": 8,
-          "column": 41
-        }
-      },
-      "declaration": null,
-      "specifiers": [
-        {
-          "type": "ExportSpecifier",
-          "start": 95,
-          "end": 109,
-          "loc": {
-            "start": {
-              "line": 8,
-              "column": 9
-            },
-            "end": {
-              "line": 8,
+              "line": 3,
               "column": 23
             }
           },
-          "local": {
-            "type": "Identifier",
-            "start": 95,
-            "end": 109,
-            "loc": {
-              "start": {
-                "line": 8,
-                "column": 9
-              },
-              "end": {
-                "line": 8,
-                "column": 23
-              }
-            },
-            "name": "SphereGeometry"
-          },
           "exported": {
             "type": "Identifier",
-            "start": 95,
-            "end": 109,
+            "start": 21,
+            "end": 37,
             "loc": {
               "start": {
-                "line": 8,
-                "column": 9
+                "line": 3,
+                "column": 7
               },
               "end": {
-                "line": 8,
+                "line": 3,
                 "column": 23
               }
             },
-            "name": "SphereGeometry"
+            "name": "TriangleGeometry"
           }
         }
       ],
       "source": {
         "type": "Literal",
-        "start": 117,
-        "end": 127,
+        "start": 43,
+        "end": 53,
         "loc": {
           "start": {
-            "line": 8,
-            "column": 31
+            "line": 3,
+            "column": 29
           },
           "end": {
-            "line": 8,
-            "column": 41
+            "line": 3,
+            "column": 39
           }
         },
         "value": "./sphere",
@@ -285,62 +115,111 @@
     },
     {
       "type": "ExportNamedDeclaration",
-      "start": 128,
-      "end": 167,
+      "start": 54,
+      "end": 91,
       "loc": {
         "start": {
-          "line": 9,
+          "line": 4,
           "column": 0
         },
         "end": {
-          "line": 9,
-          "column": 39
+          "line": 4,
+          "column": 37
         }
       },
-      "declaration": null,
       "specifiers": [
         {
-          "type": "ExportSpecifier",
-          "start": 137,
-          "end": 150,
+          "type": "Identifier",
+          "start": 61,
+          "end": 75,
           "loc": {
             "start": {
-              "line": 9,
-              "column": 9
+              "line": 4,
+              "column": 7
             },
             "end": {
-              "line": 9,
-              "column": 22
+              "line": 4,
+              "column": 21
             }
-          },
-          "local": {
-            "type": "Identifier",
-            "start": 137,
-            "end": 150,
-            "loc": {
-              "start": {
-                "line": 9,
-                "column": 9
-              },
-              "end": {
-                "line": 9,
-                "column": 22
-              }
-            },
-            "name": "PlaneGeometry"
           },
           "exported": {
             "type": "Identifier",
-            "start": 137,
-            "end": 150,
+            "start": 61,
+            "end": 75,
             "loc": {
               "start": {
-                "line": 9,
-                "column": 9
+                "line": 4,
+                "column": 7
               },
               "end": {
-                "line": 9,
-                "column": 22
+                "line": 4,
+                "column": 21
+              }
+            },
+            "name": "SphereGeometry"
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "start": 81,
+        "end": 91,
+        "loc": {
+          "start": {
+            "line": 4,
+            "column": 27
+          },
+          "end": {
+            "line": 4,
+            "column": 37
+          }
+        },
+        "value": "./sphere",
+        "rawValue": "./sphere",
+        "raw": "'./sphere'"
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "start": 92,
+      "end": 127,
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 35
+        }
+      },
+      "specifiers": [
+        {
+          "type": "Identifier",
+          "start": 99,
+          "end": 112,
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 7
+            },
+            "end": {
+              "line": 5,
+              "column": 20
+            }
+          },
+          "exported": {
+            "type": "Identifier",
+            "start": 99,
+            "end": 112,
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 7
+              },
+              "end": {
+                "line": 5,
+                "column": 20
               }
             },
             "name": "PlaneGeometry"
@@ -349,16 +228,16 @@
       ],
       "source": {
         "type": "Literal",
-        "start": 158,
-        "end": 167,
+        "start": 118,
+        "end": 127,
         "loc": {
           "start": {
-            "line": 9,
-            "column": 30
+            "line": 5,
+            "column": 26
           },
           "end": {
-            "line": 9,
-            "column": 39
+            "line": 5,
+            "column": 35
           }
         },
         "value": "./plane",
@@ -368,62 +247,45 @@
     },
     {
       "type": "ExportNamedDeclaration",
-      "start": 168,
-      "end": 203,
+      "start": 128,
+      "end": 159,
       "loc": {
         "start": {
-          "line": 10,
+          "line": 6,
           "column": 0
         },
         "end": {
-          "line": 10,
-          "column": 35
+          "line": 6,
+          "column": 31
         }
       },
-      "declaration": null,
       "specifiers": [
         {
-          "type": "ExportSpecifier",
-          "start": 177,
-          "end": 188,
+          "type": "Identifier",
+          "start": 135,
+          "end": 146,
           "loc": {
             "start": {
-              "line": 10,
-              "column": 9
+              "line": 6,
+              "column": 7
             },
             "end": {
-              "line": 10,
-              "column": 20
+              "line": 6,
+              "column": 18
             }
-          },
-          "local": {
-            "type": "Identifier",
-            "start": 177,
-            "end": 188,
-            "loc": {
-              "start": {
-                "line": 10,
-                "column": 9
-              },
-              "end": {
-                "line": 10,
-                "column": 20
-              }
-            },
-            "name": "BoxGeometry"
           },
           "exported": {
             "type": "Identifier",
-            "start": 177,
-            "end": 188,
+            "start": 135,
+            "end": 146,
             "loc": {
               "start": {
-                "line": 10,
-                "column": 9
+                "line": 6,
+                "column": 7
               },
               "end": {
-                "line": 10,
-                "column": 20
+                "line": 6,
+                "column": 18
               }
             },
             "name": "BoxGeometry"
@@ -432,16 +294,16 @@
       ],
       "source": {
         "type": "Literal",
-        "start": 196,
-        "end": 203,
+        "start": 152,
+        "end": 159,
         "loc": {
           "start": {
-            "line": 10,
-            "column": 28
+            "line": 6,
+            "column": 24
           },
           "end": {
-            "line": 10,
-            "column": 35
+            "line": 6,
+            "column": 31
           }
         },
         "value": "./box",
@@ -451,62 +313,45 @@
     },
     {
       "type": "ExportNamedDeclaration",
-      "start": 204,
-      "end": 241,
+      "start": 160,
+      "end": 193,
       "loc": {
         "start": {
-          "line": 11,
+          "line": 7,
           "column": 0
         },
         "end": {
-          "line": 11,
-          "column": 37
+          "line": 7,
+          "column": 33
         }
       },
-      "declaration": null,
       "specifiers": [
         {
-          "type": "ExportSpecifier",
-          "start": 213,
-          "end": 221,
+          "type": "Identifier",
+          "start": 167,
+          "end": 175,
           "loc": {
             "start": {
-              "line": 11,
-              "column": 9
+              "line": 7,
+              "column": 7
             },
             "end": {
-              "line": 11,
-              "column": 17
+              "line": 7,
+              "column": 15
             }
-          },
-          "local": {
-            "type": "Identifier",
-            "start": 213,
-            "end": 221,
-            "loc": {
-              "start": {
-                "line": 11,
-                "column": 9
-              },
-              "end": {
-                "line": 11,
-                "column": 17
-              }
-            },
-            "name": "Geometry"
           },
           "exported": {
             "type": "Identifier",
-            "start": 213,
-            "end": 221,
+            "start": 167,
+            "end": 175,
             "loc": {
               "start": {
-                "line": 11,
-                "column": 9
+                "line": 7,
+                "column": 7
               },
               "end": {
-                "line": 11,
-                "column": 17
+                "line": 7,
+                "column": 15
               }
             },
             "name": "Geometry"
@@ -515,16 +360,16 @@
       ],
       "source": {
         "type": "Literal",
-        "start": 229,
-        "end": 241,
+        "start": 181,
+        "end": 193,
         "loc": {
           "start": {
-            "line": 11,
-            "column": 25
+            "line": 7,
+            "column": 21
           },
           "end": {
-            "line": 11,
-            "column": 37
+            "line": 7,
+            "column": 33
           }
         },
         "value": "./geometry",

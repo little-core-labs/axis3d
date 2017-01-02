@@ -1,62 +1,55 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
-
 import {
+  Material,
   Context,
   Camera,
   Frame,
+  Mesh,
 } from 'axis3d'
 
 import {
-  Plane,
-  Mesh
-} from 'axis3d/mesh'
+  OrbitCameraController
+} from '../../extras/controller'
 
-import { OrbitCameraController } from '../../extras/controller'
-import { Geometry } from 'axis3d/geometry'
 import {
-  Orientation,
-  Touch,
-  Mouse,
+  PlaneGeometry
+} from 'axis3d/geometry'
+
+import {
+  OrientationInput,
+  TouchInput,
+  MouseInput,
 } from 'axis3d/input'
 
-import complex from 'bunny'
+import Bunny from 'bunny'
 import quat from 'gl-quat'
-import mat4 from 'gl-mat4'
-import raf from 'raf'
 
 const ctx = Context()
+
+const material = Material(ctx)
+const camera = Camera(ctx, { position: [-5, 12, 18] })
+const bunny = Mesh(ctx, { wireframe: true, geometry: Bunny })
 const frame = Frame(ctx)
-const plane = Plane(ctx, {
+const plane = Mesh(ctx, {
   wireframe: true,
   rotation: quat.setAxisAngle([], [1, 0, 0], Math.PI/2),
-  segments: 16,
-  color: [0.8, 0.8, 1.0, 0.9],
-  size: 10,
+  geometry: PlaneGeometry({ segments: 16, size: 30 })
 })
 
-const draw = Mesh(ctx, {
-  wireframe: true,
-  geometry: new Geometry({complex})
-})
+// inputs
+const orientation = OrientationInput(ctx)
+const mouse = MouseInput(ctx)
+const touch = TouchInput(ctx)
 
+const inputs = { orientation, touch, mouse }
+const orbitCamera = OrbitCameraController(ctx, { camera, inputs })
 
-const orientation =  Orientation(ctx)
-const mouse = Mouse(ctx)
-const touch = Touch(ctx)
-const orbitCamera = OrbitCameraController(ctx, {
-  inputs: {orientation, touch, mouse},
-  camera: Camera(ctx, {
-    position: [-5, 12, 18]
-  }),
-})
-
-frame(({time}) => {
+frame(() => {
   orbitCamera(() => {
-    plane()
-    draw()
+    material({ color: [0.8, 0.8, 1.0, 0.9] }, () => {
+      plane()
+      bunny()
+    })
   })
 })

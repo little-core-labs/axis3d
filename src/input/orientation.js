@@ -5,11 +5,10 @@
  */
 
 import 'webvr-polyfill'
+import { registerStat } from '../stats'
 import { Command } from '../command'
 import events from 'dom-events'
-import clamp from 'clamp'
 import quat from 'gl-quat'
-import vec3 from 'gl-vec3'
 import raf from 'raf'
 
 import { computeQuaternion } from '../math/euler'
@@ -23,9 +22,7 @@ import {
 import {
   getScreenOrientation,
   radians,
-  define,
 } from '../utils'
-
 
 // VRFRameData
 const vrFrameData = new VRFrameData()
@@ -38,9 +35,7 @@ navigator.getVRDisplays()
   console.error(err.stack || err)
 })
 
-//
 // Global orientation state object.
-//
 const globalState = {
   hasDeviceOrientation: false,
   absolute: null,
@@ -93,6 +88,7 @@ events.on(window, 'deviceorientation', (e) => {
   }))
 })
 
+// expose device motion state
 events.on(window, 'devicemotion', (e) => {
   Object.assign(globalState, {
     accelerationIncludingGravity: e.accelerationIncludingGravity,
@@ -102,36 +98,30 @@ events.on(window, 'devicemotion', (e) => {
   })
 })
 
-events.on(window, 'orientationchange', () => {
-  console.log('orientationchange',screen.orientation)
-})
+module.exports = exports = (...args) => new OrientationInputCommand(...args)
+export class OrientationInputCommand extends Command {
+  constructor(ctx, {} = {}) {
+    registerStat('OrienationInput')
 
-/**
- * Orientation function.
- *
- * @see OrientationCommand
- */
-
-module.exports = exports = (...args) => new OrientationCommand(...args)
-
-export class OrientationCommand extends Command {
-  constructor(ctx, {
-  } = {}) {
     let preferDeviceRotation = false
     const deviceRotation = new Quaternion()
     const deviceEuler = new Euler()
 
-    super((_, state, block) => {
+    super((state, block) => {
       if ('function' == typeof state) {
         block = state
         state = {}
       }
 
+      const isEmulated = (
+        vrDisplays.length &&
+        /emulated/i.test(vrDisplays[0].displayName)
+      )
+
       state = state || {}
       block = block || function() {}
 
-
-      if (vrDisplays.length && /emulated/i.test(vrDisplays[0].displayName)) {
+      if (isEmulated) {
         computeDeviceRotation()
       } else {
         computeDeviceRotationFromVRFrameData()
@@ -144,9 +134,6 @@ export class OrientationCommand extends Command {
       })
     })
 
-    const r22 = Math.sqrt(0.5)
-    const world = quat.fromValues(-r22, 0, 0, r22)
-
     function computeDeviceRotationFromVRFrameData() {
       if (vrDisplays.length) {
         vrDisplays[0].getFrameData(vrFrameData)
@@ -156,6 +143,9 @@ export class OrientationCommand extends Command {
         deviceEuler.set(...computeEuler(deviceRotation))
       }
     }
+
+    const r22 = Math.sqrt(0.5)
+    const world = quat.fromValues(-r22, 0, 0, r22)
 
     function computeDeviceRotation() {
       const {

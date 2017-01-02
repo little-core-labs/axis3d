@@ -5,7 +5,8 @@
  */
 
 import { define, radians } from './utils'
-import { Object3DCommand } from './object'
+import { Object3DCommand } from './object3d'
+import { registerStat } from './stats'
 import { Vector } from './math'
 import coalesce from 'defined'
 import mat4 from 'gl-mat4'
@@ -32,6 +33,7 @@ export const DEFAULT_CAMERA_ORIENTATION_ORIGIN = Object.freeze(
 
 export class CameraCommand extends Object3DCommand {
   constructor(ctx, opts = {}) {
+    registerStat('Camera')
     const worldUp = new Vector(0, 1, 0)
     const target = opts.target || new Vector(0, 0, 0)
 
@@ -56,9 +58,16 @@ export class CameraCommand extends Object3DCommand {
       transform: () => mat4.identity([]),
       aspect: () => viewportWidth/viewportHeight,
       view: () => view,
+      fov: () => fov
     }
 
-    const injectContext = ctx.regl({context})
+    const uniforms = {
+      projection: () => projection,
+      aspect: () => viewportWidth/viewportHeight,
+      view: () => view,
+    }
+
+    const injectContext = ctx.regl({ context, uniforms })
     const update = (state) => {
       state = state || {}
 
@@ -104,7 +113,9 @@ export class CameraCommand extends Object3DCommand {
         position,
         rotation,
         scale,
-      } = this
+      } = state
+
+      if (!position || !rotation || !scale) { return }
 
       // compute front vector from orientation euler
       vec3.set(front,
@@ -158,11 +169,5 @@ export class CameraCommand extends Object3DCommand {
 
     // initial update
     update({})
-
-    //
-    // Public properties
-    //
-    define(this, 'target', { get() { return target } })
-    define(this, 'fov', { get() { return fov } })
   }
 }

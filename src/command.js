@@ -1,82 +1,31 @@
 'use strict'
 
-/**
- * Module symbols.
- */
-
-import {
-  $ctx,
-  $run,
-  $ref,
-} from './symbols'
-
 const encode = (fn) => `(${String(fn)})`
 const noop = () => this
 
-function commandRunnerWrap(ctx, run, ...args) {
+function commandRunnerWrap(run, ...args) {
   if (this && 'function' == typeof run) {
-    return run.apply(run, [ctx, ...args])
+    return run.apply(run, args)
   }
   return this
 }
 
-/**
- * Command class.
- *
- * @public
- */
-
-export class Command extends Function {
-
-  /**
-   * Generates code executed in an
-   * isolated context.
-   *
-   * @static
-   * @param {Function} fn
-   * @return {String}
-   */
-
-  static codegen(fn) {
-    return `
-    var fn = ${encode(fn)};
-    return fn.apply(this, arguments);
-    `
-  }
-
-  /**
-   * Command class constructor.
-   * Assigns a command runner and returns
-   * a command function.
-   *
-   * @constructor
-   * @param {Function} run
-   */
-
-  constructor(run) {
-    super(Command.codegen(commandRunnerWrap))
-    run = 'function' == typeof run ? run : noop
-    const state = {[$run]: run}
-    const ctx = this[$ctx] = new CommandContext(this, state)
-    const exec = (...args) => this(ctx, run, ...args)
-    const self = this
-    return (...args) => exec.call(self, ...args)
-  }
+function codegen(fn) {
+  return `
+  var fn = ${encode(fn)};
+  return fn.apply(this, arguments);
+  `
 }
 
-/**
- * CommandContext class.
- *
- * @public
- */
+module.exports = exports = (...args) => new Command(...args)
 
-export class CommandContext {
-  constructor(cmd, state) {
-    this[$ref] = cmd
-    Object.assign(this, state || {})
-  }
-
-  get ref() {
-    return this[$ref]
+export class Command extends Function {
+  constructor(run) {
+    super(codegen(commandRunnerWrap))
+    run = 'function' == typeof run ? run : noop
+    const state = {_run: run}
+    const exec = (...args) => this(run, ...args)
+    const self = this
+    return (...args) => exec.call(self, ...args)
   }
 }

@@ -1,10 +1,6 @@
 'use strict'
 
-/**
- * Module exports.
- */
-
-export Orientation from './orientation'
-export Keyboard from './keyboard'
-export Mouse from './mouse'
-export Touch from './touch'
+export OrientationInput from './orientation'
+export KeyboardInput from './keyboard'
+export MouseInput from './mouse'
+export TouchInput from './touch'
