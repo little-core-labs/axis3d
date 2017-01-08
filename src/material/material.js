@@ -123,7 +123,12 @@ export class MaterialCommand extends Command {
 
     const injectMapContext = regl({
       context: {
-        map: ({}, {map = initialMap} = {}) => map,
+        map: ({}, args = {}) => {
+          const {
+            map = initialMap
+          } = (args || {})
+          return map
+        },
       }
     })
 
@@ -211,7 +216,7 @@ export class MaterialCommand extends Command {
       block = block || noop
 
       const mapState = Array.isArray(state) ? {} : state.map
-      injectMapContext(mapState, ({map}) => {
+      injectMapContext(mapState || {}, ({map} = {}) => {
         if ('function' == typeof map) {
           map(() => {
             injectContext(state, block)
