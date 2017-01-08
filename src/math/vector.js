@@ -10,21 +10,7 @@ import vec4 from 'gl-vec4'
 import vec3 from 'gl-vec3'
 import vec2 from 'gl-vec2'
 
-/**
- * Vector class.
- *
- * @public
- * @class Vector
- */
-
 export class Vector {
-
-  /**
-   * Vector class contructor.
-   *
-   * @param {...Mixed} input
-   */
-
   constructor(...input) {
     if (1 == input.length && 'object' == typeof input[0]) {
       const tmp = input[0]
@@ -36,7 +22,6 @@ export class Vector {
     }
 
     const elements = new Float32Array([...input])
-    define(this, 'elements', { get:() => elements })
     const mappings = [
       [0, 1, 2, 3],
       ['x', 'y', 'z', 'w'],
@@ -47,12 +32,14 @@ export class Vector {
       for (let i = 0; i < mapping.length; ++i) {
         if (null == elements[i]) { break }
         define(this, mapping[i], {
-          enumerable: null != elements[i],
+          enumerable: true,
+          set: (v) => elements[i] = v,
           get: () => elements[i],
-          set: (v) => elements[i] = v
         })
       }
     }
+
+    define(this, 'elements', { get:() => elements })
   }
 
   /**
@@ -164,11 +151,3 @@ export class Vector {
     return this.toArray()[Symbol.iterator]()
   }
 }
-
-/**
- * Instanced x, y, z vectors
- */
-
-export const XVector3 = new Vector(1, 0, 0)
-export const YVector3 = new Vector(0, 1, 0)
-export const ZVector3 = new Vector(0, 0, 1)

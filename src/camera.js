@@ -32,49 +32,61 @@ export const DEFAULT_CAMERA_ORIENTATION_ORIGIN = Object.freeze(
 )
 
 export class CameraCommand extends Object3DCommand {
-  constructor(ctx, opts = {}) {
+  constructor(ctx, initialState = {}) {
     registerStat('Camera')
     const worldUp = new Vector(0, 1, 0)
-    const target = opts.target || new Vector(0, 0, 0)
+    const target = initialState.target || new Vector(0, 0, 0)
 
     const right = new Vector(0, 0, 0) // computed
     const front = new Vector(0, 0, 0) // computed
+    const eye = new Vector(0, 0, 0) // computed
     const up = new Vector(0, 0, 0) // computed
 
-    const eye = new Vector(0, 0, 0)
-
-    const orientation = Object.assign({}, DEFAULT_CAMERA_ORIENTATION_ORIGIN)
+    const orientation = [...DEFAULT_CAMERA_ORIENTATION_ORIGIN]
     const projection = mat4.identity([])
     const view = mat4.identity([])
 
-    let viewportHeight = coalesce(opts.viewportHeight, 1)
-    let viewportWidth = coalesce(opts.viewportWidth, 1)
-    let near = coalesce(opts.near, DEFAULT_CAMERA_NEAR)
-    let far = coalesce(opts.far, DEFAULT_CAMERA_FAR)
-    let fov = coalesce(opts.fov, opts.fieldOfView, DEFAULT_CAMERA_FIELD_OF_VIEW)
+    let near = coalesce(initialState.near, DEFAULT_CAMERA_NEAR)
+    let far = coalesce(initialState.far, DEFAULT_CAMERA_FAR)
+    let fov = coalesce(initialState.fov, initialState.fieldOfView, DEFAULT_CAMERA_FIELD_OF_VIEW)
 
     const context = {
       projection: () => projection,
       transform: () => mat4.identity([]),
-      aspect: () => viewportWidth/viewportHeight,
+      aspect: ({viewportWidth, viewportHeight}) => viewportWidth/viewportHeight,
       view: () => view,
-      fov: () => fov
+      fov: () => fov,
     }
 
     const uniforms = {
       projection: () => projection,
-      aspect: () => viewportWidth/viewportHeight,
-      view: () => view,
+      aspect: ({viewportWidth, viewportHeight}) => viewportWidth/viewportHeight,
+      view: computeViewMatrix,
+      eye: () => [...eye],
+
     }
 
-    const injectContext = ctx.regl({ context, uniforms })
-    const update = (state) => {
-      state = state || {}
+    const injectContext = ctx.regl({
+      context,
+      uniforms
+    })
 
-      if (ctx.reglContext) {
-        viewportHeight = coalesce(ctx.reglContext.viewportHeight, 1)
-        viewportWidth = coalesce(ctx.reglContext.viewportWidth, 1)
+    super(ctx, {
+      ...initialState,
+      transform: false,
+      update(state, block) {
+        injectContext(state, block)
       }
+    })
+
+    function computeViewMatrix({
+      viewportWidth,
+      viewportHeight,
+      position,
+      rotation,
+      scale
+    }, state) {
+      state = state || {}
 
       if ('fov' in state) {
         fov = state.fov
@@ -86,14 +98,6 @@ export class CameraCommand extends Object3DCommand {
 
       if ('near' in state) {
         near = state.near
-      }
-
-      if ('viewportWidth' in state) {
-        viewportWidth = state.viewportWidth
-      }
-
-      if ('viewportHeight' in state) {
-        viewportHeight = state.viewportHeight
       }
 
       if ('orientation' in state) {
@@ -109,11 +113,6 @@ export class CameraCommand extends Object3DCommand {
       }
 
       const aspect = viewportWidth/viewportHeight
-      const {
-        position,
-        rotation,
-        scale,
-      } = state
 
       if (!position || !rotation || !scale) { return }
 
@@ -145,29 +144,9 @@ export class CameraCommand extends Object3DCommand {
 
       // compute eye vector from the inverse view matrix
       mat4.invert(scratch, view)
-      vec3.set(eye, eye[12], eye[13], eye[14])
+      vec3.set(eye, scratch[12], scratch[13], scratch[14])
+
+      return view
     }
-
-    super(ctx, {
-      ...opts,
-      draw(state, block) {
-        let needsUpdate = false
-        if ('function' == typeof state) {
-          block = state
-          state = {}
-        } else if ('object' == typeof state) {
-          needsUpdate = true
-        }
-
-				if (needsUpdate) {
-          update(state)
-        }
-
-        injectContext(block)
-      }
-    })
-
-    // initial update
-    update({})
   }
 }

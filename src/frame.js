@@ -4,8 +4,13 @@
  * Module dependencies.
  */
 
-import { Command } from './command'
-import { define } from './utils'
+import {
+  Command
+} from './command'
+
+import {
+  define
+} from './utils'
 
 import {
   incrementStat,
@@ -13,21 +18,53 @@ import {
   resetStat
 } from './stats'
 
+import glslify from 'glslify'
+
+const kDefaultFragmentShader =
+  glslify(__dirname + '/glsl/material/fragments/main.glsl', {
+    transform: ['glslify-fancy-imports']
+  })
+
 module.exports = exports = (...args) => new FrameCommand(...args)
 export class FrameCommand extends Command {
   constructor(ctx, opts = {}) {
     incrementStat('Frame')
     const {regl} = ctx
     const queue = []
+    const lights = []
 
-    const texture = regl.texture()
     let reglContext = null
     let isRunning = false
     let tick = null
 
     const injectContext = regl({
+      frag: kDefaultFragmentShader,
       context: {
         resolution: ({viewportWidth: w, viewportHeight: h}) => ([w, h]),
+        lights: () => lights
+      },
+
+      uniforms: {
+        time: ({time}) => time,
+      },
+
+      blend: {
+        equation: 'add',
+        enable: true,
+        color: [0, 0, 0, 1],
+        func: {src: 'src alpha', dst: 'one minus src alpha'},
+      },
+
+      cull: {
+        enable: true,
+        face: 'back',
+      },
+
+      depth: {
+        enable: true,
+        range: [0, 1],
+        mask: true,
+        func: 'less',
       }
     })
 
@@ -73,19 +110,15 @@ export class FrameCommand extends Command {
 
           try {
             injectContext((_) => {
-              // clear
               ctx.reset()
               ctx.clear()
-
-              // draw
+              lights.splice(0, lights.length)
               for (let refresh of queue) {
                 if ('function' == typeof refresh) {
                   refresh(reglContext, ...args)
                 }
               }
-
             })
-
           } catch (e) {
             ctx.emit('error', e)
             cancel()

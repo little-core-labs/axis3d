@@ -1,7 +1,8 @@
 'use strict'
 
 import {
-  Material,
+  DirectionalLight,
+  LambertMaterial,
   Texture,
   Context,
   Camera,
@@ -20,10 +21,14 @@ const ctx = Context()
 const camera = Camera(ctx, {position: [0, 0, 10]})
 const sphere = Mesh(ctx, { geometry: SphereGeometry(ctx) })
 const frame = Frame(ctx)
-const image = new Image(); image.src = 'texture.jpg'
-const texture = Texture(ctx, {data: image})
-const material = Material(ctx, {map: texture})
+const light = DirectionalLight(ctx)
+const texture = Texture(ctx)
+const material = LambertMaterial(ctx, {map: texture})
 const rotation = new Quaternion()
+
+const image = new Image();
+image.src = 'texture.jpg'
+image.onload = () => texture({data: image})
 
 frame(({time}) => {
   const multiply = (...args) => quat.multiply([], ...args)
@@ -32,9 +37,10 @@ frame(({time}) => {
   const y = angle([0, 1, 0], 0.08*time)
   const z = angle([0, 0, 1], 0.10*time)
   quat.slerp(rotation, rotation, multiply(multiply(x, y), z), 0.5)
-  camera({rotation}, () => {
+  camera(() => {
+    light({position: [20, 20, 10]})
     material(() => {
-      sphere()
+      sphere({rotation})
     })
   })
 })

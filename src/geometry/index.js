@@ -1,6 +1,7 @@
 'use strict'
 
 export TriangleGeometry from './triangle'
+export CylinderGeometry from './cylinder'
 export CapsuleGeometry from './capsule'
 export SphereGeometry from './sphere'
 export PlaneGeometry from './plane'

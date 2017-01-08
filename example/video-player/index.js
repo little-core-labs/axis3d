@@ -1,7 +1,7 @@
 'use strict'
 
 import {
-  Material,
+  FlatMaterial,
   Texture,
   Context,
   Camera,
@@ -26,7 +26,7 @@ const ctx = Context()
 // video dom element
 const video = document.createElement('video')
 
-const material = Material(ctx, { map: Texture(ctx, {data: video}) })
+const material = FlatMaterial(ctx, { map: Texture(ctx, {data: video}) })
 const camera = Camera(ctx, {position: [0, 0, 5]})
 const frame = Frame(ctx)
 const plane = Mesh(ctx, { geometry: PlaneGeometry(ctx) })

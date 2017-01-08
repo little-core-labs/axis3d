@@ -15,9 +15,6 @@ export class AbstractControllerCommand extends Command {
   } = {}) {
 
     const orientation = new Quaternion(...(initialOrientation || []))
-    const xAxisRotation = new Quaternion(...(rotation.x || []))
-    const yAxisRotation = new Quaternion(...(rotation.y || []))
-    const zAxisRotation = new Quaternion(...(rotation.z || []))
 
     // controller update function
     super((state, block) => {
@@ -32,9 +29,6 @@ export class AbstractControllerCommand extends Command {
       update({
         ...state,
         orientation,
-        xAxisRotation,
-        yAxisRotation,
-        zAxisRotation,
       }, () => {
         block({ ...ctx.reglContext })
       })

@@ -1,7 +1,16 @@
 'use strict'
 
 import {
-  Material,
+  OrbitCameraController
+} from '../../extras/controller'
+
+import {
+  OrientationInput,
+  SphereGeometry,
+  KeyboardInput,
+  FlatMaterial,
+  TouchInput,
+  MouseInput,
   Texture,
   Context,
   Camera,
@@ -9,37 +18,24 @@ import {
   Mesh,
 } from 'axis3d'
 
-import {
-  OrbitCameraController
-} from '../../extras/controller'
-
-import {
-  SphereGeometry
-} from 'axis3d/geometry'
-
-import {
-  Quaternion
-} from 'axis3d/math'
-
-import {
-  OrientationInput,
-  KeyboardInput,
-  TouchInput,
-  MouseInput,
-} from 'axis3d/input'
-
 import quat from 'gl-quat'
 
 // fullscreen canvas
 const ctx = Context()
-const image = new Image(); image.src = 'govball.jpg'
 
-const texture = Texture(ctx, {data: image})
-const material = Material(ctx, {map: texture})
-
+// scene
 const camera = Camera(ctx, {position: [0, 0, 0]})
-const sphere = Mesh(ctx, { geometry: SphereGeometry(ctx) })
+const sphere = Mesh(ctx, { geometry: SphereGeometry(ctx), scale: [1, -1, 1] })
 const frame = Frame(ctx)
+
+// surface
+const texture = Texture(ctx)
+const material = FlatMaterial(ctx, {map: texture})
+
+// texture image
+const image = new Image();
+image.src = 'govball.jpg'
+image.onload = () => texture({data: image})
 
 // inputs
 const orientation = OrientationInput(ctx)
@@ -47,17 +43,19 @@ const keyboard = KeyboardInput(ctx)
 const mouse = MouseInput(ctx)
 const touch = TouchInput(ctx)
 
+// orbit camera controls
 const inputs = { orientation, keyboard, touch, mouse }
 const orbitCamera = OrbitCameraController(ctx, {
   camera, inputs,
-  interpolationFactor: 0.1,
-  rotation: quat.setAxisAngle([], [0, 1, 0], 0.5*Math.PI)
+  interpolationFactor: 0.5,
+  euler: [0, 0.5*Math.PI, 0]
 })
 
+// render loop
 frame(({time}) => {
   orbitCamera(() => {
     material(() => {
-      sphere({scale: [100, -100, 100]})
+      sphere()
     })
   })
 })

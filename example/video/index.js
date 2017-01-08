@@ -1,7 +1,7 @@
 'use strict'
 
 import {
-  Material,
+  FlatMaterial,
   Texture,
   Context,
   Camera,
@@ -26,7 +26,7 @@ const box = Mesh(ctx, { geometry: BoxGeometry(ctx) })
 const video = document.createElement('video')
 const frame = Frame(ctx)
 const camera = Camera(ctx, {position: [0, 0, 5]})
-const material = Material(ctx, { map: Texture(ctx, {data: video}) })
+const material = FlatMaterial(ctx, { map: Texture(ctx, {data: video}) })
 const rotation = new Quaternion()
 
 video.autoplay = true

@@ -18,13 +18,6 @@ export const defaults = {
   },
 }
 
-/**
- * Creates a new Context instance with
- * sane defaults.
- *
- * @param {Object} opts
- */
-
 module.exports = exports = (state, opts) =>
   new Context({...defaults, ...state}, opts)
 
@@ -46,7 +39,6 @@ export class Context extends EventEmitter {
       ...(opts.regl),
       attributes: {
         ...(opts.regl.attributes || {}),
-        premultipliedAlpha: true,
       },
       extensions: [
         ...(opts.regl.extensions || []),

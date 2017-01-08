@@ -20,7 +20,7 @@ module.exports = exports = ({
 } = {}) => {
   keyboard && keyboard(({keys}) => {
     const mappings = new KeyboardCommandMappings(keys)
-    const step = 0.08*damping
+    const step = 0.1*damping
 
     // @TODO(werle) - should we reset keyboard state ?
     if (mappings.value('control')) {

@@ -36,10 +36,8 @@ export class VignetteBackgroundCommand extends Command {
     boost = 1.0,
     color = DEFAULT_COLOR,
     mix = 1.0,
-    map = null
   } = {}) {
     let draw = null
-    let hasMap = false
     const {regl} = ctx
     const configure = () => {
       const defines = {}
@@ -55,31 +53,6 @@ export class VignetteBackgroundCommand extends Command {
         noise: () => noise,
       }
 
-      if (null == map) {
-        delete defines.HAS_MAP
-        delete uniforms.isMapLoaded
-        delete uniforms.map
-      } else if (null !== map.texture) {
-        hasMap = true
-        defines.HAS_MAP = ''
-        uniforms.isMapLoaded = () => {
-          if ('function' == typeof map && map.texture) {
-            map()
-          }
-
-          if (null != map.isDoneLoading && null != map.hasProgress) {
-            return Boolean(map.isDoneLoading || map.hasProgress)
-          } else {
-            return true
-          }
-        }
-
-        uniforms.map = () => {
-          if ('function' == typeof map) { map() }
-          return map.texture || map
-        }
-      }
-
       draw = regl({
         vert: injectDefines(vert, defines),
         frag: injectDefines(frag, defines),
@@ -90,7 +63,7 @@ export class VignetteBackgroundCommand extends Command {
       })
     }
 
-    super((_, block, scope) => {
+    super((block, scope) => {
       let needsConfiguration = draw ? false : true
       const isNumber = (n) => n == n && 'number' == typeof n
       if ('object' == typeof block) {
@@ -118,13 +91,6 @@ export class VignetteBackgroundCommand extends Command {
           }
         }
 
-        if ('map' in block) {
-          if (map != block.map) {
-            map = block.map
-            needsConfiguration = true
-          }
-        }
-
         if ('color' in block) {
           if ('object' == typeof block.color) {
             if (color[0] != block.color[0] ||
@@ -145,10 +111,6 @@ export class VignetteBackgroundCommand extends Command {
             }
           }
         }
-      }
-
-      if (map && false == hasMap) {
-        needsConfiguration = true
       }
 
       if (needsConfiguration) {

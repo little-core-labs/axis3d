@@ -81,28 +81,7 @@ This file may then be included in a `<script>` tag:
 <script src="/path/to/axis3d.min.js" type="text/javascript"></script>
 ```
 
-where `Axis` is now a global object with the usual business now possible:
-
-```js
-const { Triangle } = Axis.Mesh
-const {
-  Context,
-  Camera,
-  Frame,
-} = Axis
-
-const ctx = Context()
-const frame = Frame(ctx)
-const camera = Camera(ctx)
-const triangle = Triangle(ctx)
-
-frame(({time}) => {
-  camera({position: [0, 0, 1]}, () => {
-    triangle({color: [0, 0, 1, 1]})
-  })
-})
-
-```
+where `Axis` is now a global object.
 
 ## <a name="source-link-with-npm"></a> Link with npm
 

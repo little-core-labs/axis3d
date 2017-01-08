@@ -74,13 +74,9 @@ export class OrbitCameraController extends AbstractControllerCommand {
           fov,
 
           orientation,
-          xAxisRotation,
-          yAxisRotation,
-          zAxisRotation,
         } = updates
 
         damping = clamp(damping, 0, 1)
-
 
         // read current camera state
         camera(({
@@ -116,9 +112,6 @@ export class OrbitCameraController extends AbstractControllerCommand {
           mouseInput,
           touchInput,
 
-          xAxisRotation,
-          yAxisRotation,
-          zAxisRotation,
           orientation,
           position,
           euler,
@@ -144,26 +137,16 @@ export class OrbitCameraController extends AbstractControllerCommand {
         const conjugate = (q) => quat.conjugate([], q)
         const multiply = (...args) => quat.multiply([], ...args)
 
-        const q0 = quat.slerp(
-          orientationRotation,
-          orientationRotation,
-          conjugate(orientation),
-          0.89
-        )
-
+        const q0 = conjugate(orientation)
         const e0 = computeEuler(q0)
         const q1 = conjugate(q0)
         const qy = offsetRotation
 
         if (false != wantsClampX) {
           const min = clamp((-0.49*Math.PI)-e0[0], -0.98*Math.PI, 0)
-          const max = clamp(-1*-0.49*Math.PI-e0[0], 0.98*Math.PI, 0)
-          clampQuaternion(xAxisRotation, min, max)
+          const max = clamp(0.49*Math.PI-e0[0], 0.98*Math.PI, 0)
           euler[0] = clamp(euler[0], min, max)
         }
-
-        const rxy = multiply(xAxisRotation, yAxisRotation)
-        const rxyz = multiply(rxy, zAxisRotation)
 
         const ex = quat.setAxisAngle([], [1, 0, 0], euler[0])
         const ey = quat.setAxisAngle([], [0, 1, 0], euler[1])
@@ -172,18 +155,11 @@ export class OrbitCameraController extends AbstractControllerCommand {
           xyRotation,
           xyRotation,
           multiply(ex, ey),
-          interpolationFactor
-        )
+          interpolationFactor)
 
-        quat.slerp(
+        quat.copy(
           rotation,
-          rotation,
-          multiply(
-            multiply(q0, multiply(multiply(q1, multiply(xyRotation, rxy)), q0)),
-            initialRotation,
-          ),
-          interpolationFactor
-        )
+          multiply(q0, xyRotation))
 
         // clamp fov if fov zoom requested
         if (zoom && zoom.fov) {

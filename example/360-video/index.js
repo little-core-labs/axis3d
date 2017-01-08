@@ -1,7 +1,7 @@
 'use strict'
 
 import {
-  Material,
+  FlatMaterial,
   Texture,
   Context,
   Camera,
@@ -35,7 +35,7 @@ const ctx = Context()
 const video = document.createElement('video')
 
 const texture = Texture(ctx, {data: video})
-const material = Material(ctx, {map: texture})
+const material = FlatMaterial(ctx, {map: texture})
 
 const camera = Camera(ctx, {position: [0, 0, 0]})
 const sphere = Mesh(ctx, { geometry: SphereGeometry(ctx) })
@@ -50,7 +50,6 @@ const touch = TouchInput(ctx)
 const inputs = { orientation, keyboard, touch, mouse }
 const orbitCamera = OrbitCameraController(ctx, {
   camera, inputs,
-  friction: .1,
   interpolationFactor: 0.3,
   rotation: quat.setAxisAngle([], [0, 1, 0], 0.5*Math.PI)
 })

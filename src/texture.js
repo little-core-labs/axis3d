@@ -87,18 +87,21 @@ export class TextureCommand extends Command {
     const injectContext = regl({
       context: {
         textureResolution: () => getTextureResolution(),
-        textureData: () => textureState.data,
+        textureData: () => data,
         texture: () => texture,
       }
     })
 
     // data state
+    let lastVideoRefresh = 0
     let data = textureState.data
     let previouslyUploadedData = null
+    let needsUpdate = false
 
     // texture update function
     super((state, block) => {
       const noop = () => void 0
+      const now = regl.now()
 
       if ('function' == typeof state) {
         block = state
@@ -108,15 +111,12 @@ export class TextureCommand extends Command {
       state = state || {}
       block = block || noop
 
-      let {
-        // indicates if the internal regl texture needs an update
-        needsUpdate = false
-      } = state
-
       // potential texture state if an updated is needed
       textureState = {
         ...initialTextureState
       }
+
+      needsUpdate = false
 
       // try to determine if an update is needed from user
       // state input
@@ -156,28 +156,34 @@ export class TextureCommand extends Command {
 
       // video data from a video element is streaming
       // and should always be updated
-      if (isVideo(data)) {
+      if (false == needsUpdate && isVideo(data)) {
         if (data.readyState >= data.HAVE_CURRENT_DATA) {
-          needsUpdate = true
+          if (now - lastVideoRefresh >= 0.01) {
+            lastVideoRefresh = now
+            needsUpdate = true
+          }
         }
       }
 
-      // computed texture data resolution
-      const resolution = getTextureResolution()
-
-      // mark for update if resolution is available and
-      // the previously uploaded texture data defers from
-      // the current input data
-      if (resolution[0] > 0 && resolution[1] > 0) {
-        if (data != previouslyUploadedData) {
-          needsUpdate = true
+      if (false == needsUpdate) {
+        // computed texture data resolution
+        const resolution = getTextureResolution()
+        // mark for update if resolution is available and
+        // the previously uploaded texture data defers from
+        // the current input data
+        if (resolution[0] > 0 && resolution[1] > 0) {
+          if (data != previouslyUploadedData) {
+            needsUpdate = true
+          }
         }
       }
 
       // update regl rexture state and set
       if (needsUpdate) {
         previouslyUploadedData = data
+        textureState.data = data
         texture(textureState)
+        needsUpdate = false
       }
 
       // inject texture context exposing useful

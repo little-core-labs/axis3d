@@ -7,11 +7,6 @@
 import { radians } from 'axis3d/utils'
 import quat from 'gl-quat'
 
-/**
- * Applies orientation changes to OrbitCameraController from
- * orientation input
- */
-
 module.exports = exports = ({
   orientationInput,
   orientation

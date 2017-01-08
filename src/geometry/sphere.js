@@ -9,7 +9,10 @@ import { Geometry } from './geometry'
 
 module.exports = exports = (...args) => new SphereGeometry(...args)
 export class SphereGeometry extends Geometry {
-  constructor({radius = 1, segments = 32} = {}) {
-    super({complex: PrimitiveSphere(radius, {segments})})
+  constructor(opts = {}) {
+    const {
+      radius = 1, segments = 32
+    } = opts
+    super({...opts, complex: PrimitiveSphere(radius, {segments})})
   }
 }

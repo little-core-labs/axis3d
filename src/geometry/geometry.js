@@ -5,24 +5,31 @@
  */
 
 import Wireframe from 'screen-projected-lines'
+import reindex from 'mesh-reindex'
+import unindex from 'unindex-mesh'
 import normals from 'angle-normals'
 
 module.exports = exports = (...args) => new Geometry(...args)
 export class Geometry {
-  constructor({complex} = {}) {
-    this.complex = complex
-    this.wireframe = complex && Wireframe(complex, {
-      attributes: {
-        normals: (complex.cells && complex.positions) && normals(
-          complex.cells,
-          complex.positions
-        )
-      }
-    })
-
-    if (this.wireframe) {
-      this.wireframe.normals = this.wireframe.attributes.normals
+  constructor({complex = null, flatten = false} = {}) {
+    if (complex instanceof Geometry) {
+      complex = complex.complex
     }
+
+    if (complex) {
+      if (flatten && complex.cells) {
+        const cells = complex.cells.map((cell) => cell.slice())
+        const flattened = reindex(unindex(complex.positions, cells))
+        complex.normals = normals(flattened.cells, flattened.positions)
+        Object.assign(complex, flattened)
+      }
+
+      if (null == complex.normals && complex.positions && complex.cells) {
+        complex.normals = normals(complex.cells, complex.positions)
+      }
+    }
+
+    this.complex = complex || null
   }
 
   get positions() {
