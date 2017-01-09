@@ -27,7 +27,7 @@ export class Context extends EventEmitter {
     super()
 
     this._stack = []
-    this._state = initialState
+    this._state = { ...initialState }
     this._caller = null
     this._scope = null
     this._hasFocus = false
@@ -35,6 +35,15 @@ export class Context extends EventEmitter {
 
     this.setMaxListeners(Infinity)
     opts.regl = opts.regl || opts.gl || {}
+
+    if (opts.element && 'CANVAS' == opts.element.nodeName) {
+      opts.regl.canvas = opts.element
+    } else if (opts.element && opts.element.nodeName) {
+      opts.regl.container = opts.element
+    } else if ('string' == typeof opts.element) {
+      opts.regl.container = opts.element
+    }
+
     createRegl({
       ...(opts.regl),
       attributes: {
@@ -59,15 +68,6 @@ export class Context extends EventEmitter {
         this._isDestroyed = false
       }
     })
-
-    if (opts.element && 'CANVAS' == opts.element.nodeName) {
-      reglOptions.canvas = opts.element
-    } else if (opts.element && opts.element.nodeName) {
-      reglOptions.container = opts.element
-    } else if ('string' == typeof opts.element) {
-      reglOptions.container = opts.element
-    }
-
 
     // DOM events
     events.on(this._domElement, 'focus', () => this.focus())
