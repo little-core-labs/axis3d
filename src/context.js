@@ -6,6 +6,7 @@
 
 import { registerStat } from './stats'
 import { EventEmitter } from 'events'
+
 import events from 'dom-events'
 import glsl from 'glslify'
 import regl from 'regl'

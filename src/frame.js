@@ -27,7 +27,7 @@ const kDefaultFragmentShader =
 
 module.exports = exports = (...args) => new FrameCommand(...args)
 export class FrameCommand extends Command {
-  constructor(ctx, opts = {}) {
+  constructor(ctx) {
     incrementStat('Frame')
     const {regl} = ctx
     const queue = []
