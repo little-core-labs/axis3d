@@ -47,9 +47,11 @@ export class Context extends EventEmitter {
 
     createRegl({
       ...(opts.regl),
+
       attributes: {
         ...(opts.regl.attributes || {}),
       },
+
       extensions: [
         ...(opts.regl.extensions || []),
         'OES_texture_float',

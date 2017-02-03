@@ -31,7 +31,7 @@ import {
 import quat from 'gl-quat'
 
 // fullscreen canvas
-const ctx = Context()
+const ctx = Context({}, {regl: {attributes: {antialias: true}}})
 const video = document.createElement('video')
 
 const texture = Texture(ctx, {data: video})
