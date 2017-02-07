@@ -84,7 +84,7 @@ export class Context extends EventEmitter {
   get caller() { return this._caller }
   get scope() { return this._scope }
   get depth() { return this._stack.length }
-  get state() { return this._stack }
+  get stack() { return this._stack }
   get regl() { return this._regl }
 
   /**
@@ -143,13 +143,13 @@ export class Context extends EventEmitter {
   /**
    * Updates command context state.
    *
-   * @param {Function|Object} block
+   * @param {Object} state
    * @return {Context}
    */
 
-  update(block) {
-    if (block && 'object' == typeof block) {
-      Object.assign(this._state, block)
+  update(state) {
+    if (state && 'object' == typeof state) {
+      Object.assign(this._state, state)
     }
     return this
   }
