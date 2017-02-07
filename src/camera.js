@@ -56,6 +56,8 @@ export class CameraCommand extends Object3DCommand {
       aspect: ({viewportWidth, viewportHeight}) => viewportWidth/viewportHeight,
       view: () => view,
       fov: () => fov,
+      eye: () => eye,
+      up: () => up,
     }
 
     const uniforms = {
@@ -63,7 +65,6 @@ export class CameraCommand extends Object3DCommand {
       aspect: ({viewportWidth, viewportHeight}) => viewportWidth/viewportHeight,
       view: computeViewMatrix,
       eye: () => [...eye],
-
     }
 
     const injectContext = ctx.regl({
