@@ -152,7 +152,7 @@ lint: node_modules
 #
 .PHONY: publish
 publish: lib
-	cd lib && $(YARN_OR_NPM) publish
+	cd lib && npm publish
 
 ##
 # Link lib globally
