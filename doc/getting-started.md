@@ -31,7 +31,7 @@ $ yarn add axis3d
 # <a name="hello-world"></a> Hello World
 
 The following [hello world example](hello-world.md) demonstrates rendering a
-blue triangle to the screen. A `canvas` is created with a `webgl` context and
+green box to the screen. A `canvas` is created with a `webgl` context and
 automatically appended to the `body` DOM element.
 
 <table>
@@ -42,7 +42,7 @@ automatically appended to the `body` DOM element.
 <pre lang="js">
 frame(({time}) => {
   camera({rotation}, () => {
-    material({color: [0, 0, 1, 1]}, () => {
+    material({color: [0, 1, 1, 1]}, () => {
       box()
     })
   })
