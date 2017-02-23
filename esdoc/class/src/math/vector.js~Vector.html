@@ -37,7 +37,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/context.js~Context.html">Context</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/frame.js~FrameCommand.html">FrameCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry_buffer.js~GeometryBufferComand.html">GeometryBufferComand</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material.js~MaterialCommand.html">MaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lines.js~LinesCommand.html">LinesCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh.js~MeshCommand.html">MeshCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/object3d.js~Object3DCommand.html">Object3DCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/stats.js~Stat.html">Stat</a></span></span></li>
@@ -49,64 +49,78 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-registerStat">registerStat</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-resetStat">resetStat</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-tailStat">tailStat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clampToMaxSize">clampToMaxSize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCanvas">createCanvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-define">define</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getScreenOrientation">getScreenOrientation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isDOMElementInViewport">isDOMElementInViewport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-lerp">lerp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makePowerOfTwo">makePowerOfTwo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nearestPowerOfTwo">nearestPowerOfTwo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-radians">radians</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-scaleWithCanvas">scaleWithCanvas</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FAR">DEFAULT_CAMERA_FAR</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FIELD_OF_VIEW">DEFAULT_CAMERA_FIELD_OF_VIEW</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_NEAR">DEFAULT_CAMERA_NEAR</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_ORIENTATION_ORIGIN">DEFAULT_CAMERA_ORIENTATION_ORIGIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-stats">stats</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-clampToMaxSize">clampToMaxSize</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-createCanvas">createCanvas</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-debug">debug</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-define">define</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-getScreenOrientation">getScreenOrientation</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-isDOMElementInViewport">isDOMElementInViewport</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lerp">lerp</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makePowerOfTwo">makePowerOfTwo</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-nearestPowerOfTwo">nearestPowerOfTwo</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-radians">radians</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-scaleWithCanvas">scaleWithCanvas</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">geometry</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/box.js~BoxGeometry.html">BoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/capsule.js~CapsuleGeometry.html">CapsuleGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/cylinder.js~CylinderGeometry.html">CylinderGeometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/geometry.js~Geometry.html">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/plane.js~PlaneGeometry.html">PlaneGeometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/sphere.js~SphereGeometry.html">SphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/torus.js~TorusGeometry.html">TorusGeometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/triangle.js~TriangleGeometry.html">TriangleGeometry</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">input</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/keyboard.js~KeyboardInputCommand.html">KeyboardInputCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/mouse.js~MouseInputCommand.html">MouseInputCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/orientation.js~OrientationInputCommand.html">OrientationInputCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/touch.js~TouchInputCommand.html">TouchInputCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/ambient.js~AmbientLightCommand.html">AmbientLightCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/directional.js~DirectionalLightCommand.html">DirectionalLightCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/light.js~LightCommand.html">LightCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/point.js~PointLightCommand.html">PointLightCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kMaxAmbientLights">kMaxAmbientLights</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kMaxDirectionalLights">kMaxDirectionalLights</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kMaxPointLights">kMaxPointLights</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-AmbientLight">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DirectionalLight">DirectionalLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Light">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PointLight">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SpotLight">SpotLight</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">material</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/flat.js~FlatMaterialCommand.html">FlatMaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/lambert.js~LambertMaterialCommand.html">LambertMaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/material.js~MaterialCommand.html">MaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/phong.js~PhongMaterialCommand.html">PhongMaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FlatMaterial">FlatMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LambertMaterial">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Material">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PhongMaterial">PhongMaterial</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/euler.js~Euler.html">Euler</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/quaternion.js~Quaternion.html">Quaternion</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-computeQuaternion">computeQuaternion</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-computeEuler">computeEuler</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-XVector3">XVector3</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-YVector3">YVector3</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ZVector3">ZVector3</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Vector} from &apos;<span><a href="file/src/math/vector.js.html#lineNumber20">axis3d/src/math/vector.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Vector} from &apos;<span><a href="file/src/math/vector.js.html#lineNumber13">axis3d/src/math/vector.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/math/vector.js.html#lineNumber20">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/math/vector.js.html#lineNumber13">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
   <h1 data-ice="name">Vector</h1>
 
-  <div data-ice="instanceDocs" class="instance-docs">
-    <span>You can directly use an instance of this class.</span>
-    
-  <span data-ice="instanceDoc"><span><a href="variable/index.html#static-variable-XVector3">XVector3</a></span></span>
-<span data-ice="instanceDoc"><span><a href="variable/index.html#static-variable-YVector3">YVector3</a></span></span>
-<span data-ice="instanceDoc"><span><a href="variable/index.html#static-variable-ZVector3">ZVector3</a></span></span>
-</div>
+  
 
   
   
@@ -120,8 +134,8 @@
 
   
   
-  <div class="description" data-ice="description"><p>Vector class.</p>
-</div>
+  
+  
 
   
 
@@ -149,14 +163,15 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(input: ...<span>Mixed</span>)</span>
+          
+          
+          <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(input: ...<span>*</span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Vector class contructor.</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -182,7 +197,9 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-get-componentLength">componentLength</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+          
+          
+          <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-get-componentLength">componentLength</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
         </p>
       </div>
       <div>
@@ -208,7 +225,9 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-get-length">length</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
+          
+          
+          <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-get-length">length</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
         </p>
       </div>
       <div>
@@ -234,7 +253,9 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-get-ref">ref</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">Float64Array</a></span></span>
+          
+          
+          <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-get-ref">ref</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">Float64Array</a></span></span>
         </p>
       </div>
       <div>
@@ -268,7 +289,9 @@ vector elements.</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-[Symbol.iterator]">[Symbol.iterator]</a></span></span><span data-ice="signature">(): <span>*</span></span>
+          
+          
+          <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-[Symbol.iterator]">[Symbol.iterator]</a></span></span><span data-ice="signature">(): <span>*</span></span>
         </p>
       </div>
       <div>
@@ -294,7 +317,9 @@ vector elements.</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-set">set</a></span></span><span data-ice="signature">(x: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, y: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, z: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, w: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>): <span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></span>
+          
+          
+          <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-set">set</a></span></span><span data-ice="signature">(x: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, y: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, z: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, w: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>): <span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></span>
         </p>
       </div>
       <div>
@@ -320,7 +345,9 @@ vector elements.</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-toArray">toArray</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
+          
+          
+          <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-toArray">toArray</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
         </p>
       </div>
       <div>
@@ -347,7 +374,9 @@ a normal Array.</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-toJSON">toJSON</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
+          
+          
+          <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-toJSON">toJSON</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
         </p>
       </div>
       <div>
@@ -373,7 +402,9 @@ a normal Array.</p>
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-valueOf">valueOf</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">Float64Array</a></span></span>
+          
+          
+          <span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html#instance-method-valueOf">valueOf</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">Float64Array</a></span></span>
         </p>
       </div>
       <div>
@@ -406,19 +437,19 @@ array value.</p>
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(input: ...<span>Mixed</span>)</span>
+    
+    <span data-ice="name">constructor</span><span data-ice="signature">(input: ...<span>*</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber28">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Vector class contructor.</p>
-</div>
+  
 
   
 
@@ -432,7 +463,7 @@ array value.</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">input</td>
-      <td data-ice="type">...<span>Mixed</span></td>
+      <td data-ice="type">...<span>*</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
     </tr>
@@ -440,6 +471,8 @@ array value.</p>
   </table>
 </div>
 </div>
+
+  
 
   
 
@@ -466,11 +499,12 @@ array value.</p>
     <span class="kind" data-ice="kind">get</span>
     
     
+    
     <span data-ice="name">componentLength</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber98">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber85">source</a></span></span>
     </span>
   </h3>
 
@@ -498,6 +532,8 @@ array value.</p>
   
 
   
+
+  
   
 </div>
 <div class="detail" data-ice="detail">
@@ -507,11 +543,12 @@ array value.</p>
     <span class="kind" data-ice="kind">get</span>
     
     
+    
     <span data-ice="name">length</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber65">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber52">source</a></span></span>
     </span>
   </h3>
 
@@ -539,6 +576,8 @@ array value.</p>
   
 
   
+
+  
   
 </div>
 <div class="detail" data-ice="detail">
@@ -548,11 +587,12 @@ array value.</p>
     <span class="kind" data-ice="kind">get</span>
     
     
+    
     <span data-ice="name">ref</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">Float64Array</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber87">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber74">source</a></span></span>
     </span>
   </h3>
 
@@ -581,6 +621,8 @@ vector elements.</p>
   
 
   
+
+  
   
 </div>
 </div>
@@ -593,11 +635,12 @@ vector elements.</p>
     
     
     
+    
     <span data-ice="name">[Symbol.iterator]</span><span data-ice="signature">(): <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber163">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber150">source</a></span></span>
     </span>
   </h3>
 
@@ -615,14 +658,18 @@ vector elements.</p>
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span>*</span></td>
-        
-      </tr>
+      <tbody>
+        <tr>
+          <td class="return-type" data-ice="returnType"><span>*</span></td>
+          
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
   </div>
+
+  
 
   
 
@@ -644,11 +691,12 @@ vector elements.</p>
     
     
     
+    
     <span data-ice="name">set</span><span data-ice="signature">(x: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, y: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, z: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, w: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>): <span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber112">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber99">source</a></span></span>
     </span>
   </h3>
 
@@ -700,14 +748,18 @@ vector elements.</p>
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></td>
-        
-      </tr>
+      <tbody>
+        <tr>
+          <td class="return-type" data-ice="returnType"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></td>
+          
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
   </div>
+
+  
 
   
 
@@ -729,11 +781,12 @@ vector elements.</p>
     
     
     
+    
     <span data-ice="name">toArray</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber134">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber121">source</a></span></span>
     </span>
   </h3>
 
@@ -752,14 +805,18 @@ a normal Array.</p>
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
-        
-      </tr>
+      <tbody>
+        <tr>
+          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
+          
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
   </div>
+
+  
 
   
 
@@ -781,11 +838,12 @@ a normal Array.</p>
     
     
     
+    
     <span data-ice="name">toJSON</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber144">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber131">source</a></span></span>
     </span>
   </h3>
 
@@ -803,14 +861,18 @@ a normal Array.</p>
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
-        
-      </tr>
+      <tbody>
+        <tr>
+          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
+          
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
   </div>
+
+  
 
   
 
@@ -832,11 +894,12 @@ a normal Array.</p>
     
     
     
+    
     <span data-ice="name">valueOf</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">Float64Array</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber155">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/vector.js.html#lineNumber142">source</a></span></span>
     </span>
   </h3>
 
@@ -855,14 +918,18 @@ array value.</p>
   <div class="return-params" data-ice="returnParams">
     <h4>Return:</h4>
     <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">Float64Array</a></span></td>
-        
-      </tr>
+      <tbody>
+        <tr>
+          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array">Float64Array</a></span></td>
+          
+        </tr>
+      </tbody>
     </table>
     <div data-ice="returnProperties">
 </div>
   </div>
+
+  
 
   
 
@@ -881,7 +948,7 @@ array value.</p>
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

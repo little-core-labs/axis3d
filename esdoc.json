@@ -1,7 +1,9 @@
 {
   "source": "./src",
   "destination": "./esdoc",
-  "plugins": [
-    {"name": "esdoc-es7-plugin"}
-  ]
+  "experimentalProposal": {
+    "classProperties": true,
+    "objectRestSpread": true,
+    "exportExtensions": true
+  }
 }

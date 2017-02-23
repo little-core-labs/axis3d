@@ -1,8 +1,28 @@
 {
-  "coverage": "30.55%",
-  "expectCount": 108,
-  "actualCount": 33,
+  "coverage": "21.01%",
+  "expectCount": 138,
+  "actualCount": 29,
   "files": {
+    "src/light/types.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        7,
+        8,
+        4,
+        6,
+        5
+      ]
+    },
+    "src/light/ambient.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        17,
+        18,
+        16
+      ]
+    },
     "src/geometry/box.js": {
       "expectCount": 2,
       "actualCount": 0,
@@ -23,29 +43,54 @@
         35
       ]
     },
+    "src/geometry/capsule.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        11,
+        12
+      ]
+    },
     "src/command.js": {
       "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
-        22,
-        23
+        8,
+        9
       ]
     },
     "src/context.js": {
       "expectCount": 19,
       "actualCount": 8,
       "undocumentLines": [
-        31,
-        89,
-        32,
-        13,
-        91,
-        87,
-        88,
-        93,
+        25,
+        84,
+        26,
+        14,
         86,
-        90,
-        92
+        82,
+        83,
+        88,
+        81,
+        85,
+        87
+      ]
+    },
+    "src/geometry/cylinder.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        15,
+        16
+      ]
+    },
+    "src/light/directional.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        17,
+        18,
+        16
       ]
     },
     "src/math/euler.js": {
@@ -57,26 +102,43 @@
         13
       ]
     },
+    "src/material/types.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        7,
+        4,
+        6
+      ]
+    },
+    "src/material/flat.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        12,
+        13
+      ]
+    },
     "src/frame.js": {
       "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
-        17,
-        18
+        29,
+        30
       ]
     },
     "src/geometry/geometry.js": {
-      "expectCount": 8,
+      "expectCount": 7,
       "actualCount": 0,
       "undocumentLines": [
-        11,
-        40,
         13,
-        12,
+        47,
         32,
-        28,
-        36,
-        14
+        14,
+        39,
+        35,
+        43
       ]
     },
     "src/geometry_buffer.js": {
@@ -95,20 +157,44 @@
         14
       ]
     },
-    "src/material.js": {
+    "src/material/lambert.js": {
       "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
-        12,
-        13
+        27,
+        28
+      ]
+    },
+    "src/light/light.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        25,
+        26
+      ]
+    },
+    "src/lines.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        19,
+        20
+      ]
+    },
+    "src/material/material.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        28,
+        29
       ]
     },
     "src/mesh.js": {
       "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
-        41,
-        42
+        36,
+        37
       ]
     },
     "src/input/mouse.js": {
@@ -121,10 +207,11 @@
     },
     "src/object3d.js": {
       "expectCount": 3,
-      "actualCount": 1,
+      "actualCount": 0,
       "undocumentLines": [
-        25,
-        35
+        33,
+        41,
+        37
       ]
     },
     "src/input/orientation.js": {
@@ -135,12 +222,29 @@
         103
       ]
     },
+    "src/material/phong.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        27,
+        28
+      ]
+    },
     "src/geometry/plane.js": {
       "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
         11,
         12
+      ]
+    },
+    "src/light/point.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        29,
+        30,
+        28
       ]
     },
     "src/math/quaternion.js": {
@@ -186,6 +290,14 @@
         12
       ]
     },
+    "src/geometry/torus.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        11,
+        12
+      ]
+    },
     "src/input/touch.js": {
       "expectCount": 2,
       "actualCount": 0,
@@ -203,11 +315,11 @@
       ]
     },
     "src/math/vector.js": {
-      "expectCount": 13,
-      "actualCount": 11,
+      "expectCount": 10,
+      "actualCount": 8,
       "undocumentLines": [
-        173,
-        174
+        13,
+        14
       ]
     },
     "src/utils.js": {

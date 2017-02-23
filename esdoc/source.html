@@ -37,7 +37,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/context.js~Context.html">Context</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/frame.js~FrameCommand.html">FrameCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry_buffer.js~GeometryBufferComand.html">GeometryBufferComand</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material.js~MaterialCommand.html">MaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/lines.js~LinesCommand.html">LinesCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh.js~MeshCommand.html">MeshCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/object3d.js~Object3DCommand.html">Object3DCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/stats.js~Stat.html">Stat</a></span></span></li>
@@ -49,45 +49,65 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-registerStat">registerStat</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-resetStat">resetStat</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-tailStat">tailStat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clampToMaxSize">clampToMaxSize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createCanvas">createCanvas</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-define">define</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getScreenOrientation">getScreenOrientation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isDOMElementInViewport">isDOMElementInViewport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-lerp">lerp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makePowerOfTwo">makePowerOfTwo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nearestPowerOfTwo">nearestPowerOfTwo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-radians">radians</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-scaleWithCanvas">scaleWithCanvas</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FAR">DEFAULT_CAMERA_FAR</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_FIELD_OF_VIEW">DEFAULT_CAMERA_FIELD_OF_VIEW</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_NEAR">DEFAULT_CAMERA_NEAR</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_ORIENTATION_ORIGIN">DEFAULT_CAMERA_ORIENTATION_ORIGIN</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-stats">stats</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-clampToMaxSize">clampToMaxSize</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-createCanvas">createCanvas</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-debug">debug</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-define">define</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-getScreenOrientation">getScreenOrientation</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-isDOMElementInViewport">isDOMElementInViewport</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-lerp">lerp</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makePowerOfTwo">makePowerOfTwo</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-nearestPowerOfTwo">nearestPowerOfTwo</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-radians">radians</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-scaleWithCanvas">scaleWithCanvas</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">geometry</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/box.js~BoxGeometry.html">BoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/capsule.js~CapsuleGeometry.html">CapsuleGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/cylinder.js~CylinderGeometry.html">CylinderGeometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/geometry.js~Geometry.html">Geometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/plane.js~PlaneGeometry.html">PlaneGeometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/sphere.js~SphereGeometry.html">SphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/torus.js~TorusGeometry.html">TorusGeometry</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/triangle.js~TriangleGeometry.html">TriangleGeometry</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">input</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/keyboard.js~KeyboardInputCommand.html">KeyboardInputCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/mouse.js~MouseInputCommand.html">MouseInputCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/orientation.js~OrientationInputCommand.html">OrientationInputCommand</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/touch.js~TouchInputCommand.html">TouchInputCommand</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/ambient.js~AmbientLightCommand.html">AmbientLightCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/directional.js~DirectionalLightCommand.html">DirectionalLightCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/light.js~LightCommand.html">LightCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/point.js~PointLightCommand.html">PointLightCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kMaxAmbientLights">kMaxAmbientLights</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kMaxDirectionalLights">kMaxDirectionalLights</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kMaxPointLights">kMaxPointLights</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-AmbientLight">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DirectionalLight">DirectionalLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Light">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PointLight">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SpotLight">SpotLight</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">material</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/flat.js~FlatMaterialCommand.html">FlatMaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/lambert.js~LambertMaterialCommand.html">LambertMaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/material.js~MaterialCommand.html">MaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/phong.js~PhongMaterialCommand.html">PhongMaterialCommand</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FlatMaterial">FlatMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LambertMaterial">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Material">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PhongMaterial">PhongMaterial</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/euler.js~Euler.html">Euler</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/quaternion.js~Quaternion.html">Quaternion</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-computeQuaternion">computeQuaternion</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-computeEuler">computeEuler</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-XVector3">XVector3</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-YVector3">YVector3</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ZVector3">ZVector3</a></span></span></li>
 </ul>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">33/108</span></h1>
+<div class="content" data-ice="content"><h1>Source <img data-ice="coverageBadge" src="./badge.svg"><span data-ice="totalCoverageCount" class="total-coverage-count">29/138</span></h1>
 
 <table class="files-summary" data-ice="files" data-use-coverage="true">
   <thead>
@@ -110,34 +130,34 @@
 <span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_NEAR">DEFAULT_CAMERA_NEAR</a></span>
 <span><a href="variable/index.html#static-variable-DEFAULT_CAMERA_ORIENTATION_ORIGIN">DEFAULT_CAMERA_ORIENTATION_ORIGIN</a></span></td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/6</span></td>
-      <td style="display: none;" data-ice="size">4619 byte</td>
-      <td style="display: none;" data-ice="lines">173</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 20:31:36 (UTC)</td>
+      <td style="display: none;" data-ice="size">4099 byte</td>
+      <td style="display: none;" data-ice="lines">152</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/command.js.html#errorLines=22,23">src/command.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/command.js.html#errorLines=8,9">src/command.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/command.js~Command.html">Command</a></span></td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
-      <td style="display: none;" data-ice="size">686 byte</td>
-      <td style="display: none;" data-ice="lines">31</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 20:31:24 (UTC)</td>
+      <td style="display: none;" data-ice="size">665 byte</td>
+      <td style="display: none;" data-ice="lines">28</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/context.js.html#errorLines=13,31,32,86,87,88,89,90,91,92,93">src/context.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/context.js.html#errorLines=14,25,26,81,82,83,84,85,86,87,88">src/context.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/context.js~Context.html">Context</a></span>
 <span><a href="variable/index.html#static-variable-defaults">defaults</a></span></td>
       <td class="coverage"><span data-ice="coverage">42 %</span><span data-ice="coverageCount" class="coverage-count">8/19</span></td>
-      <td style="display: none;" data-ice="size">4267 byte</td>
-      <td style="display: none;" data-ice="lines">213</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 20:31:15 (UTC)</td>
+      <td style="display: none;" data-ice="size">4135 byte</td>
+      <td style="display: none;" data-ice="lines">208</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/frame.js.html#errorLines=17,18">src/frame.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/frame.js.html#errorLines=29,30">src/frame.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/frame.js~FrameCommand.html">FrameCommand</a></span></td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
-      <td style="display: none;" data-ice="size">2142 byte</td>
-      <td style="display: none;" data-ice="lines">97</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 20:50:51 (UTC)</td>
+      <td style="display: none;" data-ice="size">2760 byte</td>
+      <td style="display: none;" data-ice="lines">130</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/geometry/box.js.html#errorLines=11,12">src/geometry/box.js</a></span></td>
@@ -145,31 +165,39 @@
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
       <td style="display: none;" data-ice="size">339 byte</td>
       <td style="display: none;" data-ice="lines">15</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 18:00:05 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/geometry/capsule.js.html">src/geometry/capsule.js</a></span></td>
-      <td data-ice="identifier" class="identifiers">-</td>
-      <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">0 byte</td>
-      
-      <td style="display: none;" data-ice="updated">2016-12-02 15:40:04 (UTC)</td>
+      <td data-ice="filePath"><span><a href="file/src/geometry/capsule.js.html#errorLines=11,12">src/geometry/capsule.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/geometry/capsule.js~CapsuleGeometry.html">CapsuleGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
+      <td style="display: none;" data-ice="size">438 byte</td>
+      <td style="display: none;" data-ice="lines">20</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/geometry/geometry.js.html#errorLines=11,12,13,14,28,32,36,40">src/geometry/geometry.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/geometry/cylinder.js.html#errorLines=15,16">src/geometry/cylinder.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/geometry/cylinder.js~CylinderGeometry.html">CylinderGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
+      <td style="display: none;" data-ice="size">621 byte</td>
+      <td style="display: none;" data-ice="lines">32</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/geometry/geometry.js.html#errorLines=13,14,32,35,39,43,47">src/geometry/geometry.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/geometry/geometry.js~Geometry.html">Geometry</a></span></td>
-      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/8</span></td>
-      <td style="display: none;" data-ice="size">897 byte</td>
-      <td style="display: none;" data-ice="lines">43</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 18:00:32 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/7</span></td>
+      <td style="display: none;" data-ice="size">1233 byte</td>
+      <td style="display: none;" data-ice="lines">50</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/geometry/index.js.html">src/geometry/index.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">194 byte</td>
-      <td style="display: none;" data-ice="lines">7</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 18:00:45 (UTC)</td>
+      <td style="display: none;" data-ice="size">314 byte</td>
+      <td style="display: none;" data-ice="lines">10</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/geometry/plane.js.html#errorLines=11,12">src/geometry/plane.js</a></span></td>
@@ -177,31 +205,31 @@
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
       <td style="display: none;" data-ice="size">682 byte</td>
       <td style="display: none;" data-ice="lines">36</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 18:01:02 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/geometry/sphere.js.html#errorLines=11,12">src/geometry/sphere.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/geometry/sphere.js~SphereGeometry.html">SphereGeometry</a></span></td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
-      <td style="display: none;" data-ice="size">362 byte</td>
-      <td style="display: none;" data-ice="lines">15</td>
-      <td style="display: none;" data-ice="updated">2017-01-02 23:26:32 (UTC)</td>
+      <td style="display: none;" data-ice="size">405 byte</td>
+      <td style="display: none;" data-ice="lines">18</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/geometry/torus.js.html">src/geometry/torus.js</a></span></td>
-      <td data-ice="identifier" class="identifiers">-</td>
-      <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">0 byte</td>
-      
-      <td style="display: none;" data-ice="updated">2016-12-02 15:40:04 (UTC)</td>
+      <td data-ice="filePath"><span><a href="file/src/geometry/torus.js.html#errorLines=11,12">src/geometry/torus.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/geometry/torus.js~TorusGeometry.html">TorusGeometry</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
+      <td style="display: none;" data-ice="size">537 byte</td>
+      <td style="display: none;" data-ice="lines">27</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/geometry/triangle.js.html#errorLines=10,11">src/geometry/triangle.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/geometry/triangle.js~TriangleGeometry.html">TriangleGeometry</a></span></td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
-      <td style="display: none;" data-ice="size">579 byte</td>
+      <td style="display: none;" data-ice="size">615 byte</td>
       <td style="display: none;" data-ice="lines">34</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 18:01:29 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/geometry_buffer.js.html#errorLines=16,17">src/geometry_buffer.js</a></span></td>
@@ -209,15 +237,15 @@
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
       <td style="display: none;" data-ice="size">2072 byte</td>
       <td style="display: none;" data-ice="lines">86</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 20:50:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/index.js.html">src/index.js</a></span></td>
       <td data-ice="identifier" class="identifiers">-</td>
       <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">343 byte</td>
-      <td style="display: none;" data-ice="lines">12</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 17:59:04 (UTC)</td>
+      <td style="display: none;" data-ice="size">438 byte</td>
+      <td style="display: none;" data-ice="lines">19</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/input/index.js.html">src/input/index.js</a></span></td>
@@ -225,7 +253,7 @@
       <td class="coverage"><span data-ice="coverage">-</span></td>
       <td style="display: none;" data-ice="size">164 byte</td>
       <td style="display: none;" data-ice="lines">6</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 20:34:10 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/input/keyboard.js.html#errorLines=13,14">src/input/keyboard.js</a></span></td>
@@ -233,7 +261,7 @@
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
       <td style="display: none;" data-ice="size">1527 byte</td>
       <td style="display: none;" data-ice="lines">67</td>
-      <td style="display: none;" data-ice="updated">2017-01-02 20:32:01 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/input/mouse.js.html#errorLines=15,16">src/input/mouse.js</a></span></td>
@@ -241,7 +269,7 @@
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
       <td style="display: none;" data-ice="size">2705 byte</td>
       <td style="display: none;" data-ice="lines">122</td>
-      <td style="display: none;" data-ice="updated">2017-01-02 20:32:07 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/input/orientation.js.html#errorLines=102,103">src/input/orientation.js</a></span></td>
@@ -249,7 +277,7 @@
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
       <td style="display: none;" data-ice="size">3894 byte</td>
       <td style="display: none;" data-ice="lines">179</td>
-      <td style="display: none;" data-ice="updated">2017-01-02 20:32:14 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/input/touch.js.html#errorLines=14,15">src/input/touch.js</a></span></td>
@@ -257,15 +285,121 @@
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
       <td style="display: none;" data-ice="size">2505 byte</td>
       <td style="display: none;" data-ice="lines">121</td>
-      <td style="display: none;" data-ice="updated">2017-01-02 20:32:20 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/material.js.html#errorLines=12,13">src/material.js</a></span></td>
-      <td data-ice="identifier" class="identifiers"><span><a href="class/src/material.js~MaterialCommand.html">MaterialCommand</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/light/ambient.js.html#errorLines=16,17,18">src/light/ambient.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/light/ambient.js~AmbientLightCommand.html">AmbientLightCommand</a></span>
+<span><a href="variable/index.html#static-variable-kMaxAmbientLights">kMaxAmbientLights</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/3</span></td>
+      <td style="display: none;" data-ice="size">475 byte</td>
+      <td style="display: none;" data-ice="lines">26</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/light/directional.js.html#errorLines=16,17,18">src/light/directional.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/light/directional.js~DirectionalLightCommand.html">DirectionalLightCommand</a></span>
+<span><a href="variable/index.html#static-variable-kMaxDirectionalLights">kMaxDirectionalLights</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/3</span></td>
+      <td style="display: none;" data-ice="size">512 byte</td>
+      <td style="display: none;" data-ice="lines">27</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/light/index.js.html">src/light/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">157 byte</td>
+      <td style="display: none;" data-ice="lines">6</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/light/light.js.html#errorLines=25,26">src/light/light.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/light/light.js~LightCommand.html">LightCommand</a></span></td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
-      <td style="display: none;" data-ice="size">3174 byte</td>
-      <td style="display: none;" data-ice="lines">139</td>
-      <td style="display: none;" data-ice="updated">2017-01-02 22:55:05 (UTC)</td>
+      <td style="display: none;" data-ice="size">2677 byte</td>
+      <td style="display: none;" data-ice="lines">105</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/light/point.js.html#errorLines=28,29,30">src/light/point.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/light/point.js~PointLightCommand.html">PointLightCommand</a></span>
+<span><a href="variable/index.html#static-variable-kMaxPointLights">kMaxPointLights</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/3</span></td>
+      <td style="display: none;" data-ice="size">903 byte</td>
+      <td style="display: none;" data-ice="lines">55</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/light/types.js.html#errorLines=4,5,6,7,8">src/light/types.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-AmbientLight">AmbientLight</a></span>
+<span><a href="variable/index.html#static-variable-DirectionalLight">DirectionalLight</a></span>
+<span><a href="variable/index.html#static-variable-Light">Light</a></span>
+<span><a href="variable/index.html#static-variable-PointLight">PointLight</a></span>
+<span><a href="variable/index.html#static-variable-SpotLight">SpotLight</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/5</span></td>
+      <td style="display: none;" data-ice="size">204 byte</td>
+      <td style="display: none;" data-ice="lines">8</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/lines.js.html#errorLines=19,20">src/lines.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/lines.js~LinesCommand.html">LinesCommand</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
+      <td style="display: none;" data-ice="size">1639 byte</td>
+      <td style="display: none;" data-ice="lines">61</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/material/flat.js.html#errorLines=12,13">src/material/flat.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/material/flat.js~FlatMaterialCommand.html">FlatMaterialCommand</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
+      <td style="display: none;" data-ice="size">332 byte</td>
+      <td style="display: none;" data-ice="lines">16</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/material/index.js.html">src/material/index.js</a></span></td>
+      <td data-ice="identifier" class="identifiers">-</td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">158 byte</td>
+      <td style="display: none;" data-ice="lines">6</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/material/lambert.js.html#errorLines=27,28">src/material/lambert.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/material/lambert.js~LambertMaterialCommand.html">LambertMaterialCommand</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
+      <td style="display: none;" data-ice="size">3987 byte</td>
+      <td style="display: none;" data-ice="lines">162</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/material/material.js.html#errorLines=28,29">src/material/material.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/material/material.js~MaterialCommand.html">MaterialCommand</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
+      <td style="display: none;" data-ice="size">5578 byte</td>
+      <td style="display: none;" data-ice="lines">230</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/material/phong.js.html#errorLines=27,28">src/material/phong.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/material/phong.js~PhongMaterialCommand.html">PhongMaterialCommand</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
+      <td style="display: none;" data-ice="size">1081 byte</td>
+      <td style="display: none;" data-ice="lines">54</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/src/material/types.js.html#errorLines=4,5,6,7">src/material/types.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-FlatMaterial">FlatMaterial</a></span>
+<span><a href="variable/index.html#static-variable-LambertMaterial">LambertMaterial</a></span>
+<span><a href="variable/index.html#static-variable-Material">Material</a></span>
+<span><a href="variable/index.html#static-variable-PhongMaterial">PhongMaterial</a></span></td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/4</span></td>
+      <td style="display: none;" data-ice="size">177 byte</td>
+      <td style="display: none;" data-ice="lines">7</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/math/euler.js.html#errorLines=10,11,13">src/math/euler.js</a></span></td>
@@ -274,7 +408,7 @@
       <td class="coverage"><span data-ice="coverage">25 %</span><span data-ice="coverageCount" class="coverage-count">1/4</span></td>
       <td style="display: none;" data-ice="size">1722 byte</td>
       <td style="display: none;" data-ice="lines">67</td>
-      <td style="display: none;" data-ice="updated">2016-12-05 20:40:33 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/math/index.js.html">src/math/index.js</a></span></td>
@@ -282,7 +416,7 @@
       <td class="coverage"><span data-ice="coverage">-</span></td>
       <td style="display: none;" data-ice="size">150 byte</td>
       <td style="display: none;" data-ice="lines">9</td>
-      <td style="display: none;" data-ice="updated">2016-12-05 22:22:56 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/math/quaternion.js.html#errorLines=15,16">src/math/quaternion.js</a></span></td>
@@ -291,34 +425,31 @@
       <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
       <td style="display: none;" data-ice="size">763 byte</td>
       <td style="display: none;" data-ice="lines">35</td>
-      <td style="display: none;" data-ice="updated">2016-12-05 21:22:07 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/math/vector.js.html#errorLines=173,174">src/math/vector.js</a></span></td>
-      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span>
-<span><a href="variable/index.html#static-variable-XVector3">XVector3</a></span>
-<span><a href="variable/index.html#static-variable-YVector3">YVector3</a></span>
-<span><a href="variable/index.html#static-variable-ZVector3">ZVector3</a></span></td>
-      <td class="coverage"><span data-ice="coverage">84 %</span><span data-ice="coverageCount" class="coverage-count">11/13</span></td>
-      <td style="display: none;" data-ice="size">3108 byte</td>
-      <td style="display: none;" data-ice="lines">174</td>
-      <td style="display: none;" data-ice="updated">2016-12-04 16:33:00 (UTC)</td>
+      <td data-ice="filePath"><span><a href="file/src/math/vector.js.html#errorLines=13,14">src/math/vector.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></td>
+      <td class="coverage"><span data-ice="coverage">80 %</span><span data-ice="coverageCount" class="coverage-count">8/10</span></td>
+      <td style="display: none;" data-ice="size">2789 byte</td>
+      <td style="display: none;" data-ice="lines">153</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/mesh.js.html#errorLines=41,42">src/mesh.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/mesh.js.html#errorLines=36,37">src/mesh.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/mesh.js~MeshCommand.html">MeshCommand</a></span></td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
-      <td style="display: none;" data-ice="size">8423 byte</td>
-      <td style="display: none;" data-ice="lines">305</td>
-      <td style="display: none;" data-ice="updated">2017-01-02 22:57:13 (UTC)</td>
+      <td style="display: none;" data-ice="size">7826 byte</td>
+      <td style="display: none;" data-ice="lines">291</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 05:07:31 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/src/object3d.js.html#errorLines=25,35">src/object3d.js</a></span></td>
+      <td data-ice="filePath"><span><a href="file/src/object3d.js.html#errorLines=33,37,41">src/object3d.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/object3d.js~Object3DCommand.html">Object3DCommand</a></span></td>
-      <td class="coverage"><span data-ice="coverage">33 %</span><span data-ice="coverageCount" class="coverage-count">1/3</span></td>
-      <td style="display: none;" data-ice="size">3856 byte</td>
-      <td style="display: none;" data-ice="lines">160</td>
-      <td style="display: none;" data-ice="updated">2017-01-02 21:02:40 (UTC)</td>
+      <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/3</span></td>
+      <td style="display: none;" data-ice="size">3380 byte</td>
+      <td style="display: none;" data-ice="lines">137</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/stats.js.html#errorLines=12,19,3,30,41,45,5,52,60,61,62,63,64">src/stats.js</a></span></td>
@@ -334,40 +465,40 @@
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/13</span></td>
       <td style="display: none;" data-ice="size">1142 byte</td>
       <td style="display: none;" data-ice="lines">66</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 21:29:32 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/texture.js.html#errorLines=11,12">src/texture.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/src/texture.js~TextureCommand.html">TextureCommand</a></span></td>
       <td class="coverage"><span data-ice="coverage">0 %</span><span data-ice="coverageCount" class="coverage-count">0/2</span></td>
-      <td style="display: none;" data-ice="size">5016 byte</td>
-      <td style="display: none;" data-ice="lines">188</td>
-      <td style="display: none;" data-ice="updated">2016-12-06 20:50:15 (UTC)</td>
+      <td style="display: none;" data-ice="size">5236 byte</td>
+      <td style="display: none;" data-ice="lines">194</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/src/utils.js.html">src/utils.js</a></span></td>
-      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-clampToMaxSize">clampToMaxSize</a></span>
-<span><a href="variable/index.html#static-variable-createCanvas">createCanvas</a></span>
+      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-clampToMaxSize">clampToMaxSize</a></span>
+<span><a href="function/index.html#static-function-createCanvas">createCanvas</a></span>
 <span><a href="variable/index.html#static-variable-debug">debug</a></span>
-<span><a href="variable/index.html#static-variable-define">define</a></span>
-<span><a href="variable/index.html#static-variable-getScreenOrientation">getScreenOrientation</a></span>
-<span><a href="variable/index.html#static-variable-isDOMElementInViewport">isDOMElementInViewport</a></span>
-<span><a href="variable/index.html#static-variable-lerp">lerp</a></span>
-<span><a href="variable/index.html#static-variable-makePowerOfTwo">makePowerOfTwo</a></span>
-<span><a href="variable/index.html#static-variable-nearestPowerOfTwo">nearestPowerOfTwo</a></span>
-<span><a href="variable/index.html#static-variable-radians">radians</a></span>
-<span><a href="variable/index.html#static-variable-scaleWithCanvas">scaleWithCanvas</a></span></td>
+<span><a href="function/index.html#static-function-define">define</a></span>
+<span><a href="function/index.html#static-function-getScreenOrientation">getScreenOrientation</a></span>
+<span><a href="function/index.html#static-function-isDOMElementInViewport">isDOMElementInViewport</a></span>
+<span><a href="function/index.html#static-function-lerp">lerp</a></span>
+<span><a href="function/index.html#static-function-makePowerOfTwo">makePowerOfTwo</a></span>
+<span><a href="function/index.html#static-function-nearestPowerOfTwo">nearestPowerOfTwo</a></span>
+<span><a href="function/index.html#static-function-radians">radians</a></span>
+<span><a href="function/index.html#static-function-scaleWithCanvas">scaleWithCanvas</a></span></td>
       <td class="coverage"><span data-ice="coverage">100 %</span><span data-ice="coverageCount" class="coverage-count">11/11</span></td>
       <td style="display: none;" data-ice="size">4381 byte</td>
       <td style="display: none;" data-ice="lines">180</td>
-      <td style="display: none;" data-ice="updated">2016-12-03 17:10:42 (UTC)</td>
+      <td style="display: none;" data-ice="updated">2017-02-04 04:37:47 (UTC)</td>
     </tr>
 </tbody>
 </table>
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>
