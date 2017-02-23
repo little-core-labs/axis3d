@@ -1,5 +1,17 @@
 window.esdocSearchIndex = [
   [
+    "axis3d/src/light/types.js~ambientlight",
+    "variable/index.html#static-variable-AmbientLight",
+    "<span>AmbientLight</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/light/ambient.js~ambientlightcommand",
+    "class/src/light/ambient.js~AmbientLightCommand.html",
+    "<span>AmbientLightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/ambient.js</span>",
+    "class"
+  ],
+  [
     "axis3d/src/geometry/box.js~boxgeometry",
     "class/src/geometry/box.js~BoxGeometry.html",
     "<span>BoxGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/box.js</span>",
@@ -12,6 +24,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "axis3d/src/geometry/capsule.js~capsulegeometry",
+    "class/src/geometry/capsule.js~CapsuleGeometry.html",
+    "<span>CapsuleGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/capsule.js</span>",
+    "class"
+  ],
+  [
     "axis3d/src/command.js~command",
     "class/src/command.js~Command.html",
     "<span>Command</span> <span class=\"search-result-import-path\">axis3d/src/command.js</span>",
@@ -21,6 +39,12 @@ window.esdocSearchIndex = [
     "axis3d/src/context.js~context",
     "class/src/context.js~Context.html",
     "<span>Context</span> <span class=\"search-result-import-path\">axis3d/src/context.js</span>",
+    "class"
+  ],
+  [
+    "axis3d/src/geometry/cylinder.js~cylindergeometry",
+    "class/src/geometry/cylinder.js~CylinderGeometry.html",
+    "<span>CylinderGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/cylinder.js</span>",
     "class"
   ],
   [
@@ -48,9 +72,33 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "axis3d/src/light/types.js~directionallight",
+    "variable/index.html#static-variable-DirectionalLight",
+    "<span>DirectionalLight</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/light/directional.js~directionallightcommand",
+    "class/src/light/directional.js~DirectionalLightCommand.html",
+    "<span>DirectionalLightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/directional.js</span>",
+    "class"
+  ],
+  [
     "axis3d/src/math/euler.js~euler",
     "class/src/math/euler.js~Euler.html",
     "<span>Euler</span> <span class=\"search-result-import-path\">axis3d/src/math/euler.js</span>",
+    "class"
+  ],
+  [
+    "axis3d/src/material/types.js~flatmaterial",
+    "variable/index.html#static-variable-FlatMaterial",
+    "<span>FlatMaterial</span> <span class=\"search-result-import-path\">axis3d/src/material/types.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/material/flat.js~flatmaterialcommand",
+    "class/src/material/flat.js~FlatMaterialCommand.html",
+    "<span>FlatMaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material/flat.js</span>",
     "class"
   ],
   [
@@ -78,9 +126,45 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "axis3d/src/material.js~materialcommand",
-    "class/src/material.js~MaterialCommand.html",
-    "<span>MaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material.js</span>",
+    "axis3d/src/material/types.js~lambertmaterial",
+    "variable/index.html#static-variable-LambertMaterial",
+    "<span>LambertMaterial</span> <span class=\"search-result-import-path\">axis3d/src/material/types.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/material/lambert.js~lambertmaterialcommand",
+    "class/src/material/lambert.js~LambertMaterialCommand.html",
+    "<span>LambertMaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material/lambert.js</span>",
+    "class"
+  ],
+  [
+    "axis3d/src/light/types.js~light",
+    "variable/index.html#static-variable-Light",
+    "<span>Light</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/light/light.js~lightcommand",
+    "class/src/light/light.js~LightCommand.html",
+    "<span>LightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/light.js</span>",
+    "class"
+  ],
+  [
+    "axis3d/src/lines.js~linescommand",
+    "class/src/lines.js~LinesCommand.html",
+    "<span>LinesCommand</span> <span class=\"search-result-import-path\">axis3d/src/lines.js</span>",
+    "class"
+  ],
+  [
+    "axis3d/src/material/types.js~material",
+    "variable/index.html#static-variable-Material",
+    "<span>Material</span> <span class=\"search-result-import-path\">axis3d/src/material/types.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/material/material.js~materialcommand",
+    "class/src/material/material.js~MaterialCommand.html",
+    "<span>MaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material/material.js</span>",
     "class"
   ],
   [
@@ -108,9 +192,33 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "axis3d/src/material/types.js~phongmaterial",
+    "variable/index.html#static-variable-PhongMaterial",
+    "<span>PhongMaterial</span> <span class=\"search-result-import-path\">axis3d/src/material/types.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/material/phong.js~phongmaterialcommand",
+    "class/src/material/phong.js~PhongMaterialCommand.html",
+    "<span>PhongMaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material/phong.js</span>",
+    "class"
+  ],
+  [
     "axis3d/src/geometry/plane.js~planegeometry",
     "class/src/geometry/plane.js~PlaneGeometry.html",
     "<span>PlaneGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/plane.js</span>",
+    "class"
+  ],
+  [
+    "axis3d/src/light/types.js~pointlight",
+    "variable/index.html#static-variable-PointLight",
+    "<span>PointLight</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/light/point.js~pointlightcommand",
+    "class/src/light/point.js~PointLightCommand.html",
+    "<span>PointLightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/point.js</span>",
     "class"
   ],
   [
@@ -126,6 +234,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "axis3d/src/light/types.js~spotlight",
+    "variable/index.html#static-variable-SpotLight",
+    "<span>SpotLight</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
+    "variable"
+  ],
+  [
     "axis3d/src/stats.js~stat",
     "class/src/stats.js~Stat.html",
     "<span>Stat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
@@ -135,6 +249,12 @@ window.esdocSearchIndex = [
     "axis3d/src/texture.js~texturecommand",
     "class/src/texture.js~TextureCommand.html",
     "<span>TextureCommand</span> <span class=\"search-result-import-path\">axis3d/src/texture.js</span>",
+    "class"
+  ],
+  [
+    "axis3d/src/geometry/torus.js~torusgeometry",
+    "class/src/geometry/torus.js~TorusGeometry.html",
+    "<span>TorusGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/torus.js</span>",
     "class"
   ],
   [
@@ -156,28 +276,10 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "axis3d/src/math/vector.js~xvector3",
-    "variable/index.html#static-variable-XVector3",
-    "<span>XVector3</span> <span class=\"search-result-import-path\">axis3d/src/math/vector.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/math/vector.js~yvector3",
-    "variable/index.html#static-variable-YVector3",
-    "<span>YVector3</span> <span class=\"search-result-import-path\">axis3d/src/math/vector.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/math/vector.js~zvector3",
-    "variable/index.html#static-variable-ZVector3",
-    "<span>ZVector3</span> <span class=\"search-result-import-path\">axis3d/src/math/vector.js</span>",
-    "variable"
-  ],
-  [
     "axis3d/src/utils.js~clamptomaxsize",
-    "variable/index.html#static-variable-clampToMaxSize",
+    "function/index.html#static-function-clampToMaxSize",
     "<span>clampToMaxSize</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
+    "function"
   ],
   [
     "axis3d/src/math/quaternion.js~computeeuler",
@@ -193,9 +295,9 @@ window.esdocSearchIndex = [
   ],
   [
     "axis3d/src/utils.js~createcanvas",
-    "variable/index.html#static-variable-createCanvas",
+    "function/index.html#static-function-createCanvas",
     "<span>createCanvas</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
+    "function"
   ],
   [
     "axis3d/src/stats.js~createstatlist",
@@ -223,15 +325,15 @@ window.esdocSearchIndex = [
   ],
   [
     "axis3d/src/utils.js~define",
-    "variable/index.html#static-variable-define",
+    "function/index.html#static-function-define",
     "<span>define</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
+    "function"
   ],
   [
     "axis3d/src/utils.js~getscreenorientation",
-    "variable/index.html#static-variable-getScreenOrientation",
+    "function/index.html#static-function-getScreenOrientation",
     "<span>getScreenOrientation</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
+    "function"
   ],
   [
     "axis3d/src/stats.js~headstat",
@@ -247,33 +349,51 @@ window.esdocSearchIndex = [
   ],
   [
     "axis3d/src/utils.js~isdomelementinviewport",
-    "variable/index.html#static-variable-isDOMElementInViewport",
+    "function/index.html#static-function-isDOMElementInViewport",
     "<span>isDOMElementInViewport</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "axis3d/src/light/ambient.js~kmaxambientlights",
+    "variable/index.html#static-variable-kMaxAmbientLights",
+    "<span>kMaxAmbientLights</span> <span class=\"search-result-import-path\">axis3d/src/light/ambient.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/light/directional.js~kmaxdirectionallights",
+    "variable/index.html#static-variable-kMaxDirectionalLights",
+    "<span>kMaxDirectionalLights</span> <span class=\"search-result-import-path\">axis3d/src/light/directional.js</span>",
+    "variable"
+  ],
+  [
+    "axis3d/src/light/point.js~kmaxpointlights",
+    "variable/index.html#static-variable-kMaxPointLights",
+    "<span>kMaxPointLights</span> <span class=\"search-result-import-path\">axis3d/src/light/point.js</span>",
     "variable"
   ],
   [
     "axis3d/src/utils.js~lerp",
-    "variable/index.html#static-variable-lerp",
+    "function/index.html#static-function-lerp",
     "<span>lerp</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
+    "function"
   ],
   [
     "axis3d/src/utils.js~makepoweroftwo",
-    "variable/index.html#static-variable-makePowerOfTwo",
+    "function/index.html#static-function-makePowerOfTwo",
     "<span>makePowerOfTwo</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
+    "function"
   ],
   [
     "axis3d/src/utils.js~nearestpoweroftwo",
-    "variable/index.html#static-variable-nearestPowerOfTwo",
+    "function/index.html#static-function-nearestPowerOfTwo",
     "<span>nearestPowerOfTwo</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
+    "function"
   ],
   [
     "axis3d/src/utils.js~radians",
-    "variable/index.html#static-variable-radians",
+    "function/index.html#static-function-radians",
     "<span>radians</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
+    "function"
   ],
   [
     "axis3d/src/stats.js~registerstat",
@@ -289,9 +409,9 @@ window.esdocSearchIndex = [
   ],
   [
     "axis3d/src/utils.js~scalewithcanvas",
-    "variable/index.html#static-variable-scaleWithCanvas",
+    "function/index.html#static-function-scaleWithCanvas",
     "<span>scaleWithCanvas</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
+    "function"
   ],
   [
     "axis3d/src/stats.js~stats",
@@ -307,331 +427,331 @@ window.esdocSearchIndex = [
   ],
   [
     "builtinexternal/ecmascriptexternal.js~array",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
     "BuiltinExternal/ECMAScriptExternal.js~Array",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~arraybuffer",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
     "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~boolean",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
     "BuiltinExternal/ECMAScriptExternal.js~Boolean",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~dataview",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
     "BuiltinExternal/ECMAScriptExternal.js~DataView",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~date",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
     "BuiltinExternal/ECMAScriptExternal.js~Date",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~error",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
     "BuiltinExternal/ECMAScriptExternal.js~Error",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~evalerror",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
     "BuiltinExternal/ECMAScriptExternal.js~EvalError",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~float32array",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
     "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~float64array",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
     "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~function",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
     "BuiltinExternal/ECMAScriptExternal.js~Function",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~generator",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
     "BuiltinExternal/ECMAScriptExternal.js~Generator",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~generatorfunction",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
     "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~infinity",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
     "BuiltinExternal/ECMAScriptExternal.js~Infinity",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~int16array",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
     "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~int32array",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
     "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~int8array",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
     "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~internalerror",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
     "BuiltinExternal/ECMAScriptExternal.js~InternalError",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~json",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
     "BuiltinExternal/ECMAScriptExternal.js~JSON",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~map",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
     "BuiltinExternal/ECMAScriptExternal.js~Map",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~nan",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
     "BuiltinExternal/ECMAScriptExternal.js~NaN",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~number",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
     "BuiltinExternal/ECMAScriptExternal.js~Number",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~object",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
     "BuiltinExternal/ECMAScriptExternal.js~Object",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~promise",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
     "BuiltinExternal/ECMAScriptExternal.js~Promise",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~proxy",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
     "BuiltinExternal/ECMAScriptExternal.js~Proxy",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~rangeerror",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
     "BuiltinExternal/ECMAScriptExternal.js~RangeError",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~referenceerror",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
     "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~reflect",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
     "BuiltinExternal/ECMAScriptExternal.js~Reflect",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~regexp",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
     "BuiltinExternal/ECMAScriptExternal.js~RegExp",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~set",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
     "BuiltinExternal/ECMAScriptExternal.js~Set",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~string",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
     "BuiltinExternal/ECMAScriptExternal.js~String",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~symbol",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
     "BuiltinExternal/ECMAScriptExternal.js~Symbol",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~syntaxerror",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
     "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~typeerror",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
     "BuiltinExternal/ECMAScriptExternal.js~TypeError",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~urierror",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
     "BuiltinExternal/ECMAScriptExternal.js~URIError",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~uint16array",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
     "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~uint32array",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
     "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~uint8array",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
     "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~uint8clampedarray",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
     "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~weakmap",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
     "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~weakset",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
     "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~boolean",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
     "BuiltinExternal/ECMAScriptExternal.js~boolean",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~function",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
     "BuiltinExternal/ECMAScriptExternal.js~function",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~null",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
     "BuiltinExternal/ECMAScriptExternal.js~null",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~number",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
     "BuiltinExternal/ECMAScriptExternal.js~number",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~object",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
     "BuiltinExternal/ECMAScriptExternal.js~object",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~string",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
     "BuiltinExternal/ECMAScriptExternal.js~string",
     "external"
   ],
   [
     "builtinexternal/ecmascriptexternal.js~undefined",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
     "BuiltinExternal/ECMAScriptExternal.js~undefined",
     "external"
   ],
   [
     "builtinexternal/webapiexternal.js~audiocontext",
-    "external/index.html",
+    "https://developer.mozilla.org/en/docs/Web/API/AudioContext",
     "BuiltinExternal/WebAPIExternal.js~AudioContext",
     "external"
   ],
   [
     "builtinexternal/webapiexternal.js~canvasrenderingcontext2d",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
     "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
     "external"
   ],
   [
     "builtinexternal/webapiexternal.js~documentfragment",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
     "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
     "external"
   ],
   [
     "builtinexternal/webapiexternal.js~element",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/API/Element",
     "BuiltinExternal/WebAPIExternal.js~Element",
     "external"
   ],
   [
     "builtinexternal/webapiexternal.js~event",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/API/Event",
     "BuiltinExternal/WebAPIExternal.js~Event",
     "external"
   ],
   [
     "builtinexternal/webapiexternal.js~node",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/API/Node",
     "BuiltinExternal/WebAPIExternal.js~Node",
     "external"
   ],
   [
     "builtinexternal/webapiexternal.js~nodelist",
-    "external/index.html",
+    "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
     "BuiltinExternal/WebAPIExternal.js~NodeList",
     "external"
   ],
   [
     "builtinexternal/webapiexternal.js~xmlhttprequest",
-    "external/index.html",
+    "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
     "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
     "external"
   ],
@@ -756,9 +876,9 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/context.js~context#state",
-    "class/src/context.js~Context.html#instance-get-state",
-    "src/context.js~Context#state",
+    "src/context.js~context#stack",
+    "class/src/context.js~Context.html#instance-get-stack",
+    "src/context.js~Context#stack",
     "member"
   ],
   [
@@ -796,6 +916,24 @@ window.esdocSearchIndex = [
     "file/src/geometry/capsule.js.html",
     "src/geometry/capsule.js",
     "file"
+  ],
+  [
+    "src/geometry/capsule.js~capsulegeometry#constructor",
+    "class/src/geometry/capsule.js~CapsuleGeometry.html#instance-constructor-constructor",
+    "src/geometry/capsule.js~CapsuleGeometry#constructor",
+    "method"
+  ],
+  [
+    "src/geometry/cylinder.js",
+    "file/src/geometry/cylinder.js.html",
+    "src/geometry/cylinder.js",
+    "file"
+  ],
+  [
+    "src/geometry/cylinder.js~cylindergeometry#constructor",
+    "class/src/geometry/cylinder.js~CylinderGeometry.html#instance-constructor-constructor",
+    "src/geometry/cylinder.js~CylinderGeometry#constructor",
+    "method"
   ],
   [
     "src/geometry/geometry.js",
@@ -840,12 +978,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/geometry/geometry.js~geometry#wireframe",
-    "class/src/geometry/geometry.js~Geometry.html#instance-member-wireframe",
-    "src/geometry/geometry.js~Geometry#wireframe",
-    "member"
-  ],
-  [
     "src/geometry/index.js",
     "file/src/geometry/index.js.html",
     "src/geometry/index.js",
@@ -880,6 +1012,12 @@ window.esdocSearchIndex = [
     "file/src/geometry/torus.js.html",
     "src/geometry/torus.js",
     "file"
+  ],
+  [
+    "src/geometry/torus.js~torusgeometry#constructor",
+    "class/src/geometry/torus.js~TorusGeometry.html#instance-constructor-constructor",
+    "src/geometry/torus.js~TorusGeometry#constructor",
+    "method"
   ],
   [
     "src/geometry/triangle.js",
@@ -966,16 +1104,136 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/material.js",
-    "file/src/material.js.html",
-    "src/material.js",
+    "src/light/ambient.js",
+    "file/src/light/ambient.js.html",
+    "src/light/ambient.js",
     "file"
   ],
   [
-    "src/material.js~materialcommand#constructor",
-    "class/src/material.js~MaterialCommand.html#instance-constructor-constructor",
-    "src/material.js~MaterialCommand#constructor",
+    "src/light/ambient.js~ambientlightcommand#constructor",
+    "class/src/light/ambient.js~AmbientLightCommand.html#instance-constructor-constructor",
+    "src/light/ambient.js~AmbientLightCommand#constructor",
     "method"
+  ],
+  [
+    "src/light/directional.js",
+    "file/src/light/directional.js.html",
+    "src/light/directional.js",
+    "file"
+  ],
+  [
+    "src/light/directional.js~directionallightcommand#constructor",
+    "class/src/light/directional.js~DirectionalLightCommand.html#instance-constructor-constructor",
+    "src/light/directional.js~DirectionalLightCommand#constructor",
+    "method"
+  ],
+  [
+    "src/light/index.js",
+    "file/src/light/index.js.html",
+    "src/light/index.js",
+    "file"
+  ],
+  [
+    "src/light/light.js",
+    "file/src/light/light.js.html",
+    "src/light/light.js",
+    "file"
+  ],
+  [
+    "src/light/light.js~lightcommand#constructor",
+    "class/src/light/light.js~LightCommand.html#instance-constructor-constructor",
+    "src/light/light.js~LightCommand#constructor",
+    "method"
+  ],
+  [
+    "src/light/point.js",
+    "file/src/light/point.js.html",
+    "src/light/point.js",
+    "file"
+  ],
+  [
+    "src/light/point.js~pointlightcommand#constructor",
+    "class/src/light/point.js~PointLightCommand.html#instance-constructor-constructor",
+    "src/light/point.js~PointLightCommand#constructor",
+    "method"
+  ],
+  [
+    "src/light/types.js",
+    "file/src/light/types.js.html",
+    "src/light/types.js",
+    "file"
+  ],
+  [
+    "src/lines.js",
+    "file/src/lines.js.html",
+    "src/lines.js",
+    "file"
+  ],
+  [
+    "src/lines.js~linescommand#constructor",
+    "class/src/lines.js~LinesCommand.html#instance-constructor-constructor",
+    "src/lines.js~LinesCommand#constructor",
+    "method"
+  ],
+  [
+    "src/material/flat.js",
+    "file/src/material/flat.js.html",
+    "src/material/flat.js",
+    "file"
+  ],
+  [
+    "src/material/flat.js~flatmaterialcommand#constructor",
+    "class/src/material/flat.js~FlatMaterialCommand.html#instance-constructor-constructor",
+    "src/material/flat.js~FlatMaterialCommand#constructor",
+    "method"
+  ],
+  [
+    "src/material/index.js",
+    "file/src/material/index.js.html",
+    "src/material/index.js",
+    "file"
+  ],
+  [
+    "src/material/lambert.js",
+    "file/src/material/lambert.js.html",
+    "src/material/lambert.js",
+    "file"
+  ],
+  [
+    "src/material/lambert.js~lambertmaterialcommand#constructor",
+    "class/src/material/lambert.js~LambertMaterialCommand.html#instance-constructor-constructor",
+    "src/material/lambert.js~LambertMaterialCommand#constructor",
+    "method"
+  ],
+  [
+    "src/material/material.js",
+    "file/src/material/material.js.html",
+    "src/material/material.js",
+    "file"
+  ],
+  [
+    "src/material/material.js~materialcommand#constructor",
+    "class/src/material/material.js~MaterialCommand.html#instance-constructor-constructor",
+    "src/material/material.js~MaterialCommand#constructor",
+    "method"
+  ],
+  [
+    "src/material/phong.js",
+    "file/src/material/phong.js.html",
+    "src/material/phong.js",
+    "file"
+  ],
+  [
+    "src/material/phong.js~phongmaterialcommand#constructor",
+    "class/src/material/phong.js~PhongMaterialCommand.html#instance-constructor-constructor",
+    "src/material/phong.js~PhongMaterialCommand#constructor",
+    "method"
+  ],
+  [
+    "src/material/types.js",
+    "file/src/material/types.js.html",
+    "src/material/types.js",
+    "file"
   ],
   [
     "src/math/euler.js",
