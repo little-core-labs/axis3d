@@ -1,9 +1,9 @@
 {
   "source": "./src",
   "destination": "./esdoc",
-	"experimentalProposal": {
+  "experimentalProposal": {
     "classProperties": true,
     "objectRestSpread": true,
-		"exportExtensions": true
+    "exportExtensions": true
   }
 }
