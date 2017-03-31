@@ -88,8 +88,7 @@ export class OrbitCameraController extends AbstractControllerCommand {
 
         // input state given to controller inputs
         const state = {
-          invert: false,
-
+          ...initial,
           ...updates,
           keyboardInput,
           mouseInput,

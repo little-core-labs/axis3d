@@ -2,7 +2,6 @@
 
 import {
   PerspectiveCamera,
-  OrientationInput,
   SphereGeometry,
   KeyboardInput,
   FlatMaterial,
@@ -32,15 +31,16 @@ const sphere = Mesh(ctx, { geometry: SphereGeometry(ctx)})
 const frame = Frame(ctx)
 
 // inputs
-const orientation = OrientationInput(ctx)
 const keyboard = KeyboardInput(ctx)
 const mouse = MouseInput(ctx)
 const touch = TouchInput(ctx)
 
-const inputs = { orientation, keyboard, touch, mouse }
+const inputs = { keyboard, touch, mouse }
 const orbitCamera = OrbitCameraController(ctx, {
-  camera, inputs,
-  interpolationFactor: 0.3,
+  camera,
+  inputs,
+  invert: true,
+  interpolationFactor: 0.2,
   rotation: quat.setAxisAngle([], [0, 1, 0], 0.5*Math.PI)
 })
 
@@ -49,7 +49,7 @@ let isVideoPlaying = false
 video.src = 'paramotor.mp4'
 video.preload = 'metadata'
 video.autoload = true
-//video.load()
+video.load()
 
 video.addEventListener('playing', () => { isVideoPlaying = true })
 video.addEventListener('play', () => { isVideoPlaying = true })
@@ -65,7 +65,6 @@ ctx.domElement.addEventListener('touchstart', onclick)
 ctx.domElement.addEventListener('click', onclick)
 function onclick(e) {
   e.preventDefault()
-  console.log(isVideoPlaying)
   if (isVideoPlaying) { video.pause() }
   else { video.play() }
 }
@@ -73,8 +72,8 @@ function onclick(e) {
 frame(({time}) => {
   orbitCamera(() => {
     texture({data: video})
-    material(() => {
-      sphere({scale: 100})
+    material({cull: false}, () => {
+      sphere()
     })
   })
 })
