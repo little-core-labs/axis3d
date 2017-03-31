@@ -128,7 +128,7 @@ dist: dist/axis.min.js
 #
 dist/axis.min.js: node_modules lib
 	$(BUILD_PARENT_DIRECTORY)
-	$(BROWSERIFY) $(BROWSERIFY_TRANSFORM) -g uglifyify -g rollupify --standalone $(GLOBAL_NAMESPACE) $(LIB_MAIN) > $@
+	$(BROWSERIFY) $(BROWSERIFY_TRANSFORM) -g rollupify -t uglifyify --standalone $(GLOBAL_NAMESPACE) $(LIB_MAIN) > $@
 
 ##
 # Builds node modules

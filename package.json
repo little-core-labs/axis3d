@@ -1,7 +1,7 @@
 {
   "name": "axis3d",
-  "version": "0.0.13",
-  "description": "TBA",
+  "version": "0.1.0",
+  "description": "Minimal functional graphics library.",
   "scripts": {
     "test": "node test",
     "build": "browserify app/main.js -o public/js/bundle.js"
