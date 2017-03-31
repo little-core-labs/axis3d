@@ -104,6 +104,7 @@ all: lib build dist
 lib: $(SRC) | node_modules
 	BABEL_ENV=$(BABEL_ENV) $(BABEL) $(CWD)/src --out-dir $@ --source-maps inline
 	cp package.json $@
+	cp README.md $@
 
 ##
 # Builds all build files
