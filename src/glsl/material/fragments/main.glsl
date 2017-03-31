@@ -3,19 +3,33 @@ precision mediump float;
 //
 // Shader dependencies.
 //
-#pragma glslify: GeometryContext = require('../../geometry/context')
-#pragma glslify: LightContext = require('../../light/context')
+#pragma glslify: GeometryContext = require('../../geometry/GeometryContext')
+#pragma glslify: LightContext = require('../../light/LightContext')
+#pragma glslify: Camera = require('../../camera/Camera')
 
 // materials
 #pragma glslify: LambertMaterial = require('../LambertMaterial')
 #pragma glslify: PhongMaterial = require('../PhongMaterial')
 #pragma glslify: FlatMaterial = require('../FlatMaterial')
 
+#ifndef MAX_AMBIENT_LIGHTS
+#define MAX_AMBIENT_LIGHTS 16
+#endif
+
+#ifndef MAX_DIRECTIONAL_LIGHTS
+#define MAX_DIRECTIONAL_LIGHTS 16
+#endif
+
+#ifndef MAX_POINT_LIGHTS
+#define MAX_POINT_LIGHTS 16
+#endif
+
 #ifndef MATERIAL_TYPE
 #define MATERIAL_TYPE FlatMaterial
 #endif
 
-#ifndef useFlatMaterial
+// default material
+#ifndef useFlatMaterialType
 #define useFlatMaterial 1
 #endif
 
@@ -36,7 +50,7 @@ varying vec2 vuv;
 //
 uniform MATERIAL_TYPE material;
 uniform LightContext lightContext;
-uniform vec3 eye;
+uniform Camera camera;
 
 #ifdef HAS_MAP
 #pragma glslify: Map = require('../Map')
@@ -47,11 +61,14 @@ uniform Map map;
 // Lambertian shading model.
 //
 import drawLambertMaterial from './lambert' where {
+  MAX_DIRECTIONAL_LIGHTS=MAX_DIRECTIONAL_LIGHTS,
+  MAX_AMBIENT_LIGHTS=MAX_AMBIENT_LIGHTS,
+  MAX_POINT_LIGHTS=MAX_POINT_LIGHTS,
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  camera=camera,
   map=map,
-  eye=eye,
   isnan=isnan,
   isinf=isinf
 }
@@ -60,11 +77,14 @@ import drawLambertMaterial from './lambert' where {
 // Phong shading model.
 //
 import drawPhongMaterial from './phong' where {
+  MAX_DIRECTIONAL_LIGHTS=MAX_DIRECTIONAL_LIGHTS,
+  MAX_AMBIENT_LIGHTS=MAX_AMBIENT_LIGHTS,
+  MAX_POINT_LIGHTS=MAX_POINT_LIGHTS,
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  camera=camera,
   map=map,
-  eye=eye,
   isnan=isnan,
   isinf=isinf
 }

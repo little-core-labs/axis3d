@@ -5,14 +5,32 @@
  */
 
 import PrimitiveSphere from 'primitive-sphere'
-import { Geometry } from './geometry'
+import { Geometry } from '../core/geometry'
 
-module.exports = exports = (...args) => new SphereGeometry(...args)
+/**
+ * SphereGeometry class.
+ *
+ * @public
+ * @class SphereGeometry
+ * @extends Geometry
+ * @see {@link https://github.com/glo-js/primitive-sphere}
+ */
+
 export class SphereGeometry extends Geometry {
-  constructor(opts = {}) {
-    const {
-      radius = 1, segments = 32
-    } = opts
-    super({...opts, complex: PrimitiveSphere(radius, {segments})})
+
+  /**
+   * SphereGeometry class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {?Object} opts Class constructor options.
+   * @param {?Number} opts.radius SphereGeometry radius.
+   * @param {?Number} opts.segments SphereGeometry subdivision segments.
+   */
+
+  constructor({radius = 1, segments = 32} = {}) {
+    super({complex: PrimitiveSphere(radius, {segments})})
+    this.radius = radius
+    this.segments = segments
   }
 }

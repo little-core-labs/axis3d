@@ -1,55 +1,113 @@
 'use strict'
 
-import {
-  incrementStat
-} from '../stats'
+/**
+ * Module dependencies.
+ */
 
-import {
-  LightCommand
-} from './light'
+import { PointLightType as type } from './types'
+import { DirectionalLight } from './directional'
+import { kMaxPointLights } from './limits'
+import { incrementStat } from '../stats'
 
-import {
-  PointLight as type
-} from './types'
+import coalesce from 'defined'
+import mat4 from 'gl-mat4'
 
-import {
-  SphereGeometry
-} from '../geometry/sphere'
+/**
+ * Default point light intensity.
+ *
+ * @public
+ * @const
+ * @type {Number}
+ */
 
-import {
-  Geometry
-} from '../geometry/geometry'
+export const kDefaultPointLightIntensity = 0.4
 
-import {
-  MeshCommand
-} from '../mesh'
+/**
+ * Default point light ambient factor.
+ *
+ * @public
+ * @const
+ * @type {Number}
+ */
 
-module.exports = exports = (...args) => new PointLightCommand(...args)
-export const kMaxPointLights = 128
-export class PointLightCommand extends LightCommand {
+export const kDefaultPointLightAmbient = 0.0005
+
+/**
+ * Default point light radius.
+ *
+ * @public
+ * @const
+ * @type {Number}
+ */
+
+export const kDefaultPointLightRadius = 0.0005
+
+/**
+ * The defualt light context entry object for
+ * a light uniform.
+ *
+ * @public
+ * @const
+ * @type {Object}
+ */
+
+export const kDefaultPointLightContextEntry = {
+  identifier: 'point',
+  type: type,
+  max: kMaxPointLights,
+  defaults: {
+    transform: mat4.identity([]),
+    position: [0, 0, 0, 0],
+    color: [0, 0, 0, 0],
+    intensity: 0,
+    visible: false,
+    ambient: 0,
+    radius: 0,
+  }
+}
+
+/**
+ * PointLight class.
+ *
+ * @public
+ * @class PointLight
+ * @extends PointLight
+ */
+
+export class PointLight extends DirectionalLight {
+
+  /**
+   * PointLight class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {!Context} ctx Axis3D Context.
+   * @param {?Object} initialState Optional initial state.
+   */
+
   constructor(ctx, initialState = {}) {
     incrementStat('PointLight')
 
     super(ctx, {
       ...initialState,
-      intensity: 0.5,
-      ambient: 0.005,
-      radius: 0.01,
-      type,
-
-      update(state, block) {
-        const noop = () => void 0
-
-        if ('function' == typeof state) {
-          block = state
-          state = {}
-        }
-
-        state = state || {}
-        block = block || noop
-
-        block()
-      }
+      intensity: coalesce(initialState.intensity, kDefaultPointLightIntensity),
+      ambient: coalesce(initialState.ambient, kDefaultPointLightAmbient),
+      radius: coalesce(initialState.radius, kDefaultPointLightRadius),
+      type: coalesce(initialState.type, type),
     })
+  }
+
+  /**
+   * Returns the light context entry object for
+   * a light uniform.
+   *
+   * @public
+   * @static
+   * @method
+   * @return {Object}
+   */
+
+  static contextEntry() {
+    return kDefaultPointLightContextEntry
   }
 }

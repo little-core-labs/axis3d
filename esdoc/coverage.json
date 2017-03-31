@@ -1,330 +1,351 @@
 {
-  "coverage": "21.01%",
-  "expectCount": 138,
-  "actualCount": 29,
+  "coverage": "78.86%",
+  "expectCount": 459,
+  "actualCount": 362,
   "files": {
-    "src/light/types.js": {
-      "expectCount": 5,
-      "actualCount": 0,
-      "undocumentLines": [
-        7,
-        8,
-        4,
-        6,
-        5
-      ]
-    },
     "src/light/ambient.js": {
-      "expectCount": 3,
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    },
+    "src/light/types.js": {
+      "expectCount": 4,
       "actualCount": 0,
       "undocumentLines": [
-        17,
-        18,
+        14,
+        15,
+        13,
         16
       ]
     },
     "src/geometry/box.js": {
-      "expectCount": 2,
-      "actualCount": 0,
+      "expectCount": 4,
+      "actualCount": 2,
       "undocumentLines": [
-        11,
-        12
+        53,
+        52
       ]
     },
-    "src/camera.js": {
-      "expectCount": 6,
-      "actualCount": 0,
-      "undocumentLines": [
-        34,
-        26,
-        28,
-        27,
-        29,
-        35
-      ]
+    "src/core/camera.js": {
+      "expectCount": 24,
+      "actualCount": 24,
+      "undocumentLines": []
     },
     "src/geometry/capsule.js": {
       "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        11,
-        12
-      ]
+      "actualCount": 2,
+      "undocumentLines": []
     },
-    "src/command.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        8,
-        9
-      ]
+    "src/core/color.js": {
+      "expectCount": 11,
+      "actualCount": 11,
+      "undocumentLines": []
     },
-    "src/context.js": {
-      "expectCount": 19,
-      "actualCount": 8,
-      "undocumentLines": [
-        25,
-        84,
-        26,
-        14,
-        86,
-        82,
-        83,
-        88,
-        81,
-        85,
-        87
-      ]
+    "src/math/vector_swizzle_map.js": {
+      "expectCount": 10,
+      "actualCount": 10,
+      "undocumentLines": []
+    },
+    "src/core/command.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    },
+    "src/core/context.js": {
+      "expectCount": 11,
+      "actualCount": 11,
+      "undocumentLines": []
     },
     "src/geometry/cylinder.js": {
-      "expectCount": 2,
-      "actualCount": 0,
+      "expectCount": 7,
+      "actualCount": 2,
       "undocumentLines": [
-        15,
-        16
+        50,
+        54,
+        53,
+        52,
+        51
       ]
     },
     "src/light/directional.js": {
-      "expectCount": 3,
-      "actualCount": 0,
-      "undocumentLines": [
-        17,
-        18,
-        16
-      ]
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
     },
     "src/math/euler.js": {
-      "expectCount": 4,
-      "actualCount": 1,
+      "expectCount": 17,
+      "actualCount": 5,
       "undocumentLines": [
-        10,
-        11,
-        13
-      ]
-    },
-    "src/material/types.js": {
-      "expectCount": 4,
-      "actualCount": 0,
-      "undocumentLines": [
-        5,
-        7,
-        4,
-        6
-      ]
-    },
-    "src/material/flat.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        12,
-        13
-      ]
-    },
-    "src/frame.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        29,
-        30
-      ]
-    },
-    "src/geometry/geometry.js": {
-      "expectCount": 7,
-      "actualCount": 0,
-      "undocumentLines": [
-        13,
-        47,
-        32,
-        14,
-        39,
-        35,
-        43
-      ]
-    },
-    "src/geometry_buffer.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        16,
-        17
-      ]
-    },
-    "src/input/keyboard.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        13,
-        14
-      ]
-    },
-    "src/material/lambert.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        27,
-        28
-      ]
-    },
-    "src/light/light.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        25,
-        26
-      ]
-    },
-    "src/lines.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        19,
-        20
-      ]
-    },
-    "src/material/material.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        28,
-        29
-      ]
-    },
-    "src/mesh.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        36,
-        37
-      ]
-    },
-    "src/input/mouse.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        15,
-        16
-      ]
-    },
-    "src/object3d.js": {
-      "expectCount": 3,
-      "actualCount": 0,
-      "undocumentLines": [
-        33,
-        41,
-        37
-      ]
-    },
-    "src/input/orientation.js": {
-      "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
+        108,
+        109,
+        106,
+        105,
+        96,
+        97,
+        100,
+        99,
+        112,
+        111,
         102,
         103
       ]
     },
-    "src/material/phong.js": {
+    "src/core/extrude_geometry.js": {
+      "expectCount": 4,
+      "actualCount": 2,
+      "undocumentLines": [
+        18,
+        17
+      ]
+    },
+    "src/material/flat.js": {
       "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/material/types.js": {
+      "expectCount": 3,
       "actualCount": 0,
       "undocumentLines": [
-        27,
-        28
+        13,
+        15,
+        14
+      ]
+    },
+    "src/core/frame.js": {
+      "expectCount": 31,
+      "actualCount": 28,
+      "undocumentLines": [
+        305,
+        306,
+        356
+      ]
+    },
+    "src/core/geometry.js": {
+      "expectCount": 10,
+      "actualCount": 10,
+      "undocumentLines": []
+    },
+    "src/core/geometry_buffer.js": {
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
+    },
+    "src/core/input.js": {
+      "expectCount": 5,
+      "actualCount": 4,
+      "undocumentLines": [
+        105
+      ]
+    },
+    "src/input/keyboard.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/material/lambert.js": {
+      "expectCount": 18,
+      "actualCount": 18,
+      "undocumentLines": []
+    },
+    "src/core/light.js": {
+      "expectCount": 13,
+      "actualCount": 13,
+      "undocumentLines": []
+    },
+    "src/mesh/lines.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/core/material.js": {
+      "expectCount": 32,
+      "actualCount": 32,
+      "undocumentLines": []
+    },
+    "src/math/matrix.js": {
+      "expectCount": 4,
+      "actualCount": 1,
+      "undocumentLines": [
+        6,
+        7,
+        8
+      ]
+    },
+    "src/core/mesh.js": {
+      "expectCount": 35,
+      "actualCount": 33,
+      "undocumentLines": [
+        269,
+        310
+      ]
+    },
+    "src/input/mouse.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/core/object3d.js": {
+      "expectCount": 13,
+      "actualCount": 13,
+      "undocumentLines": []
+    },
+    "src/input/orientation.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/cameras/orthographic.js": {
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
+    },
+    "src/cameras/perspective.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
+    },
+    "src/material/phong.js": {
+      "expectCount": 8,
+      "actualCount": 7,
+      "undocumentLines": [
+        44
       ]
     },
     "src/geometry/plane.js": {
-      "expectCount": 2,
-      "actualCount": 0,
+      "expectCount": 5,
+      "actualCount": 2,
       "undocumentLines": [
-        11,
-        12
+        59,
+        60,
+        58
       ]
     },
     "src/light/point.js": {
-      "expectCount": 3,
-      "actualCount": 0,
-      "undocumentLines": [
-        29,
-        30,
-        28
-      ]
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
     },
     "src/math/quaternion.js": {
-      "expectCount": 3,
-      "actualCount": 1,
+      "expectCount": 14,
+      "actualCount": 6,
       "undocumentLines": [
-        15,
-        16
+        171,
+        170,
+        162,
+        161,
+        165,
+        164,
+        168,
+        167
       ]
     },
     "src/geometry/sphere.js": {
-      "expectCount": 2,
-      "actualCount": 0,
+      "expectCount": 4,
+      "actualCount": 2,
       "undocumentLines": [
-        11,
-        12
+        33,
+        34
       ]
     },
     "src/stats.js": {
-      "expectCount": 13,
-      "actualCount": 0,
+      "expectCount": 15,
+      "actualCount": 15,
+      "undocumentLines": []
+    },
+    "src/core/stream.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "src/core/text.js": {
+      "expectCount": 5,
+      "actualCount": 4,
       "undocumentLines": [
-        60,
-        61,
-        5,
-        30,
-        45,
-        19,
-        63,
-        62,
-        12,
-        41,
-        3,
-        52,
-        64
+        141
       ]
     },
-    "src/texture.js": {
-      "expectCount": 2,
-      "actualCount": 0,
+    "src/core/texture.js": {
+      "expectCount": 16,
+      "actualCount": 13,
       "undocumentLines": [
-        11,
-        12
+        357,
+        337,
+        358
       ]
     },
     "src/geometry/torus.js": {
-      "expectCount": 2,
-      "actualCount": 0,
+      "expectCount": 7,
+      "actualCount": 2,
       "undocumentLines": [
-        11,
-        12
+        53,
+        51,
+        49,
+        52,
+        50
       ]
     },
     "src/input/touch.js": {
       "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        14,
-        15
-      ]
+      "actualCount": 2,
+      "undocumentLines": []
     },
     "src/geometry/triangle.js": {
       "expectCount": 2,
-      "actualCount": 0,
-      "undocumentLines": [
-        10,
-        11
-      ]
+      "actualCount": 2,
+      "undocumentLines": []
     },
     "src/math/vector.js": {
-      "expectCount": 10,
-      "actualCount": 8,
+      "expectCount": 55,
+      "actualCount": 18,
       "undocumentLines": [
-        13,
-        14
+        193,
+        432,
+        431,
+        376,
+        377,
+        429,
+        428,
+        425,
+        373,
+        374,
+        426,
+        423,
+        371,
+        422,
+        370,
+        291,
+        357,
+        320,
+        406,
+        420,
+        419,
+        362,
+        324,
+        410,
+        325,
+        411,
+        361,
+        413,
+        364,
+        365,
+        328,
+        414,
+        327,
+        416,
+        368,
+        367,
+        417
       ]
     },
     "src/utils.js": {
-      "expectCount": 11,
-      "actualCount": 11,
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/light/limits.js": {
+      "expectCount": 3,
+      "actualCount": 3,
       "undocumentLines": []
     }
   }

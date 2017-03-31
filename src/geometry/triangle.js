@@ -4,29 +4,45 @@
  * Module dependencies.
  */
 
-import { Geometry } from './geometry'
+import { Geometry } from '../core/geometry'
 
-module.exports = exports = (...args) => new TriangleGeometry(...args)
+
+/**
+ * TriangleGeometry class.
+ *
+ * @public
+ * @class TriangleGeometry
+ * @extends Geometry
+ */
+
 export class TriangleGeometry extends Geometry {
+
+  /**
+   * TriangleGeometry class constructor.
+   *
+   * @public
+   * @constructor
+   */
+
   constructor() {
     super({
       complex: {
         positions: [
-          [-0.0, +0.5, +0.0],
-          [+0.5, -0.5, +0.0],
-          [-0.5, -0.5, +0.0],
+          [-1.0, -0.5*Math.sqrt(3), +0.0],
+          [+1.0, -0.5*Math.sqrt(3), +0.0],
+          [+0.0, +0.5*Math.sqrt(3), +0.0],
         ],
 
         normals: [
-          [-0.0, +1.0, +0.0],
-          [+1.0, -1.0, +0.0],
           [-1.0, -1.0, +0.0],
+          [+1.0, -1.0, +0.0],
+          [+0.0, +1.0, +0.0],
         ],
 
         uvs: [
-          [-0.0, +0.5],
-          [+0.5, -0.5],
-          [-0.5, -0.5],
+          [-1.0, -0.5*Math.sqrt(3)],
+          [+1.0, -0.5*Math.sqrt(3)],
+          [+0.0, +0.5*Math.sqrt(3)],
         ],
       }
     })

@@ -5,38 +5,23 @@
  */
 
 import 'webvr-polyfill'
+
+import { getScreenOrientation, radians } from '../utils'
+import { Quaternion, Euler } from '../math'
 import { registerStat } from '../stats'
-import { Command } from '../command'
+import { Command } from '../core/command'
+
+import window from 'global/window'
 import events from 'dom-events'
 import quat from 'gl-quat'
 import raf from 'raf'
 
-import { computeQuaternion } from '../math/euler'
-import { computeEuler } from '../math/quaternion'
-import {
-  Quaternion,
-  Vector,
-  Euler,
-} from '../math'
+/**
+ * Global orientation state object.
+ * @private
+ */
 
-import {
-  getScreenOrientation,
-  radians,
-} from '../utils'
-
-// VRFRameData
-const vrFrameData = new VRFrameData()
-const vrDisplays = []
-navigator.getVRDisplays()
-.then((displays) => {
-  Object.assign(vrDisplays, displays)
-})
-.catch((err) => {
-  console.error(err.stack || err)
-})
-
-// Global orientation state object.
-const globalState = {
+export const globalState = {
   hasDeviceOrientation: false,
   absolute: null,
 
@@ -98,41 +83,99 @@ events.on(window, 'devicemotion', (e) => {
   })
 })
 
-module.exports = exports = (...args) => new OrientationInputCommand(...args)
-export class OrientationInputCommand extends Command {
+/**
+ * The OrientationInput class represents a stateless
+ * interface for capturing device orientation from WebVR
+ * or using devie Euler angles.
+ *
+ * @public
+ * @class OrientationInput
+ * @extends Command
+ * @see Command
+ */
+
+export class OrientationInput extends Command {
+
+  /**
+   * OrientationInput class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {Context} ctx Axis3D context object.
+   * @param {?Object} opts Constructor options.
+   */
+
   constructor(ctx, {} = {}) {
     registerStat('OrienationInput')
 
-    let preferDeviceRotation = false
+    super(update)
+
+    /**
+     * Quaternion representing the current device orienation.
+     */
+
     const deviceRotation = new Quaternion()
+
+    /**
+     * Euler angles representing the current device orienation.
+     */
+
     const deviceEuler = new Euler()
 
-    super((state, block) => {
+    /**
+     * VRFrameData instance representing orientation state
+     * emitted by the device (mobile, VR, etc).
+     * webvr-polyfill ensures VRFrameData exists and is readblae.
+     */
+
+    const vrFrameData = new VRFrameData()
+
+    /**
+     * An array of VRDisplay
+     */
+
+    const vrDisplays = []
+
+    /**
+     * Handles VR displays when available.
+     */
+
+    function onvrdisplays(displays) {
+      Object.assign(vrDisplays, displays)
+    }
+
+    // fetch vr displays
+    void navigator
+      .getVRDisplays()
+      .then(onvrdisplays)
+      .catch((err) => { ctx.emit('error', err) })
+
+    /**
+     * Orienation command update function.
+     */
+
+    function update(state, block) {
+      // ensure correct values
       if ('function' == typeof state) {
         block = state
         state = {}
       }
 
-      const isEmulated = (
-        vrDisplays.length &&
-        /emulated/i.test(vrDisplays[0].displayName)
-      )
+      // ensure object
+      state = 'object' == typeof state && state ? state : {}
 
-      state = state || {}
-      block = block || function() {}
+      // ensure function
+      block = 'function' == typeof block ? block : function() {}
 
-      if (isEmulated) {
-        computeDeviceRotation()
-      } else {
-        computeDeviceRotationFromVRFrameData()
-      }
+      computeDeviceRotationFromVRFrameData()
+      // @TODO - computeDeviceRotationFromDeviceEuler()
 
-      block({
-        ...globalState,
-        deviceRotation,
-        deviceEuler,
-      })
-    })
+      block({ ...globalState, deviceRotation, deviceEuler })
+    }
+
+    /**
+     * Computes device rotation data from a vr display
+     */
 
     function computeDeviceRotationFromVRFrameData() {
       if (vrDisplays.length) {
@@ -140,40 +183,8 @@ export class OrientationInputCommand extends Command {
         deviceRotation.set(
           ...(vrFrameData.pose.orientation || [0, 0, 0, 1])
         )
-        deviceEuler.set(...computeEuler(deviceRotation))
+        deviceEuler.set(...Euler.fromQuaternion(deviceRotation))
       }
-    }
-
-    const r22 = Math.sqrt(0.5)
-    const world = quat.fromValues(-r22, 0, 0, r22)
-
-    function computeDeviceRotation() {
-      const {
-        currentAlpha: alpha,
-        currentBeta: beta,
-        currentGamma: gamma,
-      } = globalState
-
-      const angle = getScreenOrientation()
-
-      deviceEuler.set(
-        radians(beta),
-        radians(alpha),
-        radians(-gamma))
-
-      quat.copy(
-        deviceRotation,
-        computeQuaternion(deviceEuler, 'yxz'))
-
-      quat.multiply(
-        deviceRotation,
-        deviceRotation,
-        [0, Math.sin(-0.5*angle), 0, Math.cos(-0.5*angle)])
-
-      quat.multiply(
-        deviceRotation,
-        deviceRotation,
-        world)
     }
   }
 }

@@ -1,9 +1,26 @@
 {
+  "title": "Axis3D",
+  "coverage": true,
   "source": "./src",
   "destination": "./esdoc",
+  "lint": true,
+  "styles": [],
+  "plugins": [
+    {"name": "./plugins/esdoc/favicon"},
+    {
+      "name": "esdoc-importpath-plugin",
+      "option": {
+        "replaces": [
+          {"from": "^src/", "to": ""},
+          {"from": "/index.js$", "to": ""},
+          {"from": ".js$", "to": ""}
+        ]
+      }
+    }
+  ],
   "experimentalProposal": {
-    "classProperties": true,
+    "exportExtensions": true,
     "objectRestSpread": true,
-    "exportExtensions": true
+    "dynamicImport": true
   }
 }

@@ -4,64 +4,110 @@
  * Module dependencies.
  */
 
+import * as VectorSwizzleMap from './vector_swizzle_map'
 import { Vector } from './vector'
-import coalesce from 'defined'
 
-export class Euler extends Vector {
-  constructor(x, y, z, order = 'xyz') {
-    super(coalesce(x, 0), coalesce(y, 0), coalesce(z, 0))
-    this.order = order
-  }
-}
+import ThreeEuler from 'math-euler'
+import coalesce from 'defined'
+import mat4 from 'gl-mat4'
+
+const scratchMat4 = mat4.identity([])
 
 /**
- * Borrowed from http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/
+ * The Euler class represents an abstraction around Euler angles.
+ *
+ * @public
+ * @class Euler
+ * @implements Vector
+ * @extends Vector
+ * @see {@link https://en.wikipedia.org/wiki/Euler_angles}
+ * @see {@link http://mathworld.wolfram.com/EulerAngles.html}
+ * @see {@link http://www.chrobotics.com/library/understanding-euler-angles}
  */
 
-export function computeQuaternion(euler, order = 'xyz') {
-	const cx = Math.cos(0.5*euler[0])
-	const cy = Math.cos(0.5*euler[1])
-	const cz = Math.cos(0.5*euler[2])
-	const sx = Math.sin(0.5*euler[0])
-	const sy = Math.sin(0.5*euler[1])
-	const sz = Math.sin(0.5*euler[2])
+export class Euler extends Vector {
 
-  let x = 0
-	let y = 0
-  let z = 0
-  let w = 1
+  /**
+   * Euler class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {?Number} x Rotation angle about the X axis.
+   * @param {?Number} y Rotation angle about the Y axis.
+   * @param {?Number} z Rotation angle about the Z axis.
+   * @param {?String} order Euler angle rotation order.
+   * @throws TypeError
+   */
 
-	if (order == 'xyz') {
-		x = sx * cy * cz + cx * sy * sz
-		y = cx * sy * cz - sx * cy * sz
-		z = cx * cy * sz + sx * sy * cz
-		w = cx * cy * cz - sx * sy * sz
-	} else if (order == 'yxz') {
-		x = sx * cy * cz + cx * sy * sz
-		y = cx * sy * cz - sx * cy * sz
-		z = cx * cy * sz - sx * sy * cz
-		w = cx * cy * cz + sx * sy * sz
-	} else if (order == 'zxy') {
-		x = sx * cy * cz - cx * sy * sz
-		y = cx * sy * cz + sx * cy * sz
-		z = cx * cy * sz + sx * sy * cz
-		w = cx * cy * cz - sx * sy * sz
-	} else if (order == 'zyx') {
-		x = sx * cy * cz - cx * sy * sz
-		y = cx * sy * cz + sx * cy * sz
-		z = cx * cy * sz - sx * sy * cz
-		w = cx * cy * cz + sx * sy * sz
-	} else if (order == 'yzx') {
-		x = sx * cy * cz + cx * sy * sz
-		y = cx * sy * cz + sx * cy * sz
-		z = cx * cy * sz - sx * sy * cz
-		w = cx * cy * cz - sx * sy * sz
-	} else if (order == 'xzy') {
-		x = sx * cy * cz - cx * sy * sz
-		y = cx * sy * cz - sx * cy * sz
-		z = cx * cy * sz + sx * sy * cz
-		w = cx * cy * cz + sx * sy * sz
-	}
+  constructor(x, y, z, order = 'xyz') {
+    super(coalesce(x, 0), coalesce(y, 0), coalesce(z, 0))
+    if ('string' != typeof order) {
+      throw new TypeError(
+        `Expecting euler order to be a string. Got ${typeof order}.`)
+    }
 
-	return [x, y, z, w]
+    /**
+     * Euler angle rotation order.
+     *
+     * @public
+     * @type {String}
+     */
+
+    this.order = order
+  }
+
+  /**
+   * Euler swizzles.
+   *
+   * @public
+   * @static
+   * @method
+   * @return {Array<Array<String>>}
+   */
+
+  static swizzles() {
+    return VectorSwizzleMap.Euler
+  }
+
+  /**
+   * Helper function to compute euler angles from
+   * a given quaternion.
+   *
+   * @public
+   * @function
+   * @param {Quaternion|Array<Nunber>} q Input quaternion.
+   * @param {?String} order Rotation order.
+   * @return {Vector}
+   * @throws TypeError
+   */
+
+  static fromQuaternion(q, order = 'xyz') {
+    if ('string' != typeof order) {
+      throw new TypeError(
+        `Expecting euler order to be a string. Got ${typeof order}.`)
+    }
+    order = order.toUpperCase()
+    const euler = new ThreeEuler()
+    const elements = mat4.fromQuat(scratchMat4, q)
+    euler.setFromRotationMatrix({elements}, order)
+    return new Euler(euler.x, euler.y, euler.z, order)
+  }
+
+  get x() { return this[0] }
+  set x(x) { return this[0] = x }
+
+  get y() { return this[1] }
+  set y(y) { return this[1] = y }
+
+  get z() { return this[2] }
+  set z(z) { return this[2] = z }
+
+  get roll() { return this[0] }
+  set roll(roll) { return this[0] = roll }
+
+  get pitch() { return this[1] }
+  set pitch(pitch) { return this[1] = pitch }
+
+  get yaw() { return this[2] }
+  set yaw(yaw) { return this[2] = yaw }
 }

@@ -29,9 +29,28 @@ BUDO := $(BIN)/budo
 STANDARD := $(BIN)/standard
 
 ##
+# Path to devtool
+#
+DEVTOOL := $(BIN)/devtool
+
+##
+# Path to faucet
+#
+FAUCET := $(BIN)/faucet
+
+##
 # Module source (js)
 #
-SRC := $(wildcard src/*.js src/*/*.js src/*/*/*.js)
+SRC += $(wildcard src/*/*/*.js)
+SRC += $(wildcard src/*/*.js)
+SRC += $(wildcard src/*.js)
+
+##
+# Module source (glsl)
+#
+SRC += $(wildcard src/glsl/*/*/*.glsl)
+SRC += $(wildcard src/glsl/*/*.glsl)
+SRC += $(wildcard src/glsl/*.glsl)
 
 ##
 # Main javascript entry
@@ -109,7 +128,7 @@ dist: dist/axis.min.js
 #
 dist/axis.min.js: node_modules lib
 	$(BUILD_PARENT_DIRECTORY)
-	$(BROWSERIFY) $(BROWSERIFY_TRANSFORM) -t uglifyify -t rollupify --standalone $(GLOBAL_NAMESPACE) $(LIB_MAIN) > $@
+	$(BROWSERIFY) $(BROWSERIFY_TRANSFORM) -g uglifyify -g rollupify --standalone $(GLOBAL_NAMESPACE) $(LIB_MAIN) > $@
 
 ##
 # Builds node modules
@@ -160,3 +179,12 @@ publish: lib
 .PHONY: link
 link: lib
 	cd lib && $(YARN_OR_NPM) link
+
+##
+# Run all tests
+#
+.PHONY: test
+test: node_modules
+	@# @TODO(werle) make DEVTOOL_FLAGS
+	@$(BROWSERIFY) test $(BROWSERIFY_TRANSFORM) | \
+		$(DEVTOOL) -hqc -t 1000 -r babel-register $@

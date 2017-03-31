@@ -19,19 +19,14 @@ The following [hello world example](doc/hello-world.md) demonstrates rendering a
 green box to the screen. A `canvas` is created with a `webgl` context and
 automatically appended to the `body` DOM element.
 
-<table>
-  <tbody>
-  <tr>
-    <td>
-
-<pre lang="js">
-
+```js
 'use strict'
 import {
+  PerspectiveCamera,
   FlatMaterial,
   BoxGeometry,
   Context,
-  Camera,
+  Color,
   Frame,
   Mesh,
 } from 'axis3d'
@@ -41,7 +36,7 @@ import quat from 'gl-quat'
 const ctx = Context()
 
 const material = FlatMaterial(ctx)
-const camera = Camera(ctx, {position: [0, 0, 2]})
+const camera = PerspectiveCamera(ctx, {position: [0, 0, 2]})
 const frame = Frame(ctx)
 const box = Mesh(ctx, { geometry: BoxGeometry(ctx) })
 
@@ -52,18 +47,12 @@ frame(({time}) => {
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
   quat.slerp(rotation, rotation, angle, 0.01)
   camera({rotation}, () => {
-    material({color: [0, 1, 1, 1]}, () => {
+    material({color: Color('cyan')}, () => {
       box({wireframe: true})
     })
   })
 })
-</pre>
-
-    </td>
-    <td><img src="doc/assets/hello-world.png"></td>
-  </tr>
-  </tbody>
-</table>
+```
 
 # See Also
 

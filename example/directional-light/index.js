@@ -1,21 +1,19 @@
 'use strict'
 
 import { OrbitCameraController } from '../../extras/controller'
-import VignetteBackground from '../../extras/backgrounds/vignette'
 
 import {
+  PerspectiveCamera,
+  OrientationInput,
   DirectionalLight,
   LambertMaterial,
-
-  OrientationInput,
+  PhongMaterial,
+  BoxGeometry,
   TouchInput,
   MouseInput,
-
-  BoxGeometry,
+  LinesMesh,
   Context,
-  Camera,
   Frame,
-  Lines,
   Mesh,
 } from 'axis3d'
 
@@ -24,11 +22,11 @@ import coalesce from 'defined'
 import quat from 'gl-quat'
 import vec3 from 'gl-vec3'
 
-const ctx = Context({clear: {color: [0, 0, 0, 1], depth: true}})
+const ctx = Context()
 
 const material = LambertMaterial(ctx)
 const directional = DirectionalLight(ctx)
-const camera = Camera(ctx, { position: [0, 0, 15] })
+const camera = PerspectiveCamera(ctx)
 const frame = Frame(ctx)
 
 // box rotation
@@ -77,7 +75,7 @@ const panel = ControlPanel([
     initial: materialOpacity,
   }, {
     type: 'checkbox',
-    label: 'Lines',
+    label: 'LinesMesh',
     initial: materialLineSegments,
   }
 ], {theme: 'dark', position: 'top-left'})
@@ -95,7 +93,7 @@ const panel = ControlPanel([
   Object.assign(materialColor, rgb('Color') || [])
 
   materialLineSegments = Boolean(coalesce(
-    e['Lines'],
+    e['LinesMesh'],
     materialLineSegments))
 
   materialOpacity = Number(coalesce(
@@ -107,11 +105,10 @@ const box = (() => {
   const geometry = BoxGeometry()
   const material = LambertMaterial(ctx)
   const mesh = Mesh(ctx, {geometry})
-  const lines = Lines(ctx, {geometry})
+  const lines = LinesMesh(ctx, {geometry})
   return (state = {}, block) => {
     mesh(state, ({}, args) => {
       material({
-        blending: true,
         color: [1, 1, 1, 1.0],
         opacity: coalesce(state.opacity, 1)
       }, () => {
@@ -126,16 +123,10 @@ const box = (() => {
 })()
 
 frame(({time}) => {
-  orbitCamera({}, () => {
-
+  orbitCamera({position: [0, 0, 3]}, () => {
     directional({
       color: directionalLightColor,
-      position: [
-        20,
-        20 + 10*(1 - (0.5 + Math.cos(time))),
-        //20,
-        20
-      ]
+      position: [10, 10, 10]
     })
 
     material({
@@ -149,7 +140,6 @@ frame(({time}) => {
       box({
         rotation,
         segments: materialLineSegments,
-        scale: [3, 3, 3],
         opacity: materialOpacity,
       })
     })

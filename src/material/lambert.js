@@ -1,161 +1,300 @@
 'use strict'
 
+/**
+ * Module dependencies.
+ */
+
+import { LambertMaterialType as type } from './types'
+import { kMaxDirectionalLights } from '../light/directional'
+import { kMaxAmbientLights } from '../light/ambient'
+import { kMaxPointLights } from '../light/point'
+import { isArrayLike } from '../utils'
 import * as lightTypes from '../light/types'
+import { Vector } from '../math/vector'
+import { Color } from '../core/color'
+
+import { DirectionalLight } from '../light/directional'
+import { AmbientLight } from '../light/ambient'
+import { PointLight } from '../light/point'
+
+import {
+  MaterialUniforms,
+  MaterialContext,
+  MaterialState,
+  Material,
+} from '../core/material'
+
 import coalesce from 'defined'
 
-import {
-  kMaxAmbientLights
-} from '../light/ambient'
+/**
+ * Default material albedo.
+ *
+ * @public
+ * @const
+ * @type {Number}
+ */
 
-import {
-  kMaxDirectionalLights
-} from '../light/directional'
+export const kDefaultLambertMaterialAlbedo = 0.8
 
-import {
-  kMaxPointLights
-} from '../light/point'
+/**
+ * Default material roughness.
+ *
+ * @public
+ * @const
+ * @type {Number}
+ */
 
-import {
-  MaterialCommand
-} from './material'
+export const kDefaultLambertMaterialRoughness = 0.8
 
-import {
-  LambertMaterial as type
-} from './types'
+/**
+ * Default material emissive color.
+ *
+ * @public
+ * @const
+ * @type {Color}
+ */
 
-module.exports = exports = (...args) => new LambertMaterialCommand(...args)
-export class LambertMaterialCommand extends MaterialCommand {
+export const kDefaultLambertMaterialEmissiveColor =
+  new Color('black')
+
+/**
+ * Default material ambient color.
+ *
+ * @public
+ * @const
+ * @type {Color}
+ */
+
+export const kDefaultLambertMaterialAmbientColor =
+  new Color(0.2*255, 0.2*255, 0.2*255)
+
+/**
+ * LambertMaterial class
+ *
+ * @public
+ * @class LambertMaterial
+ * @extends Material
+ */
+
+export class LambertMaterial extends Material {
+
+  /**
+   * LambertMaterial class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {!Context} ctx Axis3D context.
+   * @param {?Object} initialState Optional initial state.
+  */
+
   constructor(ctx, initialState = {}) {
-    let {
-      roughness: initialRoughness = 0.8,
-      emissive: initialEmissive = [0, 0, 0, 1],
-      ambient: initialAmbient = [0.5, 0.5, 0.5, 1],
-      albedo: initialAlbedo = 0.6,
+    const {
+      uniforms = new LambertMaterialUniforms(ctx, initialState)
     } = initialState
+    super(ctx, { type, ...initialState, uniforms })
+  }
+}
 
-    const uniforms = {
-      'material.roughness': ({}, {roughness = initialRoughness} = {}) => {
-        return roughness
-      },
+/**
+ * LambertMaterialContext class.
+ *
+ * @public
+ * @class LambertMaterialContext
+ * @extends MaterialContext
+ */
 
-      'material.emissive': ({}, {emissive = initialEmissive} = {}) => {
-        return emissive
-      },
+export class LambertMaterialContext extends MaterialContext {
 
-      'material.albedo': ({}, {albedo = initialAlbedo} = {}) => {
-        return albedo
-      },
+  /**
+   * LambertMaterialContext class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {!Context} ctx Axis3D context.
+   * @param {?Object} initialState Optional initial state.
+   */
 
-      'material.ambient': ({}, {ambient = initialAmbient} = {}) => {
-        return ambient
-      },
+  constructor(ctx, initialState = {}) {
+    super(ctx, initialState)
+  }
+}
 
-      'lightContext.ambient.count': ({lights}) => {
-        const {AmbientLight} = lightTypes
-        const count = lights
-        .filter(Boolean)
-        .filter((l) => l.type == AmbientLight).length
-        return count
-      },
+/**
+ * LambertMaterialUniforms class.
+ *
+ * @public
+ * @class LambertMaterialUniforms
+ * @extends MaterialUniforms
+ */
 
-      'lightContext.directional.count': ({lights}) => {
-        const {DirectionalLight} = lightTypes
-        const count = lights
-        .filter(Boolean)
-        .filter((l) => l.type == DirectionalLight).length
-        return count
-      },
+export class LambertMaterialUniforms extends MaterialUniforms {
 
-      'lightContext.point.count': ({lights}) => {
-        const {PointLight} = lightTypes
-        const count = lights
-        .filter(Boolean)
-        .filter((l) => l.type == PointLight).length
-        return count
-      },
+  /**
+   * LambertMaterialUniforms class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {!Context} ctx Axis3D context.
+   * @param {?Object} initialState Optional initial state.
+   */
 
-      ...initialState.uniforms
-    }
+  constructor(ctx, initialState = {}) {
+    super(ctx, initialState)
 
-    const shaderDefines = {
-      ...initialState.shaderDefines
-    }
+    /**
+     * Lights that affect a lambert matertial.
+     *
+     * @private
+     */
 
-    const lightContext = [{
-        which: 'ambient',
-        type: lightTypes.AmbientLight,
-        max: kMaxAmbientLights,
-        defaults: {
-          color: [0, 0, 0, 0],
-          visible: false,
-        }
-      }, {
-        which: 'directional',
-        type: lightTypes.DirectionalLight,
-        max: kMaxDirectionalLights,
-        defaults: {
-          position: [0, 0, 0, 0],
-          color: [0, 0, 0, 0],
-          visible: false,
-          radius: 0,
-          ambient: 0,
-          intensity: 0,
-        },
-      }, {
-        which: 'point',
-        type: lightTypes.PointLight,
-        max: kMaxPointLights,
-        defaults: {
-          position: [0, 0, 0, 0],
-          color: [0, 0, 0, 0],
-          visible: false,
-          radius: 0,
-          ambient: 0,
-          intensity: 0,
-        }
-      },
+    const lightContext = [
+      DirectionalLight.contextEntry(),
+      AmbientLight.contextEntry(),
+      PointLight.contextEntry(),
 
       ...(initialState.lightContext || [])
     ]
 
     for (let light of lightContext) {
-      setLightsInContext(light)
+      this.setLightsInContext(light)
     }
 
-    super(ctx, {
-      ...initialState,
-      shaderDefines,
-      uniforms,
-      type: initialState.type || type,
-    })
+    /**
+     * Material roughness.
+     *
+     * @public
+     * @type {Number}
+     */
 
-    function setLightsInContext({which, type, max, defaults}) {
-      for (let i = 0; i < max; ++i) {
-        const key = `lightContext.${which}.lights[${i}]`
-        const set = (property, fallback) => {
-          Object.assign(uniforms, {
-            [`${key}.${property}`]({}, args) {
-              const { lights = [] } = ctx.reglContext
-              const filteredLights = lights
-              .filter(Boolean)
-              .filter((l) => l.type == type)
-              let value = null
-              if (filteredLights[i]) {
-                value = coalesce(
-                  filteredLights[i][property],
-                  args[property],
-                  fallback)
-              } else {
-                value = fallback
-              }
-              return value
-            }
-          })
-        }
+    this['material.roughness'] = ({}, {roughness} = {}) => {
+      return coalesce(
+        roughness,
+        initialState.roughness,
+        kDefaultLambertMaterialRoughness)
+    }
 
-        for (let key in defaults) {
-          set(key, defaults[key])
-        }
+    /**
+     * Material emissive color.
+     *
+     * @public
+     * @type {Color|Array<Number>}
+     */
+
+    this['material.emissive'] = ({}, {emissive} = {}) => {
+      return [
+        ...coalesce(
+          emissive,
+          initialState.emissive,
+          kDefaultLambertMaterialEmissiveColor)
+      ]
+    }
+
+    /**
+     * Material albedo.
+     *
+     * @public
+     * @type {Number}
+     */
+
+    this['material.albedo'] = ({}, {albedo} = {}) => {
+      return coalesce(
+        albedo,
+        initialState.albedo,
+        kDefaultLambertMaterialAlbedo)
+    }
+
+    /**
+     * Material ambient color.
+     *
+     * @public
+     * @type {Color|Array<Number>}
+     */
+
+    this['material.ambient'] = ({}, {ambient} = {}) => {
+      return [
+        ...coalesce(
+          ambient,
+          initialState.ambient,
+          kDefaultLambertMaterialAmbientColor)
+      ]
+    }
+
+    /**
+     * Total ambient light count.
+     *
+     * @public
+     * @type {Number}
+     */
+
+    this['lightContext.ambient.count'] = ({lights}) => {
+      const {AmbientLightType} = lightTypes
+      const count = lights
+        .filter(Boolean)
+        .filter((l) => l.type == AmbientLightType)
+        .length
+      return count
+    }
+
+    /**
+     * Total directional light count.
+     *
+     * @public
+     * @type {Number}
+     */
+
+    this['lightContext.directional.count'] = ({lights}) => {
+      const {DirectionalLightType} = lightTypes
+      const count = lights
+        .filter(Boolean)
+        .filter((l) => l.type == DirectionalLightType)
+        .length
+      return count
+    }
+
+    /**
+     * Total point light count.
+     *
+     * @public
+     * @type {Number}
+     */
+
+    this['lightContext.point.count'] = ({lights}) => {
+      const {PointLightType} = lightTypes
+      const count = lights
+        .filter(Boolean)
+        .filter((l) => l.type == PointLightType)
+        .length
+      return count
+    }
+  }
+
+  /**
+   * Sets a lights in shader light context uniform at
+   * identifier with a type and defaults.
+   *
+   * @protected
+   */
+
+  setLightsInContext({identifier, type, max, defaults}) {
+    for (let i = 0; i < max; ++i) {
+      const key = `lightContext.${identifier}.lights[${i}]`
+      const set = (property, fallback) => {
+        Object.assign(this, {
+          [`${key}.${property}`]({lights}, args = {}) {
+            const light = lights.filter((l) => type == l.type)[i]
+            let value =
+              light
+              ? coalesce(light[property], args[property], fallback)
+              : fallback
+            if (value instanceof Vector) { value = [ ...value ] }
+            else if (isArrayLike(value)) { value = [ ...value ] }
+            return value
+          }
+        })
+      }
+
+      for (let key in defaults) {
+        set(key, defaults[key])
       }
     }
   }

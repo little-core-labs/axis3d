@@ -1,6 +1,10 @@
 'use strict'
 
-export LambertMaterial from './lambert'
-export PhongMaterial from './phong'
-export FlatMaterial from './flat'
-export Material from './material'
+/**
+ * Module exports.
+ */
+
+export * from './lambert'
+export * from './phong'
+export * from './types'
+export * from './flat'

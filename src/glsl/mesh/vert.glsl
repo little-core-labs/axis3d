@@ -1,18 +1,17 @@
-precision highp float;
+precision mediump float;
 
 //
 // Shader dependcies.
 //
 
+#pragma glslify: Camera = require('../camera/Camera')
+#pragma glslify: Mesh = require('../mesh/Mesh')
+
 //
 // Shader uniforms.
 //
-uniform float aspect;
-uniform mat4 projection;
-uniform mat4 model;
-uniform mat3 modelNormal;
-uniform mat4 view;
-uniform float time;
+uniform Camera camera;
+uniform Mesh mesh;
 
 //
 // Shader IO.
@@ -38,12 +37,16 @@ varying vec2 vuv;
 void main() {
 
 #if defined HAS_POSITIONS
-  gl_Position = projection * view * model * vec4(position, 1.0);
-  vposition = (model * vec4(position, 1.0)).xyz;
+  vposition = (mesh.model * vec4(position, 1.0)).xyz;
+  gl_Position =
+      camera.projection
+    * camera.view
+    * mesh.model
+    * vec4(position, 1.0);
 #endif
 
 #ifdef HAS_NORMALS
-  vnormal = normalize(modelNormal * normal);
+  vnormal = normalize(mesh.modelNormal * normal);
 #endif
 
 #ifdef HAS_UVS

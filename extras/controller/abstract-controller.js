@@ -4,8 +4,7 @@
  * Module dependencies.
  */
 
-import { Quaternion } from 'axis3d/math'
-import { Command } from 'axis3d/command'
+import { Quaternion, Command } from 'axis3d'
 
 export class AbstractControllerCommand extends Command {
   constructor(ctx, {
@@ -26,10 +25,7 @@ export class AbstractControllerCommand extends Command {
       state = state || {}
       block = block || function() {}
 
-      update({
-        ...state,
-        orientation,
-      }, () => {
+      update({ ...state, orientation }, () => {
         block({ ...ctx.reglContext })
       })
     })

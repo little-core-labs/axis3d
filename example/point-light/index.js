@@ -5,6 +5,7 @@ import VignetteBackground from '../../extras/backgrounds/vignette'
 
 import {
   LambertMaterial,
+  PhongMaterial,
   FlatMaterial,
 
   PointLight,
@@ -17,31 +18,36 @@ import {
   TouchInput,
   MouseInput,
 
+  PerspectiveCamera,
   Context,
-  Camera,
   Frame,
+  LinesMesh,
   Mesh,
-  Lines,
+  Quaternion,
+  Vector3,
+  Color,
 } from 'axis3d'
 
 import ControlPanel from 'control-panel'
 import coalesce from 'defined'
 import Bunny from 'bunny'
+import clamp from 'clamp'
 import quat from 'gl-quat'
 import vec3 from 'gl-vec3'
+import Ray from 'ray-3d'
 
-for (let p of Bunny.positions) {
+for (const p of Bunny.positions) {
   p[1] = p[1] - 4
 }
 
-const ctx = Context({clear: {color: [0, 0, 0, 1], depth: true}})
+const ctx = Context()
 
-const material = LambertMaterial(ctx)
-const camera = Camera(ctx, { position: [0, 10, 10] })
+const material = PhongMaterial(ctx)
+const camera = PerspectiveCamera(ctx)
 const frame = Frame(ctx)
 
-const rotation = [0, 0, 0, 1]
-const angle = [0, 0, 0, 1]
+const rotation = Quaternion()
+const angle = Quaternion()
 
 // inputs
 const orientation =  OrientationInput(ctx)
@@ -54,23 +60,25 @@ const orbitCamera = OrbitCameraController(ctx, {
 })
 
 const bunny = (() => {
-  const material = LambertMaterial(ctx)
-  const mesh = Mesh(ctx, {geometry: new Geometry({complex: Bunny, flatten: true})})
-  const lines = Lines(ctx, {
+  const material = PhongMaterial(ctx)
+  const mesh = Mesh(ctx, {geometry: Geometry({complex: Bunny, flatten: true})})
+  const lines = LinesMesh(ctx, {
     geometry: Bunny,
     thickness: 0.05,
     scale: [1.00125, 1.00125, 1.00125]
   })
   return (state = {}, block) => {
     if (true == state.wireframe) {
-      lines({...state, wireframe: false})
+      lines({...state, wireframe: false}, block)
     } else {
       mesh(state, ({}, args) => {
         material({
           color: [1, 1, 1, 1.0],
           opacity: coalesce(state.opacity, 1),
-        }, () => {
+        }, (...args) => {
+
           lines({visible: coalesce(state.segments || state.wireframe, true)})
+          block(...args)
         })
       })
     }
@@ -78,34 +86,23 @@ const bunny = (() => {
 })()
 
 const point = (() => {
-  //const material = LambertMaterial(ctx)
   const material = FlatMaterial(ctx)
   const geometry = SphereGeometry({radius: 0.05, segments: 2})
   const sphere = Mesh(ctx, {geometry})
   const light = PointLight(ctx)
   return (state = {}, block) => {
-    const power = 2 - (1 + Math.cos(ctx.regl.now()))
-    if (Array.isArray(state)) {
-      for (let s of state) {
-        s.scale = [power, power, power]
-        s.radius = 1.5*power
-      }
-    } else {
-      state.scale = [power, power, power]
-      state.radius = 1.5*power
-    }
-
-    material(state, ({}, args = {}) => {
+    material(state, ({}, args = {}, id) => {
       sphere(args, () => {
-        light(args)
+        light({ ...args, radius: geometry.radius})
       })
     })
   }
 })()
 
-const lightXColor = [0.1, 0.1, 0.8, 1]
-const lightYColor = [0.8, 0.1, 0.8, 1]
-const lightZColor = [0.2, 0.8, 0.2, 1]
+const lightXColor = Color('white')
+const lightYColor = Color('dark magenta') // https://drafts.csswg.org/css-color/#valdef-color-darkmagenta
+const lightZColor = Color('dark blue')
+
 let lightXVisible = true
 let lightYVisible = true
 let lightZVisible = true
@@ -114,7 +111,7 @@ let materialWireframe = false
 let materialLineSegments = true
 let materialOpacity = 1.0;
 const materialEmissive = [0, 0, 0, 1]
-const materialColor = [0.1, 0.5, 0.5, 1]
+const materialColor = Color(Color('dark cyan') - 0x000030)
 
 const rgb255 = (c) => c .slice(0, 3).map((n) => 255*n)
 
@@ -165,7 +162,7 @@ const panel = ControlPanel([
     initial: materialOpacity,
   }, {
     type: 'checkbox',
-    label: 'Lines',
+    label: 'LinesMesh',
     initial: materialLineSegments,
   }, {
     type: 'checkbox',
@@ -193,64 +190,56 @@ const panel = ControlPanel([
   Object.assign(materialEmissive, rgb('Emissive') || [])
   Object.assign(materialColor, rgb('Color') || [])
 
-  materialLineSegments = Boolean(coalesce(e['Lines'], materialLineSegments))
+  materialLineSegments = Boolean(coalesce(e['LinesMesh'], materialLineSegments))
   materialWireframe = Boolean(coalesce(e['Wireframe'], materialWireframe))
   materialOpacity = Number(coalesce(e['Opacity'], materialOpacity))
 })
 
-frame(({time}) => {
-  // point lights position
-  const position = [-5, -5, -5]
-  vec3.transformQuat(
-    position,
-    position,
-    quat.setAxisAngle([], [1, 0, 0], 0.5*time))
+const position = Vector3(0, 0, 0)
+window.position = position
 
-  vec3.transformQuat(
-    position,
-    position,
-    quat.setAxisAngle([], [0, 1, 0], 0.5*time))
-
-  vec3.transformQuat(
-    position,
-    position,
-    quat.setAxisAngle([], [0, 0, 1], 0.5*time))
-
-  orbitCamera({}, () => {
+frame(({time, lights, clear}) => {
+  //clear({color: Color('dark slate gray')})
+  orbitCamera({target: [0, 0, 0], position: [0, 5, 15] }, () => {
     // lights
-    point([
-      {
-        visible: lightXVisible,
-        color: lightXColor,
-        position,
-      }, {
-        visible: lightYVisible,
-        color: lightYColor,
-        position: vec3.negate([], position),
-      },
-      {
-        visible: lightZVisible,
-        color: lightZColor,
-        position:
-          vec3.transformQuat(
-            [],
-            vec3.add([], vec3.negate([], position), [2, 2, 2]),
-            quat.setAxisAngle([], [0, 0, 1], 0.5*time)),
-      },
-    ])
+    point([{
+      visible: lightXVisible,
+      color: lightXColor,
+      position,
+    },{
+      visible: lightYVisible,
+      color: lightYColor,
+      position: vec3.negate([], position),
+    }, {
+      visible: lightZVisible,
+      color: lightZColor,
+      position:
+      vec3.transformQuat(
+        [],
+        vec3.add([], vec3.negate([], position), [0.5, 0.5, 0.5]),
+        quat.setAxisAngle([], [0, 0, 1], 0.5*time)),
+    }])
 
     material({
       color: materialColor,
       emissive: materialEmissive,
       opacity: materialOpacity,
     }, () => {
-      quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
+      quat.setAxisAngle(angle, [0, 1, 0], 0.1*time)
       quat.slerp(rotation, rotation, angle, 0.01)
       bunny({
-        rotation,
         wireframe: materialWireframe,
         segments: materialLineSegments,
         opacity: materialOpacity,
+        rotation
+      }, ({position: bunnyPosition, geometry, transform, tick}) => {
+        mouse(({buttons, deltaX: dx, deltaY: dy}) => {
+          const i = parseInt(tick/24) % geometry.positions.length + 1
+          const pos = vec3.transformMat4([], geometry.positions[i], transform)
+          dx = 0.5*clamp(dx, 0.1, 10)
+          dy = 0.8*clamp(dy, 0.1, 10)
+          vec3.lerp(position, position, vec3.add([], [dx, dy, 0], pos), 0.01)
+        })
       })
     })
   })

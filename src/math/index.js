@@ -4,6 +4,7 @@
  * Module exports.
  */
 
-export { Quaternion } from './quaternion'
-export { Vector } from './vector'
-export { Euler } from './euler'
+export * from './quaternion'
+export * from './matrix'
+export * from './vector'
+export * from './euler'

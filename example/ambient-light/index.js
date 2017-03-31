@@ -1,24 +1,21 @@
 'use strict'
 
-import { OrbitCameraController } from '../../extras/controller'
-import VignetteBackground from '../../extras/backgrounds/vignette'
-
 import {
-  LambertMaterial,
-  AmbientLight,
-  BoxGeometry,
-
+  PerspectiveCamera,
   OrientationInput,
+  PhongMaterial,
+  FlatMaterial,
+  AmbientLight,
   TouchInput,
   MouseInput,
-
   Context,
-  Camera,
   Frame,
-  Lines,
+  Color,
+  LinesMesh,
   Mesh,
 } from 'axis3d'
 
+import { OrbitCameraController } from '../../extras/controller'
 import ControlPanel from 'control-panel'
 import coalesce from 'defined'
 import Bunny from 'bunny'
@@ -28,13 +25,13 @@ for (let p of Bunny.positions) {
   p[1] = p[1] - 4
 }
 
-const ctx = Context({clear: {color: [0, 0, 0, 1], depth: true}})
+const ctx = Context()
 
-const material = LambertMaterial(ctx)
-const camera = Camera(ctx, { position: [0, 0, 15] })
+const material = PhongMaterial(ctx)
+const camera = PerspectiveCamera(ctx)
 const light = AmbientLight(ctx)
 const frame = Frame(ctx)
-const lines = Mesh(ctx, {geometry: Bunny})
+const lines = LinesMesh(ctx, {geometry: Bunny})
 const mesh = Mesh(ctx, {geometry: Bunny})
 
 // bunny rotation
@@ -43,11 +40,10 @@ const rotation = [0, 0, 0, 1]
 // draw bunny
 const bunny = (state = {}, block) => {
   mesh(state, ({}, args) => {
-    return 
     material({blending: true, color: [1, 1, 1, 1.0], opacity: 1}, () => {
       lines({
         thickness: 0.01,
-        scale: [1.00125, 1.00125, 1.00125]
+        scale: 1.001,
       })
     })
   })
@@ -63,9 +59,9 @@ const orbitCamera = OrbitCameraController(ctx, {
 })
 
 // ambient light color
-const ambientLightColor = [0.5, 0.5, 0.5, 1.0]
+const ambientLightColor = Color('white')
 const materialEmissive = [0, 0, 0, 1]
-const materialColor = [0.6, 0.6, 0.8, 1]
+const materialColor = Color('purple')
 let materialOpacity = 1.0;
 
 const rgb255 = (c) => c .slice(0, 3).map((n) => 255*n)
@@ -111,7 +107,7 @@ const panel = ControlPanel([
 })
 
 frame(({time}) => {
-  orbitCamera({}, () => {
+  orbitCamera({ position: [0, 5, 15] }, () => {
     light({color: ambientLightColor})
     material({
       color: materialColor,

@@ -1,6 +1,10 @@
 'use strict'
 
-export DirectionalLight from './directional'
-export AmbientLight from './ambient'
-export PointLight from './point'
-export Light from './light'
+/**
+ * Module exports.
+ */
+
+export * from './directional'
+export * from './ambient'
+export * from './point'
+export * from './types'

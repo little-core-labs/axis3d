@@ -1,7 +1,15 @@
 'use strict'
-let i = 0
-const id = () => i ++
-export const Material = id()
-export const FlatMaterial = id()
-export const PhongMaterial = id()
-export const LambertMaterial = id()
+
+/**
+ * Known light types as constants. Light type values are
+ * in the range of 0x6d0000 - 0x6dffff.
+ *
+ * @module material/types
+ */
+
+/** @typedef {Number} MaterialType */
+
+export const BasicMaterialType = 0x6d0000
+export const FlatMaterialType = 0x6d0001
+export const PhongMaterialType = 0x6d0002
+export const LambertMaterialType = 0x6d0003

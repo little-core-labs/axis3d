@@ -20,7 +20,6 @@ module.exports = exports = ({
 } = {}) => {
   keyboard && keyboard(({keys}) => {
     const mappings = new KeyboardCommandMappings(keys)
-    const step = 0.1*damping
 
     // @TODO(werle) - should we reset keyboard state ?
     if (mappings.value('control')) {
@@ -28,15 +27,15 @@ module.exports = exports = ({
     }
 
     if (mappings.value('up')) {
-      euler[0] -= 0.9*step
+      euler[0] -= 0.1*damping
     } else if (mappings.value('down')) {
-      euler[0] += 0.9*step
+      euler[0] += 0.1*damping
     }
 
     if (mappings.value('left')) {
-      euler[1] -= step
+      euler[1] -= 0.08*damping
     } else if (mappings.value('right')) {
-      euler[1] += step
+      euler[1] += 0.08*damping
     }
   })
 }

@@ -1,2 +1,3 @@
-- Create material interface to define shaders affected by light sources
-? Mesh default shader should draw normals
+* CubeTexture
+* Material reflection
+* Fog

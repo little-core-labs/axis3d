@@ -1,54 +1,104 @@
 'use strict'
 
-import * as lightTypes from '../light/types'
+/**
+ * Module dependencies.
+ */
+
+import { LambertMaterial, LambertMaterialUniforms } from './lambert'
+import { PhongMaterialType as type } from './types'
+import { Color } from '../core/color'
+
 import coalesce from 'defined'
 
-import {
-  LambertMaterialCommand
-} from './lambert'
+/**
+ * Default PhongMaterial specular color.
+ *
+ * @public
+ * @const
+ * @type {Color}
+ */
 
-import {
-  kMaxAmbientLights
-} from '../light/ambient'
+export const kDefaultPhongMaterialSpecularColor =
+  new Color(0x111111)
 
-import {
-  kMaxDirectionalLights
-} from '../light/directional'
+/**
+ * Default PhongMaterial shininess.
+ *
+ * @public
+ * @const
+ * @type {Number}
+ */
 
-import {
-  kMaxPointLights
-} from '../light/point'
+export const kDefaultPhongMaterialShininess = 40
 
-import {
-  PhongMaterial as type
-} from './types'
+/**
+ * PhongMaterial class.
+ *
+ * @public
+ * @class PhongMaterial
+ * @extends LambertMaterial
+ * @see Material
+ */
 
-module.exports = exports = (...args) => new PhongMaterialCommand(...args)
-export class PhongMaterialCommand extends LambertMaterialCommand {
+export class PhongMaterial extends LambertMaterial {
   constructor(ctx, initialState = {}) {
-    let {
-      shininess: initialShininess = 20,
-      specular: initialSpecular = [0.0, 0.0, 0.0, 1],
+    const {
+      uniforms = new PhongMaterialUniforms(ctx, initialState)
     } = initialState
+    super(ctx, { type, ...initialState, uniforms })
+  }
+}
 
-    const uniforms = {
-      'material.shininess': ({}, {shininess = initialShininess} = {}) => {
-        return shininess
-      },
+/**
+ * PhongMaterialUniforms class.
+ *
+ * @public
+ * @class PhongMaterialUniforms
+ * @extends LambertMaterialUniforms
+ */
 
-      'material.specular': ({}, {specular = initialSpecular} = {}) => {
-        return specular
-      },
+export class PhongMaterialUniforms extends LambertMaterialUniforms {
 
+  /**
+   * PhongMaterialUniforms class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {!Context} ctx Axis3D context.
+   * @param {?Object} initialState Optional initial state.
+   */
+
+  constructor(ctx, initialState = {}) {
+    super(ctx, initialState)
+
+    /**
+     * Material shininess.
+     *
+     * @public
+     * @type {Number}
+     */
+
+    this['material.shininess'] = ({}, {shininess} = {}) => {
+      return coalesce(
+        shininess,
+        initialState.shininess,
+        kDefaultPhongMaterialShininess)
     }
 
-    const shaderDefines = { }
+    /**
+     * Material specularity.
+     *
+     * @public
+     * @type {Color|Array<Number>}
+     */
 
-    super(ctx, {
-      ...initialState,
-      shaderDefines,
-      uniforms,
-      type: initialState.type || type,
-    })
+    this['material.specular'] = ({}, {specular} = {}) => {
+      return [
+        ...coalesce(
+          specular,
+          initialState.specular,
+          kDefaultPhongMaterialSpecularColor)
+      ]
+    }
   }
 }

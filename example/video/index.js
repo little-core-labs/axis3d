@@ -1,21 +1,16 @@
 'use strict'
 
 import {
+  PerspectiveCamera,
+  OrthographicCamera,
   FlatMaterial,
+  BoxGeometry,
+  Quaternion,
   Texture,
   Context,
-  Camera,
   Frame,
   Mesh,
 } from 'axis3d'
-
-import {
-  Quaternion
-} from 'axis3d/math'
-
-import {
-  BoxGeometry
-} from 'axis3d/geometry'
 
 import quat from 'gl-quat'
 
@@ -25,9 +20,11 @@ const ctx = Context()
 const box = Mesh(ctx, { geometry: BoxGeometry(ctx) })
 const video = document.createElement('video')
 const frame = Frame(ctx)
-const camera = Camera(ctx, {position: [0, 0, 5]})
-const material = FlatMaterial(ctx, { map: Texture(ctx, {data: video}) })
-const rotation = new Quaternion()
+const camera = OrthographicCamera(ctx, {viewport: [-1, -1, 1, 1]})
+//const camera = PerspectiveCamera(ctx, {position: [0, 0, 5]})
+const texture = Texture(ctx)
+const material = FlatMaterial(ctx, {map: texture})
+const rotation = Quaternion()
 
 video.autoplay = true
 video.loop = true
@@ -43,8 +40,9 @@ frame(({time}) => {
   const y = angle([0, 1, 0], 0.05*time)
   const z = angle([0, 0, 1], 0.05*time)
   quat.slerp(rotation, rotation, multiply(multiply(x, y), z), 0.5)
-  camera({rotation}, () => {
-    material(() => {
+  camera({position: [0, 0, 5], rotation}, () => {
+    texture({data: video})
+    material({cull: false}, () => {
       box()
     })
   })
