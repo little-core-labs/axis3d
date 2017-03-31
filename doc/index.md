@@ -1,8 +1,8 @@
 Axis3D
 ======
 
-Axis3D is a lightweight declarative graphics library built on top of
-[regl][regl] with first class support for media.
+Axis3D is a lightweight functional graphics library built on top of
+[regl][regl].
 
 # Table Of Contents
 

@@ -1,6 +1,6 @@
-*[`Command`][Command] -> `Object3DCommand`*
+*[`Command`][Command] -> `Object3D`*
 
-Object3DCommand
+Object3D
 ===============
 
 ## Synopsis
@@ -13,23 +13,22 @@ returned by this class injects a [regl][regl] context when called.
 ### API
 
 ```js
-import Object3D from 'axis3d/object'
-import { Context } from 'axis3d'
+import { Context, Object3D } from 'axis3d'
 const ctx = new Context()
-const object = Object3D(ctx)
+const object = new Object3D(ctx)
 ```
 
 ### Class
 
 ```js
-import { Object3DCommand } from 'axis3d/object'
-class MyCommand extends Object3DCommand { }
+import { Object3D } from 'axis3d/object'
+class MyObject extends Object3D { }
 ```
 
 ## Constructor
 
 ```js
-Object3DCommand(ctx, opts) -> Function
+Object3D(ctx, opts) -> Function
 ```
 
 where `ctx` is an instance of a [Context][Context] object and `opts` is
