@@ -98,7 +98,7 @@ export class Quaternion extends Vector {
    */
 
   static fromEuler(euler, order = 'xyz') {
-    if (null == euler || ![...euler].every((x) => x && 'number' == typeof x)) {
+    if (null == euler || ![...euler].every((x) => x == x && 'number' == typeof x)) {
       throw new TypeError("Expecting euler to have numbers.")
     }
 
