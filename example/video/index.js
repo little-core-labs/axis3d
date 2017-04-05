@@ -28,7 +28,7 @@ const rotation = Quaternion()
 
 video.autoplay = true
 video.loop = true
-video.src = 'video.mp4'
+video.src = 'assets/video.mp4'
 
 video.load()
 video.play()

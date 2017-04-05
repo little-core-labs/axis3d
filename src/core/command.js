@@ -83,7 +83,7 @@ export class Command extends Function {
     }))
     const exec = (...args) => this(fn, ...args)
     const id = Command.id()
-    return Object.assign((...args) => exec.call(self, ...args), {
+    return Object.assign((...args) => exec.call(this, ...args), {
       this, id
     })
   }

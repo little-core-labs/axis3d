@@ -34,11 +34,6 @@ STANDARD := $(BIN)/standard
 DEVTOOL := $(BIN)/devtool
 
 ##
-# Path to faucet
-#
-FAUCET := $(BIN)/faucet
-
-##
 # Module source (js)
 #
 SRC += $(wildcard src/*/*/*.js)
@@ -150,7 +145,7 @@ esdoc: node_modules esdoc.json $(SRC)
 .PHONY: example/*
 example/*: NODE_PATH="$(NODE_PATH):$(CWD)/example/"
 example/*:
-	$(BUDO) $@/index.js -p 3000 --dir $@ --dir public/assets --live --verbose -- $(BROWSERIFY_TRANSFORM) --debug
+	$(BUDO) $@/index.js -p 3000 --dir $@ --dir public --live --verbose -- $(BROWSERIFY_TRANSFORM) --debug
 
 ##
 # Cleans all built files

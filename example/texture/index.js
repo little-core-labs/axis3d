@@ -26,7 +26,7 @@ const material = PhongMaterial(ctx, {map: texture})
 const rotation = Quaternion()
 
 const image = new Image()
-image.src = 'texture.jpg'
+image.src = 'assets/texture.jpg'
 
 frame(({time, cancel}) => {
   const multiply = (...args) => quat.multiply([], ...args)

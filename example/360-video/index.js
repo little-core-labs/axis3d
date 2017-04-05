@@ -46,7 +46,7 @@ const orbitCamera = OrbitCameraController(ctx, {
 
 // init video
 let isVideoPlaying = false
-video.src = 'paramotor.mp4'
+video.src = 'assets/paramotor.mp4'
 video.preload = 'metadata'
 video.autoload = true
 video.load()

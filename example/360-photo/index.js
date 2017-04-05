@@ -39,7 +39,7 @@ const material = FlatMaterial(ctx, {map: texture})
 
 // texture image
 const image = new Image()
-image.src = 'govball.jpg'
+image.src = 'assets/govball.jpg'
 image.onload = () => texture({data: image})
 
 // inputs
@@ -52,6 +52,7 @@ const touch = TouchInput(ctx)
 const inputs = { orientation, keyboard, touch, mouse }
 const orbitCamera = OrbitCameraController(ctx, {
   camera, inputs,
+  invert: true,
   interpolationFactor: 0.1,
   euler: [0, 0.5*Math.PI, 0]
 })

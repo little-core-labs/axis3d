@@ -18,12 +18,12 @@ const ctx = Context()
 const material = FlatMaterial(ctx)
 const camera = PerspectiveCamera(ctx)
 const frame = Frame(ctx)
-const box = Mesh(ctx, {geometry: BoxGeometry(ctx)})
+const box = Mesh(ctx, {geometry: BoxGeometry()})
 
-const rotation = new Quaternion()
-const position = new Vector3(0, 0, 5)
-const angle = new Quaternion()
-const color = new Color('blue')
+const rotation = Quaternion()
+const position = Vector3(0, 0, 5)
+const angle = Quaternion()
+const color = Color('blue')
 
 frame(({time}) => {
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
