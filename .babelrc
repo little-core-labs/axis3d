@@ -1,4 +1,8 @@
 {
   "presets": [ "es2015", "stage-0" ],
-  "plugins": ["glslify", "transform-dead-code-elimination"]
+  "plugins": [
+    ["transform-define", "./plugins/babel/defines.js"],
+    "transform-dead-code-elimination",
+    "glslify"
+  ]
 }

@@ -4,7 +4,6 @@
  * Module dependencies.
  */
 
-import { version } from './package'
 import createDebug from 'debug'
 import window from 'global/window'
 import clamp from 'clamp'
@@ -13,6 +12,8 @@ import clamp from 'clamp'
 /** @virtual {HTMLImageElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement */
 
 const TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor
+
+const kLibraryVersion = __AXIS3D_VERSION__
 
 /**
  * Math dependencies.
@@ -58,7 +59,7 @@ export const radians = (n) => n == n ? (n*Math.PI/180.0) : 0
  * @param {...Mixed} args
  */
 
-export const debug = createDebug(`[axis@${version}]`)
+export const debug = createDebug(`[axis@${kLibraryVersion}]`)
 
 /**
  * Simple linear inerpolation function.

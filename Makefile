@@ -70,7 +70,7 @@ BABEL_ENV ?= commonjs
 ##
 # Browserify transform
 #
-BROWSERIFY_TRANSFORM := -t babelify
+BROWSERIFY_TRANSFORM := -g babelify
 
 ##
 # Use yarn if available
@@ -125,7 +125,7 @@ dist: dist/axis.min.js
 #
 dist/axis.min.js: node_modules lib
 	$(BUILD_PARENT_DIRECTORY)
-	$(BROWSERIFY) $(BROWSERIFY_TRANSFORM) -g rollupify -t uglifyify --standalone $(GLOBAL_NAMESPACE) $(LIB_MAIN) > $@
+	$(BROWSERIFY) $(BROWSERIFY_TRANSFORM) -g rollupify -g uglifyify --standalone $(GLOBAL_NAMESPACE) $(LIB_MAIN) > $@
 
 ##
 # Builds node modules
