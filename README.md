@@ -2,7 +2,7 @@ Axis3D
 ======
 
 *Axis3D* is a lightweight functional graphics library built on top of
-[regl][regl]. It aimes to be compatible with many components within the
+[regl][regl]. It aims to be compatible with many components within the
 [stack.gl](http://stack.gl) ecosystem. It provides a set of components
 with sane defaults. This library is heavily inspired by the underlying
 mechanics of [regl][regl] and the functional/reactive component patterns
