@@ -1,10 +1,21 @@
 Axis3D
 ======
 
-Axis3D is a lightweight functional graphics library built on top of
-[regl][regl].
+*Axis3D* is a lightweight functional graphics library built on top of
+[regl][regl]. It aimes to be compatible with many components within the
+[stack.gl](http://stack.gl) ecosystem. It provides a set of components
+with sane defaults. This library is heavily inspired by the underlying
+mechanics of [regl][regl] and the functional/reactive component patterns
+introduced in [react](https://github.com/facebook/react). The scene
+graph and transform state is implied by the declarative structure of the
+components. Everything is a function that injects a
+[regl context][regl#context]. Vectors and matrices are plain arrays that are
+compatible with [gl-matrix](https://github.com/toji/gl-matrix) and
+[the like](https://www.npmjs.com/search?q=gl-matrix). The libary should
+feel familiar to [three.js](https://github.com/mrdoob/three.js), but
+with less features.
 
-# STATUS
+# Status
 
 ***Stable*** - *This project is in active development*
 
@@ -47,7 +58,7 @@ frame(({time}) => {
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
   quat.slerp(rotation, rotation, angle, 0.01)
   camera({rotation}, () => {
-    material({color: Color('cyan')}, () => {
+    material({color: Color('green')}, () => {
       box({wireframe: true})
     })
   })
