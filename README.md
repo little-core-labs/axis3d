@@ -9,7 +9,7 @@ mechanics of [regl][regl] and the functional/reactive component patterns
 introduced in [react](https://github.com/facebook/react). The scene
 graph and transform state is implied by the declarative structure of the
 components. Everything is a function that injects a
-[regl context][regl#context]. Vectors and matrices are plain arrays that are
+[regl context][regl-context]. Vectors and matrices are plain arrays that are
 compatible with [gl-matrix](https://github.com/toji/gl-matrix) and
 [the like](https://www.npmjs.com/search?q=gl-matrix). The libary should
 feel familiar to [three.js](https://github.com/mrdoob/three.js), but
@@ -80,3 +80,4 @@ MIT
 [regl]: https://github.com/regl-project/regl
 [stackgl]: https://github.com/stackgl
 [glslify]: https://github.com/stackgl/glslify
+[regl-context]: https://github.com/regl-project/regl/blob/gh-pages/API.md#context
