@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/core/texture.js | Axis3D API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/stats.js~Stat.html">Stat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/stats.js~StatNameError.html">StatNameError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-clearStats">clearStats</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createStatList">createStatList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-decrementStat">decrementStat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getStats">getStats</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-headStat">headStat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-incrementStat">incrementStat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-registerStat">registerStat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-tailStat">tailStat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isArrayLike">isArrayLike</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">cameras</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/cameras/orthographic.js~OrthographicCamera.html">OrthographicCamera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/cameras/orthographic.js~OrthographicCameraContext.html">OrthographicCameraContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/cameras/perspective.js~PerspectiveCamera.html">PerspectiveCamera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/cameras/perspective.js~PerspectiveCameraContext.html">PerspectiveCameraContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraFar">kDefaultCameraFar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraNear">kDefaultCameraNear</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraFar">kDefaultCameraFar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraFieldOfView">kDefaultCameraFieldOfView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraNear">kDefaultCameraNear</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">core</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/color.js~Color.html">Color</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/command.js~Command.html">Command</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/context.js~Context.html">Context</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/extrude_geometry.js~ExtrudeGeometry.html">ExtrudeGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/frame.js~Frame.html">Frame</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/frame.js~FrameContext.html">FrameContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/frame.js~FrameState.html">FrameState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/frame.js~FrameUniforms.html">FrameUniforms</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/geometry.js~Geometry.html">Geometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/geometry_buffer.js~GeometryBuffer.html">GeometryBuffer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/geometry_buffer.js~GeometryBufferState.html">GeometryBufferState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/input.js~Input.html">Input</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/input.js~InputContext.html">InputContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/light.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/light.js~LightContext.html">LightContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/material.js~Material.html">Material</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/material.js~MaterialContext.html">MaterialContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/material.js~MaterialMap.html">MaterialMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/material.js~MaterialState.html">MaterialState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/material.js~MaterialUniforms.html">MaterialUniforms</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/mesh.js~Mesh.html">Mesh</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/mesh.js~MeshAttributes.html">MeshAttributes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/mesh.js~MeshContext.html">MeshContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/mesh.js~MeshState.html">MeshState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/mesh.js~MeshUniforms.html">MeshUniforms</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/object3d.js~Object3D.html">Object3D</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/object3d.js~Object3DContext.html">Object3DContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/stream.js~Stream.html">Stream</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/stream.js~StreamContext.html">StreamContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/text.js~Text.html">Text</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/text.js~TextContext.html">TextContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/texture.js~Texture.html">Texture</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/texture.js~TextureContext.html">TextureContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/texture.js~TextureState.html">TextureState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultExtrudeGeometryPathSteps">kDefaultExtrudeGeometryPathSteps</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultExtrudeGeometryPathZCoefficient">kDefaultExtrudeGeometryPathZCoefficient</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultFrameBlendingState">kDefaultFrameBlendingState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultFrameClearState">kDefaultFrameClearState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultFrameCullingState">kDefaultFrameCullingState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultFrameDepthState">kDefaultFrameDepthState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultGeometryBufferFragmentShader">kDefaultGeometryBufferFragmentShader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLighType">kDefaultLighType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLightAmbient">kDefaultLightAmbient</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLightColor">kDefaultLightColor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLightIntensity">kDefaultLightIntensity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLightPosition">kDefaultLightPosition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLightRadius">kDefaultLightRadius</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLightRotation">kDefaultLightRotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMaterialBlendingState">kDefaultMaterialBlendingState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMaterialColor">kDefaultMaterialColor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMaterialCullingState">kDefaultMaterialCullingState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMaterialDepthState">kDefaultMaterialDepthState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMaterialFragmentShader">kDefaultMaterialFragmentShader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMaterialOpacity">kDefaultMaterialOpacity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMaterialType">kDefaultMaterialType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMeshPrimitive">kDefaultMeshPrimitive</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMeshVertexShader">kDefaultMeshVertexShader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMeshWireframePrimitive">kDefaultMeshWireframePrimitive</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultMeshWireframeThickness">kDefaultMeshWireframeThickness</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultTextureState">kDefaultTextureState</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">geometry</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/box.js~BoxGeometry.html">BoxGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/capsule.js~CapsuleGeometry.html">CapsuleGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/cylinder.js~CylinderGeometry.html">CylinderGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/plane.js~PlaneGeometry.html">PlaneGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/sphere.js~SphereGeometry.html">SphereGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/torus.js~TorusGeometry.html">TorusGeometry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/geometry/triangle.js~TriangleGeometry.html">TriangleGeometry</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">input</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/keyboard.js~KeyboardInput.html">KeyboardInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/mouse.js~MouseInput.html">MouseInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/orientation.js~OrientationInput.html">OrientationInput</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/input/touch.js~TouchInput.html">TouchInput</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/ambient.js~AmbientLight.html">AmbientLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/directional.js~DirectionalLight.html">DirectionalLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/light/point.js~PointLight.html">PointLight</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultAmbientLightAmbient">kDefaultAmbientLightAmbient</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultAmbientLightContextEntry">kDefaultAmbientLightContextEntry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultDirectionalLightAmbient">kDefaultDirectionalLightAmbient</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultDirectionalLightContextEntry">kDefaultDirectionalLightContextEntry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultDirectionalLightIntensity">kDefaultDirectionalLightIntensity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultDirectionalLightRadius">kDefaultDirectionalLightRadius</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kMaxAmbientLights">kMaxAmbientLights</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kMaxDirectionalLights">kMaxDirectionalLights</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kMaxPointLights">kMaxPointLights</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultPointLightAmbient">kDefaultPointLightAmbient</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultPointLightContextEntry">kDefaultPointLightContextEntry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultPointLightIntensity">kDefaultPointLightIntensity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultPointLightRadius">kDefaultPointLightRadius</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-AmbientLightType">AmbientLightType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DirectionalLightType">DirectionalLightType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PointLightType">PointLightType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SpotLightType">SpotLightType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LightType">LightType</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">material</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/flat.js~FlatMaterial.html">FlatMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/lambert.js~LambertMaterial.html">LambertMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/lambert.js~LambertMaterialContext.html">LambertMaterialContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/lambert.js~LambertMaterialUniforms.html">LambertMaterialUniforms</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/phong.js~PhongMaterial.html">PhongMaterial</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/material/phong.js~PhongMaterialUniforms.html">PhongMaterialUniforms</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLambertMaterialAlbedo">kDefaultLambertMaterialAlbedo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLambertMaterialAmbientColor">kDefaultLambertMaterialAmbientColor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLambertMaterialEmissiveColor">kDefaultLambertMaterialEmissiveColor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLambertMaterialRoughness">kDefaultLambertMaterialRoughness</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultPhongMaterialShininess">kDefaultPhongMaterialShininess</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultPhongMaterialSpecularColor">kDefaultPhongMaterialSpecularColor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FlatMaterialType">FlatMaterialType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LambertMaterialType">LambertMaterialType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PhongMaterialType">PhongMaterialType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MaterialType">MaterialType</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">math</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/euler.js~Euler.html">Euler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/matrix.js~Matrix.html">Matrix</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/matrix.js~Matrix2.html">Matrix2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/matrix.js~Matrix3.html">Matrix3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/matrix.js~Matrix4.html">Matrix4</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/quaternion.js~Quaternion.html">Quaternion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector.html">Vector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector1.html">Vector1</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector2.html">Vector2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector3.html">Vector3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector4.html">Vector4</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-quat">quat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-offsetOf">offsetOf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Color">Color</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Euler">Euler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Quaternion">Quaternion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Vector">Vector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Vector1">Vector1</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Vector2">Vector2</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Vector3">Vector3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Vector4">Vector4</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-offsets">offsets</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">mesh</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/mesh/lines.js~LinesMesh.html">LinesMesh</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultLinesMeshVertexShader">kDefaultLinesMeshVertexShader</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/core/texture.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
+
+/**
+ * Module dependencies.
+ */
+
+import { incrementStat } from &apos;../stats&apos;
+import { Command } from &apos;./command&apos;
+import window from &apos;global/window&apos;
+
+/**
+  * @virtual {HTMLVideoElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement
+  */
+
+const {HTMLVideoElement} = window
+
+/**
+  * @virtual {HTMLCanvasElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
+  */
+
+const {HTMLCanvasElement} = window
+
+/**
+  * @virtual {HTMLImageElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement
+  */
+
+const {HTMLImageElement} = window
+
+// predicate helpers
+const isCanvas = (d) =&gt; d instanceof HTMLCanvasElement
+const isVideo = (d) =&gt; d instanceof HTMLVideoElement
+const isImage = (d) =&gt; d instanceof HTMLImageElement
+
+// https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState
+const {
+  HAVE_NOTHING = 0,
+  HAVE_METADATA = 1,
+  HAVE_CURRENT_DATA = 2,
+  HAVE_FUTURE_DATA = 3,
+  HAVE_ENOUGH_DATA = 4,
+} = HTMLVideoElement
+
+/**
+ * Default underlying texture state.
+ *
+ * @public
+ * @const
+ * @type {Object}
+ * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#textures}
+ */
+
+export const kDefaultTextureState = Object.seal({
+  min: &apos;linear&apos;,
+  mag: &apos;linear&apos;,
+})
+
+/**
+ * A Texture class represents an interface wrapping, uploading,
+ * data.
+ * and manipulating 2D texture data such as image, video, and canvas
+ *
+ * @public
+ * @class Texture
+ * @extends Command
+ * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#textures}
+ */
+
+export class Texture extends Command {
+
+  /**
+   * Texture class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {!Context} ctx Axis3D context.
+   * @param {?Object} initialState Optional initial state.
+   */
+
+  constructor(ctx, initialState = {}) {
+    incrementStat(&apos;Texture&apos;)
+    super(update)
+
+    // texture state used for in place regl
+    // texture reinitialization
+    const textureState = new TextureState(ctx, initialState || {})
+
+    // injected texture context
+    const {
+      context = new TextureContext(ctx, textureState, initialState)
+    } = initialState
+
+    // regl context
+    const injectContext = ctx.regl({context})
+
+    // texture update function
+    function update(state, block) {
+      if (&apos;function&apos; == typeof state) {
+        block = state
+        state = {}
+      }
+
+      state = state || {}
+      block = block || function() {}
+
+      textureState.update({
+        ...initialState,
+        ...state,
+      })
+
+      // inject texture context exposing useful
+      // texture state variables
+      injectContext(block)
+
+      return this
+    }
+  }
+
+  /**
+   * A predicate helper function to determine if
+   * given data is ready for upload
+   *
+   * @public
+   * @static
+   * @method
+   * @param {Mixed} data
+   * @return {Boolean}
+   */
+
+  static isTextureDataReady(data) {
+    if (data &amp;&amp; isVideo(data) &amp;&amp; data.readyState &gt;= HAVE_ENOUGH_DATA) {
+      return true
+    } else if (data &amp;&amp; isImage(data) || isCanvas(data)) {
+      if (data.width &amp;&amp; data.height) {
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
+   * Helper function to return a 2d vector
+   * representing the texture data resolution.
+   *
+   * @public
+   * @static
+   * @method
+   * @param {TextureState} state
+   * @param {Mixed} data
+   * @return {Array&lt;Number&gt;|Vector2}
+   */
+
+  static getTextureDataResolution(state, data) {
+    if (isImage(data) || isCanvas(data)) {
+      return [data.width, data.height]
+    } else if (isVideo(data)) {
+      return [data.videoWidth || 0, data.videoHeight || 0]
+    } else if (data &amp;&amp; data.shape) {
+      return data.shape
+    } else if (state.shape) {
+      return state.shape
+    } else if (state.width &amp;&amp; state.height) {
+      return [state.width, state.height]
+    } else {
+      return [0, 0]
+    }
+  }
+}
+
+/**
+ * TextureContext class.
+ *
+ * @public
+ * @class TextureContext
+ */
+
+export class TextureContext {
+
+  /**
+   * TextureContext class constructor.
+   *
+   * @public
+   * @param {!Context} ctx Axis3D context.
+   * @param {!TextureState} textureState Required texture state.
+   * @param {?Object} initialState Optional initial context state.
+   */
+
+  constructor(ctx, textureState, initialState = {}) {
+    // protected properties
+    Object.defineProperties(this, {
+      data: {
+        enumerable: false,
+        get() { return textureState.data },
+      },
+
+      textureState: {
+        enumerable: false,
+        get() { return textureState }
+      },
+    })
+
+    /**
+     * Underlying resolution of the texture data.
+     *
+     * @public
+     * @type {Vector2|Array&lt;Number&gt;}
+     */
+
+    this.textureResolution = () =&gt; {
+      return Texture.getTextureDataResolution(textureState, textureState.data)
+    }
+
+    /**
+     * Underlying texture data.
+     *
+     * @public
+     * @type {HTMLImageElement|HTMLVideoElement|HTMLCanvasElement|TypedArray|Array|Mixed}
+     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#textures}
+     */
+
+    this.textureData = () =&gt; {
+      return textureState.data
+    }
+
+    /**
+     * REGL texture pointer.
+     *
+     * @public
+     * @type {Function}
+     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#texture-constructor}
+     */
+
+    this.texture = () =&gt; {
+      return textureState.texture
+    }
+  }
+}
+
+/**
+ * TextureState class.
+ *
+ * @public
+ * @class TextureState
+ */
+
+export class TextureState {
+
+  /**
+   * TextureState class constructor.
+   *
+   * @param {!Context} ctx Axis3D context.
+   * @param {!Object} initialState Required initial state.
+   */
+
+  constructor(ctx, initialState = {}) {
+    Object.assign(this, {
+      ...kDefaultTextureState,
+      ...initialState,
+    })
+
+    /**
+     * Underlying texture pointer.
+     */
+
+    const texture = ctx.regl.texture({ ...this })
+
+    /**
+     * Texture state data stored as reference for injection
+     * into the regl conext.
+     */
+
+    let {data = null} = initialState
+
+    /**
+     * Timestamp of last known update of a video texture.
+     */
+
+    let lastVideoUpdate = 0
+
+    /**
+     * Previous raw texture data.
+     */
+
+    let previouslyUploadedData = null
+
+    // protected properties
+    Object.defineProperties(this, {
+      ctx: {
+        enumerable: false,
+        get() { return ctx },
+      },
+
+      data: {
+        enumerable: true,
+        get() { return data || null },
+        set(value) { data = value },
+      },
+
+      texture: {
+        enumerable: false,
+        get() { return texture },
+      },
+
+      lastVideoUpdate: {
+        enumerable: false,
+        set(value) { lastVideoUpdate = value },
+        get() { return lastVideoUpdate },
+      },
+
+      previouslyUploadedData: {
+        enumerable: false,
+        set(value) { previouslyUploadedData = value },
+        get() { return previouslyUploadedData },
+      },
+    })
+  }
+
+  /**
+   * Updates internal texture state. Returns true if the internal texture
+   * was updated, otherwise false.
+   *
+   * @public
+   * @method
+   * @param {Object} state
+   * @param {Object} state.data
+   * @return {Boolean}
+   * @throws TypeError
+   */
+
+  update({data = this.data} = {}) {
+    const now = this.ctx.regl.now()
+    let needsUpdate = false
+
+    if (Texture.isTextureDataReady(data)) {
+      if (isVideo(data) &amp;&amp; data.readyState &gt;= HAVE_CURRENT_DATA) {
+        needsUpdate = true
+        if (now - this.lastVideoUpdate &gt;= 0.01) {
+          this.lastVideoUpdate = now
+        }
+      } else if (data != this.previouslyUploadedData) {
+        needsUpdate = true
+      }
+    }
+
+    if (needsUpdate) {
+      // computed texture data resolution
+      const resolution = Texture.getTextureDataResolution(this, data)
+      // mark for update if resolution is available and
+      // the previously uploaded texture data defers from
+      // the current input data
+      if (!(resolution[0] &gt; 0 &amp;&amp; resolution[1] &gt; 0)) {
+        needsUpdate = false
+      }
+    }
+
+    // update regl rexture state and set
+    if (needsUpdate &amp;&amp; data) {
+      this.data = data
+      this.previouslyUploadedData = data
+      // update underlying regl texture
+      if (&apos;function&apos; == typeof this.texture) {
+        this.texture(this)
+      } else {
+        throw new TypeError(
+        `TextureState expects .texture to be a function. `+
+        `Got ${typeof this.texture}.`)
+      }
+    }
+
+    return needsUpdate
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

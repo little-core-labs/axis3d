@@ -1,162 +1,113 @@
 {
   "type": "File",
   "start": 0,
-  "end": 158,
+  "end": 139,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 7,
+      "line": 11,
       "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 158,
+    "end": 139,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 7,
+        "line": 11,
         "column": 0
       }
     },
     "sourceType": "module",
     "body": [
       {
-        "type": "ExportNamedDeclaration",
-        "start": 14,
-        "end": 53,
+        "type": "ExportAllDeclaration",
+        "start": 42,
+        "end": 67,
         "loc": {
           "start": {
-            "line": 3,
+            "line": 7,
             "column": 0
           },
           "end": {
-            "line": 3,
-            "column": 39
+            "line": 7,
+            "column": 25
           }
         },
-        "specifiers": [
-          {
-            "type": "ExportDefaultSpecifier",
-            "start": 21,
-            "end": 36,
-            "loc": {
-              "start": {
-                "line": 3,
-                "column": 7
-              },
-              "end": {
-                "line": 3,
-                "column": 22
-              }
-            },
-            "exported": {
-              "type": "Identifier",
-              "start": 21,
-              "end": 36,
-              "loc": {
-                "start": {
-                  "line": 3,
-                  "column": 7
-                },
-                "end": {
-                  "line": 3,
-                  "column": 22
-                },
-                "identifierName": "LambertMaterial"
-              },
-              "name": "LambertMaterial"
-            }
-          }
-        ],
         "source": {
           "type": "StringLiteral",
-          "start": 42,
-          "end": 53,
+          "start": 56,
+          "end": 67,
           "loc": {
             "start": {
-              "line": 3,
-              "column": 28
+              "line": 7,
+              "column": 14
             },
             "end": {
-              "line": 3,
-              "column": 39
+              "line": 7,
+              "column": 25
             }
           },
           "extra": {
             "rawValue": "./lambert",
             "raw": "'./lambert'"
           },
-          "value": "./lambert"
-        }
+          "value": "./lambert",
+          "leadingComments": null
+        },
+        "leadingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * Module exports.\n ",
+            "start": 14,
+            "end": 40,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 3
+              }
+            }
+          }
+        ]
       },
       {
-        "type": "ExportNamedDeclaration",
-        "start": 54,
-        "end": 89,
+        "type": "ExportAllDeclaration",
+        "start": 68,
+        "end": 91,
         "loc": {
           "start": {
-            "line": 4,
+            "line": 8,
             "column": 0
           },
           "end": {
-            "line": 4,
-            "column": 35
+            "line": 8,
+            "column": 23
           }
         },
-        "specifiers": [
-          {
-            "type": "ExportDefaultSpecifier",
-            "start": 61,
-            "end": 74,
-            "loc": {
-              "start": {
-                "line": 4,
-                "column": 7
-              },
-              "end": {
-                "line": 4,
-                "column": 20
-              }
-            },
-            "exported": {
-              "type": "Identifier",
-              "start": 61,
-              "end": 74,
-              "loc": {
-                "start": {
-                  "line": 4,
-                  "column": 7
-                },
-                "end": {
-                  "line": 4,
-                  "column": 20
-                },
-                "identifierName": "PhongMaterial"
-              },
-              "name": "PhongMaterial"
-            }
-          }
-        ],
         "source": {
           "type": "StringLiteral",
-          "start": 80,
-          "end": 89,
+          "start": 82,
+          "end": 91,
           "loc": {
             "start": {
-              "line": 4,
-              "column": 26
+              "line": 8,
+              "column": 14
             },
             "end": {
-              "line": 4,
-              "column": 35
+              "line": 8,
+              "column": 23
             }
           },
           "extra": {
@@ -167,65 +118,66 @@
         }
       },
       {
-        "type": "ExportNamedDeclaration",
-        "start": 90,
-        "end": 123,
+        "type": "ExportAllDeclaration",
+        "start": 92,
+        "end": 115,
         "loc": {
           "start": {
-            "line": 5,
+            "line": 9,
             "column": 0
           },
           "end": {
-            "line": 5,
-            "column": 33
+            "line": 9,
+            "column": 23
           }
         },
-        "specifiers": [
-          {
-            "type": "ExportDefaultSpecifier",
-            "start": 97,
-            "end": 109,
-            "loc": {
-              "start": {
-                "line": 5,
-                "column": 7
-              },
-              "end": {
-                "line": 5,
-                "column": 19
-              }
-            },
-            "exported": {
-              "type": "Identifier",
-              "start": 97,
-              "end": 109,
-              "loc": {
-                "start": {
-                  "line": 5,
-                  "column": 7
-                },
-                "end": {
-                  "line": 5,
-                  "column": 19
-                },
-                "identifierName": "FlatMaterial"
-              },
-              "name": "FlatMaterial"
-            }
-          }
-        ],
         "source": {
           "type": "StringLiteral",
-          "start": 115,
-          "end": 123,
+          "start": 106,
+          "end": 115,
           "loc": {
             "start": {
-              "line": 5,
-              "column": 25
+              "line": 9,
+              "column": 14
             },
             "end": {
-              "line": 5,
-              "column": 33
+              "line": 9,
+              "column": 23
+            }
+          },
+          "extra": {
+            "rawValue": "./types",
+            "raw": "'./types'"
+          },
+          "value": "./types"
+        }
+      },
+      {
+        "type": "ExportAllDeclaration",
+        "start": 116,
+        "end": 138,
+        "loc": {
+          "start": {
+            "line": 10,
+            "column": 0
+          },
+          "end": {
+            "line": 10,
+            "column": 22
+          }
+        },
+        "source": {
+          "type": "StringLiteral",
+          "start": 130,
+          "end": 138,
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 14
+            },
+            "end": {
+              "line": 10,
+              "column": 22
             }
           },
           "extra": {
@@ -233,75 +185,6 @@
             "raw": "'./flat'"
           },
           "value": "./flat"
-        }
-      },
-      {
-        "type": "ExportNamedDeclaration",
-        "start": 124,
-        "end": 157,
-        "loc": {
-          "start": {
-            "line": 6,
-            "column": 0
-          },
-          "end": {
-            "line": 6,
-            "column": 33
-          }
-        },
-        "specifiers": [
-          {
-            "type": "ExportDefaultSpecifier",
-            "start": 131,
-            "end": 139,
-            "loc": {
-              "start": {
-                "line": 6,
-                "column": 7
-              },
-              "end": {
-                "line": 6,
-                "column": 15
-              }
-            },
-            "exported": {
-              "type": "Identifier",
-              "start": 131,
-              "end": 139,
-              "loc": {
-                "start": {
-                  "line": 6,
-                  "column": 7
-                },
-                "end": {
-                  "line": 6,
-                  "column": 15
-                },
-                "identifierName": "Material"
-              },
-              "name": "Material"
-            }
-          }
-        ],
-        "source": {
-          "type": "StringLiteral",
-          "start": 145,
-          "end": 157,
-          "loc": {
-            "start": {
-              "line": 6,
-              "column": 21
-            },
-            "end": {
-              "line": 6,
-              "column": 33
-            }
-          },
-          "extra": {
-            "rawValue": "./material",
-            "raw": "'./material'"
-          },
-          "value": "./material"
         }
       }
     ],
@@ -338,12 +221,48 @@
           "extra": {
             "raw": "'use strict'",
             "rawValue": "use strict"
+          },
+          "trailingComments": null
+        },
+        "trailingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * Module exports.\n ",
+            "start": 14,
+            "end": 40,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 3
+              }
+            }
           }
-        }
+        ]
       }
     ]
   },
-  "comments": [],
+  "comments": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n * Module exports.\n ",
+      "start": 14,
+      "end": 40,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 3
+        }
+      }
+    }
+  ],
   "tokens": [
     {
       "type": {
@@ -373,6 +292,22 @@
       }
     },
     {
+      "type": "CommentBlock",
+      "value": "*\n * Module exports.\n ",
+      "start": 14,
+      "end": 40,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 3
+        }
+      }
+    },
+    {
       "type": {
         "label": "export",
         "keyword": "export",
@@ -387,42 +322,43 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 14,
-      "end": 20,
+      "start": 42,
+      "end": 48,
       "loc": {
         "start": {
-          "line": 3,
+          "line": 7,
           "column": 0
         },
         "end": {
-          "line": 3,
+          "line": 7,
           "column": 6
         }
       }
     },
     {
       "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
+        "label": "*",
+        "beforeExpr": true,
+        "startsExpr": false,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
         "prefix": false,
         "postfix": false,
-        "binop": null
+        "binop": 10,
+        "updateContext": null
       },
-      "value": "LambertMaterial",
-      "start": 21,
-      "end": 36,
+      "value": "*",
+      "start": 49,
+      "end": 50,
       "loc": {
         "start": {
-          "line": 3,
+          "line": 7,
           "column": 7
         },
         "end": {
-          "line": 3,
-          "column": 22
+          "line": 7,
+          "column": 8
         }
       }
     },
@@ -439,16 +375,16 @@
         "binop": null
       },
       "value": "from",
-      "start": 37,
-      "end": 41,
+      "start": 51,
+      "end": 55,
       "loc": {
         "start": {
-          "line": 3,
-          "column": 23
+          "line": 7,
+          "column": 9
         },
         "end": {
-          "line": 3,
-          "column": 27
+          "line": 7,
+          "column": 13
         }
       }
     },
@@ -466,16 +402,16 @@
         "updateContext": null
       },
       "value": "./lambert",
-      "start": 42,
-      "end": 53,
+      "start": 56,
+      "end": 67,
       "loc": {
         "start": {
-          "line": 3,
-          "column": 28
+          "line": 7,
+          "column": 14
         },
         "end": {
-          "line": 3,
-          "column": 39
+          "line": 7,
+          "column": 25
         }
       }
     },
@@ -494,42 +430,43 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 54,
-      "end": 60,
+      "start": 68,
+      "end": 74,
       "loc": {
         "start": {
-          "line": 4,
+          "line": 8,
           "column": 0
         },
         "end": {
-          "line": 4,
+          "line": 8,
           "column": 6
         }
       }
     },
     {
       "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
+        "label": "*",
+        "beforeExpr": true,
+        "startsExpr": false,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
         "prefix": false,
         "postfix": false,
-        "binop": null
+        "binop": 10,
+        "updateContext": null
       },
-      "value": "PhongMaterial",
-      "start": 61,
-      "end": 74,
+      "value": "*",
+      "start": 75,
+      "end": 76,
       "loc": {
         "start": {
-          "line": 4,
+          "line": 8,
           "column": 7
         },
         "end": {
-          "line": 4,
-          "column": 20
+          "line": 8,
+          "column": 8
         }
       }
     },
@@ -546,16 +483,16 @@
         "binop": null
       },
       "value": "from",
-      "start": 75,
-      "end": 79,
+      "start": 77,
+      "end": 81,
       "loc": {
         "start": {
-          "line": 4,
-          "column": 21
+          "line": 8,
+          "column": 9
         },
         "end": {
-          "line": 4,
-          "column": 25
+          "line": 8,
+          "column": 13
         }
       }
     },
@@ -573,16 +510,16 @@
         "updateContext": null
       },
       "value": "./phong",
-      "start": 80,
-      "end": 89,
+      "start": 82,
+      "end": 91,
       "loc": {
         "start": {
-          "line": 4,
-          "column": 26
+          "line": 8,
+          "column": 14
         },
         "end": {
-          "line": 4,
-          "column": 35
+          "line": 8,
+          "column": 23
         }
       }
     },
@@ -601,42 +538,43 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 90,
-      "end": 96,
+      "start": 92,
+      "end": 98,
       "loc": {
         "start": {
-          "line": 5,
+          "line": 9,
           "column": 0
         },
         "end": {
-          "line": 5,
+          "line": 9,
           "column": 6
         }
       }
     },
     {
       "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
+        "label": "*",
+        "beforeExpr": true,
+        "startsExpr": false,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
         "prefix": false,
         "postfix": false,
-        "binop": null
+        "binop": 10,
+        "updateContext": null
       },
-      "value": "FlatMaterial",
-      "start": 97,
-      "end": 109,
+      "value": "*",
+      "start": 99,
+      "end": 100,
       "loc": {
         "start": {
-          "line": 5,
+          "line": 9,
           "column": 7
         },
         "end": {
-          "line": 5,
-          "column": 19
+          "line": 9,
+          "column": 8
         }
       }
     },
@@ -653,16 +591,124 @@
         "binop": null
       },
       "value": "from",
-      "start": 110,
-      "end": 114,
+      "start": 101,
+      "end": 105,
       "loc": {
         "start": {
-          "line": 5,
-          "column": 20
+          "line": 9,
+          "column": 9
         },
         "end": {
-          "line": 5,
-          "column": 24
+          "line": 9,
+          "column": 13
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "./types",
+      "start": 106,
+      "end": 115,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 14
+        },
+        "end": {
+          "line": 9,
+          "column": 23
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "export",
+        "keyword": "export",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "export",
+      "start": 116,
+      "end": 122,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "*",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": 10,
+        "updateContext": null
+      },
+      "value": "*",
+      "start": 123,
+      "end": 124,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 7
+        },
+        "end": {
+          "line": 10,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "from",
+      "start": 125,
+      "end": 129,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 9
+        },
+        "end": {
+          "line": 10,
+          "column": 13
         }
       }
     },
@@ -680,123 +726,16 @@
         "updateContext": null
       },
       "value": "./flat",
-      "start": 115,
-      "end": 123,
+      "start": 130,
+      "end": 138,
       "loc": {
         "start": {
-          "line": 5,
-          "column": 25
+          "line": 10,
+          "column": 14
         },
         "end": {
-          "line": 5,
-          "column": 33
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "export",
-        "keyword": "export",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "export",
-      "start": 124,
-      "end": 130,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 0
-        },
-        "end": {
-          "line": 6,
-          "column": 6
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "Material",
-      "start": 131,
-      "end": 139,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 7
-        },
-        "end": {
-          "line": 6,
-          "column": 15
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "from",
-      "start": 140,
-      "end": 144,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 16
-        },
-        "end": {
-          "line": 6,
-          "column": 20
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "string",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "./material",
-      "start": 145,
-      "end": 157,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 21
-        },
-        "end": {
-          "line": 6,
-          "column": 33
+          "line": 10,
+          "column": 22
         }
       }
     },
@@ -813,15 +752,15 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 158,
-      "end": 158,
+      "start": 139,
+      "end": 139,
       "loc": {
         "start": {
-          "line": 7,
+          "line": 11,
           "column": 0
         },
         "end": {
-          "line": 7,
+          "line": 11,
           "column": 0
         }
       }

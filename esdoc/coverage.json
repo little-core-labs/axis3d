@@ -1,7 +1,7 @@
 {
-  "coverage": "78.86%",
-  "expectCount": 459,
-  "actualCount": 362,
+  "coverage": "77.7%",
+  "expectCount": 435,
+  "actualCount": 338,
   "files": {
     "src/light/ambient.js": {
       "expectCount": 5,
@@ -25,11 +25,6 @@
         53,
         52
       ]
-    },
-    "src/core/camera.js": {
-      "expectCount": 24,
-      "actualCount": 24,
-      "undocumentLines": []
     },
     "src/geometry/capsule.js": {
       "expectCount": 2,
@@ -76,16 +71,16 @@
       "expectCount": 17,
       "actualCount": 5,
       "undocumentLines": [
-        108,
         109,
+        108,
         106,
         105,
         96,
         97,
         100,
         99,
-        112,
         111,
+        112,
         102,
         103
       ]
@@ -177,7 +172,7 @@
       "actualCount": 33,
       "undocumentLines": [
         269,
-        310
+        311
       ]
     },
     "src/input/mouse.js": {
@@ -232,12 +227,12 @@
       "undocumentLines": [
         171,
         170,
-        162,
         161,
-        165,
+        162,
         164,
-        168,
-        167
+        165,
+        167,
+        168
       ]
     },
     "src/geometry/sphere.js": {
@@ -306,35 +301,35 @@
         377,
         429,
         428,
-        425,
         373,
-        374,
+        425,
         426,
-        423,
+        374,
         371,
-        422,
         370,
-        291,
+        422,
+        423,
         357,
-        320,
+        291,
         406,
+        320,
         420,
         419,
-        362,
-        324,
-        410,
         325,
         411,
+        410,
+        324,
         361,
-        413,
+        362,
         364,
-        365,
         328,
-        414,
+        365,
         327,
-        416,
-        368,
+        414,
+        413,
         367,
+        368,
+        416,
         417
       ]
     },

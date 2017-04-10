@@ -52,10 +52,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraFar">kDefaultCameraFar</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraFieldOfView">kDefaultCameraFieldOfView</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraNear">kDefaultCameraNear</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">core</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/camera.js~Camera.html">Camera</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/camera.js~CameraContext.html">CameraContext</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/camera.js~CameraUniforms.html">CameraUniforms</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/color.js~Color.html">Color</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">core</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/color.js~Color.html">Color</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/command.js~Command.html">Command</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/context.js~Context.html">Context</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/extrude_geometry.js~ExtrudeGeometry.html">ExtrudeGeometry</a></span></span></li>
@@ -192,14 +189,60 @@
 </nav>
 
 <div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="axis3d">Axis3D</h1>
-<p>Axis3D is a lightweight declarative graphics library built on top of
-<a href="https://github.com/regl-project/regl">regl</a> with first class support for media.</p>
-<h1 id="status">STATUS</h1>
-<p><strong><em>In Development</em></strong> - <em>This project is in active development</em></p>
-<h1 id="installation">Installation</h1>
+<p><em>Axis3D</em> is a lightweight functional graphics library built on top of
+<a href="https://github.com/regl-project/regl">regl</a>. It aims to be compatible with many components within the
+<a href="http://stack.gl">stack.gl</a> ecosystem. It provides a set of components
+with sane defaults.</p>
+<p>This library is heavily inspired by the underlying mechanics of <a href="https://github.com/regl-project/regl">regl</a>
+and the functional/reactive component patterns introduced in
+<a href="https://github.com/facebook/react">react</a>. The scene graph and transform
+state is implied by the declarative structure of the components.</p>
+<p>Everything is a function that injects a <a href="https://github.com/regl-project/regl/blob/gh-pages/API.md#context">regl context</a>.
+Vectors and matrices are plain arrays that are compatible with
+<a href="https://github.com/toji/gl-matrix">gl-matrix</a> and
+<a href="https://www.npmjs.com/search?q=gl-matrix">the like</a>. Axis3D should
+feel familiar to <a href="https://github.com/mrdoob/three.js">three.js</a>, but
+with less features.</p>
+<h2 id="status">Status</h2>
+<p><strong><em>Stable</em></strong> - <em>This project is in active development</em></p>
+<h2 id="installation">Installation</h2>
 <p>See the <a href="doc/install.md">Installation Documentation</a> for more
 information on how to install Axis3D into your project.</p>
-<h1 id="example">Example</h1>
+<h2 id="features">Features</h2>
+<ul>
+<li>Everything is a function</li>
+<li>Reusable components</li>
+<li>Geometries with support for <a href="https://github.com/mikolalysenko/simplicial-complex">simplicial-complex</a> modules (see: <a href="https://github.com/mikolalysenko/bunny">bunny</a>)</li>
+<li>Basic materials implementing common shading models<ul>
+<li>Flat</li>
+<li>Lambert</li>
+<li>Blinn-Phong</li>
+</ul>
+</li>
+<li>Basic lighting components<ul>
+<li>Ambient</li>
+<li>Directional</li>
+<li>Point</li>
+</ul>
+</li>
+<li>Declarative scene<ul>
+<li>Implicit transforms</li>
+</ul>
+</li>
+<li><a href="https://github.com/regl-project/regl">regl</a> compatibility<ul>
+<li>Command based (see: <a href="https://github.com/regl-project/regl/blob/gh-pages/API.md#commands">regl-commands</a>)</li>
+<li>Context injection</li>
+</ul>
+</li>
+<li>Common input providers<ul>
+<li>Keyboard</li>
+<li>Mouse</li>
+<li>Device orientation</li>
+<li>WebVR</li>
+</ul>
+</li>
+</ul>
+<h2 id="example">Example</h2>
 <p>The following <a href="doc/hello-world.md">hello world example</a> demonstrates rendering a
 green box to the screen. A <code>canvas</code> is created with a <code>webgl</code> context and
 automatically appended to the <code>body</code> DOM element.</p>
@@ -225,26 +268,37 @@ const box = Mesh(ctx, { geometry: BoxGeometry(ctx) })
 
 const rotation = [0, 0, 0, 1]
 const angle = [0, 0, 0, 1]
+const color = Color(&apos;green&apos;) // [0, 1, 0, 1]
 
 frame(({time}) =&gt; {
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
   quat.slerp(rotation, rotation, angle, 0.01)
   camera({rotation}, () =&gt; {
-    material({color: Color(&apos;cyan&apos;)}, () =&gt; {
+    material({color}, () =&gt; {
       box({wireframe: true})
     })
   })
 })</code>
 </code></pre>
-<h1 id="see-also">See Also</h1>
+<h2 id="contributors">Contributors</h2>
 <ul>
+<li><a href="https://github.com/jwerle">Joseph Werle</a></li>
+<li><a href="https://github.com/vipyne">Vanessa Pyne</a></li>
+</ul>
+<h2 id="docs">Docs</h2>
+<ul>
+<li><a href="doc/index.md">Documentation</a> (TBA)</li>
 <li><a href="doc/hello-world.md">Axis3D Hello World</a></li>
 <li><a href="doc/getting-started.md">Getting Started With Axis3D</a></li>
+</ul>
+<h2 id="see-also">See Also</h2>
+<ul>
 <li><a href="https://github.com/regl-project/regl">regl</a> - Functional WebGL</li>
 <li><a href="https://github.com/stackgl/glslify">glslify</a> - A node.js-style module system for GLSL</li>
 <li><a href="https://github.com/stackgl">stackgl</a> - Modular WebGL components</li>
+<li><a href="simplicial-complex">simplicial-complex</a></li>
 </ul>
-<h1 id="license">License</h1>
+<h2 id="license">License</h2>
 <p>MIT</p>
 </div>
 </div>

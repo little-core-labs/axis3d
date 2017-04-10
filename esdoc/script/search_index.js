@@ -1,428 +1,902 @@
 window.esdocSearchIndex = [
   [
-    "axis3d/src/light/types.js~ambientlight",
-    "variable/index.html#static-variable-AmbientLight",
-    "<span>AmbientLight</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/light/ambient.js~ambientlightcommand",
-    "class/src/light/ambient.js~AmbientLightCommand.html",
-    "<span>AmbientLightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/ambient.js</span>",
+    "axis3d/light/ambient~ambientlight",
+    "class/src/light/ambient.js~AmbientLight.html",
+    "<span>AmbientLight</span> <span class=\"search-result-import-path\">axis3d/light/ambient</span>",
     "class"
   ],
   [
-    "axis3d/src/geometry/box.js~boxgeometry",
+    "axis3d/light/types~ambientlighttype",
+    "variable/index.html#static-variable-AmbientLightType",
+    "<span>AmbientLightType</span> <span class=\"search-result-import-path\">axis3d/light/types</span>",
+    "variable"
+  ],
+  [
+    "axis3d/geometry/box~boxgeometry",
     "class/src/geometry/box.js~BoxGeometry.html",
-    "<span>BoxGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/box.js</span>",
+    "<span>BoxGeometry</span> <span class=\"search-result-import-path\">axis3d/geometry/box</span>",
     "class"
   ],
   [
-    "axis3d/src/camera.js~cameracommand",
-    "class/src/camera.js~CameraCommand.html",
-    "<span>CameraCommand</span> <span class=\"search-result-import-path\">axis3d/src/camera.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/geometry/capsule.js~capsulegeometry",
+    "axis3d/geometry/capsule~capsulegeometry",
     "class/src/geometry/capsule.js~CapsuleGeometry.html",
-    "<span>CapsuleGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/capsule.js</span>",
+    "<span>CapsuleGeometry</span> <span class=\"search-result-import-path\">axis3d/geometry/capsule</span>",
     "class"
   ],
   [
-    "axis3d/src/command.js~command",
-    "class/src/command.js~Command.html",
-    "<span>Command</span> <span class=\"search-result-import-path\">axis3d/src/command.js</span>",
+    "axis3d/core/color~color",
+    "class/src/core/color.js~Color.html",
+    "<span>Color</span> <span class=\"search-result-import-path\">axis3d/core/color</span>",
     "class"
   ],
   [
-    "axis3d/src/context.js~context",
-    "class/src/context.js~Context.html",
-    "<span>Context</span> <span class=\"search-result-import-path\">axis3d/src/context.js</span>",
+    "axis3d/math/vector_swizzle_map~color",
+    "variable/index.html#static-variable-Color",
+    "<span>Color</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/command~command",
+    "class/src/core/command.js~Command.html",
+    "<span>Command</span> <span class=\"search-result-import-path\">axis3d/core/command</span>",
     "class"
   ],
   [
-    "axis3d/src/geometry/cylinder.js~cylindergeometry",
+    "axis3d/core/context~context",
+    "class/src/core/context.js~Context.html",
+    "<span>Context</span> <span class=\"search-result-import-path\">axis3d/core/context</span>",
+    "class"
+  ],
+  [
+    "axis3d/geometry/cylinder~cylindergeometry",
     "class/src/geometry/cylinder.js~CylinderGeometry.html",
-    "<span>CylinderGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/cylinder.js</span>",
+    "<span>CylinderGeometry</span> <span class=\"search-result-import-path\">axis3d/geometry/cylinder</span>",
     "class"
   ],
   [
-    "axis3d/src/camera.js~default_camera_far",
-    "variable/index.html#static-variable-DEFAULT_CAMERA_FAR",
-    "<span>DEFAULT_CAMERA_FAR</span> <span class=\"search-result-import-path\">axis3d/src/camera.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/camera.js~default_camera_field_of_view",
-    "variable/index.html#static-variable-DEFAULT_CAMERA_FIELD_OF_VIEW",
-    "<span>DEFAULT_CAMERA_FIELD_OF_VIEW</span> <span class=\"search-result-import-path\">axis3d/src/camera.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/camera.js~default_camera_near",
-    "variable/index.html#static-variable-DEFAULT_CAMERA_NEAR",
-    "<span>DEFAULT_CAMERA_NEAR</span> <span class=\"search-result-import-path\">axis3d/src/camera.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/camera.js~default_camera_orientation_origin",
-    "variable/index.html#static-variable-DEFAULT_CAMERA_ORIENTATION_ORIGIN",
-    "<span>DEFAULT_CAMERA_ORIENTATION_ORIGIN</span> <span class=\"search-result-import-path\">axis3d/src/camera.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/light/types.js~directionallight",
-    "variable/index.html#static-variable-DirectionalLight",
-    "<span>DirectionalLight</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/light/directional.js~directionallightcommand",
-    "class/src/light/directional.js~DirectionalLightCommand.html",
-    "<span>DirectionalLightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/directional.js</span>",
+    "axis3d/light/directional~directionallight",
+    "class/src/light/directional.js~DirectionalLight.html",
+    "<span>DirectionalLight</span> <span class=\"search-result-import-path\">axis3d/light/directional</span>",
     "class"
   ],
   [
-    "axis3d/src/math/euler.js~euler",
+    "axis3d/light/types~directionallighttype",
+    "variable/index.html#static-variable-DirectionalLightType",
+    "<span>DirectionalLightType</span> <span class=\"search-result-import-path\">axis3d/light/types</span>",
+    "variable"
+  ],
+  [
+    "axis3d/math/euler~euler",
     "class/src/math/euler.js~Euler.html",
-    "<span>Euler</span> <span class=\"search-result-import-path\">axis3d/src/math/euler.js</span>",
+    "<span>Euler</span> <span class=\"search-result-import-path\">axis3d/math/euler</span>",
     "class"
   ],
   [
-    "axis3d/src/material/types.js~flatmaterial",
-    "variable/index.html#static-variable-FlatMaterial",
-    "<span>FlatMaterial</span> <span class=\"search-result-import-path\">axis3d/src/material/types.js</span>",
+    "axis3d/math/vector_swizzle_map~euler",
+    "variable/index.html#static-variable-Euler",
+    "<span>Euler</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
     "variable"
   ],
   [
-    "axis3d/src/material/flat.js~flatmaterialcommand",
-    "class/src/material/flat.js~FlatMaterialCommand.html",
-    "<span>FlatMaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material/flat.js</span>",
+    "axis3d/core/extrude_geometry~extrudegeometry",
+    "class/src/core/extrude_geometry.js~ExtrudeGeometry.html",
+    "<span>ExtrudeGeometry</span> <span class=\"search-result-import-path\">axis3d/core/extrude_geometry</span>",
     "class"
   ],
   [
-    "axis3d/src/frame.js~framecommand",
-    "class/src/frame.js~FrameCommand.html",
-    "<span>FrameCommand</span> <span class=\"search-result-import-path\">axis3d/src/frame.js</span>",
+    "axis3d/material/flat~flatmaterial",
+    "class/src/material/flat.js~FlatMaterial.html",
+    "<span>FlatMaterial</span> <span class=\"search-result-import-path\">axis3d/material/flat</span>",
     "class"
   ],
   [
-    "axis3d/src/geometry/geometry.js~geometry",
-    "class/src/geometry/geometry.js~Geometry.html",
-    "<span>Geometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/geometry.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/geometry_buffer.js~geometrybuffercomand",
-    "class/src/geometry_buffer.js~GeometryBufferComand.html",
-    "<span>GeometryBufferComand</span> <span class=\"search-result-import-path\">axis3d/src/geometry_buffer.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/input/keyboard.js~keyboardinputcommand",
-    "class/src/input/keyboard.js~KeyboardInputCommand.html",
-    "<span>KeyboardInputCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/keyboard.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/material/types.js~lambertmaterial",
-    "variable/index.html#static-variable-LambertMaterial",
-    "<span>LambertMaterial</span> <span class=\"search-result-import-path\">axis3d/src/material/types.js</span>",
+    "axis3d/material/types~flatmaterialtype",
+    "variable/index.html#static-variable-FlatMaterialType",
+    "<span>FlatMaterialType</span> <span class=\"search-result-import-path\">axis3d/material/types</span>",
     "variable"
   ],
   [
-    "axis3d/src/material/lambert.js~lambertmaterialcommand",
-    "class/src/material/lambert.js~LambertMaterialCommand.html",
-    "<span>LambertMaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material/lambert.js</span>",
+    "axis3d/core/frame~frame",
+    "class/src/core/frame.js~Frame.html",
+    "<span>Frame</span> <span class=\"search-result-import-path\">axis3d/core/frame</span>",
     "class"
   ],
   [
-    "axis3d/src/light/types.js~light",
-    "variable/index.html#static-variable-Light",
-    "<span>Light</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
+    "axis3d/core/frame~framecontext",
+    "class/src/core/frame.js~FrameContext.html",
+    "<span>FrameContext</span> <span class=\"search-result-import-path\">axis3d/core/frame</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/frame~framestate",
+    "class/src/core/frame.js~FrameState.html",
+    "<span>FrameState</span> <span class=\"search-result-import-path\">axis3d/core/frame</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/frame~frameuniforms",
+    "class/src/core/frame.js~FrameUniforms.html",
+    "<span>FrameUniforms</span> <span class=\"search-result-import-path\">axis3d/core/frame</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/geometry~geometry",
+    "class/src/core/geometry.js~Geometry.html",
+    "<span>Geometry</span> <span class=\"search-result-import-path\">axis3d/core/geometry</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/geometry_buffer~geometrybuffer",
+    "class/src/core/geometry_buffer.js~GeometryBuffer.html",
+    "<span>GeometryBuffer</span> <span class=\"search-result-import-path\">axis3d/core/geometry_buffer</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/geometry_buffer~geometrybufferstate",
+    "class/src/core/geometry_buffer.js~GeometryBufferState.html",
+    "<span>GeometryBufferState</span> <span class=\"search-result-import-path\">axis3d/core/geometry_buffer</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/input~input",
+    "class/src/core/input.js~Input.html",
+    "<span>Input</span> <span class=\"search-result-import-path\">axis3d/core/input</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/input~inputcontext",
+    "class/src/core/input.js~InputContext.html",
+    "<span>InputContext</span> <span class=\"search-result-import-path\">axis3d/core/input</span>",
+    "class"
+  ],
+  [
+    "axis3d/input/keyboard~keyboardinput",
+    "class/src/input/keyboard.js~KeyboardInput.html",
+    "<span>KeyboardInput</span> <span class=\"search-result-import-path\">axis3d/input/keyboard</span>",
+    "class"
+  ],
+  [
+    "axis3d/material/lambert~lambertmaterial",
+    "class/src/material/lambert.js~LambertMaterial.html",
+    "<span>LambertMaterial</span> <span class=\"search-result-import-path\">axis3d/material/lambert</span>",
+    "class"
+  ],
+  [
+    "axis3d/material/lambert~lambertmaterialcontext",
+    "class/src/material/lambert.js~LambertMaterialContext.html",
+    "<span>LambertMaterialContext</span> <span class=\"search-result-import-path\">axis3d/material/lambert</span>",
+    "class"
+  ],
+  [
+    "axis3d/material/types~lambertmaterialtype",
+    "variable/index.html#static-variable-LambertMaterialType",
+    "<span>LambertMaterialType</span> <span class=\"search-result-import-path\">axis3d/material/types</span>",
     "variable"
   ],
   [
-    "axis3d/src/light/light.js~lightcommand",
-    "class/src/light/light.js~LightCommand.html",
-    "<span>LightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/light.js</span>",
+    "axis3d/material/lambert~lambertmaterialuniforms",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html",
+    "<span>LambertMaterialUniforms</span> <span class=\"search-result-import-path\">axis3d/material/lambert</span>",
     "class"
   ],
   [
-    "axis3d/src/lines.js~linescommand",
-    "class/src/lines.js~LinesCommand.html",
-    "<span>LinesCommand</span> <span class=\"search-result-import-path\">axis3d/src/lines.js</span>",
+    "axis3d/core/light~light",
+    "class/src/core/light.js~Light.html",
+    "<span>Light</span> <span class=\"search-result-import-path\">axis3d/core/light</span>",
     "class"
   ],
   [
-    "axis3d/src/material/types.js~material",
-    "variable/index.html#static-variable-Material",
-    "<span>Material</span> <span class=\"search-result-import-path\">axis3d/src/material/types.js</span>",
+    "axis3d/core/light~lightcontext",
+    "class/src/core/light.js~LightContext.html",
+    "<span>LightContext</span> <span class=\"search-result-import-path\">axis3d/core/light</span>",
+    "class"
+  ],
+  [
+    "axis3d/mesh/lines~linesmesh",
+    "class/src/mesh/lines.js~LinesMesh.html",
+    "<span>LinesMesh</span> <span class=\"search-result-import-path\">axis3d/mesh/lines</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/material~material",
+    "class/src/core/material.js~Material.html",
+    "<span>Material</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/material~materialcontext",
+    "class/src/core/material.js~MaterialContext.html",
+    "<span>MaterialContext</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/material~materialmap",
+    "class/src/core/material.js~MaterialMap.html",
+    "<span>MaterialMap</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/material~materialstate",
+    "class/src/core/material.js~MaterialState.html",
+    "<span>MaterialState</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/material~materialuniforms",
+    "class/src/core/material.js~MaterialUniforms.html",
+    "<span>MaterialUniforms</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "class"
+  ],
+  [
+    "axis3d/math/matrix~matrix2",
+    "class/src/math/matrix.js~Matrix2.html",
+    "<span>Matrix2</span> <span class=\"search-result-import-path\">axis3d/math/matrix</span>",
+    "class"
+  ],
+  [
+    "axis3d/math/matrix~matrix3",
+    "class/src/math/matrix.js~Matrix3.html",
+    "<span>Matrix3</span> <span class=\"search-result-import-path\">axis3d/math/matrix</span>",
+    "class"
+  ],
+  [
+    "axis3d/math/matrix~matrix4",
+    "class/src/math/matrix.js~Matrix4.html",
+    "<span>Matrix4</span> <span class=\"search-result-import-path\">axis3d/math/matrix</span>",
+    "class"
+  ],
+  [
+    "axis3d/math/matrix~matrix",
+    "class/src/math/matrix.js~Matrix.html",
+    "<span>Matrix</span> <span class=\"search-result-import-path\">axis3d/math/matrix</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/mesh~mesh",
+    "class/src/core/mesh.js~Mesh.html",
+    "<span>Mesh</span> <span class=\"search-result-import-path\">axis3d/core/mesh</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/mesh~meshattributes",
+    "class/src/core/mesh.js~MeshAttributes.html",
+    "<span>MeshAttributes</span> <span class=\"search-result-import-path\">axis3d/core/mesh</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/mesh~meshcontext",
+    "class/src/core/mesh.js~MeshContext.html",
+    "<span>MeshContext</span> <span class=\"search-result-import-path\">axis3d/core/mesh</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/mesh~meshstate",
+    "class/src/core/mesh.js~MeshState.html",
+    "<span>MeshState</span> <span class=\"search-result-import-path\">axis3d/core/mesh</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/mesh~meshuniforms",
+    "class/src/core/mesh.js~MeshUniforms.html",
+    "<span>MeshUniforms</span> <span class=\"search-result-import-path\">axis3d/core/mesh</span>",
+    "class"
+  ],
+  [
+    "axis3d/input/mouse~mouseinput",
+    "class/src/input/mouse.js~MouseInput.html",
+    "<span>MouseInput</span> <span class=\"search-result-import-path\">axis3d/input/mouse</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/object3d~object3d",
+    "class/src/core/object3d.js~Object3D.html",
+    "<span>Object3D</span> <span class=\"search-result-import-path\">axis3d/core/object3d</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/object3d~object3dcontext",
+    "class/src/core/object3d.js~Object3DContext.html",
+    "<span>Object3DContext</span> <span class=\"search-result-import-path\">axis3d/core/object3d</span>",
+    "class"
+  ],
+  [
+    "axis3d/input/orientation~orientationinput",
+    "class/src/input/orientation.js~OrientationInput.html",
+    "<span>OrientationInput</span> <span class=\"search-result-import-path\">axis3d/input/orientation</span>",
+    "class"
+  ],
+  [
+    "axis3d/cameras/orthographic~orthographiccamera",
+    "class/src/cameras/orthographic.js~OrthographicCamera.html",
+    "<span>OrthographicCamera</span> <span class=\"search-result-import-path\">axis3d/cameras/orthographic</span>",
+    "class"
+  ],
+  [
+    "axis3d/cameras/orthographic~orthographiccameracontext",
+    "class/src/cameras/orthographic.js~OrthographicCameraContext.html",
+    "<span>OrthographicCameraContext</span> <span class=\"search-result-import-path\">axis3d/cameras/orthographic</span>",
+    "class"
+  ],
+  [
+    "axis3d/cameras/perspective~perspectivecamera",
+    "class/src/cameras/perspective.js~PerspectiveCamera.html",
+    "<span>PerspectiveCamera</span> <span class=\"search-result-import-path\">axis3d/cameras/perspective</span>",
+    "class"
+  ],
+  [
+    "axis3d/cameras/perspective~perspectivecameracontext",
+    "class/src/cameras/perspective.js~PerspectiveCameraContext.html",
+    "<span>PerspectiveCameraContext</span> <span class=\"search-result-import-path\">axis3d/cameras/perspective</span>",
+    "class"
+  ],
+  [
+    "axis3d/material/phong~phongmaterial",
+    "class/src/material/phong.js~PhongMaterial.html",
+    "<span>PhongMaterial</span> <span class=\"search-result-import-path\">axis3d/material/phong</span>",
+    "class"
+  ],
+  [
+    "axis3d/material/types~phongmaterialtype",
+    "variable/index.html#static-variable-PhongMaterialType",
+    "<span>PhongMaterialType</span> <span class=\"search-result-import-path\">axis3d/material/types</span>",
     "variable"
   ],
   [
-    "axis3d/src/material/material.js~materialcommand",
-    "class/src/material/material.js~MaterialCommand.html",
-    "<span>MaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material/material.js</span>",
+    "axis3d/material/phong~phongmaterialuniforms",
+    "class/src/material/phong.js~PhongMaterialUniforms.html",
+    "<span>PhongMaterialUniforms</span> <span class=\"search-result-import-path\">axis3d/material/phong</span>",
     "class"
   ],
   [
-    "axis3d/src/mesh.js~meshcommand",
-    "class/src/mesh.js~MeshCommand.html",
-    "<span>MeshCommand</span> <span class=\"search-result-import-path\">axis3d/src/mesh.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/input/mouse.js~mouseinputcommand",
-    "class/src/input/mouse.js~MouseInputCommand.html",
-    "<span>MouseInputCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/mouse.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/object3d.js~object3dcommand",
-    "class/src/object3d.js~Object3DCommand.html",
-    "<span>Object3DCommand</span> <span class=\"search-result-import-path\">axis3d/src/object3d.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/input/orientation.js~orientationinputcommand",
-    "class/src/input/orientation.js~OrientationInputCommand.html",
-    "<span>OrientationInputCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/orientation.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/material/types.js~phongmaterial",
-    "variable/index.html#static-variable-PhongMaterial",
-    "<span>PhongMaterial</span> <span class=\"search-result-import-path\">axis3d/src/material/types.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/material/phong.js~phongmaterialcommand",
-    "class/src/material/phong.js~PhongMaterialCommand.html",
-    "<span>PhongMaterialCommand</span> <span class=\"search-result-import-path\">axis3d/src/material/phong.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/geometry/plane.js~planegeometry",
+    "axis3d/geometry/plane~planegeometry",
     "class/src/geometry/plane.js~PlaneGeometry.html",
-    "<span>PlaneGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/plane.js</span>",
+    "<span>PlaneGeometry</span> <span class=\"search-result-import-path\">axis3d/geometry/plane</span>",
     "class"
   ],
   [
-    "axis3d/src/light/types.js~pointlight",
-    "variable/index.html#static-variable-PointLight",
-    "<span>PointLight</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
+    "axis3d/light/point~pointlight",
+    "class/src/light/point.js~PointLight.html",
+    "<span>PointLight</span> <span class=\"search-result-import-path\">axis3d/light/point</span>",
+    "class"
+  ],
+  [
+    "axis3d/light/types~pointlighttype",
+    "variable/index.html#static-variable-PointLightType",
+    "<span>PointLightType</span> <span class=\"search-result-import-path\">axis3d/light/types</span>",
     "variable"
   ],
   [
-    "axis3d/src/light/point.js~pointlightcommand",
-    "class/src/light/point.js~PointLightCommand.html",
-    "<span>PointLightCommand</span> <span class=\"search-result-import-path\">axis3d/src/light/point.js</span>",
-    "class"
-  ],
-  [
-    "axis3d/src/math/quaternion.js~quaternion",
+    "axis3d/math/quaternion~quaternion",
     "class/src/math/quaternion.js~Quaternion.html",
-    "<span>Quaternion</span> <span class=\"search-result-import-path\">axis3d/src/math/quaternion.js</span>",
+    "<span>Quaternion</span> <span class=\"search-result-import-path\">axis3d/math/quaternion</span>",
     "class"
   ],
   [
-    "axis3d/src/geometry/sphere.js~spheregeometry",
+    "axis3d/math/vector_swizzle_map~quaternion",
+    "variable/index.html#static-variable-Quaternion",
+    "<span>Quaternion</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
+    "variable"
+  ],
+  [
+    "axis3d/geometry/sphere~spheregeometry",
     "class/src/geometry/sphere.js~SphereGeometry.html",
-    "<span>SphereGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/sphere.js</span>",
+    "<span>SphereGeometry</span> <span class=\"search-result-import-path\">axis3d/geometry/sphere</span>",
     "class"
   ],
   [
-    "axis3d/src/light/types.js~spotlight",
-    "variable/index.html#static-variable-SpotLight",
-    "<span>SpotLight</span> <span class=\"search-result-import-path\">axis3d/src/light/types.js</span>",
+    "axis3d/light/types~spotlighttype",
+    "variable/index.html#static-variable-SpotLightType",
+    "<span>SpotLightType</span> <span class=\"search-result-import-path\">axis3d/light/types</span>",
     "variable"
   ],
   [
-    "axis3d/src/stats.js~stat",
+    "axis3d/stats~stat",
     "class/src/stats.js~Stat.html",
-    "<span>Stat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "<span>Stat</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "class"
   ],
   [
-    "axis3d/src/texture.js~texturecommand",
-    "class/src/texture.js~TextureCommand.html",
-    "<span>TextureCommand</span> <span class=\"search-result-import-path\">axis3d/src/texture.js</span>",
+    "axis3d/stats~statnameerror",
+    "class/src/stats.js~StatNameError.html",
+    "<span>StatNameError</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "class"
   ],
   [
-    "axis3d/src/geometry/torus.js~torusgeometry",
+    "axis3d/core/stream~stream",
+    "class/src/core/stream.js~Stream.html",
+    "<span>Stream</span> <span class=\"search-result-import-path\">axis3d/core/stream</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/stream~streamcontext",
+    "class/src/core/stream.js~StreamContext.html",
+    "<span>StreamContext</span> <span class=\"search-result-import-path\">axis3d/core/stream</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/text~text",
+    "class/src/core/text.js~Text.html",
+    "<span>Text</span> <span class=\"search-result-import-path\">axis3d/core/text</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/text~textcontext",
+    "class/src/core/text.js~TextContext.html",
+    "<span>TextContext</span> <span class=\"search-result-import-path\">axis3d/core/text</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/texture~texture",
+    "class/src/core/texture.js~Texture.html",
+    "<span>Texture</span> <span class=\"search-result-import-path\">axis3d/core/texture</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/texture~texturecontext",
+    "class/src/core/texture.js~TextureContext.html",
+    "<span>TextureContext</span> <span class=\"search-result-import-path\">axis3d/core/texture</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/texture~texturestate",
+    "class/src/core/texture.js~TextureState.html",
+    "<span>TextureState</span> <span class=\"search-result-import-path\">axis3d/core/texture</span>",
+    "class"
+  ],
+  [
+    "axis3d/geometry/torus~torusgeometry",
     "class/src/geometry/torus.js~TorusGeometry.html",
-    "<span>TorusGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/torus.js</span>",
+    "<span>TorusGeometry</span> <span class=\"search-result-import-path\">axis3d/geometry/torus</span>",
     "class"
   ],
   [
-    "axis3d/src/input/touch.js~touchinputcommand",
-    "class/src/input/touch.js~TouchInputCommand.html",
-    "<span>TouchInputCommand</span> <span class=\"search-result-import-path\">axis3d/src/input/touch.js</span>",
+    "axis3d/input/touch~touchinput",
+    "class/src/input/touch.js~TouchInput.html",
+    "<span>TouchInput</span> <span class=\"search-result-import-path\">axis3d/input/touch</span>",
     "class"
   ],
   [
-    "axis3d/src/geometry/triangle.js~trianglegeometry",
+    "axis3d/geometry/triangle~trianglegeometry",
     "class/src/geometry/triangle.js~TriangleGeometry.html",
-    "<span>TriangleGeometry</span> <span class=\"search-result-import-path\">axis3d/src/geometry/triangle.js</span>",
+    "<span>TriangleGeometry</span> <span class=\"search-result-import-path\">axis3d/geometry/triangle</span>",
     "class"
   ],
   [
-    "axis3d/src/math/vector.js~vector",
+    "axis3d/math/vector~vector1",
+    "class/src/math/vector.js~Vector1.html",
+    "<span>Vector1</span> <span class=\"search-result-import-path\">axis3d/math/vector</span>",
+    "class"
+  ],
+  [
+    "axis3d/math/vector_swizzle_map~vector1",
+    "variable/index.html#static-variable-Vector1",
+    "<span>Vector1</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
+    "variable"
+  ],
+  [
+    "axis3d/math/vector~vector2",
+    "class/src/math/vector.js~Vector2.html",
+    "<span>Vector2</span> <span class=\"search-result-import-path\">axis3d/math/vector</span>",
+    "class"
+  ],
+  [
+    "axis3d/math/vector_swizzle_map~vector2",
+    "variable/index.html#static-variable-Vector2",
+    "<span>Vector2</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
+    "variable"
+  ],
+  [
+    "axis3d/math/vector~vector3",
+    "class/src/math/vector.js~Vector3.html",
+    "<span>Vector3</span> <span class=\"search-result-import-path\">axis3d/math/vector</span>",
+    "class"
+  ],
+  [
+    "axis3d/math/vector_swizzle_map~vector3",
+    "variable/index.html#static-variable-Vector3",
+    "<span>Vector3</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
+    "variable"
+  ],
+  [
+    "axis3d/math/vector~vector4",
+    "class/src/math/vector.js~Vector4.html",
+    "<span>Vector4</span> <span class=\"search-result-import-path\">axis3d/math/vector</span>",
+    "class"
+  ],
+  [
+    "axis3d/math/vector_swizzle_map~vector4",
+    "variable/index.html#static-variable-Vector4",
+    "<span>Vector4</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
+    "variable"
+  ],
+  [
+    "axis3d/math/vector~vector",
     "class/src/math/vector.js~Vector.html",
-    "<span>Vector</span> <span class=\"search-result-import-path\">axis3d/src/math/vector.js</span>",
+    "<span>Vector</span> <span class=\"search-result-import-path\">axis3d/math/vector</span>",
     "class"
   ],
   [
-    "axis3d/src/utils.js~clamptomaxsize",
-    "function/index.html#static-function-clampToMaxSize",
-    "<span>clampToMaxSize</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
+    "axis3d/math/vector_swizzle_map~vector",
+    "variable/index.html#static-variable-Vector",
+    "<span>Vector</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
+    "variable"
+  ],
+  [
+    "axis3d/stats~clearstats",
+    "function/index.html#static-function-clearStats",
+    "<span>clearStats</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "function"
   ],
   [
-    "axis3d/src/math/quaternion.js~computeeuler",
-    "function/index.html#static-function-computeEuler",
-    "<span>computeEuler</span> <span class=\"search-result-import-path\">axis3d/src/math/quaternion.js</span>",
-    "function"
-  ],
-  [
-    "axis3d/src/math/euler.js~computequaternion",
-    "function/index.html#static-function-computeQuaternion",
-    "<span>computeQuaternion</span> <span class=\"search-result-import-path\">axis3d/src/math/euler.js</span>",
-    "function"
-  ],
-  [
-    "axis3d/src/utils.js~createcanvas",
-    "function/index.html#static-function-createCanvas",
-    "<span>createCanvas</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "function"
-  ],
-  [
-    "axis3d/src/stats.js~createstatlist",
+    "axis3d/stats~createstatlist",
     "function/index.html#static-function-createStatList",
-    "<span>createStatList</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "<span>createStatList</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "function"
   ],
   [
-    "axis3d/src/utils.js~debug",
-    "variable/index.html#static-variable-debug",
-    "<span>debug</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/stats.js~decrementstat",
+    "axis3d/stats~decrementstat",
     "function/index.html#static-function-decrementStat",
-    "<span>decrementStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "<span>decrementStat</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "function"
   ],
   [
-    "axis3d/src/context.js~defaults",
-    "variable/index.html#static-variable-defaults",
-    "<span>defaults</span> <span class=\"search-result-import-path\">axis3d/src/context.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/utils.js~define",
-    "function/index.html#static-function-define",
-    "<span>define</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
+    "axis3d/stats~getstats",
+    "function/index.html#static-function-getStats",
+    "<span>getStats</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "function"
   ],
   [
-    "axis3d/src/utils.js~getscreenorientation",
-    "function/index.html#static-function-getScreenOrientation",
-    "<span>getScreenOrientation</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "function"
-  ],
-  [
-    "axis3d/src/stats.js~headstat",
+    "axis3d/stats~headstat",
     "function/index.html#static-function-headStat",
-    "<span>headStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "<span>headStat</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "function"
   ],
   [
-    "axis3d/src/stats.js~incrementstat",
+    "axis3d/stats~incrementstat",
     "function/index.html#static-function-incrementStat",
-    "<span>incrementStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "<span>incrementStat</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "function"
   ],
   [
-    "axis3d/src/utils.js~isdomelementinviewport",
-    "function/index.html#static-function-isDOMElementInViewport",
-    "<span>isDOMElementInViewport</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
+    "axis3d/utils~isarraylike",
+    "function/index.html#static-function-isArrayLike",
+    "<span>isArrayLike</span> <span class=\"search-result-import-path\">axis3d/utils</span>",
     "function"
   ],
   [
-    "axis3d/src/light/ambient.js~kmaxambientlights",
+    "axis3d/light/ambient~kdefaultambientlightambient",
+    "variable/index.html#static-variable-kDefaultAmbientLightAmbient",
+    "<span>kDefaultAmbientLightAmbient</span> <span class=\"search-result-import-path\">axis3d/light/ambient</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/ambient~kdefaultambientlightcontextentry",
+    "variable/index.html#static-variable-kDefaultAmbientLightContextEntry",
+    "<span>kDefaultAmbientLightContextEntry</span> <span class=\"search-result-import-path\">axis3d/light/ambient</span>",
+    "variable"
+  ],
+  [
+    "axis3d/cameras/orthographic~kdefaultcamerafar",
+    "variable/index.html#static-variable-kDefaultCameraFar",
+    "<span>kDefaultCameraFar</span> <span class=\"search-result-import-path\">axis3d/cameras/orthographic</span>",
+    "variable"
+  ],
+  [
+    "axis3d/cameras/perspective~kdefaultcamerafar",
+    "variable/index.html#static-variable-kDefaultCameraFar",
+    "<span>kDefaultCameraFar</span> <span class=\"search-result-import-path\">axis3d/cameras/perspective</span>",
+    "variable"
+  ],
+  [
+    "axis3d/cameras/perspective~kdefaultcamerafieldofview",
+    "variable/index.html#static-variable-kDefaultCameraFieldOfView",
+    "<span>kDefaultCameraFieldOfView</span> <span class=\"search-result-import-path\">axis3d/cameras/perspective</span>",
+    "variable"
+  ],
+  [
+    "axis3d/cameras/orthographic~kdefaultcameranear",
+    "variable/index.html#static-variable-kDefaultCameraNear",
+    "<span>kDefaultCameraNear</span> <span class=\"search-result-import-path\">axis3d/cameras/orthographic</span>",
+    "variable"
+  ],
+  [
+    "axis3d/cameras/perspective~kdefaultcameranear",
+    "variable/index.html#static-variable-kDefaultCameraNear",
+    "<span>kDefaultCameraNear</span> <span class=\"search-result-import-path\">axis3d/cameras/perspective</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/directional~kdefaultdirectionallightambient",
+    "variable/index.html#static-variable-kDefaultDirectionalLightAmbient",
+    "<span>kDefaultDirectionalLightAmbient</span> <span class=\"search-result-import-path\">axis3d/light/directional</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/directional~kdefaultdirectionallightcontextentry",
+    "variable/index.html#static-variable-kDefaultDirectionalLightContextEntry",
+    "<span>kDefaultDirectionalLightContextEntry</span> <span class=\"search-result-import-path\">axis3d/light/directional</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/directional~kdefaultdirectionallightintensity",
+    "variable/index.html#static-variable-kDefaultDirectionalLightIntensity",
+    "<span>kDefaultDirectionalLightIntensity</span> <span class=\"search-result-import-path\">axis3d/light/directional</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/directional~kdefaultdirectionallightradius",
+    "variable/index.html#static-variable-kDefaultDirectionalLightRadius",
+    "<span>kDefaultDirectionalLightRadius</span> <span class=\"search-result-import-path\">axis3d/light/directional</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/extrude_geometry~kdefaultextrudegeometrypathsteps",
+    "variable/index.html#static-variable-kDefaultExtrudeGeometryPathSteps",
+    "<span>kDefaultExtrudeGeometryPathSteps</span> <span class=\"search-result-import-path\">axis3d/core/extrude_geometry</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/extrude_geometry~kdefaultextrudegeometrypathzcoefficient",
+    "variable/index.html#static-variable-kDefaultExtrudeGeometryPathZCoefficient",
+    "<span>kDefaultExtrudeGeometryPathZCoefficient</span> <span class=\"search-result-import-path\">axis3d/core/extrude_geometry</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/frame~kdefaultframeblendingstate",
+    "variable/index.html#static-variable-kDefaultFrameBlendingState",
+    "<span>kDefaultFrameBlendingState</span> <span class=\"search-result-import-path\">axis3d/core/frame</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/frame~kdefaultframeclearstate",
+    "variable/index.html#static-variable-kDefaultFrameClearState",
+    "<span>kDefaultFrameClearState</span> <span class=\"search-result-import-path\">axis3d/core/frame</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/frame~kdefaultframecullingstate",
+    "variable/index.html#static-variable-kDefaultFrameCullingState",
+    "<span>kDefaultFrameCullingState</span> <span class=\"search-result-import-path\">axis3d/core/frame</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/frame~kdefaultframedepthstate",
+    "variable/index.html#static-variable-kDefaultFrameDepthState",
+    "<span>kDefaultFrameDepthState</span> <span class=\"search-result-import-path\">axis3d/core/frame</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/geometry_buffer~kdefaultgeometrybufferfragmentshader",
+    "variable/index.html#static-variable-kDefaultGeometryBufferFragmentShader",
+    "<span>kDefaultGeometryBufferFragmentShader</span> <span class=\"search-result-import-path\">axis3d/core/geometry_buffer</span>",
+    "variable"
+  ],
+  [
+    "axis3d/material/lambert~kdefaultlambertmaterialalbedo",
+    "variable/index.html#static-variable-kDefaultLambertMaterialAlbedo",
+    "<span>kDefaultLambertMaterialAlbedo</span> <span class=\"search-result-import-path\">axis3d/material/lambert</span>",
+    "variable"
+  ],
+  [
+    "axis3d/material/lambert~kdefaultlambertmaterialambientcolor",
+    "variable/index.html#static-variable-kDefaultLambertMaterialAmbientColor",
+    "<span>kDefaultLambertMaterialAmbientColor</span> <span class=\"search-result-import-path\">axis3d/material/lambert</span>",
+    "variable"
+  ],
+  [
+    "axis3d/material/lambert~kdefaultlambertmaterialemissivecolor",
+    "variable/index.html#static-variable-kDefaultLambertMaterialEmissiveColor",
+    "<span>kDefaultLambertMaterialEmissiveColor</span> <span class=\"search-result-import-path\">axis3d/material/lambert</span>",
+    "variable"
+  ],
+  [
+    "axis3d/material/lambert~kdefaultlambertmaterialroughness",
+    "variable/index.html#static-variable-kDefaultLambertMaterialRoughness",
+    "<span>kDefaultLambertMaterialRoughness</span> <span class=\"search-result-import-path\">axis3d/material/lambert</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/light~kdefaultlightype",
+    "variable/index.html#static-variable-kDefaultLighType",
+    "<span>kDefaultLighType</span> <span class=\"search-result-import-path\">axis3d/core/light</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/light~kdefaultlightambient",
+    "variable/index.html#static-variable-kDefaultLightAmbient",
+    "<span>kDefaultLightAmbient</span> <span class=\"search-result-import-path\">axis3d/core/light</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/light~kdefaultlightcolor",
+    "variable/index.html#static-variable-kDefaultLightColor",
+    "<span>kDefaultLightColor</span> <span class=\"search-result-import-path\">axis3d/core/light</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/light~kdefaultlightintensity",
+    "variable/index.html#static-variable-kDefaultLightIntensity",
+    "<span>kDefaultLightIntensity</span> <span class=\"search-result-import-path\">axis3d/core/light</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/light~kdefaultlightposition",
+    "variable/index.html#static-variable-kDefaultLightPosition",
+    "<span>kDefaultLightPosition</span> <span class=\"search-result-import-path\">axis3d/core/light</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/light~kdefaultlightradius",
+    "variable/index.html#static-variable-kDefaultLightRadius",
+    "<span>kDefaultLightRadius</span> <span class=\"search-result-import-path\">axis3d/core/light</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/light~kdefaultlightrotation",
+    "variable/index.html#static-variable-kDefaultLightRotation",
+    "<span>kDefaultLightRotation</span> <span class=\"search-result-import-path\">axis3d/core/light</span>",
+    "variable"
+  ],
+  [
+    "axis3d/mesh/lines~kdefaultlinesmeshvertexshader",
+    "variable/index.html#static-variable-kDefaultLinesMeshVertexShader",
+    "<span>kDefaultLinesMeshVertexShader</span> <span class=\"search-result-import-path\">axis3d/mesh/lines</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/material~kdefaultmaterialblendingstate",
+    "variable/index.html#static-variable-kDefaultMaterialBlendingState",
+    "<span>kDefaultMaterialBlendingState</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/material~kdefaultmaterialcolor",
+    "variable/index.html#static-variable-kDefaultMaterialColor",
+    "<span>kDefaultMaterialColor</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/material~kdefaultmaterialcullingstate",
+    "variable/index.html#static-variable-kDefaultMaterialCullingState",
+    "<span>kDefaultMaterialCullingState</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/material~kdefaultmaterialdepthstate",
+    "variable/index.html#static-variable-kDefaultMaterialDepthState",
+    "<span>kDefaultMaterialDepthState</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/material~kdefaultmaterialfragmentshader",
+    "variable/index.html#static-variable-kDefaultMaterialFragmentShader",
+    "<span>kDefaultMaterialFragmentShader</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/material~kdefaultmaterialopacity",
+    "variable/index.html#static-variable-kDefaultMaterialOpacity",
+    "<span>kDefaultMaterialOpacity</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/material~kdefaultmaterialtype",
+    "variable/index.html#static-variable-kDefaultMaterialType",
+    "<span>kDefaultMaterialType</span> <span class=\"search-result-import-path\">axis3d/core/material</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/mesh~kdefaultmeshprimitive",
+    "variable/index.html#static-variable-kDefaultMeshPrimitive",
+    "<span>kDefaultMeshPrimitive</span> <span class=\"search-result-import-path\">axis3d/core/mesh</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/mesh~kdefaultmeshvertexshader",
+    "variable/index.html#static-variable-kDefaultMeshVertexShader",
+    "<span>kDefaultMeshVertexShader</span> <span class=\"search-result-import-path\">axis3d/core/mesh</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/mesh~kdefaultmeshwireframeprimitive",
+    "variable/index.html#static-variable-kDefaultMeshWireframePrimitive",
+    "<span>kDefaultMeshWireframePrimitive</span> <span class=\"search-result-import-path\">axis3d/core/mesh</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/mesh~kdefaultmeshwireframethickness",
+    "variable/index.html#static-variable-kDefaultMeshWireframeThickness",
+    "<span>kDefaultMeshWireframeThickness</span> <span class=\"search-result-import-path\">axis3d/core/mesh</span>",
+    "variable"
+  ],
+  [
+    "axis3d/material/phong~kdefaultphongmaterialshininess",
+    "variable/index.html#static-variable-kDefaultPhongMaterialShininess",
+    "<span>kDefaultPhongMaterialShininess</span> <span class=\"search-result-import-path\">axis3d/material/phong</span>",
+    "variable"
+  ],
+  [
+    "axis3d/material/phong~kdefaultphongmaterialspecularcolor",
+    "variable/index.html#static-variable-kDefaultPhongMaterialSpecularColor",
+    "<span>kDefaultPhongMaterialSpecularColor</span> <span class=\"search-result-import-path\">axis3d/material/phong</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/point~kdefaultpointlightambient",
+    "variable/index.html#static-variable-kDefaultPointLightAmbient",
+    "<span>kDefaultPointLightAmbient</span> <span class=\"search-result-import-path\">axis3d/light/point</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/point~kdefaultpointlightcontextentry",
+    "variable/index.html#static-variable-kDefaultPointLightContextEntry",
+    "<span>kDefaultPointLightContextEntry</span> <span class=\"search-result-import-path\">axis3d/light/point</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/point~kdefaultpointlightintensity",
+    "variable/index.html#static-variable-kDefaultPointLightIntensity",
+    "<span>kDefaultPointLightIntensity</span> <span class=\"search-result-import-path\">axis3d/light/point</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/point~kdefaultpointlightradius",
+    "variable/index.html#static-variable-kDefaultPointLightRadius",
+    "<span>kDefaultPointLightRadius</span> <span class=\"search-result-import-path\">axis3d/light/point</span>",
+    "variable"
+  ],
+  [
+    "axis3d/core/texture~kdefaulttexturestate",
+    "variable/index.html#static-variable-kDefaultTextureState",
+    "<span>kDefaultTextureState</span> <span class=\"search-result-import-path\">axis3d/core/texture</span>",
+    "variable"
+  ],
+  [
+    "axis3d/light/limits~kmaxambientlights",
     "variable/index.html#static-variable-kMaxAmbientLights",
-    "<span>kMaxAmbientLights</span> <span class=\"search-result-import-path\">axis3d/src/light/ambient.js</span>",
+    "<span>kMaxAmbientLights</span> <span class=\"search-result-import-path\">axis3d/light/limits</span>",
     "variable"
   ],
   [
-    "axis3d/src/light/directional.js~kmaxdirectionallights",
+    "axis3d/light/limits~kmaxdirectionallights",
     "variable/index.html#static-variable-kMaxDirectionalLights",
-    "<span>kMaxDirectionalLights</span> <span class=\"search-result-import-path\">axis3d/src/light/directional.js</span>",
+    "<span>kMaxDirectionalLights</span> <span class=\"search-result-import-path\">axis3d/light/limits</span>",
     "variable"
   ],
   [
-    "axis3d/src/light/point.js~kmaxpointlights",
+    "axis3d/light/limits~kmaxpointlights",
     "variable/index.html#static-variable-kMaxPointLights",
-    "<span>kMaxPointLights</span> <span class=\"search-result-import-path\">axis3d/src/light/point.js</span>",
+    "<span>kMaxPointLights</span> <span class=\"search-result-import-path\">axis3d/light/limits</span>",
     "variable"
   ],
   [
-    "axis3d/src/utils.js~lerp",
-    "function/index.html#static-function-lerp",
-    "<span>lerp</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
+    "axis3d/math/vector_swizzle_map~offsetof",
+    "function/index.html#static-function-offsetOf",
+    "<span>offsetOf</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
     "function"
   ],
   [
-    "axis3d/src/utils.js~makepoweroftwo",
-    "function/index.html#static-function-makePowerOfTwo",
-    "<span>makePowerOfTwo</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
+    "axis3d/math/vector_swizzle_map~offsets",
+    "variable/index.html#static-variable-offsets",
+    "<span>offsets</span> <span class=\"search-result-import-path\">axis3d/math/vector_swizzle_map</span>",
+    "variable"
+  ],
+  [
+    "axis3d/math/quaternion~quat",
+    "function/index.html#static-function-quat",
+    "<span>quat</span> <span class=\"search-result-import-path\">axis3d/math/quaternion</span>",
     "function"
   ],
   [
-    "axis3d/src/utils.js~nearestpoweroftwo",
-    "function/index.html#static-function-nearestPowerOfTwo",
-    "<span>nearestPowerOfTwo</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "function"
-  ],
-  [
-    "axis3d/src/utils.js~radians",
-    "function/index.html#static-function-radians",
-    "<span>radians</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "function"
-  ],
-  [
-    "axis3d/src/stats.js~registerstat",
+    "axis3d/stats~registerstat",
     "function/index.html#static-function-registerStat",
-    "<span>registerStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "<span>registerStat</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "function"
   ],
   [
-    "axis3d/src/stats.js~resetstat",
-    "function/index.html#static-function-resetStat",
-    "<span>resetStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
-    "function"
-  ],
-  [
-    "axis3d/src/utils.js~scalewithcanvas",
-    "function/index.html#static-function-scaleWithCanvas",
-    "<span>scaleWithCanvas</span> <span class=\"search-result-import-path\">axis3d/src/utils.js</span>",
-    "function"
-  ],
-  [
-    "axis3d/src/stats.js~stats",
-    "variable/index.html#static-variable-stats",
-    "<span>stats</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
-    "variable"
-  ],
-  [
-    "axis3d/src/stats.js~tailstat",
+    "axis3d/stats~tailstat",
     "function/index.html#static-function-tailStat",
-    "<span>tailStat</span> <span class=\"search-result-import-path\">axis3d/src/stats.js</span>",
+    "<span>tailStat</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
     "function"
   ],
   [
@@ -756,147 +1230,1041 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "src/camera.js",
-    "file/src/camera.js.html",
-    "src/camera.js",
+    "src/cameras/index.js",
+    "file/src/cameras/index.js.html",
+    "src/cameras/index.js",
     "file"
   ],
   [
-    "src/camera.js~cameracommand#constructor",
-    "class/src/camera.js~CameraCommand.html#instance-constructor-constructor",
-    "src/camera.js~CameraCommand#constructor",
-    "method"
-  ],
-  [
-    "src/command.js",
-    "file/src/command.js.html",
-    "src/command.js",
+    "src/cameras/orthographic.js",
+    "file/src/cameras/orthographic.js.html",
+    "src/cameras/orthographic.js",
     "file"
   ],
   [
-    "src/command.js~command#constructor",
-    "class/src/command.js~Command.html#instance-constructor-constructor",
-    "src/command.js~Command#constructor",
+    "src/cameras/orthographic.js~orthographiccamera#constructor",
+    "class/src/cameras/orthographic.js~OrthographicCamera.html#instance-constructor-constructor",
+    "src/cameras/orthographic.js~OrthographicCamera#constructor",
     "method"
   ],
   [
-    "src/context.js",
-    "file/src/context.js.html",
-    "src/context.js",
+    "src/cameras/orthographic.js~orthographiccameracontext#constructor",
+    "class/src/cameras/orthographic.js~OrthographicCameraContext.html#instance-constructor-constructor",
+    "src/cameras/orthographic.js~OrthographicCameraContext#constructor",
+    "method"
+  ],
+  [
+    "src/cameras/orthographic.js~orthographiccameracontext#updatecameraviewport",
+    "class/src/cameras/orthographic.js~OrthographicCameraContext.html#instance-method-updateCameraViewport",
+    "src/cameras/orthographic.js~OrthographicCameraContext#updateCameraViewport",
+    "method"
+  ],
+  [
+    "src/cameras/perspective.js",
+    "file/src/cameras/perspective.js.html",
+    "src/cameras/perspective.js",
     "file"
   ],
   [
-    "src/context.js~context#blur",
-    "class/src/context.js~Context.html#instance-method-blur",
-    "src/context.js~Context#blur",
+    "src/cameras/perspective.js~perspectivecamera#constructor",
+    "class/src/cameras/perspective.js~PerspectiveCamera.html#instance-constructor-constructor",
+    "src/cameras/perspective.js~PerspectiveCamera#constructor",
     "method"
   ],
   [
-    "src/context.js~context#caller",
-    "class/src/context.js~Context.html#instance-get-caller",
-    "src/context.js~Context#caller",
+    "src/cameras/perspective.js~perspectivecameracontext#constructor",
+    "class/src/cameras/perspective.js~PerspectiveCameraContext.html#instance-constructor-constructor",
+    "src/cameras/perspective.js~PerspectiveCameraContext#constructor",
+    "method"
+  ],
+  [
+    "src/cameras/perspective.js~perspectivecameracontext#fov",
+    "class/src/cameras/perspective.js~PerspectiveCameraContext.html#instance-member-fov",
+    "src/cameras/perspective.js~PerspectiveCameraContext#fov",
     "member"
   ],
   [
-    "src/context.js~context#clear",
-    "class/src/context.js~Context.html#instance-method-clear",
-    "src/context.js~Context#clear",
+    "src/cameras/perspective.js~perspectivecameracontext#updatecameracontroller",
+    "class/src/cameras/perspective.js~PerspectiveCameraContext.html#instance-method-updateCameraController",
+    "src/cameras/perspective.js~PerspectiveCameraContext#updateCameraController",
     "method"
   ],
   [
-    "src/context.js~context#constructor",
-    "class/src/context.js~Context.html#instance-constructor-constructor",
-    "src/context.js~Context#constructor",
-    "method"
-  ],
-  [
-    "src/context.js~context#depth",
-    "class/src/context.js~Context.html#instance-get-depth",
-    "src/context.js~Context#depth",
-    "member"
-  ],
-  [
-    "src/context.js~context#destroy",
-    "class/src/context.js~Context.html#instance-method-destroy",
-    "src/context.js~Context#destroy",
-    "method"
-  ],
-  [
-    "src/context.js~context#domelement",
-    "class/src/context.js~Context.html#instance-get-domElement",
-    "src/context.js~Context#domElement",
-    "member"
-  ],
-  [
-    "src/context.js~context#focus",
-    "class/src/context.js~Context.html#instance-method-focus",
-    "src/context.js~Context#focus",
-    "method"
-  ],
-  [
-    "src/context.js~context#hasfocus",
-    "class/src/context.js~Context.html#instance-get-hasFocus",
-    "src/context.js~Context#hasFocus",
-    "member"
-  ],
-  [
-    "src/context.js~context#pop",
-    "class/src/context.js~Context.html#instance-method-pop",
-    "src/context.js~Context#pop",
-    "method"
-  ],
-  [
-    "src/context.js~context#push",
-    "class/src/context.js~Context.html#instance-method-push",
-    "src/context.js~Context#push",
-    "method"
-  ],
-  [
-    "src/context.js~context#regl",
-    "class/src/context.js~Context.html#instance-get-regl",
-    "src/context.js~Context#regl",
-    "member"
-  ],
-  [
-    "src/context.js~context#reglcontext",
-    "class/src/context.js~Context.html#instance-get-reglContext",
-    "src/context.js~Context#reglContext",
-    "member"
-  ],
-  [
-    "src/context.js~context#reset",
-    "class/src/context.js~Context.html#instance-method-reset",
-    "src/context.js~Context#reset",
-    "method"
-  ],
-  [
-    "src/context.js~context#scope",
-    "class/src/context.js~Context.html#instance-get-scope",
-    "src/context.js~Context#scope",
-    "member"
-  ],
-  [
-    "src/context.js~context#stack",
-    "class/src/context.js~Context.html#instance-get-stack",
-    "src/context.js~Context#stack",
-    "member"
-  ],
-  [
-    "src/context.js~context#update",
-    "class/src/context.js~Context.html#instance-method-update",
-    "src/context.js~Context#update",
-    "method"
-  ],
-  [
-    "src/frame.js",
-    "file/src/frame.js.html",
-    "src/frame.js",
+    "src/core/camera.js",
+    "file/src/core/camera.js.html",
+    "src/core/camera.js",
     "file"
   ],
   [
-    "src/frame.js~framecommand#constructor",
-    "class/src/frame.js~FrameCommand.html#instance-constructor-constructor",
-    "src/frame.js~FrameCommand#constructor",
+    "src/core/color.js",
+    "file/src/core/color.js.html",
+    "src/core/color.js",
+    "file"
+  ],
+  [
+    "src/core/color.js~color#constructor",
+    "class/src/core/color.js~Color.html#instance-constructor-constructor",
+    "src/core/color.js~Color#constructor",
+    "method"
+  ],
+  [
+    "src/core/color.js~color#onchange",
+    "class/src/core/color.js~Color.html#instance-method-onchange",
+    "src/core/color.js~Color#onchange",
+    "method"
+  ],
+  [
+    "src/core/color.js~color#set",
+    "class/src/core/color.js~Color.html#instance-method-set",
+    "src/core/color.js~Color#set",
+    "method"
+  ],
+  [
+    "src/core/color.js~color#toarray",
+    "class/src/core/color.js~Color.html#instance-method-toArray",
+    "src/core/color.js~Color#toArray",
+    "method"
+  ],
+  [
+    "src/core/color.js~color#tostring",
+    "class/src/core/color.js~Color.html#instance-method-toString",
+    "src/core/color.js~Color#toString",
+    "method"
+  ],
+  [
+    "src/core/color.js~color#valueof",
+    "class/src/core/color.js~Color.html#instance-method-valueOf",
+    "src/core/color.js~Color#valueOf",
+    "method"
+  ],
+  [
+    "src/core/color.js~color.parseinput",
+    "class/src/core/color.js~Color.html#static-method-parseInput",
+    "src/core/color.js~Color.parseInput",
+    "method"
+  ],
+  [
+    "src/core/color.js~color.parseint",
+    "class/src/core/color.js~Color.html#static-method-parseInt",
+    "src/core/color.js~Color.parseInt",
+    "method"
+  ],
+  [
+    "src/core/color.js~color.parsestring",
+    "class/src/core/color.js~Color.html#static-method-parseString",
+    "src/core/color.js~Color.parseString",
+    "method"
+  ],
+  [
+    "src/core/color.js~color.swizzles",
+    "class/src/core/color.js~Color.html#static-method-swizzles",
+    "src/core/color.js~Color.swizzles",
+    "method"
+  ],
+  [
+    "src/core/command.js",
+    "file/src/core/command.js.html",
+    "src/core/command.js",
+    "file"
+  ],
+  [
+    "src/core/command.js~command#constructor",
+    "class/src/core/command.js~Command.html#instance-constructor-constructor",
+    "src/core/command.js~Command#constructor",
+    "method"
+  ],
+  [
+    "src/core/command.js~command.codegen",
+    "class/src/core/command.js~Command.html#static-method-codegen",
+    "src/core/command.js~Command.codegen",
+    "method"
+  ],
+  [
+    "src/core/command.js~command.count",
+    "class/src/core/command.js~Command.html#static-method-count",
+    "src/core/command.js~Command.count",
+    "method"
+  ],
+  [
+    "src/core/command.js~command.id",
+    "class/src/core/command.js~Command.html#static-method-id",
+    "src/core/command.js~Command.id",
+    "method"
+  ],
+  [
+    "src/core/context.js",
+    "file/src/core/context.js.html",
+    "src/core/context.js",
+    "file"
+  ],
+  [
+    "src/core/context.js~context#blur",
+    "class/src/core/context.js~Context.html#instance-method-blur",
+    "src/core/context.js~Context#blur",
+    "method"
+  ],
+  [
+    "src/core/context.js~context#constructor",
+    "class/src/core/context.js~Context.html#instance-constructor-constructor",
+    "src/core/context.js~Context#constructor",
+    "method"
+  ],
+  [
+    "src/core/context.js~context#destroy",
+    "class/src/core/context.js~Context.html#instance-method-destroy",
+    "src/core/context.js~Context#destroy",
+    "method"
+  ],
+  [
+    "src/core/context.js~context#domelement",
+    "class/src/core/context.js~Context.html#instance-get-domElement",
+    "src/core/context.js~Context#domElement",
+    "member"
+  ],
+  [
+    "src/core/context.js~context#focus",
+    "class/src/core/context.js~Context.html#instance-method-focus",
+    "src/core/context.js~Context#focus",
+    "method"
+  ],
+  [
+    "src/core/context.js~context#gl",
+    "class/src/core/context.js~Context.html#instance-get-gl",
+    "src/core/context.js~Context#gl",
+    "member"
+  ],
+  [
+    "src/core/context.js~context#hasfocus",
+    "class/src/core/context.js~Context.html#instance-get-hasFocus",
+    "src/core/context.js~Context#hasFocus",
+    "member"
+  ],
+  [
+    "src/core/context.js~context#refresh",
+    "class/src/core/context.js~Context.html#instance-method-refresh",
+    "src/core/context.js~Context#refresh",
+    "method"
+  ],
+  [
+    "src/core/context.js~context#regl",
+    "class/src/core/context.js~Context.html#instance-get-regl",
+    "src/core/context.js~Context#regl",
+    "member"
+  ],
+  [
+    "src/core/context.js~context#reglcontext",
+    "class/src/core/context.js~Context.html#instance-get-reglContext",
+    "src/core/context.js~Context#reglContext",
+    "member"
+  ],
+  [
+    "src/core/cube_texture.js",
+    "file/src/core/cube_texture.js.html",
+    "src/core/cube_texture.js",
+    "file"
+  ],
+  [
+    "src/core/extrude_geometry.js",
+    "file/src/core/extrude_geometry.js.html",
+    "src/core/extrude_geometry.js",
+    "file"
+  ],
+  [
+    "src/core/extrude_geometry.js~extrudegeometry#constructor",
+    "class/src/core/extrude_geometry.js~ExtrudeGeometry.html#instance-constructor-constructor",
+    "src/core/extrude_geometry.js~ExtrudeGeometry#constructor",
+    "method"
+  ],
+  [
+    "src/core/fog.js",
+    "file/src/core/fog.js.html",
+    "src/core/fog.js",
+    "file"
+  ],
+  [
+    "src/core/frame.js",
+    "file/src/core/frame.js.html",
+    "src/core/frame.js",
+    "file"
+  ],
+  [
+    "src/core/frame.js~frame#constructor",
+    "class/src/core/frame.js~Frame.html#instance-constructor-constructor",
+    "src/core/frame.js~Frame#constructor",
+    "method"
+  ],
+  [
+    "src/core/frame.js~framecontext#cancel",
+    "class/src/core/frame.js~FrameContext.html#instance-member-cancel",
+    "src/core/frame.js~FrameContext#cancel",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framecontext#cancelframe",
+    "class/src/core/frame.js~FrameContext.html#instance-method-cancelFrame",
+    "src/core/frame.js~FrameContext#cancelFrame",
+    "method"
+  ],
+  [
+    "src/core/frame.js~framecontext#clear",
+    "class/src/core/frame.js~FrameContext.html#instance-member-clear",
+    "src/core/frame.js~FrameContext#clear",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framecontext#clearbuffers",
+    "class/src/core/frame.js~FrameContext.html#instance-method-clearBuffers",
+    "src/core/frame.js~FrameContext#clearBuffers",
+    "method"
+  ],
+  [
+    "src/core/frame.js~framecontext#constructor",
+    "class/src/core/frame.js~FrameContext.html#instance-constructor-constructor",
+    "src/core/frame.js~FrameContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/frame.js~framecontext#dequeue",
+    "class/src/core/frame.js~FrameContext.html#instance-method-dequeue",
+    "src/core/frame.js~FrameContext#dequeue",
+    "method"
+  ],
+  [
+    "src/core/frame.js~framecontext#enqueue",
+    "class/src/core/frame.js~FrameContext.html#instance-method-enqueue",
+    "src/core/frame.js~FrameContext#enqueue",
+    "method"
+  ],
+  [
+    "src/core/frame.js~framecontext#gl",
+    "class/src/core/frame.js~FrameContext.html#instance-member-gl",
+    "src/core/frame.js~FrameContext#gl",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framecontext#init",
+    "class/src/core/frame.js~FrameContext.html#instance-method-init",
+    "src/core/frame.js~FrameContext#init",
+    "method"
+  ],
+  [
+    "src/core/frame.js~framecontext#iscancelled",
+    "class/src/core/frame.js~FrameContext.html#instance-member-isCancelled",
+    "src/core/frame.js~FrameContext#isCancelled",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framecontext#lights",
+    "class/src/core/frame.js~FrameContext.html#instance-member-lights",
+    "src/core/frame.js~FrameContext#lights",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framecontext#loop",
+    "class/src/core/frame.js~FrameContext.html#instance-member-loop",
+    "src/core/frame.js~FrameContext#loop",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framecontext#regl",
+    "class/src/core/frame.js~FrameContext.html#instance-member-regl",
+    "src/core/frame.js~FrameContext#regl",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framecontext#reglcontext",
+    "class/src/core/frame.js~FrameContext.html#instance-member-reglContext",
+    "src/core/frame.js~FrameContext#reglContext",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framestate#blend",
+    "class/src/core/frame.js~FrameState.html#instance-member-blend",
+    "src/core/frame.js~FrameState#blend",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framestate#constructor",
+    "class/src/core/frame.js~FrameState.html#instance-constructor-constructor",
+    "src/core/frame.js~FrameState#constructor",
+    "method"
+  ],
+  [
+    "src/core/frame.js~framestate#cull",
+    "class/src/core/frame.js~FrameState.html#instance-member-cull",
+    "src/core/frame.js~FrameState#cull",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framestate#depth",
+    "class/src/core/frame.js~FrameState.html#instance-member-depth",
+    "src/core/frame.js~FrameState#depth",
+    "member"
+  ],
+  [
+    "src/core/frame.js~framestate#frag",
+    "class/src/core/frame.js~FrameState.html#instance-member-frag",
+    "src/core/frame.js~FrameState#frag",
+    "member"
+  ],
+  [
+    "src/core/frame.js~frameuniforms#constructor",
+    "class/src/core/frame.js~FrameUniforms.html#instance-constructor-constructor",
+    "src/core/frame.js~FrameUniforms#constructor",
+    "method"
+  ],
+  [
+    "src/core/frame.js~frameuniforms#tick",
+    "class/src/core/frame.js~FrameUniforms.html#instance-member-tick",
+    "src/core/frame.js~FrameUniforms#tick",
+    "member"
+  ],
+  [
+    "src/core/frame.js~frameuniforms#time",
+    "class/src/core/frame.js~FrameUniforms.html#instance-member-time",
+    "src/core/frame.js~FrameUniforms#time",
+    "member"
+  ],
+  [
+    "src/core/geometry.js",
+    "file/src/core/geometry.js.html",
+    "src/core/geometry.js",
+    "file"
+  ],
+  [
+    "src/core/geometry.js~geometry#cells",
+    "class/src/core/geometry.js~Geometry.html#instance-get-cells",
+    "src/core/geometry.js~Geometry#cells",
+    "member"
+  ],
+  [
+    "src/core/geometry.js~geometry#complex",
+    "class/src/core/geometry.js~Geometry.html#instance-get-complex",
+    "src/core/geometry.js~Geometry#complex",
+    "member"
+  ],
+  [
+    "src/core/geometry.js~geometry#complex",
+    "class/src/core/geometry.js~Geometry.html#instance-set-complex",
+    "src/core/geometry.js~Geometry#complex",
+    "member"
+  ],
+  [
+    "src/core/geometry.js~geometry#computeboundingbox",
+    "class/src/core/geometry.js~Geometry.html#instance-method-computeBoundingBox",
+    "src/core/geometry.js~Geometry#computeBoundingBox",
+    "method"
+  ],
+  [
+    "src/core/geometry.js~geometry#constructor",
+    "class/src/core/geometry.js~Geometry.html#instance-constructor-constructor",
+    "src/core/geometry.js~Geometry#constructor",
+    "method"
+  ],
+  [
+    "src/core/geometry.js~geometry#flatten",
+    "class/src/core/geometry.js~Geometry.html#instance-member-flatten",
+    "src/core/geometry.js~Geometry#flatten",
+    "member"
+  ],
+  [
+    "src/core/geometry.js~geometry#normals",
+    "class/src/core/geometry.js~Geometry.html#instance-get-normals",
+    "src/core/geometry.js~Geometry#normals",
+    "member"
+  ],
+  [
+    "src/core/geometry.js~geometry#positions",
+    "class/src/core/geometry.js~Geometry.html#instance-get-positions",
+    "src/core/geometry.js~Geometry#positions",
+    "member"
+  ],
+  [
+    "src/core/geometry.js~geometry#uvs",
+    "class/src/core/geometry.js~Geometry.html#instance-get-uvs",
+    "src/core/geometry.js~Geometry#uvs",
+    "member"
+  ],
+  [
+    "src/core/geometry_buffer.js",
+    "file/src/core/geometry_buffer.js.html",
+    "src/core/geometry_buffer.js",
+    "file"
+  ],
+  [
+    "src/core/geometry_buffer.js~geometrybuffer#constructor",
+    "class/src/core/geometry_buffer.js~GeometryBuffer.html#instance-constructor-constructor",
+    "src/core/geometry_buffer.js~GeometryBuffer#constructor",
+    "method"
+  ],
+  [
+    "src/core/geometry_buffer.js~geometrybufferstate#constructor",
+    "class/src/core/geometry_buffer.js~GeometryBufferState.html#instance-constructor-constructor",
+    "src/core/geometry_buffer.js~GeometryBufferState#constructor",
+    "method"
+  ],
+  [
+    "src/core/geometry_buffer.js~geometrybufferstate#frag",
+    "class/src/core/geometry_buffer.js~GeometryBufferState.html#instance-member-frag",
+    "src/core/geometry_buffer.js~GeometryBufferState#frag",
+    "member"
+  ],
+  [
+    "src/core/geometry_buffer.js~geometrybufferstate#framebuffer",
+    "class/src/core/geometry_buffer.js~GeometryBufferState.html#instance-member-framebuffer",
+    "src/core/geometry_buffer.js~GeometryBufferState#framebuffer",
+    "member"
+  ],
+  [
+    "src/core/index.js",
+    "file/src/core/index.js.html",
+    "src/core/index.js",
+    "file"
+  ],
+  [
+    "src/core/input.js",
+    "file/src/core/input.js.html",
+    "src/core/input.js",
+    "file"
+  ],
+  [
+    "src/core/input.js~input#constructor",
+    "class/src/core/input.js~Input.html#instance-constructor-constructor",
+    "src/core/input.js~Input#constructor",
+    "method"
+  ],
+  [
+    "src/core/input.js~inputcontext#[prop]",
+    "class/src/core/input.js~InputContext.html#instance-member-[prop]",
+    "src/core/input.js~InputContext#[prop]",
+    "member"
+  ],
+  [
+    "src/core/input.js~inputcontext#constructor",
+    "class/src/core/input.js~InputContext.html#instance-constructor-constructor",
+    "src/core/input.js~InputContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/light.js",
+    "file/src/core/light.js.html",
+    "src/core/light.js",
+    "file"
+  ],
+  [
+    "src/core/light.js~light#constructor",
+    "class/src/core/light.js~Light.html#instance-constructor-constructor",
+    "src/core/light.js~Light#constructor",
+    "method"
+  ],
+  [
+    "src/core/light.js~light.id",
+    "class/src/core/light.js~Light.html#static-method-id",
+    "src/core/light.js~Light.id",
+    "method"
+  ],
+  [
+    "src/core/light.js~light.typename",
+    "class/src/core/light.js~Light.html#static-method-typeName",
+    "src/core/light.js~Light.typeName",
+    "method"
+  ],
+  [
+    "src/core/light.js~lightcontext#constructor",
+    "class/src/core/light.js~LightContext.html#instance-constructor-constructor",
+    "src/core/light.js~LightContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/material.js",
+    "file/src/core/material.js.html",
+    "src/core/material.js",
+    "file"
+  ],
+  [
+    "src/core/material.js~material#constructor",
+    "class/src/core/material.js~Material.html#instance-constructor-constructor",
+    "src/core/material.js~Material#constructor",
+    "method"
+  ],
+  [
+    "src/core/material.js~material.id",
+    "class/src/core/material.js~Material.html#static-method-id",
+    "src/core/material.js~Material.id",
+    "method"
+  ],
+  [
+    "src/core/material.js~material.typename",
+    "class/src/core/material.js~Material.html#static-method-typeName",
+    "src/core/material.js~Material.typeName",
+    "method"
+  ],
+  [
+    "src/core/material.js~materialcontext#color",
+    "class/src/core/material.js~MaterialContext.html#instance-member-color",
+    "src/core/material.js~MaterialContext#color",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialcontext#constructor",
+    "class/src/core/material.js~MaterialContext.html#instance-constructor-constructor",
+    "src/core/material.js~MaterialContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/material.js~materialcontext#opacity",
+    "class/src/core/material.js~MaterialContext.html#instance-member-opacity",
+    "src/core/material.js~MaterialContext#opacity",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialcontext#type",
+    "class/src/core/material.js~MaterialContext.html#instance-member-type",
+    "src/core/material.js~MaterialContext#type",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialmap#constructor",
+    "class/src/core/material.js~MaterialMap.html#instance-constructor-constructor",
+    "src/core/material.js~MaterialMap#constructor",
+    "method"
+  ],
+  [
+    "src/core/material.js~materialmap#injectcontext",
+    "class/src/core/material.js~MaterialMap.html#instance-member-injectContext",
+    "src/core/material.js~MaterialMap#injectContext",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialstate#blend",
+    "class/src/core/material.js~MaterialState.html#instance-member-blend",
+    "src/core/material.js~MaterialState#blend",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialstate#constructor",
+    "class/src/core/material.js~MaterialState.html#instance-constructor-constructor",
+    "src/core/material.js~MaterialState#constructor",
+    "method"
+  ],
+  [
+    "src/core/material.js~materialstate#cull",
+    "class/src/core/material.js~MaterialState.html#instance-member-cull",
+    "src/core/material.js~MaterialState#cull",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialstate#depth",
+    "class/src/core/material.js~MaterialState.html#instance-member-depth",
+    "src/core/material.js~MaterialState#depth",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialstate#frag",
+    "class/src/core/material.js~MaterialState.html#instance-member-frag",
+    "src/core/material.js~MaterialState#frag",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialuniforms#['map.data']",
+    "class/src/core/material.js~MaterialUniforms.html#instance-member-['map.data']",
+    "src/core/material.js~MaterialUniforms#['map.data']",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialuniforms#['map.resolution']",
+    "class/src/core/material.js~MaterialUniforms.html#instance-member-['map.resolution']",
+    "src/core/material.js~MaterialUniforms#['map.resolution']",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialuniforms#['material.color']",
+    "class/src/core/material.js~MaterialUniforms.html#instance-member-['material.color']",
+    "src/core/material.js~MaterialUniforms#['material.color']",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialuniforms#['material.opacity']",
+    "class/src/core/material.js~MaterialUniforms.html#instance-member-['material.opacity']",
+    "src/core/material.js~MaterialUniforms#['material.opacity']",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialuniforms#['material.type']",
+    "class/src/core/material.js~MaterialUniforms.html#instance-member-['material.type']",
+    "src/core/material.js~MaterialUniforms#['material.type']",
+    "member"
+  ],
+  [
+    "src/core/material.js~materialuniforms#constructor",
+    "class/src/core/material.js~MaterialUniforms.html#instance-constructor-constructor",
+    "src/core/material.js~MaterialUniforms#constructor",
+    "method"
+  ],
+  [
+    "src/core/mesh.js",
+    "file/src/core/mesh.js.html",
+    "src/core/mesh.js",
+    "file"
+  ],
+  [
+    "src/core/mesh.js~mesh#constructor",
+    "class/src/core/mesh.js~Mesh.html#instance-constructor-constructor",
+    "src/core/mesh.js~Mesh#constructor",
+    "method"
+  ],
+  [
+    "src/core/mesh.js~meshattributes#constructor",
+    "class/src/core/mesh.js~MeshAttributes.html#instance-constructor-constructor",
+    "src/core/mesh.js~MeshAttributes#constructor",
+    "method"
+  ],
+  [
+    "src/core/mesh.js~meshattributes#normal",
+    "class/src/core/mesh.js~MeshAttributes.html#instance-member-normal",
+    "src/core/mesh.js~MeshAttributes#normal",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshattributes#position",
+    "class/src/core/mesh.js~MeshAttributes.html#instance-member-position",
+    "src/core/mesh.js~MeshAttributes#position",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshattributes#uv",
+    "class/src/core/mesh.js~MeshAttributes.html#instance-member-uv",
+    "src/core/mesh.js~MeshAttributes#uv",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshcontext#boundingbox",
+    "class/src/core/mesh.js~MeshContext.html#instance-member-boundingBox",
+    "src/core/mesh.js~MeshContext#boundingBox",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshcontext#computeboundingbox",
+    "class/src/core/mesh.js~MeshContext.html#instance-method-computeBoundingBox",
+    "src/core/mesh.js~MeshContext#computeBoundingBox",
+    "method"
+  ],
+  [
+    "src/core/mesh.js~meshcontext#computesize",
+    "class/src/core/mesh.js~MeshContext.html#instance-method-computeSize",
+    "src/core/mesh.js~MeshContext#computeSize",
+    "method"
+  ],
+  [
+    "src/core/mesh.js~meshcontext#computedboundingbox",
+    "class/src/core/mesh.js~MeshContext.html#instance-member-computedBoundingBox",
+    "src/core/mesh.js~MeshContext#computedBoundingBox",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshcontext#computedsize",
+    "class/src/core/mesh.js~MeshContext.html#instance-member-computedSize",
+    "src/core/mesh.js~MeshContext#computedSize",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshcontext#constructor",
+    "class/src/core/mesh.js~MeshContext.html#instance-constructor-constructor",
+    "src/core/mesh.js~MeshContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/mesh.js~meshcontext#geometry",
+    "class/src/core/mesh.js~MeshContext.html#instance-member-geometry",
+    "src/core/mesh.js~MeshContext#geometry",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshcontext#size",
+    "class/src/core/mesh.js~MeshContext.html#instance-member-size",
+    "src/core/mesh.js~MeshContext#size",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshcontext#visible",
+    "class/src/core/mesh.js~MeshContext.html#instance-member-visible",
+    "src/core/mesh.js~MeshContext#visible",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshstate#constructor",
+    "class/src/core/mesh.js~MeshState.html#instance-constructor-constructor",
+    "src/core/mesh.js~MeshState#constructor",
+    "method"
+  ],
+  [
+    "src/core/mesh.js~meshstate#count",
+    "class/src/core/mesh.js~MeshState.html#instance-member-count",
+    "src/core/mesh.js~MeshState#count",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshstate#elements",
+    "class/src/core/mesh.js~MeshState.html#instance-member-elements",
+    "src/core/mesh.js~MeshState#elements",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshstate#frag",
+    "class/src/core/mesh.js~MeshState.html#instance-member-frag",
+    "src/core/mesh.js~MeshState#frag",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshstate#linewidth",
+    "class/src/core/mesh.js~MeshState.html#instance-member-lineWidth",
+    "src/core/mesh.js~MeshState#lineWidth",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshstate#primitive",
+    "class/src/core/mesh.js~MeshState.html#instance-member-primitive",
+    "src/core/mesh.js~MeshState#primitive",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshstate#vert",
+    "class/src/core/mesh.js~MeshState.html#instance-member-vert",
+    "src/core/mesh.js~MeshState#vert",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshuniforms#['material.color']",
+    "class/src/core/mesh.js~MeshUniforms.html#instance-member-['material.color']",
+    "src/core/mesh.js~MeshUniforms#['material.color']",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshuniforms#['material.opacity']",
+    "class/src/core/mesh.js~MeshUniforms.html#instance-member-['material.opacity']",
+    "src/core/mesh.js~MeshUniforms#['material.opacity']",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshuniforms#['mesh.model']",
+    "class/src/core/mesh.js~MeshUniforms.html#instance-member-['mesh.model']",
+    "src/core/mesh.js~MeshUniforms#['mesh.model']",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshuniforms#['mesh.modelnormal']",
+    "class/src/core/mesh.js~MeshUniforms.html#instance-member-['mesh.modelNormal']",
+    "src/core/mesh.js~MeshUniforms#['mesh.modelNormal']",
+    "member"
+  ],
+  [
+    "src/core/mesh.js~meshuniforms#constructor",
+    "class/src/core/mesh.js~MeshUniforms.html#instance-constructor-constructor",
+    "src/core/mesh.js~MeshUniforms#constructor",
+    "method"
+  ],
+  [
+    "src/core/object3d.js",
+    "file/src/core/object3d.js.html",
+    "src/core/object3d.js",
+    "file"
+  ],
+  [
+    "src/core/object3d.js~object3d#constructor",
+    "class/src/core/object3d.js~Object3D.html#instance-constructor-constructor",
+    "src/core/object3d.js~Object3D#constructor",
+    "method"
+  ],
+  [
+    "src/core/object3d.js~object3d.count",
+    "class/src/core/object3d.js~Object3D.html#static-method-count",
+    "src/core/object3d.js~Object3D.count",
+    "method"
+  ],
+  [
+    "src/core/object3d.js~object3d.id",
+    "class/src/core/object3d.js~Object3D.html#static-method-id",
+    "src/core/object3d.js~Object3D.id",
+    "method"
+  ],
+  [
+    "src/core/object3d.js~object3dcontext#computelocalmatrix",
+    "class/src/core/object3d.js~Object3DContext.html#instance-method-computeLocalMatrix",
+    "src/core/object3d.js~Object3DContext#computeLocalMatrix",
+    "method"
+  ],
+  [
+    "src/core/object3d.js~object3dcontext#computetransformmatrix",
+    "class/src/core/object3d.js~Object3DContext.html#instance-method-computeTransformMatrix",
+    "src/core/object3d.js~Object3DContext#computeTransformMatrix",
+    "method"
+  ],
+  [
+    "src/core/object3d.js~object3dcontext#constructor",
+    "class/src/core/object3d.js~Object3DContext.html#instance-constructor-constructor",
+    "src/core/object3d.js~Object3DContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/object3d.js~object3dcontext#id",
+    "class/src/core/object3d.js~Object3DContext.html#instance-member-id",
+    "src/core/object3d.js~Object3DContext#id",
+    "member"
+  ],
+  [
+    "src/core/object3d.js~object3dcontext#position",
+    "class/src/core/object3d.js~Object3DContext.html#instance-member-position",
+    "src/core/object3d.js~Object3DContext#position",
+    "member"
+  ],
+  [
+    "src/core/object3d.js~object3dcontext#rotation",
+    "class/src/core/object3d.js~Object3DContext.html#instance-member-rotation",
+    "src/core/object3d.js~Object3DContext#rotation",
+    "member"
+  ],
+  [
+    "src/core/object3d.js~object3dcontext#scale",
+    "class/src/core/object3d.js~Object3DContext.html#instance-member-scale",
+    "src/core/object3d.js~Object3DContext#scale",
+    "member"
+  ],
+  [
+    "src/core/object3d.js~object3dcontext#transform",
+    "class/src/core/object3d.js~Object3DContext.html#instance-member-transform",
+    "src/core/object3d.js~Object3DContext#transform",
+    "member"
+  ],
+  [
+    "src/core/stream.js",
+    "file/src/core/stream.js.html",
+    "src/core/stream.js",
+    "file"
+  ],
+  [
+    "src/core/stream.js~stream#constructor",
+    "class/src/core/stream.js~Stream.html#instance-constructor-constructor",
+    "src/core/stream.js~Stream#constructor",
+    "method"
+  ],
+  [
+    "src/core/stream.js~streamcontext#constructor",
+    "class/src/core/stream.js~StreamContext.html#instance-constructor-constructor",
+    "src/core/stream.js~StreamContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/stream.js~streamcontext#data",
+    "class/src/core/stream.js~StreamContext.html#instance-member-data",
+    "src/core/stream.js~StreamContext#data",
+    "member"
+  ],
+  [
+    "src/core/stream.js~streamcontext#stream",
+    "class/src/core/stream.js~StreamContext.html#instance-member-stream",
+    "src/core/stream.js~StreamContext#stream",
+    "member"
+  ],
+  [
+    "src/core/text.js",
+    "file/src/core/text.js.html",
+    "src/core/text.js",
+    "file"
+  ],
+  [
+    "src/core/text.js~text#constructor",
+    "class/src/core/text.js~Text.html#instance-constructor-constructor",
+    "src/core/text.js~Text#constructor",
+    "method"
+  ],
+  [
+    "src/core/text.js~textcontext#constructor",
+    "class/src/core/text.js~TextContext.html#instance-constructor-constructor",
+    "src/core/text.js~TextContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/text.js~textcontext#text",
+    "class/src/core/text.js~TextContext.html#instance-member-text",
+    "src/core/text.js~TextContext#text",
+    "member"
+  ],
+  [
+    "src/core/texture.js",
+    "file/src/core/texture.js.html",
+    "src/core/texture.js",
+    "file"
+  ],
+  [
+    "src/core/texture.js~texture#constructor",
+    "class/src/core/texture.js~Texture.html#instance-constructor-constructor",
+    "src/core/texture.js~Texture#constructor",
+    "method"
+  ],
+  [
+    "src/core/texture.js~texture.gettexturedataresolution",
+    "class/src/core/texture.js~Texture.html#static-method-getTextureDataResolution",
+    "src/core/texture.js~Texture.getTextureDataResolution",
+    "method"
+  ],
+  [
+    "src/core/texture.js~texture.istexturedataready",
+    "class/src/core/texture.js~Texture.html#static-method-isTextureDataReady",
+    "src/core/texture.js~Texture.isTextureDataReady",
+    "method"
+  ],
+  [
+    "src/core/texture.js~texturecontext#constructor",
+    "class/src/core/texture.js~TextureContext.html#instance-constructor-constructor",
+    "src/core/texture.js~TextureContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/texture.js~texturecontext#texture",
+    "class/src/core/texture.js~TextureContext.html#instance-member-texture",
+    "src/core/texture.js~TextureContext#texture",
+    "member"
+  ],
+  [
+    "src/core/texture.js~texturecontext#texturedata",
+    "class/src/core/texture.js~TextureContext.html#instance-member-textureData",
+    "src/core/texture.js~TextureContext#textureData",
+    "member"
+  ],
+  [
+    "src/core/texture.js~texturecontext#textureresolution",
+    "class/src/core/texture.js~TextureContext.html#instance-member-textureResolution",
+    "src/core/texture.js~TextureContext#textureResolution",
+    "member"
+  ],
+  [
+    "src/core/texture.js~texturestate#constructor",
+    "class/src/core/texture.js~TextureState.html#instance-constructor-constructor",
+    "src/core/texture.js~TextureState#constructor",
+    "method"
+  ],
+  [
+    "src/core/texture.js~texturestate#data",
+    "class/src/core/texture.js~TextureState.html#instance-member-data",
+    "src/core/texture.js~TextureState#data",
+    "member"
+  ],
+  [
+    "src/core/texture.js~texturestate#lastvideoupdate",
+    "class/src/core/texture.js~TextureState.html#instance-member-lastVideoUpdate",
+    "src/core/texture.js~TextureState#lastVideoUpdate",
+    "member"
+  ],
+  [
+    "src/core/texture.js~texturestate#previouslyuploadeddata",
+    "class/src/core/texture.js~TextureState.html#instance-member-previouslyUploadedData",
+    "src/core/texture.js~TextureState#previouslyUploadedData",
+    "member"
+  ],
+  [
+    "src/core/texture.js~texturestate#update",
+    "class/src/core/texture.js~TextureState.html#instance-method-update",
+    "src/core/texture.js~TextureState#update",
     "method"
   ],
   [
@@ -910,6 +2278,18 @@ window.esdocSearchIndex = [
     "class/src/geometry/box.js~BoxGeometry.html#instance-constructor-constructor",
     "src/geometry/box.js~BoxGeometry#constructor",
     "method"
+  ],
+  [
+    "src/geometry/box.js~boxgeometry#segments",
+    "class/src/geometry/box.js~BoxGeometry.html#instance-member-segments",
+    "src/geometry/box.js~BoxGeometry#segments",
+    "member"
+  ],
+  [
+    "src/geometry/box.js~boxgeometry#size",
+    "class/src/geometry/box.js~BoxGeometry.html#instance-member-size",
+    "src/geometry/box.js~BoxGeometry#size",
+    "member"
   ],
   [
     "src/geometry/capsule.js",
@@ -936,45 +2316,33 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/geometry/geometry.js",
-    "file/src/geometry/geometry.js.html",
-    "src/geometry/geometry.js",
-    "file"
-  ],
-  [
-    "src/geometry/geometry.js~geometry#cells",
-    "class/src/geometry/geometry.js~Geometry.html#instance-get-cells",
-    "src/geometry/geometry.js~Geometry#cells",
+    "src/geometry/cylinder.js~cylindergeometry#height",
+    "class/src/geometry/cylinder.js~CylinderGeometry.html#instance-member-height",
+    "src/geometry/cylinder.js~CylinderGeometry#height",
     "member"
   ],
   [
-    "src/geometry/geometry.js~geometry#complex",
-    "class/src/geometry/geometry.js~Geometry.html#instance-member-complex",
-    "src/geometry/geometry.js~Geometry#complex",
+    "src/geometry/cylinder.js~cylindergeometry#heightsegments",
+    "class/src/geometry/cylinder.js~CylinderGeometry.html#instance-member-heightSegments",
+    "src/geometry/cylinder.js~CylinderGeometry#heightSegments",
     "member"
   ],
   [
-    "src/geometry/geometry.js~geometry#constructor",
-    "class/src/geometry/geometry.js~Geometry.html#instance-constructor-constructor",
-    "src/geometry/geometry.js~Geometry#constructor",
-    "method"
-  ],
-  [
-    "src/geometry/geometry.js~geometry#normals",
-    "class/src/geometry/geometry.js~Geometry.html#instance-get-normals",
-    "src/geometry/geometry.js~Geometry#normals",
+    "src/geometry/cylinder.js~cylindergeometry#radialsegments",
+    "class/src/geometry/cylinder.js~CylinderGeometry.html#instance-member-radialSegments",
+    "src/geometry/cylinder.js~CylinderGeometry#radialSegments",
     "member"
   ],
   [
-    "src/geometry/geometry.js~geometry#positions",
-    "class/src/geometry/geometry.js~Geometry.html#instance-get-positions",
-    "src/geometry/geometry.js~Geometry#positions",
+    "src/geometry/cylinder.js~cylindergeometry#radiusbottom",
+    "class/src/geometry/cylinder.js~CylinderGeometry.html#instance-member-radiusBottom",
+    "src/geometry/cylinder.js~CylinderGeometry#radiusBottom",
     "member"
   ],
   [
-    "src/geometry/geometry.js~geometry#uvs",
-    "class/src/geometry/geometry.js~Geometry.html#instance-get-uvs",
-    "src/geometry/geometry.js~Geometry#uvs",
+    "src/geometry/cylinder.js~cylindergeometry#radiustop",
+    "class/src/geometry/cylinder.js~CylinderGeometry.html#instance-member-radiusTop",
+    "src/geometry/cylinder.js~CylinderGeometry#radiusTop",
     "member"
   ],
   [
@@ -996,6 +2364,24 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/geometry/plane.js~planegeometry#quads",
+    "class/src/geometry/plane.js~PlaneGeometry.html#instance-member-quads",
+    "src/geometry/plane.js~PlaneGeometry#quads",
+    "member"
+  ],
+  [
+    "src/geometry/plane.js~planegeometry#segments",
+    "class/src/geometry/plane.js~PlaneGeometry.html#instance-member-segments",
+    "src/geometry/plane.js~PlaneGeometry#segments",
+    "member"
+  ],
+  [
+    "src/geometry/plane.js~planegeometry#size",
+    "class/src/geometry/plane.js~PlaneGeometry.html#instance-member-size",
+    "src/geometry/plane.js~PlaneGeometry#size",
+    "member"
+  ],
+  [
     "src/geometry/sphere.js",
     "file/src/geometry/sphere.js.html",
     "src/geometry/sphere.js",
@@ -1008,16 +2394,58 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/geometry/sphere.js~spheregeometry#radius",
+    "class/src/geometry/sphere.js~SphereGeometry.html#instance-member-radius",
+    "src/geometry/sphere.js~SphereGeometry#radius",
+    "member"
+  ],
+  [
+    "src/geometry/sphere.js~spheregeometry#segments",
+    "class/src/geometry/sphere.js~SphereGeometry.html#instance-member-segments",
+    "src/geometry/sphere.js~SphereGeometry#segments",
+    "member"
+  ],
+  [
     "src/geometry/torus.js",
     "file/src/geometry/torus.js.html",
     "src/geometry/torus.js",
     "file"
   ],
   [
+    "src/geometry/torus.js~torusgeometry#arc",
+    "class/src/geometry/torus.js~TorusGeometry.html#instance-member-arc",
+    "src/geometry/torus.js~TorusGeometry#arc",
+    "member"
+  ],
+  [
     "src/geometry/torus.js~torusgeometry#constructor",
     "class/src/geometry/torus.js~TorusGeometry.html#instance-constructor-constructor",
     "src/geometry/torus.js~TorusGeometry#constructor",
     "method"
+  ],
+  [
+    "src/geometry/torus.js~torusgeometry#majorradius",
+    "class/src/geometry/torus.js~TorusGeometry.html#instance-member-majorRadius",
+    "src/geometry/torus.js~TorusGeometry#majorRadius",
+    "member"
+  ],
+  [
+    "src/geometry/torus.js~torusgeometry#majorsegments",
+    "class/src/geometry/torus.js~TorusGeometry.html#instance-member-majorSegments",
+    "src/geometry/torus.js~TorusGeometry#majorSegments",
+    "member"
+  ],
+  [
+    "src/geometry/torus.js~torusgeometry#minorradius",
+    "class/src/geometry/torus.js~TorusGeometry.html#instance-member-minorRadius",
+    "src/geometry/torus.js~TorusGeometry#minorRadius",
+    "member"
+  ],
+  [
+    "src/geometry/torus.js~torusgeometry#minorsegments",
+    "class/src/geometry/torus.js~TorusGeometry.html#instance-member-minorSegments",
+    "src/geometry/torus.js~TorusGeometry#minorSegments",
+    "member"
   ],
   [
     "src/geometry/triangle.js",
@@ -1029,18 +2457,6 @@ window.esdocSearchIndex = [
     "src/geometry/triangle.js~trianglegeometry#constructor",
     "class/src/geometry/triangle.js~TriangleGeometry.html#instance-constructor-constructor",
     "src/geometry/triangle.js~TriangleGeometry#constructor",
-    "method"
-  ],
-  [
-    "src/geometry_buffer.js",
-    "file/src/geometry_buffer.js.html",
-    "src/geometry_buffer.js",
-    "file"
-  ],
-  [
-    "src/geometry_buffer.js~geometrybuffercomand#constructor",
-    "class/src/geometry_buffer.js~GeometryBufferComand.html#instance-constructor-constructor",
-    "src/geometry_buffer.js~GeometryBufferComand#constructor",
     "method"
   ],
   [
@@ -1062,9 +2478,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/input/keyboard.js~keyboardinputcommand#constructor",
-    "class/src/input/keyboard.js~KeyboardInputCommand.html#instance-constructor-constructor",
-    "src/input/keyboard.js~KeyboardInputCommand#constructor",
+    "src/input/keyboard.js~keyboardinput#constructor",
+    "class/src/input/keyboard.js~KeyboardInput.html#instance-constructor-constructor",
+    "src/input/keyboard.js~KeyboardInput#constructor",
     "method"
   ],
   [
@@ -1074,9 +2490,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/input/mouse.js~mouseinputcommand#constructor",
-    "class/src/input/mouse.js~MouseInputCommand.html#instance-constructor-constructor",
-    "src/input/mouse.js~MouseInputCommand#constructor",
+    "src/input/mouse.js~mouseinput#constructor",
+    "class/src/input/mouse.js~MouseInput.html#instance-constructor-constructor",
+    "src/input/mouse.js~MouseInput#constructor",
     "method"
   ],
   [
@@ -1086,9 +2502,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/input/orientation.js~orientationinputcommand#constructor",
-    "class/src/input/orientation.js~OrientationInputCommand.html#instance-constructor-constructor",
-    "src/input/orientation.js~OrientationInputCommand#constructor",
+    "src/input/orientation.js~orientationinput#constructor",
+    "class/src/input/orientation.js~OrientationInput.html#instance-constructor-constructor",
+    "src/input/orientation.js~OrientationInput#constructor",
     "method"
   ],
   [
@@ -1098,9 +2514,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/input/touch.js~touchinputcommand#constructor",
-    "class/src/input/touch.js~TouchInputCommand.html#instance-constructor-constructor",
-    "src/input/touch.js~TouchInputCommand#constructor",
+    "src/input/touch.js~touchinput#constructor",
+    "class/src/input/touch.js~TouchInput.html#instance-constructor-constructor",
+    "src/input/touch.js~TouchInput#constructor",
     "method"
   ],
   [
@@ -1110,9 +2526,15 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/light/ambient.js~ambientlightcommand#constructor",
-    "class/src/light/ambient.js~AmbientLightCommand.html#instance-constructor-constructor",
-    "src/light/ambient.js~AmbientLightCommand#constructor",
+    "src/light/ambient.js~ambientlight#constructor",
+    "class/src/light/ambient.js~AmbientLight.html#instance-constructor-constructor",
+    "src/light/ambient.js~AmbientLight#constructor",
+    "method"
+  ],
+  [
+    "src/light/ambient.js~ambientlight.contextentry",
+    "class/src/light/ambient.js~AmbientLight.html#static-method-contextEntry",
+    "src/light/ambient.js~AmbientLight.contextEntry",
     "method"
   ],
   [
@@ -1122,9 +2544,15 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/light/directional.js~directionallightcommand#constructor",
-    "class/src/light/directional.js~DirectionalLightCommand.html#instance-constructor-constructor",
-    "src/light/directional.js~DirectionalLightCommand#constructor",
+    "src/light/directional.js~directionallight#constructor",
+    "class/src/light/directional.js~DirectionalLight.html#instance-constructor-constructor",
+    "src/light/directional.js~DirectionalLight#constructor",
+    "method"
+  ],
+  [
+    "src/light/directional.js~directionallight.contextentry",
+    "class/src/light/directional.js~DirectionalLight.html#static-method-contextEntry",
+    "src/light/directional.js~DirectionalLight.contextEntry",
     "method"
   ],
   [
@@ -1134,16 +2562,10 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/light/light.js",
-    "file/src/light/light.js.html",
-    "src/light/light.js",
+    "src/light/limits.js",
+    "file/src/light/limits.js.html",
+    "src/light/limits.js",
     "file"
-  ],
-  [
-    "src/light/light.js~lightcommand#constructor",
-    "class/src/light/light.js~LightCommand.html#instance-constructor-constructor",
-    "src/light/light.js~LightCommand#constructor",
-    "method"
   ],
   [
     "src/light/point.js",
@@ -1152,9 +2574,15 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/light/point.js~pointlightcommand#constructor",
-    "class/src/light/point.js~PointLightCommand.html#instance-constructor-constructor",
-    "src/light/point.js~PointLightCommand#constructor",
+    "src/light/point.js~pointlight#constructor",
+    "class/src/light/point.js~PointLight.html#instance-constructor-constructor",
+    "src/light/point.js~PointLight#constructor",
+    "method"
+  ],
+  [
+    "src/light/point.js~pointlight.contextentry",
+    "class/src/light/point.js~PointLight.html#static-method-contextEntry",
+    "src/light/point.js~PointLight.contextEntry",
     "method"
   ],
   [
@@ -1164,16 +2592,10 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/lines.js",
-    "file/src/lines.js.html",
-    "src/lines.js",
-    "file"
-  ],
-  [
-    "src/lines.js~linescommand#constructor",
-    "class/src/lines.js~LinesCommand.html#instance-constructor-constructor",
-    "src/lines.js~LinesCommand#constructor",
-    "method"
+    "src/light/types.js~lighttype",
+    "typedef/index.html#static-typedef-LightType",
+    "src/light/types.js~LightType",
+    "typedef"
   ],
   [
     "src/material/flat.js",
@@ -1182,9 +2604,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/material/flat.js~flatmaterialcommand#constructor",
-    "class/src/material/flat.js~FlatMaterialCommand.html#instance-constructor-constructor",
-    "src/material/flat.js~FlatMaterialCommand#constructor",
+    "src/material/flat.js~flatmaterial#constructor",
+    "class/src/material/flat.js~FlatMaterial.html#instance-constructor-constructor",
+    "src/material/flat.js~FlatMaterial#constructor",
     "method"
   ],
   [
@@ -1200,21 +2622,69 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/material/lambert.js~lambertmaterialcommand#constructor",
-    "class/src/material/lambert.js~LambertMaterialCommand.html#instance-constructor-constructor",
-    "src/material/lambert.js~LambertMaterialCommand#constructor",
+    "src/material/lambert.js~lambertmaterial#constructor",
+    "class/src/material/lambert.js~LambertMaterial.html#instance-constructor-constructor",
+    "src/material/lambert.js~LambertMaterial#constructor",
     "method"
   ],
   [
-    "src/material/material.js",
-    "file/src/material/material.js.html",
-    "src/material/material.js",
-    "file"
+    "src/material/lambert.js~lambertmaterialcontext#constructor",
+    "class/src/material/lambert.js~LambertMaterialContext.html#instance-constructor-constructor",
+    "src/material/lambert.js~LambertMaterialContext#constructor",
+    "method"
   ],
   [
-    "src/material/material.js~materialcommand#constructor",
-    "class/src/material/material.js~MaterialCommand.html#instance-constructor-constructor",
-    "src/material/material.js~MaterialCommand#constructor",
+    "src/material/lambert.js~lambertmaterialuniforms#['lightcontext.ambient.count']",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html#instance-member-['lightContext.ambient.count']",
+    "src/material/lambert.js~LambertMaterialUniforms#['lightContext.ambient.count']",
+    "member"
+  ],
+  [
+    "src/material/lambert.js~lambertmaterialuniforms#['lightcontext.directional.count']",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html#instance-member-['lightContext.directional.count']",
+    "src/material/lambert.js~LambertMaterialUniforms#['lightContext.directional.count']",
+    "member"
+  ],
+  [
+    "src/material/lambert.js~lambertmaterialuniforms#['lightcontext.point.count']",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html#instance-member-['lightContext.point.count']",
+    "src/material/lambert.js~LambertMaterialUniforms#['lightContext.point.count']",
+    "member"
+  ],
+  [
+    "src/material/lambert.js~lambertmaterialuniforms#['material.albedo']",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html#instance-member-['material.albedo']",
+    "src/material/lambert.js~LambertMaterialUniforms#['material.albedo']",
+    "member"
+  ],
+  [
+    "src/material/lambert.js~lambertmaterialuniforms#['material.ambient']",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html#instance-member-['material.ambient']",
+    "src/material/lambert.js~LambertMaterialUniforms#['material.ambient']",
+    "member"
+  ],
+  [
+    "src/material/lambert.js~lambertmaterialuniforms#['material.emissive']",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html#instance-member-['material.emissive']",
+    "src/material/lambert.js~LambertMaterialUniforms#['material.emissive']",
+    "member"
+  ],
+  [
+    "src/material/lambert.js~lambertmaterialuniforms#['material.roughness']",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html#instance-member-['material.roughness']",
+    "src/material/lambert.js~LambertMaterialUniforms#['material.roughness']",
+    "member"
+  ],
+  [
+    "src/material/lambert.js~lambertmaterialuniforms#constructor",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html#instance-constructor-constructor",
+    "src/material/lambert.js~LambertMaterialUniforms#constructor",
+    "method"
+  ],
+  [
+    "src/material/lambert.js~lambertmaterialuniforms#setlightsincontext",
+    "class/src/material/lambert.js~LambertMaterialUniforms.html#instance-method-setLightsInContext",
+    "src/material/lambert.js~LambertMaterialUniforms#setLightsInContext",
     "method"
   ],
   [
@@ -1224,9 +2694,27 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/material/phong.js~phongmaterialcommand#constructor",
-    "class/src/material/phong.js~PhongMaterialCommand.html#instance-constructor-constructor",
-    "src/material/phong.js~PhongMaterialCommand#constructor",
+    "src/material/phong.js~phongmaterial#constructor",
+    "class/src/material/phong.js~PhongMaterial.html#instance-constructor-constructor",
+    "src/material/phong.js~PhongMaterial#constructor",
+    "method"
+  ],
+  [
+    "src/material/phong.js~phongmaterialuniforms#['material.shininess']",
+    "class/src/material/phong.js~PhongMaterialUniforms.html#instance-member-['material.shininess']",
+    "src/material/phong.js~PhongMaterialUniforms#['material.shininess']",
+    "member"
+  ],
+  [
+    "src/material/phong.js~phongmaterialuniforms#['material.specular']",
+    "class/src/material/phong.js~PhongMaterialUniforms.html#instance-member-['material.specular']",
+    "src/material/phong.js~PhongMaterialUniforms#['material.specular']",
+    "member"
+  ],
+  [
+    "src/material/phong.js~phongmaterialuniforms#constructor",
+    "class/src/material/phong.js~PhongMaterialUniforms.html#instance-constructor-constructor",
+    "src/material/phong.js~PhongMaterialUniforms#constructor",
     "method"
   ],
   [
@@ -1234,6 +2722,12 @@ window.esdocSearchIndex = [
     "file/src/material/types.js.html",
     "src/material/types.js",
     "file"
+  ],
+  [
+    "src/material/types.js~materialtype",
+    "typedef/index.html#static-typedef-MaterialType",
+    "src/material/types.js~MaterialType",
+    "typedef"
   ],
   [
     "src/math/euler.js",
@@ -1254,9 +2748,99 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/math/euler.js~euler#pitch",
+    "class/src/math/euler.js~Euler.html#instance-get-pitch",
+    "src/math/euler.js~Euler#pitch",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#pitch",
+    "class/src/math/euler.js~Euler.html#instance-set-pitch",
+    "src/math/euler.js~Euler#pitch",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#roll",
+    "class/src/math/euler.js~Euler.html#instance-get-roll",
+    "src/math/euler.js~Euler#roll",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#roll",
+    "class/src/math/euler.js~Euler.html#instance-set-roll",
+    "src/math/euler.js~Euler#roll",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#x",
+    "class/src/math/euler.js~Euler.html#instance-set-x",
+    "src/math/euler.js~Euler#x",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#x",
+    "class/src/math/euler.js~Euler.html#instance-get-x",
+    "src/math/euler.js~Euler#x",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#y",
+    "class/src/math/euler.js~Euler.html#instance-set-y",
+    "src/math/euler.js~Euler#y",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#y",
+    "class/src/math/euler.js~Euler.html#instance-get-y",
+    "src/math/euler.js~Euler#y",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#yaw",
+    "class/src/math/euler.js~Euler.html#instance-set-yaw",
+    "src/math/euler.js~Euler#yaw",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#yaw",
+    "class/src/math/euler.js~Euler.html#instance-get-yaw",
+    "src/math/euler.js~Euler#yaw",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#z",
+    "class/src/math/euler.js~Euler.html#instance-set-z",
+    "src/math/euler.js~Euler#z",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#z",
+    "class/src/math/euler.js~Euler.html#instance-get-z",
+    "src/math/euler.js~Euler#z",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler.fromquaternion",
+    "class/src/math/euler.js~Euler.html#static-method-fromQuaternion",
+    "src/math/euler.js~Euler.fromQuaternion",
+    "method"
+  ],
+  [
+    "src/math/euler.js~euler.swizzles",
+    "class/src/math/euler.js~Euler.html#static-method-swizzles",
+    "src/math/euler.js~Euler.swizzles",
+    "method"
+  ],
+  [
     "src/math/index.js",
     "file/src/math/index.js.html",
     "src/math/index.js",
+    "file"
+  ],
+  [
+    "src/math/matrix.js",
+    "file/src/math/matrix.js.html",
+    "src/math/matrix.js",
     "file"
   ],
   [
@@ -1272,6 +2856,72 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/math/quaternion.js~quaternion#w",
+    "class/src/math/quaternion.js~Quaternion.html#instance-get-w",
+    "src/math/quaternion.js~Quaternion#w",
+    "member"
+  ],
+  [
+    "src/math/quaternion.js~quaternion#w",
+    "class/src/math/quaternion.js~Quaternion.html#instance-set-w",
+    "src/math/quaternion.js~Quaternion#w",
+    "member"
+  ],
+  [
+    "src/math/quaternion.js~quaternion#x",
+    "class/src/math/quaternion.js~Quaternion.html#instance-set-x",
+    "src/math/quaternion.js~Quaternion#x",
+    "member"
+  ],
+  [
+    "src/math/quaternion.js~quaternion#x",
+    "class/src/math/quaternion.js~Quaternion.html#instance-get-x",
+    "src/math/quaternion.js~Quaternion#x",
+    "member"
+  ],
+  [
+    "src/math/quaternion.js~quaternion#y",
+    "class/src/math/quaternion.js~Quaternion.html#instance-get-y",
+    "src/math/quaternion.js~Quaternion#y",
+    "member"
+  ],
+  [
+    "src/math/quaternion.js~quaternion#y",
+    "class/src/math/quaternion.js~Quaternion.html#instance-set-y",
+    "src/math/quaternion.js~Quaternion#y",
+    "member"
+  ],
+  [
+    "src/math/quaternion.js~quaternion#z",
+    "class/src/math/quaternion.js~Quaternion.html#instance-set-z",
+    "src/math/quaternion.js~Quaternion#z",
+    "member"
+  ],
+  [
+    "src/math/quaternion.js~quaternion#z",
+    "class/src/math/quaternion.js~Quaternion.html#instance-get-z",
+    "src/math/quaternion.js~Quaternion#z",
+    "member"
+  ],
+  [
+    "src/math/quaternion.js~quaternion.fromaxisangle",
+    "class/src/math/quaternion.js~Quaternion.html#static-method-fromAxisAngle",
+    "src/math/quaternion.js~Quaternion.fromAxisAngle",
+    "method"
+  ],
+  [
+    "src/math/quaternion.js~quaternion.fromeuler",
+    "class/src/math/quaternion.js~Quaternion.html#static-method-fromEuler",
+    "src/math/quaternion.js~Quaternion.fromEuler",
+    "method"
+  ],
+  [
+    "src/math/quaternion.js~quaternion.swizzles",
+    "class/src/math/quaternion.js~Quaternion.html#static-method-swizzles",
+    "src/math/quaternion.js~Quaternion.swizzles",
+    "method"
+  ],
+  [
     "src/math/vector.js",
     "file/src/math/vector.js.html",
     "src/math/vector.js",
@@ -1284,9 +2934,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/math/vector.js~vector#componentlength",
-    "class/src/math/vector.js~Vector.html#instance-get-componentLength",
-    "src/math/vector.js~Vector#componentLength",
+    "src/math/vector.js~vector#[i]",
+    "class/src/math/vector.js~Vector.html#instance-member-[i]",
+    "src/math/vector.js~Vector#[i]",
     "member"
   ],
   [
@@ -1296,16 +2946,22 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/math/vector.js~vector#get",
+    "class/src/math/vector.js~Vector.html#instance-method-get",
+    "src/math/vector.js~Vector#get",
+    "method"
+  ],
+  [
     "src/math/vector.js~vector#length",
     "class/src/math/vector.js~Vector.html#instance-get-length",
     "src/math/vector.js~Vector#length",
     "member"
   ],
   [
-    "src/math/vector.js~vector#ref",
-    "class/src/math/vector.js~Vector.html#instance-get-ref",
-    "src/math/vector.js~Vector#ref",
-    "member"
+    "src/math/vector.js~vector#onchange",
+    "class/src/math/vector.js~Vector.html#instance-method-onchange",
+    "src/math/vector.js~Vector#onchange",
+    "method"
   ],
   [
     "src/math/vector.js~vector#set",
@@ -1332,33 +2988,267 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/mesh.js",
-    "file/src/mesh.js.html",
-    "src/mesh.js",
-    "file"
-  ],
-  [
-    "src/mesh.js~meshcommand#constructor",
-    "class/src/mesh.js~MeshCommand.html#instance-constructor-constructor",
-    "src/mesh.js~MeshCommand#constructor",
+    "src/math/vector.js~vector1#constructor",
+    "class/src/math/vector.js~Vector1.html#instance-constructor-constructor",
+    "src/math/vector.js~Vector1#constructor",
     "method"
   ],
   [
-    "src/object3d.js",
-    "file/src/object3d.js.html",
-    "src/object3d.js",
-    "file"
-  ],
-  [
-    "src/object3d.js~object3dcommand#constructor",
-    "class/src/object3d.js~Object3DCommand.html#instance-constructor-constructor",
-    "src/object3d.js~Object3DCommand#constructor",
+    "src/math/vector.js~vector1.swizzles",
+    "class/src/math/vector.js~Vector1.html#static-method-swizzles",
+    "src/math/vector.js~Vector1.swizzles",
     "method"
   ],
   [
-    "src/object3d.js~object3dcommand.id",
-    "class/src/object3d.js~Object3DCommand.html#static-method-id",
-    "src/object3d.js~Object3DCommand.id",
+    "src/math/vector.js~vector2#constructor",
+    "class/src/math/vector.js~Vector2.html#instance-constructor-constructor",
+    "src/math/vector.js~Vector2#constructor",
+    "method"
+  ],
+  [
+    "src/math/vector.js~vector2#x",
+    "class/src/math/vector.js~Vector2.html#instance-get-x",
+    "src/math/vector.js~Vector2#x",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector2#x",
+    "class/src/math/vector.js~Vector2.html#instance-set-x",
+    "src/math/vector.js~Vector2#x",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector2#y",
+    "class/src/math/vector.js~Vector2.html#instance-set-y",
+    "src/math/vector.js~Vector2#y",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector2#y",
+    "class/src/math/vector.js~Vector2.html#instance-get-y",
+    "src/math/vector.js~Vector2#y",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector2.swizzles",
+    "class/src/math/vector.js~Vector2.html#static-method-swizzles",
+    "src/math/vector.js~Vector2.swizzles",
+    "method"
+  ],
+  [
+    "src/math/vector.js~vector3#b",
+    "class/src/math/vector.js~Vector3.html#instance-set-b",
+    "src/math/vector.js~Vector3#b",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#b",
+    "class/src/math/vector.js~Vector3.html#instance-get-b",
+    "src/math/vector.js~Vector3#b",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#constructor",
+    "class/src/math/vector.js~Vector3.html#instance-constructor-constructor",
+    "src/math/vector.js~Vector3#constructor",
+    "method"
+  ],
+  [
+    "src/math/vector.js~vector3#g",
+    "class/src/math/vector.js~Vector3.html#instance-get-g",
+    "src/math/vector.js~Vector3#g",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#g",
+    "class/src/math/vector.js~Vector3.html#instance-set-g",
+    "src/math/vector.js~Vector3#g",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#r",
+    "class/src/math/vector.js~Vector3.html#instance-get-r",
+    "src/math/vector.js~Vector3#r",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#r",
+    "class/src/math/vector.js~Vector3.html#instance-set-r",
+    "src/math/vector.js~Vector3#r",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#x",
+    "class/src/math/vector.js~Vector3.html#instance-get-x",
+    "src/math/vector.js~Vector3#x",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#x",
+    "class/src/math/vector.js~Vector3.html#instance-set-x",
+    "src/math/vector.js~Vector3#x",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#y",
+    "class/src/math/vector.js~Vector3.html#instance-get-y",
+    "src/math/vector.js~Vector3#y",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#y",
+    "class/src/math/vector.js~Vector3.html#instance-set-y",
+    "src/math/vector.js~Vector3#y",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#z",
+    "class/src/math/vector.js~Vector3.html#instance-get-z",
+    "src/math/vector.js~Vector3#z",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#z",
+    "class/src/math/vector.js~Vector3.html#instance-set-z",
+    "src/math/vector.js~Vector3#z",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3.swizzles",
+    "class/src/math/vector.js~Vector3.html#static-method-swizzles",
+    "src/math/vector.js~Vector3.swizzles",
+    "method"
+  ],
+  [
+    "src/math/vector.js~vector4#a",
+    "class/src/math/vector.js~Vector4.html#instance-set-a",
+    "src/math/vector.js~Vector4#a",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#a",
+    "class/src/math/vector.js~Vector4.html#instance-get-a",
+    "src/math/vector.js~Vector4#a",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#b",
+    "class/src/math/vector.js~Vector4.html#instance-get-b",
+    "src/math/vector.js~Vector4#b",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#b",
+    "class/src/math/vector.js~Vector4.html#instance-set-b",
+    "src/math/vector.js~Vector4#b",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#constructor",
+    "class/src/math/vector.js~Vector4.html#instance-constructor-constructor",
+    "src/math/vector.js~Vector4#constructor",
+    "method"
+  ],
+  [
+    "src/math/vector.js~vector4#g",
+    "class/src/math/vector.js~Vector4.html#instance-get-g",
+    "src/math/vector.js~Vector4#g",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#g",
+    "class/src/math/vector.js~Vector4.html#instance-set-g",
+    "src/math/vector.js~Vector4#g",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#r",
+    "class/src/math/vector.js~Vector4.html#instance-set-r",
+    "src/math/vector.js~Vector4#r",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#r",
+    "class/src/math/vector.js~Vector4.html#instance-get-r",
+    "src/math/vector.js~Vector4#r",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#w",
+    "class/src/math/vector.js~Vector4.html#instance-get-w",
+    "src/math/vector.js~Vector4#w",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#w",
+    "class/src/math/vector.js~Vector4.html#instance-set-w",
+    "src/math/vector.js~Vector4#w",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#x",
+    "class/src/math/vector.js~Vector4.html#instance-get-x",
+    "src/math/vector.js~Vector4#x",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#x",
+    "class/src/math/vector.js~Vector4.html#instance-set-x",
+    "src/math/vector.js~Vector4#x",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#y",
+    "class/src/math/vector.js~Vector4.html#instance-set-y",
+    "src/math/vector.js~Vector4#y",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#y",
+    "class/src/math/vector.js~Vector4.html#instance-get-y",
+    "src/math/vector.js~Vector4#y",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#z",
+    "class/src/math/vector.js~Vector4.html#instance-get-z",
+    "src/math/vector.js~Vector4#z",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#z",
+    "class/src/math/vector.js~Vector4.html#instance-set-z",
+    "src/math/vector.js~Vector4#z",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4.swizzles",
+    "class/src/math/vector.js~Vector4.html#static-method-swizzles",
+    "src/math/vector.js~Vector4.swizzles",
+    "method"
+  ],
+  [
+    "src/math/vector_swizzle_map.js",
+    "file/src/math/vector_swizzle_map.js.html",
+    "src/math/vector_swizzle_map.js",
+    "file"
+  ],
+  [
+    "src/mesh/index.js",
+    "file/src/mesh/index.js.html",
+    "src/mesh/index.js",
+    "file"
+  ],
+  [
+    "src/mesh/lines.js",
+    "file/src/mesh/lines.js.html",
+    "src/mesh/lines.js",
+    "file"
+  ],
+  [
+    "src/mesh/lines.js~linesmesh#constructor",
+    "class/src/mesh/lines.js~LinesMesh.html#instance-constructor-constructor",
+    "src/mesh/lines.js~LinesMesh#constructor",
     "method"
   ],
   [
@@ -1392,15 +3282,9 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/texture.js",
-    "file/src/texture.js.html",
-    "src/texture.js",
-    "file"
-  ],
-  [
-    "src/texture.js~texturecommand#constructor",
-    "class/src/texture.js~TextureCommand.html#instance-constructor-constructor",
-    "src/texture.js~TextureCommand#constructor",
+    "src/stats.js~statnameerror#constructor",
+    "class/src/stats.js~StatNameError.html#instance-constructor-constructor",
+    "src/stats.js~StatNameError#constructor",
     "method"
   ],
   [

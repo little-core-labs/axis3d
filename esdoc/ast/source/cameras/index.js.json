@@ -1,28 +1,28 @@
 {
   "type": "File",
   "start": 0,
-  "end": 139,
+  "end": 144,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 7,
+      "line": 9,
       "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 139,
+    "end": 144,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 7,
+        "line": 9,
         "column": 0
       }
     },
@@ -30,64 +30,84 @@
     "body": [
       {
         "type": "ExportNamedDeclaration",
-        "start": 14,
-        "end": 61,
+        "start": 42,
+        "end": 93,
         "loc": {
           "start": {
-            "line": 3,
+            "line": 7,
             "column": 0
           },
           "end": {
-            "line": 3,
-            "column": 47
+            "line": 7,
+            "column": 51
           }
         },
+        "declaration": null,
         "specifiers": [
           {
-            "type": "ExportDefaultSpecifier",
-            "start": 21,
-            "end": 39,
+            "type": "ExportSpecifier",
+            "start": 51,
+            "end": 69,
             "loc": {
               "start": {
-                "line": 3,
-                "column": 7
+                "line": 7,
+                "column": 9
               },
               "end": {
-                "line": 3,
-                "column": 25
+                "line": 7,
+                "column": 27
               }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 51,
+              "end": 69,
+              "loc": {
+                "start": {
+                  "line": 7,
+                  "column": 9
+                },
+                "end": {
+                  "line": 7,
+                  "column": 27
+                },
+                "identifierName": "OrthographicCamera"
+              },
+              "name": "OrthographicCamera",
+              "leadingComments": null
             },
             "exported": {
               "type": "Identifier",
-              "start": 21,
-              "end": 39,
+              "start": 51,
+              "end": 69,
               "loc": {
                 "start": {
-                  "line": 3,
-                  "column": 7
+                  "line": 7,
+                  "column": 9
                 },
                 "end": {
-                  "line": 3,
-                  "column": 25
+                  "line": 7,
+                  "column": 27
                 },
                 "identifierName": "OrthographicCamera"
               },
               "name": "OrthographicCamera"
-            }
+            },
+            "leadingComments": null
           }
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 45,
-          "end": 61,
+          "start": 77,
+          "end": 93,
           "loc": {
             "start": {
-              "line": 3,
-              "column": 31
+              "line": 7,
+              "column": 35
             },
             "end": {
-              "line": 3,
-              "column": 47
+              "line": 7,
+              "column": 51
             }
           },
           "extra": {
@@ -95,49 +115,85 @@
             "raw": "'./orthographic'"
           },
           "value": "./orthographic"
-        }
+        },
+        "leadingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * Module exports.\n ",
+            "start": 14,
+            "end": 40,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 3
+              }
+            }
+          }
+        ]
       },
       {
         "type": "ExportNamedDeclaration",
-        "start": 62,
-        "end": 107,
+        "start": 94,
+        "end": 143,
         "loc": {
           "start": {
-            "line": 4,
+            "line": 8,
             "column": 0
           },
           "end": {
-            "line": 4,
-            "column": 45
+            "line": 8,
+            "column": 49
           }
         },
+        "declaration": null,
         "specifiers": [
           {
-            "type": "ExportDefaultSpecifier",
-            "start": 69,
-            "end": 86,
+            "type": "ExportSpecifier",
+            "start": 103,
+            "end": 120,
             "loc": {
               "start": {
-                "line": 4,
-                "column": 7
+                "line": 8,
+                "column": 9
               },
               "end": {
-                "line": 4,
-                "column": 24
+                "line": 8,
+                "column": 26
               }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 103,
+              "end": 120,
+              "loc": {
+                "start": {
+                  "line": 8,
+                  "column": 9
+                },
+                "end": {
+                  "line": 8,
+                  "column": 26
+                },
+                "identifierName": "PerspectiveCamera"
+              },
+              "name": "PerspectiveCamera"
             },
             "exported": {
               "type": "Identifier",
-              "start": 69,
-              "end": 86,
+              "start": 103,
+              "end": 120,
               "loc": {
                 "start": {
-                  "line": 4,
-                  "column": 7
+                  "line": 8,
+                  "column": 9
                 },
                 "end": {
-                  "line": 4,
-                  "column": 24
+                  "line": 8,
+                  "column": 26
                 },
                 "identifierName": "PerspectiveCamera"
               },
@@ -147,16 +203,16 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 92,
-          "end": 107,
+          "start": 128,
+          "end": 143,
           "loc": {
             "start": {
-              "line": 4,
-              "column": 30
+              "line": 8,
+              "column": 34
             },
             "end": {
-              "line": 4,
-              "column": 45
+              "line": 8,
+              "column": 49
             }
           },
           "extra": {
@@ -164,75 +220,6 @@
             "raw": "'./perspective'"
           },
           "value": "./perspective"
-        }
-      },
-      {
-        "type": "ExportNamedDeclaration",
-        "start": 108,
-        "end": 137,
-        "loc": {
-          "start": {
-            "line": 5,
-            "column": 0
-          },
-          "end": {
-            "line": 5,
-            "column": 29
-          }
-        },
-        "specifiers": [
-          {
-            "type": "ExportDefaultSpecifier",
-            "start": 115,
-            "end": 121,
-            "loc": {
-              "start": {
-                "line": 5,
-                "column": 7
-              },
-              "end": {
-                "line": 5,
-                "column": 13
-              }
-            },
-            "exported": {
-              "type": "Identifier",
-              "start": 115,
-              "end": 121,
-              "loc": {
-                "start": {
-                  "line": 5,
-                  "column": 7
-                },
-                "end": {
-                  "line": 5,
-                  "column": 13
-                },
-                "identifierName": "Camera"
-              },
-              "name": "Camera"
-            }
-          }
-        ],
-        "source": {
-          "type": "StringLiteral",
-          "start": 127,
-          "end": 137,
-          "loc": {
-            "start": {
-              "line": 5,
-              "column": 19
-            },
-            "end": {
-              "line": 5,
-              "column": 29
-            }
-          },
-          "extra": {
-            "rawValue": "./camera",
-            "raw": "'./camera'"
-          },
-          "value": "./camera"
         }
       }
     ],
@@ -269,12 +256,48 @@
           "extra": {
             "raw": "'use strict'",
             "rawValue": "use strict"
+          },
+          "trailingComments": null
+        },
+        "trailingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * Module exports.\n ",
+            "start": 14,
+            "end": 40,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 3
+              }
+            }
           }
-        }
+        ]
       }
     ]
   },
-  "comments": [],
+  "comments": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n * Module exports.\n ",
+      "start": 14,
+      "end": 40,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 3
+        }
+      }
+    }
+  ],
   "tokens": [
     {
       "type": {
@@ -304,6 +327,22 @@
       }
     },
     {
+      "type": "CommentBlock",
+      "value": "*\n * Module exports.\n ",
+      "start": 14,
+      "end": 40,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 3
+        }
+      }
+    },
+    {
       "type": {
         "label": "export",
         "keyword": "export",
@@ -318,16 +357,41 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 14,
-      "end": 20,
+      "start": 42,
+      "end": 48,
       "loc": {
         "start": {
-          "line": 3,
+          "line": 7,
           "column": 0
         },
         "end": {
-          "line": 3,
+          "line": 7,
           "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 49,
+      "end": 50,
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 7
+        },
+        "end": {
+          "line": 7,
+          "column": 8
         }
       }
     },
@@ -344,16 +408,41 @@
         "binop": null
       },
       "value": "OrthographicCamera",
-      "start": 21,
-      "end": 39,
+      "start": 51,
+      "end": 69,
       "loc": {
         "start": {
-          "line": 3,
-          "column": 7
+          "line": 7,
+          "column": 9
         },
         "end": {
-          "line": 3,
-          "column": 25
+          "line": 7,
+          "column": 27
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 70,
+      "end": 71,
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 28
+        },
+        "end": {
+          "line": 7,
+          "column": 29
         }
       }
     },
@@ -370,16 +459,16 @@
         "binop": null
       },
       "value": "from",
-      "start": 40,
-      "end": 44,
+      "start": 72,
+      "end": 76,
       "loc": {
         "start": {
-          "line": 3,
-          "column": 26
+          "line": 7,
+          "column": 30
         },
         "end": {
-          "line": 3,
-          "column": 30
+          "line": 7,
+          "column": 34
         }
       }
     },
@@ -397,16 +486,16 @@
         "updateContext": null
       },
       "value": "./orthographic",
-      "start": 45,
-      "end": 61,
+      "start": 77,
+      "end": 93,
       "loc": {
         "start": {
-          "line": 3,
-          "column": 31
+          "line": 7,
+          "column": 35
         },
         "end": {
-          "line": 3,
-          "column": 47
+          "line": 7,
+          "column": 51
         }
       }
     },
@@ -425,16 +514,41 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 62,
-      "end": 68,
+      "start": 94,
+      "end": 100,
       "loc": {
         "start": {
-          "line": 4,
+          "line": 8,
           "column": 0
         },
         "end": {
-          "line": 4,
+          "line": 8,
           "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 101,
+      "end": 102,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 7
+        },
+        "end": {
+          "line": 8,
+          "column": 8
         }
       }
     },
@@ -451,16 +565,41 @@
         "binop": null
       },
       "value": "PerspectiveCamera",
-      "start": 69,
-      "end": 86,
+      "start": 103,
+      "end": 120,
       "loc": {
         "start": {
-          "line": 4,
-          "column": 7
+          "line": 8,
+          "column": 9
         },
         "end": {
-          "line": 4,
-          "column": 24
+          "line": 8,
+          "column": 26
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 121,
+      "end": 122,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 27
+        },
+        "end": {
+          "line": 8,
+          "column": 28
         }
       }
     },
@@ -477,16 +616,16 @@
         "binop": null
       },
       "value": "from",
-      "start": 87,
-      "end": 91,
+      "start": 123,
+      "end": 127,
       "loc": {
         "start": {
-          "line": 4,
-          "column": 25
+          "line": 8,
+          "column": 29
         },
         "end": {
-          "line": 4,
-          "column": 29
+          "line": 8,
+          "column": 33
         }
       }
     },
@@ -504,123 +643,16 @@
         "updateContext": null
       },
       "value": "./perspective",
-      "start": 92,
-      "end": 107,
+      "start": 128,
+      "end": 143,
       "loc": {
         "start": {
-          "line": 4,
-          "column": 30
+          "line": 8,
+          "column": 34
         },
         "end": {
-          "line": 4,
-          "column": 45
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "export",
-        "keyword": "export",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "export",
-      "start": 108,
-      "end": 114,
-      "loc": {
-        "start": {
-          "line": 5,
-          "column": 0
-        },
-        "end": {
-          "line": 5,
-          "column": 6
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "Camera",
-      "start": 115,
-      "end": 121,
-      "loc": {
-        "start": {
-          "line": 5,
-          "column": 7
-        },
-        "end": {
-          "line": 5,
-          "column": 13
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "from",
-      "start": 122,
-      "end": 126,
-      "loc": {
-        "start": {
-          "line": 5,
-          "column": 14
-        },
-        "end": {
-          "line": 5,
-          "column": 18
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "string",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "./camera",
-      "start": 127,
-      "end": 137,
-      "loc": {
-        "start": {
-          "line": 5,
-          "column": 19
-        },
-        "end": {
-          "line": 5,
-          "column": 29
+          "line": 8,
+          "column": 49
         }
       }
     },
@@ -637,15 +669,15 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 139,
-      "end": 139,
+      "start": 144,
+      "end": 144,
       "loc": {
         "start": {
-          "line": 7,
+          "line": 9,
           "column": 0
         },
         "end": {
-          "line": 7,
+          "line": 9,
           "column": 0
         }
       }
