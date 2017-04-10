@@ -1,5 +1,7 @@
+#!/bin/bash
+ESDOC=${ESDOC:-$(which esdoc)}
 
-if [ -z "`which esdoc`" ]; then
+if [ -z "$ESDOC" ]; then
   echo >&2 "error: Missing esdoc in \$PATH."
   exit 1
 fi
@@ -9,4 +11,4 @@ if [ -z $1 ] || ! [ -f $1 ] ; then
   exit 1
 fi
 
-`which esdoc` -c "$1"
+"$ESDOC" -c "$1"

@@ -100,6 +100,7 @@ export class Object3D extends Command {
 
     const {context = new Object3DContext(ctx, initialState)} = initialState
 
+    // ensure context is a descendant of Object3DContext
     if (false == context instanceof Object3DContext) {
       throw new TypeError("Expecting instance of Object3DContext given.")
     }

@@ -52,7 +52,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraFar">kDefaultCameraFar</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraFieldOfView">kDefaultCameraFieldOfView</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-kDefaultCameraNear">kDefaultCameraNear</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">core</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/color.js~Color.html">Color</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">core</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/camera.js~Camera.html">Camera</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/camera.js~CameraContext.html">CameraContext</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/camera.js~CameraUniforms.html">CameraUniforms</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/color.js~Color.html">Color</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/command.js~Command.html">Command</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/context.js~Context.html">Context</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/core/extrude_geometry.js~ExtrudeGeometry.html">ExtrudeGeometry</a></span></span></li>
@@ -171,7 +174,6 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector2.html">Vector2</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector3.html">Vector3</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/math/vector.js~Vector4.html">Vector4</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-quat">quat</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-offsetOf">offsetOf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Color">Color</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Euler">Euler</a></span></span></li>
@@ -189,13 +191,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Quaternion} from &apos;<span><a href="file/src/math/quaternion.js.html#lineNumber41">axis3d/math/quaternion</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Quaternion} from &apos;<span><a href="file/src/math/quaternion.js.html#lineNumber27">axis3d/math/quaternion</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/math/quaternion.js.html#lineNumber41">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/math/quaternion.js.html#lineNumber27">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -602,7 +604,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber83">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber69">source</a></span></span>
     </span>
   </h3>
 
@@ -683,7 +685,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber100">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber86">source</a></span></span>
     </span>
   </h3>
 
@@ -775,7 +777,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber67">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber53">source</a></span></span>
     </span>
   </h3>
 
@@ -834,7 +836,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber54">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber40">source</a></span></span>
     </span>
   </h3>
 
@@ -919,7 +921,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber170">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber156">source</a></span></span>
     </span>
   </h3>
 
@@ -962,7 +964,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber171">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber157">source</a></span></span>
     </span>
   </h3>
 
@@ -1005,7 +1007,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber161">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber147">source</a></span></span>
     </span>
   </h3>
 
@@ -1048,7 +1050,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber162">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber148">source</a></span></span>
     </span>
   </h3>
 
@@ -1091,7 +1093,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber164">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber150">source</a></span></span>
     </span>
   </h3>
 
@@ -1134,7 +1136,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber165">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber151">source</a></span></span>
     </span>
   </h3>
 
@@ -1177,7 +1179,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber167">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber153">source</a></span></span>
     </span>
   </h3>
 
@@ -1220,7 +1222,7 @@ axis and angle in radians.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber168">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/math/quaternion.js.html#lineNumber154">source</a></span></span>
     </span>
   </h3>
 

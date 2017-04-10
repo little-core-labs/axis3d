@@ -11,20 +11,6 @@ import { Euler } from './euler'
 import coalesce from 'defined'
 
 /**
- * Quaternion shorthand constructor.
- *
- * @public
- * @function
- * @see {@link Quaternion}
- * @param {Mixed} x
- * @param {Mixed} y
- * @param {Mixed} z
- * @param {Mixed} w
- */
-
-export const quat = (...args) => new Quaternion(...args)
-
-/**
  * The Quaternion class represents an abstraction around a Vector
  * of 4 components that deals with numbers in a complex plane. Quaternions
  * are usefull for representing spatial rotations in 3D.

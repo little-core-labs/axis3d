@@ -277,8 +277,12 @@ export class MeshContext extends Object3DContext {
    *
    * @public
    * @method
+<<<<<<< Updated upstream
    * @param {?Object} opts
    * @param {?Number} opts.scale - default is 1
+=======
+   * @param {?{scale: Number}} opts
+>>>>>>> Stashed changes
    *
    */
 

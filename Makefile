@@ -11,27 +11,32 @@ BIN := node_modules/.bin
 ##
 # Path to `browserify' bin file
 #
-BROWSERIFY := $(BIN)/browserify
+export BROWSERIFY := $(BIN)/browserify
 
 ##
 # Path to `babel`
 #
-BABEL := $(BIN)/babel
+export BABEL := $(BIN)/babel
 
 ##
 # Path to `budo`
 #
-BUDO := $(BIN)/budo
+export BUDO := $(BIN)/budo
 
 ##
 # Path to `standard`
 #
-STANDARD := $(BIN)/standard
+export STANDARD := $(BIN)/standard
 
 ##
 # Path to devtool
 #
-DEVTOOL := $(BIN)/devtool
+export DEVTOOL := $(BIN)/devtool
+
+##
+# Path to esdoc
+#
+export ESDOC := $(BIN)/esdoc
 
 ##
 # Module source (js)

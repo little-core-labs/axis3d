@@ -18,6 +18,24 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "axis3d/core/camera~camera",
+    "class/src/core/camera.js~Camera.html",
+    "<span>Camera</span> <span class=\"search-result-import-path\">axis3d/core/camera</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/camera~cameracontext",
+    "class/src/core/camera.js~CameraContext.html",
+    "<span>CameraContext</span> <span class=\"search-result-import-path\">axis3d/core/camera</span>",
+    "class"
+  ],
+  [
+    "axis3d/core/camera~camerauniforms",
+    "class/src/core/camera.js~CameraUniforms.html",
+    "<span>CameraUniforms</span> <span class=\"search-result-import-path\">axis3d/core/camera</span>",
+    "class"
+  ],
+  [
     "axis3d/geometry/capsule~capsulegeometry",
     "class/src/geometry/capsule.js~CapsuleGeometry.html",
     "<span>CapsuleGeometry</span> <span class=\"search-result-import-path\">axis3d/geometry/capsule</span>",
@@ -882,12 +900,6 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "axis3d/math/quaternion~quat",
-    "function/index.html#static-function-quat",
-    "<span>quat</span> <span class=\"search-result-import-path\">axis3d/math/quaternion</span>",
-    "function"
-  ],
-  [
     "axis3d/stats~registerstat",
     "function/index.html#static-function-registerStat",
     "<span>registerStat</span> <span class=\"search-result-import-path\">axis3d/stats</span>",
@@ -1296,6 +1308,132 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/core/camera.js~camera#constructor",
+    "class/src/core/camera.js~Camera.html#instance-constructor-constructor",
+    "src/core/camera.js~Camera#constructor",
+    "method"
+  ],
+  [
+    "src/core/camera.js~cameracontext#aspect",
+    "class/src/core/camera.js~CameraContext.html#instance-member-aspect",
+    "src/core/camera.js~CameraContext#aspect",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#computeviewmatrix",
+    "class/src/core/camera.js~CameraContext.html#instance-method-computeViewMatrix",
+    "src/core/camera.js~CameraContext#computeViewMatrix",
+    "method"
+  ],
+  [
+    "src/core/camera.js~cameracontext#constructor",
+    "class/src/core/camera.js~CameraContext.html#instance-constructor-constructor",
+    "src/core/camera.js~CameraContext#constructor",
+    "method"
+  ],
+  [
+    "src/core/camera.js~cameracontext#createpickingray",
+    "class/src/core/camera.js~CameraContext.html#instance-member-createPickingRay",
+    "src/core/camera.js~CameraContext#createPickingRay",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#direction",
+    "class/src/core/camera.js~CameraContext.html#instance-member-direction",
+    "src/core/camera.js~CameraContext#direction",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#eye",
+    "class/src/core/camera.js~CameraContext.html#instance-member-eye",
+    "src/core/camera.js~CameraContext#eye",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#far",
+    "class/src/core/camera.js~CameraContext.html#instance-member-far",
+    "src/core/camera.js~CameraContext#far",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#near",
+    "class/src/core/camera.js~CameraContext.html#instance-member-near",
+    "src/core/camera.js~CameraContext#near",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#projection",
+    "class/src/core/camera.js~CameraContext.html#instance-member-projection",
+    "src/core/camera.js~CameraContext#projection",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#target",
+    "class/src/core/camera.js~CameraContext.html#instance-member-target",
+    "src/core/camera.js~CameraContext#target",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#up",
+    "class/src/core/camera.js~CameraContext.html#instance-member-up",
+    "src/core/camera.js~CameraContext#up",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#updatecameracontroller",
+    "class/src/core/camera.js~CameraContext.html#instance-method-updateCameraController",
+    "src/core/camera.js~CameraContext#updateCameraController",
+    "method"
+  ],
+  [
+    "src/core/camera.js~cameracontext#updatecameraviewport",
+    "class/src/core/camera.js~CameraContext.html#instance-method-updateCameraViewport",
+    "src/core/camera.js~CameraContext#updateCameraViewport",
+    "method"
+  ],
+  [
+    "src/core/camera.js~cameracontext#view",
+    "class/src/core/camera.js~CameraContext.html#instance-member-view",
+    "src/core/camera.js~CameraContext#view",
+    "member"
+  ],
+  [
+    "src/core/camera.js~cameracontext#viewport",
+    "class/src/core/camera.js~CameraContext.html#instance-member-viewport",
+    "src/core/camera.js~CameraContext#viewport",
+    "member"
+  ],
+  [
+    "src/core/camera.js~camerauniforms#['camera.aspect']",
+    "class/src/core/camera.js~CameraUniforms.html#instance-member-['camera.aspect']",
+    "src/core/camera.js~CameraUniforms#['camera.aspect']",
+    "member"
+  ],
+  [
+    "src/core/camera.js~camerauniforms#['camera.eye']",
+    "class/src/core/camera.js~CameraUniforms.html#instance-member-['camera.eye']",
+    "src/core/camera.js~CameraUniforms#['camera.eye']",
+    "member"
+  ],
+  [
+    "src/core/camera.js~camerauniforms#['camera.projection']",
+    "class/src/core/camera.js~CameraUniforms.html#instance-member-['camera.projection']",
+    "src/core/camera.js~CameraUniforms#['camera.projection']",
+    "member"
+  ],
+  [
+    "src/core/camera.js~camerauniforms#['camera.view']",
+    "class/src/core/camera.js~CameraUniforms.html#instance-member-['camera.view']",
+    "src/core/camera.js~CameraUniforms#['camera.view']",
+    "member"
+  ],
+  [
+    "src/core/camera.js~camerauniforms#constructor",
+    "class/src/core/camera.js~CameraUniforms.html#instance-constructor-constructor",
+    "src/core/camera.js~CameraUniforms#constructor",
+    "method"
+  ],
+  [
     "src/core/color.js",
     "file/src/core/color.js.html",
     "src/core/color.js",
@@ -1639,13 +1777,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/core/geometry.js~geometry#complex",
-    "class/src/core/geometry.js~Geometry.html#instance-get-complex",
+    "class/src/core/geometry.js~Geometry.html#instance-set-complex",
     "src/core/geometry.js~Geometry#complex",
     "member"
   ],
   [
     "src/core/geometry.js~geometry#complex",
-    "class/src/core/geometry.js~Geometry.html#instance-set-complex",
+    "class/src/core/geometry.js~Geometry.html#instance-get-complex",
     "src/core/geometry.js~Geometry#complex",
     "member"
   ],
@@ -2761,25 +2899,25 @@ window.esdocSearchIndex = [
   ],
   [
     "src/math/euler.js~euler#roll",
-    "class/src/math/euler.js~Euler.html#instance-get-roll",
-    "src/math/euler.js~Euler#roll",
-    "member"
-  ],
-  [
-    "src/math/euler.js~euler#roll",
     "class/src/math/euler.js~Euler.html#instance-set-roll",
     "src/math/euler.js~Euler#roll",
     "member"
   ],
   [
-    "src/math/euler.js~euler#x",
-    "class/src/math/euler.js~Euler.html#instance-set-x",
-    "src/math/euler.js~Euler#x",
+    "src/math/euler.js~euler#roll",
+    "class/src/math/euler.js~Euler.html#instance-get-roll",
+    "src/math/euler.js~Euler#roll",
     "member"
   ],
   [
     "src/math/euler.js~euler#x",
     "class/src/math/euler.js~Euler.html#instance-get-x",
+    "src/math/euler.js~Euler#x",
+    "member"
+  ],
+  [
+    "src/math/euler.js~euler#x",
+    "class/src/math/euler.js~Euler.html#instance-set-x",
     "src/math/euler.js~Euler#x",
     "member"
   ],
@@ -2809,13 +2947,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/math/euler.js~euler#z",
-    "class/src/math/euler.js~Euler.html#instance-set-z",
+    "class/src/math/euler.js~Euler.html#instance-get-z",
     "src/math/euler.js~Euler#z",
     "member"
   ],
   [
     "src/math/euler.js~euler#z",
-    "class/src/math/euler.js~Euler.html#instance-get-z",
+    "class/src/math/euler.js~Euler.html#instance-set-z",
     "src/math/euler.js~Euler#z",
     "member"
   ],
@@ -2857,25 +2995,25 @@ window.esdocSearchIndex = [
   ],
   [
     "src/math/quaternion.js~quaternion#w",
-    "class/src/math/quaternion.js~Quaternion.html#instance-get-w",
-    "src/math/quaternion.js~Quaternion#w",
-    "member"
-  ],
-  [
-    "src/math/quaternion.js~quaternion#w",
     "class/src/math/quaternion.js~Quaternion.html#instance-set-w",
     "src/math/quaternion.js~Quaternion#w",
     "member"
   ],
   [
-    "src/math/quaternion.js~quaternion#x",
-    "class/src/math/quaternion.js~Quaternion.html#instance-set-x",
-    "src/math/quaternion.js~Quaternion#x",
+    "src/math/quaternion.js~quaternion#w",
+    "class/src/math/quaternion.js~Quaternion.html#instance-get-w",
+    "src/math/quaternion.js~Quaternion#w",
     "member"
   ],
   [
     "src/math/quaternion.js~quaternion#x",
     "class/src/math/quaternion.js~Quaternion.html#instance-get-x",
+    "src/math/quaternion.js~Quaternion#x",
+    "member"
+  ],
+  [
+    "src/math/quaternion.js~quaternion#x",
+    "class/src/math/quaternion.js~Quaternion.html#instance-set-x",
     "src/math/quaternion.js~Quaternion#x",
     "member"
   ],
@@ -3007,13 +3145,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/math/vector.js~vector2#x",
-    "class/src/math/vector.js~Vector2.html#instance-get-x",
+    "class/src/math/vector.js~Vector2.html#instance-set-x",
     "src/math/vector.js~Vector2#x",
     "member"
   ],
   [
     "src/math/vector.js~vector2#x",
-    "class/src/math/vector.js~Vector2.html#instance-set-x",
+    "class/src/math/vector.js~Vector2.html#instance-get-x",
     "src/math/vector.js~Vector2#x",
     "member"
   ],
@@ -3055,25 +3193,25 @@ window.esdocSearchIndex = [
   ],
   [
     "src/math/vector.js~vector3#g",
-    "class/src/math/vector.js~Vector3.html#instance-get-g",
-    "src/math/vector.js~Vector3#g",
-    "member"
-  ],
-  [
-    "src/math/vector.js~vector3#g",
     "class/src/math/vector.js~Vector3.html#instance-set-g",
     "src/math/vector.js~Vector3#g",
     "member"
   ],
   [
-    "src/math/vector.js~vector3#r",
-    "class/src/math/vector.js~Vector3.html#instance-get-r",
-    "src/math/vector.js~Vector3#r",
+    "src/math/vector.js~vector3#g",
+    "class/src/math/vector.js~Vector3.html#instance-get-g",
+    "src/math/vector.js~Vector3#g",
     "member"
   ],
   [
     "src/math/vector.js~vector3#r",
     "class/src/math/vector.js~Vector3.html#instance-set-r",
+    "src/math/vector.js~Vector3#r",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector3#r",
+    "class/src/math/vector.js~Vector3.html#instance-get-r",
     "src/math/vector.js~Vector3#r",
     "member"
   ],
@@ -3091,13 +3229,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/math/vector.js~vector3#y",
-    "class/src/math/vector.js~Vector3.html#instance-get-y",
+    "class/src/math/vector.js~Vector3.html#instance-set-y",
     "src/math/vector.js~Vector3#y",
     "member"
   ],
   [
     "src/math/vector.js~vector3#y",
-    "class/src/math/vector.js~Vector3.html#instance-set-y",
+    "class/src/math/vector.js~Vector3.html#instance-get-y",
     "src/math/vector.js~Vector3#y",
     "member"
   ],
@@ -3121,25 +3259,25 @@ window.esdocSearchIndex = [
   ],
   [
     "src/math/vector.js~vector4#a",
-    "class/src/math/vector.js~Vector4.html#instance-set-a",
-    "src/math/vector.js~Vector4#a",
-    "member"
-  ],
-  [
-    "src/math/vector.js~vector4#a",
     "class/src/math/vector.js~Vector4.html#instance-get-a",
     "src/math/vector.js~Vector4#a",
     "member"
   ],
   [
-    "src/math/vector.js~vector4#b",
-    "class/src/math/vector.js~Vector4.html#instance-get-b",
-    "src/math/vector.js~Vector4#b",
+    "src/math/vector.js~vector4#a",
+    "class/src/math/vector.js~Vector4.html#instance-set-a",
+    "src/math/vector.js~Vector4#a",
     "member"
   ],
   [
     "src/math/vector.js~vector4#b",
     "class/src/math/vector.js~Vector4.html#instance-set-b",
+    "src/math/vector.js~Vector4#b",
+    "member"
+  ],
+  [
+    "src/math/vector.js~vector4#b",
+    "class/src/math/vector.js~Vector4.html#instance-get-b",
     "src/math/vector.js~Vector4#b",
     "member"
   ],
@@ -3151,13 +3289,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/math/vector.js~vector4#g",
-    "class/src/math/vector.js~Vector4.html#instance-get-g",
+    "class/src/math/vector.js~Vector4.html#instance-set-g",
     "src/math/vector.js~Vector4#g",
     "member"
   ],
   [
     "src/math/vector.js~vector4#g",
-    "class/src/math/vector.js~Vector4.html#instance-set-g",
+    "class/src/math/vector.js~Vector4.html#instance-get-g",
     "src/math/vector.js~Vector4#g",
     "member"
   ],
@@ -3175,13 +3313,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/math/vector.js~vector4#w",
-    "class/src/math/vector.js~Vector4.html#instance-get-w",
+    "class/src/math/vector.js~Vector4.html#instance-set-w",
     "src/math/vector.js~Vector4#w",
     "member"
   ],
   [
     "src/math/vector.js~vector4#w",
-    "class/src/math/vector.js~Vector4.html#instance-set-w",
+    "class/src/math/vector.js~Vector4.html#instance-get-w",
     "src/math/vector.js~Vector4#w",
     "member"
   ],

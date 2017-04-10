@@ -1,7 +1,7 @@
 {
-  "coverage": "77.7%",
-  "expectCount": 435,
-  "actualCount": 338,
+  "coverage": "78.82%",
+  "expectCount": 458,
+  "actualCount": 361,
   "files": {
     "src/light/ambient.js": {
       "expectCount": 5,
@@ -25,6 +25,11 @@
         53,
         52
       ]
+    },
+    "src/core/camera.js": {
+      "expectCount": 24,
+      "actualCount": 24,
+      "undocumentLines": []
     },
     "src/geometry/capsule.js": {
       "expectCount": 2,
@@ -71,18 +76,18 @@
       "expectCount": 17,
       "actualCount": 5,
       "undocumentLines": [
-        109,
         108,
+        109,
         106,
         105,
         96,
         97,
         100,
         99,
-        111,
         112,
-        102,
-        103
+        111,
+        103,
+        102
       ]
     },
     "src/core/extrude_geometry.js": {
@@ -172,7 +177,7 @@
       "actualCount": 33,
       "undocumentLines": [
         269,
-        311
+        315
       ]
     },
     "src/input/mouse.js": {
@@ -222,17 +227,17 @@
       "undocumentLines": []
     },
     "src/math/quaternion.js": {
-      "expectCount": 14,
-      "actualCount": 6,
+      "expectCount": 13,
+      "actualCount": 5,
       "undocumentLines": [
-        171,
-        170,
-        161,
-        162,
-        164,
-        165,
-        167,
-        168
+        156,
+        157,
+        147,
+        148,
+        151,
+        150,
+        154,
+        153
       ]
     },
     "src/geometry/sphere.js": {
@@ -301,36 +306,36 @@
         377,
         429,
         428,
-        373,
         425,
-        426,
+        373,
         374,
+        426,
         371,
+        423,
         370,
         422,
-        423,
         357,
-        291,
         406,
         320,
+        291,
         420,
         419,
         325,
-        411,
-        410,
         324,
-        361,
         362,
+        410,
+        411,
+        361,
+        327,
+        365,
         364,
         328,
-        365,
-        327,
         414,
         413,
         367,
-        368,
         416,
-        417
+        417,
+        368
       ]
     },
     "src/utils.js": {

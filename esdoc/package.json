@@ -104,6 +104,7 @@
     "control-panel": "^1.2.0",
     "cp": "^0.2.0",
     "devtool": "^2.3.1",
+    "esdoc": "^0.5.2",
     "esdoc-es7-plugin": "0.0.3",
     "esdoc-importpath-plugin": "^0.1.1",
     "faucet": "^0.0.1",
