@@ -144,7 +144,7 @@ export class Texture extends Command {
    * @public
    * @static
    * @method
-   * @param {TextureState} textureState
+   * @param {TextureState} state
    * @param {Mixed} data
    * @return {Array<Number>|Vector2}
    */

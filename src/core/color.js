@@ -134,7 +134,7 @@ export class Color extends Vector4 {
    *
    * @public
    * @static
-   * @param {String} string
+   * @param {String} int
    * @return {Object}
    */
 
