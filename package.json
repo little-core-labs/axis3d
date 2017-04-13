@@ -1,6 +1,6 @@
 {
   "name": "axis3d",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Minimal functional graphics library.",
   "scripts": {
     "test": "node test",
@@ -66,11 +66,6 @@
     "vectorize-text": "^3.0.2",
     "webvr-polyfill": "^0.9.25",
     "yields-keycode": "^1.1.0"
-  },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
   },
   "standard": {
     "ignore": [
