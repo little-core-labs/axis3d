@@ -70,7 +70,7 @@ LIB_MAIN = lib/index.js
 ##
 # Global namespace target
 #
-GLOBAL_NAMESPACE = Axis
+GLOBAL_NAMESPACE = Axis3D
 
 ##
 # Babel ENV
@@ -176,13 +176,6 @@ clean:
 .PHONY: lint
 lint: node_modules
 	$(STANDARD)
-
-##
-# Publish package
-#
-#.PHONY: publish
-#publish: lib
-	#cd lib && npm publish
 
 ##
 # Link lib globally
