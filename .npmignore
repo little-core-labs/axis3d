@@ -1,0 +1,16 @@
+build/
+doc/
+esdoc/
+example/
+extras/
+lib/
+node_modules/
+plugins/
+public/
+scripts/
+src/
+test/
+esdoc.json
+Makefile
+TODO
+yarn.lock
