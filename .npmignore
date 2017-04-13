@@ -14,3 +14,4 @@ esdoc.json
 Makefile
 TODO
 yarn.lock
+.babelrc
