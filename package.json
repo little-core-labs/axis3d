@@ -1,10 +1,9 @@
 {
   "name": "axis3d",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Minimal functional graphics library.",
   "scripts": {
-    "test": "node test",
-    "build": "browserify app/main.js -o public/js/bundle.js"
+    "test": "node test"
   },
   "keywords": [
     "3d",
@@ -89,6 +88,7 @@
     "babel-plugin-glslify": "^1.0.2",
     "babel-plugin-transform-dead-code-elimination": "^2.2.2",
     "babel-plugin-transform-define": "^1.2.0",
+    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.3.0",
@@ -98,6 +98,7 @@
     "color-shader-functions": "^0.0.2",
     "control-panel": "^1.2.0",
     "cp": "^0.2.0",
+    "derequire": "^2.0.6",
     "devtool": "^2.3.1",
     "esdoc": "^0.5.2",
     "esdoc-es7-plugin": "0.0.3",

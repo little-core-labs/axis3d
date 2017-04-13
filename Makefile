@@ -39,6 +39,11 @@ export DEVTOOL := $(BIN)/devtool
 export ESDOC := $(BIN)/esdoc
 
 ##
+# Path to derequire
+#
+export DEREQUIRE = $(BIN)/derequire
+
+##
 # Module source (js)
 #
 SRC += $(wildcard src/*/*/*.js)
@@ -75,8 +80,11 @@ BABEL_ENV ?= commonjs
 ##
 # Browserify transform
 #
-BROWSERIFY_TRANSFORM := -t babelify
-BROWSERIFY_TRANSFORM_DIST := -g babelify -g rollupify -g uglifyify
+BROWSERIFY_TRANSFORM := -g babelify
+BROWSERIFY_TRANSFORM_DIST := -g rollupify \
+														 -g babelify  \
+														 -g uglifyify \
+														 -s $(GLOBAL_NAMESPACE)
 
 ##
 # Use yarn if available
@@ -119,7 +127,7 @@ build: build/axis.js
 build/axis.js: BABEL_ENV=development
 build/axis.js: node_modules lib
 	$(BUILD_PARENT_DIRECTORY)
-	NODE_ENV=$(BABEL_ENV) $(BROWSERIFY) $(BROWSERIFY_TRANSFORM) --standalone $(GLOBAL_NAMESPACE) $(LIB_MAIN) > $@
+	NODE_ENV=$(BABEL_ENV) $(BROWSERIFY) $(BROWSERIFY_TRANSFORM) -d $(LIB_MAIN) > $@
 
 ##
 # Builds all dist files
@@ -131,7 +139,7 @@ dist: dist/axis.min.js
 #
 dist/axis.min.js: node_modules lib
 	$(BUILD_PARENT_DIRECTORY)
-	$(BROWSERIFY) $(BROWSERIFY_TRANSFORM_DIST) --standalone $(GLOBAL_NAMESPACE) $(LIB_MAIN) > $@
+	$(BROWSERIFY) $(BROWSERIFY_TRANSFORM_DIST) $(LIB_MAIN) | $(DEREQUIRE) > $@
 
 ##
 # Builds node modules
