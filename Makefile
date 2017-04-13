@@ -171,9 +171,9 @@ lint: node_modules
 ##
 # Publish package
 #
-.PHONY: publish
-publish: lib
-	cd lib && npm publish
+#.PHONY: publish
+#publish: lib
+	#cd lib && npm publish
 
 ##
 # Link lib globally

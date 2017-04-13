@@ -4,8 +4,7 @@
   "description": "Minimal functional graphics library.",
   "scripts": {
     "test": "node test",
-    "build": "browserify app/main.js -o public/js/bundle.js",
-    "prepublishOnly": "if test -d src; then exit 1; fi"
+    "build": "browserify app/main.js -o public/js/bundle.js"
   },
   "keywords": [
     "3d",
@@ -15,6 +14,7 @@
     "axis3d",
     "graphics"
   ],
+  "main": "dist/axis.min.js",
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "MIT",
   "dependencies": {
