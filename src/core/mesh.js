@@ -277,12 +277,8 @@ export class MeshContext extends Object3DContext {
    *
    * @public
    * @method
-<<<<<<< Updated upstream
    * @param {?Object} opts
    * @param {?Number} opts.scale - default is 1
-=======
-   * @param {?{scale: Number}} opts
->>>>>>> Stashed changes
    *
    */
 
@@ -334,10 +330,11 @@ export class MeshState {
    */
 
   constructor(ctx, initialState) {
-    const {
+    let {
       frag: fragmentShader = null,
       vert: vertexShader = kDefaultMeshVertexShader,
       geometry = null,
+      vertexShaderTransform,
     } = initialState
 
     // shader defines injected into vertex shader
@@ -355,6 +352,14 @@ export class MeshState {
 
     if (geometry.uvs) {
       shaderDefines['HAS_UVS'] = 1
+    }
+
+    if ('string' == typeof vertexShaderTransform) {
+      shaderDefines['HAS_TRANSFORM_FUNC'] = 1
+      if ('string' == typeof vertexShader) {
+        vertexShader = vertexShader
+          .replace('TRANSFORM_FUNC_SOURCE', vertexShaderTransform)
+      }
     }
 
     /**

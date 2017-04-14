@@ -75,7 +75,7 @@ export const kDefaultMaterialColor = new Color(
  * @type {MaterialType}
  */
 
-export const kDefaultMaterialType = types.Material
+export const kDefaultMaterialType = types.MaterialType
 
 /**
  * The default WebGL blending state for a material.
@@ -165,7 +165,8 @@ export class Material extends Command {
   static typeName(type) {
     return coalesce(
       Object.keys(types).find((k) => type == types[k]),
-      type)
+      type,
+      'Material')
       .replace(/Type$/, '')
   }
 
@@ -298,9 +299,16 @@ export class MaterialState {
     let {fragmentShader = kDefaultMaterialFragmentShader} = initialState
 
     /**
+     * Material fragment shader source.
+     */
+
+    let {fragmentShaderMain} = initialState
+
+    /**
      * Material type.
      */
-    const {type = types.Material} = initialState
+
+    const {type = types.MaterialType} = initialState
 
     /**
      * Material type string.
@@ -313,10 +321,16 @@ export class MaterialState {
      */
 
     const shaderDefines = {
-      [`use${typeName}`]: 1, // `useLambertMaterial', etc
       MATERIAL_TYPE: typeName,
-
       ...initialState.shaderDefines
+    }
+
+    if ('string' == typeof fragmentShaderMain) {
+      shaderDefines['SHADER_MAIN_BODY'] = 1
+      fragmentShader = fragmentShader
+        .replace('SHADER_MAIN_BODY_SOURCE', fragmentShaderMain)
+    } else {
+      shaderDefines[`use${typeName}`] = 1 // `useLambertMaterial', etc
     }
 
     if (null != initialState.map) {
@@ -335,6 +349,8 @@ export class MaterialState {
     for (let key in shaderDefines) {
       fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
     }
+
+
 
     /**
      * Material fragment shader source string.
@@ -518,7 +534,7 @@ export class MaterialContext {
 
   constructor(ctx, initialState = {}) {
     const {
-      type = types.Material,
+      type = types.MaterialType,
       id = Material.id(),
     } = initialState
 
@@ -541,7 +557,7 @@ export class MaterialContext {
      */
 
     this.type = () => {
-      return coalesce(type, types.Material)
+      return coalesce(type, types.MaterialType)
     }
 
     /**
