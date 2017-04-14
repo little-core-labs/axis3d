@@ -33,6 +33,10 @@ varying vec3 vposition;
 varying vec3 vnormal;
 varying vec2 vuv;
 
+#ifdef HAS_TRANSFORM_FUNC
+  TRANSFORM_FUNC_SOURCE
+#endif
+
 #pragma glslify: export(main)
 void main() {
 
@@ -52,4 +56,9 @@ void main() {
 #ifdef HAS_UVS
   vuv = uv;
 #endif
+
+#ifdef HAS_TRANSFORM_FUNC
+  transform();
+#endif
 }
+

@@ -11,6 +11,7 @@ precision mediump float;
 #pragma glslify: LambertMaterial = require('../LambertMaterial')
 #pragma glslify: PhongMaterial = require('../PhongMaterial')
 #pragma glslify: FlatMaterial = require('../FlatMaterial')
+#pragma glslify: Material = require('../Material')
 
 #ifndef MAX_AMBIENT_LIGHTS
 #define MAX_AMBIENT_LIGHTS 16
@@ -25,13 +26,10 @@ precision mediump float;
 #endif
 
 #ifndef MATERIAL_TYPE
-#define MATERIAL_TYPE FlatMaterial
+#define MATERIAL_TYPE Material
 #endif
 
 // default material
-#ifndef useFlatMaterialType
-#define useFlatMaterial 1
-#endif
 
 #define isinf(n) (n >= 0.0 || n <= 0.0)
 #define isnan(n) !isinf(n) && n != n
@@ -114,9 +112,7 @@ void main() {
   drawFlatMaterial();
 }
 #elif defined SHADER_MAIN_BODY
-void main() {
-  SHADER_MAIN_BODY
-}
+SHADER_MAIN_BODY_SOURCE
 #else
 void main() {
   discard;

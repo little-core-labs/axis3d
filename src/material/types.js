@@ -9,7 +9,7 @@
 
 /** @typedef {Number} MaterialType */
 
-export const BasicMaterialType = 0x6d0000
+export const MaterialType = 0x6d0000
 export const FlatMaterialType = 0x6d0001
 export const PhongMaterialType = 0x6d0002
 export const LambertMaterialType = 0x6d0003
