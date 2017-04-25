@@ -6,7 +6,6 @@
 
 import { Quaternion, Vector3 } from '../math'
 import { incrementStat } from '../stats'
-import { FlatMaterial } from '../material/flat'
 import * as types from '../light/types'
 import { Color } from './color'
 import { Mesh } from './mesh'
@@ -149,7 +148,6 @@ export class Light extends Object3D {
     const updateLight = initialState.update || (({} = {}, f) => f())
 
     const {context = new LightContext()} = initialState
-    const material = new FlatMaterial(ctx)
     const injectContext = regl({ context })
 
     super(ctx, {
@@ -203,10 +201,8 @@ export class Light extends Object3D {
       // push to scoped lights in frame context
       lights.push(light)
       injectContext(arguments[1] || {}, ({}, args) => {
-        material(args || {}, ({}, args) => {
-          updateLight(args || {}, (...args) => {
-            block(...args)
-          })
+        updateLight(args || {}, (...args) => {
+          block(...args)
         })
       })
     }
