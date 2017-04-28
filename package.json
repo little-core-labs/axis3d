@@ -53,6 +53,7 @@
     "color-shader-functions": "^0.0.2",
     "color-space": "^1.14.7",
     "color-string": "^1.5.2",
+    "colortape": "^0.1.2",
     "control-panel": "^1.2.0",
     "cp": "^0.2.0",
     "debug": "^2.2.0",

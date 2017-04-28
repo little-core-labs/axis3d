@@ -16,7 +16,7 @@ const createCommand = (f) => {
   return cmd
 }
 
-test('new Command(runner) -> Function', ({
+test('new Command(fn) -> Function', ({
   assert,
   throws,
   plan,

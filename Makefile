@@ -44,6 +44,11 @@ export ESDOC := $(BIN)/esdoc
 export DEREQUIRE = $(BIN)/derequire
 
 ##
+# Path to colortape
+#
+export COLORTAPE = $(BIN)/colortape
+
+##
 # Module source (js)
 #
 SRC += $(wildcard src/*/*/*/*.js)
@@ -121,7 +126,7 @@ endef
 # Test runner command
 define RUN_TEST
 	@$(BROWSERIFY) $(1) $(BROWSERIFY_TRANSFORM) \
-		| $(DEVTOOL) $(DEVTOOL_FLAGS) $(1)
+		| $(DEVTOOL) $(DEVTOOL_FLAGS) $(1) | $(COLORTAPE)
 endef
 
 ##
