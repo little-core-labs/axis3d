@@ -214,7 +214,7 @@ export class Object3DContext {
      * Object3D instance ID.
      *
      * @public
-     * @type {Number}
+     * @type {Number|String}
      */
 
     this.id = ({}, args = {}) => {

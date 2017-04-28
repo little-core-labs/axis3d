@@ -46,6 +46,7 @@ export DEREQUIRE = $(BIN)/derequire
 ##
 # Module source (js)
 #
+SRC += $(wildcard src/*/*/*/*.js)
 SRC += $(wildcard src/*/*/*.js)
 SRC += $(wildcard src/*/*.js)
 SRC += $(wildcard src/*.js)
@@ -53,9 +54,18 @@ SRC += $(wildcard src/*.js)
 ##
 # Module source (glsl)
 #
+SRC += $(wildcard src/glsl/*/*/*/*.glsl)
 SRC += $(wildcard src/glsl/*/*/*.glsl)
 SRC += $(wildcard src/glsl/*/*.glsl)
 SRC += $(wildcard src/glsl/*.glsl)
+
+##
+# Test sources
+#
+TESTS += $(wildcard test/*/*/*/*)
+TESTS += $(wildcard test/*/*/*)
+TESTS += $(wildcard test/*/*)
+TESTS += $(wildcard test/*)
 
 ##
 # Main javascript entry
@@ -87,6 +97,11 @@ BROWSERIFY_TRANSFORM_DIST := -g rollupify \
 														 -s $(GLOBAL_NAMESPACE)
 
 ##
+# Devtool flags
+#
+DEVTOOL_FLAGS := -hqc -t 1000 -r babel-register
+
+##
 # Use yarn if available
 #
 YARN_OR_NPM := $(shell which yarn npm | head -1)
@@ -100,6 +115,13 @@ endif
 #
 define BUILD_PARENT_DIRECTORY
 	mkdir -p $(dir $@)
+endef
+
+##
+# Test runner command
+define RUN_TEST
+	@$(BROWSERIFY) $(1) $(BROWSERIFY_TRANSFORM) \
+		| $(DEVTOOL) $(DEVTOOL_FLAGS) $(1)
 endef
 
 ##
@@ -189,6 +211,11 @@ link: lib
 #
 .PHONY: test
 test: node_modules
-	@# @TODO(werle) make DEVTOOL_FLAGS
-	@$(BROWSERIFY) test $(BROWSERIFY_TRANSFORM) | \
-		$(DEVTOOL) -hqc -t 1000 -r babel-register $@
+	$(call RUN_TEST, $@)
+
+##
+# Run a module tests
+#
+.PHONY: $(TESTS)
+$(TESTS):
+	$(call RUN_TEST, $@)
