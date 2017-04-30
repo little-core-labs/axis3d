@@ -45,7 +45,7 @@ test('new Command(fn) -> Function', ({
     let called = false
     void createCommand(() => { called = true })()
     if (called) {
-      pass('calls runner argument when called as a function.')
+      pass('calls fn argument when called as a function.')
     }
   } while(0)
 
