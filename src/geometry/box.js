@@ -36,30 +36,56 @@ export class BoxGeometry extends Geometry {
    * @see {@link https://www.npmjs.com/package/primitive-cube}
    */
 
-  // constructor({x = 1, y = 1, z = 1, segments = 1} = {}) {
-  // was this^ but passing in null produced:
-  // TypeError: Cannot read property 'x' of null
-  constructor(object) {
-    if (null == object) {
-      var x = 1, y = 1, z = 1 // I think you will hate these vars
-      var segments = 1
-      object = {x:1, y:1, z:1, segments:1}
+  constructor(opts) {
+    // ensure object
+    if (null == opts || 'object' != typeof opts) {
+      opts = {}
     }
 
-    const defaults = {x:1, y:1, z:1, segments:1}
+    let { segments, x, y, z } = opts
 
-    const obj = Object.assign(defaults, object)
+    // defaults
+    if (null == segments) { segments = 1 }
+    if (null == x) { x = 1 }
+    if (null == y) { y = 1 }
+    if (null == z) { z = 1 }
 
-    x = obj.x
-    y = obj.y
-    z = obj.z
-    segments = obj.segments
+    if ('number' != typeof x) {
+      throw new TypeError(`Expecting '.x' to a be a number. Got ${typeof x}.`)
+    }
 
-    // if ('number' != typeof segments) {
-    //   throw new TypeError(`Expecting 'segments' to be a 'number'. Got '${typeof segments}'`)
-    // }
+    if ('number' != typeof y) {
+      throw new TypeError(`Expecting '.y' to a be a number. Got ${typeof y}.`)
+    }
 
-    segments = {x: segments, y: segments, z: segments}
+    if ('number' != typeof z) {
+      throw new TypeError(`Expecting '.z' to a be a number. Got ${typeof z}.`)
+    }
+
+    if ('number' != typeof segments && 'object' != typeof segments) {
+      throw new TypeError(
+        `Expecting '.segments' to be an object or 'number'. ` +
+        `Got ${typeof segments}`
+      )
+    }
+
+    if ('number' == typeof segments) {
+      segments = {x: segments, y: segments, z: segments}
+    } else if ('object' == typeof segments) {
+      if ('number' != typeof segments.x) {
+        throw new TypeError(
+          `Expecting '.segments.x' to a be a number. Got ${typeof segments.x}.`
+        )
+      } else if ('number' != typeof segments.y) {
+        throw new TypeError(
+          `Expecting '.segments.y' to a be a number. Got ${typeof segments.y}.`
+        )
+      } else if ('number' != typeof segments.z) {
+        throw new TypeError(
+          `Expecting '.segments.z' to a be a number. Got ${typeof segments.z}.`
+        )
+      }
+    }
 
     super({
       complex: PrimitiveCube(x, y, z, segments.x, segments.y, segments.z)
@@ -67,6 +93,5 @@ export class BoxGeometry extends Geometry {
 
     this.size = {x, y, z}
     this.segments = segments
-    console.log('this', this)
   }
 }
