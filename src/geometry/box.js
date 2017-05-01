@@ -46,16 +46,18 @@ export class BoxGeometry extends Geometry {
       object = {x:1, y:1, z:1, segments:1}
     }
 
-    Object.assign({x:1, y:1, z:1, segments:1}, object)
+    const defaults = {x:1, y:1, z:1, segments:1}
 
-    x = object.x
-    y = object.y
-    z = object.z
-    segments = object.segments
+    const obj = Object.assign(defaults, object)
 
-    if ('number' != typeof segments) {
-      throw new TypeError(`Expecting 'segments' to be a 'number'. Got ${typeof segments}`)
-    }
+    x = obj.x
+    y = obj.y
+    z = obj.z
+    segments = obj.segments
+
+    // if ('number' != typeof segments) {
+    //   throw new TypeError(`Expecting 'segments' to be a 'number'. Got '${typeof segments}'`)
+    // }
 
     segments = {x: segments, y: segments, z: segments}
 
@@ -65,5 +67,6 @@ export class BoxGeometry extends Geometry {
 
     this.size = {x, y, z}
     this.segments = segments
+    console.log('this', this)
   }
 }

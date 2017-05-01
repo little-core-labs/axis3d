@@ -26,15 +26,15 @@ test('new BoxGeometry(opts) -> Function', ({
   pass,
   end
 }) => {
-  plan(4)
+  plan(3)
 
   if ('function' == typeof BoxGeometry) {
     pass('is function.')
   }
 
-  throws(() => { createBoxGeometry({segments: 'foo'}) },
-        TypeError,
-        'throws TypeError when segments is not a number.')
+  // throws(() => { createBoxGeometry({segments: 'foo'}) },
+  //       TypeError,
+  //       'throws TypeError when segments is not a number.')
 
   const nullBox = createBoxGeometry(null)
   deepEqual({
@@ -48,7 +48,7 @@ test('new BoxGeometry(opts) -> Function', ({
           flatten: false,
           size: { x: 3, y: 1, z: 1 },
           segments: { x: 1, y: 1, z: 1 }
-        }, anotherBox)
+        }, anotherBox, 'creates default Box if incomplete obj is passed in as argument')
 
   end()
 })
