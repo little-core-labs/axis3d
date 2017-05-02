@@ -39,13 +39,12 @@ export class CapsuleGeometry extends Geometry {
       opts = {}
     }
 
-    let { radius, height, segments, resolution } = opts
-
     // defaults
-    if (null == radius) { radius = 1 }
-    if (null == height) { height = 0.5 }
-    if (null == segments) { segments = 12 }
-    if (null == resolution) { resolution = 24 }
+    let { radius = radius || 1,
+          height = height || 0.5,
+          segments = segments || 12,
+          resolution = resolution || 24
+        } = opts
 
     for (const o in opts) {
       if ( opts.hasOwnProperty(o) && 'number' != typeof opts[o] ) {
