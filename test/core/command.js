@@ -16,7 +16,7 @@ const createCommand = (f) => {
   return cmd
 }
 
-test('new Command(runner) -> Function', ({
+test('new Command(fn) -> Function', ({
   assert,
   throws,
   plan,
@@ -45,7 +45,7 @@ test('new Command(runner) -> Function', ({
     let called = false
     void createCommand(() => { called = true })()
     if (called) {
-      pass('calls runner argument when called as a function.')
+      pass('calls fn argument when called as a function.')
     }
   } while(0)
 
