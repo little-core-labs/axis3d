@@ -10,6 +10,7 @@ import { PlaneGeometry } from '../../src/geometry/plane'
 import test from 'tape'
 
 const noop = () => void 0
+const createPlaneGeometryWithoutNew = (o) => PlaneGeometry(o)
 const createPlaneGeometry = (o) => {
   return new PlaneGeometry(o)
 }
@@ -22,9 +23,13 @@ test('new PlaneGeometry(opts) -> Function', ({
   plan,
   end
 }) => {
-  plan(12)
+  plan(14)
 
   assert('function' == typeof PlaneGeometry)
+
+  throws(() => { createPlaneGeometryWithoutNew(noop) },
+        TypeError,
+        'throws TypeError when called without new.')
 
   const defaultPlane = { flatten: false,
                          size: { x: 1, y: 1 },
@@ -64,6 +69,8 @@ test('new PlaneGeometry(opts) -> Function', ({
                       quads: true }
 
   const anotherPlane = createPlaneGeometry(planeArgs)
+
+  assert('object' == typeof anotherPlane.complex)
 
   equal(5, anotherPlane.size.x, 'assigns size.x.')
   equal(18, anotherPlane.size.y, 'assigns size.y.')

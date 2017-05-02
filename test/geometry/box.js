@@ -6,6 +6,7 @@
 
 import { Geometry } from '../../src/core/geometry'
 import { BoxGeometry } from '../../src/geometry/box'
+
 import test from 'tape'
 
 let boxCount
@@ -25,11 +26,15 @@ test('new BoxGeometry(opts) -> Function', ({
   pass,
   end
 }) => {
-  plan(14)
+  plan(15)
 
   if ('function' == typeof BoxGeometry) {
     pass('is function.')
   }
+
+  throws(() => { createBoxGeometryWithoutNew(noop) },
+        TypeError,
+        'throws TypeError when called without new.')
 
   throws(() => { createBoxGeometry({x: 'foo'}) },
         TypeError,

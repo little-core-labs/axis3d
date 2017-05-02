@@ -41,11 +41,9 @@ export class PlaneGeometry extends Geometry {
       opts = {}
     }
 
-    let { size, segments, quads } = opts
-
-    if (null == size) { size = {x: 1, y: 1} }
-    if (null == segments) { segments = {x: 5, y: 5}}
-    if (null == quads) { quads = false }
+    let { size = size || {x: 1, y: 1},
+          segments = segments || {x: 5, y: 5},
+          quads = quads || false} = opts
 
     if ('number' == typeof segments) {
       segments = {x: segments, y: segments}

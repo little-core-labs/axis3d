@@ -10,6 +10,7 @@ import { CylinderGeometry } from '../../src/geometry/cylinder'
 import test from 'tape'
 
 const noop = () => void 0
+const createCylinderGeometryWithoutNew = (o) => CylinderGeometry(o)
 const createCylinderGeometry = (o) => {
   return new CylinderGeometry(o)
 }
@@ -22,9 +23,13 @@ test('new CylinderGeometry(opts) -> Function', ({
   plan,
   end,
 }) => {
-  plan(13)
+  plan(15)
 
   assert('function' == typeof CylinderGeometry)
+
+  throws(() => { createCylinderGeometryWithoutNew(noop) },
+        TypeError,
+        'throws TypeError when called without new.')
 
   const defaultCylinder = { flatten: false,
                             height: 5,
@@ -66,6 +71,8 @@ test('new CylinderGeometry(opts) -> Function', ({
                                                    radiusBottom: 3,
                                                    radialSegments: 4,
                                                    heightSegments: 5 })
+
+  assert('object' == typeof anotherCylinder.complex)
 
   equal(1, anotherCylinder.height, 'assigns height.')
   equal(2, anotherCylinder.radiusTop, 'assigns radiusTop.')

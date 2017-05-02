@@ -10,6 +10,7 @@ import { CapsuleGeometry } from '../../src/geometry/capsule'
 import test from 'tape'
 
 const noop = () => void 0
+const createCapsuleGeometryWithoutNew = (o) => CapsuleGeometry(o)
 const createCapsuleGeometry = (o) => {
   return new CapsuleGeometry(o)
 }
@@ -22,11 +23,15 @@ test('new CapsuleGeometry(opts) -> Function', ({
   pass,
   end
 }) => {
-  plan(11)
+  plan(13)
 
   if ('function' == typeof CapsuleGeometry) {
     pass('is function.')
   }
+
+  throws(() => { createCapsuleGeometryWithoutNew(noop) },
+        TypeError,
+        'throws TypeError when called without new.')
 
   const defaultCapsule = { flatten: false,
                            radius: 1,
@@ -64,18 +69,13 @@ test('new CapsuleGeometry(opts) -> Function', ({
                                                  height: 13,
                                                  segments: 23,
                                                  resolution: 34 })
-  deepEqual(3,
-            anotherCapsule.radius,
-            'assigns radius.')
-  deepEqual(13,
-            anotherCapsule.height,
-            'assigns height.')
-  deepEqual(23,
-            anotherCapsule.segments,
-            'assigns segments.')
-  deepEqual(34,
-            anotherCapsule.resolution,
-            'assigns resolution.')
+
+  assert('object' == typeof anotherCapsule.complex)
+
+  deepEqual(3, anotherCapsule.radius, 'assigns radius.')
+  deepEqual(13, anotherCapsule.height, 'assigns height.')
+  deepEqual(23, anotherCapsule.segments, 'assigns segments.')
+  deepEqual(34, anotherCapsule.resolution, 'assigns resolution.')
 
   end()
 })
