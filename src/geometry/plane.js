@@ -30,21 +30,49 @@ export class PlaneGeometry extends Geometry {
    * @param {?Number} opts.segments.x
    * @param {?Number} opts.segments.y
    * @param {?Boolean} opts.quads
+   * @throws TypeError
    *
    * @see {@link https://www.npmjs.com/package/primitive-plane}
    */
 
-  constructor({
-    size = {x: 1, y: 1},
-    segments = {x: 5, y: 5},
-    quads = false,
-  } = {}) {
+  constructor(opts) {
+    // ensure object
+    if (null == opts || 'object' != typeof opts) {
+      opts = {}
+    }
+
+    let { size, segments, quads } = opts
+
+    if (null == size) { size = {x: 1, y: 1} }
+    if (null == segments) { segments = {x: 5, y: 5}}
+    if (null == quads) { quads = false }
+
     if ('number' == typeof segments) {
       segments = {x: segments, y: segments}
+    } else if ('object' == typeof segments) {
+      if ('number' != typeof segments.x) {
+        throw new TypeError(
+          `Expecting '.segments.x' to a be a number. Got ${typeof segments.x}.`
+        )
+      } else if ('number' != typeof segments.y) {
+        throw new TypeError(
+          `Expecting '.segments.y' to a be a number. Got ${typeof segments.y}.`
+        )
+      }
     }
 
     if ('number' == typeof size) {
       size = {x: size, y: size}
+    } else if ('object' == typeof size) {
+      if ('number' != typeof size.x) {
+        throw new TypeError(
+          `Expecting '.size.x' to a be a number. Got ${typeof size.x}.`
+        )
+      } else if ('number' != typeof size.y) {
+        throw new TypeError(
+          `Expecting '.size.y' to a be a number. Got ${typeof size.y}.`
+        )
+      }
     }
 
     super({

@@ -6,13 +6,13 @@
 
 import Geometry from '../../src/core/geometry'
 import { CapsuleGeometry } from '../../src/geometry/capsule'
+
 import test from 'tape'
 
 const noop = () => void 0
 const createCapsuleGeometry = (o) => {
   return new CapsuleGeometry(o)
 }
-
 
 test('new CapsuleGeometry(opts) -> Function', ({
   deepEqual,

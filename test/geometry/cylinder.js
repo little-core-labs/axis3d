@@ -1,8 +1,12 @@
 'use strict'
 
+/**
+ * Module dependencies.
+ */
 
 import { Geometry } from '../../src/core/geometry'
-import { CylinderGeometry} from '../../src/geometry/cylinder'
+import { CylinderGeometry } from '../../src/geometry/cylinder'
+
 import test from 'tape'
 
 const noop = () => void 0
@@ -14,6 +18,7 @@ test('new CylinderGeometry(opts) -> Function', ({
   deepEqual,
   assert,
   throws,
+  equal,
   plan,
   end,
 }) => {
@@ -29,13 +34,11 @@ test('new CylinderGeometry(opts) -> Function', ({
                             heightSegments: 50 }
 
   const nullCylinder = createCylinderGeometry(null)
-  deepEqual(defaultCylinder,
-            nullCylinder,
+  deepEqual(defaultCylinder, nullCylinder,
             'creates default Cylinder if null is passed in as argument.')
 
   const noopCylinder = createCylinderGeometry(noop)
-  deepEqual(defaultCylinder,
-            noopCylinder,
+  deepEqual(defaultCylinder, noopCylinder,
             'creates default Cylinder if function is passed in as argument.')
 
   throws(() => { createCylinderGeometry({height: 'foo'}) },
@@ -64,25 +67,11 @@ test('new CylinderGeometry(opts) -> Function', ({
                                                    radialSegments: 4,
                                                    heightSegments: 5 })
 
-  deepEqual(1,
-            anotherCylinder.height,
-            'assigns height.')
-
-  deepEqual(2,
-            anotherCylinder.radiusTop,
-            'assigns radiusTop.')
-
-  deepEqual(3,
-            anotherCylinder.radiusBottom,
-            'assigns radiusBottom.')
-
-  deepEqual(4,
-            anotherCylinder.radialSegments,
-            'assigns radialSegments.')
-
-  deepEqual(5,
-            anotherCylinder.heightSegments,
-            'assigns heightSegments.')
+  equal(1, anotherCylinder.height, 'assigns height.')
+  equal(2, anotherCylinder.radiusTop, 'assigns radiusTop.')
+  equal(3, anotherCylinder.radiusBottom, 'assigns radiusBottom.')
+  equal(4, anotherCylinder.radialSegments, 'assigns radialSegments.')
+  equal(5, anotherCylinder.heightSegments, 'assigns heightSegments.')
 
   end()
 })
