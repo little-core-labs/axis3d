@@ -93,8 +93,15 @@ test('Object3D -> Object3DContext with no input', ({
   end
 }) => {
   const object = createObject3D()
-  plan(5)
-  object(({id, scale, position, rotation, transform}) => {
+  plan(6)
+  object(({
+    id,
+    scale,
+    matrix,
+    position,
+    rotation,
+    transform,
+  }) => {
     assert('number' == typeof id,
            '.id in context should be defined.')
 
@@ -107,8 +114,47 @@ test('Object3D -> Object3DContext with no input', ({
     assert(Array.isArray(rotation) && 4 == rotation.length,
       '.rotation in context should be an array with 4 components.')
 
-    assert(Array.isArray(transform) && 16 == rotation.length,
+    assert(Array.isArray(matrix) && 16 == matrix.length,
+      '.matrix in context should be an array with 16 components.')
+
+    assert(Array.isArray(transform) && 16 == transform.length,
       '.transform in context should be an array with 16 components.')
+  })
+  end()
+})
+
+test('Object3D -> Object3DContext emits primitive types', ({
+  assert,
+  plan,
+  end
+}) => {
+  const object = createObject3D()
+  plan(6)
+  object(({
+    id,
+    scale,
+    matrix,
+    position,
+    rotation,
+    transform
+  }) => {
+    assert('number' == typeof id,
+           '.id in context should be defined.')
+
+    assert(Array.isArray(scale),
+      '.scale in context should be an array.')
+
+    assert(Array.isArray(position),
+      '.position in context should be an array.')
+
+    assert(Array.isArray(rotation),
+      '.rotation in context should be an array.')
+
+    assert(Array.isArray(matrix),
+      '.matrix in context should be an array.')
+
+    assert(Array.isArray(transform),
+      '.transform in context should be an array.')
   })
   end()
 })
@@ -144,27 +190,43 @@ test('Object3D -> Object3DContext .scale property honors scalar input', ({
     && 2 == scale[2],
     '.scale in context has scalar value for each component in array.')
   })
-
-  object({scale: {}}, ({scale}) => {
-    console.log(scale)
-  })
   end()
 })
 
-test('Object3D -> Object3DContext .scale property honors scalar input', ({
+test('Object3D -> Object3DContext .scale property honors array input', ({
   assert,
   plan,
   end
 }) => {
   const object = createObject3D()
   plan(2)
-  object({scale: 2}, ({scale}) => {
+  object({scale: [0, 1, 2]}, ({scale}) => {
     assert(Array.isArray(scale) && 3 == scale.length,
       '.scale in context should be an array with 3 components.')
 
     assert(
-       2 == scale[0]
-    && 2 == scale[1]
+       0 == scale[0]
+    && 1 == scale[1]
+    && 2 == scale[2],
+    '.scale in context has scalar value for each component in array.')
+  })
+  end()
+})
+
+test('Object3D -> Object3DContext .scale property honors Vector3 input', ({
+  assert,
+  plan,
+  end
+}) => {
+  const object = createObject3D()
+  plan(2)
+  object({scale: new Vector3(0, 1, 2)}, ({scale}) => {
+    assert(Array.isArray(scale) && 3 == scale.length,
+      '.scale in context should be an array with 3 components.')
+
+    assert(
+       0 == scale[0]
+    && 1 == scale[1]
     && 2 == scale[2],
     '.scale in context has scalar value for each component in array.')
   })

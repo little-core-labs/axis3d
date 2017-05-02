@@ -201,13 +201,13 @@ export class Object3DContext {
       },
 
       // initial state
-      initialRotation: { get() { return initialRotation }, enumerable: false },
-      initialPosition: { get() { return initialPosition }, enumerable: false },
-      initialScale: { get() { return initialScale }, enumerable: false },
+      initialRotation: { get: () => initialRotation, enumerable: false },
+      initialPosition: { get: () => initialPosition, enumerable: false },
+      initialScale: { get: () => initialScale, enumerable: false },
 
       // object matrices
-      transformMatrix: { get() { return transformMatrix }, enumerable: false},
-      localMatrix: { get() { return localMatrix }, enumerable: false},
+      transformMatrix: { get: () => transformMatrix, enumerable: false},
+      localMatrix: { get: () => localMatrix, enumerable: false},
     })
 
     /**
@@ -219,7 +219,12 @@ export class Object3DContext {
 
     this.id = ({}, args = {}) => {
       args = args || {}
-      return coalesce(args.id, id)
+      // no null/undefined
+      if (null != args.id) {
+        return coalesce(args.id, id)
+      } else {
+        return id
+      }
     }
 
     /**
@@ -233,9 +238,15 @@ export class Object3DContext {
       args = args || {}
       let scale = coalesce(args.scale, initialScale)
       if ('number' == typeof scale) {
-        scale = [scale, scale, scale]
+        return [scale, scale, scale]
+      } else if (scale instanceof Vector) {
+        return [ ...scale ]
+      } else if (Array.isArray(scale)) {
+        return [ ...scale ]
+      } else if (null != scale) {
+        try { return [ ...scale ] }
+        catch(e) { return [ scale, scale, scale ] }
       }
-      return scale
     }
 
     /**
@@ -248,7 +259,15 @@ export class Object3DContext {
 
     this.position = ({}, args = {}) => {
       args = args || {}
-      return coalesce(args.position, initialPosition)
+      const position = coalesce(args.position, initialPosition)
+      if (position instanceof Vector) {
+        return [ ...position ]
+      } else if (Array.isArray(position)) {
+        return [ ...position ]
+      } else if (null != position) {
+        try { return [ ...position ] }
+        catch(e) { return [ position, position, position ] }
+      }
     }
 
     /**
@@ -260,7 +279,14 @@ export class Object3DContext {
 
     this.rotation = ({}, args = {}) => {
       args = args || {}
-      return coalesce(args.rotation, initialRotation)
+      const rotation = coalesce(args.rotation, initialRotation)
+      if (rotation instanceof Vector) {
+        return [ ...rotation ]
+      } else if (Array.isArray(rotation)) {
+        return [ ...rotation ]
+      } else {
+        return [0, 0, 0, 1] // identity
+      }
     }
 
     /**
@@ -275,6 +301,20 @@ export class Object3DContext {
 
     this.transform = (...args) => {
       return this.computeTransformMatrix(...args)
+    }
+
+    /**
+     * Object3D local matrix that is computed from positional
+     * context data such as position, rotation, and scale. If a
+     * transform is given as an argument to the command then it is
+     * applied to the computed transform last.
+     *
+     * @public
+     * @type {Array<Number>}
+     */
+
+    this.matrix = (...args) => {
+      return this.computeLocalMatrix(...args)
     }
   }
 
