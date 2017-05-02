@@ -8,7 +8,6 @@ import { Geometry } from '../../src/core/geometry'
 import { BoxGeometry } from '../../src/geometry/box'
 import test from 'tape'
 
-
 let boxCount
 const noop = () => void 0
 const createBoxGeometryWithoutNew = (o) => BoxGeometry(o)
@@ -77,7 +76,7 @@ test('new BoxGeometry(opts) -> Function', ({
         }, anotherBox, 'creates default Box if incomplete opts object is passed in as argument.')
 
   const superBox = createBoxGeometry({x: 3})
-  assert(undefined != superBox.complex)
+  assert('object' == typeof superBox.complex)
   assert(null != superBox.complex)
 
   const sizeBox = createBoxGeometry({x: 3})

@@ -30,16 +30,36 @@ export class CapsuleGeometry extends Geometry {
    * @param {?Number} opts.segments A number indicating the number of geometry
    *                                segments. Defaults to 12.
    * @param {?Number} opts.resolution Geometry resolution. Defaults to 12.
+   * @throws TypeError
    */
 
-  constructor({
-    radius = 1,
-    height = 0.5,
-    segments = 12,
-    resolution = 24,
-  } = {}) {
+  constructor(opts) {
+    // ensure object
+    if (null == opts || 'object' != typeof opts) {
+      opts = {}
+    }
+
+    let { radius, height, segments, resolution } = opts
+
+    // defaults
+    if (null == radius) { radius = 1 }
+    if (null == height) { height = 0.5 }
+    if (null == segments) { segments = 12 }
+    if (null == resolution) { resolution = 24 }
+
+    for (const o in opts) {
+      if ( opts.hasOwnProperty(o) && 'number' != typeof opts[o]) {
+        throw new TypeError(`Expecting '${o}' to be a number. Got ${typeof opts[o]}.`)
+      }
+    }
+
     super({
       complex: PrimitiveCapsule(radius, height, resolution, segments)
     })
+
+    this.radius = radius
+    this.height = height
+    this.segments = segments
+    this.resolution = resolution
   }
 }
