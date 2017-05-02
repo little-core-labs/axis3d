@@ -48,7 +48,7 @@ export class CapsuleGeometry extends Geometry {
     if (null == resolution) { resolution = 24 }
 
     for (const o in opts) {
-      if ( opts.hasOwnProperty(o) && 'number' != typeof opts[o]) {
+      if ( opts.hasOwnProperty(o) && 'number' != typeof opts[o] ) {
         throw new TypeError(`Expecting '${o}' to be a number. Got ${typeof opts[o]}.`)
       }
     }

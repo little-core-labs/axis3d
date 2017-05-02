@@ -25,20 +25,35 @@ export class CylinderGeometry extends Geometry {
    * @constructor
    * @see {@link https://github.com/vorg/primitive-capsule}
    * @param {?Object} opts Class constructor options.
-   * @param {?Number} radiusTop The radius of the cylinder at the top.
-   * @param {?Number} radiusBottom The radius of the cylinder at the bottom.
-   * @param {?Number} height The height of the cylinder.
-   * @param {?Number} radialSegments The number of segments for the radial axis.
-   * @param {?Number} heightSegments The number of segments for the height axis.
+   * @param {?Number} opts.radiusTop The radius of the cylinder at the top.
+   * @param {?Number} opts.radiusBottom The radius of the cylinder at the bottom.
+   * @param {?Number} opts.height The height of the cylinder.
+   * @param {?Number} opts.radialSegments The number of segments for the radial axis.
+   * @param {?Number} opts.heightSegments The number of segments for the height axis.
+   * @throws TypeError
    */
 
-  constructor({
-    height = 5,
-    radiusTop = 1,
-    radiusBottom = 1,
-    radialSegments = 50,
-    heightSegments = 50,
-  } = {}) {
+  constructor(opts) {
+  // ensure object
+  if (null == opts || 'object' != typeof opts) {
+    opts = {}
+  }
+
+  let { height, radiusTop, radiusBottom, radialSegments, heightSegments } = opts
+
+  // defaults
+  if (null == height) { height = 5 }
+  if (null == radiusTop) { radiusTop = 1 }
+  if (null == radiusBottom) { radiusBottom = 1 }
+  if (null == radialSegments) { radialSegments = 50 }
+  if (null == heightSegments) { heightSegments = 50 }
+
+  for (const o in opts) {
+    if ( opts.hasOwnProperty(o) && 'number' != typeof opts[o] ) {
+      throw new TypeError(`Expecting '${o}' to be a number. Got ${typeof opts[o]}.`)
+    }
+  }
+
     super({
       complex: PrimitiveCylinder(
         radiusTop,
@@ -47,6 +62,7 @@ export class CylinderGeometry extends Geometry {
         radialSegments,
         heightSegments),
     })
+
     this.height = height
     this.radiusTop = radiusTop
     this.radiusBottom = radiusBottom

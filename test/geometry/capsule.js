@@ -22,20 +22,27 @@ test('new CapsuleGeometry(opts) -> Function', ({
   pass,
   end
 }) => {
-  plan(10)
+  plan(11)
 
   if ('function' == typeof CapsuleGeometry) {
     pass('is function.')
   }
 
-  const capsule = createCapsuleGeometry(null)
-  deepEqual({ flatten: false,
-              radius: 1,
-              height: 0.5,
-              segments: 12,
-              resolution: 24 },
-            capsule,
+  const defaultCapsule = { flatten: false,
+                           radius: 1,
+                           height: 0.5,
+                           segments: 12,
+                           resolution: 24 }
+
+  const nullCapsule = createCapsuleGeometry(null)
+  deepEqual(defaultCapsule,
+            nullCapsule,
             'creates default Capsule if null is passed in as argument.')
+
+  const noopCapsule = createCapsuleGeometry(noop)
+  deepEqual(defaultCapsule,
+            noopCapsule,
+            'creates default Capsule if function is passed in as argument.')
 
   throws(() => { createCapsuleGeometry({radius: 'foo'}) },
     TypeError,
@@ -53,14 +60,17 @@ test('new CapsuleGeometry(opts) -> Function', ({
         TypeError,
         'throws TypeError when `resolution` is not a number.')
 
-  const anotherCapsule = createCapsuleGeometry({radius: 3, resolution: 34})
+  const anotherCapsule = createCapsuleGeometry({ radius: 3,
+                                                 height: 13,
+                                                 segments: 23,
+                                                 resolution: 34 })
   deepEqual(3,
             anotherCapsule.radius,
             'assigns radius.')
-  deepEqual(0.5,
+  deepEqual(13,
             anotherCapsule.height,
             'assigns height.')
-  deepEqual(12,
+  deepEqual(23,
             anotherCapsule.segments,
             'assigns segments.')
   deepEqual(34,
