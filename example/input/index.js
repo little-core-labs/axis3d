@@ -35,8 +35,8 @@ const rotation = Quaternion()
 const input = Input(ctx, {
   props: ['clientX', 'clientY'],
   init({}, {stream}) {
-    events.on(document, 'mousemove', (data) => {
-      if (false == stream.write(data)) {
+    events.on(document, 'mousemove', (e) => {
+      if (false == stream.write(e)) {
         stream.resume()
       }
     })

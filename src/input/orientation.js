@@ -4,8 +4,6 @@
  * Module dependencies.
  */
 
-import 'webvr-polyfill'
-
 import { getScreenOrientation, radians } from '../utils'
 import { Quaternion, Euler } from '../math'
 import { registerStat } from '../stats'

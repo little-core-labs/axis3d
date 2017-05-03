@@ -350,8 +350,6 @@ export class MaterialState {
       fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
     }
 
-
-
     /**
      * Material fragment shader source string.
      *

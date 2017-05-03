@@ -11,8 +11,6 @@ import clamp from 'clamp'
 /** @virtual {HTMLCanvasElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement */
 /** @virtual {HTMLImageElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement */
 
-const TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor
-
 const kLibraryVersion = __AXIS3D_VERSION__
 
 /**
@@ -231,10 +229,22 @@ export const ensureRGBA = (color) => {
  */
 
 export const isArrayLike = (array) => {
-  return Boolean(array && (
-    Array.isArray(array)
-    || array instanceof TypedArray
-    || ('number' == array.length &&
-        'function' == typeof array[Symbol.iterator])
-  ))
+  return (
+       Array.isArray(array)
+
+    || array instanceof Uint8Array
+    || array instanceof Uint16Array
+    || array instanceof Uint32Array
+    || array instanceof Uint8ClampedArray
+
+    || array instanceof Int8Array
+    || array instanceof Int16Array
+    || array instanceof Int32Array
+
+    || array instanceof Float32Array
+    || array instanceof Float64Array
+
+    || 'number' == typeof array.length
+    || 'function' == typeof array[Symbol.iterator]
+  )
 }

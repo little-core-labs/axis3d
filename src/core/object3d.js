@@ -338,7 +338,7 @@ export class Object3DContext {
     // before computing transform matrix
     this.computeLocalMatrix(...arguments)
     if (false === this.shouldComputeTransformMatrix) {
-      return this.transformMatrix
+      return coalesce(externalTransformMatrix, this.transformMatrix)
     }
 
     if (parentTransformMatrix) {

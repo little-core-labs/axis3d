@@ -108,3 +108,9 @@ export class InputContext extends StreamContext {
     }
   }
 }
+
+/**
+ */
+
+export class InputState {
+}

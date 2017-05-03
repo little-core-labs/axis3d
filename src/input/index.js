@@ -4,7 +4,8 @@
  * Module exports.
  */
 
-export { OrientationInput } from './orientation'
-export { KeyboardInput } from './keyboard'
-export { MouseInput } from './mouse'
-export { TouchInput } from './touch'
+export * from './orientation'
+export * from './keyboard'
+export * from './mouse'
+export * from './touch'
+export * from './webvr'

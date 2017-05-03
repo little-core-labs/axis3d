@@ -286,6 +286,7 @@ export class LambertMaterialUniforms extends MaterialUniforms {
               light
               ? coalesce(light[property], args[property], fallback)
               : fallback
+
             if (value instanceof Vector) { value = [ ...value ] }
             else if (isArrayLike(value)) { value = [ ...value ] }
             return value

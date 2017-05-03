@@ -40,11 +40,11 @@ function makeAPI(mod) {
   for (const key in mod) {
     if ('function' == typeof mod[key]) {
       const func = (...args) => new mod[key](...args)
-      for (const prop of Object.getOwnPropertyNames(mod[key])) {
-        if (null == func[prop]) {
-          func[prop] = mod[key][prop]
-        }
-      }
+      //for (const prop of Object.getOwnPropertyNames(mod[key])) {
+        //if (null == func[prop]) {
+          //func[prop] = mod[key][prop]
+        //}
+      //}
       Object.defineProperty(exports, key, {
         get: () => func
       })

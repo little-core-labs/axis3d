@@ -4,7 +4,7 @@ import {
   PerspectiveCamera,
   DirectionalLight,
   SphereGeometry,
-  PhongMaterial,
+  LambertMaterial,
   Quaternion,
   Texture,
   Context,
@@ -22,7 +22,7 @@ const sphere = Mesh(ctx, { geometry: SphereGeometry() })
 const frame = Frame(ctx)
 const light = DirectionalLight(ctx)
 const texture = Texture(ctx)
-const material = PhongMaterial(ctx, {map: texture})
+const material = LambertMaterial(ctx, {map: texture})
 const rotation = Quaternion()
 
 const image = new Image()

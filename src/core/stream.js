@@ -30,7 +30,6 @@ export class Stream extends Command {
    */
 
   constructor(ctx, initialState = {}) {
-    super(update)
 
     /**
      * Stream regl context.
@@ -45,10 +44,16 @@ export class Stream extends Command {
     const injectContext = ctx.regl({context})
 
     /**
+     * Streams update function.
+     */
+
+    const {update = defaultUpdate} = initialState
+
+    /**
      * Command update function.
      */
 
-    function update(state = {}, block) {
+    function defaultUpdate(state = {}, block) {
       if (null != state.data && context && context.stream) {
         context.stream.write(state.data, () => {
           injectContext(state, block)
@@ -59,6 +64,8 @@ export class Stream extends Command {
 
       return this
     }
+
+    super(update)
   }
 }
 

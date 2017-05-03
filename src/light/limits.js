@@ -8,7 +8,7 @@
  * @type {Number}
  */
 
-export const kMaxAmbientLights = 16
+export const kMaxAmbientLights = 10
 
 /**
  * Max directional lights per shader program
@@ -18,7 +18,7 @@ export const kMaxAmbientLights = 16
  * @type {Number}
  */
 
-export const kMaxDirectionalLights = 12
+export const kMaxDirectionalLights = 10
 
 /**
  * Max point lights per shader program
@@ -28,4 +28,4 @@ export const kMaxDirectionalLights = 12
  * @type {Number}
  */
 
-export const kMaxPointLights = 12
+export const kMaxPointLights = 10

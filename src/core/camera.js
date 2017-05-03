@@ -159,8 +159,12 @@ export class CameraContext extends Object3DContext {
      */
 
     this.projection = (...args) => {
-      this.updateCameraController(...args)
-      return controller.projection.slice()
+      if (args[1] && 'projection' in args[1]) {
+        return args[1].projection
+      } else {
+        this.updateCameraController(...args)
+        return controller.projection.slice()
+      }
     }
 
     /**
@@ -171,7 +175,11 @@ export class CameraContext extends Object3DContext {
      */
 
     this.view = (...args) => {
-      return this.computeViewMatrix(...args)
+      if (args[1] && 'view' in args[1]) {
+        return args[1].view
+      } else {
+        return this.computeViewMatrix(...args)
+      }
     }
 
     /**
