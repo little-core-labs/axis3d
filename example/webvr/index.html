@@ -3,8 +3,29 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>WebVR Example</title>
+    <style type="text/css" media="screen">
+      #enable-webvr {
+        display: block;
+        position: absolute;
+        width: 5vw;
+        height: 5vw;
+        bottom: 20px;
+        right: 20px;
+        background-repeat: no-repeat;
+        background-image: url(/assets/cardboard-icon.png);
+        background-size: contain;
+        opacity: 0.8;
+        transition: all ease-in 200ms;
+      }
+
+      #enable-webvr:hover {
+        opacity: 1.0;
+        transition: all ease-out 100ms;
+      }
+    </style>
   </head>
   <body>
     <script type="text/javascript" src="/index.js"></script>
+    <a href="#" id="enable-webvr" alt="Enable WebVR"></a>
   </body>
 </html>
