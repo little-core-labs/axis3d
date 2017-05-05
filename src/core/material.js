@@ -631,26 +631,29 @@ export class MaterialUniforms {
       return coalesce(type, kDefaultMaterialType)
     }
 
-    /**
-     * Texture map resolution if available.
-     *
-     * @public
-     * @type {Array<Number>|Vector2}
-     */
+    if (initialState.map) {
 
-    this['map.resolution'] = ({textureResolution}) => {
-      return coalesce(textureResolution, [0, 0])
-    }
+      /**
+       * Texture map resolution if available.
+       *
+       * @public
+       * @type {Array<Number>|Vector2}
+       */
 
-    /**
-     * Texture map data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
+      this['map.resolution'] = ({textureResolution}) => {
+        return coalesce(textureResolution, [0, 0])
+      }
 
-    this['map.data'] = ({texture, textureData}) => {
-      return coalesce(texture, emptyTexture)
+      /**
+       * Texture map data if available.
+       *
+       * @public
+       * @type {Texture}
+       */
+
+      this['map.data'] = ({texture, textureData}) => {
+        return coalesce(texture, emptyTexture)
+      }
     }
   }
 }

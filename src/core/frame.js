@@ -23,7 +23,7 @@ import coalesce from 'defined'
 
 export const kDefaultFrameBlendingState = Object.seal({
   equation: 'add',
-  enable: true,
+  enable: false,
   color: [0, 0, 0, 1],
   func: {
     src: 'src alpha',
@@ -41,7 +41,7 @@ export const kDefaultFrameBlendingState = Object.seal({
  */
 
 export const kDefaultFrameCullingState = Object.seal({
-  enable: true,
+  enable: false,
   face: 'back',
 })
 
@@ -55,7 +55,7 @@ export const kDefaultFrameCullingState = Object.seal({
  */
 
 export const kDefaultFrameDepthState = Object.seal({
-  enable: true,
+  enable: false,
   range: [0, 1],
   func: 'less',
   mask: true,
@@ -204,9 +204,7 @@ export class FrameContext {
      * @type {Array<Light>}
      */
 
-    this.lights = () => {
-      return lights
-    }
+    this.lights = lights
 
     /**
      * Cancels the frame loop.
@@ -252,9 +250,7 @@ export class FrameContext {
      * @type {WebGLRenderingContext}
      */
 
-    this.gl = () => {
-      return ctx.gl
-    }
+    this.gl = ctx.gl
   }
 
   /**
@@ -282,9 +278,11 @@ export class FrameContext {
    */
 
   dequeue(...args) {
-    for (const refresh of this.queue) {
-      if ('function' == typeof refresh) {
-        refresh(this.reglContext, ...args)
+    if (this.queue.length) {
+      for (const refresh of this.queue) {
+        if ('function' == typeof refresh) {
+          refresh(this.reglContext, ...args)
+        }
       }
     }
     return this
@@ -305,7 +303,6 @@ export class FrameContext {
       this.isCancelled = false
       this.loop = this.ctx.regl.frame(() => {
         inject((...args) => {
-          registerStat('Frame refresh')
           try { this.onrefresh(...args) }
           catch (err) {
             this.cancelFrame()
@@ -353,10 +350,13 @@ export class FrameContext {
    */
 
   onrefresh(reglContext, ...args) {
+    const {lights} = reglContext
     this.reglContext = reglContext
     this.ctx._reglContext = reglContext
     this.clearBuffers()
-    reglContext.lights.splice(0, reglContext.lights.length)
+    if (lights.length) {
+      lights.splice(0, lights.length)
+    }
     this.dequeue(...args)
   }
 }
@@ -391,9 +391,7 @@ export class FrameUniforms {
      * @type {Number}
      */
 
-    this.time = ({time}) => {
-      return time
-    }
+    this.time = ctx.regl.context('time')
 
     /**
      * The number of times/loops a frame has
@@ -403,9 +401,7 @@ export class FrameUniforms {
      * @type {Number}
      */
 
-    this.tick = ({tick}) => {
-      return tick
-    }
+    this.tick = ctx.regl.context('tick')
   }
 }
 

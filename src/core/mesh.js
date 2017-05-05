@@ -331,8 +331,8 @@ export class MeshState {
 
   constructor(ctx, initialState) {
     let {
-      frag: fragmentShader = null,
-      vert: vertexShader = kDefaultMeshVertexShader,
+      fragmentShader = null,
+      vertexShader = kDefaultMeshVertexShader,
       geometry = null,
       vertexShaderTransform,
     } = initialState
@@ -501,9 +501,7 @@ export class MeshUniforms {
      * @type {Array<Number>}
      */
 
-    this['mesh.model'] = ({transform}) => {
-      return transform || kMat4Identity
-    }
+    this['mesh.model'] = ctx.regl.context('transform')
 
     /**
      * Mesh model normal matrix uniform.
@@ -519,33 +517,6 @@ export class MeshUniforms {
         return kMat3Identity
       }
     }
-
-    /**
-     * Mesh fallback opacity uniform value.
-     *
-     * @public
-     * @type {Number}
-     * @TODO - figure out a better fallback here and in the shader.
-     */
-
-    // at least enough for flat shading incase a material isn't given
-    this['material.opacity'] =
-      ({opacity: contextOpacity}, {opacity = contextOpacity} = {}) => {
-        return coalesce(opacity, 1)
-      }
-
-    /**
-     * Mesh fallback color uniform value.
-     *
-     * @public
-     * @type {Array<Number>}
-     * @TODO - figure out a better fallback here and in the shader.
-     */
-
-    this['material.color'] =
-      ({color: contextColor}, {color = contextColor} = {}) => {
-        return ensureRGBA(color)
-      }
 
     // remove null or undefined values
     for (const key in this) {

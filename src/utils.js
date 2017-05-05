@@ -229,6 +229,7 @@ export const ensureRGBA = (color) => {
  */
 
 export const isArrayLike = (array) => {
+  if (null == array) { return false }
   return (
        Array.isArray(array)
 

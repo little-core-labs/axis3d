@@ -37,8 +37,17 @@ export class WebVRInput extends Input {
           args = {}
         }
 
-        setEye({ ...args, eye: kWebVRInputLeftEye }, block)
-        setEye({ ...args, eye: kWebVRInputRightEye }, block)
+        let {eyes = 2} = args
+        if ('number' != typeof eyes || eyes < 0 || eyes > 2) {
+          eyes = 2
+        }
+
+        if (2 == eyes) {
+          setEye({ ...args, eye: kWebVRInputLeftEye }, block)
+          setEye({ ...args, eye: kWebVRInputRightEye }, block)
+        } else {
+          setEye({ ...args, eye: kWebVRInputLeftEye, middle: 1 }, block)
+        }
       }
     })
   }
@@ -107,11 +116,13 @@ export class WebVRInputState extends InputState {
   calculateViewport({
     drawingBufferWidth: width,
     drawingBufferHeight: height,
-  }, { eye }) {
+  }, args) {
+    args = args || {}
+    const {eye, middle = 0.5} = args
     return {
-      x: eye * width / 2,
+      x: middle*eye*width,
       y: 0,
-      width: width / 2,
+      width: middle*width,
       height: height
     }
   }

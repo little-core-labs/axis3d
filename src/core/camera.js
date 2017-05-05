@@ -276,6 +276,7 @@ export class CameraContext extends Object3DContext {
     }
 
     /**
+     * Camera viewport.
      *
      * @public
      * @type {Array<Number>}
@@ -302,18 +303,18 @@ export class CameraContext extends Object3DContext {
     target = this.initialTarget,
     scale = this.initialScale,
   } = {}) {
-    this.updateCameraController(...arguments)
-    this.updateCameraViewport(...arguments)
-
-    if (!position || !rotation || !scale) {
-      return
-    }
-
     const {
       localMatrix,
       viewMatrix,
       controller,
     } = this
+
+    this.updateCameraController(...arguments)
+    this.updateCameraViewport(...arguments)
+
+    if (!position || !rotation || !scale) {
+      return viewMatrix
+    }
 
     // update controller controller
     controller.identity()
@@ -417,9 +418,7 @@ export class CameraUniforms {
      * @type {Array<Number>}
      */
 
-    this['camera.projection'] = ({projection}) => {
-      return projection
-    }
+    this['camera.projection'] = ctx.regl.context('projection')
 
     /**
      * The computed aspect ratio for a camera used
@@ -429,9 +428,7 @@ export class CameraUniforms {
      * @type {Number}
      */
 
-    this['camera.aspect'] = ({aspect}) => {
-      return aspect
-    }
+    this['camera.aspect'] = ctx.regl.context('aspect')
 
     /**
      * The computed view matrix for a camera used
@@ -441,9 +438,7 @@ export class CameraUniforms {
      * @type {Array<Number>}
      */
 
-    this['camera.view'] = ({view}) => {
-      return view
-    }
+    this['camera.view'] = ctx.regl.context('view')
 
     /**
      * The computed eye vector  for a camera used
