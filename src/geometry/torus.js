@@ -31,13 +31,29 @@ export class TorusGeometry extends Geometry {
    * @param {?Number} opts.arc The arc to draw.
    */
 
-  constructor({
-    majorSegments = 32,
-    minorSegments = 64,
-    majorRadius = 1,
-    minorRadius = 0.5,
-    arc = 2*Math.PI,
-  } = {}) {
+  constructor(opts) {
+    // ensure object
+    if (null == opts || 'object' != typeof opts) {
+      opts = {}
+    }
+
+    // // defaults
+    let {
+      majorSegments = majorSegments || 32,
+      minorSegments = minorSegments || 64,
+      majorRadius = majorRadius || 1,
+      minorRadius = minorRadius || 0.5,
+      arc = arc || 2*Math.PI,
+    } = opts
+
+    for (const o in opts) {
+      if (opts.hasOwnProperty(o) && 'number' != typeof opts[o]) {
+        throw new TypeError(
+          `Expecting '${o}' to a be a number. Got ${typeof opts[o]}.`
+        )
+      }
+    }
+
     super({
       complex: PrimitiveTorus({
         majorSegments, minorSegments,
