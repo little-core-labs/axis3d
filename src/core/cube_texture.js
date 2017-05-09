@@ -43,7 +43,7 @@ const {
 } = HTMLVideoElement
 
 /**
- * Default underlying texture state.
+ * Array of 6 default underlying texture states.
  *
  * @public
  * @const
@@ -51,15 +51,13 @@ const {
  * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#cube-maps}
  */
 
-const derp = () => {
+export const kDefaultTextures = (() => {
   let six = new Array(6)
   for (let i = 0; i < six.length; i++) {
     six[i] = kDefaultTextureState
   }
   return six
-}
-
-export const kDefaultTextures = derp()
+})()
 
 /**
  * Cube Texture class represents an interface wrapping the
@@ -105,12 +103,10 @@ export class CubeTexture extends Command {
         block = state
         state = {}
       }
-console.log('state', state)
-console.log('block', block)
+
       state = state || {}
       block = block || function() {}
 
-      debugger
       let data = state
       textureState.update({
         ...initialState,
@@ -274,20 +270,13 @@ export class CubeTextureState {
       ...initialState,
     })
 
-    // let data = kDefaultTextures
     let {data = kDefaultTextures} = initialState
 
     /**
      * Underlying cube texture pointer.
      */
 
-    console.log('*** * * * * * C ctx.regl.cube({ ...this })---[0]', this)
-    console.log('*** * * * * * initialState', initialState)
-    debugger
     const texture = ctx.regl.cube( ...data )
-    // const texture = ctx.regl.cube( ...this )
-    // const texture = ctx.regl.cube( this.apply(this, this) )
-  // }
 
     /**
      * Texture state data stored as reference for injection
@@ -319,11 +308,7 @@ export class CubeTextureState {
       data: {
         enumerable: true,
         get() { return data || null },
-        set(value) {
-          console.log('wtfamidoing data', data)
-          console.log('wtfamidoing value', value)
-          data = value
-        },
+        set(value) { data = value },
       },
 
       texture: {
@@ -347,10 +332,6 @@ export class CubeTextureState {
 
   }
 
-
-
-
-
   /**
    * Updates internal cube texture state. Returns true if the internal
    * cube texture was updated, otherwise false.
@@ -364,10 +345,6 @@ export class CubeTextureState {
    */
 
   update({data = this.data} = []) {
-    // this is where data needs to equal state
-    // data = state
-    // this.data = data
-    debugger
     const now = this.ctx.regl.now()
     let needsUpdate = false
 
@@ -384,12 +361,12 @@ export class CubeTextureState {
 
     if (needsUpdate) {
       // computed cube texture data resolution
-
-      console.log('C this', this)
       const resolution = CubeTexture.getTextureDataResolution(this, data)
+
       // mark for update if resolution is available and
       // the previously uploaded cube texture data differs from
       // the current input data
+      /////////  TODO @vipyne FIX THIS
       // if ( !(resolution[0] > 0 && resolution[1] > 0) ) {
       //   needsUpdate = false
       // }
@@ -397,14 +374,10 @@ export class CubeTextureState {
 
     // update regl cube texture and set
     if (needsUpdate && data) {
-      console.log('data', data)
-      debugger
       this.data = data
       this.previouslyUploaderData = data
       // update underlying regl texture
       if ('function' == typeof this.texture) {
-        // this.texture(this)
-        debugger
         this.texture( ...this.data )
       } else {
         throw new TypeError(
