@@ -52,11 +52,7 @@ const {
  */
 
 export const kDefaultTextures = (() => {
-  let six = new Array(6)
-  for (let i = 0; i < six.length; i++) {
-    six[i] = kDefaultTextureState
-  }
-  return six
+  return new Array(6).fill(kDefaultTextureState)
 })()
 
 /**
@@ -179,78 +175,7 @@ export class CubeTexture extends Command {
 }
 
 /**
- * TextureContext class.
- *
- * @public
- * @class TextureContext
- */
-
-export class derpTextureContext {
-
-  /**
-   * TextureContext class constructor.
-   *
-   * @public
-   * @param {!Context} ctx Axis3D context.
-   * @param {!TextureState} textureState Required cube texture state.
-   * @param {?Object} initialState Optional initial context state.
-   */
-
-  constructor(ctx, textureState, initialState = {}) {
-    // protected properties
-    Object.defineProperties(this, {
-      data: {
-        enumerable: false,
-        get() { return textureState.data },
-      },
-
-      textureState: {
-        enumerable: false,
-        get() { return textureState }
-      },
-    })
-
-    /**
-     * Underlying resolution of the cube texture data.
-     *
-     * @public
-     * @type {Vector2|Array<Number>}
-     */
-
-    this.textureResolution = () => {
-      return CubeTexture.getTextureDataResolution(textureState, textureState.data)
-    }
-
-    /**
-     * Underlying cube texture data.
-     *
-     * @public
-     * @type {HTMLImageElement|HTMLVideoElement|HTMLCanvasElement|TypedArray|Array|Mixed}
-     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#textures}
-     */
-
-    this.textureData = () => {
-      return textureState.data
-    }
-
-    /**
-     * REGL texture pointer.
-     *
-     * @public
-     * @type {Function}
-     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#texture-constructor}
-     */
-
-    this.texture = () => {
-      return textureState.texture
-      // return textureState.texture
-    }
-
-  }
-}
-
-/**
- * TextureState class.
+ * CubeTextureState class.
  *
  * @public
  * @class TextureState
