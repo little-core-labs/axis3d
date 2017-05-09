@@ -66,7 +66,6 @@ export const kDefaultTextureState = Object.seal({
  */
 
 export class Texture extends Command {
-
   /**
    * Texture class constructor.
    *
@@ -77,6 +76,10 @@ export class Texture extends Command {
    */
 
   constructor(ctx, initialState = {}) {
+    console.log('<<<< Texture constructor >>>>')
+    // console.log('ctx::reglctx--', ctx)
+    // console.log('initialState::{}--', initialState)
+    // console.log('update::command update--', update)
     incrementStat('Texture')
     super(update)
 
@@ -152,14 +155,19 @@ export class Texture extends Command {
   static getTextureDataResolution(state, data) {
     if (isImage(data) || isCanvas(data)) {
       return [data.width, data.height]
+
     } else if (isVideo(data)) {
       return [data.videoWidth || 0, data.videoHeight || 0]
+
     } else if (data && data.shape) {
       return data.shape
+
     } else if (state.shape) {
       return state.shape
+
     } else if (state.width && state.height) {
       return [state.width, state.height]
+
     } else {
       return [0, 0]
     }
@@ -185,7 +193,12 @@ export class TextureContext {
    */
 
   constructor(ctx, textureState, initialState = {}) {
+    console.log('<<<< TextureContext constructor >>>>')
+    // console.log('ctx::reglctx--', ctx)
+    // console.log('textureState::data, min, mag--', textureState)
+    // console.log('initialState::{}--', initialState)
     // protected properties
+
     Object.defineProperties(this, {
       data: {
         enumerable: false,
@@ -252,16 +265,27 @@ export class TextureState {
    */
 
   constructor(ctx, initialState = {}) {
+    console.log('<<<< TextureState constructor >>>>')
+    // console.log('ctx::reglctx--', ctx)
+    // console.log('initialState Before::{}--', initialState)
     Object.assign(this, {
       ...kDefaultTextureState,
       ...initialState,
     })
+    // console.log('initialState After object.assign::{}--', initialState)
 
     /**
      * Underlying texture pointer.
      */
 
+const image1 = new Image()
+image1.src = 'assets/squareTexturea.jpg'
+
+debugger
     const texture = ctx.regl.texture({ ...this })
+    // const texture = ctx.regl.texture({data: image1})
+    // const texture = ctx.regl.cube({ ...this })
+    console.log('T ctx.regl.texture this::TextureState--', this)
 
     /**
      * Texture state data stored as reference for injection
@@ -282,6 +306,7 @@ export class TextureState {
 
     let previouslyUploadedData = null
 
+// console.log('TextureState Object Before::TextureState, initialState--', this)
     // protected properties
     Object.defineProperties(this, {
       ctx: {
@@ -312,6 +337,8 @@ export class TextureState {
         get() { return previouslyUploadedData },
       },
     })
+// console.log('TextureState Object After::ctx, data, texture, lastVideoUpdate, previouslyUploadedData --', this)
+
   }
 
   /**
@@ -352,7 +379,7 @@ export class TextureState {
       }
     }
 
-    // update regl rexture state and set
+    // update regl texture state and set
     if (needsUpdate && data) {
       this.data = data
       this.previouslyUploadedData = data

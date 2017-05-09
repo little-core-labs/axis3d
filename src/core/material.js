@@ -222,11 +222,14 @@ export class Material extends Command {
      */
 
     function update(state, block) {
+      console.log('state', state)
+      console.log('block', block)
+      debugger
       if ('function' == typeof state) {
         block = state
         state = {}
       }
-
+console.log('isArrayLike(state)', isArrayLike(state))
       if (isArrayLike(state)) {
         state = [ ...state ]
       } else {
@@ -595,6 +598,7 @@ export class MaterialUniforms {
 
   constructor(ctx, initialState = {}) {
     const emptyTexture = ctx.regl.texture()
+    // const emptyTexture = ctx.regl.cube()
 
     /**
      * Material opacity value.
@@ -677,7 +681,7 @@ export class MaterialMap {
    */
 
   constructor(ctx, initialState = {}) {
-
+    console.log('%%% % % % % %% % MaterialMap', ctx)
     /**
      * Injects a map into a context for a material.
      *
