@@ -82,11 +82,11 @@ export class CubeTexture extends Command {
 
     // cube texture state used for in place regl
     // cube texture reinitialization
-    const textureState = new CubeTextureState(ctx, initialState || {})
+    const cubeTextureState = new CubeTextureState(ctx, initialState || {})
 
     // injected texture context
     const {
-      context = new TextureContext(ctx, textureState, initialState)
+      context = new TextureContext(ctx, cubeTextureState, initialState)
     } = initialState
 
     // regl context
@@ -103,7 +103,7 @@ export class CubeTexture extends Command {
       block = block || function() {}
 
       let data = state
-      textureState.update({
+      cubeTextureState.update({
         ...initialState,
         data
       })
@@ -176,13 +176,13 @@ export class CubeTexture extends Command {
  * CubeTextureState class.
  *
  * @public
- * @class TextureState
+ * @class CubeTextureState
  */
 
 export class CubeTextureState {
 
   /**
-   * TextureState class constructor.
+   * CubeTextureState class constructor.
    *
    * @param {!Context} ctx Axis3D context.
    * @param {!Object} initialState Required initial state.
@@ -194,8 +194,8 @@ export class CubeTextureState {
     })
 
     /**
-     * Texture state data stored as reference for injection
-     * into the regl conext.
+     * Cube Texture state data stored an array
+     * as reference for injection into the regl conext.
      */
 
     let {data = kDefaultTextures} = initialState
@@ -256,8 +256,8 @@ export class CubeTextureState {
    *
    * @public
    * @method
-   * @param {Object} state
-   * @param {Object} state.data
+   * @param {Object} data
+   * @param {Object} this.data
    * @return {Boolean}
    * @throws TypeError
    */
