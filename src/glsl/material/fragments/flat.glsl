@@ -24,7 +24,7 @@ void main() {
 
 #ifdef HAS_CUBE_MAP
   if (cubemap.resolution.x > 0.0 && cubemap.resolution.y > 0.0) {
-    gl_FragColor = textureCube(cubemap.data, geometry.uv);
+    gl_FragColor = textureCube(cubemap.data, geometry.position);
   }
 #endif
 
