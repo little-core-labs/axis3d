@@ -6,6 +6,7 @@ import {
   BoxGeometry,
   CubeTexture,
   Quaternion,
+  FlatMaterial,
   Material,
   Context,
   Frame,
@@ -24,18 +25,19 @@ const frame = Frame(ctx)
 
 const cubeTexture = CubeTexture(ctx)
 
-const material = Material(ctx, {
-  map: cubeTexture,
-  fragmentShaderMain:
-  ///////// FRAGMENT SHADER //////////
-    `
-    varying float v_color;
-    void main() {
-      GeometryContext geometry = getGeometryContext();
+const material = FlatMaterial(ctx, {cubemap: cubeTexture})
+// const material = Material(ctx, {
+//   cubemap: cubeTexture,
+//   fragmentShaderMain:
+//   ///////// FRAGMENT SHADER //////////
+//     `
+//     varying float v_color;
+//     void main() {
+//       GeometryContext geometry = getGeometryContext();
 
-      gl_FragColor = textureCube( map.data, geometry.position );
-    }`
-})
+//       gl_FragColor = textureCube( cubemap.data, geometry.position );
+//     }`
+// })
 const rotation = Quaternion()
 
 const squareSize = 320

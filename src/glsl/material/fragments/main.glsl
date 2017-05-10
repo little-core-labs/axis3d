@@ -55,6 +55,11 @@ uniform Camera camera;
 uniform Map map;
 #endif
 
+#ifdef HAS_CUBE_MAP
+#pragma glslify: Cubemap = require('../Cubemap')
+uniform Cubemap cubemap;
+#endif
+
 //
 // Lambertian shading model.
 //
@@ -65,6 +70,7 @@ import drawLambertMaterial from './lambert' where {
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  cubemap=cubemap,
   camera=camera,
   map=map,
   isnan=isnan,
@@ -81,6 +87,7 @@ import drawPhongMaterial from './phong' where {
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  cubemap=cubemap,
   camera=camera,
   map=map,
   isnan=isnan,
@@ -93,6 +100,7 @@ import drawPhongMaterial from './phong' where {
 import drawFlatMaterial from './flat' where {
   getGeometryContext=getGeometryContext,
   material=material,
+  cubemap=cubemap,
   map=map,
 }
 
