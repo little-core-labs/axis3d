@@ -6,7 +6,7 @@
 
 import { incrementStat } from '../stats'
 import { Command } from './command'
-import { TextureState, TextureContext, kDefaultTextureState } from './texture'
+import { TextureContext, kDefaultTextureState } from './texture'
 import window from 'global/window'
 
 /**
@@ -26,7 +26,6 @@ const {HTMLCanvasElement} = window
   */
 
 const {HTMLImageElement} = window
-
 
 // predicate helpers
 const isCanvas = (d) => d instanceof HTMLCanvasElement
@@ -129,7 +128,6 @@ export class CubeTexture extends Command {
    */
 
   static isTextureDataReady(data) {
-    data = data[0]
     if (data) {
       if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
         return true
@@ -195,21 +193,18 @@ export class CubeTextureState {
       ...initialState,
     })
 
-    let {data = kDefaultTextures} = initialState
-
-    /**
-     * Underlying cube texture pointer.
-     */
-
-    const texture = ctx.regl.cube( ...data )
-
     /**
      * Texture state data stored as reference for injection
      * into the regl conext.
      */
 
-    // let data = [] = initialState
-    // data.arr = []
+    let {data = kDefaultTextures} = initialState
+
+    /**
+     * Underlying pointer to cube map.
+     */
+
+    const texture = ctx.regl.cube( ...data )
 
     /**
      * Timestamp of last known update of a video texture.
@@ -218,7 +213,7 @@ export class CubeTextureState {
     let lastVideoUpdate = 0
 
     /**
-     * Previous raw texture data.
+     * Previous raw texture data (array of 6 textures).
      */
 
     let previouslyUploadedData = null
@@ -252,9 +247,7 @@ export class CubeTextureState {
         set(value) { previouslyUploadedData = value },
         get() { return previouslyUploadedData },
       },
-
     })
-
   }
 
   /**
@@ -272,35 +265,57 @@ export class CubeTextureState {
   update({data = this.data} = []) {
     const now = this.ctx.regl.now()
     let needsUpdate = false
+    let ready = true
 
-    if (CubeTexture.isTextureDataReady(data)) {
-      if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
-        needsUpdate = true
-        if (now - this.lastVideoUpdate >= 0.01) {
-          this.lastVideoUpdate = now
+    // handle if array is passed inside a data obj
+    if (data && 'undefined' === typeof data.length) {
+      data = data.data || this.data
+    }
+
+    // don't re-check if media is ready
+    if (null == this.previouslyUploadedData) {
+      for (let i = 0; i < data.length; i++) {
+        const loaded = CubeTexture.isTextureDataReady(data[i])
+        if (!loaded) {
+          this.data = data
+          return
         }
-      } else if (data != this.previouslyUploaderData) {
-        needsUpdate = true
+      }
+    }
+
+    if (ready) {
+      for (let i = 0; i < data.length; i++) {
+        if (isVideo(data[i]) && data[i].readyState >= HAVE_CURRENT_DATA) {
+          needsUpdate = true
+          if (now - this.lastVideoUpdate >= 0.01) {
+            this.lastVideoUpdate = now
+          }
+        } else if (this.previouslyUploadedData == null || data[i] != this.previouslyUploadedData[i]) {
+          needsUpdate = true
+        }
       }
     }
 
     if (needsUpdate) {
-      // computed cube texture data resolution
-      const resolution = CubeTexture.getTextureDataResolution(this, data)
-
-      // mark for update if resolution is available and
-      // the previously uploaded cube texture data differs from
-      // the current input data
-      /////////  TODO @vipyne FIX THIS
-      // if ( !(resolution[0] > 0 && resolution[1] > 0) ) {
-      //   needsUpdate = false
-      // }
+      for (let i = 0; i < data.length; i++) {
+        // computed cube texture data resolution
+        const resolution = CubeTexture.getTextureDataResolution(this, data[i])
+        // mark for update if resolution is available and
+        // the previously uploaded any of the cube texture data differs from
+        // the current input data
+        if ( !(resolution[0] > 0 && resolution[1] > 0) ) {
+          return
+        }
+      }
     }
 
     // update regl cube texture and set
     if (needsUpdate && data) {
       this.data = data
-      this.previouslyUploaderData = data
+      for (let p = 0; p < data.length; p++) {
+        this.previouslyUploadedData = this.previouslyUploadedData || []
+        this.previouslyUploadedData[p] = data[p]
+      }
       // update underlying regl texture
       if ('function' == typeof this.texture) {
         this.texture( ...this.data )
