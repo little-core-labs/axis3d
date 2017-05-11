@@ -81,9 +81,7 @@ void main() {
 #endif
 
 #ifdef HAS_CUBE_MAP
-  if (cubemap.resolution.x > 0.0 && cubemap.resolution.y > 0.0) {
-    surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
-  }
+  surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
 #endif
 
   // accumulate ambient

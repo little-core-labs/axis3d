@@ -2,12 +2,11 @@
 
 import {
   PerspectiveCamera,
-  SphereGeometry,
+  FlatMaterial,
   BoxGeometry,
   CubeTexture,
   Quaternion,
-  FlatMaterial,
-  Material,
+  Object3D,
   Context,
   Frame,
   Color,
@@ -19,41 +18,20 @@ import quat from 'gl-quat'
 const ctx = Context()
 
 const camera = PerspectiveCamera(ctx)
-const sphere = Mesh(ctx, { geometry: SphereGeometry() })
 const box = Mesh(ctx, { geometry: BoxGeometry() })
 const frame = Frame(ctx)
-
 const cubeTexture = CubeTexture(ctx)
-
 const material = FlatMaterial(ctx, {cubemap: cubeTexture})
-// const material = Material(ctx, {
-//   cubemap: cubeTexture,
-//   fragmentShaderMain:
-//   ///////// FRAGMENT SHADER //////////
-//     `
-//     varying float v_color;
-//     void main() {
-//       GeometryContext geometry = getGeometryContext();
-
-//       gl_FragColor = textureCube( cubemap.data, geometry.position );
-//     }`
-// })
 const rotation = Quaternion()
+const group = Object3D(ctx)
 
+// all cube textures sources must be square and same size
 const squareSize = 320
 
-const image01 = new Image()
+const image1 = new Image()
 const image2 = new Image()
-const image3 = new Image()
-const image4 = new Image()
-const image5 = new Image()
-const image6 = new Image()
-image01.src = 'assets/smsq1.jpg'
+image1.src = 'assets/smsq1.jpg'
 image2.src = 'assets/smsq2.jpg'
-image3.src = 'assets/smsq1.jpg'
-image4.src = 'assets/smsq2.jpg'
-image5.src = 'assets/smsq1.jpg'
-image6.src = 'assets/smsq2.jpg'
 
 const canvas = document.createElement('canvas')
 canvas.width = squareSize
@@ -69,22 +47,21 @@ const video = document.createElement('video')
 video.autoplay = true
 video.loop = true
 video.src = 'assets/squarevid.mp4'
-
 video.load()
 video.play()
 
-cubeTexture([
-  canvas,
-  canvas,
-  video,
-  video,
+cubeTexture({data: [
+  image1,
   image2,
-  image3,
-])
+  canvas,
+  canvas,
+  video,
+  video,
+]})
 
 frame(({time, cancel}) => {
   const multiply = (...args) => quat.multiply([], ...args)
-  camera({rotation, position: [0, 0, 2]}, () => {
+  camera({rotation, position: [0, 0, 3]}, () => {
     const angle = (...args) => quat.setAxisAngle([], ...args)
     const x = angle([1, 0, 0], 0.35*time)
     const y = angle([0, 1, 0], 0.38*time)
