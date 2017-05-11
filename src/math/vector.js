@@ -7,7 +7,7 @@
 import { define, isArrayLike } from '../utils'
 import * as VectorSwizzleMap from './vector_swizzle_map'
 
-import getPermutations from 'get-unique-permutations'
+import getPermutations from'get-unique-permutations'
 import coalesce from 'defined'
 import window from 'global/window'
 
@@ -20,7 +20,16 @@ const TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor
  * is available on the client.
  */
 
-const hasLocalStorage = Boolean(
+const hasLocalStorage
+  let hasPermission = () => {
+    try {
+      return window.localStorage;
+    } catch (e) {
+      return false
+    }
+  }
+return Boolean(
+  hasLocalStorage &&
   'object' == window.localStorage &&
   'function' == typeof window.localStorage.getItem &&
   'function' == typeof window.localStorage.setItem
