@@ -5,6 +5,7 @@ import {
   SphereGeometry,
   GeometryBuffer,
   FlatMaterial,
+  MeshUniforms,
   Quaternion,
   Material,
   Texture,
@@ -65,14 +66,18 @@ const texture = Texture(ctx, {map: image})
 // const sphere = Mesh(ctx, {geometry: SphereGeometry()})
 const sphere = Mesh(ctx, {
   geometry: SphereGeometry(),
-  // uniforms: {
-  //   tex(r, o) {
-  //     return r.texture(r.textureData)
-  //   },
-  //   vertArray(reglCtx, opts) {
-  //     return opts.vertArray
-  //   },
-  // },
+  map: texture,
+  uniforms: Object.assign(new MeshUniforms(ctx), {
+    tex(r, o) {
+      return r.texture(r.textureData)
+    },
+    vertArray(reglCtx, opts) {
+      return opts.vertArray
+    },
+    model(r, o) {
+
+    }
+  }),
   ///////// VERTEX //////////
   vertexShaderTransform:
   `
@@ -83,11 +88,11 @@ const sphere = Mesh(ctx, {
   // }
 
   void transform () {
-    gl_Position = gl_Position;
-    // float offset = texture2D(tex, uv).x;
-    // offset = (offset - 0.5) * 2.0;
+    // gl_Position = vec4(gl_Position.x + 2.130, gl_Position.xyw);
+    float offset = texture2D(tex, uv).x;
+    offset = (offset - 0.5) * 2.0;
     // gl_Position = vec4(dArray, gl_Position.zw);
-    // gl_Position = vec4(gl_Position.x + 1.0, gl_Position.y + offset/8.0, gl_Position.yzw);
+    gl_Position = vec4(gl_Position.x + 1.0, gl_Position.y + offset/8.0, gl_Position.yzw);
   }
   `
 })

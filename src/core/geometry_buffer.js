@@ -45,7 +45,6 @@ export class GeometryBuffer extends Command {
    */
 
   constructor(ctx, initialState = {}) {
-    // {fbo = null} = {}
     if (!ctx.regl.hasExtension('webgl_draw_buffers')) {
       throw new Error("GeometryBuffer needs the 'webgl_draw_buffers' extension.")
     }
