@@ -2,10 +2,12 @@
 
 import {
   PerspectiveCamera,
-  DirectionalLight,
   SphereGeometry,
+  GeometryBuffer,
+  FlatMaterial,
   Quaternion,
   Material,
+  Texture,
   Context,
   Frame,
   Color,
@@ -44,7 +46,7 @@ request.onload = () => {
     }
 
     // play audio
-    sourceBuffer.start(audioCtx.currentTime)
+    // sourceBuffer.start(audioCtx.currentTime)
   })
 }
 request.send()
@@ -53,28 +55,78 @@ request.send()
 
 const ctx = Context()
 
-const camera = PerspectiveCamera(ctx)
-const sphere = Mesh(ctx, { geometry: SphereGeometry() })
-const frame = Frame(ctx)
-const light = DirectionalLight(ctx)
-const material = Material(ctx, {
-  uniforms: {
-    dArray(reglCtx, opts) { return opts.dArray }
-  },
-  fragmentShaderMain:
-  `
-  uniform float dArray;
-  void main() {
-    GeometryContext geometry = getGeometryContext();
+const fbo = GeometryBuffer(ctx)
 
-    gl_FragColor = vec4(dArray/256.0,0.3,0.5,1.0);
+const image = new Image()
+image.src = 'assets/govball.jpg'
+const texture = Texture(ctx, {map: image})
+
+
+// const sphere = Mesh(ctx, {geometry: SphereGeometry()})
+const sphere = Mesh(ctx, {
+  geometry: SphereGeometry(),
+  // uniforms: {
+  //   tex(r, o) {
+  //     return r.texture(r.textureData)
+  //   },
+  //   vertArray(reglCtx, opts) {
+  //     return opts.vertArray
+  //   },
+  // },
+  ///////// VERTEX //////////
+  vertexShaderTransform:
+  `
+  uniform float vertArray;
+  uniform sampler2D tex;
+
+  // float lerp() {
+  // }
+
+  void transform () {
+    gl_Position = gl_Position;
+    // float offset = texture2D(tex, uv).x;
+    // offset = (offset - 0.5) * 2.0;
+    // gl_Position = vec4(dArray, gl_Position.zw);
+    // gl_Position = vec4(gl_Position.x + 1.0, gl_Position.y + offset/8.0, gl_Position.yzw);
   }
   `
 })
-const rotation = Quaternion()
 
-const image = new Image()
-image.src = 'assets/texture.jpg'
+
+// const material = FlatMaterial(ctx)
+const material = Material(ctx, {
+  uniforms: {
+    tex(r, o) {
+      return r.texture(r.textureData)
+    },
+    dArray(reglCtx, opts) {
+      return opts.dArray
+    },
+  },
+  map: texture,
+  ///////// FRAGMENT //////////
+  fragmentShaderMain:
+  `
+  // varying vec2 vTextureCoord;
+  uniform float dArray;
+  uniform sampler2D tex;
+  void main() {
+    GeometryContext geometry = getGeometryContext();
+
+    float notUsed = texture2D(tex, geometry.uv).x;
+
+    // gl_FragColor = vec4(0.10,0.3,0.5,1.0);
+    gl_FragColor = vec4(dArray/256.0,notUsed,0.5,1.0);
+  }
+  `
+})
+
+texture({data: image})
+
+
+const camera = PerspectiveCamera(ctx)
+const frame = Frame(ctx)
+const rotation = Quaternion()
 
 frame(({time, cancel}) => {
   const multiply = (...args) => quat.multiply([], ...args)
@@ -84,11 +136,14 @@ frame(({time, cancel}) => {
   const z = angle([0, 0, 1], -0.10*time)
   quat.slerp(rotation, rotation, multiply(multiply(x, y), z), 0.5)
   camera({rotation, position: [0, 0, 5]}, () => {
-    light({intensity: 0.8, position: [0, 0, 10], ambient: 0.01})
     material({
-      dArray: dataArray[100]
+      dArray: dataArray[100],
+      tex: texture,
     }, () => {
-      sphere({})
+      sphere({
+        vertArray: dataArray.slice(0,16),
+        tex: texture,
+      })
     })
   })
 })

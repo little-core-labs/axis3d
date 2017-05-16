@@ -44,7 +44,8 @@ export class GeometryBuffer extends Command {
    * @throws Error
    */
 
-  constructor(ctx, {fbo = null} = {}) {
+  constructor(ctx, initialState = {}) {
+    // {fbo = null} = {}
     if (!ctx.regl.hasExtension('webgl_draw_buffers')) {
       throw new Error("GeometryBuffer needs the 'webgl_draw_buffers' extension.")
     }
@@ -69,7 +70,7 @@ export class GeometryBuffer extends Command {
      * read and stored.
      */
 
-    const injectContext = ctx.regl()
+    const injectContext = ctx.regl({})
 
     /**
      * Current viewport dimensions.
