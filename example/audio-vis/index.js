@@ -47,7 +47,7 @@ request.onload = () => {
     }
 
     // play audio
-    // sourceBuffer.start(audioCtx.currentTime)
+    sourceBuffer.start(audioCtx.currentTime)
   })
 }
 request.send()
@@ -57,13 +57,12 @@ request.send()
 const ctx = Context()
 
 const fbo = GeometryBuffer(ctx)
+// fbo(dataArray)()
 
 const image = new Image()
 image.src = 'assets/govball.jpg'
 const texture = Texture(ctx, {map: image})
 
-
-// const sphere = Mesh(ctx, {geometry: SphereGeometry()})
 const sphere = Mesh(ctx, {
   geometry: SphereGeometry(),
   map: texture,
@@ -73,11 +72,9 @@ const sphere = Mesh(ctx, {
     },
     vertArray(reglCtx, opts) {
       return opts.vertArray
-    },
-    model(r, o) {
-
     }
   }),
+  framebuffer: {},
   ///////// VERTEX //////////
   vertexShaderTransform:
   `
@@ -88,17 +85,13 @@ const sphere = Mesh(ctx, {
   // }
 
   void transform () {
-    // gl_Position = vec4(gl_Position.x + 2.130, gl_Position.xyw);
-    float offset = texture2D(tex, uv).x;
+    float offset = texture2D(tex, uv).y + (vertArray/256.0);
     offset = (offset - 0.5) * 2.0;
-    // gl_Position = vec4(dArray, gl_Position.zw);
     gl_Position = vec4(gl_Position.x + 1.0, gl_Position.y + offset/8.0, gl_Position.yzw);
   }
   `
 })
 
-
-// const material = FlatMaterial(ctx)
 const material = Material(ctx, {
   uniforms: {
     tex(r, o) {
@@ -112,22 +105,19 @@ const material = Material(ctx, {
   ///////// FRAGMENT //////////
   fragmentShaderMain:
   `
-  // varying vec2 vTextureCoord;
   uniform float dArray;
   uniform sampler2D tex;
   void main() {
     GeometryContext geometry = getGeometryContext();
 
-    float notUsed = texture2D(tex, geometry.uv).x;
+    float green = texture2D(tex, geometry.uv).x;
 
-    // gl_FragColor = vec4(0.10,0.3,0.5,1.0);
-    gl_FragColor = vec4(dArray/256.0,notUsed,0.5,1.0);
+    gl_FragColor = vec4(dArray/256.0, green, 0.5, 1.0);
   }
   `
 })
 
 texture({data: image})
-
 
 const camera = PerspectiveCamera(ctx)
 const frame = Frame(ctx)
@@ -146,7 +136,8 @@ frame(({time, cancel}) => {
       tex: texture,
     }, () => {
       sphere({
-        vertArray: dataArray.slice(0,16),
+        vertArray: dataArray[100],
+        texData: fbo(dataArray)(),
         tex: texture,
       })
     })

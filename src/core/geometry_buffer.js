@@ -105,8 +105,9 @@ export class GeometryBuffer extends Command {
         }
 
         if (needsResize) {
-          try { fbo.resize(currentViewportWidth, currentViewportHeight) }
-          catch(err) { ctx.emit('error', err) }
+          // debugger
+          // try { framebuffer.resize(currentViewportWidth, currentViewportHeight) }
+          // catch(err) { ctx.emit('error', err) }
         }
 
         captureGeometryBuffer((...args) => {
