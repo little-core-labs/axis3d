@@ -154,6 +154,7 @@ export class Mesh extends Object3D {
           if (false === state.visible) {
             draw(state, block)
           } else if (false != state.draw) {
+            debugger
             draw(state)
             block(...args)
           } else {

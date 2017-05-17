@@ -57,6 +57,7 @@ request.send()
 const ctx = Context()
 
 const fbo = GeometryBuffer(ctx)
+// , {data: dataArray}
 // fbo(dataArray)()
 
 const image = new Image()
@@ -72,20 +73,27 @@ const sphere = Mesh(ctx, {
     },
     vertArray(reglCtx, opts) {
       return opts.vertArray
+    },
+    fboTex(r, o) {
+      debugger
+      // console.log('r.vdata', r.vdata)
+      return o.texData({data: dataArray})
     }
   }),
-  framebuffer: {},
+  framebuffer: fbo,
   ///////// VERTEX //////////
   vertexShaderTransform:
   `
   uniform float vertArray;
+  uniform sampler2D fboTex;
   uniform sampler2D tex;
 
   // float lerp() {
   // }
 
   void transform () {
-    float offset = texture2D(tex, uv).y + (vertArray/256.0);
+    float offset = texture2D(fboTex, uv).y;
+    // float offset = texture2D(tex, uv).y + (vertArray/256.0);
     offset = (offset - 0.5) * 2.0;
     gl_Position = vec4(gl_Position.x + 1.0, gl_Position.y + offset/8.0, gl_Position.yzw);
   }
@@ -118,6 +126,7 @@ const material = Material(ctx, {
 })
 
 texture({data: image})
+// fbo({data: dataArray})
 
 const camera = PerspectiveCamera(ctx)
 const frame = Frame(ctx)
@@ -137,7 +146,7 @@ frame(({time, cancel}) => {
     }, () => {
       sphere({
         vertArray: dataArray[100],
-        texData: fbo(dataArray)(),
+        texData: fbo,
         tex: texture,
       })
     })
