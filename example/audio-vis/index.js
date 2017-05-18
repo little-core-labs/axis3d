@@ -36,7 +36,7 @@ const frequencyDataArray = new Uint8Array(bufferLength)
 const waveformDataArray = new Uint8Array(bufferLength)
 
 const SHAPE = 16
-analyser.smoothingTimeConstant = 0.1
+analyser.smoothingTimeConstant = 0.21
 analyser.fftSize = 1024 * SHAPE
 analyser.smoothingTimeConstant = 0.59
 
@@ -57,8 +57,8 @@ request.onload = () => {
       // fill array with frequency data
       analyser.getByteFrequencyData(frequencyDataArray)
       analyser.getByteTimeDomainData(waveformDataArray)
-      console.log(frequencyDataArray.length / 64)
-      console.log(analyser.frequencyBinCount / 8)
+      // console.log(frequencyDataArray.length / 64)
+      // console.log(analyser.frequencyBinCount / 8)
     }
 
     // play audio
@@ -90,35 +90,8 @@ const orbitCamera = OrbitCameraController(ctx, {
 })
 
 const dataTexture = Texture(ctx)
-let pos
-const helix = new class Helix {
-  constructor() {
-    const path = []
-    const positions = [
-      [0,0], [-0.06,-0.08], [0.06,-0.08], [0,-0.2], [0.06,-0.08],
-      [0.1,0.03], [0.19,-0.06], [0.1,0.03], [0,0.1], [0.12,0.16], [0,0.1],
-      [-0.1,0.03], [-0.12,0.16], [-0.1,0.03], [-0.06,-0.08], [-0.19,-0.06]
-    ]
 
-    for (let i = 0; i < 1000; ++i) {
-      const theta = i/320*2*Math.PI
-      const p = (i-500)/250
-      path.push([Math.cos(theta), Math.sin(theta), p, 8*theta])
-    }
-
-    this.path = path
-    this.positions = positions
-    this.uv = positions
-    this.normals = positions
-    this.complex = {positions: positions,
-      uv: positions,
-      normals: positions}
-  pos = positions
-  }
-}
-
-const plane = PlaneGeometry({segments: {x: 32, y: 32}})
-let geo = SphereGeometry({segments: 16})
+let geo = PlaneGeometry({segments: {x: 256, y: 1}, size: {x: 10, y: 1}})
 
 const sphere = Mesh(ctx, {
   geometry: geo,
@@ -140,10 +113,10 @@ const sphere = Mesh(ctx, {
   }
   void transform () {
     float offsetX = texture2D(dataTexture, uv).x;
-    offsetX = lerp(gl_Position.x, gl_Position.x * (offsetX/1.0) + gl_Position.x, 0.701);
+    offsetX = lerp(gl_Position.x, gl_Position.x + (offsetX/1.0) + gl_Position.x, 0.701);
 
-    float offsetY = texture2D(dataTexture, uv).y;
-    offsetY = lerp(gl_Position.y, gl_Position.y * (offsetY/1.0) + gl_Position.y, 0.701);
+    float offsetY = texture2D(dataTexture2, uv).x;
+    offsetY = lerp(gl_Position.y, gl_Position.y + (offsetY/1.0) + gl_Position.y, 0.701);
 
     gl_Position = vec4(offsetX, offsetY, gl_Position.zw);
   }
@@ -180,26 +153,26 @@ const material = Material(ctx, {
 const angle = Quaternion()
 
 frame(({time, cancel}) => {
-  orbitCamera({ position: [0, 0, 4], target: [0, 0, 0] }, () => {
+  orbitCamera({ position: [0, 0, 3], target: [0, 0, 0] }, () => {
     quat.setAxisAngle(angle, [0, 1, 0], 0.25)
     material({
       cull: false,
       dArray: frequencyDataArray[100],
       dataTexture: {data:  frequencyDataArray,
-                         width: SHAPE,
-                         height: SHAPE
+                         width: 256,
+                         height: 1
                   },
     }, () => {
-      sphere({
+      sphere([{
         dataTextureArgs: {data:  frequencyDataArray,
-                         width: SHAPE,
-                         height: SHAPE
+                         width: 256,
+                         height: 1
                   },
         dataTextureArgs2: {data:  frequencyDataArray,
-                         width: SHAPE,
-                         height: SHAPE
+                         width: 256,
+                         height: 1
                   }
-      })
+      }, {}])
     })
   })
 })
