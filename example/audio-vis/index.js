@@ -7,6 +7,7 @@ import {
 import {
   PerspectiveCamera,
   OrientationInput,
+  ExtrudeGeometry,
   SphereGeometry,
   KeyboardInput,
   PlaneGeometry,
@@ -31,10 +32,13 @@ const analyser = audioCtx.createAnalyser()
 const sourceBuffer = audioCtx.createBufferSource()
 const jsScriptNode = audioCtx.createScriptProcessor(512, 1, 1)
 const bufferLength = analyser.frequencyBinCount
-const dataArray = new Uint8Array(bufferLength)
+const frequencyDataArray = new Uint8Array(bufferLength)
+const waveformDataArray = new Uint8Array(bufferLength)
 
+const SHAPE = 16
 analyser.smoothingTimeConstant = 0.1
-analyser.fftSize = 512
+analyser.fftSize = 1024 * SHAPE
+analyser.smoothingTimeConstant = 0.59
 
 sourceBuffer.connect(analyser)
 sourceBuffer.connect(audioCtx.destination)
@@ -51,7 +55,10 @@ request.onload = () => {
 
     jsScriptNode.onaudioprocess = (e) => {
       // fill array with frequency data
-      analyser.getByteFrequencyData(dataArray)
+      analyser.getByteFrequencyData(frequencyDataArray)
+      analyser.getByteTimeDomainData(waveformDataArray)
+      console.log(frequencyDataArray.length / 64)
+      console.log(analyser.frequencyBinCount / 8)
     }
 
     // play audio
@@ -79,54 +86,77 @@ const orbitCamera = OrbitCameraController(ctx, {
   camera, inputs,
   invert: true,
   interpolationFactor: 0.1,
-  euler: [0, 0.5*Math.PI, 0]
+  // euler: [0, 0.5*Math.PI, 0]
 })
 
-const image = new Image()
-image.src = 'assets/govball.jpg'
-const texture = Texture(ctx, {map: image})
-const rex = Texture(ctx)
+const dataTexture = Texture(ctx)
+let pos
+const helix = new class Helix {
+  constructor() {
+    const path = []
+    const positions = [
+      [0,0], [-0.06,-0.08], [0.06,-0.08], [0,-0.2], [0.06,-0.08],
+      [0.1,0.03], [0.19,-0.06], [0.1,0.03], [0,0.1], [0.12,0.16], [0,0.1],
+      [-0.1,0.03], [-0.12,0.16], [-0.1,0.03], [-0.06,-0.08], [-0.19,-0.06]
+    ]
+
+    for (let i = 0; i < 1000; ++i) {
+      const theta = i/320*2*Math.PI
+      const p = (i-500)/250
+      path.push([Math.cos(theta), Math.sin(theta), p, 8*theta])
+    }
+
+    this.path = path
+    this.positions = positions
+    this.uv = positions
+    this.normals = positions
+    this.complex = {positions: positions,
+      uv: positions,
+      normals: positions}
+  pos = positions
+  }
+}
+
+const plane = PlaneGeometry({segments: {x: 32, y: 32}})
+let geo = SphereGeometry({segments: 16})
 
 const sphere = Mesh(ctx, {
-  geometry: PlaneGeometry({segments: {x: 16, y: 116}}),
+  geometry: geo,
   uniforms: Object.assign(new MeshUniforms(ctx), {
-    tex(r, o) {
-      return r.texture(r.textureData)
+    dataTexture(reglCtx, o) {
+      return reglCtx.texture(o.dataTextureArgs)
     },
-    rex(r, o) {
-      return r.texture(o.rexArgs)
+    dataTexture2(reglCtx, o) {
+      return reglCtx.texture(o.dataTextureArgs2)
     }
   }),
-  map: texture,
   vertexShaderTransform:
   `
-  uniform sampler2D tex;
-  uniform sampler2D rex;
+  uniform sampler2D dataTexture;
+  uniform sampler2D dataTexture2;
 
   float lerp(float x, float y, float a) {
     return x * (1.0 - a) + y * a;
   }
-
   void transform () {
-    float xoffset = texture2D(rex, uv).x;
-    xoffset = lerp(2.0 * xoffset, gl_Position.x, 0.0000001);
+    float offsetX = texture2D(dataTexture, uv).x;
+    offsetX = lerp(gl_Position.x, gl_Position.x * (offsetX/1.0) + gl_Position.x, 0.701);
 
-    float yoffset = texture2D(rex, uv).y;
-    yoffset = lerp(1.0 * yoffset, gl_Position.y, 0.0000001);
+    float offsetY = texture2D(dataTexture, uv).y;
+    offsetY = lerp(gl_Position.y, gl_Position.y * (offsetY/1.0) + gl_Position.y, 0.701);
 
-    gl_Position = vec4(gl_Position.x * (5.0 + xoffset), gl_Position.y + 2.0 * yoffset, gl_Position.zw);
+    gl_Position = vec4(offsetX, offsetY, gl_Position.zw);
   }
   `
 })
 
 const material = Material(ctx, {
   // texture needs to be defined before uniforms
-  map: texture,
+  map: dataTexture,
   uniforms: {
-    tex(r, o) {
-      return r.texture(r.textureData)
+    dataTexture(reglCtx, o) {
+      return reglCtx.texture(o.dataTexture)
     },
-
     dArray(reglCtx, opts) {
       return opts.dArray
     },
@@ -134,31 +164,40 @@ const material = Material(ctx, {
   fragmentShaderMain:
   `
   uniform float dArray;
-  uniform sampler2D tex;
+  uniform sampler2D dataTexture;
   void main() {
     GeometryContext geometry = getGeometryContext();
 
-    float green = texture2D(tex, geometry.uv).g;
+    float blue = texture2D(dataTexture, geometry.uv).b;
+    float green = texture2D(dataTexture, geometry.uv).g;
+    float red = texture2D(dataTexture, geometry.uv).r;
 
+    // gl_FragColor = vec4(red, green, blue, 1.0);
     gl_FragColor = vec4(dArray/256.0, green, 0.5, 1.0);
   }
   `
 })
-
-texture({data: image})
+const angle = Quaternion()
 
 frame(({time, cancel}) => {
-  orbitCamera({ position: [0, 2, 4], target: [0, 1, 0] }, () => {
+  orbitCamera({ position: [0, 0, 4], target: [0, 0, 0] }, () => {
+    quat.setAxisAngle(angle, [0, 1, 0], 0.25)
     material({
       cull: false,
-      dArray: dataArray[100],
-      tex: texture,
+      dArray: frequencyDataArray[100],
+      dataTexture: {data:  frequencyDataArray,
+                         width: SHAPE,
+                         height: SHAPE
+                  },
     }, () => {
       sphere({
-        tex: texture,
-        rexArgs: {data:  dataArray,
-                         width: 16,
-                         height: 16
+        dataTextureArgs: {data:  frequencyDataArray,
+                         width: SHAPE,
+                         height: SHAPE
+                  },
+        dataTextureArgs2: {data:  frequencyDataArray,
+                         width: SHAPE,
+                         height: SHAPE
                   }
       })
     })
