@@ -1,11 +1,19 @@
 'use strict'
 
 import {
+  OrbitCameraController
+} from '../../extras/controller'
+
+import {
   PerspectiveCamera,
+  OrientationInput,
   SphereGeometry,
-  GeometryBuffer,
+  KeyboardInput,
+  PlaneGeometry,
   FlatMaterial,
   MeshUniforms,
+  MouseInput,
+  TouchInput,
   Quaternion,
   Material,
   Texture,
@@ -53,64 +61,76 @@ request.onload = () => {
 request.send()
 ///////////// Web Audio Api /////////////
 
-
 const ctx = Context()
 
-const fbo = GeometryBuffer(ctx)
-// , {data: dataArray}
-// fbo(dataArray)()
+const camera = PerspectiveCamera(ctx)
+const frame = Frame(ctx)
+const rotation = Quaternion()
+
+// inputs
+const orientation = OrientationInput(ctx)
+const keyboard = KeyboardInput(ctx)
+const mouse = MouseInput(ctx)
+const touch = TouchInput(ctx)
+
+// orbit camera controls
+const inputs = { orientation, keyboard, touch, mouse }
+const orbitCamera = OrbitCameraController(ctx, {
+  camera, inputs,
+  invert: true,
+  interpolationFactor: 0.1,
+  euler: [0, 0.5*Math.PI, 0]
+})
 
 const image = new Image()
 image.src = 'assets/govball.jpg'
 const texture = Texture(ctx, {map: image})
+const rex = Texture(ctx)
 
 const sphere = Mesh(ctx, {
-  geometry: SphereGeometry(),
-  map: texture,
+  geometry: PlaneGeometry({segments: {x: 16, y: 116}}),
   uniforms: Object.assign(new MeshUniforms(ctx), {
     tex(r, o) {
       return r.texture(r.textureData)
     },
-    vertArray(reglCtx, opts) {
-      return opts.vertArray
-    },
-    fboTex(r, o) {
-      debugger
-      // console.log('r.vdata', r.vdata)
-      return o.texData({data: dataArray})
+    rex(r, o) {
+      return r.texture(o.rexArgs)
     }
   }),
-  framebuffer: fbo,
-  ///////// VERTEX //////////
+  map: texture,
   vertexShaderTransform:
   `
-  uniform float vertArray;
-  uniform sampler2D fboTex;
   uniform sampler2D tex;
+  uniform sampler2D rex;
 
-  // float lerp() {
-  // }
+  float lerp(float x, float y, float a) {
+    return x * (1.0 - a) + y * a;
+  }
 
   void transform () {
-    float offset = texture2D(fboTex, uv).y;
-    // float offset = texture2D(tex, uv).y + (vertArray/256.0);
-    offset = (offset - 0.5) * 2.0;
-    gl_Position = vec4(gl_Position.x + 1.0, gl_Position.y + offset/8.0, gl_Position.yzw);
+    float xoffset = texture2D(rex, uv).x;
+    xoffset = lerp(2.0 * xoffset, gl_Position.x, 0.0000001);
+
+    float yoffset = texture2D(rex, uv).y;
+    yoffset = lerp(1.0 * yoffset, gl_Position.y, 0.0000001);
+
+    gl_Position = vec4(gl_Position.x * (5.0 + xoffset), gl_Position.y + 2.0 * yoffset, gl_Position.zw);
   }
   `
 })
 
 const material = Material(ctx, {
+  // texture needs to be defined before uniforms
+  map: texture,
   uniforms: {
     tex(r, o) {
       return r.texture(r.textureData)
     },
+
     dArray(reglCtx, opts) {
       return opts.dArray
     },
   },
-  map: texture,
-  ///////// FRAGMENT //////////
   fragmentShaderMain:
   `
   uniform float dArray;
@@ -118,7 +138,7 @@ const material = Material(ctx, {
   void main() {
     GeometryContext geometry = getGeometryContext();
 
-    float green = texture2D(tex, geometry.uv).x;
+    float green = texture2D(tex, geometry.uv).g;
 
     gl_FragColor = vec4(dArray/256.0, green, 0.5, 1.0);
   }
@@ -126,28 +146,20 @@ const material = Material(ctx, {
 })
 
 texture({data: image})
-// fbo({data: dataArray})
-
-const camera = PerspectiveCamera(ctx)
-const frame = Frame(ctx)
-const rotation = Quaternion()
 
 frame(({time, cancel}) => {
-  const multiply = (...args) => quat.multiply([], ...args)
-  const angle = (...args) => quat.setAxisAngle([], ...args)
-  const x = angle([1, 0, 0], 0.05*time)
-  const y = angle([0, 1, 0], 0.08*time)
-  const z = angle([0, 0, 1], -0.10*time)
-  quat.slerp(rotation, rotation, multiply(multiply(x, y), z), 0.5)
-  camera({rotation, position: [0, 0, 5]}, () => {
+  orbitCamera({ position: [0, 2, 4], target: [0, 1, 0] }, () => {
     material({
+      cull: false,
       dArray: dataArray[100],
       tex: texture,
     }, () => {
       sphere({
-        vertArray: dataArray[100],
-        texData: fbo,
         tex: texture,
+        rexArgs: {data:  dataArray,
+                         width: 16,
+                         height: 16
+                  }
       })
     })
   })
