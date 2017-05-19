@@ -148,7 +148,6 @@ const material = Material(ctx, {
   }
   `
 })
-const angle = Quaternion()
 
 frame(({time, cancel}) => {
   orbitCamera({ position: [0, 0, 5], target: [0, 0, 0] }, () => {
