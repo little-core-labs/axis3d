@@ -152,7 +152,6 @@ const angle = Quaternion()
 
 frame(({time, cancel}) => {
   orbitCamera({ position: [0, 0, 5], target: [0, 0, 0] }, () => {
-    quat.setAxisAngle(angle, [0, 1, 0], 0.25)
     material({
       cull: false,
       singleDataPoint: frequencyDataArray[100],
