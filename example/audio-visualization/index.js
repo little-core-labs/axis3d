@@ -7,8 +7,6 @@ import {
 import {
   PerspectiveCamera,
   OrientationInput,
-  ExtrudeGeometry,
-  SphereGeometry,
   KeyboardInput,
   PlaneGeometry,
   FlatMaterial,
@@ -87,7 +85,7 @@ const orbitCamera = OrbitCameraController(ctx, {
   camera, inputs,
   invert: true,
   interpolationFactor: 0.1,
-  euler: [0.5*Math.PI, 0, 0]
+  euler: [-0.5*Math.PI, 0, 0]
 })
 
 
@@ -113,6 +111,7 @@ const plane = Mesh(ctx, {
   float lerp(float x, float y, float a) {
     return x * (1.0 - a) + y * a;
   }
+
   void transform () {
     float offsetX = texture2D(fDataTexture, uv).x;
     offsetX = lerp(gl_Position.x, gl_Position.x + (offsetX/1.0) + gl_Position.x, 0.701);
@@ -139,6 +138,7 @@ const material = Material(ctx, {
   `
   uniform float singleDataPoint;
   uniform sampler2D fDataTexture;
+
   void main() {
     GeometryContext geometry = getGeometryContext();
 
@@ -169,7 +169,7 @@ frame(({time, cancel}) => {
                                  width: 256,
                                  height: 1
                           }
-      }, {  }])
+      }, {}])
     })
   })
 })
