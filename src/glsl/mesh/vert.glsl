@@ -29,6 +29,7 @@ attribute vec3 normal;
 attribute vec2 uv;
 #endif
 
+varying vec3 vreflection;
 varying vec3 vposition;
 varying vec3 vnormal;
 varying vec2 vuv;
@@ -47,6 +48,13 @@ void main() {
     * camera.view
     * mesh.model
     * vec4(position, 1.0);
+#endif
+
+#ifdef HAS_REFLECTION
+  mat4 invertedView = camera.inverted;
+  vec3 iv = invertedView[3].xyz / invertedView[3].w;
+  vec3 eye = normalize(gl_Position.xyz - iv);
+  vreflection = reflect(eye, normal);
 #endif
 
 #ifdef HAS_NORMALS

@@ -175,6 +175,17 @@ export class CameraContext extends Object3DContext {
     }
 
     /**
+     * The computed inverted view matrix for a camera.
+     *
+     * @public
+     * @type {Array<Number>}
+     */
+
+    this.inverted = (...args) => {
+      return mat4.invert([], this.view(...args))
+    }
+
+    /**
      * The view direction for a camera.
      *
      * @public
@@ -447,6 +458,18 @@ export class CameraUniforms {
 
     this['camera.eye'] = ({eye}) => {
       return [...eye]
+    }
+
+    /**
+     * The computed inverted view used
+     * as a uniform mat4 in a shader.
+     *
+     * @public
+     * @type {Array<Number>}
+     */
+
+    this['camera.inverted'] = ({inverted}) => {
+      return inverted
     }
   }
 }

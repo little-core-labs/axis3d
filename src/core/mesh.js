@@ -334,6 +334,7 @@ export class MeshState {
       frag: fragmentShader = null,
       vert: vertexShader = kDefaultMeshVertexShader,
       geometry = null,
+      reflective = false,
       vertexShaderTransform,
     } = initialState
 
@@ -352,6 +353,10 @@ export class MeshState {
 
     if (geometry.uvs) {
       shaderDefines['HAS_UVS'] = 1
+    }
+
+    if (reflective) {
+      shaderDefines['HAS_REFLECTION'] = 1
     }
 
     if ('string' == typeof vertexShaderTransform) {

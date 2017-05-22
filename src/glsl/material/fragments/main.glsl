@@ -8,6 +8,7 @@ precision mediump float;
 #pragma glslify: Camera = require('../../camera/Camera')
 
 // materials
+#pragma glslify: ReflectionMaterial = require('../ReflectionMaterial')
 #pragma glslify: LambertMaterial = require('../LambertMaterial')
 #pragma glslify: PhongMaterial = require('../PhongMaterial')
 #pragma glslify: FlatMaterial = require('../FlatMaterial')
@@ -34,11 +35,12 @@ precision mediump float;
 #define isinf(n) (n >= 0.0 || n <= 0.0)
 #define isnan(n) !isinf(n) && n != n
 
-#define getGeometryContext() GeometryContext(vposition, vnormal, vuv)
+#define getGeometryContext() GeometryContext(vposition, vnormal, vuv, vreflection)
 
 //
 // Shader IO.
 //
+varying vec3 vreflection;
 varying vec3 vposition;
 varying vec3 vnormal;
 varying vec2 vuv;
@@ -49,6 +51,11 @@ varying vec2 vuv;
 uniform MATERIAL_TYPE material;
 uniform LightContext lightContext;
 uniform Camera camera;
+
+#ifdef HAS_ENV_MAP
+#pragma glslify: EnvMap = require('../EnvMap')
+uniform EnvMap envmap;
+#endif
 
 #ifdef HAS_MAP
 #pragma glslify: Map = require('../Map')
@@ -88,11 +95,22 @@ import drawPhongMaterial from './phong' where {
 }
 
 //
+// Reflection shading model.
+//
+import drawReflectionMaterial from './reflection' where {
+  getGeometryContext=getGeometryContext,
+  material=material,
+  envmap=envmap,
+  map=map,
+}
+
+//
 // Flat shading model.
 //
 import drawFlatMaterial from './flat' where {
   getGeometryContext=getGeometryContext,
   material=material,
+  envmap=envmap,
   map=map,
 }
 
@@ -106,6 +124,10 @@ void main() {
 #elif defined usePhongMaterial
 void main() {
   drawPhongMaterial();
+}
+#elif defined useReflectionMaterial
+void main() {
+  drawReflectionMaterial();
 }
 #elif defined useFlatMaterial
 void main() {

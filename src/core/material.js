@@ -333,6 +333,10 @@ export class MaterialState {
       shaderDefines[`use${typeName}`] = 1 // `useLambertMaterial', etc
     }
 
+    if (null != initialState.envmap) {
+      shaderDefines.HAS_ENV_MAP = 1
+    }
+
     if (null != initialState.map) {
       shaderDefines.HAS_MAP = 1
     }
@@ -652,6 +656,28 @@ export class MaterialUniforms {
      */
 
     this['map.data'] = ({texture, textureData}) => {
+      return coalesce(texture, emptyTexture)
+    }
+
+    /**
+     * Texture envmap resolution if available.
+     *
+     * @public
+     * @type {Array<Number>|Vector2}
+     */
+
+    this['envmap.resolution'] = ({textureResolution}) => {
+      return coalesce(textureResolution, [0, 0])
+    }
+
+    /**
+     * Texture envmap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['envmap.data'] = ({texture, textureData}) => {
       return coalesce(texture, emptyTexture)
     }
   }
