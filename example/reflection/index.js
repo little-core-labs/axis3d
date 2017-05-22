@@ -4,18 +4,17 @@ import {
   OrbitCameraController
 } from '../../extras/controller'
 
-const bunny = require('bunny')
-
 import {
-  OrientationInput,
-  MouseInput,
-  KeyboardInput,
-  TouchInput,
   PerspectiveCamera,
+  OrientationInput,
+  MaterialUniforms,
   SphereGeometry,
+  KeyboardInput,
   PlaneGeometry,
   FlatMaterial,
   MeshUniforms,
+  TouchInput,
+  MouseInput,
   Material,
   Texture,
   Context,
@@ -25,6 +24,7 @@ import {
 
 import quat from 'gl-quat'
 import mat4 from 'gl-mat4'
+import stanfordBunny from 'bunny'
 
 const ctx = Context()
 
@@ -50,14 +50,14 @@ const orbitCamera = OrbitCameraController(ctx, {
   camera, inputs,
   invert: true,
   interpolationFactor: 0.1,
-  // euler: [-0.5*Math.PI, 0, 0]
 })
 
+let i = 0
 const reflectMaterial = Material(ctx, {
   map: texture,
   uniforms: {
     envmap(reglCtx, opts) {
-      return reglCtx.texture(reglCtx.textureData)
+      return !i++ ? reglCtx.texture(reglCtx.textureData) : reglCtx.texture
     },
     invertedView(reglCtx, opts) {
       return mat4.invert([], reglCtx.view)
@@ -78,52 +78,15 @@ const reflectMaterial = Material(ctx, {
   }
 
   void main() {
-    // vec4 derp = vec4(1.0,1.0,0.5,0.01);
+    GeometryContext geometry = getGeometryContext();
+
     gl_FragColor = lookupEnv(vReflectDir);
   }
   `
 })
 
-const background = Mesh(ctx, {
-  // geometry: {
-  //   position: [
-  //     -4, -4,
-  //     -4, 4,
-  //     8, 0]
-  // },
-
-  // attributes: {
-  //   position: [
-  //     -4, -4,
-  //     -4, 4,
-  //     8, 0]
-  // },
-  depth: {
-    mask: false,
-    enable: false
-  },
-
-
-  geometry: PlaneGeometry(),
-  vertexShaderTransform:
-  `
-  varying vec3 vReflectDir;
-
-  void transform() {
-    vReflectDir = (camera.view * vec4(gl_Position.xy, 1, 0)).xyz;
-
-    gl_Position = vec4(gl_Position.xy, 0, 1.0);
-  }
-  `,
-})
-
-const sphere = Mesh(ctx, {
-  depth: {
-    mask: false,
-    enable: false
-  },
-  geometry: bunny,
-  // geometry: SphereGeometry(),
+const bunny = Mesh(ctx, {
+  geometry: stanfordBunny,
   uniforms: Object.assign(new MeshUniforms(ctx), {
     invertedView(reglCtx, opts) {
       return mat4.invert([], reglCtx.view)
@@ -143,12 +106,17 @@ const sphere = Mesh(ctx, {
   `
 })
 
+const bgMaterial = FlatMaterial(ctx, {map: texture})
+const background = Mesh(ctx, { geometry: SphereGeometry(ctx)})
 
 frame(() => {
-  orbitCamera({position: [0,0,15]}, () => {
-    reflectMaterial({} , () => {
-      // background({cull: false})
-      sphere({position: [0,0,0]})
+  orbitCamera({position: [-0.2,0,0], target: [0,0,0]}, () => {
+    bgMaterial({cull: false}, () => {
+      background({scale: [1, -1, 1] }, () => {
+      })
+        reflectMaterial({cull: false} , () => {
+          bunny({scale: 0.1, position: [0, -0.002, 0]})
+        })
     })
   })
 })
