@@ -50,6 +50,7 @@ void main() {
     * vec4(position, 1.0);
 #endif
 
+// adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
 #ifdef HAS_REFLECTION
   mat4 invertedView = camera.inverted;
   vec3 iv = invertedView[3].xyz / invertedView[3].w;

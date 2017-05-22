@@ -10,6 +10,8 @@
 
 //
 // Shader entry.
+
+// adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
 //
 #pragma glslify: export(main)
 
