@@ -60,15 +60,11 @@ const directional = DirectionalLight(ctx)
 const reflectiveMaterial = PhongMaterial(ctx, {
   envmap: texture,
   reflective: true,
-  opacity: 0.63,
-  // color: [1.0,1.0,1.0,1.0],
   color: [0.920,0.50,0.70,1.0],
-  // color: [0.7,0.2,0.44,1.0],
 })
 
 const bunny = Mesh(ctx, {
-  geometry: SphereGeometry(ctx),
-  // geometry: stanfordBunny,
+  geometry: stanfordBunny,
   reflective: true,
 })
 
@@ -96,7 +92,7 @@ frame(() => {
           specular: [1.0,0.790,0.990,1.0],
           emissive: [0.0,0.0,0.0,1.0],
         } , () => {
-          bunny({scale: 0.51, position: [0, -0.02, 0]})
+          bunny({scale: 0.1, position: [0, -0.02, 0]})
         })
       })
     })
