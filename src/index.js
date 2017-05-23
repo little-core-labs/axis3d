@@ -37,19 +37,20 @@ void [
 
 function makeAPI(mod) {
   // Make every class callable as a function
-  for (const key in mod) {
+  for (const key in mod) void function () {
     if ('function' == typeof mod[key]) {
-      const func = (...args) => new mod[key](...args)
-      //for (const prop of Object.getOwnPropertyNames(mod[key])) {
-        //if (null == func[prop]) {
-          //func[prop] = mod[key][prop]
-        //}
-      //}
+      const Constructor = mod[key]
+      function func() { return new Constructor(...arguments) }
+      for (const prop of Object.getOwnPropertyNames(mod[key])) {
+        if (null == func[prop]) {
+          func[prop] = mod[key][prop]
+        }
+      }
       Object.defineProperty(exports, key, {
         get: () => func
       })
     } else {
       Object.defineProperty(exports, key, {get: () => mod[key]})
     }
-  }
+  }()
 }

@@ -11,12 +11,9 @@ import {
   Context,
   Frame,
   Mesh,
-} from 'axis3d'
+} from '../../src'
 
-import {
-  OrbitCameraController
-} from '../../extras/controller'
-
+import { OrbitCameraController } from '../../extras/controller'
 import events from 'dom-events'
 import Stats from 'stats.js'
 import ready from 'domready'

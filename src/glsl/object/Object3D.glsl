@@ -1,6 +1,3 @@
-/**
- */
-
 #pragma glslify: export(Object3D)
 struct Object3D {
   vec3 scale;

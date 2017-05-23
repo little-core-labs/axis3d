@@ -45,6 +45,7 @@ export class KeyboardInput extends Command {
 
     // reset keyboard state when context blurs
     ctx.on('blur', oncontextblur)
+    events.on(window, 'blur', oncontextblur)
 
     // unbind event handlers when context is
     // destroyed
@@ -145,11 +146,11 @@ export class KeyboardInput extends Command {
      */
 
     function reset() {
-      for (let code in keycodes) {
+      for (const code in keycodes) {
         keycodes[code] = false
       }
 
-      for (let key in keys) {
+      for (const key in keys) {
         keys[key] = false
       }
     }

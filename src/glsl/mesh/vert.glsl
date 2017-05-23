@@ -54,7 +54,7 @@ void main() {
 #endif
 
 #ifdef HAS_UVS
-  vuv = uv;
+  vuv = mesh.object.scale.xy * uv;
 #endif
 
 #ifdef HAS_TRANSFORM_FUNC

@@ -269,6 +269,9 @@ export class TextureState {
      */
 
     let {data = null} = initialState
+    const resolution = Texture.getTextureDataResolution({}, data)
+    let {width = resolution[0] || 0} = initialState
+    let {height = resolution[1] || 0} = initialState
 
     /**
      * Timestamp of last known update of a video texture.
@@ -293,6 +296,18 @@ export class TextureState {
         enumerable: true,
         get() { return data || null },
         set(value) { data = value },
+      },
+
+      width: {
+        enumerable: true,
+        get() { return width || null },
+        set(value) { width = value },
+      },
+
+      height: {
+        enumerable: true,
+        get() { return height || null },
+        set(value) { height = value },
       },
 
       texture: {
@@ -326,9 +341,10 @@ export class TextureState {
    * @throws TypeError
    */
 
-  update({data = this.data} = {}) {
+  update(state = {}) {
     const now = this.ctx.regl.now()
     let needsUpdate = false
+    const {data = this.data} = state
 
     if (Texture.isTextureDataReady(data)) {
       if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
@@ -358,7 +374,8 @@ export class TextureState {
       this.previouslyUploadedData = data
       // update underlying regl texture
       if ('function' == typeof this.texture) {
-        this.texture(this)
+        this.height = 0.5*(data.height || data.videoHeight)
+        this.texture({ ...state, ...this})
       } else {
         throw new TypeError(
         `TextureState expects .texture to be a function. `+

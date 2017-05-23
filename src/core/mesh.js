@@ -518,6 +518,11 @@ export class MeshUniforms {
       }
     }
 
+    this['mesh.object.scale'] = ctx.regl.context('scale')
+    this['mesh.object.position'] = ctx.regl.context('position')
+    this['mesh.object.rotation'] = ctx.regl.context('rotation')
+    this['mesh.object.transform'] = ctx.regl.context('transform')
+
     // remove null or undefined values
     for (const key in this) {
       if (null == this[key]) {

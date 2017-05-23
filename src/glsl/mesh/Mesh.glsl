@@ -3,4 +3,5 @@
 struct Mesh {
   mat4 model;
   mat3 modelNormal;
+  Object3D object;
 };

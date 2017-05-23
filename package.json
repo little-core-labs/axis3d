@@ -13,7 +13,7 @@
     "axis3d",
     "graphics"
   ],
-  "main": "dist/axis.min.js",
+  "main": "lib/index.js",
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "MIT",
   "dependencies": {},
