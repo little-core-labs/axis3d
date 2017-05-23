@@ -26,6 +26,16 @@
 //
 #ifdef usePhongMaterial
 
+// adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
+vec4 lookupEnv(vec3 dir) {
+  float PI = 3.14;
+  float lat = atan(dir.z, dir.x);
+  float lon = acos(dir.y / length(dir));
+  vec2 envLoc = vec2(0.5 + lat / (2.0 * PI), lon / PI);
+
+  return texture2D(envmap.data, envLoc);
+}
+
 void applyPositionedLight(PositionedLight light,
                           GeometryContext geometry,
                           in vec3 surfaceColor,
@@ -73,6 +83,13 @@ void main() {
   GeometryContext geometry = getGeometryContext();
   vec3 surfaceColor = material.color.xyz;
   vec3 fragColor = vec3(0.0);
+  vec3 reflectivity = vec3(0.0);
+
+#ifdef HAS_REFLECTION
+  reflectivity = lookupEnv(geometry.reflection).rgb;
+  // reflectivity = reflectivity;
+  // reflectivity = reflectivity * vec3(0.083);
+#endif
 
 #ifdef HAS_MAP
   if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {
@@ -117,8 +134,9 @@ void main() {
                            fragColor);
     }
   }
+  reflectivity = reflectivity*surfaceColor;
 
-  fragColor = fragColor + material.emissive.xyz;
+  fragColor = fragColor + material.emissive.xyz + reflectivity;
   gl_FragColor = vec4(fragColor, material.opacity);
 }
 

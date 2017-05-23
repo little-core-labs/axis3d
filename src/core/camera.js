@@ -181,7 +181,7 @@ export class CameraContext extends Object3DContext {
      * @type {Array<Number>}
      */
 
-    this.inverted = (...args) => {
+    this.invertedView = (...args) => {
       return mat4.invert([], this.view(...args))
     }
 
@@ -468,8 +468,8 @@ export class CameraUniforms {
      * @type {Array<Number>}
      */
 
-    this['camera.inverted'] = ({inverted}) => {
-      return inverted
+    this['camera.invertedView'] = ({invertedView}) => {
+      return invertedView
     }
   }
 }

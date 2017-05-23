@@ -335,6 +335,7 @@ export class MaterialState {
 
     if (null != initialState.envmap) {
       shaderDefines.HAS_ENV_MAP = 1
+      shaderDefines.HAS_REFLECTION = 1
     }
 
     if (null != initialState.map) {
