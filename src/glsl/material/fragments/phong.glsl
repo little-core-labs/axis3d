@@ -33,7 +33,7 @@ vec4 lookupEnv(vec3 dir) {
   float lon = acos(dir.y / length(dir));
   vec2 envLoc = vec2(0.5 + lat / (2.0 * PI), lon / PI);
 
-  return texture2D(envmap.data, envLoc);
+  return texture2D(envmap.data, vec2(1.0 - envLoc.x, envLoc.y));
 }
 
 void applyPositionedLight(PositionedLight light,
@@ -86,7 +86,14 @@ void main() {
   vec3 reflectivity = vec3(0.0);
 
 #ifdef HAS_REFLECTION
-  reflectivity = lookupEnv(geometry.reflection).rgb;
+  vec3 normal = normalize(geometry.normal);
+  vec3 eye = normalize(camera.eye);
+  // vec3 normal = geometry.normal;
+  // vec3 eye = camera.eye;
+  vec3 reflect = normalize( reflect( eye, normal ) );
+
+  reflectivity = texture2D(envmap.data, reflect).rgb;
+  // reflectivity = lookupEnv(geometry.reflection).rgb;
   // reflectivity = reflectivity;
   // reflectivity = reflectivity * vec3(0.083);
 #endif

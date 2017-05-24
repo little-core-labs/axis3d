@@ -19,6 +19,7 @@ import {
   MouseInput,
   Material,
   Texture,
+  BoxGeometry,
   Context,
   Frame,
   Mesh,
@@ -64,7 +65,7 @@ const reflectiveMaterial = PhongMaterial(ctx, {
 })
 
 const bunny = Mesh(ctx, {
-  geometry: stanfordBunny,
+  geometry: BoxGeometry(ctx),
   reflective: true,
 })
 
@@ -92,7 +93,7 @@ frame(() => {
           specular: [1.0,0.790,0.990,1.0],
           emissive: [0.0,0.0,0.0,1.0],
         } , () => {
-          bunny({scale: 0.1, position: [0, -0.02, 0]})
+          bunny({scale: 0.21, position: [0, -0.02, 0]})
         })
       })
     })
