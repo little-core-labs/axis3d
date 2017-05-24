@@ -34,11 +34,12 @@ precision mediump float;
 #define isinf(n) (n >= 0.0 || n <= 0.0)
 #define isnan(n) !isinf(n) && n != n
 
-#define getGeometryContext() GeometryContext(vposition, vnormal, vuv, vreflection)
+#define getGeometryContext() GeometryContext(vposition, vnormal, vuv, vreflection, vangle)
 
 //
 // Shader IO.
 //
+varying float vangle;
 varying vec3 vreflection;
 varying vec3 vposition;
 varying vec3 vnormal;
@@ -51,14 +52,14 @@ uniform MATERIAL_TYPE material;
 uniform LightContext lightContext;
 uniform Camera camera;
 
-#ifdef HAS_ENV_MAP
-#pragma glslify: EnvironmentMap = require('../EnvironmentMap')
-uniform EnvironmentMap envmap;
-#endif
-
 #ifdef HAS_MAP
 #pragma glslify: Map = require('../Map')
 uniform Map map;
+#endif
+
+#ifdef HAS_CUBE_MAP
+#pragma glslify: Cubemap = require('../Cubemap')
+uniform Cubemap cubemap;
 #endif
 
 //
@@ -71,8 +72,8 @@ import drawLambertMaterial from './lambert' where {
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  cubemap=cubemap,
   camera=camera,
-  envmap=envmap,
   map=map,
   isnan=isnan,
   isinf=isinf
@@ -88,8 +89,8 @@ import drawPhongMaterial from './phong' where {
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  cubemap=cubemap,
   camera=camera,
-  envmap=envmap,
   map=map,
   isnan=isnan,
   isinf=isinf
@@ -101,7 +102,7 @@ import drawPhongMaterial from './phong' where {
 import drawFlatMaterial from './flat' where {
   getGeometryContext=getGeometryContext,
   material=material,
-  envmap=envmap,
+  cubemap=cubemap,
   map=map,
 }
 

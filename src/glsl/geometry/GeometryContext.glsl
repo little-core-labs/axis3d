@@ -4,4 +4,5 @@ struct GeometryContext {
   vec3 normal;
   vec2 uv;
   vec3 reflection;
+  float angle;
 };

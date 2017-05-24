@@ -26,15 +26,37 @@
 //
 #ifdef usePhongMaterial
 
+#ifdef HAS_MAP
 // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
 vec4 lookupEnv(vec3 dir) {
+  // vec3 dir = camera.eye;
+  // vec3 geometry.normal;
+  // vec3 reflection = dot()
+
+// float angle = cos(vangle);
+
+
+
+
   float PI = 3.14;
   float lat = atan(dir.z, dir.x);
   float lon = acos(dir.y / length(dir));
   vec2 envLoc = vec2(0.5 + lat / (2.0 * PI), lon / PI);
 
-  return texture2D(envmap.data, vec2(1.0 - envLoc.x, envLoc.y));
+  return texture2D(map.data, envLoc);
 }
+#endif
+
+#ifdef HAS_CUBE_MAP
+vec4 lookupCubeEnv(vec3 dir) {
+  float PI = 3.14;
+  float lat = atan(dir.z, dir.x);
+  float lon = acos(dir.y / length(dir));
+  vec3 envLoc = vec3(0.5 + lat / (2.0 * PI), lon / PI, 1.0);
+
+  return textureCube(cubemap.data, envLoc);
+}
+#endif
 
 void applyPositionedLight(PositionedLight light,
                           GeometryContext geometry,
@@ -85,23 +107,32 @@ void main() {
   vec3 fragColor = vec3(0.0);
   vec3 reflectivity = vec3(0.0);
 
-#ifdef HAS_REFLECTION
-  vec3 normal = normalize(geometry.normal);
-  vec3 eye = normalize(camera.eye);
-  // vec3 normal = geometry.normal;
-  // vec3 eye = camera.eye;
-  vec3 reflect = normalize( reflect( eye, normal ) );
+  // vec3 normal = normalize(geometry.normal);
+  // vec3 eye = normalize(camera.eye);
+  // // vec3 normal = geometry.normal;
+  // // vec3 eye = camera.eye;
+  // vec3 reflect = normalize( reflect( eye, normal ) );
 
-  reflectivity = texture2D(envmap.data, reflect).rgb;
-  // reflectivity = lookupEnv(geometry.reflection).rgb;
-  // reflectivity = reflectivity;
-  // reflectivity = reflectivity * vec3(0.083);
-#endif
+  // // reflectivity = texture2D(envmap.data, reflect).rgb;
+  // // reflectivity = reflectivity;
+  // // reflectivity = reflectivity * vec3(0.083);
 
 #ifdef HAS_MAP
   if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {
     surfaceColor = texture2D(map.data, geometry.uv).rgb;
   }
+#ifdef HAS_REFLECTION
+  surfaceColor = material.color.xyz;
+  reflectivity = lookupEnv(geometry.reflection).rgb;
+#endif
+#endif
+
+#ifdef HAS_CUBE_MAP
+  surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
+#ifdef HAS_REFLECTION
+  surfaceColor = material.color.xyz;
+  reflectivity = lookupCubeEnv(geometry.reflection).rgb;
+#endif
 #endif
 
   // accumulate ambient

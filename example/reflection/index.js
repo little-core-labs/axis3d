@@ -15,6 +15,7 @@ import {
   PlaneGeometry,
   FlatMaterial,
   MeshUniforms,
+  CubeTexture,
   TouchInput,
   MouseInput,
   Material,
@@ -42,6 +43,47 @@ govBall.src = 'assets/govball.jpg'
 govBall.onload = () => texture({data: govBall})
 texture({data: govBall})
 
+
+const cubeTexture = CubeTexture(ctx)
+
+
+// all cube textures sources must be square and same size
+const squareSize = 320
+
+const image1 = new Image()
+const image2 = new Image()
+image1.src = 'assets/smsq1.jpg'
+image2.src = 'assets/smsq2.jpg'
+
+const canvas = document.createElement('canvas')
+canvas.width = squareSize
+canvas.height = squareSize
+const canvasCtx = canvas.getContext('2d')
+canvasCtx.fillStyle = 'rgb(20,110,100)'
+const cadence = squareSize/20
+for (let i = 0; i < squareSize; i+=cadence) {
+  canvasCtx.fillRect(i, i, i, i)
+}
+
+const video = document.createElement('video')
+video.autoplay = true
+video.loop = true
+video.src = 'assets/squarevid.mp4'
+video.load()
+video.play()
+
+cubeTexture({data: [
+  image1,
+  image2,
+  canvas,
+  canvas,
+  video,
+  video,
+]})
+
+
+
+
 // inputs
 const orientation = OrientationInput(ctx)
 const keyboard = KeyboardInput(ctx)
@@ -60,8 +102,9 @@ const directional = DirectionalLight(ctx)
 
 const reflectiveMaterial = PhongMaterial(ctx, {
   envmap: texture,
+  // cube: true,
   reflective: true,
-  color: [0.920,0.50,0.70,1.0],
+  // color: [0.920,0.50,0.70,1.0],
 })
 
 const bunny = Mesh(ctx, {
@@ -82,7 +125,7 @@ frame(() => {
 
     directional({
       color: [1.0,1.0,1.0,1.0],
-      position: [0, 5, -5],
+      position: [0, 1, -5],
     })
 
     bgMaterial({cull: false}, () => {

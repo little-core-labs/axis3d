@@ -29,6 +29,7 @@ attribute vec3 normal;
 attribute vec2 uv;
 #endif
 
+varying float vangle;
 varying vec3 vreflection;
 varying vec3 vposition;
 varying vec3 vnormal;
@@ -60,11 +61,18 @@ void main() {
 
 // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
 #ifdef HAS_REFLECTION
+
+
   mat4 invertedView = camera.invertedView;
   vec3 iv = invertedView[3].xyz / invertedView[3].w;
   vec3 eye = normalize(gl_Position.xyz - iv);
   // vec3 eye = normalize(camera.eye);
-  vreflection = reflect(eye, vnormal);
+  vangle = dot(camera.eye, normal);
+  // vreflection = cos(dot(camera.eye, normal));
+  vreflection = reflect(eye, normal);
+
+
+
 #endif
 
 #ifdef HAS_TRANSFORM_FUNC

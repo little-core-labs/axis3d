@@ -67,6 +67,10 @@ void main() {
   }
 #endif
 
+#ifdef HAS_CUBE_MAP
+  surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
+#endif
+
   // accumulate ambient
   for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {
     AmbientLight light = lightContext.ambient.lights[i];

@@ -22,8 +22,8 @@ void main() {
   }
 #endif
 
-#ifdef HAS_ENV_MAP
-  gl_FragColor = texture2D(envmap.data, geometry.uv);
+#ifdef HAS_CUBE_MAP
+  gl_FragColor = textureCube(cubemap.data, geometry.position);
 #endif
 
   gl_FragColor.a = material.opacity;

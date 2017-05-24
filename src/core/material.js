@@ -190,6 +190,12 @@ export class Material extends Command {
     const {materialMap = new MaterialMap(ctx, initialState)} = initialState
 
     /**
+     * Material cubemap.
+     */
+
+    const {materialCubeMap = new MaterialCubeMap(ctx, initialState)} = initialState
+
+    /**
      * Injected material uniforms.
      */
 
@@ -235,16 +241,31 @@ export class Material extends Command {
 
       block = block || function() {}
 
+      let needContext = true
+
+      const cubeMapState = isArrayLike(state) ? {} : state.cubemap
+      materialCubeMap.injectContext(cubeMapState || {}, ({cubemap} = {}) => {
+        if ('function' == typeof cubemap) {
+          cubemap((c) => {
+            needContext = false
+            injectContext(state, block)
+          })
+        }
+      })
+
       const mapState = isArrayLike(state) ? {} : state.map
       materialMap.injectContext(mapState || {}, ({map} = {}) => {
         if ('function' == typeof map) {
           map((c) => {
+            needContext = false
             injectContext(state, block)
           })
-        } else {
-          injectContext(state, block)
         }
       })
+
+      if (needContext) {
+        injectContext(state, block)
+      }
 
       return this
     }
@@ -334,12 +355,20 @@ export class MaterialState {
     }
 
     if (null != initialState.envmap) {
-      shaderDefines.HAS_ENV_MAP = 1
       shaderDefines.HAS_REFLECTION = 1
+      if (null != initialState.cube) {
+        shaderDefines.HAS_CUBE_MAP = 1
+      } else {
+        shaderDefines.HAS_MAP = 1
+      }
     }
 
     if (null != initialState.map) {
       shaderDefines.HAS_MAP = 1
+    }
+
+    if (null != initialState.cubemap) {
+      shaderDefines.HAS_CUBE_MAP = 1
     }
 
     for (let key in types) {
@@ -600,6 +629,7 @@ export class MaterialUniforms {
 
   constructor(ctx, initialState = {}) {
     const emptyTexture = ctx.regl.texture()
+    const emptyCubeTexture = ctx.regl.cube()
 
     /**
      * Material opacity value.
@@ -661,25 +691,25 @@ export class MaterialUniforms {
     }
 
     /**
-     * Texture envmap resolution if available.
-     *
-     * @public
-     * @type {Array<Number>|Vector2}
-     */
-
-    this['envmap.resolution'] = ({textureResolution}) => {
-      return coalesce(textureResolution, [0, 0])
-    }
-
-    /**
-     * Texture envmap data if available.
+     * Texture cubemap data if available.
      *
      * @public
      * @type {Texture}
      */
 
-    this['envmap.data'] = ({texture, textureData}) => {
-      return coalesce(texture, emptyTexture)
+    this['cubemap.resolution'] = ({textureResolution}) => {
+      return coalesce(textureResolution, [0, 0])
+    }
+
+    /**
+     * Texture cubemap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['cubemap.data'] = ({texture, textureData}) => {
+      return coalesce(texture, emptyCubeTexture)
     }
   }
 }
@@ -716,6 +746,44 @@ export class MaterialMap {
       context: {
         map: ({}, {map = initialState.map}) => {
           return map
+        }
+      }
+    })
+  }
+}
+
+/**
+ * The MaterialCubeMap class represents an abstraction around
+ * a cubemap given to a material.
+ *
+ * @public
+ * @class MaterialCubeMap
+ */
+
+export class MaterialCubeMap {
+
+  /**
+   * MaterialCubeMap class constructor.
+   *
+   * @public
+   * @constructor
+   * @param {!Context} ctx Axis3D context.
+   * @param {?Object} initialState Optional initial state.
+   */
+
+  constructor(ctx, initialState = {}) {
+
+    /**
+     * Injects a cubemap into a context for a material.
+     *
+     * @public
+     * @type {Function}
+     */
+
+    this.injectContext = ctx.regl({
+      context: {
+        cubemap: ({}, {cubemap = initialState.cubemap}) => {
+          return cubemap
         }
       }
     })
