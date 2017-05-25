@@ -41,7 +41,10 @@ function makeAPI(mod) {
     if ('function' == typeof mod[key]) {
       const Constructor = mod[key]
       function func() { return new Constructor(...arguments) }
-      for (const prop of Object.getOwnPropertyNames(mod[key])) {
+      const props = [
+        ...Object.getOwnPropertyNames(mod[key])
+      ].filter((n) => !(n in Function()))
+      for (const prop of props) {
         if (null == func[prop]) {
           func[prop] = mod[key][prop]
         }
