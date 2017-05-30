@@ -348,6 +348,7 @@ export class MeshState {
     }
 
     if (geometry.normals) {
+      console.log('HAS_NORMALS', geometry.normals)
       shaderDefines['HAS_NORMALS'] = 1
     }
 
@@ -519,8 +520,22 @@ export class MeshUniforms {
 
     this['mesh.modelNormal'] = ({transform}) => {
       if (isArrayLike(transform)) {
-        return mat3.normalFromMat4([], transform) || kMat3Identity
+        // console.log('transform', transform)
+        // console.log('mat3', mat3)
+        // debugger
+        let derp = mat3.normalFromMat4([], transform) || kMat3Identity
+
+        // let i = mat4.invert([], transform)
+        // let t = mat4.transpose([], i)
+        // console.log('mat3.fromMat4([], t)', mat3.fromMat4([], t))
+        // console.log('mat3.normalFromMat4([], transform)', mat3.normalFromMat4([], transform))
+        // console.log('true???', mat3.fromMat4([], t) == mat3.normalFromMat4([], transform) )
+        // derp = mat3.fromMat4([], t) || kMat3Identity
+        // console.log('derp', derp)
+        return derp
+        // return mat3.normalFromMat4([], transform) || kMat3Identity
       } else {
+        console.log('kMat3Identity')
         return kMat3Identity
       }
     }
@@ -592,7 +607,7 @@ export class MeshAttributes {
     this.position = coalesce(geometry.positions, null)
 
     /**
-     * 'position' vertex attributes value.
+     * 'normal' vertex attributes value.
      *
      * @public
      * @type {Array<Array<Number>>|Array<Vector3>|null}
@@ -601,7 +616,7 @@ export class MeshAttributes {
     this.normal = coalesce(geometry.normals, null)
 
     /**
-     * 'position' vertex attributes value.
+     * 'uv' vertex attributes value.
      *
      * @public
      * @type {Array<Array<Number>>|Array<Vector2>|null}

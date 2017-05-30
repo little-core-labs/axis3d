@@ -75,6 +75,8 @@ export const kDefaultFrameClearState = Object.seal({
   depth: 1,
 })
 
+const NamedType = (Type, typeName = Type.name) => Object.assign(Type, {typeName})
+
 /**
  * The Frame class represents a command that abstracts a render
  * loop.
@@ -84,7 +86,7 @@ export const kDefaultFrameClearState = Object.seal({
  * @extends Command
  */
 
-export class Frame extends Command {
+export class Frame extends NamedType(Command) {
 
   /**
    * Frame class constructor.
@@ -98,6 +100,7 @@ export class Frame extends Command {
   constructor(ctx, initialState = {}) {
     incrementStat('Frame')
     super(update)
+    console.info('whoami', Command.typeName)
 
     const uniforms = new FrameUniforms(ctx, initialState.uniforms || {})
     const context = new FrameContext(ctx, initialState.context || {})

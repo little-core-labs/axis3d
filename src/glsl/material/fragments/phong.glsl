@@ -49,12 +49,17 @@ vec4 lookupEnv(vec3 dir) {
 
 #ifdef HAS_CUBE_MAP
 vec4 lookupCubeEnv(vec3 dir) {
-  float PI = 3.14;
-  float lat = atan(dir.z, dir.x);
-  float lon = acos(dir.y / length(dir));
-  vec3 envLoc = vec3(0.5 + lat / (2.0 * PI), lon / PI, 1.0);
+  GeometryContext geometry = getGeometryContext();
+  mat4 invertedView = camera.invertedView;
+  vec3 iv = invertedView[3].xyz / invertedView[3].w;
+  vec3 eye = normalize(geometry.position.xyz - iv);
+  vec3 rdir = reflect(eye, geometry.normal);
+  // float PI = 3.14;
+  // float lat = atan(dir.z, dir.x);
+  // float lon = acos(dir.y / length(dir));
+  // vec3 envLoc = vec3(0.5 + lat / (2.0 * PI), lon / PI, 1.0);
 
-  return textureCube(cubemap.data, envLoc);
+  return textureCube(cubemap.data, rdir);
 }
 #endif
 
@@ -105,7 +110,7 @@ void main() {
   GeometryContext geometry = getGeometryContext();
   vec3 surfaceColor = material.color.xyz;
   vec3 fragColor = vec3(0.0);
-  vec3 reflectivity = vec3(0.0);
+  vec3 reflectivity = vec3(0.1, 0.1, 0.2);
 
   // vec3 normal = normalize(geometry.normal);
   // vec3 eye = normalize(camera.eye);
@@ -131,7 +136,11 @@ void main() {
   surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
 #ifdef HAS_REFLECTION
   surfaceColor = material.color.xyz;
+  // reflectivity = vec3(1.0,0.4,0.2);
+  // reflectivity = lookupCubeEnv(camera.eye).rgb;
+  // reflectivity = lookupCubeEnv(reflect(camera.eye, geometry.normal)).rgb;
   reflectivity = lookupCubeEnv(geometry.reflection).rgb;
+  // reflectivity = lookupCubeEnv(reflect(geometry.reflection, geometry.normal)).rgb;
 #endif
 #endif
 
@@ -172,9 +181,11 @@ void main() {
                            fragColor);
     }
   }
-  reflectivity = reflectivity*surfaceColor;
+  reflectivity = reflectivity;
+  // reflectivity = reflectivity * surfaceColor;
 
-  fragColor = fragColor + material.emissive.xyz + reflectivity;
+  //fragColor = fragColor + material.emissive.xyz + reflectivity;
+  fragColor = reflectivity;
   gl_FragColor = vec4(fragColor, material.opacity);
 }
 

@@ -95,7 +95,7 @@ BABEL_ENV ?= commonjs
 ##
 # Browserify transform
 #
-BROWSERIFY_TRANSFORM := -g babelify
+BROWSERIFY_TRANSFORM := -t babelify
 BROWSERIFY_TRANSFORM_DIST := -g rollupify \
 														 -g babelify  \
 														 -g uglifyify \

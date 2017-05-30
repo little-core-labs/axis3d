@@ -286,7 +286,7 @@ export class CubeTextureState {
     if (ready) {
       for (let i = 0; i < data.length; i++) {
         if (isVideo(data[i]) && data[i].readyState >= HAVE_CURRENT_DATA) {
-          needsUpdate = true
+          // needsUpdate = true
           if (now - this.lastVideoUpdate >= 0.01) {
             this.lastVideoUpdate = now
           }
@@ -318,6 +318,7 @@ export class CubeTextureState {
       }
       // update underlying regl texture
       if ('function' == typeof this.texture) {
+        console.log('update')
         this.texture( ...this.data )
       } else {
         throw new TypeError(

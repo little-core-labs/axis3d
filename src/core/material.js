@@ -353,12 +353,16 @@ export class MaterialState {
     } else {
       shaderDefines[`use${typeName}`] = 1 // `useLambertMaterial', etc
     }
+console.log('asdfasdfsa')
 
     if (null != initialState.envmap) {
+      console.log('has')
       shaderDefines.HAS_REFLECTION = 1
       if (null != initialState.cube) {
+        console.log('cube')
         shaderDefines.HAS_CUBE_MAP = 1
       } else {
+console.log('nope')
         shaderDefines.HAS_MAP = 1
       }
     }
