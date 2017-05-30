@@ -17,7 +17,7 @@ import quat from 'gl-quat'
 // fullscreen canvas
 const ctx = Context()
 
-const box = Mesh(ctx, { geometry: BoxGeometry(ctx) })
+const box = Mesh(ctx, { geometry: BoxGeometry() })
 const video = document.createElement('video')
 const frame = Frame(ctx)
 const camera = OrthographicCamera(ctx, {viewport: [-1, -1, 1, 1]})
