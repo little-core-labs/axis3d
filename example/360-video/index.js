@@ -27,7 +27,7 @@ const texture = Texture(ctx)
 const material = FlatMaterial(ctx, {map: texture})
 
 const camera = PerspectiveCamera(ctx, {position: [0, 0, 0]})
-const sphere = Mesh(ctx, { geometry: SphereGeometry(ctx)})
+const sphere = Mesh(ctx, { geometry: SphereGeometry()})
 const frame = Frame(ctx)
 
 // inputs
