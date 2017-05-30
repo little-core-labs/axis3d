@@ -83,6 +83,7 @@ export class Context extends EventEmitter {
       extensions: [
         ...(opts.regl.extensions || []),
         'OES_texture_float',
+        'WEBGL_draw_buffers'
       ],
 
       optionalExtensions: [
