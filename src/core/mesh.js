@@ -142,6 +142,8 @@ export class Mesh extends Object3D {
 
     super(ctx, { ...initialState, context, update })
 
+    this.typeName = 'mesh'
+
     /**
      * Draws mesh and with given state and
      * then calling an optional given block

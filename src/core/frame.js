@@ -6,7 +6,6 @@
 
 import { kDefaultMaterialFragmentShader } from './material'
 import { incrementStat, registerStat } from '../stats'
-import { NamedType } from './type'
 import { Command } from './command'
 import { define } from '../utils'
 import { Color } from './color'
@@ -100,6 +99,8 @@ export class Frame extends Command {
   constructor(ctx, initialState = {}) {
     incrementStat('Frame')
     super(update)
+
+    this.typeName = 'frame'
 
     const uniforms = new FrameUniforms(ctx, initialState.uniforms || {})
     const context = new FrameContext(ctx, initialState.context || {})

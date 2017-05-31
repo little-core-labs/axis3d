@@ -6,7 +6,6 @@
 
 import { ensureRGBA, isArrayLike } from '../utils'
 import { incrementStat } from '../stats'
-import { NamedType } from './type'
 import { Command } from './command'
 import { Texture } from './texture'
 import { Color } from './color'
@@ -184,6 +183,8 @@ export class Material extends Command {
     incrementStat('Material')
     super(update)
 
+    this.typeName = 'material'
+
     /**
      * Material map.
      */
@@ -357,7 +358,7 @@ export class MaterialState {
 
     if (null != initialState.envmap) {
       shaderDefines.HAS_REFLECTION = 1
-      if ('CubeTexture' === initialState.envmap.typeName) {
+      if ('cubetexture' === initialState.envmap.typeName) {
         shaderDefines.HAS_CUBE_MAP = 1
       } else {
         shaderDefines.HAS_MAP = 1

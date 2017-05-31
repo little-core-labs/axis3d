@@ -52,6 +52,8 @@ export class GeometryBuffer extends Command {
     incrementStat('GeometryBuffer')
     super(update)
 
+    this.typeName = 'geometrybuffer'
+
     /**
      * GeometryBuffer state
      */

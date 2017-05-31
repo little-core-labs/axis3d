@@ -72,6 +72,9 @@ export class Camera extends Object3D {
         injectContext(state, block)
       }
     })
+
+    this.typeName = 'camera'
+
   }
 }
 

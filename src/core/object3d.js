@@ -83,6 +83,8 @@ export class Object3D extends Command {
     incrementStat('Object3D')
     super(update)
 
+    this.typeName = 'object3d'
+
     /**
      * Optional update function.
      */

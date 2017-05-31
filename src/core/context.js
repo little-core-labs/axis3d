@@ -44,6 +44,7 @@ export class Context extends EventEmitter {
     registerStat('Context')
     // shut up EventEmitter
     this.setMaxListeners(Infinity)
+    this.typeName = 'context'
 
     /**
      * Internal predicate to indicate that the context

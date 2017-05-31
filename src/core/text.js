@@ -40,6 +40,7 @@ export class Text extends Command {
   constructor(ctx, initialState = {}) {
     super(update)
 
+    this.typeName = 'text'
     /**
      * Injected regl context.
      */

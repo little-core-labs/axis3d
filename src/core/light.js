@@ -158,6 +158,8 @@ export class Light extends Object3D {
       update
     })
 
+    this.typeName = 'light'
+
     /**
      * Calls current target render function
      */

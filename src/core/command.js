@@ -82,10 +82,10 @@ export class Command extends Function {
       return fn.apply(fn, Array.prototype.slice.call(arguments, 1))
     }))
     const self = this
-    const exec = (...args) => this(fn, ...args)
     const id = Command.id()
-    return Object.assign((...args) => exec.call(self, ...args), {
-      ['this']: self, id
+
+    return Object.assign(this.bind(this, fn), {
+      ['this']: self, id, typeName: 'command'
     })
   }
 }
