@@ -76,7 +76,7 @@ const ctx = Context()
 const material = FlatMaterial(ctx)
 const camera = PerspectiveCamera(ctx, {position: [0, 0, 2]})
 const frame = Frame(ctx)
-const box = Mesh(ctx, { geometry: BoxGeometry(ctx) })
+const box = Mesh(ctx, { geometry: BoxGeometry() })
 
 const rotation = [0, 0, 0, 1]
 const angle = [0, 0, 0, 1]

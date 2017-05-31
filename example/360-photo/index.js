@@ -30,7 +30,7 @@ const ctx = Context({
 
 // scene
 const camera = PerspectiveCamera(ctx)
-const sphere = Mesh(ctx, { geometry: SphereGeometry(ctx)})
+const sphere = Mesh(ctx, { geometry: SphereGeometry()})
 const frame = Frame(ctx)
 
 // surface

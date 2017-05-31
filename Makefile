@@ -49,6 +49,11 @@ export DEREQUIRE = $(BIN)/derequire
 export COLORTAPE = $(BIN)/colortape
 
 ##
+# Path to uglifyjs
+#
+export UGLIFYJS = $(BIN)/uglifyjs
+
+##
 # Module source (js)
 #
 SRC += $(wildcard src/*/*/*/*.js)
@@ -83,9 +88,9 @@ SRC_MAIN = src/index.js
 LIB_MAIN = lib/index.js
 
 ##
-# Global namespace target
+# Project name and global namespace target
 #
-GLOBAL_NAMESPACE = Axis3D
+PROJECT_NAME = axis3d
 
 ##
 # Babel ENV
@@ -93,13 +98,27 @@ GLOBAL_NAMESPACE = Axis3D
 BABEL_ENV ?= commonjs
 
 ##
-# Browserify transform
+# Browserify configuration flags
+# for source transpile
 #
-BROWSERIFY_TRANSFORM := -t babelify
-BROWSERIFY_TRANSFORM_DIST := -g rollupify \
-														 -g babelify  \
-														 -g uglifyify \
-														 -s $(GLOBAL_NAMESPACE)
+BROWSERIFY_FLAGS += -t babelify
+
+##
+# Browserify configuration flags
+# for distribition build
+#
+BROWSERIFY_FLAGS_DIST += -t rollupify
+BROWSERIFY_FLAGS_DIST += -t babelify
+BROWSERIFY_FLAGS_DIST += -s $(PROJECT_NAME)
+
+##
+# Browserify configuration flags
+# for minified distribition build
+#
+BROWSERIFY_FLAGS_DIST_MIN += -t rollupify
+BROWSERIFY_FLAGS_DIST_MIN += -t babelify
+BROWSERIFY_FLAGS_DIST_MIN += -g uglifyify
+BROWSERIFY_FLAGS_DIST_MIN += -s $(PROJECT_NAME)
 
 ##
 # Devtool flags
@@ -125,14 +144,15 @@ endef
 ##
 # Test runner command
 define RUN_TEST
-	@$(BROWSERIFY) $(1) $(BROWSERIFY_TRANSFORM) \
-		| $(DEVTOOL) $(DEVTOOL_FLAGS) $(1) | $(COLORTAPE)
+  @$(BROWSERIFY) $(1) $(BROWSERIFY_FLAGS) \
+    | $(DEVTOOL) $(DEVTOOL_FLAGS) $(1)    \
+    | $(COLORTAPE)
 endef
 
 ##
 # Builds everything
 #
-all: lib build dist
+all: lib dist
 
 ##
 # Builds all files
@@ -144,29 +164,26 @@ lib: $(SRC) | node_modules README.md
 	cp README.md $@
 
 ##
-# Builds all build files
-#
-build: build/axis.js
-
-##
-# Builds javascript build file
-#
-build/axis.js: BABEL_ENV=development
-build/axis.js: node_modules lib
-	$(BUILD_PARENT_DIRECTORY)
-	NODE_ENV=$(BABEL_ENV) $(BROWSERIFY) $(BROWSERIFY_TRANSFORM) -d $(LIB_MAIN) > $@
-
-##
 # Builds all dist files
 #
-dist: dist/axis.min.js
+dist: dist/$(PROJECT_NAME).js dist/$(PROJECT_NAME).min.js
 
 ##
 # Builds javascript dist file
 #
-dist/axis.min.js: node_modules lib
+dist/$(PROJECT_NAME).js: node_modules lib
 	$(BUILD_PARENT_DIRECTORY)
-	$(BROWSERIFY) $(BROWSERIFY_TRANSFORM_DIST) $(LIB_MAIN) | $(DEREQUIRE) > $@
+	$(BROWSERIFY) $(BROWSERIFY_FLAGS_DIST) $(LIB_MAIN) \
+    | $(DEREQUIRE) > $@
+
+##
+# Builds minified javascript dist file
+#
+dist/$(PROJECT_NAME).min.js: node_modules lib
+	$(BUILD_PARENT_DIRECTORY)
+	$(BROWSERIFY) $(BROWSERIFY_FLAGS_DIST_MIN) $(LIB_MAIN) \
+    | $(DEREQUIRE) \
+    | $(UGLIFYJS) -c -m > $@
 
 ##
 # Builds node modules
@@ -186,7 +203,7 @@ esdoc: node_modules esdoc.json $(SRC)
 .PHONY: example/*
 example/*: NODE_PATH="$(NODE_PATH):$(CWD)/example/"
 example/*:
-	$(BUDO) $@/index.js -p 3000 --dir $@ --dir public --live --verbose -- $(BROWSERIFY_TRANSFORM) --debug
+	$(BUDO) $@/index.js -p 3000 --dir $@ --dir public --live --verbose -- $(BROWSERIFY_FLAGS) --debug
 
 ##
 # Cleans all built files
@@ -195,7 +212,6 @@ example/*:
 clean:
 	rm -rf lib
 	rm -rf dist
-	rm -rf build
 
 ##
 # Run standard against the codebase
