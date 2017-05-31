@@ -6,13 +6,13 @@ import {
 
 import {
   CylinderGeometry,
-  AmbientLight,
   CapsuleGeometry,
   PerspectiveCamera,
   OrientationInput,
   MaterialUniforms,
   DirectionalLight,
   SphereGeometry,
+  AmbientLight,
   PhongMaterial,
   KeyboardInput,
   PlaneGeometry,
@@ -47,9 +47,7 @@ govBall.src = 'assets/govball.jpg'
 govBall.onload = () => texture({data: govBall})
 texture({data: govBall})
 
-
 const cubeTexture = CubeTexture(ctx)
-
 // all cube textures sources must be square and same size
 const squareSize = 320
 
@@ -92,9 +90,6 @@ cubeTexture({data: [
   // video,
 ]})
 
-
-
-
 // inputs
 const orientation = OrientationInput(ctx)
 const keyboard = KeyboardInput(ctx)
@@ -114,27 +109,21 @@ const ambient = AmbientLight(ctx)
 
 const reflectiveMaterial = PhongMaterial(ctx, {
   envmap: cubeTexture,
-  cubemap: cubeTexture,
-  cube: true,
-  reflective: true,
-  // color: [0.920,0.50,0.70,1.0],
+  color: [1.0,1.0,1.0,1.0]
 })
 
 const bunny = Mesh(ctx, {
-  geometry: CylinderGeometry(),
-  reflective: true,
+  geometry: CapsuleGeometry()
 })
 
-const bgMaterial = FlatMaterial(ctx, {
-  cubemap: cubeTexture,
-  cube: true
+const backgroundMaterial = FlatMaterial(ctx, {
+  envmap: cubeTexture
 })
 
 const background = Mesh(ctx, {
   geometry: BoxGeometry()
 })
 
-console.log('cubeTexture', cubeTexture)
 frame(() => {
   orbitCamera({position: [0,0,0], target: [0,0,0]}, () => {
 
@@ -147,7 +136,7 @@ frame(() => {
       ambient: 1.1
     })
 
-    bgMaterial({cull: false}, () => {
+    backgroundMaterial({cull: false}, () => {
       background({scale: [1, -1, 1]})
     })
 
@@ -158,7 +147,6 @@ frame(() => {
       emissive: [0.0,0.0,0.0,1.0],
     }, () => {
       bunny({
-        wireframe: false,
         scale: 0.21,
         position: [0, 0, 0]
       })

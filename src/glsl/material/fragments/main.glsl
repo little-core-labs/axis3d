@@ -34,13 +34,11 @@ precision mediump float;
 #define isinf(n) (n >= 0.0 || n <= 0.0)
 #define isnan(n) !isinf(n) && n != n
 
-#define getGeometryContext() GeometryContext(vposition, vnormal, vuv, vreflection, vangle)
+#define getGeometryContext() GeometryContext(vposition, vnormal, vuv)
 
 //
 // Shader IO.
 //
-varying float vangle;
-varying vec3 vreflection;
 varying vec3 vposition;
 varying vec3 vnormal;
 varying vec2 vuv;

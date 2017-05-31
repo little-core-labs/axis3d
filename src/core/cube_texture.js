@@ -6,6 +6,7 @@
 
 import { incrementStat } from '../stats'
 import { Command } from './command'
+import { NamedType } from './type'
 import { TextureContext, kDefaultTextureState } from './texture'
 import window from 'global/window'
 
@@ -65,7 +66,7 @@ export const kDefaultTextures = (() => {
  * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#cube-maps}
  */
 
-export class CubeTexture extends Command {
+export class CubeTexture extends NamedType(Command, 'CubeTexture') {
 
   /**
    * Cube Texture class constructor.
@@ -114,6 +115,9 @@ export class CubeTexture extends Command {
 
       return this
     }
+    this.typeName = 'CubeTexture'
+    console.log('Command.typeName', Command.typeName)
+    console.log('this.typeName in constructor', this.typeName)
   }
 
   /**
@@ -139,6 +143,8 @@ export class CubeTexture extends Command {
     }
     return false
   }
+
+
 
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
@@ -318,7 +324,6 @@ export class CubeTextureState {
       }
       // update underlying regl texture
       if ('function' == typeof this.texture) {
-        console.log('update')
         this.texture( ...this.data )
       } else {
         throw new TypeError(

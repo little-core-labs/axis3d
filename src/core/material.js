@@ -6,6 +6,7 @@
 
 import { ensureRGBA, isArrayLike } from '../utils'
 import { incrementStat } from '../stats'
+import { NamedType } from './type'
 import { Command } from './command'
 import { Texture } from './texture'
 import { Color } from './color'
@@ -353,26 +354,18 @@ export class MaterialState {
     } else {
       shaderDefines[`use${typeName}`] = 1 // `useLambertMaterial', etc
     }
-console.log('asdfasdfsa')
 
     if (null != initialState.envmap) {
-      console.log('has')
       shaderDefines.HAS_REFLECTION = 1
-      if (null != initialState.cube) {
-        console.log('cube')
+      if ('CubeTexture' === initialState.envmap.typeName) {
         shaderDefines.HAS_CUBE_MAP = 1
       } else {
-console.log('nope')
         shaderDefines.HAS_MAP = 1
       }
     }
 
     if (null != initialState.map) {
       shaderDefines.HAS_MAP = 1
-    }
-
-    if (null != initialState.cubemap) {
-      shaderDefines.HAS_CUBE_MAP = 1
     }
 
     for (let key in types) {
@@ -387,8 +380,6 @@ console.log('nope')
     for (let key in shaderDefines) {
       fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
     }
-
-
 
     /**
      * Material fragment shader source string.
@@ -786,7 +777,7 @@ export class MaterialCubeMap {
 
     this.injectContext = ctx.regl({
       context: {
-        cubemap: ({}, {cubemap = initialState.cubemap}) => {
+        cubemap: ({}, {cubemap = initialState.envmap}) => {
           return cubemap
         }
       }

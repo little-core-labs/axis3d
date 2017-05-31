@@ -78,14 +78,10 @@ export class Geometry {
     }
 
     if (complex) {
-      console.log('complex')
-      console.log('this.flatten', this.flatten)
-      console.log('complex.cells', complex.cells)
       if (this.flatten && complex.cells) {
         const cells = complex.cells.map((cell) => cell.slice())
         const flattened = reindex(unindex(complex.positions, cells))
         try {
-          console.log('derp')
           complex.normals = normals.vertexNormals(
             flattened.cells,
             flattened.positions)
@@ -95,7 +91,6 @@ export class Geometry {
 
       if (null == complex.normals && complex.positions && complex.cells) {
         try {
-          console.info('i am doing something wierds')
           complex.normals = normals.vertexNormals(
             complex.cells,
             complex.positions)
@@ -103,10 +98,7 @@ export class Geometry {
       }
     }
 
-console.log('b this._complex', this._complex)
     Object.assign(this._complex, complex)
-console.log('A this._complex', this._complex)
-    console.log('complex', complex)
     return complex
   }
 

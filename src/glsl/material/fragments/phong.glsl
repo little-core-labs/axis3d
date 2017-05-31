@@ -29,15 +29,6 @@
 #ifdef HAS_MAP
 // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
 vec4 lookupEnv(vec3 dir) {
-  // vec3 dir = camera.eye;
-  // vec3 geometry.normal;
-  // vec3 reflection = dot()
-
-// float angle = cos(vangle);
-
-
-
-
   float PI = 3.14;
   float lat = atan(dir.z, dir.x);
   float lon = acos(dir.y / length(dir));
@@ -49,17 +40,21 @@ vec4 lookupEnv(vec3 dir) {
 
 #ifdef HAS_CUBE_MAP
 vec4 lookupCubeEnv(vec3 dir) {
-  GeometryContext geometry = getGeometryContext();
-  mat4 invertedView = camera.invertedView;
-  vec3 iv = invertedView[3].xyz / invertedView[3].w;
-  vec3 eye = normalize(geometry.position.xyz - iv);
-  vec3 rdir = reflect(eye, geometry.normal);
-  // float PI = 3.14;
-  // float lat = atan(dir.z, dir.x);
-  // float lon = acos(dir.y / length(dir));
-  // vec3 envLoc = vec3(0.5 + lat / (2.0 * PI), lon / PI, 1.0);
+  vec4 color = vec4(0.0);
 
-  return textureCube(cubemap.data, rdir);
+  float total = 0.0;
+
+  for (float t = -30.0; t <= 30.0; t++) {
+    float percent = (t - 0.5) / 30.0;
+    float weight = 1.0 - abs(percent);
+    vec4 sam = textureCube(cubemap.data, dir);
+    color += sam * weight;
+    total += weight;
+
+  }
+  return textureCube(cubemap.data, dir);
+
+  // return color/total;
 }
 #endif
 
@@ -110,17 +105,14 @@ void main() {
   GeometryContext geometry = getGeometryContext();
   vec3 surfaceColor = material.color.xyz;
   vec3 fragColor = vec3(0.0);
-  vec3 reflectivity = vec3(0.1, 0.1, 0.2);
+  vec3 reflectivity = vec3(0.0);
+  float reflectivityAmount = 1.0;
 
-  // vec3 normal = normalize(geometry.normal);
-  // vec3 eye = normalize(camera.eye);
-  // // vec3 normal = geometry.normal;
-  // // vec3 eye = camera.eye;
-  // vec3 reflect = normalize( reflect( eye, normal ) );
-
-  // // reflectivity = texture2D(envmap.data, reflect).rgb;
-  // // reflectivity = reflectivity;
-  // // reflectivity = reflectivity * vec3(0.083);
+  // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
+  mat4 invertedView = camera.invertedView;
+  vec3 iv = invertedView[3].xyz / invertedView[3].w;
+  vec3 eye = normalize(geometry.position.xyz - iv);
+  vec3 rdir = reflect(eye, geometry.normal);
 
 #ifdef HAS_MAP
   if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {
@@ -128,7 +120,7 @@ void main() {
   }
 #ifdef HAS_REFLECTION
   surfaceColor = material.color.xyz;
-  reflectivity = lookupEnv(geometry.reflection).rgb;
+  reflectivity = lookupEnv(rdir).rgb;
 #endif
 #endif
 
@@ -136,11 +128,7 @@ void main() {
   surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
 #ifdef HAS_REFLECTION
   surfaceColor = material.color.xyz;
-  // reflectivity = vec3(1.0,0.4,0.2);
-  // reflectivity = lookupCubeEnv(camera.eye).rgb;
-  // reflectivity = lookupCubeEnv(reflect(camera.eye, geometry.normal)).rgb;
-  reflectivity = lookupCubeEnv(geometry.reflection).rgb;
-  // reflectivity = lookupCubeEnv(reflect(geometry.reflection, geometry.normal)).rgb;
+  reflectivity = lookupCubeEnv(rdir).rgb;
 #endif
 #endif
 
@@ -181,11 +169,9 @@ void main() {
                            fragColor);
     }
   }
-  reflectivity = reflectivity;
-  // reflectivity = reflectivity * surfaceColor;
+  reflectivity = reflectivityAmount * reflectivity * surfaceColor;
 
-  //fragColor = fragColor + material.emissive.xyz + reflectivity;
-  fragColor = reflectivity;
+  fragColor = fragColor + material.emissive.xyz + reflectivity;
   gl_FragColor = vec4(fragColor, material.opacity);
 }
 

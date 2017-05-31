@@ -334,7 +334,6 @@ export class MeshState {
       frag: fragmentShader = null,
       vert: vertexShader = kDefaultMeshVertexShader,
       geometry = null,
-      reflective = false,
       vertexShaderTransform,
     } = initialState
 
@@ -348,16 +347,11 @@ export class MeshState {
     }
 
     if (geometry.normals) {
-      console.log('HAS_NORMALS', geometry.normals)
       shaderDefines['HAS_NORMALS'] = 1
     }
 
     if (geometry.uvs) {
       shaderDefines['HAS_UVS'] = 1
-    }
-
-    if (reflective) {
-      shaderDefines['HAS_REFLECTION'] = 1
     }
 
     if ('string' == typeof vertexShaderTransform) {
@@ -520,22 +514,8 @@ export class MeshUniforms {
 
     this['mesh.modelNormal'] = ({transform}) => {
       if (isArrayLike(transform)) {
-        // console.log('transform', transform)
-        // console.log('mat3', mat3)
-        // debugger
-        let derp = mat3.normalFromMat4([], transform) || kMat3Identity
-
-        // let i = mat4.invert([], transform)
-        // let t = mat4.transpose([], i)
-        // console.log('mat3.fromMat4([], t)', mat3.fromMat4([], t))
-        // console.log('mat3.normalFromMat4([], transform)', mat3.normalFromMat4([], transform))
-        // console.log('true???', mat3.fromMat4([], t) == mat3.normalFromMat4([], transform) )
-        // derp = mat3.fromMat4([], t) || kMat3Identity
-        // console.log('derp', derp)
-        return derp
-        // return mat3.normalFromMat4([], transform) || kMat3Identity
+        return mat3.normalFromMat4([], transform) || kMat3Identity
       } else {
-        console.log('kMat3Identity')
         return kMat3Identity
       }
     }

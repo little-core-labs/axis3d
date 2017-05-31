@@ -91,7 +91,6 @@ export class BoxGeometry extends Geometry {
       complex: PrimitiveCube(x, y, z, segments.x, segments.y, segments.z)
     })
 
-console.log('this', this)
     this.size = {x, y, z}
     this.segments = segments
   }

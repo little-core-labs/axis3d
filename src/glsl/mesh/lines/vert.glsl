@@ -23,7 +23,6 @@ attribute float direction;
 attribute vec3 position;
 attribute vec3 normal;
 
-varying vec3 vreflection;
 varying vec3 vposition;
 varying vec3 vnormal;
 varying vec2 vuv;
