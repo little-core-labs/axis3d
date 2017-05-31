@@ -4302,7 +4302,7 @@ var MATERIAL_COMMAND_NEXT_ID = 0x6d;
  * @see {@link http://stack.gl}
  */
 
-var kDefaultMaterialFragmentShader = exports.kDefaultMaterialFragmentShader = 'precision mediump float;\n#define GLSLIFY 1\n\n//\n// Shader dependencies.\n//\n\nstruct GeometryContext {\n  vec3 position;\n  vec3 normal;\n  vec2 uv;\n};\n\n/**\n * Module dependencies.\n */\n\nstruct DirectionalLight {\n  mat4 transform;\n  vec4 position;\n  vec4 color;\n  bool visible;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\nstruct AmbientLight {\n  vec4 color;\n  bool visible;\n};\n\nstruct PointLight {\n  mat4 transform;\n  vec4 position;\n  vec4 color;\n  bool visible;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\n/**\n * Module exports.\n */\n\n// @TODO(werle) inject these defines at runtime\n#ifndef MAX_SPOT_LIGHTS\n#define MAX_SPOT_LIGHTS 16\n#endif\n\n#ifndef MAX_POINT_LIGHTS\n#define MAX_POINT_LIGHTS 16\n#endif\n\n#ifndef MAX_AMBIENT_LIGHTS\n#define MAX_AMBIENT_LIGHTS 16\n#endif\n\n#ifndef MAX_DIRECTIONAL_LIGHTS\n#define MAX_DIRECTIONAL_LIGHTS 16\n#endif\n\n/**\n * The SpotLightsContext structure encapsulates all known\n * SpotLights for a shader program. The total count and pointers\n * toall SpotLights are in this structure.\n */\n\n// @TODO(werle) - implement this\n//struct SpotLightsContext {\n  //int count;\n  //SpotLight lights[MAX_SPOT_LIGHTS];\n//};\n\n/**\n * The DirectionalLightsContext structure encapsulates all known\n * DirectionalLights for a shader program. The total count and pointers\n * toall DirectionalLights are in this structure.\n */\n\nstruct DirectionalLightsContext {\n  int count;\n  DirectionalLight lights[MAX_DIRECTIONAL_LIGHTS];\n};\n\n/**\n * The AmbientLightsContext structure encapsulates all known\n * AmbientLights for a shader program. The total count and pointers\n * toall AmbientLights are in this structure.\n */\n\nstruct AmbientLightsContext {\n  int count;\n  AmbientLight lights[MAX_AMBIENT_LIGHTS];\n};\n\n/**\n * The PointLightsContext structure encapsulates all known\n * PointLights for a shader program. The total count and pointers\n * toall PointLights are in this structure.\n */\n\nstruct PointLightsContext {\n  int count;\n  PointLight lights[MAX_POINT_LIGHTS];\n};\n\n/**\n * The LightContext structure encapsulates all possible lights by\n * providing light contexts for ambient, directional, point, and\n * spot light types.\n */\n\nstruct LightContext {\n  DirectionalLightsContext directional;\n  AmbientLightsContext ambient;\n  PointLightsContext point;\n};\n\n/**\n * Modulue exports.\n */\n\n/**\n * Camera structure.\n */\n\nstruct Camera {\n  mat4 projection;\n  float aspect;\n  mat4 view;\n  vec3 eye;\n};\n\n// materials\n\nstruct LambertMaterial {\n  vec4 emissive;\n  vec4 ambient;\n  vec4 color;\n\n  float roughness;\n  float opacity;\n  float albedo;\n  float type;\n};\n\nstruct PhongMaterial {\n  vec4 specular;\n  vec4 emissive;\n  vec4 ambient;\n  vec4 color;\n\n  float shininess;\n  float roughness;\n  float opacity;\n  float albedo;\n  float type;\n};\n\nstruct FlatMaterial {\n  vec4 color;\n\n  float opacity;\n  float type;\n};\n\nstruct Material {\n  vec4 color;\n\n  float opacity;\n  float type;\n};\n\n#ifndef MAX_AMBIENT_LIGHTS\n#define MAX_AMBIENT_LIGHTS 16\n#endif\n\n#ifndef MAX_DIRECTIONAL_LIGHTS\n#define MAX_DIRECTIONAL_LIGHTS 16\n#endif\n\n#ifndef MAX_POINT_LIGHTS\n#define MAX_POINT_LIGHTS 16\n#endif\n\n#ifndef MATERIAL_TYPE\n#define MATERIAL_TYPE Material\n#endif\n\n// default material\n\n#define isinf(n) (n >= 0.0 || n <= 0.0)\n#define isnan(n) !isinf(n) && n != n\n\n#define getGeometryContext() GeometryContext(vposition, vnormal, vuv)\n\n//\n// Shader IO.\n//\nvarying vec3 vposition;\nvarying vec3 vnormal;\nvarying vec2 vuv;\n\n//\n// Shader uniforms.\n//\nuniform MATERIAL_TYPE material;\nuniform LightContext lightContext;\nuniform Camera camera;\n\n#ifdef HAS_MAP\n\nstruct Map {\n  vec2 resolution;\n  sampler2D data;\n};\n\nuniform Map map;\n#endif\n\n//\n// Lambertian shading model.\n//\n//\n// Shader dependencies.\n//\n\n// lights\n\nstruct PositionedLight {\n  vec4 position;\n  vec4 color;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\n// unpack\n\nPositionedLight unpack_0(DirectionalLight light) {\n  return PositionedLight(\n    light.position,\n    light.color,\n    light.radius,\n    light.ambient,\n    light.intensity\n  );\n}\n\nPositionedLight unpack_1(PointLight light) {\n  return PositionedLight(\n    light.position,\n    light.color,\n    light.radius,\n    light.ambient,\n    light.intensity\n  );\n}\n\n//compute\n/**\n * Module dependencies.\n */\n\n/**\n * Module exports.\n */\n\n/**\n * Computes a positioned light source attenuation for a given\n * direction vector.\n * Adapted from {@link https://github.com/freeman-lab/glsl-light-attenuation/blob/master/index.glsl}\n */\n\nfloat computeAttenuation(PositionedLight light, vec3 direction) {\n  float attenuation;\n  if (0.0 == light.position.w) {\n    attenuation = 1.0;\n  } else {\n    attenuation = pow(\n      clamp(1.0 - length(direction)/light.radius, 0.0, 1.0),\n      2.0);\n  }\n  return attenuation;\n}\n\n// adapted from https://github.com/freeman-lab/glsl-light-direction/blob/master/index.glsl\n\nvec3 compute(vec4 lightPosition, vec3 position) {\n  if (lightPosition.w == 0.0) {\n    return normalize(lightPosition.xyz);\n  } else {\n    return lightPosition.xyz - position;\n  }\n}\n\n/**\n * Module dependencies.\n */\n\nfloat orenNayarDiffuse(\n  vec3 lightDirection,\n  vec3 viewDirection,\n  vec3 surfaceNormal,\n  float roughness,\n  float albedo) {\n  \n  float LdotV = dot(lightDirection, viewDirection);\n  float NdotL = dot(lightDirection, surfaceNormal);\n  float NdotV = dot(surfaceNormal, viewDirection);\n\n  float s = LdotV - NdotL * NdotV;\n  float t = mix(1.0, max(NdotL, NdotV), step(0.0, s));\n\n  float sigma2 = roughness * roughness;\n  float A = 1.0 + sigma2 * (albedo / (sigma2 + 0.13) + 0.5 / (sigma2 + 0.33));\n  float B = 0.45 * sigma2 / (sigma2 + 0.09);\n\n  return albedo * max(0.0, NdotL) * (A + B * s / t) / 3.14159265;\n}\n\n/**\n * Module exports.\n */\n\n/**\n * Computes the diffuse intensity value relative to a given positioned\n * light source and a geometry with a given direction.\n */\n\nfloat computeDiffuseFromGeometryWithDirection(PositionedLight light,\n                                              GeometryContext geometry,\n                                              Camera camera,\n                                              LambertMaterial material,\n                                              vec3 direction)\n{\n  vec3 viewpoint = normalize(camera.eye - geometry.position);\n  float diffuse = orenNayarDiffuse(\n      normalize(direction),\n      viewpoint,\n      geometry.normal,\n      material.roughness,\n      material.albedo);\n\n  diffuse =\n    (diffuse < 0.0 || 0.0 < diffuse || diffuse == 0.0)\n    ? diffuse : 0.0;\n\n  return diffuse;\n}\n\n//\n// Material implementation header guard.\n//\n#ifdef useLambertMaterial\n\nvoid applyPositionedLight_0(PositionedLight light,\n                          GeometryContext geometry,\n                          in vec3 surfaceColor,\n                          inout vec3 fragColor)\n{\n  vec3 ambient = light.ambient * material.ambient.xyz;\n  vec3 direction = compute(light.position, geometry.position);\n  float attenuation = computeAttenuation(light, direction);\n\n  float diffuse =\n    computeDiffuseFromGeometryWithDirection(light,\n                   geometry,\n                   camera,\n                   material,\n                   direction);\n\n  vec3 combined =\n      diffuse\n    * surfaceColor\n    * light.color.xyz\n    * light.intensity\n    ;\n\n  fragColor +=\n    ambient\n  + attenuation\n  + combined\n  ;\n}\n\n// adapted from https://github.com/freeman-lab/gl-lambert-material/blob/master/fragment.glsl\nvoid main_0() {\n  GeometryContext geometry_0 = getGeometryContext();\n  vec3 surfaceColor = material.color.xyz;\n  vec3 fragColor = vec3(0.0);\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    surfaceColor = texture2D(map.data, geometry_0.uv).rgb;\n  }\n#endif\n\n  // accumulate ambient\n  for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {\n    AmbientLight light = lightContext.ambient.lights[i];\n    if (i >= lightContext.ambient.count) {\n      break;\n    } else if (light.visible) {\n      fragColor += (\n          vec4(surfaceColor, 1.0)\n        * light.color\n        * material.ambient\n      ).xyz;\n    }\n  }\n\n  for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i) {\n    DirectionalLight light = lightContext.directional.lights[i];\n    if (i >= lightContext.directional.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_0(unpack_0(light),\n                           geometry_0,\n                           surfaceColor.xyz,\n                           fragColor);\n    }\n  }\n\n  for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {\n    PointLight light = lightContext.point.lights[i];\n    if (i >= lightContext.point.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_0(unpack_1(light),\n                           geometry_0,\n                           surfaceColor,\n                           fragColor);\n    }\n  }\n\n  fragColor = fragColor + material.emissive.xyz;\n  gl_FragColor = vec4(fragColor, material.opacity);\n}\n\n#endif\n\n//\n// Phong shading model.\n//\n//\n// Shader dependencies.\n//\n\n// lights\n\n// unpack\n\n// utils\n\n#define toLambertMaterial(m) LambertMaterial(m.emissive, m.ambient, m.color, m.roughness, m.opacity, m.albedo, m.type)\n\nfloat blinnPhongSpecular(\n  vec3 lightDirection,\n  vec3 viewDirection,\n  vec3 surfaceNormal,\n  float shininess) {\n\n  //Calculate Blinn-Phong power\n  vec3 H = normalize(viewDirection + lightDirection);\n  return pow(max(0.0, dot(surfaceNormal, H)), shininess);\n}\n\n//\n// Material implementation header guard.\n//\n#ifdef usePhongMaterial\n\nvoid applyPositionedLight_1(PositionedLight light,\n                          GeometryContext geometry,\n                          in vec3 surfaceColor,\n                          inout vec3 fragColor)\n{\n  vec3 ambient = light.ambient * material.ambient.xyz;\n  vec3 specular = vec3(0.0);\n  vec3 viewpoint = normalize(camera.eye - geometry.position);\n  vec3 direction = compute(light.position, geometry.position);\n\n  float diffuse =\n    computeDiffuseFromGeometryWithDirection(light,\n                   geometry,\n                   camera,\n                   toLambertMaterial(material),\n                   direction);\n\n  if (material.shininess > 0.0 || material.shininess < 0.0) {\n    float power =\n      blinnPhongSpecular(normalize(direction),\n            viewpoint,\n            geometry.normal,\n            material.shininess);\n    if (power > 0.0 || power < 0.0) {\n      specular = material.specular.xyz * power;\n    }\n  }\n\n  vec3 combined =\n      diffuse\n    * surfaceColor\n    * light.color.xyz\n    * light.intensity\n    ;\n\n  fragColor +=\n     ambient\n   + combined\n   + specular\n   ;\n}\n\nvoid main_1() {\n  GeometryContext geometry_1 = getGeometryContext();\n  vec3 surfaceColor = material.color.xyz;\n  vec3 fragColor = vec3(0.0);\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    surfaceColor = texture2D(map.data, geometry_1.uv).rgb;\n  }\n#endif\n\n  // accumulate ambient\n  for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {\n    AmbientLight light = lightContext.ambient.lights[i];\n    if (i >= lightContext.ambient.count) {\n      break;\n    } else if (light.visible) {\n      fragColor += (\n          vec4(surfaceColor, 1.0)\n        * light.color\n        * material.ambient\n      ).xyz;\n    }\n  }\n\n  for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i) {\n    DirectionalLight light = lightContext.directional.lights[i];\n    if (i >= lightContext.directional.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_1(unpack_0(light),\n                           geometry_1,\n                           surfaceColor.xyz,\n                           fragColor);\n    }\n  }\n\n  for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {\n    PointLight light = lightContext.point.lights[i];\n    if (i >= lightContext.point.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_1(unpack_1(light),\n                           geometry_1,\n                           surfaceColor,\n                           fragColor);\n    }\n  }\n\n  fragColor = fragColor + material.emissive.xyz;\n  gl_FragColor = vec4(fragColor, material.opacity);\n}\n\n#endif\n\n//\n// Flat shading model.\n//\n//\n// Shader dependencies.\n//\n\n//\n// Material implementation header guard.\n//\n#ifdef useFlatMaterial\n\n//\n// Shader entry.\n//\n\nvoid main_2() {\n  GeometryContext geometry = getGeometryContext();\n  gl_FragColor = material.color;\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    gl_FragColor = texture2D(map.data, geometry.uv);\n  }\n#endif\n\n  gl_FragColor.a = material.opacity;\n  if (material.color.a < 1.0) {\n    gl_FragColor.a = material.color.a;\n  }\n}\n\n#endif\n\n//\n// Shader entries.\n//\n#ifdef useLambertMaterial\nvoid main() {\n  main_0();\n}\n#elif defined usePhongMaterial\nvoid main() {\n  main_1();\n}\n#elif defined useFlatMaterial\nvoid main() {\n  main_2();\n}\n#elif defined SHADER_MAIN_BODY\nSHADER_MAIN_BODY_SOURCE\n#else\nvoid main() {\n  discard;\n}\n#endif\n';
+var kDefaultMaterialFragmentShader = exports.kDefaultMaterialFragmentShader = 'precision mediump float;\n#define GLSLIFY 1\n\n//\n// Shader dependencies.\n//\n\nstruct GeometryContext {\n  vec3 position;\n  vec3 normal;\n  vec2 uv;\n};\n\n/**\n * Module dependencies.\n */\n\nstruct DirectionalLight {\n  mat4 transform;\n  vec4 position;\n  vec4 color;\n  bool visible;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\nstruct AmbientLight {\n  vec4 color;\n  bool visible;\n};\n\nstruct PointLight {\n  mat4 transform;\n  vec4 position;\n  vec4 color;\n  bool visible;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\n/**\n * Module exports.\n */\n\n// @TODO(werle) inject these defines at runtime\n#ifndef MAX_SPOT_LIGHTS\n#define MAX_SPOT_LIGHTS 16\n#endif\n\n#ifndef MAX_POINT_LIGHTS\n#define MAX_POINT_LIGHTS 16\n#endif\n\n#ifndef MAX_AMBIENT_LIGHTS\n#define MAX_AMBIENT_LIGHTS 16\n#endif\n\n#ifndef MAX_DIRECTIONAL_LIGHTS\n#define MAX_DIRECTIONAL_LIGHTS 16\n#endif\n\n/**\n * The SpotLightsContext structure encapsulates all known\n * SpotLights for a shader program. The total count and pointers\n * toall SpotLights are in this structure.\n */\n\n// @TODO(werle) - implement this\n//struct SpotLightsContext {\n  //int count;\n  //SpotLight lights[MAX_SPOT_LIGHTS];\n//};\n\n/**\n * The DirectionalLightsContext structure encapsulates all known\n * DirectionalLights for a shader program. The total count and pointers\n * toall DirectionalLights are in this structure.\n */\n\nstruct DirectionalLightsContext {\n  int count;\n  DirectionalLight lights[MAX_DIRECTIONAL_LIGHTS];\n};\n\n/**\n * The AmbientLightsContext structure encapsulates all known\n * AmbientLights for a shader program. The total count and pointers\n * toall AmbientLights are in this structure.\n */\n\nstruct AmbientLightsContext {\n  int count;\n  AmbientLight lights[MAX_AMBIENT_LIGHTS];\n};\n\n/**\n * The PointLightsContext structure encapsulates all known\n * PointLights for a shader program. The total count and pointers\n * toall PointLights are in this structure.\n */\n\nstruct PointLightsContext {\n  int count;\n  PointLight lights[MAX_POINT_LIGHTS];\n};\n\n/**\n * The LightContext structure encapsulates all possible lights by\n * providing light contexts for ambient, directional, point, and\n * spot light types.\n */\n\nstruct LightContext {\n  DirectionalLightsContext directional;\n  AmbientLightsContext ambient;\n  PointLightsContext point;\n};\n\n/**\n * Modulue exports.\n */\n\n/**\n * Camera structure.\n */\n\nstruct Camera {\n  mat4 projection;\n  float aspect;\n  mat4 view;\n  vec3 eye;\n};\n\n// materials\n\nstruct LambertMaterial {\n  vec4 emissive;\n  vec4 ambient;\n  vec4 color;\n\n  float roughness;\n  float opacity;\n  float albedo;\n  float type;\n};\n\nstruct PhongMaterial {\n  vec4 specular;\n  vec4 emissive;\n  vec4 ambient;\n  vec4 color;\n\n  float shininess;\n  float roughness;\n  float opacity;\n  float albedo;\n  float type;\n};\n\nstruct FlatMaterial {\n  vec4 color;\n\n  float opacity;\n  float type;\n};\n\nstruct Material {\n  vec4 color;\n\n  float opacity;\n  float type;\n};\n\n#ifndef MAX_AMBIENT_LIGHTS\n#define MAX_AMBIENT_LIGHTS 16\n#endif\n\n#ifndef MAX_DIRECTIONAL_LIGHTS\n#define MAX_DIRECTIONAL_LIGHTS 16\n#endif\n\n#ifndef MAX_POINT_LIGHTS\n#define MAX_POINT_LIGHTS 16\n#endif\n\n#ifndef MATERIAL_TYPE\n#define MATERIAL_TYPE Material\n#endif\n\n// default material\n\n#define isinf(n) (n >= 0.0 || n <= 0.0)\n#define isnan(n) !isinf(n) && n != n\n\n#define getGeometryContext() GeometryContext(vposition, vnormal, vuv)\n\n//\n// Shader IO.\n//\nvarying vec3 vposition;\nvarying vec3 vnormal;\nvarying vec2 vuv;\n\n//\n// Shader uniforms.\n//\nuniform MATERIAL_TYPE material;\nuniform LightContext lightContext;\nuniform Camera camera;\n\n#ifdef HAS_MAP\n\nstruct Map {\n  vec2 resolution;\n  sampler2D data;\n};\n\nuniform Map map;\n#endif\n\n//\n// Lambertian shading model.\n//\n//\n// Shader dependencies.\n//\n\n// lights\n\nstruct PositionedLight {\n  vec4 position;\n  vec4 color;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\n// unpack\n\nPositionedLight unpack_1(DirectionalLight light) {\n  return PositionedLight(\n    light.position,\n    light.color,\n    light.radius,\n    light.ambient,\n    light.intensity\n  );\n}\n\nPositionedLight unpack_0(PointLight light) {\n  return PositionedLight(\n    light.position,\n    light.color,\n    light.radius,\n    light.ambient,\n    light.intensity\n  );\n}\n\n//compute\n/**\n * Module dependencies.\n */\n\n/**\n * Module exports.\n */\n\n/**\n * Computes a positioned light source attenuation for a given\n * direction vector.\n * Adapted from {@link https://github.com/freeman-lab/glsl-light-attenuation/blob/master/index.glsl}\n */\n\nfloat computeAttenuation(PositionedLight light, vec3 direction) {\n  float attenuation;\n  if (0.0 == light.position.w) {\n    attenuation = 1.0;\n  } else {\n    attenuation = pow(\n      clamp(1.0 - length(direction)/light.radius, 0.0, 1.0),\n      2.0);\n  }\n  return attenuation;\n}\n\n// adapted from https://github.com/freeman-lab/glsl-light-direction/blob/master/index.glsl\n\nvec3 compute(vec4 lightPosition, vec3 position) {\n  if (lightPosition.w == 0.0) {\n    return normalize(lightPosition.xyz);\n  } else {\n    return lightPosition.xyz - position;\n  }\n}\n\n/**\n * Module dependencies.\n */\n\nfloat orenNayarDiffuse(\n  vec3 lightDirection,\n  vec3 viewDirection,\n  vec3 surfaceNormal,\n  float roughness,\n  float albedo) {\n  \n  float LdotV = dot(lightDirection, viewDirection);\n  float NdotL = dot(lightDirection, surfaceNormal);\n  float NdotV = dot(surfaceNormal, viewDirection);\n\n  float s = LdotV - NdotL * NdotV;\n  float t = mix(1.0, max(NdotL, NdotV), step(0.0, s));\n\n  float sigma2 = roughness * roughness;\n  float A = 1.0 + sigma2 * (albedo / (sigma2 + 0.13) + 0.5 / (sigma2 + 0.33));\n  float B = 0.45 * sigma2 / (sigma2 + 0.09);\n\n  return albedo * max(0.0, NdotL) * (A + B * s / t) / 3.14159265;\n}\n\n/**\n * Module exports.\n */\n\n/**\n * Computes the diffuse intensity value relative to a given positioned\n * light source and a geometry with a given direction.\n */\n\nfloat computeDiffuseFromGeometryWithDirection(PositionedLight light,\n                                              GeometryContext geometry,\n                                              Camera camera,\n                                              LambertMaterial material,\n                                              vec3 direction)\n{\n  vec3 viewpoint = normalize(camera.eye - geometry.position);\n  float diffuse = orenNayarDiffuse(\n      normalize(direction),\n      viewpoint,\n      geometry.normal,\n      material.roughness,\n      material.albedo);\n\n  diffuse =\n    (diffuse < 0.0 || 0.0 < diffuse || diffuse == 0.0)\n    ? diffuse : 0.0;\n\n  return diffuse;\n}\n\n//\n// Material implementation header guard.\n//\n#ifdef useLambertMaterial\n\nvoid applyPositionedLight_0(PositionedLight light,\n                          GeometryContext geometry,\n                          in vec3 surfaceColor,\n                          inout vec3 fragColor)\n{\n  vec3 ambient = light.ambient * material.ambient.xyz;\n  vec3 direction = compute(light.position, geometry.position);\n  float attenuation = computeAttenuation(light, direction);\n\n  float diffuse =\n    computeDiffuseFromGeometryWithDirection(light,\n                   geometry,\n                   camera,\n                   material,\n                   direction);\n\n  vec3 combined =\n      diffuse\n    * surfaceColor\n    * light.color.xyz\n    * light.intensity\n    ;\n\n  fragColor +=\n    ambient\n  + attenuation\n  + combined\n  ;\n}\n\n// adapted from https://github.com/freeman-lab/gl-lambert-material/blob/master/fragment.glsl\nvoid main_0() {\n  GeometryContext geometry_0 = getGeometryContext();\n  vec3 surfaceColor = material.color.xyz;\n  vec3 fragColor = vec3(0.0);\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    surfaceColor = texture2D(map.data, geometry_0.uv).rgb;\n  }\n#endif\n\n  // accumulate ambient\n  for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {\n    AmbientLight light = lightContext.ambient.lights[i];\n    if (i >= lightContext.ambient.count) {\n      break;\n    } else if (light.visible) {\n      fragColor += (\n          vec4(surfaceColor, 1.0)\n        * light.color\n        * material.ambient\n      ).xyz;\n    }\n  }\n\n  for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i) {\n    DirectionalLight light = lightContext.directional.lights[i];\n    if (i >= lightContext.directional.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_0(unpack_1(light),\n                           geometry_0,\n                           surfaceColor.xyz,\n                           fragColor);\n    }\n  }\n\n  for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {\n    PointLight light = lightContext.point.lights[i];\n    if (i >= lightContext.point.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_0(unpack_0(light),\n                           geometry_0,\n                           surfaceColor,\n                           fragColor);\n    }\n  }\n\n  fragColor = fragColor + material.emissive.xyz;\n  gl_FragColor = vec4(fragColor, material.opacity);\n}\n\n#endif\n\n//\n// Phong shading model.\n//\n//\n// Shader dependencies.\n//\n\n// lights\n\n// unpack\n\n// utils\n\n#define toLambertMaterial(m) LambertMaterial(m.emissive, m.ambient, m.color, m.roughness, m.opacity, m.albedo, m.type)\n\nfloat blinnPhongSpecular(\n  vec3 lightDirection,\n  vec3 viewDirection,\n  vec3 surfaceNormal,\n  float shininess) {\n\n  //Calculate Blinn-Phong power\n  vec3 H = normalize(viewDirection + lightDirection);\n  return pow(max(0.0, dot(surfaceNormal, H)), shininess);\n}\n\n//\n// Material implementation header guard.\n//\n#ifdef usePhongMaterial\n\nvoid applyPositionedLight_1(PositionedLight light,\n                          GeometryContext geometry,\n                          in vec3 surfaceColor,\n                          inout vec3 fragColor)\n{\n  vec3 ambient = light.ambient * material.ambient.xyz;\n  vec3 specular = vec3(0.0);\n  vec3 viewpoint = normalize(camera.eye - geometry.position);\n  vec3 direction = compute(light.position, geometry.position);\n\n  float diffuse =\n    computeDiffuseFromGeometryWithDirection(light,\n                   geometry,\n                   camera,\n                   toLambertMaterial(material),\n                   direction);\n\n  if (material.shininess > 0.0 || material.shininess < 0.0) {\n    float power =\n      blinnPhongSpecular(normalize(direction),\n            viewpoint,\n            geometry.normal,\n            material.shininess);\n    if (power > 0.0 || power < 0.0) {\n      specular = material.specular.xyz * power;\n    }\n  }\n\n  vec3 combined =\n      diffuse\n    * surfaceColor\n    * light.color.xyz\n    * light.intensity\n    ;\n\n  fragColor +=\n     ambient\n   + combined\n   + specular\n   ;\n}\n\nvoid main_1() {\n  GeometryContext geometry_1 = getGeometryContext();\n  vec3 surfaceColor = material.color.xyz;\n  vec3 fragColor = vec3(0.0);\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    surfaceColor = texture2D(map.data, geometry_1.uv).rgb;\n  }\n#endif\n\n  // accumulate ambient\n  for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {\n    AmbientLight light = lightContext.ambient.lights[i];\n    if (i >= lightContext.ambient.count) {\n      break;\n    } else if (light.visible) {\n      fragColor += (\n          vec4(surfaceColor, 1.0)\n        * light.color\n        * material.ambient\n      ).xyz;\n    }\n  }\n\n  for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i) {\n    DirectionalLight light = lightContext.directional.lights[i];\n    if (i >= lightContext.directional.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_1(unpack_1(light),\n                           geometry_1,\n                           surfaceColor.xyz,\n                           fragColor);\n    }\n  }\n\n  for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {\n    PointLight light = lightContext.point.lights[i];\n    if (i >= lightContext.point.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_1(unpack_0(light),\n                           geometry_1,\n                           surfaceColor,\n                           fragColor);\n    }\n  }\n\n  fragColor = fragColor + material.emissive.xyz;\n  gl_FragColor = vec4(fragColor, material.opacity);\n}\n\n#endif\n\n//\n// Flat shading model.\n//\n//\n// Shader dependencies.\n//\n\n//\n// Material implementation header guard.\n//\n#ifdef useFlatMaterial\n\n//\n// Shader entry.\n//\n\nvoid main_2() {\n  GeometryContext geometry = getGeometryContext();\n  gl_FragColor = material.color;\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    gl_FragColor = texture2D(map.data, geometry.uv);\n  }\n#endif\n\n  gl_FragColor.a = material.opacity;\n  if (material.color.a < 1.0) {\n    gl_FragColor.a = material.color.a;\n  }\n}\n\n#endif\n\n//\n// Shader entries.\n//\n#ifdef useLambertMaterial\nvoid main() {\n  main_0();\n}\n#elif defined usePhongMaterial\nvoid main() {\n  main_1();\n}\n#elif defined useFlatMaterial\nvoid main() {\n  main_2();\n}\n#elif defined SHADER_MAIN_BODY\nSHADER_MAIN_BODY_SOURCE\n#else\nvoid main() {\n  discard;\n}\n#endif\n';
 
 /**
  * The default material opacity value.
@@ -7472,26 +7472,16 @@ var CapsuleGeometry = exports.CapsuleGeometry = function (_Geometry) {
       opts = {};
     }
 
-    var _opts = opts,
-        radius = _opts.radius,
-        height = _opts.height,
-        segments = _opts.segments,
-        resolution = _opts.resolution;
-
     // defaults
-
-    if (null == radius) {
-      radius = 1;
-    }
-    if (null == height) {
-      height = 0.5;
-    }
-    if (null == segments) {
-      segments = 12;
-    }
-    if (null == resolution) {
-      resolution = 24;
-    }
+    var _opts = opts,
+        _opts$radius = _opts.radius,
+        radius = _opts$radius === undefined ? radius || 1 : _opts$radius,
+        _opts$height = _opts.height,
+        height = _opts$height === undefined ? height || 0.5 : _opts$height,
+        _opts$segments = _opts.segments,
+        segments = _opts$segments === undefined ? segments || 12 : _opts$segments,
+        _opts$resolution = _opts.resolution,
+        resolution = _opts$resolution === undefined ? resolution || 24 : _opts$resolution;
 
     for (var o in opts) {
       if (opts.hasOwnProperty(o) && 'number' != typeof opts[o]) {
@@ -7596,30 +7586,18 @@ var CylinderGeometry = exports.CylinderGeometry = function (_Geometry) {
       opts = {};
     }
 
-    var _opts = opts,
-        height = _opts.height,
-        radiusTop = _opts.radiusTop,
-        radiusBottom = _opts.radiusBottom,
-        radialSegments = _opts.radialSegments,
-        heightSegments = _opts.heightSegments;
-
     // defaults
-
-    if (null == height) {
-      height = 5;
-    }
-    if (null == radiusTop) {
-      radiusTop = 1;
-    }
-    if (null == radiusBottom) {
-      radiusBottom = 1;
-    }
-    if (null == radialSegments) {
-      radialSegments = 50;
-    }
-    if (null == heightSegments) {
-      heightSegments = 50;
-    }
+    var _opts = opts,
+        _opts$height = _opts.height,
+        height = _opts$height === undefined ? height || 5 : _opts$height,
+        _opts$radiusTop = _opts.radiusTop,
+        radiusTop = _opts$radiusTop === undefined ? radiusTop || 1 : _opts$radiusTop,
+        _opts$radiusBottom = _opts.radiusBottom,
+        radiusBottom = _opts$radiusBottom === undefined ? radiusBottom || 1 : _opts$radiusBottom,
+        _opts$radialSegments = _opts.radialSegments,
+        radialSegments = _opts$radialSegments === undefined ? radialSegments || 50 : _opts$radialSegments,
+        _opts$heightSegments = _opts.heightSegments,
+        heightSegments = _opts$heightSegments === undefined ? heightSegments || 50 : _opts$heightSegments;
 
     for (var o in opts) {
       if (opts.hasOwnProperty(o) && 'number' != typeof opts[o]) {
@@ -7723,12 +7701,18 @@ Object.defineProperty(exports, 'BoxGeometry', {
  * Module dependencies.
  */
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.PlaneGeometry = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
 var _primitivePlane = _dereq_('primitive-plane');
 
@@ -7749,12 +7733,12 @@ function _classCallCheck(instance, Constructor) {
 function _possibleConstructorReturn(self, call) {
   if (!self) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
 }
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
@@ -7782,27 +7766,45 @@ var PlaneGeometry = exports.PlaneGeometry = function (_Geometry) {
    * @param {?Number} opts.segments.x
    * @param {?Number} opts.segments.y
    * @param {?Boolean} opts.quads
+   * @throws TypeError
    *
    * @see {@link https://www.npmjs.com/package/primitive-plane}
    */
 
-  function PlaneGeometry() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$size = _ref.size,
-        size = _ref$size === undefined ? { x: 1, y: 1 } : _ref$size,
-        _ref$segments = _ref.segments,
-        segments = _ref$segments === undefined ? { x: 5, y: 5 } : _ref$segments,
-        _ref$quads = _ref.quads,
-        quads = _ref$quads === undefined ? false : _ref$quads;
-
+  function PlaneGeometry(opts) {
     _classCallCheck(this, PlaneGeometry);
+
+    // ensure object
+    if (null == opts || 'object' != (typeof opts === 'undefined' ? 'undefined' : _typeof(opts))) {
+      opts = {};
+    }
+
+    var _opts = opts,
+        _opts$size = _opts.size,
+        size = _opts$size === undefined ? size || { x: 1, y: 1 } : _opts$size,
+        _opts$segments = _opts.segments,
+        segments = _opts$segments === undefined ? segments || { x: 5, y: 5 } : _opts$segments,
+        _opts$quads = _opts.quads,
+        quads = _opts$quads === undefined ? quads || false : _opts$quads;
 
     if ('number' == typeof segments) {
       segments = { x: segments, y: segments };
+    } else if ('object' == (typeof segments === 'undefined' ? 'undefined' : _typeof(segments))) {
+      if ('number' != typeof segments.x) {
+        throw new TypeError('Expecting \'.segments.x\' to a be a number. Got ' + _typeof(segments.x) + '.');
+      } else if ('number' != typeof segments.y) {
+        throw new TypeError('Expecting \'.segments.y\' to a be a number. Got ' + _typeof(segments.y) + '.');
+      }
     }
 
     if ('number' == typeof size) {
       size = { x: size, y: size };
+    } else if ('object' == (typeof size === 'undefined' ? 'undefined' : _typeof(size))) {
+      if ('number' != typeof size.x) {
+        throw new TypeError('Expecting \'.size.x\' to a be a number. Got ' + _typeof(size.x) + '.');
+      } else if ('number' != typeof size.y) {
+        throw new TypeError('Expecting \'.size.y\' to a be a number. Got ' + _typeof(size.y) + '.');
+      }
     }
 
     var _this = _possibleConstructorReturn(this, (PlaneGeometry.__proto__ || Object.getPrototypeOf(PlaneGeometry)).call(this, {
@@ -7825,12 +7827,18 @@ var PlaneGeometry = exports.PlaneGeometry = function (_Geometry) {
  * Module dependencies.
  */
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SphereGeometry = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
 var _primitiveSphere = _dereq_('primitive-sphere');
 
@@ -7851,12 +7859,12 @@ function _classCallCheck(instance, Constructor) {
 function _possibleConstructorReturn(self, call) {
   if (!self) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
 }
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
@@ -7882,14 +7890,28 @@ var SphereGeometry = exports.SphereGeometry = function (_Geometry) {
    * @param {?Number} opts.segments SphereGeometry subdivision segments.
    */
 
-  function SphereGeometry() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$radius = _ref.radius,
-        radius = _ref$radius === undefined ? 1 : _ref$radius,
-        _ref$segments = _ref.segments,
-        segments = _ref$segments === undefined ? 32 : _ref$segments;
-
+  function SphereGeometry(opts) {
     _classCallCheck(this, SphereGeometry);
+
+    // ensure object
+    if (null == opts || 'object' != (typeof opts === 'undefined' ? 'undefined' : _typeof(opts))) {
+      opts = {};
+    }
+
+    // defaults
+    var _opts = opts,
+        _opts$radius = _opts.radius,
+        radius = _opts$radius === undefined ? radius || 1 : _opts$radius,
+        _opts$segments = _opts.segments,
+        segments = _opts$segments === undefined ? segments || 32 : _opts$segments;
+
+    if ('number' != typeof radius) {
+      throw new TypeError('Expecting \'radius\' to a be a number. Got ' + (typeof radius === 'undefined' ? 'undefined' : _typeof(radius)) + '.');
+    }
+
+    if ('number' != typeof segments) {
+      throw new TypeError('Expecting \'segments\' to a be a number. Got ' + (typeof segments === 'undefined' ? 'undefined' : _typeof(segments)) + '.');
+    }
 
     var _this = _possibleConstructorReturn(this, (SphereGeometry.__proto__ || Object.getPrototypeOf(SphereGeometry)).call(this, { complex: (0, _primitiveSphere2.default)(radius, { segments: segments }) }));
 
@@ -7908,12 +7930,18 @@ var SphereGeometry = exports.SphereGeometry = function (_Geometry) {
  * Module dependencies.
  */
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.TorusGeometry = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
 var _primitiveTorus = _dereq_('primitive-torus');
 
@@ -7942,12 +7970,12 @@ function _classCallCheck(instance, Constructor) {
 function _possibleConstructorReturn(self, call) {
   if (!self) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === 'undefined' ? 'undefined' : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
 }
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === 'undefined' ? 'undefined' : _typeof(superClass)));
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
@@ -7976,22 +8004,34 @@ var TorusGeometry = exports.TorusGeometry = function (_Geometry) {
    * @param {?Number} opts.arc The arc to draw.
    */
 
-  function TorusGeometry() {
+  function TorusGeometry(opts) {
     var _PrimitiveTorus;
 
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$majorSegments = _ref.majorSegments,
-        majorSegments = _ref$majorSegments === undefined ? 32 : _ref$majorSegments,
-        _ref$minorSegments = _ref.minorSegments,
-        minorSegments = _ref$minorSegments === undefined ? 64 : _ref$minorSegments,
-        _ref$majorRadius = _ref.majorRadius,
-        majorRadius = _ref$majorRadius === undefined ? 1 : _ref$majorRadius,
-        _ref$minorRadius = _ref.minorRadius,
-        minorRadius = _ref$minorRadius === undefined ? 0.5 : _ref$minorRadius,
-        _ref$arc = _ref.arc,
-        arc = _ref$arc === undefined ? 2 * Math.PI : _ref$arc;
-
     _classCallCheck(this, TorusGeometry);
+
+    // ensure object
+    if (null == opts || 'object' != (typeof opts === 'undefined' ? 'undefined' : _typeof(opts))) {
+      opts = {};
+    }
+
+    // // defaults
+    var _opts = opts,
+        _opts$majorSegments = _opts.majorSegments,
+        majorSegments = _opts$majorSegments === undefined ? majorSegments || 32 : _opts$majorSegments,
+        _opts$minorSegments = _opts.minorSegments,
+        minorSegments = _opts$minorSegments === undefined ? minorSegments || 64 : _opts$minorSegments,
+        _opts$majorRadius = _opts.majorRadius,
+        majorRadius = _opts$majorRadius === undefined ? majorRadius || 1 : _opts$majorRadius,
+        _opts$minorRadius = _opts.minorRadius,
+        minorRadius = _opts$minorRadius === undefined ? minorRadius || 0.5 : _opts$minorRadius,
+        _opts$arc = _opts.arc,
+        arc = _opts$arc === undefined ? arc || 2 * Math.PI : _opts$arc;
+
+    for (var o in opts) {
+      if (opts.hasOwnProperty(o) && 'number' != typeof opts[o]) {
+        throw new TypeError('Expecting \'' + o + '\' to a be a number. Got ' + _typeof(opts[o]) + '.');
+      }
+    }
 
     var _this = _possibleConstructorReturn(this, (TorusGeometry.__proto__ || Object.getPrototypeOf(TorusGeometry)).call(this, {
       complex: (0, _primitiveTorus2.default)((_PrimitiveTorus = {
@@ -12772,7 +12812,7 @@ function _toConsumableArray(arr) {
 
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
-var kLibraryVersion = '0.1.12';
+var kLibraryVersion = '0.1.13';
 
 /**
  * Math dependencies.
