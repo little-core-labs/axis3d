@@ -31,7 +31,9 @@ const camera = PerspectiveCamera(ctx)
 const box = Mesh(ctx, { geometry: BoxGeometry() })
 const frame = Frame(ctx)
 const cubeTexture = CubeTexture(ctx)
-const material = FlatMaterial(ctx, {envmap: cubeTexture})
+const envCubeTexture = CubeTexture(ctx)
+const material = FlatMaterial(ctx, {envmap: envCubeTexture})
+const boxMaterial = FlatMaterial(ctx, {envmap: cubeTexture})
 const rotation = Quaternion()
 const sphere = Mesh(ctx, { geometry: SphereGeometry() })
 
@@ -46,12 +48,14 @@ const inputs = { orientation, keyboard, touch, mouse }
 const orbitCamera = OrbitCameraController(ctx, {
   camera, inputs,
   invert: true,
-  interpolationFactor: 0.1,
-  euler: [0, 0.5*Math.PI, 1]
+  // interpolationFactor: 0.1,
+  // euler: [0, 0.5*Math.PI, 1]
 })
 
-// all cube textures sources must be square and same size
-const squareSize = 320
+
+///// Environment Cube Texture /////
+// all cube textures should be same size and a power of 2
+const squareSize = 256
 
 const image1 = new Image()
 const image2 = new Image()
@@ -82,23 +86,42 @@ video.load()
 video.play()
 
 cubeTexture({data: [
+  video,
   image1,
+  canvas,
+  video,
   image2,
   canvas,
-  canvas,
-  video,
-  video,
 ]})
 
-const sphereMaterial = Material(ctx, {
-  color: Color('cyan'),
-})
+///// Environment Cube Texture /////
+const bk = new Image()
+bk.src = 'assets/criminal-impact_bk.jpg'
+const dn = new Image()
+dn.src = 'assets/criminal-impact_dn.jpg'
+const ft = new Image()
+ft.src = 'assets/criminal-impact_ft.jpg'
+const lf = new Image()
+lf.src = 'assets/criminal-impact_lf.jpg'
+const rt = new Image()
+rt.src = 'assets/criminal-impact_rt.jpg'
+const up = new Image()
+up.src = 'assets/criminal-impact_up.jpg'
+
+envCubeTexture({data: [
+  ft,
+  bk,
+  up,
+  dn,
+  rt,
+  lf,
+]})
 
 frame(({time, cancel}) => {
   const multiply = (...args) => quat.multiply([], ...args)
-  orbitCamera({ position: [0, -0.25, 0], target: [0, -0.25, 0] }, () => {
-    sphereMaterial({cull: false}, () => {
-      sphere({scale: [0.31,0.31,0.31]})
+  orbitCamera({ rotation, position: [-0.25, 0, 0], target: [0, 0, 0] }, () => {
+    boxMaterial({cull: false}, () => {
+      box({scale: [0.31,0.31,0.31]})
     })
     material({cull: false}, () => {
       box({size: [0.81,0.81,0.81]})
