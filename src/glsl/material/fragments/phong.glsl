@@ -40,21 +40,7 @@ vec4 lookupEnv(vec3 dir) {
 
 #ifdef HAS_CUBE_MAP
 vec4 lookupCubeEnv(vec3 dir) {
-  vec4 color = vec4(0.0);
-
-  float total = 0.0;
-
-  for (float t = -30.0; t <= 30.0; t++) {
-    float percent = (t - 0.5) / 30.0;
-    float weight = 1.0 - abs(percent);
-    vec4 sam = textureCube(cubemap.data, dir);
-    color += sam * weight;
-    total += weight;
-
-  }
   return textureCube(cubemap.data, dir);
-
-  // return color/total;
 }
 #endif
 
