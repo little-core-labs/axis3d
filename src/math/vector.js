@@ -7,24 +7,13 @@
 import { define, isArrayLike } from '../utils'
 import * as VectorSwizzleMap from './vector_swizzle_map'
 
-import getPermutations from 'get-unique-permutations'
+import getPermutations from'get-unique-permutations'
 import coalesce from 'defined'
 import window from 'global/window'
 
 /** @virtual {TypedArray} https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray */
 
 const TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor
-
-/**
- * Predicate boolean to help determine if localStorage
- * is available on the client.
- */
-
-const hasLocalStorage = Boolean(
-  'object' == window.localStorage &&
-  'function' == typeof window.localStorage.getItem &&
-  'function' == typeof window.localStorage.setItem
-)
 
 /**
  * Vector swizzle component permutations cache local storage string name.
@@ -38,10 +27,7 @@ const kPermutationsCacheStringName = 'axis3d:vector:permutations:cache'
  * @private
  */
 
-const permutationsCache = false == hasLocalStorage ? {} : JSON.parse(
-  window.localStorage.getItem(kPermutationsCacheStringName) ||
-  '{}'
-)
+const permutationsCache = {}
 
 /**
  * The Vector class represents the base class for various vector
@@ -112,12 +98,6 @@ export class Vector {
         permutationsCache[this.constructor.name] || [],
         permutations)
 
-      // cache permutations locally if possible
-      if (hasLocalStorage) {
-        window.localStorage.setItem(
-          kPermutationsCacheStringName,
-          JSON.stringify(permutationsCache))
-      }
 
       for (const permutation of permutations) {
         const identifier = permutation.join('')
