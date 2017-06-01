@@ -7,7 +7,6 @@ import {
 import {
   PerspectiveCamera,
   OrientationInput,
-  SphereGeometry,
   KeyboardInput,
   FlatMaterial,
   BoxGeometry,
@@ -35,7 +34,6 @@ const envCubeTexture = CubeTexture(ctx)
 const envMaterial = FlatMaterial(ctx, {envmap: envCubeTexture})
 const boxMaterial = FlatMaterial(ctx, {envmap: cubeTexture})
 const rotation = Quaternion()
-const sphere = Mesh(ctx, { geometry: SphereGeometry() })
 
 // inputs
 const orientation = OrientationInput(ctx)
@@ -48,10 +46,7 @@ const inputs = { orientation, keyboard, touch, mouse }
 const orbitCamera = OrbitCameraController(ctx, {
   camera, inputs,
   invert: true,
-  // interpolationFactor: 0.1,
-  // euler: [0, 0.5*Math.PI, 1]
 })
-
 
 ///// Center Cube Texture /////
 // all cube textures should be same size and a power of 2
