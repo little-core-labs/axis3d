@@ -32,7 +32,7 @@ const box = Mesh(ctx, { geometry: BoxGeometry() })
 const frame = Frame(ctx)
 const cubeTexture = CubeTexture(ctx)
 const envCubeTexture = CubeTexture(ctx)
-const material = FlatMaterial(ctx, {envmap: envCubeTexture})
+const envMaterial = FlatMaterial(ctx, {envmap: envCubeTexture})
 const boxMaterial = FlatMaterial(ctx, {envmap: cubeTexture})
 const rotation = Quaternion()
 const sphere = Mesh(ctx, { geometry: SphereGeometry() })
@@ -53,7 +53,7 @@ const orbitCamera = OrbitCameraController(ctx, {
 })
 
 
-///// Environment Cube Texture /////
+///// Center Cube Texture /////
 // all cube textures should be same size and a power of 2
 const squareSize = 256
 
@@ -123,7 +123,7 @@ frame(({time, cancel}) => {
     boxMaterial({cull: false}, () => {
       box({scale: [0.31,0.31,0.31]})
     })
-    material({cull: false}, () => {
+    envMaterial({cull: false}, () => {
       box({size: [0.81,0.81,0.81]})
     })
   })
