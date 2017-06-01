@@ -31,7 +31,7 @@ const camera = PerspectiveCamera(ctx)
 const box = Mesh(ctx, { geometry: BoxGeometry() })
 const frame = Frame(ctx)
 const cubeTexture = CubeTexture(ctx)
-const material = FlatMaterial(ctx, {cubemap: cubeTexture})
+const material = FlatMaterial(ctx, {envmap: cubeTexture})
 const rotation = Quaternion()
 const sphere = Mesh(ctx, { geometry: SphereGeometry() })
 

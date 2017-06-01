@@ -358,7 +358,7 @@ export class MaterialState {
       shaderDefines.HAS_MAP = 1
     }
 
-    if (null != initialState.cubemap) {
+    if (null != initialState.envmap) {
       shaderDefines.HAS_CUBE_MAP = 1
     }
 
@@ -773,7 +773,7 @@ export class MaterialCubeMap {
 
     this.injectContext = ctx.regl({
       context: {
-        cubemap: ({}, {cubemap = initialState.cubemap}) => {
+        cubemap: ({}, {cubemap = initialState.envmap}) => {
           return cubemap
         }
       }
