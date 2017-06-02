@@ -24,6 +24,24 @@
 //
 #ifdef useLambertMaterial
 
+#ifdef HAS_MAP
+// adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
+vec4 lookupEnv(vec3 dir) {
+  float PI = 3.14;
+  float lat = atan(dir.z, dir.x);
+  float lon = acos(dir.y / length(dir));
+  vec2 envLoc = vec2(0.5 + lat / (2.0 * PI), lon / PI);
+
+  return texture2D(map.data, envLoc);
+}
+#endif
+
+#ifdef HAS_CUBE_MAP
+vec4 lookupCubeEnv(vec3 dir) {
+  return textureCube(cubemap.data, dir);
+}
+#endif
+
 void applyPositionedLight(PositionedLight light,
                           GeometryContext geometry,
                           in vec3 surfaceColor,
@@ -60,15 +78,31 @@ void main() {
   GeometryContext geometry = getGeometryContext();
   vec3 surfaceColor = material.color.xyz;
   vec3 fragColor = vec3(0.0);
+  vec3 reflectivity = vec3(0.0);
+  float reflectivityAmount = 1.0;
+
+// adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
+  mat4 invertedView = camera.invertedView;
+  vec3 iv = invertedView[3].xyz / invertedView[3].w;
+  vec3 eye = normalize(geometry.position.xyz - iv);
+  vec3 rdir = reflect(eye, geometry.normal);
 
 #ifdef HAS_MAP
   if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {
     surfaceColor = texture2D(map.data, geometry.uv).rgb;
   }
+#ifdef HAS_REFLECTION
+  surfaceColor = material.color.xyz;
+  reflectivity = lookupEnv(rdir).rgb;
+#endif
 #endif
 
 #ifdef HAS_CUBE_MAP
   surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
+#ifdef HAS_REFLECTION
+  surfaceColor = material.color.xyz;
+  reflectivity = lookupCubeEnv(rdir).rgb;
+#endif
 #endif
 
   // accumulate ambient
@@ -108,8 +142,9 @@ void main() {
                            fragColor);
     }
   }
+  reflectivity = reflectivityAmount * reflectivity * surfaceColor;
 
-  fragColor = fragColor + material.emissive.xyz;
+  fragColor = fragColor + material.emissive.xyz + reflectivity;
   gl_FragColor = vec4(fragColor, material.opacity);
 }
 
