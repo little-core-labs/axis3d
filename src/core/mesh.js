@@ -494,6 +494,12 @@ export class MeshUniforms {
 
   constructor(ctx, initialState) {
 
+    this['fog.color'] = ({color: contextColor}, {color = contextColor} = {}) => {
+      return coalesce(color, [1.0,0.0,1.0,1.0])
+    }
+    this['fog.near'] = () => 1.0
+    this['fog.far'] = () => 2000.0
+
     /**
      * Mesh model matrix uniform.
      *

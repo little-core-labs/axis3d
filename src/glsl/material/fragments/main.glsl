@@ -13,6 +13,8 @@ precision mediump float;
 #pragma glslify: FlatMaterial = require('../FlatMaterial')
 #pragma glslify: Material = require('../Material')
 
+#pragma glslify: Fog = require('../Fog')
+
 #ifndef MAX_AMBIENT_LIGHTS
 #define MAX_AMBIENT_LIGHTS 16
 #endif
@@ -49,6 +51,7 @@ varying vec2 vuv;
 uniform MATERIAL_TYPE material;
 uniform LightContext lightContext;
 uniform Camera camera;
+uniform Fog fog;
 
 #ifdef HAS_MAP
 #pragma glslify: Map = require('../Map')
@@ -68,7 +71,8 @@ import drawLambertMaterial from './lambert' where {
   camera=camera,
   map=map,
   isnan=isnan,
-  isinf=isinf
+  isinf=isinf,
+  fog=fog
 }
 
 //

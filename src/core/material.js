@@ -596,6 +596,12 @@ export class MaterialUniforms {
   constructor(ctx, initialState = {}) {
     const emptyTexture = ctx.regl.texture()
 
+    this['fog.color'] = (a) => {
+      console.log('a', a)
+      debugger
+      return coalesce(null, [1.0,0.0,1.0,1.0])
+    }
+
     /**
      * Material opacity value.
      *
@@ -605,6 +611,7 @@ export class MaterialUniforms {
      */
 
     this['material.opacity'] = ({opacity = initialState.opacity}) => {
+      debugger
       return coalesce(opacity, kDefaultMaterialOpacity)
     }
 

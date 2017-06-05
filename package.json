@@ -16,7 +16,9 @@
   "main": "dist/axis3d.min.js",
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "glsl-fog": "^0.0.1"
+  },
   "standard": {
     "ignore": [
       "build",
