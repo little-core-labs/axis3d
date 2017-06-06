@@ -241,31 +241,27 @@ export class Material extends Command {
 
       block = block || function() {}
 
-      let needContext = true
-
-      const cubeMapState = isArrayLike(state) ? {} : state.cubemap
-      materialCubeMap.injectContext(cubeMapState || {}, ({cubemap} = {}) => {
-        if ('function' == typeof cubemap) {
-          cubemap((c) => {
-            needContext = false
-            injectContext(state, block)
-          })
-        }
-      })
-
-      const mapState = isArrayLike(state) ? {} : state.map
-      materialMap.injectContext(mapState || {}, ({map} = {}) => {
-        if ('function' == typeof map) {
-          map((c) => {
-            needContext = false
-            injectContext(state, block)
-          })
-        }
-      })
-
-      if (needContext) {
-        injectContext(state, block)
-      }
+        const cubeMapState = isArrayLike(state) ? {} : state.cubemap
+        materialCubeMap.injectContext(cubeMapState || {}, ({cubemap} = {}) => {
+          if ('function' == typeof cubemap) {
+            cubemap((c) => {
+              if ('regltexturecube' == c.texture.name.toLowerCase()) {
+                injectContext(state, block)
+              }
+            })
+          } else {
+            const mapState = isArrayLike(state) ? {} : state.map
+            materialMap.injectContext(mapState || {}, ({map} = {}) => {
+              if ('function' == typeof map) {
+                map((c) => {
+                  injectContext(state, block)
+                })
+              } else {
+                injectContext(state, block)
+              }
+            })
+          }
+        })
 
       return this
     }

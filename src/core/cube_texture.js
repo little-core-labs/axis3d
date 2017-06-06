@@ -77,7 +77,7 @@ export class CubeTexture extends Command {
    */
 
   constructor(ctx, initialState = {}) {
-    incrementStat('Texture')
+    incrementStat('CubeTexture')
     super(update)
 
     // cube texture state used for in place regl

@@ -78,9 +78,7 @@ void main() {
   if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {
     surfaceColor = texture2D(map.data, geometry.uv).rgb;
   }
-#endif
-
-#ifdef HAS_CUBE_MAP
+#elif defined HAS_CUBE_MAP
   surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
 #endif
 
