@@ -13,7 +13,7 @@ import {
   Color,
   Frame,
   Mesh,
-} from 'axis3d'
+} from '../../src'
 
 import ControlPanel from 'control-panel'
 import coalesce from 'defined'
@@ -21,30 +21,29 @@ import complex from 'snowden'
 import quat from 'gl-quat'
 import vec3 from 'gl-vec3'
 
+const ctx = new Context()
 
-const ctx = Context()
-
-const directional = DirectionalLight(ctx)
-const material = PhongMaterial(ctx)
-const camera = PerspectiveCamera(ctx)
-const frame = Frame(ctx)
+const directional = new DirectionalLight(ctx)
+const material = new PhongMaterial(ctx)
+const camera = new PerspectiveCamera(ctx)
+const frame = new Frame(ctx)
 
 // mesh rotation
-const rotation = Quaternion()
+const rotation = new Quaternion()
 
 // light color
-const directionalLightColor = Color('white')
+const directionalLightColor = new Color('white')
 
 let materialOpacity = 1.0;
 let materialShininess = 80;
-const materialSpecular = Color('lavender')
-const materialEmissive = Color('black')
-const materialColor = Color(0.1*255, 0.5*255, 0.5*255, 1)
+const materialSpecular = new Color('lavender')
+const materialEmissive = new Color('black')
+const materialColor = new Color(0.1*255, 0.5*255, 0.5*255, 1)
 
 const rgb255 = (c) => c .slice(0, 3).map((n) => 255*n)
 
 // control panel
-const panel = ControlPanel([
+const panel = new ControlPanel([
   {
     type: 'color',
     label: 'Light',
@@ -100,8 +99,8 @@ const panel = ControlPanel([
     Number(coalesce(e['Shininess'], materialShininess))})
 
 const draw = (() => {
-  const geometry = Geometry({complex})
-  const mesh = Mesh(ctx, {geometry})
+  const geometry = new Geometry({complex})
+  const mesh = new Mesh(ctx, {geometry})
   return mesh
 })()
 

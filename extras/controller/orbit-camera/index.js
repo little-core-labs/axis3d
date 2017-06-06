@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-import { Quaternion, Vector } from 'axis3d/math'
-import { radians } from 'axis3d/utils'
+import { Quaternion, Vector } from '../../../src/math'
+import { radians } from '../../../src/utils'
 
 // inputs
 import { AbstractControllerCommand } from '../abstract-controller'

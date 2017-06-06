@@ -11,7 +11,7 @@ import {
   Frame,
   Lines,
   Mesh,
-} from 'axis3d'
+} from '../../src'
 
 import ControlPanel from 'control-panel'
 import coalesce from 'defined'
@@ -20,20 +20,20 @@ import vec3 from 'gl-vec3'
 
 import complex from 'snowden'
 
-const ctx = Context()
+const ctx = new Context()
 
-const directional = DirectionalLight(ctx)
-const material = LambertMaterial(ctx)
-const camera = PerspectiveCamera(ctx)
-const frame = Frame(ctx)
+const directional = new DirectionalLight(ctx)
+const material = new LambertMaterial(ctx)
+const camera = new PerspectiveCamera(ctx)
+const frame = new Frame(ctx)
 
 // mesh rotation
-const rotation = Quaternion()
+const rotation = new Quaternion()
 
 let materialOpacity = 1.0;
-const directionalLightColor = Color('white')
+const directionalLightColor = new Color('white')
 const materialEmissive = [0, 0, 0, 1]
-const materialColor = Color('pale violet red')
+const materialColor = new Color('pale violet red')
 
 const rgb255 = (c) => c .slice(0, 3).map((n) => 255*n)
 
@@ -81,15 +81,14 @@ const panel = ControlPanel([
 })
 
 const draw = (() => {
-  const material = LambertMaterial(ctx)
-  const geometry = Geometry({complex})
-  const mesh = Mesh(ctx, {geometry})
+  const material = new LambertMaterial(ctx)
+  const geometry = new Geometry({complex})
+  const mesh = new Mesh(ctx, {geometry})
   return mesh
 })()
 
 frame(({time}) => {
   camera({position: [0, 2, 10]}, () => {
-
     directional({
       color: directionalLightColor,
       position: [10, 10, 10]

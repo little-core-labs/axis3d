@@ -4,7 +4,7 @@
  * Module depdendencies.
  */
 
-import { Command, Vector4 } from 'axis3d'
+import { Command, Vector4 } from '../../src'
 import injectDefines from 'glsl-inject-defines'
 import glslify from 'glslify'
 

@@ -13,7 +13,7 @@ import {
   Color,
   LinesMesh,
   Mesh,
-} from 'axis3d'
+} from '../../src'
 
 import { OrbitCameraController } from '../../extras/controller'
 import ControlPanel from 'control-panel'
@@ -25,14 +25,14 @@ for (let p of Bunny.positions) {
   p[1] = p[1] - 4
 }
 
-const ctx = Context()
+const ctx = new Context()
 
-const material = PhongMaterial(ctx)
-const camera = PerspectiveCamera(ctx)
-const light = AmbientLight(ctx)
-const frame = Frame(ctx)
-const lines = LinesMesh(ctx, {geometry: Bunny})
-const mesh = Mesh(ctx, {geometry: Bunny})
+const material = new PhongMaterial(ctx)
+const camera = new PerspectiveCamera(ctx)
+const light = new AmbientLight(ctx)
+const frame = new Frame(ctx)
+const lines = new LinesMesh(ctx, {geometry: Bunny})
+const mesh = new Mesh(ctx, {geometry: Bunny})
 
 // bunny rotation
 const rotation = [0, 0, 0, 1]
@@ -50,18 +50,18 @@ const bunny = (state = {}, block) => {
 }
 
 // inputs
-const orientation =  OrientationInput(ctx)
-const mouse = MouseInput(ctx)
-const touch = TouchInput(ctx)
-const orbitCamera = OrbitCameraController(ctx, {
+const orientation =  new OrientationInput(ctx)
+const mouse = new MouseInput(ctx)
+const touch = new TouchInput(ctx)
+const orbitCamera = new OrbitCameraController(ctx, {
   camera: camera,
   inputs: {orientation, touch, mouse},
 })
 
 // ambient light color
-const ambientLightColor = Color('white')
+const ambientLightColor = new Color('white')
 const materialEmissive = [0, 0, 0, 1]
-const materialColor = Color('purple')
+const materialColor = new Color('purple')
 let materialOpacity = 1.0;
 
 const rgb255 = (c) => c .slice(0, 3).map((n) => 255*n)
