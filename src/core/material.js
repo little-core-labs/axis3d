@@ -190,12 +190,6 @@ export class Material extends Command {
     const {materialMap = new MaterialMap(ctx, initialState)} = initialState
 
     /**
-     * Material cubemap.
-     */
-
-    const {materialCubeMap = new MaterialCubeMap(ctx, initialState)} = initialState
-
-    /**
      * Injected material uniforms.
      */
 
@@ -241,27 +235,16 @@ export class Material extends Command {
 
       block = block || function() {}
 
-        const cubeMapState = isArrayLike(state) ? {} : state.cubemap
-        materialCubeMap.injectContext(cubeMapState || {}, ({cubemap} = {}) => {
-          if ('function' == typeof cubemap) {
-            cubemap((c) => {
-              if ('regltexturecube' == c.texture.name.toLowerCase()) {
-                injectContext(state, block)
-              }
-            })
-          } else {
-            const mapState = isArrayLike(state) ? {} : state.map
-            materialMap.injectContext(mapState || {}, ({map} = {}) => {
-              if ('function' == typeof map) {
-                map((c) => {
-                  injectContext(state, block)
-                })
-              } else {
-                injectContext(state, block)
-              }
-            })
-          }
-        })
+      const mapState = isArrayLike(state) ? {} : (state.map || state.cubemap)
+      materialMap.injectContext(mapState || {}, ({map, cubemap} = {}) => {
+        if ('function' == typeof map) {
+          map((c) => {
+            injectContext(state, block)
+          })
+        } else {
+          injectContext(state, block)
+        }
+      })
 
       return this
     }
@@ -351,11 +334,23 @@ export class MaterialState {
     }
 
     if (null != initialState.map) {
-      shaderDefines.HAS_MAP = 1
+      if ('cubetexture' === initialState.map.typeName) {
+        console.log('HAS_CUBE_MAP')
+        shaderDefines.HAS_CUBE_MAP = 1
+      } else {
+        console.log('HAS_MAP')
+        shaderDefines.HAS_MAP = 1
+      }
     }
 
     if (null != initialState.envmap) {
-      shaderDefines.HAS_CUBE_MAP = 1
+      if ('cubetexture' === initialState.envmap.typeName) {
+        console.log('HAS_ENV_CUBE_MAP')
+        shaderDefines.HAS_ENV_CUBE_MAP = 1
+      } else {
+        console.log('HAS_ENV_MAP')
+        shaderDefines.HAS_ENV_MAP = 1
+      }
     }
 
     for (let key in types) {
@@ -370,8 +365,6 @@ export class MaterialState {
     for (let key in shaderDefines) {
       fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
     }
-
-
 
     /**
      * Material fragment shader source string.
@@ -678,6 +671,28 @@ export class MaterialUniforms {
     }
 
     /**
+     * Texture envmap resolution if available.
+     *
+     * @public
+     * @type {Array<Number>|Vector2}
+     */
+
+    this['envmap.resolution'] = ({textureResolution}) => {
+      return coalesce(textureResolution, [0, 0])
+    }
+
+    /**
+     * Texture envmap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['envmap.data'] = ({texture, textureData}) => {
+      return coalesce(texture, emptyTexture)
+    }
+
+    /**
      * Texture cubemap data if available.
      *
      * @public
@@ -696,6 +711,29 @@ export class MaterialUniforms {
      */
 
     this['cubemap.data'] = ({texture, textureData}) => {
+      return coalesce(texture, emptyCubeTexture)
+    }
+
+    /**
+     * Texture envcubemap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['envcubemap.resolution'] = ({textureResolution}) => {
+      return coalesce(textureResolution, [0, 0])
+    }
+
+    /**
+     * Texture envcubemap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['envcubemap.data'] = ({texture, textureData}) => {
+      debugger
       return coalesce(texture, emptyCubeTexture)
     }
   }
@@ -733,45 +771,11 @@ export class MaterialMap {
       context: {
         map: ({}, {map = initialState.map}) => {
           return map
-        }
-      }
-    })
-  }
-}
-
-/**
- * The MaterialCubeMap class represents an abstraction around
- * a cubemap given to a material.
- *
- * @public
- * @class MaterialCubeMap
- */
-
-export class MaterialCubeMap {
-
-  /**
-   * MaterialCubeMap class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
-
-  constructor(ctx, initialState = {}) {
-
-    /**
-     * Injects a cubemap into a context for a material.
-     *
-     * @public
-     * @type {Function}
-     */
-
-    this.injectContext = ctx.regl({
-      context: {
+        },
         cubemap: ({}, {cubemap = initialState.envmap}) => {
+          debugger
           return cubemap
-        }
+        },
       }
     })
   }

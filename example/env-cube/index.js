@@ -20,7 +20,7 @@ import {
   Frame,
   Color,
   Mesh,
-} from 'axis3d'
+} from '../../src'
 
 import quat from 'gl-quat'
 
@@ -32,7 +32,7 @@ const frame = Frame(ctx)
 const cubeTexture = CubeTexture(ctx)
 const envCubeTexture = CubeTexture(ctx)
 const envMaterial = FlatMaterial(ctx, {envmap: envCubeTexture})
-const boxMaterial = FlatMaterial(ctx, {envmap: cubeTexture})
+const boxMaterial = FlatMaterial(ctx, {map: cubeTexture})
 const rotation = Quaternion()
 
 // inputs

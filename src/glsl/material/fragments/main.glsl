@@ -50,15 +50,23 @@ uniform MATERIAL_TYPE material;
 uniform LightContext lightContext;
 uniform Camera camera;
 
+
 #ifdef HAS_MAP
 #pragma glslify: Map = require('../Map')
 uniform Map map;
-#endif
-
-#ifdef HAS_CUBE_MAP
+#elif defined HAS_CUBE_MAP
 #pragma glslify: Cubemap = require('../Cubemap')
 uniform Cubemap cubemap;
 #endif
+
+#ifdef HAS_ENV_MAP
+#pragma glslify: Map = require('../Map')
+uniform Map envmap;
+#elif defined HAS_ENV_CUBE_MAP
+#pragma glslify: Cubemap = require('../Cubemap')
+uniform Cubemap envcubemap;
+#endif
+
 
 //
 // Lambertian shading model.
@@ -70,9 +78,11 @@ import drawLambertMaterial from './lambert' where {
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  envcubemap=envcubemap,
   cubemap=cubemap,
-  camera=camera,
+  envmap=envmap,
   map=map,
+  camera=camera,
   isnan=isnan,
   isinf=isinf
 }
@@ -87,9 +97,11 @@ import drawPhongMaterial from './phong' where {
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  envcubemap=envcubemap,
   cubemap=cubemap,
-  camera=camera,
+  envmap=envmap,
   map=map,
+  camera=camera,
   isnan=isnan,
   isinf=isinf
 }
@@ -100,7 +112,9 @@ import drawPhongMaterial from './phong' where {
 import drawFlatMaterial from './flat' where {
   getGeometryContext=getGeometryContext,
   material=material,
+  envcubemap=envcubemap,
   cubemap=cubemap,
+  envmap=envmap,
   map=map,
 }
 
