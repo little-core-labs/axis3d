@@ -4,16 +4,13 @@
  * Module dependencies.
  */
 
+import { Object3DContext, Object3D, } from './object3d'
 import { Quaternion, Vector3 } from '../math'
+import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
 import * as types from '../light/types'
 import { Color } from './color'
 import { Mesh } from './mesh'
-
-import {
-  Object3DContext,
-  Object3D,
-} from './object3d'
 
 import {
   DirectionalLightType,
@@ -128,11 +125,8 @@ export class Light extends Object3D {
    */
 
   constructor(ctx, initialState = {}) {
-    incrementStat('Light')
-
     // init update method
     const {regl} = ctx
-
     const {
       intensity: initialIntensity = kDefaultLightIntensity,
       position: initialPosition = kDefaultLightPosition,
@@ -157,6 +151,9 @@ export class Light extends Object3D {
       // method to actually do something
       update
     })
+
+    incrementStat('Light')
+    assignTypeName(this, 'light')
 
     /**
      * Calls current target render function

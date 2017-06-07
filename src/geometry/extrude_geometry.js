@@ -5,7 +5,7 @@
  */
 
 import { isArrayLike } from '../utils'
-import { Geometry } from './geometry'
+import { Geometry } from '../core/geometry'
 
 import extrudeByShape from 'extrude'
 import extrudeByPath from 'extrude-by-path'

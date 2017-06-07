@@ -5,9 +5,10 @@
  */
 
 import { incrementStat, getStats } from '../stats'
-import { Quaternion, Vector } from '../math'
 import { assignTypeName } from './types'
+import { Quaternion } from '../math'
 import { Command } from './command'
+import { Vector } from './vector'
 import { define } from '../utils'
 
 import coalesce from 'defined'

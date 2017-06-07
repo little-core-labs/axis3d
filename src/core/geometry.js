@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-import { Vector3, Vector2 } from '../math/vector'
+import { Vector3, Vector2 } from '../math'
+import { assignTypeName } from './types'
 
 import getBoundingBox from 'bound-points'
 import Wireframe from 'screen-projected-lines'
@@ -36,6 +37,7 @@ export class Geometry {
    */
 
   constructor({complex = null, flatten = false} = {}) {
+    assignTypeName(this, 'geometry')
 
     /**
      * Internal simplicial complex value.

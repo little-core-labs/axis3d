@@ -8,6 +8,7 @@
  */
 
 const $types = Symbol('types')
+const registeredTypes = []
 
 /**
  * Assigns a type name to a given instance of anything.
@@ -19,11 +20,15 @@ const $types = Symbol('types')
 
 export const assignTypeName = (instance, typeName) => {
   if (null == instance) { return instance }
-  if (null == typeName) { typeName == typeof instance }
+  if (null == typeName) { typeName = typeof instance }
   if (false == Array.isArray(instance[$types])) {
     instance[$types] = []
   }
+  typeName = typeName.toLowerCase()
   instance[$types].unshift(typeName)
+  if (-1 == registeredTypes.indexOf(typeName)) {
+    registeredTypes.push(typeName)
+  }
   return instance
 }
 
@@ -46,6 +51,15 @@ export const typeOf = (instance) => {
 }
 
 /**
+ * Returns a boolean indicating whether a given instance is an
+ * instance of a given Parent type. This function is useful for
+ * classes that extend the {@link Command} class which only provide
+ * functions and cause a natural `instanceof` check to fail.
+ *
+ * @public
+ * @param {Mixed} instance
+ * @param {Function} Parent
+ * @return {Boolean}
  */
 
 export const instanceOf = (instance, Parent) => {

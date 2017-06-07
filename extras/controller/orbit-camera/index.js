@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import { Quaternion, Vector } from '../../../src/math'
+import { Quaternion, Vector3 } from '../../../src/math'
 import { radians } from '../../../src/utils'
 
 // inputs
@@ -35,7 +35,7 @@ export class OrbitCameraController extends AbstractControllerCommand {
       interpolationFactor: initialInterpolationFactor = 1,
     } = initial
 
-    const position = new Vector(0, 0, 0)
+    const position = new Vector3(0, 0, 0)
     const rotation = new Quaternion()
     const x = new Quaternion()
     const y = new Quaternion()

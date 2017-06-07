@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import * as VectorSwizzleMap from '../math/vector_swizzle_map'
+import * as VectorSwizzleMap from './vector_swizzle_map'
 import { assignTypeName } from './types'
 import { isArrayLike } from '../utils'
 import { Command } from './command'
