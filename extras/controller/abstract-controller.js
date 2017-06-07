@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import { Quaternion, Command } from 'axis3d'
+import { Quaternion, Command } from '../../src'
 
 export class AbstractControllerCommand extends Command {
   constructor(ctx, {

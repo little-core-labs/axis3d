@@ -6,6 +6,7 @@
 
 import { incrementStat, getStats } from '../stats'
 import { Quaternion, Vector } from '../math'
+import { assignTypeName } from './types'
 import { Command } from './command'
 import { define } from '../utils'
 
@@ -80,8 +81,9 @@ export class Object3D extends Command {
    */
 
   constructor(ctx, initialState = {}) {
-    incrementStat('Object3D')
     super(update)
+    incrementStat('Object3D')
+    assignTypeName(this, 'object3d')
 
     /**
      * Optional update function.

@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import { radians } from 'axis3d/utils'
+import { radians } from '../../../src/utils'
 import clamp from 'clamp'
 import quat from 'gl-quat'
 

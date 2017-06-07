@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import { TriangleGeometry } from 'axis3d'
+import { TriangleGeometry } from '../../src'
 
 // thank you freeman-lab for providing these shapes
 // https://github.com/freeman-lab/extrude/blob/master/shapes
@@ -22,7 +22,7 @@ export class Polygon {
 }
 
 // we can just use the built in 2d triangle
-export const triangle = TriangleGeometry()
+export const triangle = new TriangleGeometry()
 
 export const square = new class Square {
   constructor() {

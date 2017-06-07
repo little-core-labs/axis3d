@@ -11,19 +11,19 @@ import {
   Frame,
   Color,
   Mesh,
-} from 'axis3d'
+} from '../../src'
 
 import quat from 'gl-quat'
 
-const ctx = Context()
+const ctx = new Context()
 
-const camera = PerspectiveCamera(ctx)
-const sphere = Mesh(ctx, { geometry: SphereGeometry() })
-const frame = Frame(ctx)
-const light = DirectionalLight(ctx)
-const texture = Texture(ctx)
-const material = PhongMaterial(ctx, {map: texture})
-const rotation = Quaternion()
+const camera = new PerspectiveCamera(ctx)
+const sphere = new Mesh(ctx, { geometry: new SphereGeometry() })
+const frame = new Frame(ctx)
+const light = new DirectionalLight(ctx)
+const texture = new Texture(ctx)
+const material = new PhongMaterial(ctx, {map: texture})
+const rotation = new Quaternion()
 
 const image = new Image()
 image.src = 'assets/texture.jpg'
@@ -38,7 +38,7 @@ frame(({time, cancel}) => {
   camera({rotation, position: [0, 0, 5]}, () => {
     light({intensity: 0.8, position: [0, 0, 10], ambient: 0.01})
     texture({data: image})
-    material({specular: Color('dim gray') }, () => {
+    material({specular: new Color('dim gray') }, () => {
       sphere({})
     })
   })
