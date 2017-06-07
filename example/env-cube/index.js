@@ -12,38 +12,41 @@ import {
   BoxGeometry,
   CubeTexture,
   TouchInput,
+  Texture,
   MouseInput,
   Quaternion,
   Material,
+  SphereGeometry,
   Object3D,
   Context,
   Frame,
-  Color,
   Mesh,
 } from '../../src'
 
 import quat from 'gl-quat'
+const ctx = new Context()
+const sphere = new Mesh(ctx, { geometry: new SphereGeometry() })
 
-const ctx = Context()
-
-const camera = PerspectiveCamera(ctx)
-const box = Mesh(ctx, { geometry: BoxGeometry() })
-const frame = Frame(ctx)
-const cubeTexture = CubeTexture(ctx)
-const envCubeTexture = CubeTexture(ctx)
-const envMaterial = FlatMaterial(ctx, {envmap: envCubeTexture})
-const boxMaterial = FlatMaterial(ctx, {map: cubeTexture})
-const rotation = Quaternion()
+const camera = new PerspectiveCamera(ctx)
+const box = new Mesh(ctx, { geometry: new BoxGeometry() })
+const frame = new Frame(ctx)
+// const cubeTexture = new CubeTexture(ctx)
+// const envCubeTexture = new CubeTexture(ctx)
+// const envMaterial = new FlatMaterial(ctx, {envmap: envCubeTexture})
+const envTexture = new Texture(ctx)
+const envMaterial = new FlatMaterial(ctx, {map: envTexture})
+// const boxMaterial = new FlatMaterial(ctx, {map: cubeTexture})
+const rotation = new Quaternion()
 
 // inputs
-const orientation = OrientationInput(ctx)
-const keyboard = KeyboardInput(ctx)
-const mouse = MouseInput(ctx)
-const touch = TouchInput(ctx)
+const orientation = new OrientationInput(ctx)
+const keyboard = new KeyboardInput(ctx)
+const mouse = new MouseInput(ctx)
+const touch = new TouchInput(ctx)
 
 // orbit camera controls
 const inputs = { orientation, keyboard, touch, mouse }
-const orbitCamera = OrbitCameraController(ctx, {
+const orbitCamera = new OrbitCameraController(ctx, {
   camera, inputs,
   invert: true,
 })
@@ -80,14 +83,14 @@ video.src = 'assets/squarevid.mp4'
 video.load()
 video.play()
 
-cubeTexture({data: [
-  video,
-  image1,
-  canvas,
-  video,
-  image2,
-  canvas,
-]})
+// cubeTexture({data: [
+//   video,
+//   image1,
+//   canvas,
+//   video,
+//   image2,
+//   canvas,
+// ]})
 
 ///// Environment Cube Texture /////
 const bk = new Image()
@@ -103,23 +106,26 @@ rt.src = 'assets/criminal-impact_rt.jpg'
 const up = new Image()
 up.src = 'assets/criminal-impact_up.jpg'
 
-envCubeTexture({data: [
-  ft,
-  bk,
-  up,
-  dn,
-  rt,
-  lf,
-]})
+envTexture({data: bk})
+// envCubeTexture({data: [
+//   ft,
+//   bk,
+//   up,
+//   dn,
+//   rt,
+//   lf,
+// ]})
+
 
 frame(({time, cancel}) => {
   const multiply = (...args) => quat.multiply([], ...args)
   orbitCamera({ rotation, position: [-0.25, 0, 0], target: [0, 0, 0] }, () => {
-    boxMaterial({cull: false}, () => {
-      box({scale: [0.31,0.31,0.31]})
-    })
+    // boxMaterial({cull: false}, () => {
+    //   box({scale: [0.31,0.31,0.31]})
+    // })
     envMaterial({cull: false}, () => {
-      box({size: [0.81,0.81,0.81]})
+      sphere({})
+      // box({size: [0.81,0.81,0.81]})
     })
   })
 })

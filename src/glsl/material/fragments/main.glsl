@@ -51,19 +51,17 @@ uniform LightContext lightContext;
 uniform Camera camera;
 
 
-#ifdef HAS_MAP
 #pragma glslify: Map = require('../Map')
+#pragma glslify: Cubemap = require('../Cubemap')
+#ifdef HAS_MAP
 uniform Map map;
 #elif defined HAS_CUBE_MAP
-#pragma glslify: Cubemap = require('../Cubemap')
 uniform Cubemap cubemap;
 #endif
 
 #ifdef HAS_ENV_MAP
-#pragma glslify: Map = require('../Map')
 uniform Map envmap;
 #elif defined HAS_ENV_CUBE_MAP
-#pragma glslify: Cubemap = require('../Cubemap')
 uniform Cubemap envcubemap;
 #endif
 

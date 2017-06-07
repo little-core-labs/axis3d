@@ -10,6 +10,8 @@ import { Command } from './command'
 import { Texture } from './texture'
 import { Color } from './color'
 import * as types from '../material/types'
+import { typeOf } from './types'
+
 
 import {
   kMaxDirectionalLights,
@@ -237,11 +239,23 @@ export class Material extends Command {
 
       const mapState = isArrayLike(state) ? {} : (state.map || state.cubemap)
       materialMap.injectContext(mapState || {}, ({map, cubemap} = {}) => {
+        let flag = true
         if ('function' == typeof map) {
           map((c) => {
+            flag = false
+            // console.log('mappp')
             injectContext(state, block)
           })
-        } else {
+        }
+        if ('function' == typeof cubemap) {
+          cubemap((c) => {
+            flag = false
+            console.log('cubemappppp')
+            injectContext(state, block)
+          })
+        }
+        if (flag) {
+          console.log('neither')
           injectContext(state, block)
         }
       })
@@ -334,7 +348,9 @@ export class MaterialState {
     }
 
     if (null != initialState.map) {
-      if ('cubetexture' === initialState.map.typeName) {
+      console.log('typeOf(initialState.map)', typeOf(initialState.map))
+      // if ('cubetexture' === typeOf(initialState.map.typeName)) {
+      if ('cubetexture' === typeOf(initialState.map)) {
         console.log('HAS_CUBE_MAP')
         shaderDefines.HAS_CUBE_MAP = 1
       } else {
@@ -344,7 +360,10 @@ export class MaterialState {
     }
 
     if (null != initialState.envmap) {
-      if ('cubetexture' === initialState.envmap.typeName) {
+      console.log('typeOf(initialState.envmap)', typeOf(initialState.envmap))
+      debugger
+      // if ('cubetexture' === typeOf(initialState.envmap.typeName)) {
+      if ('cubetexture' === typeOf(initialState.envmap)) {
         console.log('HAS_ENV_CUBE_MAP')
         shaderDefines.HAS_ENV_CUBE_MAP = 1
       } else {
@@ -733,7 +752,6 @@ export class MaterialUniforms {
      */
 
     this['envcubemap.data'] = ({texture, textureData}) => {
-      debugger
       return coalesce(texture, emptyCubeTexture)
     }
   }
@@ -770,10 +788,12 @@ export class MaterialMap {
     this.injectContext = ctx.regl({
       context: {
         map: ({}, {map = initialState.map}) => {
+          // console.log('map', map)
+          debugger
           return map
         },
         cubemap: ({}, {cubemap = initialState.envmap}) => {
-          debugger
+          // console.log('cubemap', cubemap)
           return cubemap
         },
       }

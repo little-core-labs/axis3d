@@ -5,6 +5,7 @@
  */
 
 import { incrementStat } from '../stats'
+import { assignTypeName } from './types'
 import { Command } from './command'
 import { TextureContext, kDefaultTextureState } from './texture'
 import window from 'global/window'
@@ -81,6 +82,7 @@ export class CubeTexture extends Command {
     super(update)
 
     this.typeName = 'cubetexture'
+    assignTypeName(this, 'cubetexture')
 
     // cube texture state used for in place regl
     // cube texture reinitialization

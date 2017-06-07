@@ -5,6 +5,7 @@
  */
 
 import { incrementStat } from '../stats'
+import { assignTypeName } from './types'
 import { Command } from './command'
 import window from 'global/window'
 
@@ -80,7 +81,8 @@ export class Texture extends Command {
     incrementStat('Texture')
     super(update)
 
-    this.typeName = 'texture'
+    // this.typeName = 'texture'
+    assignTypeName(this, 'texture')
 
     // texture state used for in place regl
     // texture reinitialization
