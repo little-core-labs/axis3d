@@ -30,12 +30,13 @@ const sphere = new Mesh(ctx, { geometry: new SphereGeometry() })
 const camera = new PerspectiveCamera(ctx)
 const box = new Mesh(ctx, { geometry: new BoxGeometry() })
 const frame = new Frame(ctx)
-// const cubeTexture = new CubeTexture(ctx)
-// const envCubeTexture = new CubeTexture(ctx)
-// const envMaterial = new FlatMaterial(ctx, {envmap: envCubeTexture})
+const cubeTexture = new CubeTexture(ctx)
 const envTexture = new Texture(ctx)
-const envMaterial = new FlatMaterial(ctx, {map: envTexture})
-// const boxMaterial = new FlatMaterial(ctx, {map: cubeTexture})
+const envCubeTexture = new CubeTexture(ctx)
+const envMaterial = new FlatMaterial(ctx, {envmap: envTexture})
+// const envMaterial = new FlatMaterial(ctx, {map: envCubeTexture})
+// const envMaterial = new FlatMaterial(ctx, {map: envTexture})
+const boxMaterial = new FlatMaterial(ctx, {map: cubeTexture})
 const rotation = new Quaternion()
 
 // inputs
@@ -83,14 +84,14 @@ video.src = 'assets/squarevid.mp4'
 video.load()
 video.play()
 
-// cubeTexture({data: [
-//   video,
-//   image1,
-//   canvas,
-//   video,
-//   image2,
-//   canvas,
-// ]})
+cubeTexture({data: [
+  video,
+  image1,
+  canvas,
+  video,
+  image2,
+  canvas,
+]})
 
 ///// Environment Cube Texture /////
 const bk = new Image()
@@ -106,23 +107,23 @@ rt.src = 'assets/criminal-impact_rt.jpg'
 const up = new Image()
 up.src = 'assets/criminal-impact_up.jpg'
 
-envTexture({data: bk})
-// envCubeTexture({data: [
-//   ft,
-//   bk,
-//   up,
-//   dn,
-//   rt,
-//   lf,
-// ]})
-
+envCubeTexture({data: [
+  ft,
+  bk,
+  up,
+  dn,
+  rt,
+  lf,
+]})
 
 frame(({time, cancel}) => {
   const multiply = (...args) => quat.multiply([], ...args)
   orbitCamera({ rotation, position: [-0.25, 0, 0], target: [0, 0, 0] }, () => {
-    // boxMaterial({cull: false}, () => {
-    //   box({scale: [0.31,0.31,0.31]})
-    // })
+    boxMaterial({cull: false}, () => {
+      box({scale: [0.31,0.31,0.31]})
+    })
+    // envCubeTexture({data: bk})
+    envTexture({data: bk})
     envMaterial({cull: false}, () => {
       sphere({})
       // box({size: [0.81,0.81,0.81]})

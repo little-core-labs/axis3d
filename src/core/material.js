@@ -24,6 +24,8 @@ import coalesce from 'defined'
 import glslify from 'glslify'
 import vec4 from 'gl-vec4'
 
+// TODO: Figure out better way to do this to not use a global var
+let shaderDefines
 /**
  * Next available Material ID represented
  * as an integer.
@@ -239,23 +241,15 @@ export class Material extends Command {
 
       const mapState = isArrayLike(state) ? {} : (state.map || state.cubemap)
       materialMap.injectContext(mapState || {}, ({map, cubemap} = {}) => {
-        let flag = true
-        if ('function' == typeof map) {
-          map((c) => {
-            flag = false
-            // console.log('mappp')
-            injectContext(state, block)
-          })
-        }
-        if ('function' == typeof cubemap) {
+        if ('function' == typeof cubemap && (shaderDefines.HAS_CUBE_MAP || shaderDefines.HAS_ENV_CUBE_MAP)) {
           cubemap((c) => {
-            flag = false
-            console.log('cubemappppp')
             injectContext(state, block)
           })
-        }
-        if (flag) {
-          console.log('neither')
+        } else if ('function' == typeof map && (shaderDefines.HAS_MAP || shaderDefines.HAS_ENV_MAP)) {
+          map((c) => {
+            injectContext(state, block)
+          })
+        } else {
           injectContext(state, block)
         }
       })
@@ -334,7 +328,7 @@ export class MaterialState {
      * Injected fragment shader defines.
      */
 
-    const shaderDefines = {
+    shaderDefines = {
       MATERIAL_TYPE: typeName,
       ...initialState.shaderDefines
     }
@@ -348,26 +342,17 @@ export class MaterialState {
     }
 
     if (null != initialState.map) {
-      console.log('typeOf(initialState.map)', typeOf(initialState.map))
-      // if ('cubetexture' === typeOf(initialState.map.typeName)) {
       if ('cubetexture' === typeOf(initialState.map)) {
-        console.log('HAS_CUBE_MAP')
         shaderDefines.HAS_CUBE_MAP = 1
       } else {
-        console.log('HAS_MAP')
         shaderDefines.HAS_MAP = 1
       }
     }
 
     if (null != initialState.envmap) {
-      console.log('typeOf(initialState.envmap)', typeOf(initialState.envmap))
-      debugger
-      // if ('cubetexture' === typeOf(initialState.envmap.typeName)) {
       if ('cubetexture' === typeOf(initialState.envmap)) {
-        console.log('HAS_ENV_CUBE_MAP')
         shaderDefines.HAS_ENV_CUBE_MAP = 1
       } else {
-        console.log('HAS_ENV_MAP')
         shaderDefines.HAS_ENV_MAP = 1
       }
     }
@@ -787,13 +772,10 @@ export class MaterialMap {
 
     this.injectContext = ctx.regl({
       context: {
-        map: ({}, {map = initialState.map}) => {
-          // console.log('map', map)
-          debugger
+        map: ({}, {map = initialState.map || initialState.envmap}) => {
           return map
         },
-        cubemap: ({}, {cubemap = initialState.envmap}) => {
-          // console.log('cubemap', cubemap)
+        cubemap: ({}, {cubemap = initialState.envmap || initialState.map}) => {
           return cubemap
         },
       }
