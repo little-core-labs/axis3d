@@ -32,6 +32,8 @@ attribute vec2 uv;
 varying vec3 vposition;
 varying vec3 vnormal;
 varying vec2 vuv;
+varying vec3 vLocalPosition;
+varying vec3 vLocalNormal;
 
 #ifdef HAS_TRANSFORM_FUNC
   TRANSFORM_FUNC_SOURCE
@@ -42,6 +44,7 @@ void main() {
 
 #if defined HAS_POSITIONS
   vposition = (mesh.model * vec4(position, 1.0)).xyz;
+  vLocalPosition = position;
   gl_Position =
       camera.projection
     * camera.view
@@ -51,6 +54,7 @@ void main() {
 
 #ifdef HAS_NORMALS
   vnormal = normalize(mesh.modelNormal * normal);
+  vLocalNormal = normal;
 #endif
 
 #ifdef HAS_UVS
