@@ -110,7 +110,7 @@ const up = new Image()
 up.src = 'assets/criminal-impact_up.jpg'
 
 envCubeTexture({data: [
-  ft,
+  ft,x
   bk,
   up,
   dn,

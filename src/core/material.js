@@ -5,6 +5,7 @@
  */
 
 import { ensureRGBA, isArrayLike } from '../utils'
+import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
 import { Command } from './command'
 import { Texture } from './texture'
@@ -184,8 +185,9 @@ export class Material extends Command {
    */
 
   constructor(ctx, initialState = {}) {
-    incrementStat('Material')
     super(update)
+    incrementStat('Material')
+    assignTypeName(this, 'material')
 
     /**
      * Material map.

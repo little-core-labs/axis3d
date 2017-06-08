@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
 import { assignTypeName } from './types'
 import { Command } from './command'
@@ -78,8 +79,9 @@ export class Texture extends Command {
    */
 
   constructor(ctx, initialState = {}) {
-    incrementStat('Texture')
     super(update)
+    incrementStat('Texture')
+    assignTypeName(this, 'texture')
 
     // this.typeName = 'texture'
     assignTypeName(this, 'texture')
