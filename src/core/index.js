@@ -4,6 +4,7 @@
  * Module exports.
  */
 
+export * from './cube_texture'
 export * from './geometry'
 export * from './object3d'
 export * from './command'
