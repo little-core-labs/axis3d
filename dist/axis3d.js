@@ -12742,7 +12742,7 @@ function _toConsumableArray(arr) {
 
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
-var kLibraryVersion = '0.1.13';
+var kLibraryVersion = '0.2.0';
 
 /**
  * Math dependencies.
