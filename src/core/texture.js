@@ -6,7 +6,6 @@
 
 import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
-import { assignTypeName } from './types'
 import { Command } from './command'
 import window from 'global/window'
 

@@ -110,7 +110,7 @@ const up = new Image()
 up.src = 'assets/criminal-impact_up.jpg'
 
 envCubeTexture({data: [
-  ft,x
+  ft,
   bk,
   up,
   dn,
@@ -120,19 +120,25 @@ envCubeTexture({data: [
 
 frame(({time, cancel}) => {
   const multiply = (...args) => quat.multiply([], ...args)
-  orbitCamera({ rotation, position: [-0.25, 0, 0], target: [0, 0, 0] }, () => {
+  orbitCamera({ rotation, position: [-0.625, 0, 0], target: [0, 0, 0] }, () => {
     boxMaterial({cull: false}, () => {
-      box({scale: [0.31,0.31,0.31]})
+      box({scale: [0.31,0.31,0.31],
+        rotation: quat.setAxisAngle([], [1,0,0], time*0.05),
+      })
     })
     secondBoxMaterial({cull: false}, () => {
       box({scale: [0.31,0.31,0.31],
         rotation: quat.setAxisAngle([], [0,1,0], time*0.05),
-        position: [0.10, 0.10, 0.0]})
+        position: [0.0, 0.015, 0.15]
+      })
     })
     thirdBoxMaterial({cull: false}, () => {
-      box({scale: [0.31,0.31,0.31], position: [-0.1, 0.0, 0.0]})
+      box({scale: [0.31,0.31,0.31],
+        rotation: quat.setAxisAngle([], [0,1,0], time*0.05),
+        position: [0.0, 0.0, -0.15]
+      })
     })
-    envTexture({data: image1})
+    envTexture({data: video})
     texture({data: image2})
     envMaterial({cull: false}, () => {
       sphere({})
