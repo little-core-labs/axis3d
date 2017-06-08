@@ -5,8 +5,10 @@
  */
 
 import { incrementStat, getStats } from '../stats'
-import { Quaternion, Vector } from '../math'
+import { assignTypeName } from './types'
+import { Quaternion } from '../math'
 import { Command } from './command'
+import { Vector } from './vector'
 import { define } from '../utils'
 
 import coalesce from 'defined'
@@ -80,8 +82,9 @@ export class Object3D extends Command {
    */
 
   constructor(ctx, initialState = {}) {
-    incrementStat('Object3D')
     super(update)
+    incrementStat('Object3D')
+    assignTypeName(this, 'object3d')
 
     this.typeName = 'object3d'
 

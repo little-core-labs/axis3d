@@ -5,25 +5,31 @@ import {
   FlatMaterial,
   BoxGeometry,
   Quaternion,
+  Command,
   Context,
   Vector3,
   Color,
   Frame,
   Mesh,
-} from 'axis3d'
+} from '../../src'
+
+import { typeOf, instanceOf } from '../../src/core/types'
 
 import quat from 'gl-quat'
 
-const ctx = Context()
-const material = FlatMaterial(ctx)
-const camera = PerspectiveCamera(ctx)
-const frame = Frame(ctx)
-const box = Mesh(ctx, {geometry: BoxGeometry()})
+const ctx = new Context()
+const material = new FlatMaterial(ctx)
+const camera = new PerspectiveCamera(ctx)
+const frame = new Frame(ctx)
+const box = new Mesh(ctx, {geometry: new BoxGeometry()})
 
-const rotation = Quaternion()
-const position = Vector3(0, 0, 5)
-const angle = Quaternion()
-const color = Color('blue')
+const rotation = new Quaternion()
+const position = new Vector3(0, 0, 5)
+const angle = new Quaternion()
+const color = new Color('blue')
+
+console.log(frame instanceof Command)
+console.log(typeOf(frame), instanceOf(frame, Command))
 
 frame(({time}) => {
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)

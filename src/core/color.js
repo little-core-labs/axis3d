@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-import * as VectorSwizzleMap from '../math/vector_swizzle_map'
+import * as VectorSwizzleMap from './vector_swizzle_map'
+import { assignTypeName } from './types'
 import { isArrayLike } from '../utils'
 import { Command } from './command'
 import { Vector4 } from '../math'
@@ -54,6 +55,7 @@ export class Color extends Vector4 {
 
   constructor(...input) {
     super(0, 0, 0, 0)
+    assignTypeName(this, 'color')
     this.set(input)
     this.typeName = 'color'
   }

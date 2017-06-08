@@ -5,6 +5,7 @@
  */
 
 import { incrementStat } from '../stats'
+import { assignTypeName } from './types'
 import { Command } from './command'
 import { TextureContext, kDefaultTextureState } from './texture'
 import window from 'global/window'
@@ -81,6 +82,7 @@ export class CubeTexture extends Command {
     super(update)
 
     this.typeName = 'cubetexture'
+    assignTypeName(this, 'cubetexture')
 
     // cube texture state used for in place regl
     // cube texture reinitialization
@@ -142,11 +144,6 @@ export class CubeTexture extends Command {
     return false
   }
 
-
-
-//////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
   /**
    * Helper function to return a 2d vector
    * representing the cube texture data resolution.
@@ -290,7 +287,7 @@ export class CubeTextureState {
     if (ready) {
       for (let i = 0; i < data.length; i++) {
         if (isVideo(data[i]) && data[i].readyState >= HAVE_CURRENT_DATA) {
-          // needsUpdate = true
+          needsUpdate = true
           if (now - this.lastVideoUpdate >= 0.01) {
             this.lastVideoUpdate = now
           }

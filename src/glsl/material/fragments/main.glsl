@@ -6,12 +6,15 @@ precision mediump float;
 #pragma glslify: GeometryContext = require('../../geometry/GeometryContext')
 #pragma glslify: LightContext = require('../../light/LightContext')
 #pragma glslify: Camera = require('../../camera/Camera')
+#pragma glslify: Cubemap = require('../Cubemap')
+#pragma glslify: Map = require('../Map')
 
 // materials
 #pragma glslify: LambertMaterial = require('../LambertMaterial')
 #pragma glslify: PhongMaterial = require('../PhongMaterial')
 #pragma glslify: FlatMaterial = require('../FlatMaterial')
 #pragma glslify: Material = require('../Material')
+
 
 #ifndef MAX_AMBIENT_LIGHTS
 #define MAX_AMBIENT_LIGHTS 16
@@ -34,7 +37,7 @@ precision mediump float;
 #define isinf(n) (n >= 0.0 || n <= 0.0)
 #define isnan(n) !isinf(n) && n != n
 
-#define getGeometryContext() GeometryContext(vposition, vnormal, vuv)
+#define getGeometryContext() GeometryContext(vposition, vnormal, vuv, vLocalPosition, vLocalNormal)
 
 //
 // Shader IO.
@@ -42,6 +45,8 @@ precision mediump float;
 varying vec3 vposition;
 varying vec3 vnormal;
 varying vec2 vuv;
+varying vec3 vLocalPosition;
+varying vec3 vLocalNormal;
 
 //
 // Shader uniforms.
@@ -51,14 +56,17 @@ uniform LightContext lightContext;
 uniform Camera camera;
 
 #ifdef HAS_MAP
-#pragma glslify: Map = require('../Map')
 uniform Map map;
-#endif
-
-#ifdef HAS_CUBE_MAP
-#pragma glslify: Cubemap = require('../Cubemap')
+#elif defined HAS_CUBE_MAP
 uniform Cubemap cubemap;
 #endif
+
+#ifdef HAS_ENV_MAP
+uniform Map envmap;
+#elif defined HAS_ENV_CUBE_MAP
+uniform Cubemap envcubemap;
+#endif
+
 
 //
 // Lambertian shading model.
@@ -70,9 +78,11 @@ import drawLambertMaterial from './lambert' where {
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  envcubemap=envcubemap,
   cubemap=cubemap,
-  camera=camera,
+  envmap=envmap,
   map=map,
+  camera=camera,
   isnan=isnan,
   isinf=isinf
 }
@@ -87,9 +97,11 @@ import drawPhongMaterial from './phong' where {
   getGeometryContext=getGeometryContext,
   lightContext=lightContext,
   material=material,
+  envcubemap=envcubemap,
   cubemap=cubemap,
-  camera=camera,
+  envmap=envmap,
   map=map,
+  camera=camera,
   isnan=isnan,
   isinf=isinf
 }
@@ -100,8 +112,10 @@ import drawPhongMaterial from './phong' where {
 import drawFlatMaterial from './flat' where {
   getGeometryContext=getGeometryContext,
   material=material,
+  envcubemap=envcubemap,
   cubemap=cubemap,
-  map=map,
+  envmap=envmap,
+  map=map
 }
 
 //

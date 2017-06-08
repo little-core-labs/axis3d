@@ -4,8 +4,9 @@
  * Module dependencies.
  */
 
-import * as VectorSwizzleMap from './vector_swizzle_map'
-import { Vector } from './vector'
+import * as VectorSwizzleMap from '../core/vector_swizzle_map'
+import { assignTypeName } from '../core/types'
+import { Vector } from '../core/vector'
 import { Euler } from './euler'
 
 import coalesce from 'defined'
@@ -39,6 +40,9 @@ export class Quaternion extends Vector {
 
   constructor(x = 0, y = 0, z = 0, w = 1) {
     super(coalesce(x, 0), coalesce(y, 0), coalesce(z, 0), coalesce(w, 1))
+    // Quaternion gets special treatment because it is 3 component vector
+    // and it would be beneficial to know if it is actually an Quaternion
+    assignTypeName(this, 'quaternion')
   }
 
   /**

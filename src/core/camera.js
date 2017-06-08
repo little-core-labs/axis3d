@@ -6,6 +6,7 @@
 
 import { Object3D, Object3DContext } from '../core/object3d'
 import { Quaternion, Vector3 } from '../math'
+import { assignTypeName } from './types'
 import { registerStat } from '../stats'
 
 import computeEyeVector from 'eye-vector'
@@ -43,38 +44,19 @@ export class Camera extends Object3D {
    */
 
   constructor(ctx, initialState = {}) {
-    registerStat('Camera')
-
-    /**
-     * The injected regl context.
-     */
-
     const {context = new CameraContext(ctx, initialState)} = initialState
-
-    /**
-     * Regl shader uniforms
-     */
-
     const {uniforms = new CameraUniforms(ctx, initialState)} = initialState
-
-    /**
-     * Regl context injection function.
-     */
-
     const injectContext = ctx.regl({ context, uniforms })
 
     super(ctx, {
       ...initialState,
-
-      // all Object3D descendants must implement an update
-      // method to actually do something
       update({}, state, block) {
         injectContext(state, block)
       }
     })
 
-    this.typeName = 'camera'
-
+   registerStat('Camera')
+    assignTypeName(this, 'camera')
   }
 }
 
@@ -105,31 +87,14 @@ export class CameraContext extends Object3DContext {
       computeLocalMatrix: false,
     })
 
-    /**
-     * Initial, and default camera lookAt target.
-     */
-
     const {initialTarget = new Vector3(0, 0, 0)} = initialState
-
-    /**
-     * Base camera controller.
-     */
-
     const {controller} = initialState
+
     if (null == controller) {
       throw TypeError("CameraContext expects a controller.")
     }
 
-    /**
-     * Computed view matrix.
-     */
-
     const viewMatrix = mat4.identity([])
-
-    /**
-     * Computed eye vector.
-     */
-
     const eye = new Vector3(0, 0, 0)
 
     // protected properties

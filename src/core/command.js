@@ -1,5 +1,7 @@
 'use strict'
 
+import { assignTypeName } from './types'
+
 /**
  * Next available Command ID represented
  * as an integer.
@@ -47,7 +49,7 @@ export class Command extends Function {
 
   /**
    * Returns a string suitable for execution as the body of
-   * a function passed to the Function contructor.
+   * a function passed to the Function constructor.
    *
    * @protected
    * @static
@@ -81,11 +83,13 @@ export class Command extends Function {
     super(Command.codegen(function wrap(fn) {
       return fn.apply(fn, Array.prototype.slice.call(arguments, 1))
     }))
-    const self = this
+   const exec = (...args) => this(fn, ...args)
     const id = Command.id()
-
-    return Object.assign(this.bind(this, fn), {
-      ['this']: self, id, typeName: 'command'
-    })
+    assignTypeName(exec, 'command')
+    assignTypeName(this, 'command')
+    this.constructor =
+    exec.constructor =
+      Command
+    return Object.assign(exec, {'this': this, id})
   }
 }
