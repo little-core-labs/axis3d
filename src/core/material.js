@@ -241,11 +241,14 @@ export class Material extends Command {
 
       const mapState = isArrayLike(state) ? {} : (state.map || state.cubemap)
       materialMap.injectContext(mapState || {}, ({map, cubemap} = {}) => {
-        if ('function' == typeof cubemap && (shaderDefines.HAS_CUBE_MAP || shaderDefines.HAS_ENV_CUBE_MAP)) {
+        if ('function' == typeof cubemap) {
+        // if ('function' == typeof cubemap && (shaderDefines.HAS_CUBE_MAP || shaderDefines.HAS_ENV_CUBE_MAP)) {
           cubemap((c) => {
             injectContext(state, block)
           })
-        } else if ('function' == typeof map && (shaderDefines.HAS_MAP || shaderDefines.HAS_ENV_MAP)) {
+        }
+        if ('function' == typeof map) {
+        // if ('function' == typeof map && (shaderDefines.HAS_MAP || shaderDefines.HAS_ENV_MAP)) {
           map((c) => {
             injectContext(state, block)
           })

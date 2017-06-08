@@ -78,8 +78,20 @@ void main() {
   if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {
     surfaceColor = texture2D(map.data, geometry.uv).rgb;
   }
-#elif defined HAS_CUBE_MAP
-  surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
+#endif
+
+#ifdef HAS_CUBE_MAP
+  surfaceColor = textureCube(cubemap.data, geometry.localPosition).rgb;
+#endif
+
+#ifdef HAS_ENV_MAP
+  if (envmap.resolution.x > 0.0 && envmap.resolution.y > 0.0) {
+    surfaceColor = texture2D(envmap.data, geometry.uv);
+  }
+#endif
+
+#ifdef HAS_ENV_CUBE_MAP
+  surfaceColor = textureCube(envcubemap.data, geometry.localPosition);
 #endif
 
   // accumulate ambient

@@ -16,6 +16,7 @@ import {
   MouseInput,
   Quaternion,
   Material,
+  PhongMaterial,
   SphereGeometry,
   Object3D,
   Context,
@@ -30,13 +31,14 @@ const sphere = new Mesh(ctx, { geometry: new SphereGeometry() })
 const camera = new PerspectiveCamera(ctx)
 const box = new Mesh(ctx, { geometry: new BoxGeometry() })
 const frame = new Frame(ctx)
-const cubeTexture = new CubeTexture(ctx)
 const envTexture = new Texture(ctx)
 const envCubeTexture = new CubeTexture(ctx)
-const envMaterial = new FlatMaterial(ctx, {envmap: envTexture})
-// const envMaterial = new FlatMaterial(ctx, {map: envCubeTexture})
-// const envMaterial = new FlatMaterial(ctx, {map: envTexture})
-const boxMaterial = new FlatMaterial(ctx, {map: cubeTexture})
+const cubeTexture = new CubeTexture(ctx)
+const texture = new Texture(ctx)
+const envMaterial = new FlatMaterial(ctx, {envmap: envCubeTexture})
+const boxMaterial = new FlatMaterial(ctx, {envmap: envTexture})
+const secondBoxMaterial = new FlatMaterial(ctx, {map: cubeTexture})
+const thirdBoxMaterial = new FlatMaterial(ctx, {envmap: texture})
 const rotation = new Quaternion()
 
 // inputs
@@ -122,11 +124,18 @@ frame(({time, cancel}) => {
     boxMaterial({cull: false}, () => {
       box({scale: [0.31,0.31,0.31]})
     })
-    // envCubeTexture({data: bk})
-    envTexture({data: bk})
+    secondBoxMaterial({cull: false}, () => {
+      box({scale: [0.31,0.31,0.31],
+        rotation: quat.setAxisAngle([], [0,1,0], time*0.05),
+        position: [0.10, 0.10, 0.0]})
+    })
+    thirdBoxMaterial({cull: false}, () => {
+      box({scale: [0.31,0.31,0.31], position: [-0.1, 0.0, 0.0]})
+    })
+    envTexture({data: image1})
+    texture({data: image2})
     envMaterial({cull: false}, () => {
       sphere({})
-      // box({size: [0.81,0.81,0.81]})
     })
   })
 })

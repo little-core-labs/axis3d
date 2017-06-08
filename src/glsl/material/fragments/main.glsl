@@ -6,12 +6,15 @@ precision mediump float;
 #pragma glslify: GeometryContext = require('../../geometry/GeometryContext')
 #pragma glslify: LightContext = require('../../light/LightContext')
 #pragma glslify: Camera = require('../../camera/Camera')
+#pragma glslify: Cubemap = require('../Cubemap')
+#pragma glslify: Map = require('../Map')
 
 // materials
 #pragma glslify: LambertMaterial = require('../LambertMaterial')
 #pragma glslify: PhongMaterial = require('../PhongMaterial')
 #pragma glslify: FlatMaterial = require('../FlatMaterial')
 #pragma glslify: Material = require('../Material')
+
 
 #ifndef MAX_AMBIENT_LIGHTS
 #define MAX_AMBIENT_LIGHTS 16
@@ -34,7 +37,7 @@ precision mediump float;
 #define isinf(n) (n >= 0.0 || n <= 0.0)
 #define isnan(n) !isinf(n) && n != n
 
-#define getGeometryContext() GeometryContext(vposition, vnormal, vuv)
+#define getGeometryContext() GeometryContext(vposition, vnormal, vuv, vLocalPosition, vLocalNormal)
 
 //
 // Shader IO.
@@ -42,6 +45,8 @@ precision mediump float;
 varying vec3 vposition;
 varying vec3 vnormal;
 varying vec2 vuv;
+varying vec3 vLocalPosition;
+varying vec3 vLocalNormal;
 
 //
 // Shader uniforms.
@@ -50,9 +55,6 @@ uniform MATERIAL_TYPE material;
 uniform LightContext lightContext;
 uniform Camera camera;
 
-
-#pragma glslify: Map = require('../Map')
-#pragma glslify: Cubemap = require('../Cubemap')
 #ifdef HAS_MAP
 uniform Map map;
 #elif defined HAS_CUBE_MAP
@@ -113,7 +115,7 @@ import drawFlatMaterial from './flat' where {
   envcubemap=envcubemap,
   cubemap=cubemap,
   envmap=envmap,
-  map=map,
+  map=map
 }
 
 //

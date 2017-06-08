@@ -29,11 +29,11 @@ void main() {
 #endif
 
 #ifdef HAS_CUBE_MAP
-  gl_FragColor = textureCube(cubemap.data, geometry.position);
+  gl_FragColor = textureCube(cubemap.data, geometry.localPosition);
 #endif
 
 #ifdef HAS_ENV_CUBE_MAP
-  gl_FragColor = textureCube(envcubemap.data, geometry.position);
+  gl_FragColor = textureCube(envcubemap.data, geometry.localPosition);
 #endif
 
   gl_FragColor.a = material.opacity;
