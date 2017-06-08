@@ -7,6 +7,7 @@
 import { ensureRGBA, define, isArrayLike } from '../utils'
 import { Object3D, Object3DContext} from './object3d'
 import { Vector3, Vector2 } from '../math'
+import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
 import { Geometry } from './geometry'
 
@@ -88,8 +89,6 @@ export class Mesh extends Object3D {
    */
 
   constructor(ctx, initialState = {}) {
-    incrementStat('Mesh')
-
     if (false == initialState.geometry instanceof Geometry) {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
@@ -141,6 +140,8 @@ export class Mesh extends Object3D {
     })
 
     super(ctx, { ...initialState, context, update })
+    incrementStat('Mesh')
+    assignTypeName(this, 'mesh')
 
     /**
      * Draws mesh and with given state and

@@ -11,32 +11,30 @@ import {
   Context,
   Frame,
   Mesh,
-} from 'axis3d'
+} from '../../src'
 
-import {
-  OrbitCameraController
-} from '../../extras/controller'
+import { OrbitCameraController } from '../../extras/controller'
 
 import quat from 'gl-quat'
 
 // fullscreen canvas
-const ctx = Context({regl: {attributes: {antialias: true}}})
+const ctx = new Context({regl: {attributes: {antialias: true}}})
 const video = document.createElement('video')
 
-const texture = Texture(ctx)
-const material = FlatMaterial(ctx, {map: texture})
+const texture = new Texture(ctx)
+const material = new FlatMaterial(ctx, {map: texture})
 
-const camera = PerspectiveCamera(ctx, {position: [0, 0, 0]})
-const sphere = Mesh(ctx, { geometry: SphereGeometry()})
-const frame = Frame(ctx)
+const camera = new PerspectiveCamera(ctx, {position: [0, 0, 0]})
+const sphere = new Mesh(ctx, { geometry: new SphereGeometry()})
+const frame = new Frame(ctx)
 
 // inputs
-const keyboard = KeyboardInput(ctx)
-const mouse = MouseInput(ctx)
-const touch = TouchInput(ctx)
+const keyboard = new KeyboardInput(ctx)
+const mouse = new MouseInput(ctx)
+const touch = new TouchInput(ctx)
 
 const inputs = { keyboard, touch, mouse }
-const orbitCamera = OrbitCameraController(ctx, {
+const orbitCamera = new OrbitCameraController(ctx, {
   camera,
   inputs,
   invert: true,

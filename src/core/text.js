@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-import { ExtrudeGeometry } from './extrude_geometry'
+import { ExtrudeGeometry } from '../geometry/extrude_geometry'
+import { assignTypeName } from './types'
 import { Object3D } from './object3d'
 import { Command } from './command'
 import { Mesh } from './mesh'
@@ -39,6 +40,7 @@ export class Text extends Command {
 
   constructor(ctx, initialState = {}) {
     super(update)
+    assignTypeName(this, 'text')
 
     /**
      * Injected regl context.

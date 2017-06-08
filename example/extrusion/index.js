@@ -13,29 +13,32 @@ import {
   Color,
   Frame,
   Mesh,
-} from 'axis3d'
+} from '../../src'
 
 import * as shapes from './shapes'
 import quat from 'gl-quat'
 
-const ctx = Context()
+const ctx = new Context()
 
-const material = PhongMaterial(ctx)
-const camera = PerspectiveCamera(ctx)
-const light = DirectionalLight(ctx)
-const frame = Frame(ctx)
-const group = Object3D(ctx)
+const material = new PhongMaterial(ctx)
+const camera = new PerspectiveCamera(ctx)
+const light = new DirectionalLight(ctx)
+const frame = new Frame(ctx)
+const group = new Object3D(ctx)
 
-const triangle = Mesh(ctx, {geometry: ExtrudeGeometry(shapes.triangle)})
-const hexagon = Mesh(ctx, {geometry: ExtrudeGeometry(shapes.hexagon)})
-const circle = Mesh(ctx, {geometry: ExtrudeGeometry(shapes.circle)})
-const helix = Mesh(ctx, {geometry: ExtrudeGeometry(shapes.helix)})
-const heart = Mesh(ctx, {geometry: ExtrudeGeometry(shapes.heart)})
-const box = Mesh(ctx, {geometry: ExtrudeGeometry(shapes.square)})
+const triangle = new Mesh(ctx, {geometry: new ExtrudeGeometry(shapes.triangle)})
+const hexagon = new Mesh(ctx, {geometry: new ExtrudeGeometry(shapes.hexagon)})
+const circle = new Mesh(ctx, {geometry: new ExtrudeGeometry(shapes.circle)})
+const helix = new Mesh(ctx, {geometry: new ExtrudeGeometry(shapes.helix)})
+const heart = new Mesh(ctx, {geometry: new ExtrudeGeometry(shapes.heart)})
+const box = new Mesh(ctx, {geometry: new ExtrudeGeometry(shapes.square)})
 
-const rotation = Quaternion()
-const position = Vector3(0, 5, 5)
-const angle = Quaternion()
+const rotation = new Quaternion()
+const position = new Vector3(0, 5, 5)
+const angle = new Quaternion()
+
+const purple = new Color('purple')
+const white = new Color('white')
 
 frame(({time}) => {
   quat.setAxisAngle(angle, [0, 1, 0], 0.25*time)
@@ -45,9 +48,9 @@ frame(({time}) => {
     light({position: [2, 0, 5], intensity: 1})
     material({
       shininess: 60,
-      specular: Color('white'),
+      specular: white,
       radius: 0.1,
-      color: Color('purple'),
+      color: purple,
     }, () => {
       quat.setAxisAngle(angle, [1, 0, 0], 0.25*Math.PI)
       group({rotation}, () => {

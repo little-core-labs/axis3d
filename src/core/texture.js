@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
 import { Command } from './command'
 import window from 'global/window'
@@ -77,8 +78,9 @@ export class Texture extends Command {
    */
 
   constructor(ctx, initialState = {}) {
-    incrementStat('Texture')
     super(update)
+    incrementStat('Texture')
+    assignTypeName(this, 'texture')
 
     // texture state used for in place regl
     // texture reinitialization
