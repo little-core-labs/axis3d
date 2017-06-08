@@ -36,7 +36,7 @@
     "babel-cli": "^6.x.0",
     "babel-core": "^6.x.0",
     "babel-eslint": "^6.1.2",
-    "babel-plugin-glslify": "^1.0.2",
+    "babel-plugin-glslify": "^2.x.x",
     "babel-plugin-transform-dead-code-elimination": "^2.2.2",
     "babel-plugin-transform-define": "^1.2.0",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
