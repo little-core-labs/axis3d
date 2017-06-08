@@ -7,7 +7,7 @@
  * @private
  */
 
-const filterRgba = (vector) => vector
+const filterRGBAComponents = (vector) => vector
   .map((v) => v.filter((x) => !/[rgba]/.test(x)))
   .filter((v) => v.length)
 
@@ -18,7 +18,7 @@ const filterRgba = (vector) => vector
  * @private
  */
 
-const filterXyzw = (vector) => vector
+const filterXYZWComponents = (vector) => vector
   .map((v) => v.filter((x) => !/[xyzw]/.test(x)))
   .filter((v) => v.length)
 
@@ -26,13 +26,10 @@ const filterXyzw = (vector) => vector
  * Returns the ordinal offset of a given
  * swizzle identifier.
  *
- * @public
- * @function
- * @param {String} identifier Swizzle identifier.
- * @return {Number}
+ * @private
  */
 
-export const offsetOf = (identifier) => {
+const offsetOf = (identifier) => {
   for (let i = 0; i < offsets.length; ++i) {
     if (offsets[i].indexOf(identifier) > -1) {
       return i
@@ -44,12 +41,10 @@ export const offsetOf = (identifier) => {
 /**
  * Swizzle identifier ordinal offsets.
  *
- * @public
- * @const
- * @type {Array<Array<String>>}
+ * @private
  */
 
-export const offsets = [
+const offsets = [
   ['x', 'r'],
   ['y', 'g'],
   ['z', 'b'],
@@ -214,7 +209,7 @@ export const Vector = []
  * @type {Array<Array<String>>}
  */
 
-export const Euler = filterRgba(Vector3)
+export const Euler = filterRGBAComponents(Vector3)
 
 /**
  * Quaternion class swizzle mapping. This map
@@ -226,7 +221,7 @@ export const Euler = filterRgba(Vector3)
  * @type {Array<Array<String>>}
  */
 
-export const Quaternion = filterRgba(Vector)
+export const Quaternion = filterRGBAComponents(Vector)
 
 /**
  * Color class swizzle mapping. This map filters xyzw
@@ -237,4 +232,4 @@ export const Quaternion = filterRgba(Vector)
  * @type {Array<Array<String>>}
  */
 
-export const Color = filterXyzw(Vector)
+export const Color = filterXYZWComponents(Vector)

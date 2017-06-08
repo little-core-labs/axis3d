@@ -26,7 +26,7 @@ import {
   Quaternion,
   Vector3,
   Color,
-} from 'axis3d'
+} from '../../src'
 
 import ControlPanel from 'control-panel'
 import coalesce from 'defined'
@@ -40,29 +40,30 @@ for (const p of Bunny.positions) {
   p[1] = p[1] - 4
 }
 
-const ctx = Context()
+const ctx = new Context()
 
-const material = PhongMaterial(ctx)
-const camera = PerspectiveCamera(ctx)
-const frame = Frame(ctx)
+const material = new PhongMaterial(ctx)
+const camera = new PerspectiveCamera(ctx)
+const frame = new Frame(ctx)
 
-const rotation = Quaternion()
-const angle = Quaternion()
+const rotation = new Quaternion()
+const angle = new Quaternion()
 
 // inputs
-const orientation =  OrientationInput(ctx)
-const mouse = MouseInput(ctx)
-const touch = TouchInput(ctx)
+const orientation = new OrientationInput(ctx)
+const mouse = new MouseInput(ctx)
+const touch = new TouchInput(ctx)
 
-const orbitCamera = OrbitCameraController(ctx, {
+const orbitCamera = new OrbitCameraController(ctx, {
   camera: camera,
   inputs: {orientation, touch, mouse},
 })
 
 const bunny = (() => {
-  const material = PhongMaterial(ctx)
-  const mesh = Mesh(ctx, {geometry: Geometry({complex: Bunny, flatten: true})})
-  const lines = LinesMesh(ctx, {
+  const geometry = new Geometry({complex: Bunny, flatten: true})
+  const material = new PhongMaterial(ctx)
+  const mesh = new Mesh(ctx, {geometry})
+  const lines = new LinesMesh(ctx, {
     geometry: Bunny,
     thickness: 0.05,
     scale: [1.00125, 1.00125, 1.00125]
@@ -86,10 +87,10 @@ const bunny = (() => {
 })()
 
 const point = (() => {
-  const material = FlatMaterial(ctx)
-  const geometry = SphereGeometry({radius: 0.05, segments: 2})
-  const sphere = Mesh(ctx, {geometry})
-  const light = PointLight(ctx)
+  const material = new FlatMaterial(ctx)
+  const geometry = new SphereGeometry({radius: 0.05, segments: 2})
+  const sphere = new Mesh(ctx, {geometry})
+  const light = new PointLight(ctx)
   return (state = {}, block) => {
     material(state, ({}, args = {}, id) => {
       sphere(args, () => {
@@ -99,9 +100,9 @@ const point = (() => {
   }
 })()
 
-const lightXColor = Color('white')
-const lightYColor = Color('dark magenta') // https://drafts.csswg.org/css-color/#valdef-color-darkmagenta
-const lightZColor = Color('dark blue')
+const lightXColor = new Color('white')
+const lightYColor = new Color('dark magenta') // https://drafts.csswg.org/css-color/#valdef-color-darkmagenta
+const lightZColor = new Color('dark blue')
 
 let lightXVisible = true
 let lightYVisible = true
@@ -111,12 +112,12 @@ let materialWireframe = false
 let materialLineSegments = true
 let materialOpacity = 1.0;
 const materialEmissive = [0, 0, 0, 1]
-const materialColor = Color(Color('dark cyan') - 0x000030)
+const materialColor = new Color(new Color('dark cyan') - 0x000030)
 
 const rgb255 = (c) => c .slice(0, 3).map((n) => 255*n)
 
 // control panel
-const panel = ControlPanel([
+const panel = new ControlPanel([
   {
     type: 'color',
     label: 'Light X',
@@ -195,7 +196,7 @@ const panel = ControlPanel([
   materialOpacity = Number(coalesce(e['Opacity'], materialOpacity))
 })
 
-const position = Vector3(0, 0, 0)
+const position = new Vector3(0, 0, 0)
 window.position = position
 
 frame(({time, lights, clear}) => {

@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
+import { assignTypeName } from './types'
 import { registerStat } from '../stats'
-
 import { EventEmitter } from 'events'
 import coalesce from 'defined'
 import window from 'global/window'
@@ -40,10 +40,10 @@ export class Context extends EventEmitter {
    */
 
   constructor(opts = {}, createRegl = regl) {
-    super() // EventEmitter()
-    registerStat('Context')
-    // shut up EventEmitter
+    super()
     this.setMaxListeners(Infinity)
+    registerStat('Context')
+    assignTypeName(this, 'context')
 
     /**
      * Internal predicate to indicate that the context

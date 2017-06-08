@@ -4,8 +4,9 @@
  * Module dependencies.
  */
 
-import * as VectorSwizzleMap from './vector_swizzle_map'
-import { Vector } from './vector'
+import * as VectorSwizzleMap from '../core/vector_swizzle_map'
+import { assignTypeName } from '../core/types'
+import { Vector } from '../core/vector'
 
 import ThreeEuler from 'math-euler'
 import coalesce from 'defined'
@@ -41,6 +42,9 @@ export class Euler extends Vector {
 
   constructor(x, y, z, order = 'xyz') {
     super(coalesce(x, 0), coalesce(y, 0), coalesce(z, 0))
+    // Euler gets special treatment because it is 3 component vector
+    // and it would be beneficial to know if it is actually an Euler
+    assignTypeName(this, 'euler')
     if ('string' != typeof order) {
       throw new TypeError(
         `Expecting euler order to be a string. Got ${typeof order}.`)
