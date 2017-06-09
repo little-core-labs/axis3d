@@ -37,8 +37,6 @@ const ctx = new Context()
 const frame = new Frame(ctx)
 const camera = new PerspectiveCamera(ctx)
 
-const material = new FlatMaterial(ctx)
-
 const envTexture = new Texture(ctx)
 const envImg = new Image()
 envImg.src = 'assets/govball.jpg'
@@ -103,14 +101,38 @@ const bunny = new Mesh(ctx, {
   geometry: new BoxGeometry(),
 })
 
+
 const backgroundMaterial = new FlatMaterial(ctx, {
-  // envmap: cubeTexture
+  envmap: cubeTexture
 })
 
 const background = new Mesh(ctx, {
   geometry: new BoxGeometry()
 })
 
+void function (){
+  const material = new PhongMaterial(ctx, {
+    //map: texture,
+    envmap: texture,
+    //cull: {enable: false}
+  })
+  const mesh = new Mesh(ctx, {geometry: new BoxGeometry()})
+
+  frame(() => {
+    directional({position: [5, 5, 5]})
+    ambient({ambient: 1.1})
+  })
+
+  frame(() => {
+    orbitCamera({position: [5, 0, 0], target: [0, 0, 0]}, () => {
+      material(() => {
+        mesh()
+      })
+    })
+  })
+}()
+
+/*
 frame(() => {
   orbitCamera({position: [-0.2, 0, 0], target: [0, 0, 0]}, () => {
 
@@ -139,4 +161,4 @@ frame(() => {
       })
     })
   })
-})
+})*/

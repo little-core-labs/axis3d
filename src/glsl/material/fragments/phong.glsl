@@ -26,7 +26,7 @@
 //
 #ifdef usePhongMaterial
 
-#ifdef HAS_ENV_MAP
+#ifdef HAS_ENVIRONMENT_MAP
 // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
 vec4 lookupEnv(vec3 dir) {
   float PI = 3.14;
@@ -38,9 +38,9 @@ vec4 lookupEnv(vec3 dir) {
 }
 #endif
 
-#ifdef HAS_CUBE_MAP
+#ifdef HAS_ENVIRONMENT_CUBE_MAP
 vec4 lookupCubeEnv(vec3 dir) {
-  return textureCube(envcubemap.data, dir);
+  return textureCube(envmap.data, dir);
 }
 #endif
 
@@ -91,7 +91,7 @@ void main() {
   GeometryContext geometry = getGeometryContext();
   vec3 surfaceColor = material.color.xyz;
   vec3 fragColor = vec3(0.0);
-  vec3 reflectivity = vec3(0.0);
+  vec3 reflectivity = vec3(0.4);
   float reflectivityAmount = 1.0;
 
   // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
@@ -104,10 +104,13 @@ void main() {
   if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {
     surfaceColor = texture2D(map.data, geometry.uv).rgb;
   }
+#elif defined HAS_CUBE_MAP
+  surfaceColor = textureCube(map.data, geometry.localPosition).rgb;
 #endif
 
-#ifdef HAS_ENV_MAP
-  reflectivity = lookupEnv(rdir).rgb;
+#ifdef HAS_ENVIRONMENT_MAP
+  reflectivity = vec3(1.0, 0.5, 0.2);
+  //reflectivity = lookupEnv(rdir).rgb;
 #endif
 
 // #ifdef HAS_CUBE_MAP
@@ -163,11 +166,13 @@ void main() {
                            fragColor);
     }
   }
-  reflectivity = reflectivityAmount * reflectivity * surfaceColor;
+  //reflectivity = reflectivityAmount * reflectivity * surfaceColor;
 
-  fragColor = fragColor + material.emissive.xyz + reflectivity;
-  // gl_FragColor = vec4(fragColor, material.opacity);
-  gl_FragColor = vec4(surfaceColor + reflectivity, material.opacity);
+  gl_FragColor = vec4(0.1, 0.2, 0.3, 1.0);
+  //gl_FragColor = vec4(reflectivity, 1.0);
+  //fragColor = fragColor + material.emissive.xyz + reflectivity;
+  //gl_FragColor = vec4(fragColor, material.opacity);
+  //gl_FragColor = vec4(surfaceColor + reflectivity, material.opacity);
 }
 
 #endif

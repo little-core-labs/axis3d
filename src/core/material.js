@@ -13,7 +13,6 @@ import { Color } from './color'
 import * as types from '../material/types'
 import { typeOf } from './types'
 
-
 import {
   kMaxDirectionalLights,
   kMaxAmbientLights,
@@ -187,45 +186,15 @@ export class Material extends Command {
     incrementStat('Material')
     assignTypeName(this, 'material')
 
-    this.typeName = 'material'
-
-    /**
-     * Material map.
-     */
-
-    const {materialMap = new MaterialMap(ctx, initialState)} = initialState
-
-    /**
-     * Injected material uniforms.
-     */
-
     const {uniforms = new MaterialUniforms(ctx, initialState)} = initialState
-
-    /**
-     * Injected material context.
-     */
-
     const {context = new MaterialContext(ctx, initialState)} = initialState
-
-    /**
-     * Material state.
-     */
-
     const {state = new MaterialState(ctx, initialState)} = initialState
-
-    /**
-     * Regl context injection function.
-     */
 
     const injectContext = ctx.regl({
       ...state,
       uniforms,
       context,
     })
-
-    /**
-     * Material update function.
-     */
 
     function update(state, block) {
       if ('function' == typeof state) {
@@ -241,19 +210,23 @@ export class Material extends Command {
 
       block = block || function() {}
 
-      const mapState = isArrayLike(state) ? {} : (state.map || state.cubemap)
-      materialMap.injectContext(mapState || {}, ({map: map, cubemap: cubemap} = {}) => {
-        if ('function' == typeof cubemap) {
-          cubemap((c) => {
-            injectContext(state, block)
-          })
-        }
+      const mapState = isArrayLike(state) ? {} : state
+      const envmap = coalesce(state.envmap, initialState.envmap)
+      const map = coalesce(state.map, initialState.map)
+
+      if ('function' == typeof envmap) {
+        envmap(() => next)
+      } else {
+        next()
+      }
+
+      function next() {
         if ('function' == typeof map) {
-          map((c) => {
-            injectContext(state, block)
-          })
+          map(() => injectContext(state, block))
+        } else {
+          injectContext(state, block)
         }
-      })
+      }
 
       return this
     }
@@ -301,33 +274,11 @@ export class MaterialState {
       initialState.depth = {}
     }
 
-    /**
-     * Material fragment shader source.
-     */
-
     let {fragmentShader = kDefaultMaterialFragmentShader} = initialState
-
-    /**
-     * Material fragment shader source.
-     */
-
     let {fragmentShaderMain} = initialState
 
-    /**
-     * Material type.
-     */
-
     const {type = types.MaterialType} = initialState
-
-    /**
-     * Material type string.
-     */
-
     const typeName = Material.typeName(type)
-
-    /**
-     * Injected fragment shader defines.
-     */
 
     const shaderDefines = {
       MATERIAL_TYPE: typeName,
@@ -352,9 +303,9 @@ export class MaterialState {
 
     if (null != initialState.envmap) {
       if ('cubetexture' === typeOf(initialState.envmap)) {
-        shaderDefines.HAS_ENV_CUBE_MAP = 1
+        shaderDefines.HAS_ENVIRONMENT_CUBE_MAP = 1
       } else {
-        shaderDefines.HAS_ENV_MAP = 1
+        shaderDefines.HAS_ENVIRONMENT_MAP = 1
       }
     }
 
@@ -370,6 +321,8 @@ export class MaterialState {
     for (let key in shaderDefines) {
       fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
     }
+
+    console.log(fragmentShader);
 
     /**
      * Material fragment shader source string.
@@ -554,7 +507,6 @@ export class MaterialContext {
   constructor(ctx, initialState = {}) {
     const {
       type = types.MaterialType,
-      id = Material.id(),
     } = initialState
 
     /**
@@ -613,8 +565,6 @@ export class MaterialUniforms {
    */
 
   constructor(ctx, initialState = {}) {
-    console.log('ctx.texture', ctx.texture)
-    console.log('ctx', ctx)
     const emptyTexture = ctx.regl.texture()
     const emptyCubeTexture = ctx.regl.cube()
 
@@ -673,8 +623,14 @@ export class MaterialUniforms {
      * @type {Texture}
      */
 
-    this['map.data'] = ({texture, textureData}) => {
-      return coalesce(texture, emptyTexture)
+    this['map.data'] = ({texture}) => {
+      let placeholder = null
+      if ('texture' == typeOf(texture)) {
+        placeholder = emptyTexture
+      } else {
+        placeholder = emptyCubeTexture
+      }
+      return coalesce(texture, placeholder)
     }
 
     /**
@@ -695,118 +651,14 @@ export class MaterialUniforms {
      * @type {Texture}
      */
 
-    this['envmap.data'] = ({texture, textureData}) => {
-      return coalesce(texture, emptyTexture)
-    }
-
-    /**
-     * Texture cubemap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['cubemap.resolution'] = ({textureResolution}) => {
-      return coalesce(textureResolution, [0, 0])
-    }
-
-    /**
-     * Texture cubemap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['cubemap.data'] = ({texture, textureData}) => {
-      return coalesce(texture, emptyCubeTexture)
-    }
-
-    /**
-     * Texture envcubemap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['envcubemap.resolution'] = ({textureResolution}) => {
-      return coalesce(textureResolution, [0, 0])
-    }
-
-    /**
-     * Texture envcubemap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['envcubemap.data'] = ({texture, textureData}) => {
-      return coalesce(texture, emptyCubeTexture)
-    }
-  }
-}
-
-/**
- * The MaterialMap class represents an abstraction around a texture map
- * given to a material.
- *
- * @public
- * @class MaterialMap
- */
-
-export class MaterialMap {
-
-  /**
-   * MaterialMap class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
-
-  constructor(ctx, initialState = {}) {
-
-    /**
-     * Injects a map into a context for a material.
-     *
-     * @public
-     * @type {Function}
-     */
-
-    this.injectContext = ctx.regl({
-      context: {
-        map: ({}, {map = initialState.map}) => {
-          // console.log('mtypeOf(envmap)', typeOf(envmap))
-          // console.log('   mtypeOf(map)', typeOf(map))
-          if ('texture' == typeOf(map)) {
-            return map
-          } else {
-            return null
-          }
-        },
-        cubemap: ({}, {map = initialState.map, envmap = initialState.envmap}) => {
-          // console.log('  c typeOf(envmap)', typeOf(envmap))
-          // console.log('  c    typeOf(map)', typeOf(map))
-          if ('cubetexture' == typeOf(envmap)) {
-            return envmap
-          } else if ('cubetexture' == typeOf(map)) {
-            return map
-          } else {
-            return null
-          }
-        },
-        envmap: ({}, {envmap = initialState.envmap}) => {
-          // console.log('mtypeOf(envmap)', typeOf(envmap))
-          // console.log('   mtypeOf(map)', typeOf(map))
-          if ('texture' == typeOf(envmap)) {
-            return envmap
-          // } else if ('texture' == typeOf(map)) {
-          //   return map
-          } else {
-            return null
-          }
-        },
+    this['envmap.data'] = ({texture}) => {
+      let placeholder = null
+      if ('texture' == typeOf(texture)) {
+        placeholder = emptyTexture
+      } else {
+        placeholder = emptyCubeTexture
       }
-    })
+      return coalesce(texture, placeholder)
+    }
   }
 }
