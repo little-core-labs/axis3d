@@ -39,16 +39,15 @@ const camera = new PerspectiveCamera(ctx)
 
 const material = new FlatMaterial(ctx)
 
-const texture = new Texture(ctx)
 const envTexture = new Texture(ctx)
-
-const img = new Image()
-img.src = 'assets/smsq2.jpg'
-img.onload = () => texture({data: img})
-
 const envImg = new Image()
 envImg.src = 'assets/govball.jpg'
 envImg.onload = () => envTexture({data: envImg})
+
+const texture = new Texture(ctx)
+const img = new Image()
+img.src = 'assets/smsq2.jpg'
+img.onload = () => texture({data: img})
 
 const cubeTexture = new CubeTexture(ctx)
 
@@ -95,8 +94,8 @@ const ambient = new AmbientLight(ctx)
 /////////////////////
 /////////////////////
 const reflectiveMaterial = new PhongMaterial(ctx, {
-  map: texture,
   envmap: envTexture,
+  map: texture,
   color: [1.0, 1.0, 1.0, 1.0]
 })
 
@@ -105,7 +104,7 @@ const bunny = new Mesh(ctx, {
 })
 
 const backgroundMaterial = new FlatMaterial(ctx, {
-  envmap: cubeTexture
+  // envmap: cubeTexture
 })
 
 const background = new Mesh(ctx, {

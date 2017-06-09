@@ -243,7 +243,6 @@ export class Material extends Command {
 
       const mapState = isArrayLike(state) ? {} : (state.map || state.cubemap)
       materialMap.injectContext(mapState || {}, ({map: map, cubemap: cubemap} = {}) => {
-          debugger
         if ('function' == typeof cubemap) {
           cubemap((c) => {
             injectContext(state, block)
@@ -614,6 +613,8 @@ export class MaterialUniforms {
    */
 
   constructor(ctx, initialState = {}) {
+    console.log('ctx.texture', ctx.texture)
+    console.log('ctx', ctx)
     const emptyTexture = ctx.regl.texture()
     const emptyCubeTexture = ctx.regl.cube()
 
@@ -662,7 +663,6 @@ export class MaterialUniforms {
      */
 
     this['map.resolution'] = ({textureResolution}) => {
-      debugger
       return coalesce(textureResolution, [0, 0])
     }
 
@@ -775,11 +775,36 @@ export class MaterialMap {
 
     this.injectContext = ctx.regl({
       context: {
-        map: ({}, {map = initialState.map || initialState.envmap}) => {
-          return map
+        map: ({}, {map = initialState.map}) => {
+          // console.log('mtypeOf(envmap)', typeOf(envmap))
+          // console.log('   mtypeOf(map)', typeOf(map))
+          if ('texture' == typeOf(map)) {
+            return map
+          } else {
+            return null
+          }
         },
-        cubemap: ({}, {cubemap = initialState.envmap || initialState.map}) => {
-          return cubemap
+        cubemap: ({}, {map = initialState.map, envmap = initialState.envmap}) => {
+          // console.log('  c typeOf(envmap)', typeOf(envmap))
+          // console.log('  c    typeOf(map)', typeOf(map))
+          if ('cubetexture' == typeOf(envmap)) {
+            return envmap
+          } else if ('cubetexture' == typeOf(map)) {
+            return map
+          } else {
+            return null
+          }
+        },
+        envmap: ({}, {envmap = initialState.envmap}) => {
+          // console.log('mtypeOf(envmap)', typeOf(envmap))
+          // console.log('   mtypeOf(map)', typeOf(map))
+          if ('texture' == typeOf(envmap)) {
+            return envmap
+          // } else if ('texture' == typeOf(map)) {
+          //   return map
+          } else {
+            return null
+          }
         },
       }
     })

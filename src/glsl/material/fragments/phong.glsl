@@ -26,7 +26,7 @@
 //
 #ifdef usePhongMaterial
 
-#ifdef HAS_MAP
+#ifdef HAS_ENV_MAP
 // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
 vec4 lookupEnv(vec3 dir) {
   float PI = 3.14;
@@ -34,13 +34,13 @@ vec4 lookupEnv(vec3 dir) {
   float lon = acos(dir.y / length(dir));
   vec2 envLoc = vec2(0.5 + lat / (2.0 * PI), lon / PI);
 
-  return texture2D(map.data, envLoc);
+  return texture2D(envmap.data, envLoc);
 }
 #endif
 
 #ifdef HAS_CUBE_MAP
 vec4 lookupCubeEnv(vec3 dir) {
-  return textureCube(cubemap.data, dir);
+  return textureCube(envcubemap.data, dir);
 }
 #endif
 
@@ -107,29 +107,20 @@ void main() {
 #endif
 
 #ifdef HAS_ENV_MAP
-  // if (envmap.resolution.x > 0.0 && envmap.resolution.y > 0.0) {
-  //   surfaceColor = texture2D(envmap.data, geometry.uv);
-  // }
   reflectivity = lookupEnv(rdir).rgb;
 #endif
 
+// #ifdef HAS_CUBE_MAP
+//   surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
 // #ifdef HAS_REFLECTION
 //   surfaceColor = material.color.xyz;
+//   reflectivity = lookupCubeEnv(rdir).rgb;
+// #endif
 // #endif
 
-#ifdef HAS_CUBE_MAP
-  surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
-#ifdef HAS_REFLECTION
-  surfaceColor = material.color.xyz;
-  reflectivity = lookupCubeEnv(rdir).rgb;
-#endif
-#endif
-
-#ifdef HAS_CUBE_MAP
-  surfaceColor = textureCube(cubemap.data, geometry.localPosition).rgb;
-#endif
-
-
+// #ifdef HAS_CUBE_MAP
+//   surfaceColor = textureCube(cubemap.data, geometry.localPosition).rgb;
+// #endif
 
 // #ifdef HAS_ENV_CUBE_MAP
 //   surfaceColor = textureCube(envcubemap.data, geometry.localPosition);
