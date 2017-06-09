@@ -196,12 +196,6 @@ export class Material extends Command {
     const {materialMap = new MaterialMap(ctx, initialState)} = initialState
 
     /**
-     * Material cubemap.
-     */
-
-    const {materialCubeMap = new MaterialCubeMap(ctx, initialState)} = initialState
-
-    /**
      * Injected material uniforms.
      */
 
@@ -347,15 +341,6 @@ export class MaterialState {
         .replace('SHADER_MAIN_BODY_SOURCE', fragmentShaderMain)
     } else {
       shaderDefines[`use${typeName}`] = 1 // `useLambertMaterial', etc
-    }
-
-    if (null != initialState.envmap) {
-      shaderDefines.HAS_REFLECTION = 1
-      if ('cubetexture' === initialState.envmap.typeName) {
-        shaderDefines.HAS_CUBE_MAP = 1
-      } else {
-        shaderDefines.HAS_MAP = 1
-      }
     }
 
     if (null != initialState.map) {
@@ -796,44 +781,6 @@ export class MaterialMap {
         cubemap: ({}, {cubemap = initialState.envmap || initialState.map}) => {
           return cubemap
         },
-      }
-    })
-  }
-}
-
-/**
- * The MaterialCubeMap class represents an abstraction around
- * a cubemap given to a material.
- *
- * @public
- * @class MaterialCubeMap
- */
-
-export class MaterialCubeMap {
-
-  /**
-   * MaterialCubeMap class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
-
-  constructor(ctx, initialState = {}) {
-
-    /**
-     * Injects a cubemap into a context for a material.
-     *
-     * @public
-     * @type {Function}
-     */
-
-    this.injectContext = ctx.regl({
-      context: {
-        cubemap: ({}, {cubemap = initialState.envmap}) => {
-          return cubemap
-        }
       }
     })
   }
