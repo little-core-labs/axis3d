@@ -256,15 +256,10 @@ export class Material extends Command {
         }
         if ('function' == typeof map) {
           map((c) => {
-            needContext = false
             injectContext(state, block)
           })
         }
       })
-
-      if (needContext) {
-        injectContext(state, block)
-      }
 
       return this
     }

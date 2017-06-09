@@ -122,15 +122,15 @@ void main() {
   surfaceColor = textureCube(cubemap.data, geometry.localPosition).rgb;
 #endif
 
-#ifdef HAS_ENV_MAP
-  if (envmap.resolution.x > 0.0 && envmap.resolution.y > 0.0) {
-    surfaceColor = texture2D(envmap.data, geometry.uv);
-  }
-#endif
+// #ifdef HAS_ENV_MAP
+//   if (envmap.resolution.x > 0.0 && envmap.resolution.y > 0.0) {
+//     surfaceColor = texture2D(envmap.data, geometry.uv);
+//   }
+// #endif
 
-#ifdef HAS_ENV_CUBE_MAP
-  surfaceColor = textureCube(envcubemap.data, geometry.localPosition);
-#endif
+// #ifdef HAS_ENV_CUBE_MAP
+//   surfaceColor = textureCube(envcubemap.data, geometry.localPosition);
+// #endif
 
   // accumulate ambient
   for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {
