@@ -248,7 +248,8 @@ export class Material extends Command {
       block = block || function() {}
 
       const mapState = isArrayLike(state) ? {} : (state.map || state.cubemap)
-      materialMap.injectContext(mapState || {}, ({map, cubemap} = {}) => {
+      materialMap.injectContext(mapState || {}, ({map: map, cubemap: cubemap} = {}) => {
+          debugger
         if ('function' == typeof cubemap) {
           cubemap((c) => {
             injectContext(state, block)
@@ -676,6 +677,7 @@ export class MaterialUniforms {
      */
 
     this['map.resolution'] = ({textureResolution}) => {
+      debugger
       return coalesce(textureResolution, [0, 0])
     }
 

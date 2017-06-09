@@ -104,11 +104,18 @@ void main() {
   if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {
     surfaceColor = texture2D(map.data, geometry.uv).rgb;
   }
-#ifdef HAS_REFLECTION
-  surfaceColor = material.color.xyz;
+#endif
+
+#ifdef HAS_ENV_MAP
+  // if (envmap.resolution.x > 0.0 && envmap.resolution.y > 0.0) {
+  //   surfaceColor = texture2D(envmap.data, geometry.uv);
+  // }
   reflectivity = lookupEnv(rdir).rgb;
 #endif
-#endif
+
+// #ifdef HAS_REFLECTION
+//   surfaceColor = material.color.xyz;
+// #endif
 
 #ifdef HAS_CUBE_MAP
   surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
@@ -122,11 +129,7 @@ void main() {
   surfaceColor = textureCube(cubemap.data, geometry.localPosition).rgb;
 #endif
 
-// #ifdef HAS_ENV_MAP
-//   if (envmap.resolution.x > 0.0 && envmap.resolution.y > 0.0) {
-//     surfaceColor = texture2D(envmap.data, geometry.uv);
-//   }
-// #endif
+
 
 // #ifdef HAS_ENV_CUBE_MAP
 //   surfaceColor = textureCube(envcubemap.data, geometry.localPosition);
@@ -172,7 +175,8 @@ void main() {
   reflectivity = reflectivityAmount * reflectivity * surfaceColor;
 
   fragColor = fragColor + material.emissive.xyz + reflectivity;
-  gl_FragColor = vec4(fragColor, material.opacity);
+  // gl_FragColor = vec4(fragColor, material.opacity);
+  gl_FragColor = vec4(surfaceColor + reflectivity, material.opacity);
 }
 
 #endif

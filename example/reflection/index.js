@@ -23,6 +23,7 @@ import {
   Material,
   Geometry,
   Context,
+  Texture,
   Frame,
   Mesh,
 } from '../../src'
@@ -37,6 +38,17 @@ const frame = new Frame(ctx)
 const camera = new PerspectiveCamera(ctx)
 
 const material = new FlatMaterial(ctx)
+
+const texture = new Texture(ctx)
+const envTexture = new Texture(ctx)
+
+const img = new Image()
+img.src = 'assets/smsq2.jpg'
+img.onload = () => texture({data: img})
+
+const envImg = new Image()
+envImg.src = 'assets/govball.jpg'
+envImg.onload = () => envTexture({data: envImg})
 
 const cubeTexture = new CubeTexture(ctx)
 
@@ -79,13 +91,17 @@ const orbitCamera = new OrbitCameraController(ctx, {
 const directional = new DirectionalLight(ctx)
 const ambient = new AmbientLight(ctx)
 
+
+/////////////////////
+/////////////////////
 const reflectiveMaterial = new PhongMaterial(ctx, {
-  envmap: cubeTexture,
+  map: texture,
+  envmap: envTexture,
   color: [1.0, 1.0, 1.0, 1.0]
 })
 
 const bunny = new Mesh(ctx, {
-  geometry: stanfordBunny,
+  geometry: new BoxGeometry(),
 })
 
 const backgroundMaterial = new FlatMaterial(ctx, {
@@ -119,8 +135,8 @@ frame(() => {
       emissive: [0.0, 0.0, 0.0, 1.0],
     }, () => {
       bunny({
-        scale: 0.11,
-        position: [0, -0.05, 0]
+        scale: 0.311,
+        position: [0, -0.0, 0]
       })
     })
   })
