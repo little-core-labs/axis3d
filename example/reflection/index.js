@@ -10,6 +10,7 @@ import {
   MaterialUniforms,
   DirectionalLight,
   SphereGeometry,
+  LambertMaterial,
   PhongMaterial,
   KeyboardInput,
   PlaneGeometry,
@@ -91,7 +92,7 @@ const ambient = new AmbientLight(ctx)
 
 /////////////////////
 /////////////////////
-const reflectiveMaterial = new PhongMaterial(ctx, {
+/*const reflectiveMaterial = new PhongMaterial(ctx, {
   envmap: envTexture,
   map: texture,
   color: [1.0, 1.0, 1.0, 1.0]
@@ -108,15 +109,18 @@ const backgroundMaterial = new FlatMaterial(ctx, {
 
 const background = new Mesh(ctx, {
   geometry: new BoxGeometry()
-})
+})*/
 
 void function (){
-  const material = new PhongMaterial(ctx, {
-    //map: texture,
-    envmap: texture,
-    //cull: {enable: false}
-  })
   const mesh = new Mesh(ctx, {geometry: new BoxGeometry()})
+  const material = new LambertMaterial(ctx, {envmap: cubeTexture})
+  const env = (() => {
+    const mesh = new Mesh(ctx, {geometry: new BoxGeometry()})
+    const material = new FlatMaterial(ctx, {
+      map: cubeTexture, cull: {enable: false}
+    })
+    return (...args) => material(() => mesh(...args))
+  })()
 
   frame(() => {
     directional({position: [5, 5, 5]})
@@ -124,9 +128,9 @@ void function (){
   })
 
   frame(() => {
-    orbitCamera({position: [5, 0, 0], target: [0, 0, 0]}, () => {
-      material(() => {
-        mesh()
+    orbitCamera({position: [0, 0, 5], target: [0, 0, 0]}, ({target}) => {
+      env({scale: 10}, () => {
+        material(() => { mesh({scale: 0.1, position: target}) })
       })
     })
   })

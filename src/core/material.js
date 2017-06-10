@@ -196,6 +196,20 @@ export class Material extends Command {
       context,
     })
 
+    const injectMapContext = ctx.regl({
+      context: {
+        mapTexure: ({texture}) => texture,
+        mapTextureResolution: ({textureResolution}) => textureResolution,
+      }
+    })
+
+    const injectEnvmapContext = ctx.regl({
+      context: {
+        envmapTexture: ({texture}) => texture,
+        envmapTextureResolution: ({textureResolution}) => textureResolution,
+      }
+    })
+
     function update(state, block) {
       if ('function' == typeof state) {
         block = state
@@ -214,17 +228,29 @@ export class Material extends Command {
       const envmap = coalesce(state.envmap, initialState.envmap)
       const map = coalesce(state.map, initialState.map)
 
-      if ('function' == typeof envmap) {
-        envmap(() => next)
-      } else {
-        next()
+      injectEnvmap(() => {
+        injectMap(() => {
+          injectContext(state, block)
+        })
+      })
+
+      function injectEnvmap(next) {
+        if ('function' != typeof envmap) {
+          next()
+        } else {
+          envmap(() => {
+            injectEnvmapContext(next)
+          })
+        }
       }
 
-      function next() {
-        if ('function' == typeof map) {
-          map(() => injectContext(state, block))
+      function injectMap(next) {
+        if ('function' != typeof map) {
+          next()
         } else {
-          injectContext(state, block)
+          map(() => {
+            injectMapContext(next)
+          })
         }
       }
 
@@ -321,8 +347,6 @@ export class MaterialState {
     for (let key in shaderDefines) {
       fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
     }
-
-    console.log(fragmentShader);
 
     /**
      * Material fragment shader source string.
@@ -612,8 +636,11 @@ export class MaterialUniforms {
      * @type {Array<Number>|Vector2}
      */
 
-    this['map.resolution'] = ({textureResolution}) => {
-      return coalesce(textureResolution, [0, 0])
+    this['map.resolution'] = ({
+      textureResolution,
+      mapTextureResolution = textureResolution
+    }) => {
+      return coalesce(mapTextureResolution, [0, 0])
     }
 
     /**
@@ -623,14 +650,21 @@ export class MaterialUniforms {
      * @type {Texture}
      */
 
-    this['map.data'] = ({texture}) => {
+    this['map.data'] = ({
+      texture,
+      mapTexture = texture
+    }) => {
       let placeholder = null
-      if ('texture' == typeOf(texture)) {
+      if ('texture' == typeOf(mapTexture)) {
         placeholder = emptyTexture
       } else {
         placeholder = emptyCubeTexture
       }
-      return coalesce(texture, placeholder)
+      if (null == initialState.map) {
+        return placeholder
+      } else {
+        return coalesce(mapTexture, placeholder)
+      }
     }
 
     /**
@@ -640,8 +674,11 @@ export class MaterialUniforms {
      * @type {Array<Number>|Vector2}
      */
 
-    this['envmap.resolution'] = ({textureResolution}) => {
-      return coalesce(textureResolution, [0, 0])
+    this['envmap.resolution'] = ({
+      textureResolution,
+      envmapTextureResolution = textureResolution
+    }) => {
+      return coalesce(envmapTextureResolution, [0, 0])
     }
 
     /**
@@ -651,14 +688,21 @@ export class MaterialUniforms {
      * @type {Texture}
      */
 
-    this['envmap.data'] = ({texture}) => {
+    this['envmap.data'] = ({
+      texture,
+      envmapTexture = texture
+    }) => {
       let placeholder = null
-      if ('texture' == typeOf(texture)) {
+      if ('texture' == typeOf(envmapTexture)) {
         placeholder = emptyTexture
       } else {
         placeholder = emptyCubeTexture
       }
-      return coalesce(texture, placeholder)
+      if (null == initialState.envmap) {
+        return placeholder
+      } else {
+        return coalesce(envmapTexture, placeholder)
+      }
     }
   }
 }

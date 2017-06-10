@@ -109,25 +109,10 @@ void main() {
 #endif
 
 #ifdef HAS_ENVIRONMENT_MAP
-  reflectivity = vec3(1.0, 0.5, 0.2);
-  //reflectivity = lookupEnv(rdir).rgb;
+  reflectivity = lookupEnv(rdir).rgb;
+#elif defined HAS_ENVIRONMENT_CUBE_MAP
+  reflectivity = lookupCubeEnv(rdir).rgb;
 #endif
-
-// #ifdef HAS_CUBE_MAP
-//   surfaceColor = textureCube(cubemap.data, geometry.position).rgb;
-// #ifdef HAS_REFLECTION
-//   surfaceColor = material.color.xyz;
-//   reflectivity = lookupCubeEnv(rdir).rgb;
-// #endif
-// #endif
-
-// #ifdef HAS_CUBE_MAP
-//   surfaceColor = textureCube(cubemap.data, geometry.localPosition).rgb;
-// #endif
-
-// #ifdef HAS_ENV_CUBE_MAP
-//   surfaceColor = textureCube(envcubemap.data, geometry.localPosition);
-// #endif
 
   // accumulate ambient
   for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {
@@ -166,13 +151,10 @@ void main() {
                            fragColor);
     }
   }
-  //reflectivity = reflectivityAmount * reflectivity * surfaceColor;
 
-  gl_FragColor = vec4(0.1, 0.2, 0.3, 1.0);
-  //gl_FragColor = vec4(reflectivity, 1.0);
-  //fragColor = fragColor + material.emissive.xyz + reflectivity;
-  //gl_FragColor = vec4(fragColor, material.opacity);
-  //gl_FragColor = vec4(surfaceColor + reflectivity, material.opacity);
+  reflectivity = reflectivityAmount * reflectivity * surfaceColor;
+  fragColor = fragColor + material.emissive.xyz + reflectivity;
+  gl_FragColor = vec4(fragColor, material.opacity);
 }
 
 #endif
