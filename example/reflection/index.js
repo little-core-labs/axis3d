@@ -37,11 +37,6 @@ const ctx = new Context()
 const frame = new Frame(ctx)
 const camera = new PerspectiveCamera(ctx)
 
-const envTexture = new Texture(ctx)
-const govBallImg = new Image()
-govBallImg.src = 'assets/govball.jpg'
-govBallImg.onload = () => envTexture({data: govBallImg})
-
 const texture = new Texture(ctx)
 const abstractImg = new Image()
 abstractImg.src = 'assets/smsq2.jpg'

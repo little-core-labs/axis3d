@@ -42,7 +42,6 @@ export class Text extends Command {
     super(update)
     assignTypeName(this, 'text')
 
-    this.typeName = 'text'
     /**
      * Injected regl context.
      */

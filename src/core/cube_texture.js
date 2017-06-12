@@ -81,7 +81,6 @@ export class CubeTexture extends Command {
     incrementStat('CubeTexture')
     super(update)
 
-    this.typeName = 'cubetexture'
     assignTypeName(this, 'cubetexture')
 
     // cube texture state used for in place regl
