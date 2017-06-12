@@ -82,9 +82,6 @@ export class Texture extends Command {
     incrementStat('Texture')
     assignTypeName(this, 'texture')
 
-    // this.typeName = 'texture'
-    assignTypeName(this, 'texture')
-
     // texture state used for in place regl
     // texture reinitialization
     const textureState = new TextureState(ctx, initialState || {})
@@ -262,29 +259,10 @@ export class TextureState {
       ...initialState,
     })
 
-    /**
-     * Underlying texture pointer.
-     */
-
     const texture = ctx.regl.texture({ ...this })
 
-    /**
-     * Texture state data stored as reference for injection
-     * into the regl conext.
-     */
-
     let {data = null} = initialState
-
-    /**
-     * Timestamp of last known update of a video texture.
-     */
-
     let lastVideoUpdate = 0
-
-    /**
-     * Previous raw texture data.
-     */
-
     let previouslyUploadedData = null
 
     // protected properties

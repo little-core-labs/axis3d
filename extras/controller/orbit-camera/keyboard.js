@@ -15,6 +15,7 @@ import quat from 'gl-quat'
 module.exports = exports = ({
   interpolationFactor,
   keyboardInput: keyboard,
+  invert = false,
   damping,
   euler
 } = {}) => {
@@ -27,15 +28,31 @@ module.exports = exports = ({
     }
 
     if (mappings.value('up')) {
-      euler[0] -= 0.1*damping
+      if (invert) {
+        euler[0] -= 0.1*damping
+      } else {
+        euler[0] += 0.1*damping
+      }
     } else if (mappings.value('down')) {
-      euler[0] += 0.1*damping
+      if (invert) {
+        euler[0] += 0.1*damping
+      } else {
+        euler[0] -= 0.1*damping
+      }
     }
 
     if (mappings.value('left')) {
-      euler[1] -= 0.08*damping
+      if (invert) {
+        euler[1] -= 0.08*damping
+      } else {
+        euler[1] += 0.08*damping
+      }
     } else if (mappings.value('right')) {
-      euler[1] += 0.08*damping
+      if (invert) {
+        euler[1] += 0.08*damping
+      } else {
+        euler[1] -= 0.08*damping
+      }
     }
   })
 }
