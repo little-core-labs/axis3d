@@ -5,11 +5,14 @@
  */
 
 import { ensureRGBA, isArrayLike } from '../utils'
+import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
 import { Command } from './command'
 import { Texture } from './texture'
 import { Color } from './color'
 import * as types from '../material/types'
+import { typeOf } from './types'
+
 
 import {
   kMaxDirectionalLights,
@@ -180,8 +183,9 @@ export class Material extends Command {
    */
 
   constructor(ctx, initialState = {}) {
-    incrementStat('Material')
     super(update)
+    incrementStat('Material')
+    assignTypeName(this, 'material')
 
     /**
      * Material map.
@@ -235,8 +239,13 @@ export class Material extends Command {
 
       block = block || function() {}
 
-      const mapState = isArrayLike(state) ? {} : state.map
-      materialMap.injectContext(mapState || {}, ({map} = {}) => {
+      const mapState = isArrayLike(state) ? {} : (state.map || state.cubemap)
+      materialMap.injectContext(mapState || {}, ({map, cubemap} = {}) => {
+        if ('function' == typeof cubemap) {
+          cubemap((c) => {
+            injectContext(state, block)
+          })
+        }
         if ('function' == typeof map) {
           map((c) => {
             injectContext(state, block)
@@ -334,7 +343,19 @@ export class MaterialState {
     }
 
     if (null != initialState.map) {
-      shaderDefines.HAS_MAP = 1
+      if ('cubetexture' === typeOf(initialState.map)) {
+        shaderDefines.HAS_CUBE_MAP = 1
+      } else {
+        shaderDefines.HAS_MAP = 1
+      }
+    }
+
+    if (null != initialState.envmap) {
+      if ('cubetexture' === typeOf(initialState.envmap)) {
+        shaderDefines.HAS_ENV_CUBE_MAP = 1
+      } else {
+        shaderDefines.HAS_ENV_MAP = 1
+      }
     }
 
     for (let key in types) {
@@ -349,8 +370,6 @@ export class MaterialState {
     for (let key in shaderDefines) {
       fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
     }
-
-
 
     /**
      * Material fragment shader source string.
@@ -595,6 +614,7 @@ export class MaterialUniforms {
 
   constructor(ctx, initialState = {}) {
     const emptyTexture = ctx.regl.texture()
+    const emptyCubeTexture = ctx.regl.cube()
 
     this['fog.color'] = (a) => {
       console.log('a', a)
@@ -661,6 +681,72 @@ export class MaterialUniforms {
     this['map.data'] = ({texture, textureData}) => {
       return coalesce(texture, emptyTexture)
     }
+
+    /**
+     * Texture envmap resolution if available.
+     *
+     * @public
+     * @type {Array<Number>|Vector2}
+     */
+
+    this['envmap.resolution'] = ({textureResolution}) => {
+      return coalesce(textureResolution, [0, 0])
+    }
+
+    /**
+     * Texture envmap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['envmap.data'] = ({texture, textureData}) => {
+      return coalesce(texture, emptyTexture)
+    }
+
+    /**
+     * Texture cubemap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['cubemap.resolution'] = ({textureResolution}) => {
+      return coalesce(textureResolution, [0, 0])
+    }
+
+    /**
+     * Texture cubemap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['cubemap.data'] = ({texture, textureData}) => {
+      return coalesce(texture, emptyCubeTexture)
+    }
+
+    /**
+     * Texture envcubemap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['envcubemap.resolution'] = ({textureResolution}) => {
+      return coalesce(textureResolution, [0, 0])
+    }
+
+    /**
+     * Texture envcubemap data if available.
+     *
+     * @public
+     * @type {Texture}
+     */
+
+    this['envcubemap.data'] = ({texture, textureData}) => {
+      return coalesce(texture, emptyCubeTexture)
+    }
   }
 }
 
@@ -694,9 +780,12 @@ export class MaterialMap {
 
     this.injectContext = ctx.regl({
       context: {
-        map: ({}, {map = initialState.map}) => {
+        map: ({}, {map = initialState.map || initialState.envmap}) => {
           return map
-        }
+        },
+        cubemap: ({}, {cubemap = initialState.envmap || initialState.map}) => {
+          return cubemap
+        },
       }
     })
   }

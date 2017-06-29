@@ -4,8 +4,8 @@
  * Module depdendencies.
  */
 
-import { Command } from 'axis3d/command'
-import { Vector } from 'axis3d/math/vector'
+import { Command } from '../../src/command'
+import { Vector } from '../../src/math/vector'
 import glslify from 'glslify'
 
 const vert = glslify(__dirname + '/glsl/color/vert.glsl')

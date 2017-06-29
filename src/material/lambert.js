@@ -10,7 +10,7 @@ import { kMaxAmbientLights } from '../light/ambient'
 import { kMaxPointLights } from '../light/point'
 import { isArrayLike } from '../utils'
 import * as lightTypes from '../light/types'
-import { Vector } from '../math/vector'
+import { Vector } from '../core/vector'
 import { Color } from '../core/color'
 
 import { DirectionalLight } from '../light/directional'

@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-import { Quaternion, Vector } from 'axis3d/math'
-import { radians } from 'axis3d/utils'
+import { Quaternion, Vector3 } from '../../../src/math'
+import { radians } from '../../../src/utils'
 
 // inputs
 import { AbstractControllerCommand } from '../abstract-controller'
@@ -35,7 +35,7 @@ export class OrbitCameraController extends AbstractControllerCommand {
       interpolationFactor: initialInterpolationFactor = 1,
     } = initial
 
-    const position = new Vector(0, 0, 0)
+    const position = new Vector3(0, 0, 0)
     const rotation = new Quaternion()
     const x = new Quaternion()
     const y = new Quaternion()

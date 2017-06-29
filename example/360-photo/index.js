@@ -16,12 +16,12 @@ import {
   Context,
   Frame,
   Mesh,
-} from 'axis3d'
+} from '../../src'
 
 import quat from 'gl-quat'
 
 // fullscreen canvas
-const ctx = Context({
+const ctx = new Context({
   regl: {
     profile: true,
     extensions: ['EXT_disjoint_timer_query']
@@ -29,13 +29,13 @@ const ctx = Context({
 })
 
 // scene
-const camera = PerspectiveCamera(ctx)
-const sphere = Mesh(ctx, { geometry: SphereGeometry()})
-const frame = Frame(ctx)
+const camera = new PerspectiveCamera(ctx)
+const sphere = new Mesh(ctx, { geometry: new SphereGeometry()})
+const frame = new Frame(ctx)
 
 // surface
-const texture = Texture(ctx)
-const material = FlatMaterial(ctx, {map: texture})
+const texture = new Texture(ctx)
+const material = new FlatMaterial(ctx, {map: texture})
 
 // texture image
 const image = new Image()
@@ -43,14 +43,14 @@ image.src = 'assets/govball.jpg'
 image.onload = () => texture({data: image})
 
 // inputs
-const orientation = OrientationInput(ctx)
-const keyboard = KeyboardInput(ctx)
-const mouse = MouseInput(ctx)
-const touch = TouchInput(ctx)
+const orientation = new OrientationInput(ctx)
+const keyboard = new KeyboardInput(ctx)
+const mouse = new MouseInput(ctx)
+const touch = new TouchInput(ctx)
 
 // orbit camera controls
 const inputs = { orientation, keyboard, touch, mouse }
-const orbitCamera = OrbitCameraController(ctx, {
+const orbitCamera = new OrbitCameraController(ctx, {
   camera, inputs,
   invert: true,
   interpolationFactor: 0.1,
