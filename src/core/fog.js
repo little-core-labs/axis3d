@@ -9,29 +9,17 @@ import { incrementStat } from '../stats'
 
 import coalesce from 'defined'
 
-export const kFogColor = [1.0, 0.0, 1.0, 1.0]
+export const kFogColor = [1.0, 1.0, 1.0, 1.0]
+
+export const kFogAmount = 0.02
 
 export class Fog extends Command {
 
   constructor(ctx, initialState = {}) {
-    console.log('yes i am a constructor')
     incrementStat('fog')
     super(update)
 
-    /**
-     * Injected material uniforms.
-     */
-
-    const {uniforms = new FogUniforms(ctx, initialState)} = initialState
-    // console.log('uniforms', uniforms)
-
     const {fogState = new FogState(ctx, initialState)} = initialState
-    // console.log('fogState', fogState)
-
-    const injectContext = ctx.regl({
-      // ...fogState,
-      uniforms,
-    })
 
     // fog update function
     function update(state, block) {
@@ -43,12 +31,11 @@ export class Fog extends Command {
       state = state || {}
       block = block || function() {}
 
-      fogState.update({
-        ...initialState,
-        ...state,
-      })
+      const states = Object.assign(initialState, state)
 
-      injectContext(block)
+      fogState.update({
+        ...states
+      })
 
       return this
     }
@@ -57,35 +44,45 @@ export class Fog extends Command {
 
 export class FogState {
   constructor(ctx, initialState = {}) {
-    console.log('FogState')
     Object.assign(this, {
-      color: kFogColor,
-      near: 1.0,
-      far: 2000.0,
       ...initialState
     })
-  }
-}
 
-export class FogUniforms {
-  constructor(ctx, initialState = {}) {
-    console.log('FogUniforms')
-    // if (null == initialState.color) {
-    //   initialState.fog = {}
-    // }
+    let fogColor = kFogColor
 
-    // this['fog.color'] = [0.6,0.3,0.5,1.0]
+    let fogAmount = kFogAmount
 
-    this['fog.color'] = ({fog = initialState.fog}) => {
-      debugger
-      console.log('inside fog this.color')
-      // console.log('coalesce(fog, kFogColor)', coalesce(fog, kFogColor))
-      console.log('fog', fog)
-      return coalesce(fog, kFogColor)
+    let fog = (fogState) => {
+      Object.assign(ctx._reglContext, {
+        fcolor: fogState.fcolor || fogColor,
+        famount: fogState.famount || fogAmount
+      })
+
+      return this
     }
 
-    this['fog.near'] = 1.0
+    Object.defineProperties(this, {
+      ctx: {
+        enumerable: false,
+        get() { return ctx },
+      },
 
-    this['fog.far'] = 2000.0
+      fog: {
+        enumerable: false,
+        get() { return fog },
+      }
+    })
+  }
+
+  update(fogState) {
+    this.fcolor = fogState.fcolor
+    this.famount = fogState.famount
+    if ('function' == typeof this.fog) {
+      this.fog(this)
+    } else {
+      throw new TypeError(
+      `FogState expects .fog to be a function. `+
+      `Got ${typeof this.fog}.`)
+    }
   }
 }

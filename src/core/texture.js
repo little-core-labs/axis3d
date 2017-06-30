@@ -82,9 +82,6 @@ export class Texture extends Command {
     incrementStat('Texture')
     assignTypeName(this, 'texture')
 
-    // this.typeName = 'texture'
-    assignTypeName(this, 'texture')
-
     // texture state used for in place regl
     // texture reinitialization
     const textureState = new TextureState(ctx, initialState || {})
@@ -103,7 +100,6 @@ export class Texture extends Command {
         block = state
         state = {}
       }
-
       state = state || {}
       block = block || function() {}
 

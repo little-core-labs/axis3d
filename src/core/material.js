@@ -240,7 +240,12 @@ export class Material extends Command {
       block = block || function() {}
 
       const mapState = isArrayLike(state) ? {} : (state.map || state.cubemap)
-      materialMap.injectContext(mapState || {}, ({map, cubemap} = {}) => {
+      materialMap.injectContext(mapState || {}, ({map, cubemap, fog} = {}) => {
+        if ('function' == typeof fog) {
+          fog((c) => {
+            injectContext(state, block)
+          })
+        }
         if ('function' == typeof cubemap) {
           cubemap((c) => {
             injectContext(state, block)
@@ -340,6 +345,10 @@ export class MaterialState {
         .replace('SHADER_MAIN_BODY_SOURCE', fragmentShaderMain)
     } else {
       shaderDefines[`use${typeName}`] = 1 // `useLambertMaterial', etc
+    }
+
+    if (null != initialState.fog) {
+      shaderDefines.HAS_FOG = 1
     }
 
     if (null != initialState.map) {
@@ -616,10 +625,12 @@ export class MaterialUniforms {
     const emptyTexture = ctx.regl.texture()
     const emptyCubeTexture = ctx.regl.cube()
 
-    this['fog.color'] = (a) => {
-      console.log('a', a)
-      debugger
-      return coalesce(null, [1.0,0.0,1.0,1.0])
+    this['fog.fcolor'] = ({fog, fcolor}) => {
+      return coalesce(fcolor, [1.0, 1.0, 1.0, 1.0])
+    }
+
+    this['fog.famount'] = ({fog, famount}) => {
+      return coalesce(famount, 0.02)
     }
 
     /**
@@ -631,7 +642,6 @@ export class MaterialUniforms {
      */
 
     this['material.opacity'] = ({opacity = initialState.opacity}) => {
-      debugger
       return coalesce(opacity, kDefaultMaterialOpacity)
     }
 
@@ -758,6 +768,7 @@ export class MaterialUniforms {
  * @class MaterialMap
  */
 
+// TODO(vipyne) rename to more generic to include fog
 export class MaterialMap {
 
   /**
@@ -786,7 +797,11 @@ export class MaterialMap {
         cubemap: ({}, {cubemap = initialState.envmap || initialState.map}) => {
           return cubemap
         },
+        fog: ({}, {fog = initialState.fog}) => {
+          return fog
+        },
       }
     })
   }
 }
+

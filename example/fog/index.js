@@ -3,111 +3,59 @@
 import {
   PerspectiveCamera,
   DirectionalLight,
-  LambertMaterial,
+  SphereGeometry,
+  PhongMaterial,
   Quaternion,
-  Geometry,
+  Texture,
   Context,
-  Color,
   Frame,
-  Lines,
+  Color,
   Mesh,
   Fog,
-} from 'axis3d'
+} from '../../src'
 
-import ControlPanel from 'control-panel'
-import coalesce from 'defined'
 import quat from 'gl-quat'
-import vec3 from 'gl-vec3'
-
-import complex from 'snowden'
 
 const ctx = new Context()
 
-const directional = new DirectionalLight(ctx)
-const material = new LambertMaterial(ctx)
-const camera = new PerspectiveCamera(ctx)
-const frame = new Frame(ctx)
-
-// mesh rotation
-const rotation = new Quaternion()
-
-let materialOpacity = 1.0;
-const directionalLightColor = new Color('white')
-const materialEmissive = [0, 0, 0, 1]
-const materialColor = new Color('pale violet red')
-
-const rgb255 = (c) => c .slice(0, 3).map((n) => 255*n)
-
-// control panel
-const panel = ControlPanel([
-  {
-    type: 'color',
-    label: 'Light',
-    format: 'rgb',
-    initial: `rgb(${rgb255(directionalLightColor).join(',')})`,
-  }, {
-    type: 'color',
-    label: 'Color',
-    format: 'rgb',
-    initial: `rgb(${rgb255(materialColor).join(',')})`,
-  }, {
-    type: 'color',
-    label: 'Emissive',
-    format: 'rgb',
-    initial: `rgb(${rgb255(materialEmissive).join(',')})`,
-  }, {
-    min: 0,
-    max: 1,
-    type: 'range',
-    label: 'Opacity',
-    initial: materialOpacity,
-  }
-], {theme: 'dark', position: 'top-left'})
-.on('input', (e) => {
-  const rgb = (prop) => {
-    const match = String(e[prop]).match(/rgb\((.*)\)/)
-    return !match ? null : match[1]
-      .split(', ')
-      .map(parseFloat)
-      .map((n) => n/255)
-  }
-
-  Object.assign(directionalLightColor, rgb('Light') || [])
-  Object.assign(materialEmissive, rgb('Emissive') || [])
-  Object.assign(materialColor, rgb('Color') || [])
-
-  materialOpacity = Number(coalesce(
-    e['Opacity'],
-    materialOpacity))
+const fog = new Fog(ctx, {
+  fcolor: [0.5, 0.5, 0.5, 1.0],
+  famount: 0.025
 })
 
-const draw = (() => {
-  const material = new LambertMaterial(ctx)
-  const geometry = new Geometry({complex})
-  const mesh = new Mesh(ctx, {geometry})
-  return mesh
-})()
-console.log('derp')
-const foggy = new Fog(ctx, {color: [0.15,0.0,1.0,1.0]})
+const image = new Image()
+image.src = 'assets/texture.jpg'
 
-frame(({time}) => {
-  camera({position: [0, 2, 10]}, () => {
+const texture = new Texture(ctx)
 
-    directional({
-      color: directionalLightColor,
-      position: [10, 10, 10]
-    })
+const camera = new PerspectiveCamera(ctx)
+const sphere = new Mesh(ctx, { geometry: new SphereGeometry() })
+const frame = new Frame(ctx)
+const light = new DirectionalLight(ctx)
+const material = new PhongMaterial(ctx, {fog: fog, map: texture})
+const rotation = new Quaternion()
+
+frame(({time, cancel}) => {
+  const multiply = (...args) => quat.multiply([], ...args)
+  const angle = (...args) => quat.setAxisAngle([], ...args)
+  const x = angle([1, 0, 0], 0.0)
+  const y = angle([0, 1, 0], 0.08*time)
+  const z = angle([0, 0, 1], -0.10*time)
+  quat.slerp(rotation, rotation, multiply(multiply(x, y), z), 0.5)
+  camera({rotation, position: [0, 0, 5]}, () => {
+
+    light({intensity: 0.8, position: [0, 0, 10], ambient: 0.01})
+    texture({data: image})
+    fog()
 
     material({
-      color: materialColor,
-      emissive: materialEmissive,
-      opacity: materialOpacity,
-      fog: foggy
-      // fog: foggy
+      specular: new Color('dim gray'),
     }, () => {
-      const rot = quat.setAxisAngle([], [0, 1, 0], 0.5*time)
-      quat.slerp(rotation, rotation, rot, 0.01)
-      draw({ rotation })
+      sphere({})
+      sphere({position: [0,0,-2]})
+      sphere({position: [0,0,-4]})
+      sphere({position: [0,0,-6]})
     })
+
   })
 })

@@ -55,7 +55,10 @@ varying vec3 vLocalNormal;
 uniform MATERIAL_TYPE material;
 uniform LightContext lightContext;
 uniform Camera camera;
+
+#ifdef HAS_FOG
 uniform Fog fog;
+#endif
 
 #ifdef HAS_MAP
 uniform Map map;
@@ -106,7 +109,8 @@ import drawPhongMaterial from './phong' where {
   map=map,
   camera=camera,
   isnan=isnan,
-  isinf=isinf
+  isinf=isinf,
+  fog=fog
 }
 
 //

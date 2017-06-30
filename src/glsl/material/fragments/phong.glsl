@@ -21,6 +21,9 @@
 #pragma glslify: computeDiffuse = require('../../light/compute_diffuse')
 #pragma glslify: phong = require('glsl-specular-blinn-phong')
 
+// fog
+#pragma glslify: fogFactorExp2 = require(glsl-fog/exp2)
+
 //
 // Material implementation header guard.
 //
@@ -133,7 +136,19 @@ void main() {
   }
 
   fragColor = fragColor + material.emissive.xyz;
-  gl_FragColor = vec4(fragColor, material.opacity);
+
+  vec4 finalColor = vec4(fragColor, material.opacity);
+
+#ifdef HAS_FOG
+  vec4 fogColor = fog.fcolor;
+  float fogAmount = fog.famount;
+  float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
+  float fogAmountCalculated = fogFactorExp2(fogDistance, fogAmount);
+
+  finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogAmountCalculated);
+#endif
+
+  gl_FragColor = finalColor;
 }
 
 #endif
