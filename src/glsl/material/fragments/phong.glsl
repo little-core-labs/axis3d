@@ -116,7 +116,7 @@ void main() {
 
   // accumulate ambient
   for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {
-    AmbientLight light = lightContext.ambient.lights[i];
+    AmbientLight light = ambientLights[i];
     if (i >= lightContext.ambient.count) {
       break;
     } else if (light.visible) {
@@ -129,7 +129,7 @@ void main() {
   }
 
   for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i) {
-    DirectionalLight light = lightContext.directional.lights[i];
+    DirectionalLight light = directionalLights[i];
     if (i >= lightContext.directional.count) {
       break;
     } else if (light.visible) {
@@ -141,7 +141,7 @@ void main() {
   }
 
   for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {
-    PointLight light = lightContext.point.lights[i];
+    PointLight light = pointLights[i];
     if (i >= lightContext.point.count) {
       break;
     } else if (light.visible) {

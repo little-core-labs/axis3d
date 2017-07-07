@@ -17,6 +17,11 @@ precision mediump float;
 #pragma glslify: FlatMaterial = require('../FlatMaterial')
 #pragma glslify: Material = require('../Material')
 
+// lights
+#pragma glslify: DirectionalLight = require('../../light/DirectionalLight')
+#pragma glslify: AmbientLight = require('../../light/AmbientLight')
+#pragma glslify: PointLight = require('../../light/PointLight')
+
 
 #ifndef MAX_AMBIENT_LIGHTS
 #define MAX_AMBIENT_LIGHTS 16
@@ -54,8 +59,11 @@ varying vec3 vLocalNormal;
 // Shader uniforms.
 //
 uniform MATERIAL_TYPE material;
-uniform LightContext lightContext;
 uniform Camera camera;
+uniform LightContext lightContext;
+uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
+uniform AmbientLight ambientLights[MAX_AMBIENT_LIGHTS];
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
 
 #ifdef HAS_MAP
 uniform Map map;
@@ -77,7 +85,10 @@ import drawLambertMaterial from './lambert' where {
   MAX_AMBIENT_LIGHTS=MAX_AMBIENT_LIGHTS,
   MAX_POINT_LIGHTS=MAX_POINT_LIGHTS,
   getGeometryContext=getGeometryContext,
+  directionalLights=directionalLights,
+  ambientLights=ambientLights,
   lightContext=lightContext,
+  pointLights=pointLights,
   material=material,
   envmap=envmap,
   map=map,
@@ -94,7 +105,10 @@ import drawPhongMaterial from './phong' where {
   MAX_AMBIENT_LIGHTS=MAX_AMBIENT_LIGHTS,
   MAX_POINT_LIGHTS=MAX_POINT_LIGHTS,
   getGeometryContext=getGeometryContext,
+  directionalLights=directionalLights,
+  ambientLights=ambientLights,
   lightContext=lightContext,
+  pointLights=pointLights,
   material=material,
   envmap=envmap,
   map=map,

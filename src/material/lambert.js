@@ -277,7 +277,7 @@ export class LambertMaterialUniforms extends MaterialUniforms {
 
   setLightsInContext({identifier, type, max, defaults}) {
     for (let i = 0; i < max; ++i) {
-      const key = `lightContext.${identifier}.lights[${i}]`
+      const key = `${identifier}Lights[${i}]`
       const set = (property, fallback) => {
         Object.assign(this, {
           [`${key}.${property}`]({lights}, args = {}) {
