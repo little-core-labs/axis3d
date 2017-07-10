@@ -23,8 +23,8 @@ module.exports = ({
   }) => {
     // update if a singled button is pressed
     if (1 == buttons && (dy || dx)) {
-      const xValue = (false == invert ? 1 : -1)*0.0025*dy*damping
-      const yValue = (false == invert ? 1 : -1)*0.0045*dx*damping
+      const xValue = (false == invert ? -1 : 1)*0.0025*dy*damping
+      const yValue = (false == invert ? -1 : 1)*0.0045*dx*damping
       euler[0] += xValue
       euler[1] += yValue
     }

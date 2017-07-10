@@ -6,6 +6,8 @@ precision mediump float;
 #pragma glslify: GeometryContext = require('../../geometry/GeometryContext')
 #pragma glslify: LightContext = require('../../light/LightContext')
 #pragma glslify: Camera = require('../../camera/Camera')
+
+// maps
 #pragma glslify: Cubemap = require('../Cubemap')
 #pragma glslify: Map = require('../Map')
 
@@ -71,15 +73,14 @@ uniform Fog fog;
 #ifdef HAS_MAP
 uniform Map map;
 #elif defined HAS_CUBE_MAP
-uniform Cubemap cubemap;
+uniform Cubemap map;
 #endif
 
-#ifdef HAS_ENV_MAP
+#ifdef HAS_ENVIRONMENT_MAP
 uniform Map envmap;
-#elif defined HAS_ENV_CUBE_MAP
-uniform Cubemap envcubemap;
+#elif defined HAS_ENVIRONMENT_CUBE_MAP
+uniform Cubemap envmap;
 #endif
-
 
 //
 // Lambertian shading model.
@@ -94,8 +95,6 @@ import drawLambertMaterial from './lambert' where {
   lightContext=lightContext,
   pointLights=pointLights,
   material=material,
-  envcubemap=envcubemap,
-  cubemap=cubemap,
   envmap=envmap,
   map=map,
   camera=camera,
@@ -117,8 +116,6 @@ import drawPhongMaterial from './phong' where {
   lightContext=lightContext,
   pointLights=pointLights,
   material=material,
-  envcubemap=envcubemap,
-  cubemap=cubemap,
   envmap=envmap,
   map=map,
   camera=camera,
@@ -133,8 +130,6 @@ import drawPhongMaterial from './phong' where {
 import drawFlatMaterial from './flat' where {
   getGeometryContext=getGeometryContext,
   material=material,
-  envcubemap=envcubemap,
-  cubemap=cubemap,
   envmap=envmap,
   map=map
 }

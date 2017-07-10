@@ -57,6 +57,7 @@ export class Color extends Vector4 {
     super(0, 0, 0, 0)
     assignTypeName(this, 'color')
     this.set(input)
+    this.typeName = 'color'
   }
 
   /**

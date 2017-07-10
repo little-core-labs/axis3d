@@ -86,6 +86,7 @@ export const kDefaultFrameClearState = Object.seal({
  */
 
 export class Frame extends Command {
+// export class Frame extends NamedType(Command, 'Frame') {
 
   /**
    * Frame class constructor.
@@ -100,6 +101,8 @@ export class Frame extends Command {
     super(update)
     incrementStat('Frame')
     assignTypeName(this, 'frame')
+
+    this.typeName = 'frame'
 
     const uniforms = new FrameUniforms(ctx, initialState.uniforms || {})
     const context = new FrameContext(ctx, initialState.context || {})

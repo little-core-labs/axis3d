@@ -83,7 +83,7 @@ export class Command extends Function {
     super(Command.codegen(function wrap(fn) {
       return fn.apply(fn, Array.prototype.slice.call(arguments, 1))
     }))
-    const exec = (...args) => this(fn, ...args)
+   const exec = (...args) => this(fn, ...args)
     const id = Command.id()
     assignTypeName(exec, 'command')
     assignTypeName(this, 'command')

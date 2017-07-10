@@ -143,6 +143,8 @@ export class Mesh extends Object3D {
     incrementStat('Mesh')
     assignTypeName(this, 'mesh')
 
+    this.typeName = 'mesh'
+
     /**
      * Draws mesh and with given state and
      * then calling an optional given block
@@ -594,7 +596,7 @@ export class MeshAttributes {
     this.position = coalesce(geometry.positions, null)
 
     /**
-     * 'position' vertex attributes value.
+     * 'normal' vertex attributes value.
      *
      * @public
      * @type {Array<Array<Number>>|Array<Vector3>|null}
@@ -603,7 +605,7 @@ export class MeshAttributes {
     this.normal = coalesce(geometry.normals, null)
 
     /**
-     * 'position' vertex attributes value.
+     * 'uv' vertex attributes value.
      *
      * @public
      * @type {Array<Array<Number>>|Array<Vector2>|null}
