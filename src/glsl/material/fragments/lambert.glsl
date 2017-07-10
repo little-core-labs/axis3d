@@ -148,15 +148,14 @@ void main() {
 
   vec4 finalColor = vec4(fragColor, material.opacity);
 
-#ifdef HAS_FOG
-  vec4 fogColor = fog.fcolor;
-  float fogAmount = fog.famount;
-  float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
-  float fogAmountCalculated = fogFactorExp2(fogDistance, fogAmount);
+  if (fog.enabled) {
+    vec4 fogColor = fog.color;
+    float fogAmount = fog.amount;
+    float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
+    float fogAmountCalculated = fogFactorExp2(fogDistance, fogAmount);
 
-  finalColor = mix(vec4(fragColor, material.opacity), vec4(1.0,0.0,0.0,1.0), fogAmountCalculated);
-  // finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogAmountCalculated);
-#endif
+    finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogAmountCalculated);
+  }
 
   gl_FragColor = finalColor;
 }

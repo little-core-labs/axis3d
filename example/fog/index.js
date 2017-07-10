@@ -22,8 +22,8 @@ import quat from 'gl-quat'
 const ctx = new Context()
 
 const fog = new Fog(ctx, {
-  fcolor: [0.5, 0.5, 0.5, 1.0],
-  famount: 0.025
+  color: [0.5, 0.5, 0.5, 1.0],
+  amount: 0.025
 })
 
 const image = new Image()

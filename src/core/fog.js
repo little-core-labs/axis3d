@@ -20,6 +20,7 @@ export class Fog extends Command {
     super(update)
 
     const {fogState = new FogState(ctx, initialState)} = initialState
+    const injectContext = ctx.regl({})
 
     // fog update function
     function update(state, block) {
@@ -31,10 +32,11 @@ export class Fog extends Command {
       state = state || {}
       block = block || function() {}
 
-      const states = Object.assign(initialState, state)
+      Object.assign(fogState, Object.assign(initialState, state))
 
-      fogState.update({
-        ...states
+      injectContext((reglContext) => {
+        Object.assign(reglContext, {fog: fogState})
+        injectContext(block)
       })
 
       return this
@@ -44,45 +46,8 @@ export class Fog extends Command {
 
 export class FogState {
   constructor(ctx, initialState = {}) {
-    Object.assign(this, {
-      ...initialState
-    })
-
-    let fogColor = kFogColor
-
-    let fogAmount = kFogAmount
-
-    let fog = (fogState) => {
-      Object.assign(ctx._reglContext, {
-        fcolor: fogState.fcolor || fogColor,
-        famount: fogState.famount || fogAmount
-      })
-
-      return this
-    }
-
-    Object.defineProperties(this, {
-      ctx: {
-        enumerable: false,
-        get() { return ctx },
-      },
-
-      fog: {
-        enumerable: false,
-        get() { return fog },
-      }
-    })
-  }
-
-  update(fogState) {
-    this.fcolor = fogState.fcolor
-    this.famount = fogState.famount
-    if ('function' == typeof this.fog) {
-      this.fog(this)
-    } else {
-      throw new TypeError(
-      `FogState expects .fog to be a function. `+
-      `Got ${typeof this.fog}.`)
-    }
+    this.enabled = true
+    this.color = coalesce(initialState.color, kFogColor)
+    this.amount = coalesce(initialState.amount, kFogAmount)
   }
 }

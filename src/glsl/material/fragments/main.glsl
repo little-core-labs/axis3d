@@ -59,16 +59,15 @@ varying vec3 vLocalNormal;
 //
 // Shader uniforms.
 //
+uniform LightContext lightContext;
 uniform MATERIAL_TYPE material;
 uniform Camera camera;
-uniform LightContext lightContext;
+uniform Fog fog;
+
+// lights
 uniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];
 uniform AmbientLight ambientLights[MAX_AMBIENT_LIGHTS];
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
-
-#ifdef HAS_FOG
-uniform Fog fog;
-#endif
 
 #ifdef HAS_MAP
 uniform Map map;

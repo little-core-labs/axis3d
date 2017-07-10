@@ -145,25 +145,14 @@ export class FrameContext {
   constructor(ctx, initialState = {}) {
     Object.assign(this, initialState)
 
-    /**
-     * The default WebGL clear buffer state for every frame.
-     */
-
+    let fog = null
+    const lights = []
     const clearState = {
       ...kDefaultFrameClearState,
       ...initialState.clear
     }
 
-    /**
-     * Known lights in a frame context.
-     */
-
-    const lights = []
-
-    /**
-     * Known refresh functions.
-     */
-
+    // Known refresh functions.
     const queue = []
 
     // protected properties
@@ -208,9 +197,18 @@ export class FrameContext {
      * @public
      * @type {Array<Light>}
      */
-
     this.lights = () => {
       return lights
+    }
+
+    /**
+     * Known fog in the frame context.
+     *
+     * @public
+     * @type {FogState}
+     */
+    this.fog = () => {
+      return fog
     }
 
     /**

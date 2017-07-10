@@ -603,12 +603,20 @@ export class MaterialUniforms {
     const emptyTexture = ctx.regl.texture()
     const emptyCubeTexture = ctx.regl.cube()
 
-    this['fog.fcolor'] = ({fog, fcolor}) => {
-      return coalesce(fcolor, [1.0, 1.0, 1.0, 1.0])
+    this['fog.enabled'] = ({fog}) => {
+      if (fog && true == fog.enabled) {
+        return true
+      } else {
+        return false
+      }
     }
 
-    this['fog.famount'] = ({fog, famount}) => {
-      return coalesce(famount, 0.02)
+    this['fog.color'] = ({fog = {}}) => {
+      return coalesce(fog.color, [1.0, 1.0, 1.0, 1.0])
+    }
+
+    this['fog.amount'] = ({fog = {}}) => {
+      return coalesce(fog.amount, 0.02)
     }
 
     /**
