@@ -198,7 +198,9 @@ export class Material extends Command {
 
     const injectMapContext = ctx.regl({
       context: {
-        mapTexure: ({texture}) => texture,
+        mapTexure: ({texture}) => {
+          return texture
+        },
         mapTextureResolution: ({textureResolution}) => textureResolution,
       }
     })
@@ -654,16 +656,18 @@ export class MaterialUniforms {
       texture,
       mapTexture = texture
     }) => {
-      let placeholder = null
+      // determine texture2D or cubeTexture
+      let texturePlaceholder = null
       if ('texture' == typeOf(mapTexture)) {
-        placeholder = emptyTexture
+        texturePlaceholder = emptyTexture
       } else {
-        placeholder = emptyCubeTexture
+        texturePlaceholder = emptyCubeTexture
       }
+      // ensure the cube/texture being passed in is map (not envmap)
       if (null == initialState.map) {
-        return placeholder
+        return texturePlaceholder
       } else {
-        return coalesce(mapTexture, placeholder)
+        return coalesce(mapTexture, texturePlaceholder)
       }
     }
 
@@ -692,16 +696,18 @@ export class MaterialUniforms {
       texture,
       envmapTexture = texture
     }) => {
-      let placeholder = null
+      // determine texture2D or cubeTexture
+      let texturePlaceholder = null
       if ('texture' == typeOf(envmapTexture)) {
-        placeholder = emptyTexture
+        texturePlaceholder = emptyTexture
       } else {
-        placeholder = emptyCubeTexture
+        texturePlaceholder = emptyCubeTexture
       }
+      // ensure the cube/texture being passed in is envmap (not map)
       if (null == initialState.envmap) {
-        return placeholder
+        return texturePlaceholder
       } else {
-        return coalesce(envmapTexture, placeholder)
+        return coalesce(envmapTexture, texturePlaceholder)
       }
     }
   }
