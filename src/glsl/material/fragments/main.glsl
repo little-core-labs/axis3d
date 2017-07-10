@@ -131,6 +131,7 @@ import drawFlatMaterial from './flat' where {
   getGeometryContext=getGeometryContext,
   material=material,
   envmap=envmap,
+  camera=camera,
   map=map
 }
 

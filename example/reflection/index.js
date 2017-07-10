@@ -10,12 +10,12 @@ import {
   MaterialUniforms,
   DirectionalLight,
   SphereGeometry,
-  LambertMaterial,
   PhongMaterial,
   KeyboardInput,
   PlaneGeometry,
   AmbientLight,
   FlatMaterial,
+  LambertMaterial,
   MeshUniforms,
   BoxGeometry,
   CubeTexture,
@@ -38,18 +38,12 @@ const ctx = new Context()
 const frame = new Frame(ctx)
 const camera = new PerspectiveCamera(ctx)
 
-const envTexture = new Texture(ctx)
-const envImg = new Image()
-envImg.src = 'assets/govball.jpg'
-envImg.onload = () => envTexture({data: envImg})
-
 const texture = new Texture(ctx)
-const img = new Image()
-img.src = 'assets/smsq2.jpg'
-img.onload = () => texture({data: img})
+const abstractImg = new Image()
+abstractImg.src = 'assets/smsq2.jpg'
+abstractImg.onload = () => texture({data: abstractImg})
 
 const cubeTexture = new CubeTexture(ctx)
-
 const bk = new Image()
 bk.src = 'assets/criminal-impact_bk.jpg'
 const dn = new Image()
@@ -89,11 +83,8 @@ const orbitCamera = new OrbitCameraController(ctx, {
 const directional = new DirectionalLight(ctx)
 const ambient = new AmbientLight(ctx)
 
-
-/////////////////////
-/////////////////////
-/*const reflectiveMaterial = new PhongMaterial(ctx, {
-  envmap: envTexture,
+const reflectiveMaterial = new FlatMaterial(ctx, {
+  envmap: cubeTexture,
   map: texture,
   color: [1.0, 1.0, 1.0, 1.0]
 })
@@ -102,41 +93,14 @@ const bunny = new Mesh(ctx, {
   geometry: new BoxGeometry(),
 })
 
-
 const backgroundMaterial = new FlatMaterial(ctx, {
-  envmap: cubeTexture
+  map: cubeTexture
 })
 
 const background = new Mesh(ctx, {
   geometry: new BoxGeometry()
-})*/
+})
 
-void function (){
-  const mesh = new Mesh(ctx, {geometry: new BoxGeometry()})
-  const material = new LambertMaterial(ctx, {envmap: cubeTexture})
-  const env = (() => {
-    const mesh = new Mesh(ctx, {geometry: new BoxGeometry()})
-    const material = new FlatMaterial(ctx, {
-      map: cubeTexture, cull: {enable: false}
-    })
-    return (...args) => material(() => mesh(...args))
-  })()
-
-  frame(() => {
-    directional({position: [5, 5, 5]})
-    ambient({ambient: 1.1})
-  })
-
-  frame(() => {
-    orbitCamera({position: [0, 0, 5], target: [0, 0, 0]}, ({target}) => {
-      env({scale: 10}, () => {
-        material(() => { mesh({scale: 0.1, position: target}) })
-      })
-    })
-  })
-}()
-
-/*
 frame(() => {
   orbitCamera({position: [-0.2, 0, 0], target: [0, 0, 0]}, () => {
 
@@ -160,9 +124,9 @@ frame(() => {
       emissive: [0.0, 0.0, 0.0, 1.0],
     }, () => {
       bunny({
-        scale: 0.311,
+        scale: 0.2311,
         position: [0, -0.0, 0]
       })
     })
   })
-})*/
+})

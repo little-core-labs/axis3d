@@ -19,6 +19,9 @@
 #pragma glslify: computeLightDirection = require('../../light/compute_direction')
 #pragma glslify: computeDiffuse = require('../../light/compute_diffuse')
 
+// fog
+#pragma glslify: fogFactorExp2 = require(glsl-fog/exp2)
+
 //
 // Material implementation header guard.
 //
@@ -139,6 +142,7 @@ void main() {
     }
   }
 
+  reflectivity = reflectivityAmount * reflectivity;
   reflectivity = reflectivityAmount * reflectivity * surfaceColor;
   fragColor = fragColor + material.emissive.xyz + reflectivity;
 
@@ -150,7 +154,8 @@ void main() {
   float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
   float fogAmountCalculated = fogFactorExp2(fogDistance, fogAmount);
 
-  finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogAmountCalculated);
+  finalColor = mix(vec4(fragColor, material.opacity), vec4(1.0,0.0,0.0,1.0), fogAmountCalculated);
+  // finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogAmountCalculated);
 #endif
 
   gl_FragColor = finalColor;

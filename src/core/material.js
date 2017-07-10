@@ -227,6 +227,13 @@ export class Material extends Command {
       const mapState = isArrayLike(state) ? {} : state
       const envmap = coalesce(state.envmap, initialState.envmap)
       const map = coalesce(state.map, initialState.map)
+      const fog = coalesce(state.fog, initialState.fog)
+
+      if ('function' == typeof fog) {
+        fog(() => {
+          injectContext(state, block)
+        })
+      }
 
       injectEnvmap(() => {
         injectMap(() => {

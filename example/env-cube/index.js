@@ -82,7 +82,7 @@ canvasCtx.fillRect(0,0,squareSize, squareSize)
 const video = document.createElement('video')
 video.autoplay = true
 video.loop = true
-video.src = 'assets/squarevid.mp4'
+video.src = 'assets/squarevideo.mp4'
 video.load()
 video.play()
 
