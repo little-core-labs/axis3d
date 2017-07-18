@@ -76,7 +76,6 @@ void applyPositionedLight(PositionedLight light,
 }
 
 #pragma glslify: export(main)
-// adapted from https://github.com/freeman-lab/gl-lambert-material/blob/master/fragment.glsl
 void main() {
   GeometryContext geometry = getGeometryContext();
   vec3 surfaceColor = material.color.xyz;
@@ -84,7 +83,6 @@ void main() {
   vec3 reflectivity = vec3(0.0);
   float reflectivityAmount = 1.0;
 
-  // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
   mat4 invertedView = camera.invertedView;
   vec3 iv = invertedView[3].xyz / invertedView[3].w;
   vec3 eye = normalize(geometry.position.xyz - iv);
@@ -142,7 +140,6 @@ void main() {
     }
   }
 
-  reflectivity = reflectivityAmount * reflectivity;
   reflectivity = reflectivityAmount * reflectivity * surfaceColor;
   fragColor = fragColor + material.emissive.xyz + reflectivity;
 
@@ -150,11 +147,11 @@ void main() {
 
   if (fog.enabled) {
     vec4 fogColor = fog.color;
-    float fogAmount = fog.amount;
+    float fogDensity = fog.density;
     float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
-    float fogAmountCalculated = fogFactorExp2(fogDistance, fogAmount);
+    float fogDensityCalculated = fogFactorExp2(fogDistance, fogDensity);
 
-    finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogAmountCalculated);
+    finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogDensityCalculated);
   }
 
   gl_FragColor = finalColor;

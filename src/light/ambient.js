@@ -10,25 +10,7 @@ import { incrementStat } from '../stats'
 import { Light } from '../core/light'
 import coalesce from 'defined'
 
-/**
- * Default ambient light ambient factor.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 export const kDefaultAmbientLightAmbient = 0.01
-
-/**
- *ent The defualt light context entry object for
- * a light uniform.
- *
- * @public
- * @const
- * @type {Object}
- */
-
 export const kDefaultAmbientLightContextEntry = {
   identifier: 'ambient',
   type: type,
@@ -46,7 +28,6 @@ export const kDefaultAmbientLightContextEntry = {
  * @class AmbientLight
  * @extends Light
  */
-
 export class AmbientLight extends Light {
 
   /**
@@ -57,7 +38,6 @@ export class AmbientLight extends Light {
    * @param {!Context} ctx Axis3D context.
    * @param {?Object} initialState Optional initial state.
    */
-
   constructor(ctx, initialState = {}) {
     incrementStat('AmbientLight')
     super(ctx, {
@@ -76,7 +56,6 @@ export class AmbientLight extends Light {
    * @method
    * @return {Object}
    */
-
   static contextEntry() {
     return kDefaultAmbientLightContextEntry
   }

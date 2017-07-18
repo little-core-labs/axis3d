@@ -91,6 +91,7 @@ frame(({time}) => {
   camera({position: [0, 2, 10]}, () => {
     directional({
       color: directionalLightColor,
+      intensity: 2,
       position: [10, 10, 10]
     })
 

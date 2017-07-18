@@ -2,5 +2,10 @@
 struct Fog {
   bool enabled;
   vec4 color;
-  float amount;
+  //exp, exp2
+  float density;
+  // linear
+  float near;
+  float far;
+  int type; // 0=linear, 1=exp, 2=exp2
 };

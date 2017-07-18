@@ -197,19 +197,19 @@ var OrthographicCameraContext = exports.OrthographicCameraContext = function (_C
      * Initial far plane value.
      */
 
-    var initialFar = (0, _defined2.default)(initialState.far, kDefaultCameraFar
+    var initialFar = (0, _defined2.default)(initialState.far, kDefaultCameraFar);
 
     /**
      * Initial near plane value.
      */
 
-    );var initialNear = (0, _defined2.default)(initialState.near, kDefaultCameraNear
+    var initialNear = (0, _defined2.default)(initialState.near, kDefaultCameraNear);
 
     /**
      * Base orthographic camera controller.
      */
 
-    );var controller = (0, _orthographicCamera2.default)({
+    var controller = (0, _orthographicCamera2.default)({
       position: [].concat(_toConsumableArray(initialState.position || [0, 0, 0])),
       near: initialNear,
       far: initialFar
@@ -255,7 +255,7 @@ var OrthographicCameraContext = exports.OrthographicCameraContext = function (_C
   return OrthographicCameraContext;
 }(_camera.CameraContext);
 
-},{"../core/camera":4,"../utils":59,"defined":149,"gl-vec4":303,"orthographic-camera":356}],3:[function(_dereq_,module,exports){
+},{"../core/camera":4,"../utils":65,"defined":155,"gl-vec4":309,"orthographic-camera":363}],3:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -379,7 +379,7 @@ var kDefaultCameraNear = exports.kDefaultCameraNear = 0.01;
  * @type {Number}
  */
 
-var kDefaultCameraFieldOfView = exports.kDefaultCameraFieldOfView = (0, _utils.radians)(60
+var kDefaultCameraFieldOfView = exports.kDefaultCameraFieldOfView = (0, _utils.radians)(60);
 
 /**
  * A PerspectiveCamera class represents an abstraction around a camera
@@ -392,7 +392,6 @@ var kDefaultCameraFieldOfView = exports.kDefaultCameraFieldOfView = (0, _utils.r
  * @see {@link https://github.com/Jam3/perspective-camera}
  */
 
-);
 var PerspectiveCamera = exports.PerspectiveCamera = function (_Camera) {
   _inherits(PerspectiveCamera, _Camera);
 
@@ -451,25 +450,25 @@ var PerspectiveCameraContext = exports.PerspectiveCameraContext = function (_Cam
      * Initial field of view value.
      */
 
-    var initialFov = (0, _defined2.default)(initialState.fov, initialState.fieldOfView, kDefaultCameraFieldOfView
+    var initialFov = (0, _defined2.default)(initialState.fov, initialState.fieldOfView, kDefaultCameraFieldOfView);
 
     /**
      * Initial far plane value.
      */
 
-    );var initialFar = (0, _defined2.default)(initialState.far, kDefaultCameraFar
+    var initialFar = (0, _defined2.default)(initialState.far, kDefaultCameraFar);
 
     /**
      * Initial near plane value.
      */
 
-    );var initialNear = (0, _defined2.default)(initialState.near, kDefaultCameraNear
+    var initialNear = (0, _defined2.default)(initialState.near, kDefaultCameraNear);
 
     /**
      * Base perspective camera controller.
      */
 
-    );var controller = (0, _perspectiveCamera2.default)({
+    var controller = (0, _perspectiveCamera2.default)({
       direction: [].concat(_toConsumableArray(initialState.direction || [0, 0, -1])),
       position: [].concat(_toConsumableArray(initialState.position || [0, 0, 0])),
       near: initialNear,
@@ -523,12 +522,8 @@ var PerspectiveCameraContext = exports.PerspectiveCameraContext = function (_Cam
   return PerspectiveCameraContext;
 }(_camera.CameraContext);
 
-},{"../core/camera":4,"../utils":59,"defined":149,"perspective-camera":361}],4:[function(_dereq_,module,exports){
+},{"../core/camera":4,"../utils":65,"defined":155,"perspective-camera":368}],4:[function(_dereq_,module,exports){
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -557,9 +552,11 @@ var _extends = Object.assign || function (target) {
   }return target;
 };
 
-var _object3d = _dereq_('../core/object3d');
+var _object3d = _dereq_('./object3d');
 
 var _math = _dereq_('../math');
+
+var _gl = _dereq_('./gl');
 
 var _types = _dereq_('./types');
 
@@ -589,16 +586,6 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }return arr2;
-  } else {
-    return Array.from(arr);
-  }
-}
-
 function _objectDestructuringEmpty(obj) {
   if (obj == null) throw new TypeError("Cannot destructure undefined");
 }
@@ -622,34 +609,10 @@ function _inherits(subClass, superClass) {
 }
 
 var scratchQuaternion = new _math.Quaternion();
-var scratchMatrix = _glMat2.default.identity([]
+var scratchMatrix = _glMat2.default.identity([]);
 
-/**
- * The Camera class represents an abstraction around a view matrix. It
- * inherits from Object3D, so it has positional state input.
- *
- * @public
- * @abstract
- * @class Camera
- * @extends Object3D
- * @see {@link Object3D}
- * @see {@link PerspectiveCamera}
- * @see {@link OrthographicCamera}
- */
-
-);
 var Camera = exports.Camera = function (_Object3D) {
   _inherits(Camera, _Object3D);
-
-  /**
-   * Camera class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   * @throws TypeError
-   */
 
   function Camera(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -679,26 +642,8 @@ var Camera = exports.Camera = function (_Object3D) {
   return Camera;
 }(_object3d.Object3D);
 
-/**
- * CameraContext class.
- *
- * @public
- * @class CameraContext
- * @extends Object3DContext
- */
-
 var CameraContext = exports.CameraContext = function (_Object3DContext) {
   _inherits(CameraContext, _Object3DContext);
-
-  /**
-   * CameraContext class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   * @throws TypeError
-   */
 
   function CameraContext(ctx, initialState) {
     _classCallCheck(this, CameraContext);
@@ -743,130 +688,61 @@ var CameraContext = exports.CameraContext = function (_Object3DContext) {
           return controller;
         },
         enumerable: false }
+    });
 
-      /**
-       * The copmuted viewport aspect ratio.
-       *
-       * @public
-       * @type {Number}
-       */
-
-    });_this2.aspect = function (_ref2) {
+    _this2.aspect = function (_ref2) {
       var width = _ref2.viewportWidth,
           height = _ref2.viewportHeight;
 
       return width / height;
     };
 
-    /**
-     * The computed projection matrix for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     _this2.projection = function () {
       _this2.updateCameraController.apply(_this2, arguments);
       return controller.projection.slice();
     };
 
-    /**
-     * The computed view matrix for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     _this2.view = function () {
       return _this2.computeViewMatrix.apply(_this2, arguments);
     };
 
-    /**
-     * The view direction for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
+    _this2.invertedView = function () {
+      return _glMat2.default.invert([], _this2.view.apply(_this2, arguments));
+    };
 
     _this2.direction = function () {
       _this2.updateCameraController.apply(_this2, arguments);
       return controller.direction;
     };
 
-    /**
-     * The view target.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     _this2.target = function (_ref3) {
+      var scale = _ref3.scale;
+
       var _ref4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
           target = _ref4.target;
 
-      _objectDestructuringEmpty(_ref3);
-
-      return (0, _defined2.default)(target, initialTarget);
+      return _glVec2.default.multiply([], (0, _defined2.default)(target, initialTarget, [0, 0, 0]), (0, _defined2.default)(scale, _this2.initialScale, [1, 1, 1]));
     };
-
-    /**
-     * The near plane for a camera.
-     *
-     * @public
-     * @type {Number}
-     */
 
     _this2.near = function () {
       _this2.updateCameraController.apply(_this2, arguments);
       return controller.near;
     };
 
-    /**
-     * The far plane for a camera.
-     *
-     * @public
-     * @type {Number}
-     */
-
     _this2.far = function () {
       _this2.updateCameraController.apply(_this2, arguments);
       return controller.far;
     };
-
-    /**
-     * The computed eye vector for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     * @see {@link https://github.com/hughsk/eye-vector}
-     */
 
     _this2.eye = function () {
       (0, _eyeVector2.default)(viewMatrix, eye);
       return eye;
     };
 
-    /**
-     * The computed up vector for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     _this2.up = function () {
       _this2.updateCameraController.apply(_this2, arguments);
       return controller.up;
     };
-
-    /**
-     * Creates a picking ray from a mouse input
-     *
-     * @public
-     * @type {Function}
-     * @param {MouseInput|Function} mouse
-     * @return {Ray3D}
-     * @see {@link https://github.com/Jam3/ray-3d}
-     */
 
     _this2.createPickingRay = function (_ref5) {
       var h = _ref5.viewportHeight;
@@ -885,12 +761,6 @@ var CameraContext = exports.CameraContext = function (_Object3DContext) {
       };
     };
 
-    /**
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     _this2.viewport = function (_ref7, args) {
       _objectDestructuringEmpty(_ref7);
 
@@ -899,14 +769,6 @@ var CameraContext = exports.CameraContext = function (_Object3DContext) {
     };
     return _this2;
   }
-
-  /**
-   * Computes the view matrix.
-   *
-   * @protected
-   * @method
-   * @return {Array}
-   */
 
   // context properties are ignored
 
@@ -926,6 +788,10 @@ var CameraContext = exports.CameraContext = function (_Object3DContext) {
 
       _objectDestructuringEmpty(_ref8);
 
+      var localMatrix = this.localMatrix,
+          viewMatrix = this.viewMatrix,
+          controller = this.controller;
+
       this.updateCameraController.apply(this, arguments);
       this.updateCameraViewport.apply(this, arguments);
 
@@ -933,12 +799,7 @@ var CameraContext = exports.CameraContext = function (_Object3DContext) {
         return;
       }
 
-      var localMatrix = this.localMatrix,
-          viewMatrix = this.viewMatrix,
-          controller = this.controller;
-
       // update controller controller
-
       controller.identity();
       controller.translate(position);
       controller.lookAt(_glVec2.default.multiply([], target, scale));
@@ -950,16 +811,6 @@ var CameraContext = exports.CameraContext = function (_Object3DContext) {
       _glMat2.default.multiply(viewMatrix, viewMatrix, scratchMatrix);
       return viewMatrix;
     }
-
-    /**
-     * Updates controller camera controller, if needed.
-     *
-     * @protected
-     * @abstract
-     * @method
-     * @param {{far: Number, near: Number}} opts
-     */
-
   }, {
     key: 'updateCameraController',
     value: function updateCameraController(_ref10) {
@@ -989,20 +840,6 @@ var CameraContext = exports.CameraContext = function (_Object3DContext) {
         this.controller.update();
       }
     }
-
-    /**
-     * Updates base camera controller viewport.
-     *
-     * @protected
-     * @abstract
-     * @method
-     * @param {!Object} opts
-     * @param {Number} opts.viewportTop
-     * @param {Number} opts.viewportLeft
-     * @param {Number} opts.viewportWidth
-     * @param {Number} opts.viewportHeight
-     */
-
   }, {
     key: 'updateCameraViewport',
     value: function updateCameraViewport(_ref12) {
@@ -1027,85 +864,28 @@ var CameraContext = exports.CameraContext = function (_Object3DContext) {
   return CameraContext;
 }(_object3d.Object3DContext);
 
-/**
- * CameraUniforms class.
- *
- * @public
- * @class CameraUniforms
- */
+var CameraUniforms = exports.CameraUniforms = function (_ShaderUniforms) {
+  _inherits(CameraUniforms, _ShaderUniforms);
 
-var CameraUniforms =
+  function CameraUniforms(ctx, initialState) {
+    _classCallCheck(this, CameraUniforms);
 
-/**
- * CameraUniforms class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D context.
- * @param {?Object} initialState Optional initial state.
- */
+    var _this3 = _possibleConstructorReturn(this, (CameraUniforms.__proto__ || Object.getPrototypeOf(CameraUniforms)).call(this, ctx));
 
-exports.CameraUniforms = function CameraUniforms(ctx, initialState) {
-  _classCallCheck(this, CameraUniforms);
+    _this3.set({
+      ///** mat4 */ 'camera.invertedView': ({invertedView}) => invertedView,
+      ///** mat4 */ 'camera.projection': ({projection}) => projection,
+      ///** float */ 'camera.aspect': ({aspect}) => aspect,
+      ///** mat4 */ 'camera.view': ({view}) => view,
+      ///** vec3 */ 'camera.eye': ({eye}) => [...eye],
+    });
+    return _this3;
+  }
 
-  /**
-   * The computed projection matrix for a camera used
-   * as a uniform mat4 in a shader.
-   *
-   * @public
-   * @type {Array<Number>}
-   */
+  return CameraUniforms;
+}(_gl.ShaderUniforms);
 
-  this['camera.projection'] = function (_ref14) {
-    var projection = _ref14.projection;
-
-    return projection;
-  };
-
-  /**
-   * The computed aspect ratio for a camera used
-   * as a uniform float in a shader.
-   *
-   * @public
-   * @type {Number}
-   */
-
-  this['camera.aspect'] = function (_ref15) {
-    var aspect = _ref15.aspect;
-
-    return aspect;
-  };
-
-  /**
-   * The computed view matrix for a camera used
-   * as a uniform mat4 in a shader.
-   *
-   * @public
-   * @type {Array<Number>}
-   */
-
-  this['camera.view'] = function (_ref16) {
-    var view = _ref16.view;
-
-    return view;
-  };
-
-  /**
-   * The computed eye vector  for a camera used
-   * as a uniform vec3 in a shader.
-   *
-   * @public
-   * @type {Array<Number>}
-   */
-
-  this['camera.eye'] = function (_ref17) {
-    var eye = _ref17.eye;
-
-    return [].concat(_toConsumableArray(eye));
-  };
-};
-
-},{"../core/object3d":16,"../math":50,"../stats":58,"./types":20,"defined":149,"eye-vector":158,"gl-mat4":191,"gl-quat":216,"gl-vec3":273}],5:[function(_dereq_,module,exports){
+},{"../math":56,"../stats":64,"./gl":15,"./object3d":22,"./types":26,"defined":155,"eye-vector":164,"gl-mat4":197,"gl-quat":222,"gl-vec3":279}],5:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -1247,7 +1027,6 @@ function _inherits(subClass, superClass) {
  * @see {@link https://www.npmjs.com/package/color-space}
  * @see {@link https://www.npmjs.com/package/color-name}
  */
-
 var Color = exports.Color = function (_Vector) {
   _inherits(Color, _Vector);
 
@@ -1258,19 +1037,20 @@ var Color = exports.Color = function (_Vector) {
    * @constructor
    * @param {...Number|String|Array|Object} input
    */
-
   function Color() {
     _classCallCheck(this, Color);
-
-    var _this = _possibleConstructorReturn(this, (Color.__proto__ || Object.getPrototypeOf(Color)).call(this, 0, 0, 0, 0));
-
-    (0, _types.assignTypeName)(_this, 'color');
 
     for (var _len = arguments.length, input = Array(_len), _key = 0; _key < _len; _key++) {
       input[_key] = arguments[_key];
     }
 
+    if (input[0] instanceof Color) {}
+
+    var _this = _possibleConstructorReturn(this, (Color.__proto__ || Object.getPrototypeOf(Color)).call(this, 0, 0, 0, 0));
+
+    (0, _types.assignTypeName)(_this, 'color');
     _this.set(input);
+    _this.typeName = 'color';
     return _this;
   }
 
@@ -1294,7 +1074,6 @@ var Color = exports.Color = function (_Vector) {
      * @param {Number} index
      * @param {Number} value
      */
-
     value: function onchange(index, value) {
       var elements = this.elements;
       if (3 == index) {
@@ -1307,6 +1086,21 @@ var Color = exports.Color = function (_Vector) {
       } else if (value < 0) {
         elements[index] = 0;
       }
+    }
+
+    /**
+     * Copyies src color into instance.
+     *
+     * @public
+     * @method
+     * @param {...Array|Color|Number} input
+     * @return {Color}
+     */
+
+  }, {
+    key: 'copy',
+    value: function copy(input) {
+      return this.set(input);
     }
 
     /**
@@ -1514,7 +1308,7 @@ function leftpad(c, n, s) {
   return s;
 }
 
-},{"../math":50,"../utils":59,"./command":6,"./types":20,"./vector_swizzle_map":22,"clamp":101,"color-space":116,"color-string":140}],6:[function(_dereq_,module,exports){
+},{"../math":56,"../utils":65,"./command":6,"./types":26,"./vector_swizzle_map":28,"clamp":107,"color-space":122,"color-string":146}],6:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1668,7 +1462,7 @@ var Command = exports.Command = function (_Function) {
   return Command;
 }(Function);
 
-},{"./types":20}],7:[function(_dereq_,module,exports){
+},{"./types":26}],7:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -1711,6 +1505,10 @@ var _events = _dereq_('events');
 var _defined = _dereq_('defined');
 
 var _defined2 = _interopRequireDefault(_defined);
+
+var _document = _dereq_('global/document');
+
+var _document2 = _interopRequireDefault(_document);
 
 var _window = _dereq_('global/window');
 
@@ -1772,7 +1570,6 @@ function _inherits(subClass, superClass) {
  * @extends EventEmitter
  * @see {@link https://github.com/regl-project/regl}
  */
-
 var Context = exports.Context = function (_EventEmitter) {
   _inherits(Context, _EventEmitter);
 
@@ -1784,7 +1581,6 @@ var Context = exports.Context = function (_EventEmitter) {
    * @param {?Object} opts
    * @param {?ReglInitializer} createRegl
    */
-
   function Context() {
     var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var createRegl = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _regl2.default;
@@ -1795,28 +1591,17 @@ var Context = exports.Context = function (_EventEmitter) {
 
     _this.setMaxListeners(Infinity);
     (0, _stats.registerStat)('Context');
-    (0, _types.assignTypeName)(_this, 'context'
+    (0, _types.assignTypeName)(_this, 'context');
 
-    /**
-     * Internal predicate to indicate that the context
-     * has focus. IE, the HTMLCanvasElement has focus.
-     * @private
-     */
-
-    );_this._hasFocus = false;
-
-    /**
-     * The regl context wrapped by this context object.
-     * @private
-     */
-
+    _this._store = new Map();
+    _this._hasFocus = false;
     _this._reglContext = null;
 
     // coalesce regl options if given as `.gl`
-    opts.regl = (0, _defined2.default)(opts.regl, opts.gl || {}
+    opts.regl = (0, _defined2.default)(opts.regl, opts.gl || {});
 
     // derive container element
-    );if (opts.element && 'CANVAS' == opts.element.nodeName) {
+    if (opts.element && 'CANVAS' == opts.element.nodeName) {
       opts.regl.canvas = opts.element;
     } else if (opts.element && opts.element.nodeName) {
       opts.regl.container = opts.element;
@@ -1826,60 +1611,53 @@ var Context = exports.Context = function (_EventEmitter) {
 
     // call regl initializer
     createRegl(_extends({}, opts.regl, {
-
       attributes: _extends({}, opts.regl.attributes || {}),
-
       extensions: [].concat(_toConsumableArray(opts.regl.extensions || []), ['OES_texture_float']),
-
       optionalExtensions: [].concat(_toConsumableArray(opts.regl.optionalExtensions || [])),
-
       onDone: function onDone(err, regl) {
         if (err) {
           return _this.emit('error', err);
         }
-
         _this._regl = regl;
-        _this._domElement = _this._regl._gl.canvas;
         _this._isDestroyed = false;
+        if (regl._gl && regl._gl.canvas) {
+          _this._domElement = _this._regl._gl.canvas;
+        } else {
+          _this._domElement = null;
+        }
       }
-    }
+    }));
 
-    // context focus event handlers
-    ));var onblur = function onblur() {
-      _this.blur();
-    };
-    var onfocus = function onfocus() {
-      _this.focus();
-    };
-    var onwindowblur = function onwindowblur() {
-      _this.blur();
-    };
-    var onmousedown = function onmousedown(e) {
-      if (e.target == _this._domElement) {
-        _this.focus();
-      } else {
+    if (null != _this._domElement && 'undefind' != typeof _window2.default && 'undefind' != typeof _document2.default) {
+      var bind = function bind(t, e, f) {
+        _domEvents2.default.on(t, e, f);
+        _this.once('beforedestroy', function () {
+          return _domEvents2.default.off(t, e, f);
+        });
+      };
+      // context focus event handlers
+      var onblur = function onblur() {
         _this.blur();
-      }
-    };
-
-    // DOM events
-    _domEvents2.default.on(_this._domElement, 'focus', onfocus);
-    _domEvents2.default.on(_this._domElement, 'blur', onblur);
-    _domEvents2.default.on(_window2.default, 'blur', function () {
-      return onwindowblur;
+      };
+      var onfocus = function onfocus() {
+        _this.focus();
+      };
+      var onwindowblur = function onwindowblur() {
+        _this.blur();
+      };
+      var onmousedown = function onmousedown(e) {
+        if (e.target == _this._domElement) {
+          _this.focus();
+        } else {
+          _this.blur();
+        }
+      };
+      bind(_this._domElement, 'blur', onblur);
+      bind(_this._domElement, 'focus', onfocus);
+      bind(_window2.default, 'blur', onwindowblur);
+      bind(_document2.default, 'mousedown', onmousedown);
+      bind(_document2.default, 'touchstart', onmousedown);
     }
-
-    // focus/blur context on mouse down
-    );_domEvents2.default.on(document, 'mousedown', onmousedown);
-    _domEvents2.default.on(document, 'touchstart', onmousedown);
-
-    _this.once('beforedestroy', function () {
-      _domEvents2.default.off(_this._domElement, 'focus', onfocus);
-      _domEvents2.default.off(_this._domElement, 'blur', onblur);
-      _domEvents2.default.off(_window2.default, 'blur', onwindowblur);
-      _domEvents2.default.off(document, 'mousedown', onmousedown);
-      _domEvents2.default.off(document, 'touchstart', onmousedown);
-    });
     return _this;
   }
 
@@ -1901,7 +1679,6 @@ var Context = exports.Context = function (_EventEmitter) {
      *
      * @return {Context}
      */
-
     value: function focus() {
       this._hasFocus = true;
       this.emit('focus');
@@ -1934,21 +1711,19 @@ var Context = exports.Context = function (_EventEmitter) {
     key: 'destroy',
     value: function destroy() {
       this.emit('beforedestroy');
-
       if (this._regl && 'function' == typeof this._regl.destroy) {
         this._regl.destroy();
       }
 
-      this._hasFocus = false;
-
-      // remove canvas from DOM tree
       if (this._domElement && this._domElement.parentElement) {
         this._domElement.parentElement.removeChild(this._domElement);
       }
 
       delete this._regl;
+      delete this._store;
       delete this._domElement;
       delete this._reglContext;
+      this._hasFocus = false;
       this.emit('destroy');
       return this;
     }
@@ -1968,6 +1743,40 @@ var Context = exports.Context = function (_EventEmitter) {
         if ('function' == typeof this._regl._refresh) this._regl.refresh();
       }
       return this;
+    }
+
+    /**
+     * Retrieve value from context store.
+     *
+     * @param {Mixed} key
+     * @return {Mixed}
+     */
+
+  }, {
+    key: 'get',
+    value: function get(key) {
+      if (this._store) {
+        return this._store.get(key);
+      }
+      return null;
+    }
+
+    /**
+     * Set value in context store.
+     *
+     * @param {Mixed} key
+     * @param {Mixed} value
+     * @return {Mixed}
+     */
+
+  }, {
+    key: 'set',
+    value: function set(key, value) {
+      if (this._store) {
+        this._store.set(key, value);
+        return value;
+      }
+      return null;
     }
   }, {
     key: 'reglContext',
@@ -2043,7 +1852,7 @@ var Context = exports.Context = function (_EventEmitter) {
   return Context;
 }(_events.EventEmitter);
 
-},{"../stats":58,"./types":20,"defined":149,"dom-events":150,"events":154,"global/window":321,"glslify":332,"regl":400}],8:[function(_dereq_,module,exports){
+},{"../stats":64,"./types":26,"defined":155,"dom-events":156,"events":160,"global/document":327,"global/window":328,"glslify":339,"regl":408}],8:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -2174,7 +1983,7 @@ var HAVE_ENOUGH_DATA = _HTMLVideoElement$HAV5 === undefined ? 4 : _HTMLVideoElem
 
 var kDefaultTextures = exports.kDefaultTextures = function () {
   return new Array(6).fill(_texture.kDefaultTextureState);
-}
+}();
 
 /**
  * Cube Texture class represents an interface wrapping the
@@ -2187,7 +1996,6 @@ var kDefaultTextures = exports.kDefaultTextures = function () {
  * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#cube-maps}
  */
 
-();
 var CubeTexture = exports.CubeTexture = function (_Command) {
   _inherits(CubeTexture, _Command);
 
@@ -2210,11 +2018,11 @@ var CubeTexture = exports.CubeTexture = function (_Command) {
     var _this = _possibleConstructorReturn(this, (CubeTexture.__proto__ || Object.getPrototypeOf(CubeTexture)).call(this, update));
 
     _this.typeName = 'cubetexture';
-    (0, _types.assignTypeName)(_this, 'cubetexture'
+    (0, _types.assignTypeName)(_this, 'cubetexture');
 
     // cube texture state used for in place regl
     // cube texture reinitialization
-    );var cubeTextureState = new CubeTextureState(ctx, initialState || {});
+    var cubeTextureState = new CubeTextureState(ctx, initialState || {});
 
     // injected texture context
     var _initialState$context = initialState.context,
@@ -2222,10 +2030,10 @@ var CubeTexture = exports.CubeTexture = function (_Command) {
 
     // regl context
 
-    var injectContext = ctx.regl({ context: context
+    var injectContext = ctx.regl({ context: context });
 
-      // cube texture update function
-    });function update(state, block) {
+    // cube texture update function
+    function update(state, block) {
       if ('function' == typeof state) {
         block = state;
         state = {};
@@ -2237,11 +2045,11 @@ var CubeTexture = exports.CubeTexture = function (_Command) {
       var data = state;
       cubeTextureState.update(_extends({}, initialState, {
         data: data
-      }
+      }));
 
       // inject cube texture context exposing useful
       // cube texture state variables
-      ));injectContext(block);
+      injectContext(block);
 
       return this;
     }
@@ -2331,14 +2139,14 @@ var CubeTextureState = exports.CubeTextureState = function () {
 
     _classCallCheck(this, CubeTextureState);
 
-    Object.assign(this, _extends({}, initialState
+    Object.assign(this, _extends({}, initialState));
 
     /**
      * Cube Texture state data stored an array
      * as reference for injection into the regl conext.
      */
 
-    ));var _initialState$data = initialState.data,
+    var _initialState$data = initialState.data,
         data = _initialState$data === undefined ? kDefaultTextures : _initialState$data;
 
     /**
@@ -2460,11 +2268,11 @@ var CubeTextureState = exports.CubeTextureState = function () {
       if (needsUpdate) {
         for (var _i2 = 0; _i2 < data.length; _i2++) {
           // computed cube texture data resolution
-          var resolution = CubeTexture.getTextureDataResolution(this, data[_i2]
+          var resolution = CubeTexture.getTextureDataResolution(this, data[_i2]);
           // mark for update if resolution is available and
           // the previously uploaded any of the cube texture data differs from
           // the current input data
-          );if (!(resolution[0] > 0 && resolution[1] > 0)) {
+          if (!(resolution[0] > 0 && resolution[1] > 0)) {
             return;
           }
         }
@@ -2492,7 +2300,291 @@ var CubeTextureState = exports.CubeTextureState = function () {
   return CubeTextureState;
 }();
 
-},{"../stats":58,"./command":6,"./texture":19,"./types":20,"global/window":321}],9:[function(_dereq_,module,exports){
+},{"../stats":64,"./command":6,"./texture":25,"./types":26,"global/window":328}],9:[function(_dereq_,module,exports){
+'use strict';
+
+/**
+ * Module dependencies.
+ */
+
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EntityContext = exports.Entity = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+var _command = _dereq_('./command');
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var entityCount = 0;
+
+var Entity = exports.Entity = function (_Command) {
+  _inherits(Entity, _Command);
+
+  _createClass(Entity, null, [{
+    key: 'id',
+
+    /**
+     * Return next entity id
+     */
+    value: function id() {
+      return ++entityCount;
+    }
+
+    /**
+     * Entity class constructor.
+     */
+
+  }]);
+
+  function Entity(ctx) {
+    var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var update = arguments[2];
+
+    _classCallCheck(this, Entity);
+
+    var id = Entity.id();
+    var context = new EntityContext(ctx, initialState, id);
+    var injectContext = ctx.regl({ context: context });
+    return _possibleConstructorReturn(this, (Entity.__proto__ || Object.getPrototypeOf(Entity)).call(this, function (state, block) {
+      // ensure correct values
+      if ('function' == typeof state) {
+        block = state;
+        state = {};
+      }
+
+      state = 'object' == (typeof state === 'undefined' ? 'undefined' : _typeof(state)) && state ? state : {};
+      block = 'function' == typeof block ? block : function () {};
+      Object.assign({}, initialState, state);
+      //injectContext(state, () => {
+      update(state, block);
+      //})
+    }));
+  }
+
+  return Entity;
+}(_command.Command);
+
+var EntityContext = exports.EntityContext = function EntityContext(ctx) {
+  var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var id = arguments[2];
+
+  _classCallCheck(this, EntityContext);
+
+  if ('context' in initialState) {
+    Object.assign(this, initialState.context);
+  }
+  Object.assign(this, { entityID: id });
+};
+
+},{"./command":6}],10:[function(_dereq_,module,exports){
+'use strict';
+
+/**
+ * Module dependencies.
+ */
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FogUniforms = exports.FogState = exports.Fog = exports.kFogTypes = exports.kFogDefaultFar = exports.kFogDefaultNear = exports.kDefaultFogType = exports.kFogDefaultColor = exports.kFogDefaultDensity = undefined;
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+var _gl = _dereq_('./gl');
+
+var _stats = _dereq_('../stats');
+
+var _command = _dereq_('./command');
+
+var _defined = _dereq_('defined');
+
+var _defined2 = _interopRequireDefault(_defined);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var kFogDefaultDensity = exports.kFogDefaultDensity = 0.02;
+var kFogDefaultColor = exports.kFogDefaultColor = [1.0, 1.0, 1.0, 1.0];
+var kDefaultFogType = exports.kDefaultFogType = 'linear';
+var kFogDefaultNear = exports.kFogDefaultNear = 1;
+var kFogDefaultFar = exports.kFogDefaultFar = 1000;
+var kFogTypes = exports.kFogTypes = ['linear', 'exp', 'exp2'];
+
+var Fog = exports.Fog = function (_Command) {
+  _inherits(Fog, _Command);
+
+  _createClass(Fog, null, [{
+    key: 'types',
+    value: function types() {
+      return [].concat(kFogTypes);
+    }
+  }, {
+    key: 'Linear',
+    get: function get() {
+      return kFogTypes.indexOf('linear');
+    }
+  }, {
+    key: 'Exp2',
+    get: function get() {
+      return kFogTypes.indexOf('exp2');
+    }
+  }, {
+    key: 'Exp',
+    get: function get() {
+      return kFogTypes.indexOf('exp');
+    }
+  }]);
+
+  function Fog(ctx) {
+    var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Fog);
+
+    (0, _stats.incrementStat)('fog');
+
+    var _this = _possibleConstructorReturn(this, (Fog.__proto__ || Object.getPrototypeOf(Fog)).call(this, update));
+
+    var _initialState$uniform = initialState.uniforms,
+        uniforms = _initialState$uniform === undefined ? new FogUniforms(ctx, initialState) : _initialState$uniform;
+    var _initialState$fog = initialState.fog,
+        fog = _initialState$fog === undefined ? new FogState(ctx, initialState) : _initialState$fog;
+
+    var injectContext = ctx.regl({ uniforms: uniforms });
+
+    // fog update function
+    function update(state, block) {
+      if ('function' == typeof state) {
+        block = state;
+        state = {};
+      }
+
+      state = state || {};
+      block = block || function () {};
+
+      Object.assign(fog, Object.assign(initialState, state));
+
+      injectContext(function (reglContext) {
+        Object.assign(reglContext, { fog: fog });
+        injectContext(block);
+      });
+
+      return this;
+    }
+    return _this;
+  }
+
+  return Fog;
+}(_command.Command);
+
+var FogState = exports.FogState = function FogState(ctx) {
+  var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  _classCallCheck(this, FogState);
+
+  if ('number' == typeof initialState.type) {
+    initialState.type = Fog.types()[initialState.type];
+  }
+  this.enabled = (0, _defined2.default)(initialState.enabled, true);
+  this.density = (0, _defined2.default)(initialState.density, kFogDefaultDensity);
+  this.color = (0, _defined2.default)(initialState.color, kFogDefaultColor);
+  this.type = Fog.types().indexOf((0, _defined2.default)(initialState.type, 'linear'));
+  this.near = (0, _defined2.default)(initialState.near, kFogDefaultNear);
+  this.far = (0, _defined2.default)(initialState.far, kFogDefaultFar);
+
+  initialState.type = this.type;
+
+  if (-1 == this.type) {
+    throw new TypeError('Fog(): Unknown fog type ' + initialState.type);
+  }
+};
+
+var FogUniforms = exports.FogUniforms = function (_ShaderUniforms) {
+  _inherits(FogUniforms, _ShaderUniforms);
+
+  function FogUniforms(ctx, initialState) {
+    _classCallCheck(this, FogUniforms);
+
+    var _this2 = _possibleConstructorReturn(this, (FogUniforms.__proto__ || Object.getPrototypeOf(FogUniforms)).call(this, ctx));
+
+    _this2.set({
+      'fog.enabled': _this2.context('fog', 'enabled', false),
+      'fog.density': _this2.context('fog', 'density', 0.02),
+      'fog.color': _this2.context('fog', 'color', [1.0, 1.0, 1.0, 1.0]),
+      'fog.type': _this2.context('fog', 'type', Fog.types().indexOf(kDefaultFogType)),
+      'fog.near': _this2.context('fog', 'near', 1),
+      'fog.far': _this2.context('fog', 'far', 1000)
+    });
+    return _this2;
+  }
+
+  return FogUniforms;
+}(_gl.ShaderUniforms);
+
+},{"../stats":64,"./command":6,"./gl":15,"defined":155}],11:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -2532,6 +2624,8 @@ var _stats = _dereq_('../stats');
 
 var _types = _dereq_('./types');
 
+var _gl = _dereq_('./gl');
+
 var _command = _dereq_('./command');
 
 var _utils = _dereq_('../utils');
@@ -2564,86 +2658,32 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-/**
- * The default WebGL blending state for every frame.
- *
- * @public
- * @const
- * @type {Object}
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#blending}
- */
-
 var kDefaultFrameBlendingState = exports.kDefaultFrameBlendingState = Object.seal({
   equation: 'add',
   enable: true,
   color: [0, 0, 0, 1],
-  func: {
-    src: 'src alpha',
-    dst: 'one minus src alpha'
-  }
+  func: { src: 'src alpha', dst: 'one minus src alpha' }
+});
 
-  /**
-   * The default WebGL culling state for every frame.
-   *
-   * @public
-   * @const
-   * @type {Object}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#culling}
-   */
-
-});var kDefaultFrameCullingState = exports.kDefaultFrameCullingState = Object.seal({
+var kDefaultFrameCullingState = exports.kDefaultFrameCullingState = Object.seal({
   enable: true,
   face: 'back'
+});
 
-  /**
-   * The default WebGL depth buffer state for every frame.
-   *
-   * @public
-   * @const
-   * @type {Object}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#depth-buffer}
-   */
-
-});var kDefaultFrameDepthState = exports.kDefaultFrameDepthState = Object.seal({
+var kDefaultFrameDepthState = exports.kDefaultFrameDepthState = Object.seal({
   enable: true,
   range: [0, 1],
   func: 'less',
   mask: true
+});
 
-  /**
-   * The default WebGL clear buffer state for every frame.
-   *
-   * @public
-   * @const
-   * @type {Object}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#clear-the-draw-buffer}
-   */
-
-});var kDefaultFrameClearState = exports.kDefaultFrameClearState = Object.seal({
+var kDefaultFrameClearState = exports.kDefaultFrameClearState = Object.seal({
   color: [17 / 255, 17 / 255, 17 / 255, 1],
   depth: 1
-
-  /**
-   * The Frame class represents a command that abstracts a render
-   * loop.
-   *
-   * @public
-   * @class Frame
-   * @extends Command
-   */
-
 });
+
 var Frame = exports.Frame = function (_Command) {
   _inherits(Frame, _Command);
-
-  /**
-   * Frame class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
 
   function Frame(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -2654,20 +2694,14 @@ var Frame = exports.Frame = function (_Command) {
 
     (0, _stats.incrementStat)('Frame');
     (0, _types.assignTypeName)(_this, 'frame');
-
-    var uniforms = new FrameUniforms(ctx, initialState.uniforms || {});
-    var context = new FrameContext(ctx, initialState.context || {});
     var state = new FrameState(ctx, initialState.state || {});
-
-    var injectContext = ctx.regl(_extends({
-      uniforms: uniforms,
-      context: context
-    }, state));
-
+    var context = new FrameContext(ctx, initialState.context || {});
+    var uniforms = new FrameUniforms(ctx, initialState.uniforms || {});
+    var injectContext = ctx.regl(_extends({ uniforms: uniforms, context: context }, state));
     function update(refresh) {
       context.init(injectContext).enqueue(refresh);
       return function () {
-        context.cancelFrame();
+        return context.cancelFrame();
       };
     }
     return _this;
@@ -2676,25 +2710,7 @@ var Frame = exports.Frame = function (_Command) {
   return Frame;
 }(_command.Command);
 
-/**
- * FrameContext class.
- *
- * @public
- * @class FrameContext
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#context}
- */
-
 var FrameContext = exports.FrameContext = function () {
-
-  /**
-   * FrameContext class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D render context.
-   * @param {Object} initialState
-   */
-
   function FrameContext(ctx) {
     var _this2 = this;
 
@@ -2702,139 +2718,57 @@ var FrameContext = exports.FrameContext = function () {
 
     _classCallCheck(this, FrameContext);
 
-    Object.assign(this, initialState
-
-    /**
-     * The default WebGL clear buffer state for every frame.
-     */
-
-    );var clearState = _extends({}, kDefaultFrameClearState, initialState.clear);
-
-    /**
-     * Known lights in a frame context.
-     */
-
-    var lights = [];
-
-    /**
-     * Known refresh functions.
-     */
+    Object.assign(this, initialState);
 
     var queue = [];
+    var lights = [];
+    var clearState = _extends({}, kDefaultFrameClearState, initialState.clear);
 
     // protected properties
     Object.defineProperties(this, {
-      reglContext: {
-        enumerable: false,
-        writable: true,
-        value: null
-      },
-
-      isCancelled: {
-        enumerable: false,
-        writable: true,
-        value: false
-      },
-
+      reglContext: { enumerable: false, writable: true, value: null },
+      isCancelled: { enumerable: false, writable: true, value: false },
       clearState: {
         get: function get() {
           return clearState;
         },
-
-        enumerable: false
-      },
-
+        enumerable: false },
       queue: {
         get: function get() {
           return queue;
         },
-
-        enumerable: false
-      },
-
-      loop: {
-        enumerable: false,
-        writable: true,
-        value: null
-      },
-
+        enumerable: false },
+      loop: { enumerable: false, writable: true, value: null },
       ctx: {
         get: function get() {
           return ctx;
         },
+        enumerable: false }
+    });
 
-        enumerable: false
-      }
-
-      /**
-       * Known lights in a frame context
-       *
-       * @public
-       * @type {Array<Light>}
-       */
-
-    });this.lights = function () {
+    this.gl = function () {
+      return ctx ? ctx.gl : null;
+    };
+    this.fog = null;
+    this.regl = function () {
+      return ctx ? ctx.regl : null;
+    };
+    this.lights = function () {
       return lights;
     };
 
-    /**
-     * Cancels the frame loop.
-     *
-     * @public
-     * @type {Function}
-     */
-
+    // functions
     this.cancel = function () {
       return function () {
-        _this2.cancelFrame.apply(_this2, arguments);
+        return _this2.cancelFrame.apply(_this2, arguments);
       };
     };
-
-    /**
-     * Clears drawing buffers.
-     *
-     * @public
-     * @type {Function}
-     */
-
     this.clear = function () {
       return function () {
-        _this2.clearBuffers.apply(_this2, arguments);
+        return _this2.clearBuffers.apply(_this2, arguments);
       };
     };
-
-    /**
-     * A reference to the underlying regl instance.
-     *
-     * @public
-     * @type {regl}
-     */
-
-    this.regl = function () {
-      return ctx.regl;
-    };
-
-    /**
-     * A reference to the underlying WebGl instance.
-     *
-     * @public
-     * @type {WebGLRenderingContext}
-     */
-
-    this.gl = function () {
-      return ctx.gl;
-    };
   }
-
-  /**
-   * Enqueues a refresh function that is called
-   * for every frame refresh loop.
-   *
-   * @public
-   * @method
-   * @param {Function} refresh
-   * @return {FrameContext}
-   */
 
   _createClass(FrameContext, [{
     key: 'enqueue',
@@ -2842,16 +2776,6 @@ var FrameContext = exports.FrameContext = function () {
       this.queue.push(refresh);
       return this;
     }
-
-    /**
-     * Dequeues all enqueued frame refresh functions.
-     *
-     * @public
-     * @method
-     * @param {...Mixed} args
-     * @return {FrameContext}
-     */
-
   }, {
     key: 'dequeue',
     value: function dequeue() {
@@ -2888,17 +2812,6 @@ var FrameContext = exports.FrameContext = function () {
 
       return this;
     }
-
-    /**
-     * Initializes frame context with a function
-     * that injects a regl context.
-     *
-     * @public
-     * @method
-     * @param {Function} inject
-     * @return {FrameContext}
-     */
-
   }, {
     key: 'init',
     value: function init(inject) {
@@ -2920,15 +2833,6 @@ var FrameContext = exports.FrameContext = function () {
       }
       return this;
     }
-
-    /**
-     * Cancels the frame loop. This function will remove
-     * all enqueued refresh functions.
-     *
-     * @public
-     * @method
-     */
-
   }, {
     key: 'cancelFrame',
     value: function cancelFrame() {
@@ -2938,26 +2842,11 @@ var FrameContext = exports.FrameContext = function () {
         this.ctx._reglContext = this.reglContext = this.loop = null;
       }
     }
-
-    /**
-     * Clears WebGL clear and depth buffers.
-     *
-     * @public
-     * @method
-     */
-
   }, {
     key: 'clearBuffers',
     value: function clearBuffers(state) {
       this.ctx.regl.clear(_extends({}, this.clearState, state));
     }
-
-    /**
-     * Internal refresh callback.
-     *
-     * @private
-     */
-
   }, {
     key: 'onrefresh',
     value: function onrefresh(reglContext) {
@@ -2965,6 +2854,7 @@ var FrameContext = exports.FrameContext = function () {
       this.ctx._reglContext = reglContext;
       this.clearBuffers();
       reglContext.lights.splice(0, reglContext.lights.length);
+      delete reglContext.fog;
 
       for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
         args[_key2 - 1] = arguments[_key2];
@@ -2977,132 +2867,43 @@ var FrameContext = exports.FrameContext = function () {
   return FrameContext;
 }();
 
-/**
- * The FrameUniforms class represents an object of
- * all injected uniforms for a frame render loop.
- *
- * @public
- * @class FrameUniforms
- */
+var FrameUniforms = exports.FrameUniforms = function (_ShaderUniforms) {
+  _inherits(FrameUniforms, _ShaderUniforms);
 
-var FrameUniforms =
+  function FrameUniforms(ctx) {
+    var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-/**
- * FrameUniforms class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D context.
- * @param {?Object} initialState Optional initial state.
- */
+    _classCallCheck(this, FrameUniforms);
 
-exports.FrameUniforms = function FrameUniforms(ctx) {
-  var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var _this4 = _possibleConstructorReturn(this, (FrameUniforms.__proto__ || Object.getPrototypeOf(FrameUniforms)).call(this, ctx));
 
-  _classCallCheck(this, FrameUniforms);
+    _this4.set({
+      //...initialState,
+      //time: ({time}) => time,
+      //tick: ({tick}) => tick,
+    });
+    return _this4;
+  }
 
-  Object.assign(this, initialState
+  return FrameUniforms;
+}(_gl.ShaderUniforms);
 
-  /**
-   * Total time ellapsed in seconds since the frame
-   * was initialized.
-   *
-   * @public
-   * @type {Number}
-   */
-
-  );this.time = function (_ref) {
-    var time = _ref.time;
-
-    return time;
-  };
-
-  /**
-   * The number of times/loops a frame has
-   * been refreshed/rendered.
-   *
-   * @public
-   * @type {Number}
-   */
-
-  this.tick = function (_ref2) {
-    var tick = _ref2.tick;
-
-    return tick;
-  };
-};
-
-/**
- * The FrameState class represents WebGL state that is injected
- * each frame refresh.
- *
- * @public
- * @class FrameState
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md}
- */
-
-var FrameState =
-
-/**
- * FrameState class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D context.
- * @param {?Object} initialState Optional initial state.
- */
-
-exports.FrameState = function FrameState(ctx) {
+var FrameState = exports.FrameState = function FrameState(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   _classCallCheck(this, FrameState);
 
-  Object.assign(this, _extends({}, initialState
+  Object.assign(this, _extends({}, initialState));
 
   // remove alias properties this object
-  ));delete this.blending;
+  delete this.blending;
   delete this.culling;
 
-  /**
-   * Default fragment applied to the frame context scope.
-   *
-   * @public
-   * @type {String}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#shaders}
-   */
+  this.frag = (0, _defined2.default)(initialState.frag, initialState.fragmentShader, _material.kDefaultMaterialFragmentShader);
 
-  this.frag = (0, _defined2.default)(initialState.frag, initialState.fragmentShader, _material.kDefaultMaterialFragmentShader
-
-  /**
-   * Blending state for every frame loop.
-   *
-   * @public
-   * @type {Object}
-   * @see {@link kDefaultFrameBlendingState}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#blending}
-   */
-
-  );this.blend = _extends({}, kDefaultFrameBlendingState, initialState.blend || initialState.blending);
-
-  /**
-   * Culling state for every frame loop.
-   *
-   * @public
-   * @type {Object}
-   * @see {@link kDefaultFrameCullingState}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#culling}
-   */
+  this.blend = _extends({}, kDefaultFrameBlendingState, initialState.blend || initialState.blending);
 
   this.cull = _extends({}, kDefaultFrameCullingState, initialState.cull || initialState.culling);
-
-  /**
-   * Depth buffer state for every frame loop.
-   *
-   * @public
-   * @type {Object}
-   * @see {@link kDefaultFrameDepthState}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#depth-buffer}
-   */
 
   this.depth = _extends({}, kDefaultFrameDepthState, initialState.depth);
 
@@ -3114,7 +2915,7 @@ exports.FrameState = function FrameState(ctx) {
   }
 };
 
-},{"../stats":58,"../utils":59,"./color":5,"./command":6,"./material":14,"./types":20,"defined":149}],10:[function(_dereq_,module,exports){
+},{"../stats":64,"../utils":65,"./color":5,"./command":6,"./gl":15,"./material":20,"./types":26,"defined":155}],12:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -3135,8 +2936,6 @@ var _createClass = function () {
     if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
   };
 }();
-
-var _math = _dereq_('../math');
 
 var _types = _dereq_('./types');
 
@@ -3162,16 +2961,6 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }return arr2;
-  } else {
-    return Array.from(arr);
-  }
-}
-
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -3188,7 +2977,6 @@ function _classCallCheck(instance, Constructor) {
  * @see {@link https://en.wikipedia.org/wiki/Abstract_simplicial_complex}
  * @see {@link https://github.com/mikolalysenko/simplicial-complex}
  */
-
 var Geometry = exports.Geometry = function () {
 
   /**
@@ -3200,7 +2988,6 @@ var Geometry = exports.Geometry = function () {
    * @param {?SimplicialComplex} opts.complex
    * @param {?Boolean} opts.flatten
    */
-
   function Geometry() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
         _ref$complex = _ref.complex,
@@ -3210,29 +2997,14 @@ var Geometry = exports.Geometry = function () {
 
     _classCallCheck(this, Geometry);
 
-    (0, _types.assignTypeName)(this, 'geometry'
-
-    /**
-     * Internal simplicial complex value.
-     * @private
-     */
-
-    );Object.defineProperty(this, '_complex', {
+    (0, _types.assignTypeName)(this, 'geometry');
+    Object.defineProperty(this, '_complex', {
       enumerable: false,
       writable: false,
       value: {}
+    });
 
-      /**
-       * Property indicating whether a geometry simplicial complex
-       * should be flattened.
-       *
-       * @public
-       * @type {Boolean}
-       */
-
-    });this.flatten = flatten;
-
-    /** @ignore */
+    this.flatten = Boolean(flatten);
     this.complex = complex || null;
   }
 
@@ -3254,16 +3026,8 @@ var Geometry = exports.Geometry = function () {
      *
      * @return {Array<Vector3|Vector2>}
      */
-
     value: function computeBoundingBox() {
-      return (0, _boundPoints2.default)(this.positions).map(function (p) {
-        switch (p.length) {
-          case 3:
-            return new (Function.prototype.bind.apply(_math.Vector3, [null].concat(_toConsumableArray(p))))();
-          case 2:
-            return new (Function.prototype.bind.apply(_math.Vector2, [null].concat(_toConsumableArray(p))))();
-        }
-      });
+      return (0, _boundPoints2.default)(this.positions);
     }
   }, {
     key: 'complex',
@@ -3372,7 +3136,464 @@ var Geometry = exports.Geometry = function () {
   return Geometry;
 }();
 
-},{"../math":50,"./types":20,"bound-points":80,"mesh-reindex":344,"normals":355,"screen-projected-lines":409,"unindex-mesh":428}],11:[function(_dereq_,module,exports){
+},{"./types":26,"bound-points":86,"mesh-reindex":351,"normals":362,"screen-projected-lines":417,"unindex-mesh":436}],13:[function(_dereq_,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ShaderAttributes = undefined;
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+var _dynamic = _dereq_('./dynamic');
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var shaderAttributesCounter = _dynamic.DynamicValue.createCounter();
+
+var ShaderAttributes = exports.ShaderAttributes = function (_DynamicValue) {
+  _inherits(ShaderAttributes, _DynamicValue);
+
+  _createClass(ShaderAttributes, null, [{
+    key: 'counter',
+    value: function counter() {
+      return shaderAttributesCounter;
+    }
+  }, {
+    key: 'counter',
+    value: function counter() {
+      return shaderAttributesCounter;
+    }
+  }, {
+    key: 'getTotalUniformCount',
+    value: function getTotalUniformCount() {
+      var counter = ShaderAttributes.counter();
+      var list = counter.list();
+      var sum = list.map(function (ctx) {
+        return ShaderAttributes.getContextUniformCount(ctx);
+      }).reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      return sum;
+    }
+  }, {
+    key: 'getContextUniformCount',
+    value: function getContextUniformCount(ctx) {
+      var counter = ShaderAttributes.counter();
+      var list = counter.listSetForContext(ctx);
+      var attributes = list.reduce(function (a, b) {
+        return Object.assign(a, b);
+      }, {});
+      var sum = Object.keys(attributes).length;
+      return sum;
+    }
+  }]);
+
+  function ShaderAttributes(ctx) {
+    _classCallCheck(this, ShaderAttributes);
+
+    var _this = _possibleConstructorReturn(this, (ShaderAttributes.__proto__ || Object.getPrototypeOf(ShaderAttributes)).call(this));
+
+    shaderAttributesCounter.addValueForContext(ctx, _this);
+    return _this;
+  }
+
+  return ShaderAttributes;
+}(_dynamic.DynamicValue);
+
+},{"./dynamic":14}],14:[function(_dereq_,module,exports){
+'use strict';
+
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DynamicValueCounter = exports.DynamicValue = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+var _defined = _dereq_('defined');
+
+var _defined2 = _interopRequireDefault(_defined);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _toConsumableArray(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }return arr2;
+  } else {
+    return Array.from(arr);
+  }
+}
+
+function _objectDestructuringEmpty(obj) {
+  if (obj == null) throw new TypeError("Cannot destructure undefined");
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+  } else {
+    obj[key] = value;
+  }return obj;
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+var DynamicValue = exports.DynamicValue = function () {
+  function DynamicValue() {
+    _classCallCheck(this, DynamicValue);
+  }
+
+  _createClass(DynamicValue, [{
+    key: 'set',
+    value: function set(name, value) {
+      Object.assign(this, name && 'object' == (typeof name === 'undefined' ? 'undefined' : _typeof(name)) ? name : _defineProperty({}, name, value));
+      this.purge();
+      return this;
+    }
+  }, {
+    key: 'purge',
+    value: function purge() {
+      for (var key in this) {
+        if (null == this[key]) {
+          delete this[key];
+        }
+      }
+      return this;
+    }
+  }, {
+    key: 'argument',
+    value: function argument(property, key) {
+      for (var _len = arguments.length, defaultValues = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+        defaultValues[_key - 2] = arguments[_key];
+      }
+
+      var pluck = DynamicValue.pluck;
+
+      return function (_ref2, args) {
+        _objectDestructuringEmpty(_ref2);
+
+        return pluck.apply(undefined, [args, property, key].concat(defaultValues));
+      };
+    }
+  }, {
+    key: 'context',
+    value: function context(property, key) {
+      for (var _len2 = arguments.length, defaultValues = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        defaultValues[_key2 - 2] = arguments[_key2];
+      }
+
+      var pluck = DynamicValue.pluck;
+
+      return function (ctx) {
+        return pluck.apply(undefined, [ctx, property, key].concat(defaultValues));
+      };
+    }
+  }, {
+    key: 'contextOrArgument',
+    value: function contextOrArgument(property, key) {
+      for (var _len3 = arguments.length, defaultValues = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
+        defaultValues[_key3 - 2] = arguments[_key3];
+      }
+
+      var pluck = DynamicValue.pluck;
+
+      return function (ctx, args) {
+        return _defined2.default.apply(undefined, [pluck(ctx, property, key, undefined), pluck(args, property, key, undefined)].concat(defaultValues));
+      };
+    }
+  }, {
+    key: 'argumentOrContext',
+    value: function argumentOrContext(property, key) {
+      for (var _len4 = arguments.length, defaultValues = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
+        defaultValues[_key4 - 2] = arguments[_key4];
+      }
+
+      return function (ctx, args) {
+        return _defined2.default.apply(undefined, [pluck(args, property, key, undefined), pluck(ctx, property, key, undefined)].concat(defaultValues));
+      };
+    }
+  }], [{
+    key: 'createCounter',
+    value: function createCounter() {
+      return new DynamicValueCounter();
+    }
+  }, {
+    key: 'pluck',
+    value: function pluck(scope, property, key) {
+      var value = undefined;
+      if (null != scope[property]) {
+        value = null != key ? scope[property][key] : scope[property];
+      }
+
+      for (var _len5 = arguments.length, defaultValues = Array(_len5 > 3 ? _len5 - 3 : 0), _key5 = 3; _key5 < _len5; _key5++) {
+        defaultValues[_key5 - 3] = arguments[_key5];
+      }
+
+      return DynamicValue.primitive(_defined2.default.apply(undefined, [value].concat(defaultValues)));
+    }
+  }, {
+    key: 'primitive',
+    value: function primitive(v) {
+      var value = v;
+      if (null == v) {
+        value = undefined;
+      }
+      if ('object' == (typeof v === 'undefined' ? 'undefined' : _typeof(v))) {
+        var hasLength = 'number' == typeof v.length;
+        var hasIterator = 'function' == typeof v[Symbol.iterator];
+        // array
+        if (hasLength) {
+          if (hasIterator) {
+            value = [].concat(_toConsumableArray(v));
+          } else {
+            value = Array(v.length).fill(0).map(function (_, i) {
+              return v[i];
+            });
+          }
+        }
+        // object
+        else {
+            value = Object.assign({}, v);
+          }
+      }
+      return value;
+    }
+  }]);
+
+  return DynamicValue;
+}();
+
+var DynamicValueCounter = exports.DynamicValueCounter = function () {
+  function DynamicValueCounter() {
+    _classCallCheck(this, DynamicValueCounter);
+
+    Object.defineProperties(this, {
+      contexts: { enumerable: false, value: new Set() },
+      map: { enumerable: false, value: new WeakMap() }
+    });
+  }
+
+  _createClass(DynamicValueCounter, [{
+    key: 'setContext',
+    value: function setContext(ctx) {
+      var set = this.map.get(ctx) || new Set();
+      this.map.set(ctx, set);
+      if (false == this.contexts.has(ctx)) {
+        this.contexts.add(ctx);
+      }
+      return this;
+    }
+  }, {
+    key: 'getSetForContext',
+    value: function getSetForContext(ctx) {
+      this.setContext(ctx);
+      return this.map.get(ctx);
+    }
+  }, {
+    key: 'addValueForContext',
+    value: function addValueForContext(ctx, dynamicValue) {
+      var set = this.getSetForContext(ctx);
+      if (false == set.has(dynamicValue)) {
+        set.add(dynamicValue);
+      }
+      return this;
+    }
+  }, {
+    key: 'sumSetForContext',
+    value: function sumSetForContext(ctx) {
+      return this.getSetForContext(ctx).size();
+    }
+  }, {
+    key: 'listSetForContext',
+    value: function listSetForContext(ctx) {
+      return [].concat(_toConsumableArray(this.getSetForContext(ctx)));
+    }
+  }, {
+    key: 'list',
+    value: function list() {
+      return [].concat(_toConsumableArray(this.contexts));
+    }
+  }]);
+
+  return DynamicValueCounter;
+}();
+
+},{"defined":155}],15:[function(_dereq_,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _attributes = _dereq_('./attributes');
+
+Object.defineProperty(exports, 'ShaderAttributes', {
+  enumerable: true,
+  get: function get() {
+    return _attributes.ShaderAttributes;
+  }
+});
+
+var _uniforms = _dereq_('./uniforms');
+
+Object.defineProperty(exports, 'ShaderUniforms', {
+  enumerable: true,
+  get: function get() {
+    return _uniforms.ShaderUniforms;
+  }
+});
+
+var _dynamic = _dereq_('./dynamic');
+
+Object.defineProperty(exports, 'DynamicValue', {
+  enumerable: true,
+  get: function get() {
+    return _dynamic.DynamicValue;
+  }
+});
+
+Object.assign(window, { ShaderUniforms: exports.ShaderUniforms });
+
+},{"./attributes":13,"./dynamic":14,"./uniforms":16}],16:[function(_dereq_,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ShaderUniforms = undefined;
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+var _dynamic = _dereq_('./dynamic');
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var shaderUniformsCounter = _dynamic.DynamicValue.createCounter();
+
+var ShaderUniforms = exports.ShaderUniforms = function (_DynamicValue) {
+  _inherits(ShaderUniforms, _DynamicValue);
+
+  _createClass(ShaderUniforms, null, [{
+    key: 'counter',
+    value: function counter() {
+      return shaderUniformsCounter;
+    }
+  }, {
+    key: 'getTotalUniformCount',
+    value: function getTotalUniformCount() {
+      var counter = ShaderUniforms.counter();
+      var list = counter.list();
+      var sum = list.map(function (ctx) {
+        return ShaderUniforms.getContextUniformCount(ctx);
+      }).reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      return sum;
+    }
+  }, {
+    key: 'getContextUniformCount',
+    value: function getContextUniformCount(ctx) {
+      var counter = ShaderUniforms.counter();
+      var list = counter.listSetForContext(ctx);
+      var uniforms = list.reduce(function (a, b) {
+        return Object.assign(a, b);
+      }, {});
+      var sum = Object.keys(uniforms).length;
+      return sum;
+    }
+  }]);
+
+  function ShaderUniforms(ctx) {
+    _classCallCheck(this, ShaderUniforms);
+
+    var _this = _possibleConstructorReturn(this, (ShaderUniforms.__proto__ || Object.getPrototypeOf(ShaderUniforms)).call(this));
+
+    shaderUniformsCounter.addValueForContext(ctx, _this);
+    return _this;
+  }
+
+  return ShaderUniforms;
+}(_dynamic.DynamicValue);
+
+},{"./dynamic":14}],17:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -3563,7 +3784,19 @@ Object.keys(_text).forEach(function (key) {
   });
 });
 
-},{"./camera":4,"./color":5,"./command":6,"./context":7,"./cube_texture":8,"./frame":9,"./geometry":10,"./input":12,"./light":13,"./material":14,"./mesh":15,"./object3d":16,"./stream":17,"./text":18,"./texture":19}],12:[function(_dereq_,module,exports){
+var _fog = _dereq_('./fog');
+
+Object.keys(_fog).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _fog[key];
+    }
+  });
+});
+
+},{"./camera":4,"./color":5,"./command":6,"./context":7,"./cube_texture":8,"./fog":10,"./frame":11,"./geometry":12,"./input":18,"./light":19,"./material":20,"./mesh":21,"./object3d":22,"./stream":23,"./text":24,"./texture":25}],18:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -3767,7 +4000,7 @@ var InputContext = exports.InputContext = function (_StreamContext) {
   return InputContext;
 }(_stream.StreamContext);
 
-},{"./stream":17,"defined":149}],13:[function(_dereq_,module,exports){
+},{"./stream":23,"defined":155}],19:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -3877,85 +4110,16 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var kMat4Identity = _glMat2.default.identity([]
+var kMat4Identity = _glMat2.default.identity([]);
 
-/**
- * Next available Light ID represented
- * as an integer.
- *
- * @private
- */
-
-);var LIGHT_COMMAND_NEXT_ID = 0;
-
-/**
- * Default light intensity, if applicable.
- *
- * @public
- * @const
- * @type {Number}
- */
+var LIGHT_COMMAND_NEXT_ID = 0;
 
 var kDefaultLightIntensity = exports.kDefaultLightIntensity = 10;
-
-/**
- * Default light position, if applicable.
- *
- * @public
- * @const
- * @type {Vector3}
- */
-
 var kDefaultLightPosition = exports.kDefaultLightPosition = new _math.Vector3(0, 0, 0);
-
-/**
- * Default light rotation, if applicable.
- *
- * @public
- * @const
- * @type {Quaternion}
- */
-
 var kDefaultLightRotation = exports.kDefaultLightRotation = new _math.Quaternion();
-
-/**
- * Default light ambient, if applicable.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 var kDefaultLightAmbient = exports.kDefaultLightAmbient = 0.1;
-
-/**
- * Default light radius, if applicable.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 var kDefaultLightRadius = exports.kDefaultLightRadius = 50;
-
-/**
- * Default light color, if applicable.
- *
- * @public
- * @const
- * @type {Color}
- */
-
 var kDefaultLightColor = exports.kDefaultLightColor = new _color.Color('white');
-
-/**
- * Default light type, if applicable.
- *
- * @public
- * @const
- * @type {LightType}
- */
-
 var kDefaultLighType = exports.kDefaultLighType = _types2.BasicLightType;
 
 /**
@@ -3978,7 +4142,6 @@ var Light = exports.Light = function (_Object3D) {
    * @param {Context} ctx Axis3D render context.
    * @param {?Object} initialState Initial state
    */
-
   function Light(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -4004,7 +4167,10 @@ var Light = exports.Light = function (_Object3D) {
         initialType = _initialState$type === undefined ? kDefaultLighType : _initialState$type,
         _initialState$id = initialState.id,
         id = _initialState$id === undefined ? Light.id() : _initialState$id;
+    var _initialState$context = initialState.context,
+        context = _initialState$context === undefined ? new LightContext() : _initialState$context;
 
+    var injectContext = regl({ context: context });
     var updateLight = initialState.update || function () {
       var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -4014,26 +4180,12 @@ var Light = exports.Light = function (_Object3D) {
       return f();
     };
 
-    var _initialState$context = initialState.context,
-        context = _initialState$context === undefined ? new LightContext() : _initialState$context;
-
-    var injectContext = regl({ context: context });
-
-    var _this = _possibleConstructorReturn(this, (Light.__proto__ || Object.getPrototypeOf(Light)).call(this, ctx, _extends({}, initialState, {
-
-      // all Object3D descendants must implement an update
-      // method to actually do something
-      update: update
-    })));
+    var _this = _possibleConstructorReturn(this, (Light.__proto__ || Object.getPrototypeOf(Light)).call(this, ctx, _extends({}, initialState, { update: update })));
 
     (0, _stats.incrementStat)('Light');
-    (0, _types.assignTypeName)(_this, 'light'
+    (0, _types.assignTypeName)(_this, 'light');
 
-    /**
-     * Calls current target render function
-     */
-
-    );function update(_ref2, _ref3, block) {
+    function update(_ref2, _ref3, block) {
       var _ref2$transform = _ref2.transform,
           contextTransform = _ref2$transform === undefined ? kMat4Identity : _ref2$transform,
           _ref2$position = _ref2.position,
@@ -4077,11 +4229,12 @@ var Light = exports.Light = function (_Object3D) {
         radius: (0, _defined2.default)(radius, initialRadius),
         color: (0, _defined2.default)(color, [].concat(_toConsumableArray(initialColor))),
         type: (0, _defined2.default)(type, initialType)
+      });
 
-        // transform light position
-      });_glVec2.default.transformMat4(light.position, light.position, transform
+      // transform light position
+      _glVec2.default.transformMat4(light.position, light.position, transform);
       // push to scoped lights in frame context
-      );lights.push(light);
+      lights.push(light);
       injectContext(arguments[1] || {}, function (_ref4, args) {
         _objectDestructuringEmpty(_ref4);
 
@@ -4160,19 +4313,15 @@ var LightContext = exports.LightContext = function (_Object3DContext) {
   return LightContext;
 }(_object3d.Object3DContext);
 
-},{"../light/types":43,"../math":50,"../stats":58,"./color":5,"./mesh":15,"./object3d":16,"./types":20,"defined":149,"gl-mat4":191,"gl-vec3":273}],14:[function(_dereq_,module,exports){
+},{"../light/types":49,"../math":56,"../stats":64,"./color":5,"./mesh":21,"./object3d":22,"./types":26,"defined":155,"gl-mat4":197,"gl-vec3":279}],20:[function(_dereq_,module,exports){
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MaterialMap = exports.MaterialUniforms = exports.MaterialContext = exports.MaterialState = exports.Material = exports.kDefaultMaterialDepthState = exports.kDefaultMaterialCullingState = exports.kDefaultMaterialBlendingState = exports.kDefaultMaterialType = exports.kDefaultMaterialColor = exports.kDefaultMaterialOpacity = exports.kDefaultMaterialFragmentShader = undefined;
+exports.MaterialUniforms = exports.MaterialContext = exports.MaterialState = exports.Material = exports.kDefaultMaterialDepthState = exports.kDefaultMaterialCullingState = exports.kDefaultMaterialBlendingState = exports.kDefaultMaterialFragmentShader = exports.kDefaultMaterialOpacity = exports.kDefaultMaterialColor = exports.kDefaultMaterialType = undefined;
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -4193,6 +4342,8 @@ var _createClass = function () {
     if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
   };
 }();
+
+var _gl = _dereq_('./gl');
 
 var _utils = _dereq_('../utils');
 
@@ -4270,142 +4421,41 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-/**
- * Next available Material ID represented
- * as an integer.
- * @private
- */
-
 var MATERIAL_COMMAND_NEXT_ID = 0x6d;
 
-/**
- * The default material fragment shader.
- *
- * @public
- * @const
- * @type {String}
- * @see {@link https://www.npmjs.com/package/glslify}
- * @see {@link http://stack.gl}
- */
-
-var kDefaultMaterialFragmentShader = exports.kDefaultMaterialFragmentShader = 'precision mediump float;\n#define GLSLIFY 1\n\n//\n// Shader dependencies.\n//\n\nstruct GeometryContext {\n  vec3 position;\n  vec3 normal;\n  vec2 uv;\n  vec3 localPosition;\n  vec3 localNormal;\n};\n\n/**\n * Module dependencies.\n */\n\nstruct DirectionalLight {\n  mat4 transform;\n  vec4 position;\n  vec4 color;\n  bool visible;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\nstruct AmbientLight {\n  vec4 color;\n  bool visible;\n};\n\nstruct PointLight {\n  mat4 transform;\n  vec4 position;\n  vec4 color;\n  bool visible;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\n/**\n * Module exports.\n */\n\n// @TODO(werle) inject these defines at runtime\n#ifndef MAX_SPOT_LIGHTS\n#define MAX_SPOT_LIGHTS 16\n#endif\n\n#ifndef MAX_POINT_LIGHTS\n#define MAX_POINT_LIGHTS 16\n#endif\n\n#ifndef MAX_AMBIENT_LIGHTS\n#define MAX_AMBIENT_LIGHTS 16\n#endif\n\n#ifndef MAX_DIRECTIONAL_LIGHTS\n#define MAX_DIRECTIONAL_LIGHTS 16\n#endif\n\n/**\n * The SpotLightsContext structure encapsulates all known\n * SpotLights for a shader program. The total count and pointers\n * toall SpotLights are in this structure.\n */\n\n// @TODO(werle) - implement this\n//struct SpotLightsContext {\n  //int count;\n  //SpotLight lights[MAX_SPOT_LIGHTS];\n//};\n\n/**\n * The DirectionalLightsContext structure encapsulates all known\n * DirectionalLights for a shader program. The total count and pointers\n * toall DirectionalLights are in this structure.\n */\n\nstruct DirectionalLightsContext {\n  int count;\n  DirectionalLight lights[MAX_DIRECTIONAL_LIGHTS];\n};\n\n/**\n * The AmbientLightsContext structure encapsulates all known\n * AmbientLights for a shader program. The total count and pointers\n * toall AmbientLights are in this structure.\n */\n\nstruct AmbientLightsContext {\n  int count;\n  AmbientLight lights[MAX_AMBIENT_LIGHTS];\n};\n\n/**\n * The PointLightsContext structure encapsulates all known\n * PointLights for a shader program. The total count and pointers\n * toall PointLights are in this structure.\n */\n\nstruct PointLightsContext {\n  int count;\n  PointLight lights[MAX_POINT_LIGHTS];\n};\n\n/**\n * The LightContext structure encapsulates all possible lights by\n * providing light contexts for ambient, directional, point, and\n * spot light types.\n */\n\nstruct LightContext {\n  DirectionalLightsContext directional;\n  AmbientLightsContext ambient;\n  PointLightsContext point;\n};\n\n/**\n * Modulue exports.\n */\n\n/**\n * Camera structure.\n */\n\nstruct Camera {\n  mat4 projection;\n  float aspect;\n  mat4 view;\n  vec3 eye;\n};\n\nstruct Cubemap {\n  vec2 resolution;\n  samplerCube data;\n};\n\nstruct Map {\n  vec2 resolution;\n  sampler2D data;\n};\n\n// materials\n\nstruct LambertMaterial {\n  vec4 emissive;\n  vec4 ambient;\n  vec4 color;\n\n  float roughness;\n  float opacity;\n  float albedo;\n  float type;\n};\n\nstruct PhongMaterial {\n  vec4 specular;\n  vec4 emissive;\n  vec4 ambient;\n  vec4 color;\n\n  float shininess;\n  float roughness;\n  float opacity;\n  float albedo;\n  float type;\n};\n\nstruct FlatMaterial {\n  vec4 color;\n\n  float opacity;\n  float type;\n};\n\nstruct Material {\n  vec4 color;\n\n  float opacity;\n  float type;\n};\n\n#ifndef MAX_AMBIENT_LIGHTS\n#define MAX_AMBIENT_LIGHTS 16\n#endif\n\n#ifndef MAX_DIRECTIONAL_LIGHTS\n#define MAX_DIRECTIONAL_LIGHTS 16\n#endif\n\n#ifndef MAX_POINT_LIGHTS\n#define MAX_POINT_LIGHTS 16\n#endif\n\n#ifndef MATERIAL_TYPE\n#define MATERIAL_TYPE Material\n#endif\n\n// default material\n\n#define isinf(n) (n >= 0.0 || n <= 0.0)\n#define isnan(n) !isinf(n) && n != n\n\n#define getGeometryContext() GeometryContext(vposition, vnormal, vuv, vLocalPosition, vLocalNormal)\n\n//\n// Shader IO.\n//\nvarying vec3 vposition;\nvarying vec3 vnormal;\nvarying vec2 vuv;\nvarying vec3 vLocalPosition;\nvarying vec3 vLocalNormal;\n\n//\n// Shader uniforms.\n//\nuniform MATERIAL_TYPE material;\nuniform LightContext lightContext;\nuniform Camera camera;\n\n#ifdef HAS_MAP\nuniform Map map;\n#elif defined HAS_CUBE_MAP\nuniform Cubemap cubemap;\n#endif\n\n#ifdef HAS_ENV_MAP\nuniform Map envmap;\n#elif defined HAS_ENV_CUBE_MAP\nuniform Cubemap envcubemap;\n#endif\n\n//\n// Lambertian shading model.\n//\n//\n// Shader dependencies.\n//\n\n// lights\n\nstruct PositionedLight {\n  vec4 position;\n  vec4 color;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\n// unpack\n\nPositionedLight unpack_1(DirectionalLight light) {\n  return PositionedLight(\n    light.position,\n    light.color,\n    light.radius,\n    light.ambient,\n    light.intensity\n  );\n}\n\nPositionedLight unpack_0(PointLight light) {\n  return PositionedLight(\n    light.position,\n    light.color,\n    light.radius,\n    light.ambient,\n    light.intensity\n  );\n}\n\n//compute\n/**\n * Module dependencies.\n */\n\n/**\n * Module exports.\n */\n\n/**\n * Computes a positioned light source attenuation for a given\n * direction vector.\n * Adapted from {@link https://github.com/freeman-lab/glsl-light-attenuation/blob/master/index.glsl}\n */\n\nfloat computeAttenuation(PositionedLight light, vec3 direction) {\n  float attenuation;\n  if (0.0 == light.position.w) {\n    attenuation = 1.0;\n  } else {\n    attenuation = pow(\n      clamp(1.0 - length(direction)/light.radius, 0.0, 1.0),\n      2.0);\n  }\n  return attenuation;\n}\n\n// adapted from https://github.com/freeman-lab/glsl-light-direction/blob/master/index.glsl\n\nvec3 compute(vec4 lightPosition, vec3 position) {\n  if (lightPosition.w == 0.0) {\n    return normalize(lightPosition.xyz);\n  } else {\n    return lightPosition.xyz - position;\n  }\n}\n\n/**\n * Module dependencies.\n */\n\nfloat orenNayarDiffuse(\n  vec3 lightDirection,\n  vec3 viewDirection,\n  vec3 surfaceNormal,\n  float roughness,\n  float albedo) {\n  \n  float LdotV = dot(lightDirection, viewDirection);\n  float NdotL = dot(lightDirection, surfaceNormal);\n  float NdotV = dot(surfaceNormal, viewDirection);\n\n  float s = LdotV - NdotL * NdotV;\n  float t = mix(1.0, max(NdotL, NdotV), step(0.0, s));\n\n  float sigma2 = roughness * roughness;\n  float A = 1.0 + sigma2 * (albedo / (sigma2 + 0.13) + 0.5 / (sigma2 + 0.33));\n  float B = 0.45 * sigma2 / (sigma2 + 0.09);\n\n  return albedo * max(0.0, NdotL) * (A + B * s / t) / 3.14159265;\n}\n\n/**\n * Module exports.\n */\n\n/**\n * Computes the diffuse intensity value relative to a given positioned\n * light source and a geometry with a given direction.\n */\n\nfloat computeDiffuseFromGeometryWithDirection(PositionedLight light,\n                                              GeometryContext geometry,\n                                              Camera camera,\n                                              LambertMaterial material,\n                                              vec3 direction)\n{\n  vec3 viewpoint = normalize(camera.eye - geometry.position);\n  float diffuse = orenNayarDiffuse(\n      normalize(direction),\n      viewpoint,\n      geometry.normal,\n      material.roughness,\n      material.albedo);\n\n  diffuse =\n    (diffuse < 0.0 || 0.0 < diffuse || diffuse == 0.0)\n    ? diffuse : 0.0;\n\n  return diffuse;\n}\n\n//\n// Material implementation header guard.\n//\n#ifdef useLambertMaterial\n\nvoid applyPositionedLight_1(PositionedLight light,\n                          GeometryContext geometry,\n                          in vec3 surfaceColor,\n                          inout vec3 fragColor)\n{\n  vec3 ambient = light.ambient * material.ambient.xyz;\n  vec3 direction = compute(light.position, geometry.position);\n  float attenuation = computeAttenuation(light, direction);\n\n  float diffuse =\n    computeDiffuseFromGeometryWithDirection(light,\n                   geometry,\n                   camera,\n                   material,\n                   direction);\n\n  vec3 combined =\n      diffuse\n    * surfaceColor\n    * light.color.xyz\n    * light.intensity\n    ;\n\n  fragColor +=\n    ambient\n  + attenuation\n  + combined\n  ;\n}\n\n// adapted from https://github.com/freeman-lab/gl-lambert-material/blob/master/fragment.glsl\nvoid main_1() {\n  GeometryContext geometry_1 = getGeometryContext();\n  vec3 surfaceColor = material.color.xyz;\n  vec3 fragColor = vec3(0.0);\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    surfaceColor = texture2D(map.data, geometry_1.uv).rgb;\n  }\n#endif\n\n#ifdef HAS_CUBE_MAP\n  surfaceColor = textureCube(cubemap.data, geometry_1.localPosition).rgb;\n#endif\n\n#ifdef HAS_ENV_MAP\n  if (envmap.resolution.x > 0.0 && envmap.resolution.y > 0.0) {\n    surfaceColor = texture2D(envmap.data, geometry_1.uv);\n  }\n#endif\n\n#ifdef HAS_ENV_CUBE_MAP\n  surfaceColor = textureCube(envcubemap.data, geometry_1.localPosition);\n#endif\n\n  // accumulate ambient\n  for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {\n    AmbientLight light = lightContext.ambient.lights[i];\n    if (i >= lightContext.ambient.count) {\n      break;\n    } else if (light.visible) {\n      fragColor += (\n          vec4(surfaceColor, 1.0)\n        * light.color\n        * material.ambient\n      ).xyz;\n    }\n  }\n\n  for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i) {\n    DirectionalLight light = lightContext.directional.lights[i];\n    if (i >= lightContext.directional.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_1(unpack_1(light),\n                           geometry_1,\n                           surfaceColor.xyz,\n                           fragColor);\n    }\n  }\n\n  for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {\n    PointLight light = lightContext.point.lights[i];\n    if (i >= lightContext.point.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_1(unpack_0(light),\n                           geometry_1,\n                           surfaceColor,\n                           fragColor);\n    }\n  }\n\n  fragColor = fragColor + material.emissive.xyz;\n  gl_FragColor = vec4(fragColor, material.opacity);\n}\n\n#endif\n\n//\n// Phong shading model.\n//\n//\n// Shader dependencies.\n//\n\n// lights\n\n// unpack\n\n// utils\n\n#define toLambertMaterial(m) LambertMaterial(m.emissive, m.ambient, m.color, m.roughness, m.opacity, m.albedo, m.type)\n\nfloat blinnPhongSpecular(\n  vec3 lightDirection,\n  vec3 viewDirection,\n  vec3 surfaceNormal,\n  float shininess) {\n\n  //Calculate Blinn-Phong power\n  vec3 H = normalize(viewDirection + lightDirection);\n  return pow(max(0.0, dot(surfaceNormal, H)), shininess);\n}\n\n//\n// Material implementation header guard.\n//\n#ifdef usePhongMaterial\n\nvoid applyPositionedLight_0(PositionedLight light,\n                          GeometryContext geometry,\n                          in vec3 surfaceColor,\n                          inout vec3 fragColor)\n{\n  vec3 ambient = light.ambient * material.ambient.xyz;\n  vec3 specular = vec3(0.0);\n  vec3 viewpoint = normalize(camera.eye - geometry.position);\n  vec3 direction = compute(light.position, geometry.position);\n\n  float diffuse =\n    computeDiffuseFromGeometryWithDirection(light,\n                   geometry,\n                   camera,\n                   toLambertMaterial(material),\n                   direction);\n\n  if (material.shininess > 0.0 || material.shininess < 0.0) {\n    float power =\n      blinnPhongSpecular(normalize(direction),\n            viewpoint,\n            geometry.normal,\n            material.shininess);\n    if (power > 0.0 || power < 0.0) {\n      specular = material.specular.xyz * power;\n    }\n  }\n\n  vec3 combined =\n      diffuse\n    * surfaceColor\n    * light.color.xyz\n    * light.intensity\n    ;\n\n  fragColor +=\n     ambient\n   + combined\n   + specular\n   ;\n}\n\nvoid main_0() {\n  GeometryContext geometry_0 = getGeometryContext();\n  vec3 surfaceColor = material.color.xyz;\n  vec3 fragColor = vec3(0.0);\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    surfaceColor = texture2D(map.data, geometry_0.uv).rgb;\n  }\n#endif\n\n#ifdef HAS_CUBE_MAP\n  surfaceColor = textureCube(cubemap.data, geometry_0.localPosition).rgb;\n#endif\n\n#ifdef HAS_ENV_MAP\n  if (envmap.resolution.x > 0.0 && envmap.resolution.y > 0.0) {\n    surfaceColor = texture2D(envmap.data, geometry_0.uv);\n  }\n#endif\n\n#ifdef HAS_ENV_CUBE_MAP\n  surfaceColor = textureCube(envcubemap.data, geometry_0.localPosition);\n#endif\n\n  // accumulate ambient\n  for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {\n    AmbientLight light = lightContext.ambient.lights[i];\n    if (i >= lightContext.ambient.count) {\n      break;\n    } else if (light.visible) {\n      fragColor += (\n          vec4(surfaceColor, 1.0)\n        * light.color\n        * material.ambient\n      ).xyz;\n    }\n  }\n\n  for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i) {\n    DirectionalLight light = lightContext.directional.lights[i];\n    if (i >= lightContext.directional.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_0(unpack_1(light),\n                           geometry_0,\n                           surfaceColor.xyz,\n                           fragColor);\n    }\n  }\n\n  for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {\n    PointLight light = lightContext.point.lights[i];\n    if (i >= lightContext.point.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_0(unpack_0(light),\n                           geometry_0,\n                           surfaceColor,\n                           fragColor);\n    }\n  }\n\n  fragColor = fragColor + material.emissive.xyz;\n  gl_FragColor = vec4(fragColor, material.opacity);\n}\n\n#endif\n\n//\n// Flat shading model.\n//\n//\n// Shader dependencies.\n//\n\n//\n// Material implementation header guard.\n//\n#ifdef useFlatMaterial\n\n//\n// Shader entry.\n//\n\nvoid main_2() {\n  GeometryContext geometry = getGeometryContext();\n  gl_FragColor = material.color;\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    gl_FragColor = texture2D(map.data, geometry.uv);\n  }\n#endif\n\n#ifdef HAS_ENV_MAP\n  if (envmap.resolution.x > 0.0 && envmap.resolution.y > 0.0) {\n    gl_FragColor = texture2D(envmap.data, geometry.uv);\n  }\n#endif\n\n#ifdef HAS_CUBE_MAP\n  gl_FragColor = textureCube(cubemap.data, geometry.localPosition);\n#endif\n\n#ifdef HAS_ENV_CUBE_MAP\n  gl_FragColor = textureCube(envcubemap.data, geometry.localPosition);\n#endif\n\n  gl_FragColor.a = material.opacity;\n  if (material.color.a < 1.0) {\n    gl_FragColor.a = material.color.a;\n  }\n}\n\n#endif\n\n//\n// Shader entries.\n//\n#ifdef useLambertMaterial\nvoid main() {\n  main_1();\n}\n#elif defined usePhongMaterial\nvoid main() {\n  main_0();\n}\n#elif defined useFlatMaterial\nvoid main() {\n  main_2();\n}\n#elif defined SHADER_MAIN_BODY\nSHADER_MAIN_BODY_SOURCE\n#else\nvoid main() {\n  discard;\n}\n#endif\n';
-
-/**
- * The default material opacity value.
- *
- * @public
- * @const
- * @type {Number}
- */
-
+var kDefaultMaterialType = exports.kDefaultMaterialType = types.MaterialType;
+var kDefaultMaterialColor = exports.kDefaultMaterialColor = new _color.Color(100 / 255, 110 / 255, 255 / 255);
 var kDefaultMaterialOpacity = exports.kDefaultMaterialOpacity = 1;
 
-/**
- * The default material color.
- *
- * @public
- * @const
- * @type {Color}
- */
-
-var kDefaultMaterialColor = exports.kDefaultMaterialColor = new _color.Color(100 / 255, 110 / 255, 255 / 255);
-
-/**
- * The default material type.
- *
- * @public
- * @const
- * @type {MaterialType}
- */
-
-var kDefaultMaterialType = exports.kDefaultMaterialType = types.MaterialType;
-
-/**
- * The default WebGL blending state for a material.
- *
- * @public
- * @const
- * @type {Object}
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#blending}
- */
+var kDefaultMaterialFragmentShader = exports.kDefaultMaterialFragmentShader = 'precision mediump float;\n#define GLSLIFY 1\n\n//\n// Shader dependencies.\n//\n\nstruct GeometryContext {\n  vec3 position;\n  vec3 normal;\n  vec2 uv;\n  vec3 localPosition;\n  vec3 localNormal;\n};\n\n/**\n * Module exports.\n */\n\n// @TODO(werle) inject these defines at runtime\n#ifndef MAX_SPOT_LIGHTS\n#define MAX_SPOT_LIGHTS 16\n#endif\n\n#ifndef MAX_POINT_LIGHTS\n#define MAX_POINT_LIGHTS 16\n#endif\n\n#ifndef MAX_AMBIENT_LIGHTS\n#define MAX_AMBIENT_LIGHTS 16\n#endif\n\n#ifndef MAX_DIRECTIONAL_LIGHTS\n#define MAX_DIRECTIONAL_LIGHTS 16\n#endif\n\n/**\n * The SpotLightsContext structure encapsulates all known\n * SpotLights for a shader program. The total count and pointers\n * toall SpotLights are in this structure.\n */\n\n// @TODO(werle) - implement this\n//struct SpotLightsContext {\n  //int count;\n  //SpotLight lights[MAX_SPOT_LIGHTS];\n//};\n\n/**\n * The total count of all DirectionalLights are in this structure.\n */\n\nstruct DirectionalLightsContext {\n  int count;\n};\n\n/**\n * The total count of all AmbientLights are in this structure.\n */\n\nstruct AmbientLightsContext {\n  int count;\n};\n\n/**\n * The total count of all PointLights are in this structure.\n */\n\nstruct PointLightsContext {\n  int count;\n};\n\n/**\n * The LightContext structure encapsulates all possible lights by\n * providing light contexts for ambient, directional, point, and\n * spot light types.\n */\n\nstruct LightContext {\n  DirectionalLightsContext directional;\n  AmbientLightsContext ambient;\n  PointLightsContext point;\n};\n\n/**\n * Modulue exports.\n */\n\n/**\n * Camera structure.\n */\n\nstruct Camera {\n  mat4 invertedView;\n  mat4 projection;\n  float aspect;\n  mat4 view;\n  vec3 eye;\n};\n\nstruct Mesh {\n  vec3 scale;\n  mat4 model;\n  mat3 modelNormal;\n};\n\n// maps\n\nstruct Cubemap {\n  vec2 resolution;\n  samplerCube data;\n};\n\nstruct Map {\n  vec2 resolution;\n  sampler2D data;\n};\n\n// materials\n\nstruct LambertMaterial {\n  vec4 emissive;\n  vec4 ambient;\n  vec4 color;\n\n  float roughness;\n  float opacity;\n  float albedo;\n  float type;\n};\n\nstruct PhongMaterial {\n  vec4 specular;\n  vec4 emissive;\n  vec4 ambient;\n  vec4 color;\n\n  float shininess;\n  float roughness;\n  float opacity;\n  float albedo;\n  float type;\n};\n\nstruct FlatMaterial {\n  vec4 color;\n\n  float opacity;\n  float type;\n};\n\nstruct Material {\n  vec4 color;\n\n  float opacity;\n  float type;\n};\n\n// lights\n\nstruct DirectionalLight {\n  mat4 transform;\n  vec4 position;\n  vec4 color;\n  bool visible;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\nstruct AmbientLight {\n  vec4 color;\n  bool visible;\n};\n\nstruct PointLight {\n  mat4 transform;\n  vec4 position;\n  vec4 color;\n  bool visible;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\nstruct Fog {\n  bool enabled;\n  vec4 color;\n  //exp, exp2\n  float density;\n  // linear\n  float near;\n  float far;\n  int type; // 0=linear, 1=exp, 2=exp2\n};\n\n#ifndef MAX_AMBIENT_LIGHTS\n#define MAX_AMBIENT_LIGHTS 16\n#endif\n\n#ifndef MAX_DIRECTIONAL_LIGHTS\n#define MAX_DIRECTIONAL_LIGHTS 16\n#endif\n\n#ifndef MAX_POINT_LIGHTS\n#define MAX_POINT_LIGHTS 16\n#endif\n\n#ifndef MATERIAL_TYPE\n#define MATERIAL_TYPE Material\n#endif\n\n// default material\n\n#define isinf(n) (n >= 0.0 || n <= 0.0)\n#define isnan(n) !isinf(n) && n != n\n\n#define getGeometryContext() GeometryContext(vposition, vnormal, vuv, vLocalPosition, vLocalNormal)\n\n//\n// Shader IO.\n//\nvarying vec3 vposition;\nvarying vec3 vnormal;\nvarying vec2 vuv;\nvarying vec3 vLocalPosition;\nvarying vec3 vLocalNormal;\n\n//\n// Shader uniforms.\n//\nuniform LightContext lightContext;\nuniform MATERIAL_TYPE material;\nuniform Camera camera;\nuniform Mesh mesh;\nuniform Fog fog;\n\n// lights\nuniform DirectionalLight directionalLights[MAX_DIRECTIONAL_LIGHTS];\nuniform AmbientLight ambientLights[MAX_AMBIENT_LIGHTS];\nuniform PointLight pointLights[MAX_POINT_LIGHTS];\n\n#ifdef HAS_MAP\nuniform Map map;\n#elif defined HAS_CUBE_MAP\nuniform Cubemap map;\n#endif\n\n#ifdef HAS_ENVIRONMENT_MAP\nuniform Map envmap;\n#elif defined HAS_ENVIRONMENT_CUBE_MAP\nuniform Cubemap envmap;\n#endif\n\n//\n// Lambertian shading model.\n//\n//\n// Shader dependencies.\n//\n\n// lights\n\nstruct PositionedLight {\n  vec4 position;\n  vec4 color;\n  float radius;\n  float ambient;\n  float intensity;\n};\n\n// unpack\n\nPositionedLight unpack_0(DirectionalLight light) {\n  return PositionedLight(\n    light.position,\n    light.color,\n    light.radius,\n    light.ambient,\n    light.intensity\n  );\n}\n\nPositionedLight unpack_1(PointLight light) {\n  return PositionedLight(\n    light.position,\n    light.color,\n    light.radius,\n    light.ambient,\n    light.intensity\n  );\n}\n\n//compute\n/**\n * Module dependencies.\n */\n\n/**\n * Module exports.\n */\n\n/**\n * Computes a positioned light source attenuation for a given\n * direction vector.\n * Adapted from {@link https://github.com/freeman-lab/glsl-light-attenuation/blob/master/index.glsl}\n */\n\nfloat computeAttenuation(PositionedLight light, vec3 direction) {\n  float attenuation;\n  if (0.0 == light.position.w) {\n    attenuation = 1.0;\n  } else {\n    attenuation = pow(\n      clamp(1.0 - length(direction)/light.radius, 0.0, 1.0),\n      2.0);\n  }\n  return attenuation;\n}\n\n// adapted from https://github.com/freeman-lab/glsl-light-direction/blob/master/index.glsl\n\nvec3 compute(vec4 lightPosition, vec3 position) {\n  if (lightPosition.w == 0.0) {\n    return normalize(lightPosition.xyz);\n  } else {\n    return lightPosition.xyz - position;\n  }\n}\n\n/**\n * Module dependencies.\n */\n\nfloat orenNayarDiffuse(\n  vec3 lightDirection,\n  vec3 viewDirection,\n  vec3 surfaceNormal,\n  float roughness,\n  float albedo) {\n  \n  float LdotV = dot(lightDirection, viewDirection);\n  float NdotL = dot(lightDirection, surfaceNormal);\n  float NdotV = dot(surfaceNormal, viewDirection);\n\n  float s = LdotV - NdotL * NdotV;\n  float t = mix(1.0, max(NdotL, NdotV), step(0.0, s));\n\n  float sigma2 = roughness * roughness;\n  float A = 1.0 + sigma2 * (albedo / (sigma2 + 0.13) + 0.5 / (sigma2 + 0.33));\n  float B = 0.45 * sigma2 / (sigma2 + 0.09);\n\n  return albedo * max(0.0, NdotL) * (A + B * s / t) / 3.14159265;\n}\n\n/**\n * Module exports.\n */\n\n/**\n * Computes the diffuse intensity value relative to a given positioned\n * light source and a geometry with a given direction.\n */\n\nfloat computeDiffuseFromGeometryWithDirection(PositionedLight light,\n                                              GeometryContext geometry,\n                                              Camera camera,\n                                              LambertMaterial material,\n                                              vec3 direction)\n{\n  vec3 viewpoint = normalize(camera.eye - geometry.position);\n  float diffuse = orenNayarDiffuse(\n      normalize(direction),\n      viewpoint,\n      geometry.normal,\n      material.roughness,\n      material.albedo);\n\n  diffuse =\n    (diffuse < 0.0 || 0.0 < diffuse || diffuse == 0.0)\n    ? diffuse : 0.0;\n\n  return diffuse;\n}\n\n// fog\nfloat fogFactorExp2(\n  const float dist,\n  const float density\n) {\n  const float LOG2 = -1.442695;\n  float d = density * dist;\n  return 1.0 - clamp(exp2(d * d * LOG2), 0.0, 1.0);\n}\n\n//\n// Material implementation header guard.\n//\n#ifdef useLambertMaterial\n\n#ifdef HAS_ENVIRONMENT_MAP\n// adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js\nvec4 lookupEnv_1(vec3 dir) {\n  float PI = 3.14;\n  float lat = atan(dir.z, dir.x);\n  float lon = acos(dir.y / length(dir));\n  vec2 envLoc = vec2(0.5 + lat / (2.0 * PI), lon / PI);\n\n  return texture2D(envmap.data, envLoc);\n}\n#endif\n\n#ifdef HAS_ENVIRONMENT_CUBE_MAP\nvec4 lookupCubeEnv_1(vec3 dir) {\n  return textureCube(envmap.data, dir);\n}\n#endif\n\nvoid applyPositionedLight_1(PositionedLight light,\n                          GeometryContext geometry,\n                          in vec3 surfaceColor,\n                          inout vec3 fragColor)\n{\n  vec3 ambient = light.ambient * material.ambient.xyz;\n  vec3 direction = compute(light.position, geometry.position);\n  float attenuation = computeAttenuation(light, direction);\n\n  float diffuse =\n    computeDiffuseFromGeometryWithDirection(light,\n                   geometry,\n                   camera,\n                   material,\n                   direction);\n\n  vec3 combined =\n      diffuse\n    * surfaceColor\n    * light.color.xyz\n    * light.intensity\n    ;\n\n  fragColor +=\n    ambient\n  + attenuation\n  + combined\n  ;\n}\n\nvoid main_1() {\n  GeometryContext geometry_1 = getGeometryContext();\n  vec3 surfaceColor = material.color.xyz;\n  vec3 fragColor = vec3(0.0);\n  vec3 reflectivity = vec3(0.0);\n  float reflectivityAmount = 1.0;\n\n  mat4 invertedView = camera.invertedView;\n  vec3 iv = invertedView[3].xyz / invertedView[3].w;\n  vec3 eye = normalize(geometry_1.position.xyz - iv);\n  vec3 rdir = reflect(eye, geometry_1.normal);\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    surfaceColor = texture2D(map.data, geometry_1.uv).rgb;\n  }\n#elif defined HAS_CUBE_MAP\n  surfaceColor = textureCube(map.data, geometry_1.localPosition).rgb;\n#endif\n\n#ifdef HAS_ENVIRONMENT_MAP\n  reflectivity = lookupEnv_1(rdir).rgb;\n#elif defined HAS_ENVIRONMENT_CUBE_MAP\n  reflectivity = lookupCubeEnv_1(rdir).rgb;\n#endif\n\n  // accumulate ambient\n  for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {\n    AmbientLight light = ambientLights[i];\n    if (i >= lightContext.ambient.count) {\n      break;\n    } else if (light.visible) {\n      fragColor += (\n          vec4(surfaceColor, 1.0)\n        * light.color\n        * material.ambient\n      ).xyz;\n    }\n  }\n\n  for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i) {\n    DirectionalLight light = directionalLights[i];\n    if (i >= lightContext.directional.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_1(unpack_0(light),\n                           geometry_1,\n                           surfaceColor.xyz,\n                           fragColor);\n    }\n  }\n\n  for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {\n    PointLight light = pointLights[i];\n    if (i >= lightContext.point.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_1(unpack_1(light),\n                           geometry_1,\n                           surfaceColor,\n                           fragColor);\n    }\n  }\n\n  reflectivity = reflectivityAmount * reflectivity * surfaceColor;\n  fragColor = fragColor + material.emissive.xyz + reflectivity;\n\n  vec4 finalColor = vec4(fragColor, material.opacity);\n\n  if (fog.enabled) {\n    vec4 fogColor = fog.color;\n    float fogDensity = fog.density;\n    float fogDistance = gl_FragCoord.z / gl_FragCoord.w;\n    float fogDensityCalculated = fogFactorExp2(fogDistance, fogDensity);\n\n    finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogDensityCalculated);\n  }\n\n  gl_FragColor = finalColor;\n}\n\n#endif\n\n//\n// Phong shading model.\n//\n//\n// Shader dependencies.\n//\n\n// lights\n\n// unpack\n\n// utils\n\n#define toLambertMaterial(m) LambertMaterial(m.emissive, m.ambient, m.color, m.roughness, m.opacity, m.albedo, m.type)\n\nfloat blinnPhongSpecular(\n  vec3 lightDirection,\n  vec3 viewDirection,\n  vec3 surfaceNormal,\n  float shininess) {\n\n  //Calculate Blinn-Phong power\n  vec3 H = normalize(viewDirection + lightDirection);\n  return pow(max(0.0, dot(surfaceNormal, H)), shininess);\n}\n\n// fog\nfloat fogFactorExp(\n  const float dist,\n  const float density\n) {\n  return 1.0 - clamp(exp(-density * dist), 0.0, 1.0);\n}\n\nfloat fogFactorLinear(\n  const float dist,\n  const float start,\n  const float end\n) {\n  return 1.0 - clamp((end - dist) / (end - start), 0.0, 1.0);\n}\n\n//\n// Material implementation header guard.\n//\n#ifdef usePhongMaterial\n\n#ifdef HAS_ENVIRONMENT_MAP\n// adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js\nvec4 lookupEnv_0(vec3 dir) {\n  float PI = 3.14;\n  float lat = atan(dir.z, dir.x);\n  float lon = acos(dir.y / length(dir));\n  vec2 envLoc = vec2(0.5 + lat / (2.0 * PI), lon / PI);\n\n  return texture2D(envmap.data, envLoc);\n}\n#endif\n\n#ifdef HAS_ENVIRONMENT_CUBE_MAP\nvec4 lookupCubeEnv_0(vec3 dir) {\n  return textureCube(envmap.data, dir);\n}\n#endif\n\nvoid applyPositionedLight_0(PositionedLight light,\n                          GeometryContext geometry,\n                          in vec3 surfaceColor,\n                          inout vec3 fragColor)\n{\n  vec3 ambient = light.ambient * material.ambient.xyz;\n  vec3 specular = vec3(0.0);\n  vec3 viewpoint = normalize(camera.eye - geometry.position);\n  vec3 direction = compute(light.position, geometry.position);\n\n  float diffuse =\n    computeDiffuseFromGeometryWithDirection(light,\n                   geometry,\n                   camera,\n                   toLambertMaterial(material),\n                   direction);\n\n  if (material.shininess > 0.0 || material.shininess < 0.0) {\n    float power =\n      blinnPhongSpecular(normalize(direction),\n            viewpoint,\n            geometry.normal,\n            material.shininess);\n    if (power > 0.0 || power < 0.0) {\n      specular = material.specular.xyz * power;\n    }\n  }\n\n  vec3 combined =\n      diffuse\n    * surfaceColor\n    * light.color.xyz\n    * light.intensity\n    ;\n\n  fragColor +=\n     ambient\n   + combined\n   + specular\n   ;\n}\n\nvoid main_0() {\n  GeometryContext geometry_0 = getGeometryContext();\n  vec3 surfaceColor = material.color.xyz;\n  vec3 fragColor = vec3(0.0);\n  vec3 reflectivity = vec3(0.0);\n  float reflectivityAmount = 1.0;\n\n  // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js\n  mat4 invertedView = camera.invertedView;\n  vec3 iv = invertedView[3].xyz / invertedView[3].w;\n  vec3 eye = normalize(geometry_0.position.xyz - iv);\n  vec3 rdir = reflect(eye, geometry_0.normal);\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    surfaceColor = texture2D(map.data, geometry_0.uv).rgb;\n  }\n#elif defined HAS_CUBE_MAP\n  surfaceColor = textureCube(map.data, geometry_0.localPosition).rgb;\n#endif\n\n  // accumulate ambient\n  for (int i = 0; i < MAX_AMBIENT_LIGHTS; ++i) {\n    AmbientLight light = ambientLights[i];\n    if (i >= lightContext.ambient.count) {\n      break;\n    } else if (light.visible) {\n      fragColor += (\n          vec4(surfaceColor, 1.0)\n        * light.color\n        * material.ambient\n      ).xyz;\n    }\n  }\n\n  for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; ++i) {\n    DirectionalLight light = directionalLights[i];\n    if (i >= lightContext.directional.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_0(unpack_0(light),\n                           geometry_0,\n                           surfaceColor.xyz,\n                           fragColor);\n    }\n  }\n\n  for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {\n    PointLight light = pointLights[i];\n    if (i >= lightContext.point.count) {\n      break;\n    } else if (light.visible) {\n      applyPositionedLight_0(unpack_1(light),\n                           geometry_0,\n                           surfaceColor,\n                           fragColor);\n    }\n  }\n\n#ifdef HAS_ENVIRONMENT_MAP\n  reflectivity = lookupEnv_0(rdir).rgb;\n  reflectivity = reflectivityAmount * reflectivity * surfaceColor;\n#elif defined HAS_ENVIRONMENT_CUBE_MAP\n  reflectivity = lookupCubeEnv_0(rdir).rgb;\n  reflectivity = reflectivityAmount * reflectivity * surfaceColor;\n#endif\n\n  fragColor = fragColor + material.emissive.xyz + reflectivity;\n\n  vec4 finalColor = vec4(fragColor, material.opacity);\n\n  float fogDistance = gl_FragCoord.z / gl_FragCoord.w;\n  float fogDensity = fog.density;\n  float fogFactor = 0.0;\n  vec4 fogColor = fog.color;\n\n  if (fog.enabled) {\n    if (0 == fog.type) {\n      fogFactor = fogFactorLinear(fogDistance, fog.near, fog.far);\n    } else if (1 == fog.type) {\n      fogFactor = fogFactorExp(fogDistance, fogDensity);\n    } else if (2 == fog.type) {\n      fogFactor = fogFactorExp2(fogDistance, fogDensity);\n    }\n\n    finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogFactor);\n  }\n\n  gl_FragColor = finalColor;\n}\n\n#endif\n\n//\n// Flat shading model.\n//\n//\n// Shader dependencies.\n//\n\n//\n// Material implementation header guard.\n//\n#ifdef useFlatMaterial\n\n#ifdef HAS_ENVIRONMENT_MAP\n// adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js\nvec4 lookupEnv_2(vec3 dir) {\n  float PI = 3.14;\n  float lat = atan(dir.z, dir.x);\n  float lon = acos(dir.y / length(dir));\n  vec2 envLoc = vec2(0.5 + lat / (2.0 * PI), lon / PI);\n\n  return texture2D(envmap.data, envLoc);\n}\n#endif\n\n#ifdef HAS_ENVIRONMENT_CUBE_MAP\nvec4 lookupCubeEnv_2(vec3 dir) {\n  return textureCube(envmap.data, -dir);\n}\n#endif\n\n//\n// Shader entry.\n//\n\nvoid main_2() {\n  GeometryContext geometry = getGeometryContext();\n  gl_FragColor = material.color;\n\n#ifdef HAS_MAP\n  if (map.resolution.x > 0.0 && map.resolution.y > 0.0) {\n    gl_FragColor = texture2D(map.data, geometry.uv);\n  }\n#elif defined HAS_CUBE_MAP\n  gl_FragColor = textureCube(map.data, geometry.localPosition);\n#endif\n\n#ifdef HAS_ENVIRONMENT_MAP\n  mat4 invertedView = camera.invertedView;\n  vec3 iv = invertedView[3].xyz / invertedView[3].w;\n  vec3 eye = normalize(geometry.position.xyz - iv);\n  vec3 rdir = reflect(eye, geometry.normal);\n\n  vec4 reflectivity = lookupEnv_2(rdir);\n  gl_FragColor = gl_FragColor + reflectivity;\n\n#elif defined HAS_ENVIRONMENT_CUBE_MAP\n  mat4 invertedView = camera.invertedView;\n  vec3 iv = invertedView[3].xyz / invertedView[3].w;\n  vec3 eye = normalize(geometry.position.xyz - iv);\n  vec3 rdir = reflect(eye, geometry.normal);\n\n  vec4 reflectivity = lookupCubeEnv_2(rdir);\n  gl_FragColor = gl_FragColor + reflectivity;\n#endif\n\n  gl_FragColor.a = material.opacity;\n  if (material.color.a < 1.0) {\n    gl_FragColor.a = material.color.a;\n  }\n}\n\n#endif\n\n//\n// Shader entries.\n//\n#ifdef useLambertMaterial\nvoid main() {\n  main_1();\n}\n#elif defined usePhongMaterial\nvoid main() {\n  main_0();\n}\n#elif defined useFlatMaterial\nvoid main() {\n  main_2();\n}\n#elif defined SHADER_MAIN_BODY\nSHADER_MAIN_BODY_SOURCE\n#else\nvoid main() {\n  discard;\n}\n#endif\n';
 
 var kDefaultMaterialBlendingState = exports.kDefaultMaterialBlendingState = {
   equation: 'add',
   enable: true,
   color: [0, 0, 0, 1],
-  func: {
-    src: 'src alpha',
-    dst: 'one minus src alpha'
+  func: { src: 'src alpha', dst: 'one minus src alpha' }
+};
 
-    /**
-     * The default WebGL culling state for a material.
-     *
-     * @public
-     * @const
-     * @type {Object}
-     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#culling}
-     */
-
-  } };var kDefaultMaterialCullingState = exports.kDefaultMaterialCullingState = {
-  enable: true,
+var kDefaultMaterialCullingState = exports.kDefaultMaterialCullingState = {
+  enable: false,
   face: 'back'
+};
 
-  /**
-   * The default WebGL depth buffer state for a material.
-   *
-   * @public
-   * @const
-   * @type {Object}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#depth-buffer}
-   */
-
-};var kDefaultMaterialDepthState = exports.kDefaultMaterialDepthState = {
+var kDefaultMaterialDepthState = exports.kDefaultMaterialDepthState = {
   enable: true,
   range: [0, 1],
   func: 'less',
   mask: true
-
-  /**
-   * The Material class represents the base type for
-   * all materials.
-   *
-   * @public
-   * @abstract
-   * @class Material
-   * @extends Command
-   */
-
 };
+
 var Material = exports.Material = function (_Command) {
   _inherits(Material, _Command);
 
   _createClass(Material, null, [{
     key: 'id',
-
-    /**
-     * Returns the next material ID
-     *
-     * @public
-     * @method
-     * @static
-     * @return {Number}
-     */
-
     value: function id() {
       return MATERIAL_COMMAND_NEXT_ID++;
     }
-
-    /**
-     * Returns a string representation of a material type
-     * from a given type identifier.
-     *
-     * @public
-     * @static
-     * @method
-     * @param {MaterialType|Number} type
-     * @return {String}
-     */
-
   }, {
     key: 'typeName',
     value: function typeName(type) {
@@ -4413,16 +4463,6 @@ var Material = exports.Material = function (_Command) {
         return type == types[k];
       }), type, 'Material').replace(/Type$/, '');
     }
-
-    /**
-     * Material class constructor.
-     *
-     * @public
-     * @constructor
-     * @param {!Context} ctx Axis3D context.
-     * @param {?Object} initialState Optional initial state.
-     */
-
   }]);
 
   function Material(ctx) {
@@ -4433,50 +4473,44 @@ var Material = exports.Material = function (_Command) {
     var _this = _possibleConstructorReturn(this, (Material.__proto__ || Object.getPrototypeOf(Material)).call(this, update));
 
     (0, _stats.incrementStat)('Material');
-    (0, _types.assignTypeName)(_this, 'material'
-
-    /**
-     * Material map.
-     */
-
-    );var _initialState$materia = initialState.materialMap,
-        materialMap = _initialState$materia === undefined ? new MaterialMap(ctx, initialState) : _initialState$materia;
-
-    /**
-     * Injected material uniforms.
-     */
+    (0, _types.assignTypeName)(_this, 'material');
 
     var _initialState$uniform = initialState.uniforms,
         uniforms = _initialState$uniform === undefined ? new MaterialUniforms(ctx, initialState) : _initialState$uniform;
-
-    /**
-     * Injected material context.
-     */
-
     var _initialState$context = initialState.context,
         context = _initialState$context === undefined ? new MaterialContext(ctx, initialState) : _initialState$context;
-
-    /**
-     * Material state.
-     */
-
     var _initialState$state = initialState.state,
         state = _initialState$state === undefined ? new MaterialState(ctx, initialState) : _initialState$state;
 
-    /**
-     * Regl context injection function.
-     */
+    var injectContext = ctx.regl(_extends({}, state, { uniforms: uniforms, context: context }));
 
-    var injectContext = ctx.regl(_extends({}, state, {
-      uniforms: uniforms,
-      context: context
-    }
+    var injectMapContext = ctx.regl({
+      context: {
+        mapTexure: function mapTexure(_ref) {
+          var texture = _ref.texture;
+          return texture;
+        },
+        mapTextureResolution: function mapTextureResolution(_ref2) {
+          var textureResolution = _ref2.textureResolution;
+          return textureResolution;
+        }
+      }
+    });
 
-    /**
-     * Material update function.
-     */
+    var injectEnvmapContext = ctx.regl({
+      context: {
+        envmapTexture: function envmapTexture(_ref3) {
+          var texture = _ref3.texture;
+          return texture;
+        },
+        envmapTextureResolution: function envmapTextureResolution(_ref4) {
+          var textureResolution = _ref4.textureResolution;
+          return textureResolution;
+        }
+      }
+    });
 
-    ));function update(state, block) {
+    function update(state, block) {
       if ('function' == typeof state) {
         block = state;
         state = {};
@@ -4490,25 +4524,35 @@ var Material = exports.Material = function (_Command) {
 
       block = block || function () {};
 
-      var mapState = (0, _utils.isArrayLike)(state) ? {} : state.map || state.cubemap;
-      materialMap.injectContext(mapState || {}, function () {
-        var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-            map = _ref.map,
-            cubemap = _ref.cubemap;
+      var mapState = (0, _utils.isArrayLike)(state) ? {} : state;
+      var envmap = (0, _utils.isArrayLike)(state) ? initialState.envmap : (0, _defined2.default)(state.envmap, initialState.envmap);
+      var map = (0, _utils.isArrayLike)(state) ? initialState.map : (0, _defined2.default)(state.map, initialState.map);
 
-        if ('function' == typeof cubemap) {
-          cubemap(function (c) {
-            injectContext(state, block);
-          });
-        }
-        if ('function' == typeof map) {
-          map(function (c) {
-            injectContext(state, block);
-          });
-        } else {
+      injectEnvmap(function () {
+        injectMap(function () {
           injectContext(state, block);
-        }
+        });
       });
+
+      function injectEnvmap(next) {
+        if ('function' != typeof envmap) {
+          next();
+        } else {
+          envmap(function () {
+            injectEnvmapContext(next);
+          });
+        }
+      }
+
+      function injectMap(next) {
+        if ('function' != typeof map) {
+          next();
+        } else {
+          map(function () {
+            injectMapContext(next);
+          });
+        }
+      }
 
       return this;
     }
@@ -4518,25 +4562,7 @@ var Material = exports.Material = function (_Command) {
   return Material;
 }(_command.Command);
 
-/**
- * MaterialState class.
- *
- * @public
- * @class MaterialState
- */
-
-var MaterialState =
-
-/**
- * MaterialState class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D context.
- * @param {?Object} initialState Optional initial state.
- */
-
-exports.MaterialState = function MaterialState(ctx) {
+var MaterialState = exports.MaterialState = function MaterialState(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   _classCallCheck(this, MaterialState);
@@ -4563,37 +4589,15 @@ exports.MaterialState = function MaterialState(ctx) {
     initialState.depth = {};
   }
 
-  /**
-   * Material fragment shader source.
-   */
-
   var _initialState$fragmen = initialState.fragmentShader,
       fragmentShader = _initialState$fragmen === undefined ? kDefaultMaterialFragmentShader : _initialState$fragmen;
-
-  /**
-   * Material fragment shader source.
-   */
-
   var fragmentShaderMain = initialState.fragmentShaderMain;
-
-  /**
-   * Material type.
-   */
-
   var _initialState$type = initialState.type,
       type = _initialState$type === undefined ? types.MaterialType : _initialState$type;
 
-  /**
-   * Material type string.
-   */
+  var typeName = Material.typeName(type);
 
-  var typeName = Material.typeName(type
-
-  /**
-   * Injected fragment shader defines.
-   */
-
-  );var shaderDefines = _extends({
+  var shaderDefines = _extends({
     MATERIAL_TYPE: typeName
   }, initialState.shaderDefines);
 
@@ -4614,9 +4618,9 @@ exports.MaterialState = function MaterialState(ctx) {
 
   if (null != initialState.envmap) {
     if ('cubetexture' === (0, _types.typeOf)(initialState.envmap)) {
-      shaderDefines.HAS_ENV_CUBE_MAP = 1;
+      shaderDefines.HAS_ENVIRONMENT_CUBE_MAP = 1;
     } else {
-      shaderDefines.HAS_ENV_MAP = 1;
+      shaderDefines.HAS_ENVIRONMENT_MAP = 1;
     }
   }
 
@@ -4633,61 +4637,29 @@ exports.MaterialState = function MaterialState(ctx) {
     fragmentShader = '#define ' + _key + ' ' + shaderDefines[_key] + '\n' + fragmentShader;
   }
 
-  /**
-   * Material fragment shader source string.
-   *
-   * @public
-   * @type {String}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#shaders}
-   */
-
+  console.log(fragmentShader);
   this.frag = fragmentShader;
-
-  /**
-   * Blending state for a material.
-   *
-   * @public
-   * @type {Object}
-   * @see {@link kDefaultMaterialBlendingState}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#blending}
-   */
-
   this.blend = {
-
-    /**
-     * Blending equation.
-     *
-     * @public
-     * @property
-     * @type {String}
-     * @name blend.equation
-     */
-
     equation: function equation() {
       return (0, _defined2.default)(initialState.blend.equation, kDefaultMaterialBlendingState.equation);
     },
 
-    /**
-     * Indicates if blending is enabled.
-     *
-     * @public
-     * @property
-     * @type {Boolean}
-     * @name blend.enabled
-     */
+    color: function color() {
+      return (0, _utils.ensureRGBA)((0, _defined2.default)(initialState.blend.color, kDefaultMaterialBlendingState.color));
+    },
 
-    enable: function enable(_ref2) {
-      var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          _ref3$blend = _ref3.blend,
-          blend = _ref3$blend === undefined ? undefined : _ref3$blend,
-          _ref3$opacity = _ref3.opacity,
-          opacity = _ref3$opacity === undefined ? (0, _defined2.default)(initialState.opacity, 1) : _ref3$opacity,
-          _ref3$transparent = _ref3.transparent,
-          transparent = _ref3$transparent === undefined ? (0, _defined2.default)(initialState.transparent, false) : _ref3$transparent,
-          _ref3$blending = _ref3.blending,
-          blending = _ref3$blending === undefined ? (0, _defined2.default)(blend, initialState.blend.enable, kDefaultMaterialBlendingState.enable) : _ref3$blending;
+    enable: function enable(_ref5) {
+      var _ref6 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          _ref6$blend = _ref6.blend,
+          blend = _ref6$blend === undefined ? undefined : _ref6$blend,
+          _ref6$opacity = _ref6.opacity,
+          opacity = _ref6$opacity === undefined ? (0, _defined2.default)(initialState.opacity, 1) : _ref6$opacity,
+          _ref6$transparent = _ref6.transparent,
+          transparent = _ref6$transparent === undefined ? (0, _defined2.default)(initialState.transparent, false) : _ref6$transparent,
+          _ref6$blending = _ref6.blending,
+          blending = _ref6$blending === undefined ? (0, _defined2.default)(blend, initialState.blend.enable, kDefaultMaterialBlendingState.enable) : _ref6$blending;
 
-      _objectDestructuringEmpty(_ref2);
+      _objectDestructuringEmpty(_ref5);
 
       if (opacity < 1.0 || transparent) {
         return true;
@@ -4697,37 +4669,14 @@ exports.MaterialState = function MaterialState(ctx) {
         return transparent;
       }
     },
+    func: function func(_ref7) {
+      var _ref8 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          _ref8$opacity = _ref8.opacity,
+          opacity = _ref8$opacity === undefined ? (0, _defined2.default)(initialState.opacity, 1) : _ref8$opacity,
+          _ref8$transparent = _ref8.transparent,
+          transparent = _ref8$transparent === undefined ? (0, _defined2.default)(initialState.transparent, false) : _ref8$transparent;
 
-    /**
-     * Blending color
-     *
-     * @public
-     * @property
-     * @type {Array<Number>|Color|Vector4}
-     * @name blend.color
-     */
-
-    color: function color() {
-      return (0, _utils.ensureRGBA)((0, _defined2.default)(initialState.blend.color, kDefaultMaterialBlendingState.color));
-    },
-
-    /**
-     * Blending function
-     *
-     * @public
-     * @property
-     * @type {Object}
-     * @name blend.func
-     */
-
-    func: function func(_ref4) {
-      var _ref5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          _ref5$opacity = _ref5.opacity,
-          opacity = _ref5$opacity === undefined ? (0, _defined2.default)(initialState.opacity, 1) : _ref5$opacity,
-          _ref5$transparent = _ref5.transparent,
-          transparent = _ref5$transparent === undefined ? (0, _defined2.default)(initialState.transparent, false) : _ref5$transparent;
-
-      _objectDestructuringEmpty(_ref4);
+      _objectDestructuringEmpty(_ref7);
 
       if (opacity < 1.0 || transparent) {
         return { src: 'src alpha', dst: 'one' };
@@ -4737,62 +4686,46 @@ exports.MaterialState = function MaterialState(ctx) {
     }
   };
 
-  /**
-   * Culling state for a material.
-   *
-   * @public
-   * @type {Object}
-   * @see {@link kDefaultMaterialCullingState}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#culling}
-   */
-
   this.cull = {
-    enable: function enable(_ref6) {
-      var _ref7 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          _ref7$cull = _ref7.cull,
-          cull = _ref7$cull === undefined ? initialState.cull.enable : _ref7$cull;
+    enable: function enable(_ref9) {
+      var _ref10 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          cull = _ref10.cull;
 
-      _objectDestructuringEmpty(_ref6);
+      _objectDestructuringEmpty(_ref9);
 
-      return Boolean((0, _defined2.default)(cull, kDefaultMaterialCullingState.enable));
+      return Boolean((0, _defined2.default)(cull, initialState.cull.enable, kDefaultMaterialCullingState.enable));
     },
-    face: function face(_ref8, _ref9) {
-      var _ref9$cullFace = _ref9.cullFace,
-          cullFace = _ref9$cullFace === undefined ? initialState.cull.face : _ref9$cullFace;
 
-      _objectDestructuringEmpty(_ref8);
+    face: function face(_ref11, _ref12) {
+      var cullFace = _ref12.cullFace;
 
-      return (0, _defined2.default)(cullFace, kDefaultMaterialCullingState.face);
+      _objectDestructuringEmpty(_ref11);
+
+      return (0, _defined2.default)(cullFace, initialState.cull.face, kDefaultMaterialCullingState.face);
     }
   };
-
-  /**
-   * Depth buffer state for a material.
-   *
-   * @public
-   * @type {Object}
-   * @see {@link kDefaultMaterialDepthState}
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#depth-buffer}
-   */
 
   this.depth = {
     enable: function enable() {
       return (0, _defined2.default)(initialState.depth.enable, kDefaultMaterialDepthState.enable);
     },
+
     range: function range() {
       return (0, _defined2.default)(initialState.depth.range, kDefaultMaterialDepthState.range);
     },
+
     func: function func() {
       return (0, _defined2.default)(initialState.depth.func, kDefaultMaterialDepthState.func);
     },
-    mask: function mask(_ref10) {
-      var _ref11 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          _ref11$opacity = _ref11.opacity,
-          opacity = _ref11$opacity === undefined ? (0, _defined2.default)(initialState.opacity, 1) : _ref11$opacity,
-          _ref11$transparent = _ref11.transparent,
-          transparent = _ref11$transparent === undefined ? (0, _defined2.default)(initialState.transparent, initialState.blend.enable, kDefaultMaterialDepthState.enable, false) : _ref11$transparent;
 
-      _objectDestructuringEmpty(_ref10);
+    mask: function mask(_ref13) {
+      var _ref14 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          _ref14$opacity = _ref14.opacity,
+          opacity = _ref14$opacity === undefined ? (0, _defined2.default)(initialState.opacity, 1) : _ref14$opacity,
+          _ref14$transparent = _ref14.transparent,
+          transparent = _ref14$transparent === undefined ? (0, _defined2.default)(initialState.transparent, initialState.blend.enable, kDefaultMaterialDepthState.enable, false) : _ref14$transparent;
+
+      _objectDestructuringEmpty(_ref13);
 
       if (opacity < 1.0 || transparent) {
         return true;
@@ -4803,323 +4736,140 @@ exports.MaterialState = function MaterialState(ctx) {
   };
 };
 
-/**
- * MaterialContext class.
- *
- * @public
- * @class MaterialContext
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#context}
- */
-
-var MaterialContext =
-
-/**
- * MaterialContext class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D render context.
- * @param {Object} initialState
- */
-
-exports.MaterialContext = function MaterialContext(ctx) {
-  var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  _classCallCheck(this, MaterialContext);
-
-  var _initialState$type2 = initialState.type,
-      type = _initialState$type2 === undefined ? types.MaterialType : _initialState$type2,
-      _initialState$id = initialState.id,
-      id = _initialState$id === undefined ? Material.id() : _initialState$id;
-
-  /**
-   * Material opacity.
-   *
-   * @public
-   * @type {Number}
-   */
-
-  this.opacity = function (_ref12) {
-    var _ref13 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        _ref13$opacity = _ref13.opacity,
-        opacity = _ref13$opacity === undefined ? initialState.opacity : _ref13$opacity;
-
-    _objectDestructuringEmpty(_ref12);
-
-    return (0, _defined2.default)(opacity, kDefaultMaterialOpacity);
-  };
-
-  /**
-   * Material type.
-   *
-   * @public
-   * @type {Number}
-   */
-
-  this.type = function () {
-    return (0, _defined2.default)(type, types.MaterialType);
-  };
-
-  /**
-   * Material color value.
-   *
-   * @public
-   * @type {Color|Vector4|Array}
-   * @name material.color
-   */
-
-  this.color = function (_ref14) {
-    var _ref15 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        _ref15$color = _ref15.color,
-        color = _ref15$color === undefined ? initialState.color : _ref15$color;
-
-    _objectDestructuringEmpty(_ref14);
-
-    return (0, _utils.ensureRGBA)((0, _defined2.default)(color, kDefaultMaterialColor));
-  };
-};
-
-/**
- * The MaterialUniforms class represents an object of
- * all injected uniforms for a material.
- *
- * @public
- * @class MaterialUniforms
- */
-
-var MaterialUniforms =
-
-/**
- * MaterialUniforms class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D context.
- * @param {?Object} initialState Optional initial state.
- */
-
-exports.MaterialUniforms = function MaterialUniforms(ctx) {
-  var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  _classCallCheck(this, MaterialUniforms);
-
-  var emptyTexture = ctx.regl.texture();
-  var emptyCubeTexture = ctx.regl.cube
-
-  /**
-   * Material opacity value.
-   *
-   * @public
-   * @type {Number}
-   * @name material.opacity
-   */
-
-  ();this['material.opacity'] = function (_ref16) {
-    var _ref16$opacity = _ref16.opacity,
-        opacity = _ref16$opacity === undefined ? initialState.opacity : _ref16$opacity;
-
-    return (0, _defined2.default)(opacity, kDefaultMaterialOpacity);
-  };
-
-  /**
-   * Material color value.
-   *
-   * @public
-   * @type {Color|Vector4|Array}
-   * @name material.color
-   */
-
-  this['material.color'] = function (_ref17) {
-    var _ref17$color = _ref17.color,
-        color = _ref17$color === undefined ? initialState.color : _ref17$color;
-
-    return (0, _defined2.default)(color, kDefaultMaterialColor);
-  };
-
-  /**
-   * Material type identifier.
-   *
-   * @public
-   * @type {Number}
-   * @name material.type
-   * @see {@link material/types}
-   */
-
-  this['material.type'] = function (_ref18) {
-    var _ref18$type = _ref18.type,
-        type = _ref18$type === undefined ? initialState.type : _ref18$type;
-
-    return (0, _defined2.default)(type, kDefaultMaterialType);
-  };
-
-  /**
-   * Texture map resolution if available.
-   *
-   * @public
-   * @type {Array<Number>|Vector2}
-   */
-
-  this['map.resolution'] = function (_ref19) {
-    var textureResolution = _ref19.textureResolution;
-
-    return (0, _defined2.default)(textureResolution, [0, 0]);
-  };
-
-  /**
-   * Texture map data if available.
-   *
-   * @public
-   * @type {Texture}
-   */
-
-  this['map.data'] = function (_ref20) {
-    var texture = _ref20.texture,
-        textureData = _ref20.textureData;
-
-    return (0, _defined2.default)(texture, emptyTexture);
-  };
-
-  /**
-   * Texture envmap resolution if available.
-   *
-   * @public
-   * @type {Array<Number>|Vector2}
-   */
-
-  this['envmap.resolution'] = function (_ref21) {
-    var textureResolution = _ref21.textureResolution;
-
-    return (0, _defined2.default)(textureResolution, [0, 0]);
-  };
-
-  /**
-   * Texture envmap data if available.
-   *
-   * @public
-   * @type {Texture}
-   */
-
-  this['envmap.data'] = function (_ref22) {
-    var texture = _ref22.texture,
-        textureData = _ref22.textureData;
-
-    return (0, _defined2.default)(texture, emptyTexture);
-  };
-
-  /**
-   * Texture cubemap data if available.
-   *
-   * @public
-   * @type {Texture}
-   */
-
-  this['cubemap.resolution'] = function (_ref23) {
-    var textureResolution = _ref23.textureResolution;
-
-    return (0, _defined2.default)(textureResolution, [0, 0]);
-  };
-
-  /**
-   * Texture cubemap data if available.
-   *
-   * @public
-   * @type {Texture}
-   */
-
-  this['cubemap.data'] = function (_ref24) {
-    var texture = _ref24.texture,
-        textureData = _ref24.textureData;
-
-    return (0, _defined2.default)(texture, emptyCubeTexture);
-  };
-
-  /**
-   * Texture envcubemap data if available.
-   *
-   * @public
-   * @type {Texture}
-   */
-
-  this['envcubemap.resolution'] = function (_ref25) {
-    var textureResolution = _ref25.textureResolution;
-
-    return (0, _defined2.default)(textureResolution, [0, 0]);
-  };
-
-  /**
-   * Texture envcubemap data if available.
-   *
-   * @public
-   * @type {Texture}
-   */
-
-  this['envcubemap.data'] = function (_ref26) {
-    var texture = _ref26.texture,
-        textureData = _ref26.textureData;
-
-    return (0, _defined2.default)(texture, emptyCubeTexture);
-  };
-};
-
-/**
- * The MaterialMap class represents an abstraction around a texture map
- * given to a material.
- *
- * @public
- * @class MaterialMap
- */
-
-var MaterialMap =
-
-/**
- * MaterialMap class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D context.
- * @param {?Object} initialState Optional initial state.
- */
-
-exports.MaterialMap = function MaterialMap(ctx) {
-  var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  _classCallCheck(this, MaterialMap);
-
-  /**
-   * Injects a map into a context for a material.
-   *
-   * @public
-   * @type {Function}
-   */
-
-  this.injectContext = ctx.regl({
-    context: {
-      map: function map(_ref27, _ref28) {
-        var _ref28$map = _ref28.map,
-            _map = _ref28$map === undefined ? initialState.map || initialState.envmap : _ref28$map;
-
-        _objectDestructuringEmpty(_ref27);
-
-        return _map;
-      },
-      cubemap: function cubemap(_ref29, _ref30) {
-        var _ref30$cubemap = _ref30.cubemap,
-            _cubemap = _ref30$cubemap === undefined ? initialState.envmap || initialState.map : _ref30$cubemap;
-
-        _objectDestructuringEmpty(_ref29);
-
-        return _cubemap;
+var MaterialContext = exports.MaterialContext = function (_DynamicValue) {
+  _inherits(MaterialContext, _DynamicValue);
+
+  function MaterialContext(ctx) {
+    var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, MaterialContext);
+
+    var _this2 = _possibleConstructorReturn(this, (MaterialContext.__proto__ || Object.getPrototypeOf(MaterialContext)).call(this, ctx));
+
+    var _initialState$type2 = initialState.type,
+        type = _initialState$type2 === undefined ? types.MaterialType : _initialState$type2;
+
+    _this2.type = function () {
+      return (0, _defined2.default)(type, types.MaterialType);
+    };
+    _this2.color = function (_ref15) {
+      var _ref16 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          color = _ref16.color;
+
+      _objectDestructuringEmpty(_ref15);
+
+      return (0, _utils.ensureRGBA)(new _color.Color((0, _defined2.default)(color, initialState.color, kDefaultMaterialColor)));
+    };
+    _this2.opacity = function (_ref17) {
+      var _ref18 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+          opacity = _ref18.opacity;
+
+      _objectDestructuringEmpty(_ref17);
+
+      return (0, _defined2.default)(opacity, initialState.opacity, kDefaultMaterialOpacity);
+    };
+    return _this2;
+  }
+
+  return MaterialContext;
+}(_gl.DynamicValue);
+
+var MaterialUniforms = exports.MaterialUniforms = function (_ShaderUniforms) {
+  _inherits(MaterialUniforms, _ShaderUniforms);
+
+  function MaterialUniforms(ctx) {
+    var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, MaterialUniforms);
+
+    var _this3 = _possibleConstructorReturn(this, (MaterialUniforms.__proto__ || Object.getPrototypeOf(MaterialUniforms)).call(this, ctx));
+
+    var emptyTexture = ctx.get('emptyTexture') || ctx.set('emptyTexture', ctx.regl.texture());
+    var emptyCubeTexture = ctx.get('emptyCubeTexture') || ctx.set('emptyCubeTexture', ctx.regl.cube());
+
+    var hasMap = false;
+    var hasEnvMap = false;
+
+    if (null != initialState.map) {
+      if (['cubetexture', 'texture'].indexOf((0, _types.typeOf)(initialState.map)) > -1) {
+        hasMap = true;
       }
     }
-  });
-};
 
-},{"../light/limits":41,"../material/types":48,"../stats":58,"../utils":59,"./color":5,"./command":6,"./texture":19,"./types":20,"defined":149,"gl-vec4":303,"glsl-inject-defines":322,"glslify":332}],15:[function(_dereq_,module,exports){
+    if (null != initialState.envmap) {
+      if (['cubetexture', 'texture'].indexOf((0, _types.typeOf)(initialState.envmap)) > -1) {
+        hasEnvMap = true;
+      }
+    }
+
+    // material uniform properties
+    /*this.set({
+      'material.opacity': ({opacity}) => coalesce(
+        opacity,
+        initialState.opacity,
+        kDefaultMaterialOpacity
+      ),
+       'material.color': ({color}) => coalesce(
+        color,
+        initialState.color,
+        kDefaultMaterialColor
+      ),
+       'material.type': ({type}) => coalesce(
+        type,
+        initialState.type,
+        kDefaultMaterialType
+      )
+    })*/
+
+    // texture map uniform properties
+    if (hasMap) {
+      _this3.set({
+        'map.resolution': function mapResolution(_ref19) {
+          var textureResolution = _ref19.textureResolution,
+              mapTextureResolution = _ref19.mapTextureResolution;
+
+          return (0, _defined2.default)(mapTextureResolution, textureResolution, [0, 0]);
+        },
+
+        'map.data': function mapData(_ref20) {
+          var texture = _ref20.texture,
+              _ref20$mapTexture = _ref20.mapTexture,
+              mapTexture = _ref20$mapTexture === undefined ? texture : _ref20$mapTexture;
+
+          var placeholder = 'texture' == (0, _types.typeOf)(mapTexture) ? emptyTexture : emptyCubeTexture;
+          return null == initialState.map ? placeholder : (0, _defined2.default)(mapTexture, placeholder);
+        }
+      });
+    }
+
+    // texture environment map uniform properties
+    if (hasEnvMap) {
+      _this3.set({
+        'envmap.resolution': function envmapResolution(_ref21) {
+          var textureResolution = _ref21.textureResolution,
+              envmapTextureResolution = _ref21.envmapTextureResolution;
+
+          return (0, _defined2.default)(envmapTextureResolution, textureResolution, [0, 0]);
+        },
+
+        'envmap.data': function envmapData(_ref22) {
+          var texture = _ref22.texture,
+              _ref22$envmapTexture = _ref22.envmapTexture,
+              envmapTexture = _ref22$envmapTexture === undefined ? texture : _ref22$envmapTexture;
+
+          var placeholder = 'texture' == (0, _types.typeOf)(envmapTexture) ? emptyTexture : emptyCubeTexture;
+          return null == initialState.envmap ? placeholder : (0, _defined2.default)(envmapTexture, placeholder);
+        }
+      });
+    }
+    return _this3;
+  }
+
+  return MaterialUniforms;
+}(_gl.ShaderUniforms);
+
+},{"../light/limits":47,"../material/types":54,"../stats":64,"../utils":65,"./color":5,"./command":6,"./gl":15,"./texture":25,"./types":26,"defined":155,"gl-vec4":309,"glsl-inject-defines":329,"glslify":339}],21:[function(_dereq_,module,exports){
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -5148,11 +4898,11 @@ var _extends = Object.assign || function (target) {
   }return target;
 };
 
+var _gl = _dereq_('./gl');
+
 var _utils = _dereq_('../utils');
 
 var _object3d = _dereq_('./object3d');
-
-var _math = _dereq_('../math');
 
 var _types = _dereq_('./types');
 
@@ -5196,14 +4946,6 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
-  } else {
-    obj[key] = value;
-  }return obj;
-}
-
 function _objectDestructuringEmpty(obj) {
   if (obj == null) throw new TypeError("Cannot destructure undefined");
 }
@@ -5227,72 +4969,15 @@ function _inherits(subClass, superClass) {
 }
 
 var kMat4Identity = _glMat2.default.identity([]);
-var kMat3Identity = _glMat4.default.identity([]
+var kMat3Identity = _glMat4.default.identity([]);
 
-/**
- * The default wireframe drawing primitive.
- *
- * @public
- * @const
- * @type {String}
- */
-
-);var kDefaultMeshWireframePrimitive = exports.kDefaultMeshWireframePrimitive = 'line strip';
-
-/**
- * The default wireframe line thickness value.
- *
- * @public
- * @const
- * @type {Number}
- */
-
+var kDefaultMeshWireframePrimitive = exports.kDefaultMeshWireframePrimitive = 'line strip';
 var kDefaultMeshWireframeThickness = exports.kDefaultMeshWireframeThickness = 1;
-
-/**
- * The default mesh drawing primitive.
- *
- * @public
- * @const
- * @type {String}
- */
-
 var kDefaultMeshPrimitive = exports.kDefaultMeshPrimitive = 'triangles';
-
-/**
- * The default vertex shader shource string.
- *
- * @public
- * @const
- * @type {String}
- */
-
-var kDefaultMeshVertexShader = exports.kDefaultMeshVertexShader = 'precision mediump float;\n#define GLSLIFY 1\n\n//\n// Shader dependcies.\n//\n\n/**\n * Modulue exports.\n */\n\n/**\n * Camera structure.\n */\n\nstruct Camera {\n  mat4 projection;\n  float aspect;\n  mat4 view;\n  vec3 eye;\n};\n\n/**\n */\n\nstruct Object3D {\n  vec3 scale;\n  vec3 position;\n  vec4 rotation;\n  mat4 transform;\n};\n\nstruct Mesh {\n  mat4 model;\n  mat3 modelNormal;\n};\n\n//\n// Shader uniforms.\n//\nuniform Camera camera;\nuniform Mesh mesh;\n\n//\n// Shader IO.\n//\n\n#ifdef HAS_POSITIONS\nattribute vec3 position;\n#endif\n\n#ifdef HAS_NORMALS\nattribute vec3 normal;\n#endif\n\n#ifdef HAS_UVS\nattribute vec2 uv;\n#endif\n\nvarying vec3 vposition;\nvarying vec3 vnormal;\nvarying vec2 vuv;\nvarying vec3 vLocalPosition;\nvarying vec3 vLocalNormal;\n\n#ifdef HAS_TRANSFORM_FUNC\n  TRANSFORM_FUNC_SOURCE\n#endif\n\nvoid main() {\n\n#if defined HAS_POSITIONS\n  vposition = (mesh.model * vec4(position, 1.0)).xyz;\n  vLocalPosition = position;\n  gl_Position =\n      camera.projection\n    * camera.view\n    * mesh.model\n    * vec4(position, 1.0);\n#endif\n\n#ifdef HAS_NORMALS\n  vnormal = normalize(mesh.modelNormal * normal);\n  vLocalNormal = normal;\n#endif\n\n#ifdef HAS_UVS\n  vuv = uv;\n#endif\n\n#ifdef HAS_TRANSFORM_FUNC\n  transform();\n#endif\n}\n\n';
-
-/**
- * The Mesh class represents an abstraction around something drawable
- * to the screen. This class consumes a {@link Geometry} that provides
- * simplicial complex data such as positions, normals, and uv coordinates.
- * This class provides a default vertex shader and expects a fragment shader
- * to be injected into the context before drawing. This class extends
- * {@link Object3D] which gives it a 3D positional interface.
- *
- * @public
- * @class Mesh
- * @extends Object3D
- */
+var kDefaultMeshVertexShader = exports.kDefaultMeshVertexShader = 'precision mediump float;\n#define GLSLIFY 1\n\n//\n// Shader dependcies.\n//\n\n/**\n * Modulue exports.\n */\n\n/**\n * Camera structure.\n */\n\nstruct Camera {\n  mat4 invertedView;\n  mat4 projection;\n  float aspect;\n  mat4 view;\n  vec3 eye;\n};\n\nstruct Mesh {\n  vec3 scale;\n  mat4 model;\n  mat3 modelNormal;\n};\n\n//\n// Shader uniforms.\n//\nuniform Camera camera;\nuniform Mesh mesh;\n\n//\n// Shader IO.\n//\n\n#ifdef HAS_POSITIONS\nattribute vec3 position;\n#endif\n\n#ifdef HAS_NORMALS\nattribute vec3 normal;\n#endif\n\n#ifdef HAS_UVS\nattribute vec2 uv;\n#endif\n\nvarying vec3 vLocalPosition;\nvarying vec3 vLocalNormal;\nvarying vec3 vposition;\nvarying vec3 vnormal;\nvarying vec2 vuv;\n\n#ifdef HAS_TRANSFORM_FUNC\n  TRANSFORM_FUNC_SOURCE\n#endif\n\nvoid main() {\n\n#if defined HAS_POSITIONS\n  vposition = (mesh.model * vec4(mesh.scale*position, 1.0)).xyz;\n  vLocalPosition = position;\n  gl_Position =\n      camera.projection\n    * camera.view\n    * mesh.model\n    * vec4(mesh.scale*position, 1.0);\n#endif\n\n#ifdef HAS_NORMALS\n  vnormal = normalize(mesh.modelNormal * normal);\n  vLocalNormal = normal;\n#endif\n\n#ifdef HAS_UVS\n  vuv = uv;\n#endif\n\n#ifdef HAS_TRANSFORM_FUNC\n  transform();\n#endif\n}\n\n';
 
 var Mesh = exports.Mesh = function (_Object3D) {
   _inherits(Mesh, _Object3D);
-
-  /**
-   * Mesh class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {!Object} initialState Required initial state.
-   */
 
   function Mesh(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -5303,38 +4988,14 @@ var Mesh = exports.Mesh = function (_Object3D) {
       initialState.geometry = new _geometry.Geometry({ complex: initialState.geometry });
     }
 
-    /**
-     * Mesh shader attributes.
-     */
-
     var _initialState$attribu = initialState.attributes,
         attributes = _initialState$attribu === undefined ? new MeshAttributes(ctx, initialState) : _initialState$attribu;
-
-    /**
-     * Mesh shader uniforms.
-     */
-
     var _initialState$uniform = initialState.uniforms,
         uniforms = _initialState$uniform === undefined ? new MeshUniforms(ctx, initialState) : _initialState$uniform;
-
-    /**
-     * Mesh context.
-     */
-
     var _initialState$context = initialState.context,
         context = _initialState$context === undefined ? new MeshContext(ctx, initialState) : _initialState$context;
-
-    /**
-     * Mesh state.
-     */
-
     var _initialState$state = initialState.state,
         state = _initialState$state === undefined ? new MeshState(ctx, initialState) : _initialState$state;
-
-    /**
-     * Optional update function.
-     */
-
     var _initialState$update = initialState.update,
         updateMesh = _initialState$update === undefined ? function (_ref, f) {
       _objectDestructuringEmpty(_ref);
@@ -5342,32 +5003,15 @@ var Mesh = exports.Mesh = function (_Object3D) {
       return f();
     } : _initialState$update;
 
-    /**
-     * Regl contest.
-     */
-
-    var injectContext = ctx.regl({ context: context
-
-      /**
-       * Mesh draw command.
-       */
-
-    });var draw = ctx.regl(_extends({}, state, {
-      attributes: attributes,
-      uniforms: uniforms
-    }));
+    var injectContext = ctx.regl({ context: context });
+    var draw = ctx.regl(_extends({}, state, { attributes: attributes, uniforms: uniforms }));
 
     var _this = _possibleConstructorReturn(this, (Mesh.__proto__ || Object.getPrototypeOf(Mesh)).call(this, ctx, _extends({}, initialState, { context: context, update: update })));
 
     (0, _stats.incrementStat)('Mesh');
-    (0, _types.assignTypeName)(_this, 'mesh'
+    (0, _types.assignTypeName)(_this, 'mesh');
 
-    /**
-     * Draws mesh and with given state and
-     * then calling an optional given block
-     */
-
-    );function update(_ref2, state, block) {
+    function update(_ref2, state, block) {
       _objectDestructuringEmpty(_ref2);
 
       injectContext(state, function () {
@@ -5395,25 +5039,8 @@ var Mesh = exports.Mesh = function (_Object3D) {
   return Mesh;
 }(_object3d.Object3D);
 
-/**
- * Object3DContext class that represents an injected regl context.
- *
- * @public
- * @class MeshContext
- * @see {@link Object3DContext}
- */
-
 var MeshContext = exports.MeshContext = function (_Object3DContext) {
   _inherits(MeshContext, _Object3DContext);
-
-  /**
-   * MeshContext class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D render context.
-   * @param {Object} initialState
-   */
 
   function MeshContext(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -5426,64 +5053,14 @@ var MeshContext = exports.MeshContext = function (_Object3DContext) {
 
     // protected properties
 
-    Object.defineProperties(_this2, _defineProperty({
-      computedBoundingBox: {
-        enumerable: false,
-        writable: true,
-        value: null
-      },
-
-      computedSize: {
-        enumerable: false,
-        writable: true,
-        value: null
-      }
-
-    }, 'computedSize', {
-      enumerable: false,
-      writable: true,
-      value: null
-    }
-
-    /**
-     * The underlying geometry that wraps a simplicial complex
-     * that is given as shader attribute input.
-     *
-     * @public
-     * @type {Geometry}
-     */
-
-    ));_this2.geometry = geometry;
-
-    /**
-     * A computed bounding box for a mesh.
-     *
-     * @public
-     * @type {Array<Vector>}
-     */
-
-    _this2.boundingBox = function () {
-      return _this2.computeBoundingBox.apply(_this2, arguments);
-    };
-
-    /**
-     * A computed size represented for a mesh.
-     *
-     * @public
-     * @type {Vector}
-     */
+    Object.defineProperties(_this2, {
+      computedBoundingBox: { enumerable: false, writable: true, value: null },
+      computedSize: { enumerable: false, writable: true, value: null }
+    });
 
     _this2.size = function () {
       return _this2.computeSize.apply(_this2, arguments);
     };
-
-    /**
-     * Visibility boolean
-     *
-     * @public
-     * @type {Boolean}
-     */
-
     _this2.visible = function (_ref3) {
       var _ref4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
           visible = _ref4.visible;
@@ -5492,23 +5069,17 @@ var MeshContext = exports.MeshContext = function (_Object3DContext) {
 
       return (0, _defined2.default)(visible, initialState.visible, true);
     };
+    _this2.geometry = geometry;
+    _this2.boundingBox = function () {
+      return _this2.computeBoundingBox.apply(_this2, arguments);
+    };
     return _this2;
   }
-
-  /**
-   * Function to compute the bounding box of the internal
-   * geometry. The bounding box is computed once and cached.
-   *
-   * @public
-   * @method
-   * @param {Boolean} force
-   */
 
   _createClass(MeshContext, [{
     key: 'computeBoundingBox',
     value: function computeBoundingBox() {
-      var force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
+      var force = arguments[0];
       if (null == this.geometry) {
         return null;
       }
@@ -5517,18 +5088,6 @@ var MeshContext = exports.MeshContext = function (_Object3DContext) {
       }
       return this.computedBoundingBox;
     }
-
-    /**
-     * Function to compute the size of the geometry with
-     * respect to scaling and dimension.
-     *
-     * @public
-     * @method
-     * @param {?Object} opts
-     * @param {?Number} opts.scale - default is 1
-     *
-     */
-
   }, {
     key: 'computeSize',
     value: function computeSize() {
@@ -5545,16 +5104,16 @@ var MeshContext = exports.MeshContext = function (_Object3DContext) {
       this.computeBoundingBox();
 
       var boundingBox = this.computedBoundingBox;
-      var dimension = boundingBox[0].length;
+      var dimension = boundingBox && boundingBox[0].length;
       var min = boundingBox[0];
       var max = boundingBox[1];
       var size = null;
 
       switch (dimension) {
         case 3:
-          size = _glVec4.default.subtract(new _math.Vector3(), max, min);break;
+          size = _glVec4.default.subtract([], max, min);break;
         case 2:
-          size = _glVec6.default.subtract(new _math.Vector2(), max, min);break;
+          size = _glVec6.default.subtract([], max, min);break;
         default:
           return null;
       }
@@ -5573,30 +5132,13 @@ var MeshContext = exports.MeshContext = function (_Object3DContext) {
   return MeshContext;
 }(_object3d.Object3DContext);
 
-/**
- * MeshState class.
- *
- * @public
- * @class MeshState
-*/
-
-var MeshState =
-/**
- * MeshState class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D render context.
- * @param {Object} initialState
- */
-
-exports.MeshState = function MeshState(ctx, initialState) {
+var MeshState = exports.MeshState = function MeshState(ctx, initialState) {
   _classCallCheck(this, MeshState);
 
-  var _initialState$frag = initialState.frag,
-      fragmentShader = _initialState$frag === undefined ? null : _initialState$frag,
-      _initialState$vert = initialState.vert,
-      vertexShader = _initialState$vert === undefined ? kDefaultMeshVertexShader : _initialState$vert,
+  var _initialState$fragmen = initialState.fragmentShader,
+      fragmentShader = _initialState$fragmen === undefined ? null : _initialState$fragmen,
+      _initialState$vertexS = initialState.vertexShader,
+      vertexShader = _initialState$vertexS === undefined ? kDefaultMeshVertexShader : _initialState$vertexS,
       _initialState$geometr = initialState.geometry,
       geometry = _initialState$geometr === undefined ? null : _initialState$geometr,
       vertexShaderTransform = initialState.vertexShaderTransform;
@@ -5624,30 +5166,9 @@ exports.MeshState = function MeshState(ctx, initialState) {
     }
   }
 
-  /**
-   * Mesh vertex shader source.
-   *
-   * @public
-   * @type {String}
-   */
-
   this.vert = 'string' == typeof vertexShader ? (0, _glslInjectDefines2.default)(vertexShader, shaderDefines) : null;
 
-  /**
-   * Optional mesh fragment shader source.
-   *
-   * @public
-   * @type {String|undefined}
-   */
-
   this.frag = 'string' == typeof fragmentShader ? (0, _glslInjectDefines2.default)(fragmentShader, shaderDefines) : null;
-
-  /**
-   * The line width value used for wireframe meshes.
-   *
-   * @public
-   * @type {Number}
-   */
 
   this.lineWidth = function (_ref6) {
     var _ref7 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
@@ -5661,39 +5182,25 @@ exports.MeshState = function MeshState(ctx, initialState) {
     return Math.max(1, (0, _defined2.default)(wireframeThickness, lineWidth, kDefaultMeshWireframeThickness));
   };
 
-  /**
-   * The mesh drawing primitive.
-   *
-   * @public
-   * @type {String}
-   */
-
   this.primitive = function (_ref8) {
     var _ref9 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
         _ref9$primitive = _ref9.primitive,
         primitive = _ref9$primitive === undefined ? null : _ref9$primitive,
         _ref9$wireframe = _ref9.wireframe,
-        wireframe = _ref9$wireframe === undefined ? false : _ref9$wireframe;
+        wireframe = _ref9$wireframe === undefined ? (0, _defined2.default)(initialState.wireframe, false) : _ref9$wireframe;
 
     _objectDestructuringEmpty(_ref8);
 
-    if ('string' == typeof primitive) {
-      return primitive;
-    } else if (wireframe) {
+    if (wireframe) {
       return (0, _defined2.default)(initialState.wireframePrimitive, kDefaultMeshWireframePrimitive);
+    } else if ('string' == typeof primitive) {
+      return primitive;
     } else if ('string' == typeof initialState.primitive) {
       return initialState.primitive;
     } else {
       return kDefaultMeshPrimitive;
     }
   };
-
-  /**
-   * Mesh elements array if geometry provides cells.
-   *
-   * @public
-   * @type {Array|null}
-   */
 
   this.elements = !geometry || !geometry.cells ? null : function (_ref10) {
     var _ref11 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
@@ -5711,13 +5218,6 @@ exports.MeshState = function MeshState(ctx, initialState) {
     }
     return cells;
   };
-
-  /**
-   * Mesh triangle count if geometry does not provide cells.
-   *
-   * @public
-   * @type {Number|null}
-   */
 
   this.count = !geometry || geometry.cells ? null : function (_ref12) {
     var _ref13 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
@@ -5745,161 +5245,52 @@ exports.MeshState = function MeshState(ctx, initialState) {
   }
 };
 
-/**
- * MeshUniforms class.
- *
- * @public
- * @class MeshUniforms
- */
+var MeshUniforms = exports.MeshUniforms = function (_ShaderUniforms) {
+  _inherits(MeshUniforms, _ShaderUniforms);
 
-var MeshUniforms =
+  function MeshUniforms(ctx) {
+    var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-/**
- * MeshUniforms class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D render context.
- * @param {Object} initialState
- */
+    _classCallCheck(this, MeshUniforms);
 
-exports.MeshUniforms = function MeshUniforms(ctx, initialState) {
-  _classCallCheck(this, MeshUniforms);
+    var _this3 = _possibleConstructorReturn(this, (MeshUniforms.__proto__ || Object.getPrototypeOf(MeshUniforms)).call(this, ctx));
 
-  /**
-   * Mesh model matrix uniform.
-   *
-   * @public
-   * @type {Array<Number>}
-   */
+    _this3.set({
+      //'mesh.scale': this.contextOrArgument('scale', null, [1, 1, 1]),
+      //'mesh.position': this.contextOrArgument('position', null, [0, 0, 0]),
+      //'mesh.rotation': this.contextOrArgument('rotation', null, [0, 0, 0, 1]),
+      //'mesh.model': ({transform}) => isArrayLike(transform) ? transform : kMat4Identity,
 
-  this['mesh.model'] = function (_ref14) {
-    var transform = _ref14.transform;
-
-    return transform || kMat4Identity;
-  };
-
-  /**
-   * Mesh model normal matrix uniform.
-   *
-   * @public
-   * @type {Array<Number>}
-   */
-
-  this['mesh.modelNormal'] = function (_ref15) {
-    var transform = _ref15.transform;
-
-    if ((0, _utils.isArrayLike)(transform)) {
-      return _glMat4.default.normalFromMat4([], transform) || kMat3Identity;
-    } else {
-      return kMat3Identity;
-    }
-  };
-
-  /**
-   * Mesh fallback opacity uniform value.
-   *
-   * @public
-   * @type {Number}
-   * @TODO - figure out a better fallback here and in the shader.
-   */
-
-  // at least enough for flat shading incase a material isn't given
-  this['material.opacity'] = function (_ref16) {
-    var contextOpacity = _ref16.opacity;
-
-    var _ref17 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        _ref17$opacity = _ref17.opacity,
-        opacity = _ref17$opacity === undefined ? contextOpacity : _ref17$opacity;
-
-    return (0, _defined2.default)(opacity, 1);
-  };
-
-  /**
-   * Mesh fallback color uniform value.
-   *
-   * @public
-   * @type {Array<Number>}
-   * @TODO - figure out a better fallback here and in the shader.
-   */
-
-  this['material.color'] = function (_ref18) {
-    var contextColor = _ref18.color;
-
-    var _ref19 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        _ref19$color = _ref19.color,
-        color = _ref19$color === undefined ? contextColor : _ref19$color;
-
-    return (0, _utils.ensureRGBA)(color);
-  };
-
-  // remove null or undefined values
-  for (var key in this) {
-    if (null == this[key]) {
-      delete this[key];
-    }
+      //'mesh.modelNormal': ({transform}) => isArrayLike(transform) ? mat3.normalFromMat4([], transform) || kMat3Identity : kMat3Identity,
+    });
+    return _this3;
   }
-};
 
-/**
- * MeshAttributes class.
- *
- * @public
- * @class MeshAttributes
-*/
+  return MeshUniforms;
+}(_gl.ShaderUniforms);
 
-var MeshAttributes =
+var MeshAttributes = exports.MeshAttributes = function (_ShaderAttributes) {
+  _inherits(MeshAttributes, _ShaderAttributes);
 
-/**
- * MeshAttributes class constructor.
- *
- * @public
- * @constructor
- * @param {!Context} ctx Axis3D render context.
- * @param {!Object} initialState
-*/
+  function MeshAttributes(ctx, initialState) {
+    _classCallCheck(this, MeshAttributes);
 
-exports.MeshAttributes = function MeshAttributes(ctx, initialState) {
-  _classCallCheck(this, MeshAttributes);
+    var geometry = initialState.geometry;
 
-  var geometry = initialState.geometry;
+    var _this4 = _possibleConstructorReturn(this, (MeshAttributes.__proto__ || Object.getPrototypeOf(MeshAttributes)).call(this, ctx));
 
-  /**
-   * 'position' vertex attributes value.
-   *
-   * @public
-   * @type {Array<Array<Number>>|Array<Vector3>|null}
-   */
-
-  this.position = (0, _defined2.default)(geometry.positions, null
-
-  /**
-   * 'position' vertex attributes value.
-   *
-   * @public
-   * @type {Array<Array<Number>>|Array<Vector3>|null}
-   */
-
-  );this.normal = (0, _defined2.default)(geometry.normals, null
-
-  /**
-   * 'position' vertex attributes value.
-   *
-   * @public
-   * @type {Array<Array<Number>>|Array<Vector2>|null}
-   */
-
-  );this.uv = (0, _defined2.default)(geometry.uvs, null
-
-  // remove null or undefined values
-  );for (var key in this) {
-    if (null == this[key]) {
-      delete this[key];
-    }
+    _this4.set({
+      position: (0, _defined2.default)(geometry.positions, null),
+      normal: (0, _defined2.default)(geometry.normals, null),
+      uv: (0, _defined2.default)(geometry.uvs, null)
+    });
+    return _this4;
   }
-};
 
-},{"../math":50,"../stats":58,"../utils":59,"./geometry":10,"./object3d":16,"./types":20,"clamp":101,"defined":149,"gl-mat3":173,"gl-mat4":191,"gl-vec2":243,"gl-vec3":273,"gl-vec4":303,"glsl-inject-defines":322,"glslify":332}],16:[function(_dereq_,module,exports){
+  return MeshAttributes;
+}(_gl.ShaderAttributes);
+
+},{"../stats":64,"../utils":65,"./geometry":12,"./gl":15,"./object3d":22,"./types":26,"clamp":107,"defined":155,"gl-mat3":179,"gl-mat4":197,"gl-vec2":249,"gl-vec3":279,"gl-vec4":309,"glsl-inject-defines":329,"glslify":339}],22:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -5940,6 +5331,8 @@ var _command = _dereq_('./command');
 var _vector = _dereq_('./vector');
 
 var _utils = _dereq_('../utils');
+
+var _entity = _dereq_('./entity');
 
 var _defined = _dereq_('defined');
 
@@ -5993,20 +5386,8 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-/**
- * Next available Object3D ID represented
- * as an integer.
- * @private
- */
-
 var OBJECT_COMMAND_NEXT_ID = 0x6f;
-
-/**
- * Mat4 identity matrix.
- * @private
- */
-
-var kMat4Identity = _glMat2.default.identity([]
+var kMat4Identity = _glMat2.default.identity([]);
 
 /**
  * Object3D is the base command type that most types in
@@ -6017,9 +5398,8 @@ var kMat4Identity = _glMat2.default.identity([]
  * @extends Command
  */
 
-);
-var Object3D = exports.Object3D = function (_Command) {
-  _inherits(Object3D, _Command);
+var Object3D = exports.Object3D = function (_Entity) {
+  _inherits(Object3D, _Entity);
 
   _createClass(Object3D, null, [{
     key: 'id',
@@ -6032,7 +5412,6 @@ var Object3D = exports.Object3D = function (_Command) {
      * @method
      * @return {Number}
      */
-
     value: function id() {
       return OBJECT_COMMAND_NEXT_ID++;
     }
@@ -6070,28 +5449,15 @@ var Object3D = exports.Object3D = function (_Command) {
 
     _classCallCheck(this, Object3D);
 
-    var _this = _possibleConstructorReturn(this, (Object3D.__proto__ || Object.getPrototypeOf(Object3D)).call(this, update));
+    var _this = _possibleConstructorReturn(this, (Object3D.__proto__ || Object.getPrototypeOf(Object3D)).call(this, ctx, initialState, update));
 
     (0, _stats.incrementStat)('Object3D');
-    (0, _types.assignTypeName)(_this, 'object3d'
-
-    /**
-     * Optional update function.
-     */
-
-    );var _initialState$update = initialState.update,
-        updateObject = _initialState$update === undefined ? null : _initialState$update;
-
-    if (null != updateObject && 'function' != typeof updateObject) {
-      throw new TypeError('Expecting update function to be a function. Got ' + (typeof updateObject === 'undefined' ? 'undefined' : _typeof(updateObject)) + '.');
-    }
-
-    /**
-     * The injected regl context.
-     */
+    (0, _types.assignTypeName)(_this, 'object3d');
 
     var _initialState$context = initialState.context,
         context = _initialState$context === undefined ? new Object3DContext(ctx, initialState) : _initialState$context;
+    var _initialState$update = initialState.update,
+        updateObject = _initialState$update === undefined ? null : _initialState$update;
 
     // ensure context is a descendant of Object3DContext
 
@@ -6099,17 +5465,13 @@ var Object3D = exports.Object3D = function (_Command) {
       throw new TypeError("Expecting instance of Object3DContext given.");
     }
 
-    /**
-     * Regl context injection function.
-     */
+    if (null != updateObject && 'function' != typeof updateObject) {
+      throw new TypeError('Expecting update function to be a function. Got ' + (typeof updateObject === 'undefined' ? 'undefined' : _typeof(updateObject)) + '.');
+    }
 
-    var injectContext = ctx.regl({ context: context
+    var injectContext = ctx.regl({ context: context });
 
-      /**
-       * Calls current target render function
-       */
-
-    });function update(state, block) {
+    function update(state, block) {
       // ensure correct values
       if ('function' == typeof state) {
         block = state;
@@ -6138,7 +5500,7 @@ var Object3D = exports.Object3D = function (_Command) {
   }
 
   return Object3D;
-}(_command.Command);
+}(_entity.Entity);
 
 /**
  * Object3DContext class that represents an injected regl context.
@@ -6160,7 +5522,6 @@ var Object3DContext = exports.Object3DContext = function () {
    * @param {!Context} ctx Axis3D render context.
    * @param {Object} initialState
    */
-
   function Object3DContext(ctx) {
     var _this2 = this;
 
@@ -6181,20 +5542,11 @@ var Object3DContext = exports.Object3DContext = function () {
         _initialState$id = initialState.id,
         id = _initialState$id === undefined ? Object3D.id() : _initialState$id;
 
-    /**
-     * World transform matrix.
-     */
-
-    var transformMatrix = _glMat2.default.identity([]
-
-    /**
-     * Local model matrix.
-     */
-
-    );var localMatrix = _glMat2.default.identity([]
+    var transformMatrix = _glMat2.default.identity([]);
+    var localMatrix = _glMat2.default.identity([]);
 
     // protected properties
-    );Object.defineProperties(this, {
+    Object.defineProperties(this, {
       shouldComputeTransformMatrix: {
         enumerable: false,
         value: computeTransformMatrix
@@ -6223,34 +5575,16 @@ var Object3DContext = exports.Object3DContext = function () {
       localMatrix: { get: function get() {
           return localMatrix;
         }, enumerable: false }
+    });
 
-      /**
-       * Object3D instance ID.
-       *
-       * @public
-       * @type {Number|String}
-       */
-
-    });this.id = function (_ref) {
+    this.id = function (_ref) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       _objectDestructuringEmpty(_ref);
 
       args = args || {};
-      // no null/undefined
-      if (null != args.id) {
-        return (0, _defined2.default)(args.id, id);
-      } else {
-        return id;
-      }
+      return (0, _defined2.default)(args.id, id);
     };
-
-    /**
-     * Object3D scale vector applied to local matrix.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
 
     this.scale = function (_ref2) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -6271,16 +5605,10 @@ var Object3DContext = exports.Object3DContext = function () {
         } catch (e) {
           return [scale, scale, scale];
         }
+      } else {
+        return [1, 1, 1];
       }
     };
-
-    /**
-     * Object3D position vector that translates the
-     * local matrix.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
 
     this.position = function (_ref3) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -6299,15 +5627,10 @@ var Object3DContext = exports.Object3DContext = function () {
         } catch (e) {
           return [position, position, position];
         }
+      } else {
+        return [0, 0, 0];
       }
     };
-
-    /**
-     * Object3D rotation quaternion.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
 
     this.rotation = function (_ref4) {
       var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -6325,45 +5648,13 @@ var Object3DContext = exports.Object3DContext = function () {
       }
     };
 
-    /**
-     * Object3D tranform matrix that is computed from positional
-     * context data such as position, rotation, and scale. If a
-     * transform is given as an argument to the command then it is
-     * applied to the computed transform last.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     this.transform = function () {
       return _this2.computeTransformMatrix.apply(_this2, arguments);
     };
-
-    /**
-     * Object3D local matrix that is computed from positional
-     * context data such as position, rotation, and scale. If a
-     * transform is given as an argument to the command then it is
-     * applied to the computed transform last.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     this.matrix = function () {
       return _this2.computeLocalMatrix.apply(_this2, arguments);
     };
   }
-
-  /**
-   * Computes the transform matrix for the injected Object3D
-   * context derived from rotation, position, and scale data.
-   *
-   * @protected
-   * @method
-   * @param {{transform: Array}} ctx
-   * @param {{transform: Array}} opts
-   * @return {Array}
-   */
 
   _createClass(Object3DContext, [{
     key: 'computeTransformMatrix',
@@ -6392,18 +5683,6 @@ var Object3DContext = exports.Object3DContext = function () {
       }
       return this.transformMatrix;
     }
-
-    /**
-     * Computes the local matrix for the injected Object3D
-     * context derived from rotation, position, and scale data.
-     *
-     * @protected
-     * @method
-     * @param {{transform: Array}} ctx
-     * @param {{transform: Array}} opts
-     * @return {Array}
-     */
-
   }, {
     key: 'computeLocalMatrix',
     value: function computeLocalMatrix(_ref7) {
@@ -6433,7 +5712,7 @@ var Object3DContext = exports.Object3DContext = function () {
   return Object3DContext;
 }();
 
-},{"../math":50,"../stats":58,"../utils":59,"./command":6,"./types":20,"./vector":21,"defined":149,"gl-mat4":191,"gl-quat":216,"gl-vec2":243,"gl-vec3":273,"gl-vec4":303}],17:[function(_dereq_,module,exports){
+},{"../math":56,"../stats":64,"../utils":65,"./command":6,"./entity":9,"./types":26,"./vector":27,"defined":155,"gl-mat4":197,"gl-quat":222,"gl-vec2":249,"gl-vec3":279,"gl-vec4":309}],23:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -6530,13 +5809,13 @@ var Stream = exports.Stream = function (_Command) {
      * Injects a stream regl context.
      */
 
-    var injectContext = ctx.regl({ context: context
+    var injectContext = ctx.regl({ context: context });
 
-      /**
-       * Command update function.
-       */
+    /**
+     * Command update function.
+     */
 
-    });function update() {
+    function update() {
       var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var block = arguments[1];
 
@@ -6600,7 +5879,7 @@ exports.StreamContext = function StreamContext(ctx) {
 
   stream.on('error', function (err) {
     ctx.emit('error', err);
-  }
+  });
 
   /**
    * Internal stream context reference.
@@ -6609,7 +5888,7 @@ exports.StreamContext = function StreamContext(ctx) {
    * @type {TransformStream}
    */
 
-  );this.stream = stream;
+  this.stream = stream;
 
   /**
    * Reference to the latest data emitted.
@@ -6641,7 +5920,7 @@ exports.StreamContext = function StreamContext(ctx) {
   }
 };
 
-},{"./command":6,"defined":149,"through2":421}],18:[function(_dereq_,module,exports){
+},{"./command":6,"defined":155,"through2":429}],24:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -6749,13 +6028,14 @@ var Text = exports.Text = function (_Command) {
 
     var _this = _possibleConstructorReturn(this, (Text.__proto__ || Object.getPrototypeOf(Text)).call(this, update));
 
-    (0, _types.assignTypeName)(_this, 'text'
+    (0, _types.assignTypeName)(_this, 'text');
 
+    _this.typeName = 'text';
     /**
      * Injected regl context.
      */
 
-    );var _initialState$context = initialState.context,
+    var _initialState$context = initialState.context,
         context = _initialState$context === undefined ? new TextContext(ctx, initialState) : _initialState$context;
 
     /**
@@ -6867,7 +6147,7 @@ exports.TextContext = function TextContext(ctx) {
   };
 };
 
-},{"../geometry/extrude_geometry":26,"./command":6,"./mesh":15,"./object3d":16,"./types":20,"defined":149,"unindex-mesh":428,"vectorize-text":435}],19:[function(_dereq_,module,exports){
+},{"../geometry/extrude_geometry":32,"./command":6,"./mesh":21,"./object3d":22,"./types":26,"defined":155,"unindex-mesh":436,"vectorize-text":443}],25:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -6987,19 +6267,19 @@ var HAVE_ENOUGH_DATA = _HTMLVideoElement$HAV5 === undefined ? 4 : _HTMLVideoElem
 var kDefaultTextureState = exports.kDefaultTextureState = Object.seal({
   min: 'linear',
   mag: 'linear'
-
-  /**
-   * A Texture class represents an interface wrapping, uploading,
-   * data.
-   * and manipulating 2D texture data such as image, video, and canvas
-   *
-   * @public
-   * @class Texture
-   * @extends Command
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#textures}
-   */
-
 });
+
+/**
+ * A Texture class represents an interface wrapping, uploading,
+ * data.
+ * and manipulating 2D texture data such as image, video, and canvas
+ *
+ * @public
+ * @class Texture
+ * @extends Command
+ * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#textures}
+ */
+
 var Texture = exports.Texture = function (_Command) {
   _inherits(Texture, _Command);
 
@@ -7020,14 +6300,11 @@ var Texture = exports.Texture = function (_Command) {
     var _this = _possibleConstructorReturn(this, (Texture.__proto__ || Object.getPrototypeOf(Texture)).call(this, update));
 
     (0, _stats.incrementStat)('Texture');
-    (0, _types.assignTypeName)(_this, 'texture'
-
-    // this.typeName = 'texture'
-    );(0, _types.assignTypeName)(_this, 'texture'
+    (0, _types.assignTypeName)(_this, 'texture');
 
     // texture state used for in place regl
     // texture reinitialization
-    );var textureState = new TextureState(ctx, initialState || {});
+    var textureState = new TextureState(ctx, initialState || {});
 
     // injected texture context
     var _initialState$context = initialState.context,
@@ -7035,23 +6312,22 @@ var Texture = exports.Texture = function (_Command) {
 
     // regl context
 
-    var injectContext = ctx.regl({ context: context
+    var injectContext = ctx.regl({ context: context });
 
-      // texture update function
-    });function update(state, block) {
+    // texture update function
+    function update(state, block) {
       if ('function' == typeof state) {
         block = state;
         state = {};
       }
-
       state = state || {};
       block = block || function () {};
 
-      textureState.update(_extends({}, initialState, state
+      textureState.update(_extends({}, initialState, state));
 
       // inject texture context exposing useful
       // texture state variables
-      ));injectContext(block);
+      injectContext(block);
 
       return this;
     }
@@ -7154,15 +6430,16 @@ exports.TextureContext = function TextureContext(ctx, textureState) {
         return textureState;
       }
     }
+  });
 
-    /**
-     * Underlying resolution of the texture data.
-     *
-     * @public
-     * @type {Vector2|Array<Number>}
-     */
+  /**
+   * Underlying resolution of the texture data.
+   *
+   * @public
+   * @type {Vector2|Array<Number>}
+   */
 
-  });this.textureResolution = function () {
+  this.textureResolution = function () {
     return Texture.getTextureDataResolution(textureState, textureState.data);
   };
 
@@ -7212,32 +6489,14 @@ var TextureState = exports.TextureState = function () {
 
     _classCallCheck(this, TextureState);
 
-    Object.assign(this, _extends({}, kDefaultTextureState, initialState
+    Object.assign(this, _extends({}, kDefaultTextureState, initialState));
 
-    /**
-     * Underlying texture pointer.
-     */
+    var texture = ctx.regl.texture(_extends({}, this));
 
-    ));var texture = ctx.regl.texture(_extends({}, this
-
-    /**
-     * Texture state data stored as reference for injection
-     * into the regl conext.
-     */
-
-    ));var _initialState$data = initialState.data,
+    var _initialState$data = initialState.data,
         data = _initialState$data === undefined ? null : _initialState$data;
 
-    /**
-     * Timestamp of last known update of a video texture.
-     */
-
     var lastVideoUpdate = 0;
-
-    /**
-     * Previous raw texture data.
-     */
-
     var previouslyUploadedData = null;
 
     // protected properties
@@ -7323,11 +6582,11 @@ var TextureState = exports.TextureState = function () {
 
       if (needsUpdate) {
         // computed texture data resolution
-        var resolution = Texture.getTextureDataResolution(this, data
+        var resolution = Texture.getTextureDataResolution(this, data);
         // mark for update if resolution is available and
         // the previously uploaded texture data defers from
         // the current input data
-        );if (!(resolution[0] > 0 && resolution[1] > 0)) {
+        if (!(resolution[0] > 0 && resolution[1] > 0)) {
           needsUpdate = false;
         }
       }
@@ -7351,7 +6610,7 @@ var TextureState = exports.TextureState = function () {
   return TextureState;
 }();
 
-},{"../stats":58,"./command":6,"./types":20,"global/window":321}],20:[function(_dereq_,module,exports){
+},{"../stats":64,"./command":6,"./types":26,"global/window":328}],26:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -7442,7 +6701,7 @@ var instanceOf = exports.instanceOf = function instanceOf(instance, Parent) {
   }
 };
 
-},{}],21:[function(_dereq_,module,exports){
+},{}],27:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -7817,7 +7076,7 @@ var Vector = exports.Vector = function () {
 
 Object.setPrototypeOf(Vector.prototype, Array.prototype);
 
-},{"../utils":59,"./types":20,"defined":149,"get-unique-permutations":162,"global/window":321}],22:[function(_dereq_,module,exports){
+},{"../utils":65,"./types":26,"defined":155,"get-unique-permutations":168,"global/window":328}],28:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -7837,33 +7096,24 @@ var filterRGBAComponents = function filterRGBAComponents(vector) {
     });
   }).filter(function (v) {
     return v.length;
-  }
+  });
+};
 
-  /**
-   * Helper function to filter out xyzw cute components on
-   * a given vector swizzle map.
-   *
-   * @private
-   */
+/**
+ * Helper function to filter out xyzw cute components on
+ * a given vector swizzle map.
+ *
+ * @private
+ */
 
-  );
-};var filterXYZWComponents = function filterXYZWComponents(vector) {
+var filterXYZWComponents = function filterXYZWComponents(vector) {
   return vector.map(function (v) {
     return v.filter(function (x) {
       return !/[xyzw]/.test(x);
     });
   }).filter(function (v) {
     return v.length;
-  }
-
-  /**
-   * Returns the ordinal offset of a given
-   * swizzle identifier.
-   *
-   * @private
-   */
-
-  );
+  });
 };
 
 /**
@@ -7914,7 +7164,7 @@ var Vector4 = exports.Vector4 = [['x', 'y', 'z', 'w'], ['x', 'x', 'x', 'x'], ['x
  * @type {Array<Array<String>>}
  */
 
-var Vector = exports.Vector = [].concat(Vector1).concat(Vector2).concat(Vector3).concat(Vector4
+var Vector = exports.Vector = [].concat(Vector1).concat(Vector2).concat(Vector3).concat(Vector4);
 
 /**
  * Euler class swizzle mapping. This map
@@ -7926,7 +7176,7 @@ var Vector = exports.Vector = [].concat(Vector1).concat(Vector2).concat(Vector3)
  * @type {Array<Array<String>>}
  */
 
-);var Euler = exports.Euler = filterRGBAComponents(Vector3
+var Euler = exports.Euler = filterRGBAComponents(Vector3);
 
 /**
  * Quaternion class swizzle mapping. This map
@@ -7938,7 +7188,7 @@ var Vector = exports.Vector = [].concat(Vector1).concat(Vector2).concat(Vector3)
  * @type {Array<Array<String>>}
  */
 
-);var Quaternion = exports.Quaternion = filterRGBAComponents(Vector
+var Quaternion = exports.Quaternion = filterRGBAComponents(Vector);
 
 /**
  * Color class swizzle mapping. This map filters xyzw
@@ -7949,9 +7199,9 @@ var Vector = exports.Vector = [].concat(Vector1).concat(Vector2).concat(Vector3)
  * @type {Array<Array<String>>}
  */
 
-);var Color = exports.Color = filterXYZWComponents(Vector);
+var Color = exports.Color = filterXYZWComponents(Vector);
 
-},{}],23:[function(_dereq_,module,exports){
+},{}],29:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -8098,7 +7348,7 @@ var BoxGeometry = exports.BoxGeometry = function (_Geometry) {
   return BoxGeometry;
 }(_geometry.Geometry);
 
-},{"../core/geometry":10,"primitive-cube":372}],24:[function(_dereq_,module,exports){
+},{"../core/geometry":12,"primitive-cube":379}],30:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -8212,7 +7462,7 @@ var CapsuleGeometry = exports.CapsuleGeometry = function (_Geometry) {
   return CapsuleGeometry;
 }(_geometry.Geometry);
 
-},{"../core/geometry":10,"primitive-capsule":371}],25:[function(_dereq_,module,exports){
+},{"../core/geometry":12,"primitive-capsule":378}],31:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -8329,7 +7579,7 @@ var CylinderGeometry = exports.CylinderGeometry = function (_Geometry) {
   return CylinderGeometry;
 }(_geometry.Geometry);
 
-},{"../core/geometry":10,"primitive-cylinder":373}],26:[function(_dereq_,module,exports){
+},{"../core/geometry":12,"primitive-cylinder":380}],32:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -8493,7 +7743,7 @@ var ExtrudeGeometry = exports.ExtrudeGeometry = function (_Geometry) {
   return ExtrudeGeometry;
 }(_geometry.Geometry);
 
-},{"../core/geometry":10,"../utils":59,"cdt2d":95,"clean-pslg":102,"defined":149,"extrude":157,"extrude-by-path":155,"extrude-edges":156}],27:[function(_dereq_,module,exports){
+},{"../core/geometry":12,"../utils":65,"cdt2d":101,"clean-pslg":108,"defined":155,"extrude":163,"extrude-by-path":161,"extrude-edges":162}],33:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -8600,7 +7850,7 @@ Object.keys(_box).forEach(function (key) {
   });
 });
 
-},{"./box":23,"./capsule":24,"./cylinder":25,"./extrude_geometry":26,"./plane":28,"./sphere":29,"./torus":30,"./triangle":31}],28:[function(_dereq_,module,exports){
+},{"./box":29,"./capsule":30,"./cylinder":31,"./extrude_geometry":32,"./plane":34,"./sphere":35,"./torus":36,"./triangle":37}],34:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -8720,13 +7970,14 @@ var PlaneGeometry = exports.PlaneGeometry = function (_Geometry) {
     _this.size = size;
     _this.quads = quads;
     _this.segments = segments;
+    console.log(_this);
     return _this;
   }
 
   return PlaneGeometry;
 }(_geometry.Geometry);
 
-},{"../core/geometry":10,"primitive-plane":374}],29:[function(_dereq_,module,exports){
+},{"../core/geometry":12,"primitive-plane":381}],35:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -8829,7 +8080,7 @@ var SphereGeometry = exports.SphereGeometry = function (_Geometry) {
   return SphereGeometry;
 }(_geometry.Geometry);
 
-},{"../core/geometry":10,"primitive-sphere":375}],30:[function(_dereq_,module,exports){
+},{"../core/geometry":12,"primitive-sphere":382}],36:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -8956,7 +8207,7 @@ var TorusGeometry = exports.TorusGeometry = function (_Geometry) {
   return TorusGeometry;
 }(_geometry.Geometry);
 
-},{"../core/geometry":10,"primitive-torus":376}],31:[function(_dereq_,module,exports){
+},{"../core/geometry":12,"primitive-torus":383}],37:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -9025,7 +8276,7 @@ var TriangleGeometry = exports.TriangleGeometry = function (_Geometry) {
   return TriangleGeometry;
 }(_geometry.Geometry);
 
-},{"../core/geometry":10}],32:[function(_dereq_,module,exports){
+},{"../core/geometry":12}],38:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -9132,7 +8383,7 @@ Object.keys(_geometry).forEach(function (key) {
   });
 });
 
-},{"./cameras":1,"./core":11,"./geometry":27,"./input":33,"./light":40,"./material":45,"./math":50,"./mesh":56}],33:[function(_dereq_,module,exports){
+},{"./cameras":1,"./core":17,"./geometry":33,"./input":39,"./light":46,"./material":51,"./math":56,"./mesh":62}],39:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -9179,7 +8430,7 @@ Object.defineProperty(exports, 'TouchInput', {
   }
 });
 
-},{"./keyboard":34,"./mouse":35,"./orientation":36,"./touch":37}],34:[function(_dereq_,module,exports){
+},{"./keyboard":40,"./mouse":41,"./orientation":42,"./touch":43}],40:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -9278,21 +8529,21 @@ var KeyboardInput = exports.KeyboardInput = function (_Command) {
     var keys = {};
 
     // update keydown states
-    _domEvents2.default.on(document, 'keydown', onkeydown, false
+    _domEvents2.default.on(document, 'keydown', onkeydown, false);
 
     // update keyup states
-    );_domEvents2.default.on(document, 'keyup', onkeyup, false
+    _domEvents2.default.on(document, 'keyup', onkeyup, false);
 
     // reset keyboard state when context blurs
-    );ctx.on('blur', oncontextblur
+    ctx.on('blur', oncontextblur);
 
     // unbind event handlers when context is
     // destroyed
-    );ctx.once('destroy', function () {
+    ctx.once('destroy', function () {
       ctx.off('blur', oncontextblur);
       _domEvents2.default.off(document, 'keydown', onkeydown);
       _domEvents2.default.off(document, 'keyup', onkeyup);
-    }
+    });
 
     /**
      * Handle contest blur
@@ -9301,7 +8552,7 @@ var KeyboardInput = exports.KeyboardInput = function (_Command) {
      * @function
      */
 
-    );function oncontextblur() {
+    function oncontextblur() {
       reset();
     }
 
@@ -9398,7 +8649,7 @@ var KeyboardInput = exports.KeyboardInput = function (_Command) {
   return KeyboardInput;
 }(_command.Command);
 
-},{"../core/command":6,"../stats":58,"dom-events":150,"keycode":341}],35:[function(_dereq_,module,exports){
+},{"../core/command":6,"../stats":64,"dom-events":156,"keycode":348}],41:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -9504,10 +8755,9 @@ var MouseInput = exports.MouseInput = function (_Command) {
 
     _classCallCheck(this, MouseInput);
 
-    (0, _stats.registerStat)('MouseInput'
+    (0, _stats.registerStat)('MouseInput');
 
     // set update function
-    );
 
     /**
      * Encapsulated mouse wheel state.
@@ -9556,21 +8806,21 @@ var MouseInput = exports.MouseInput = function (_Command) {
       // unset buttons when context loses focus
     };ctx.on('blur', function () {
       mouse.buttons = 0;
-    }
+    });
 
     // update state on mouse change and reset
     // delta values on next animation frame
-    );var mouseChangeListener = (0, _mouseChange2.default)(ctx.domElement, onmousechange
+    var mouseChangeListener = (0, _mouseChange2.default)(ctx.domElement, onmousechange);
 
     // update mouse wheel deltas and then
     // reset them on the next animation frame
-    );var mouseWheelListener = (0, _mouseWheel2.default)(ctx.domElement, onmousewheel
+    var mouseWheelListener = (0, _mouseWheel2.default)(ctx.domElement, onmousewheel);
 
     // remove listeners when context is destroyed
-    );ctx.once('destroy', function () {
+    ctx.once('destroy', function () {
       mouseChangeListener.enabled = false;
       _domEvents2.default.off(ctx.domElement, mouseWheelListener);
-    }
+    });
 
     /**
      * Handles mouse change events
@@ -9580,7 +8830,7 @@ var MouseInput = exports.MouseInput = function (_Command) {
      * @see {@link https://github.com/mikolalysenko/mouse-change}
      */
 
-    );function onmousechange(b, x, y) {
+    function onmousechange(b, x, y) {
       synchronizeMouse(b, x, y);
     }
 
@@ -9651,12 +8901,12 @@ var MouseInput = exports.MouseInput = function (_Command) {
       (0, _raf2.default)(function () {
         mouse.deltaX = 0;
         mouse.deltaY = 0;
-      }
+      });
 
       // update mouse state if x or y input coordinate values
       // are different than the current x or y mouse coordinate
       // values
-      );if (mouse.currentX != x || mouse.currentY != y) {
+      if (mouse.currentX != x || mouse.currentY != y) {
         mouse.prevX = mouse.currentX;
         mouse.prevY = mouse.currentY;
         mouse.deltaX = x - mouse.currentX;
@@ -9708,7 +8958,7 @@ var MouseInput = exports.MouseInput = function (_Command) {
   return MouseInput;
 }(_command.Command);
 
-},{"../core/command":6,"../stats":58,"defined":149,"dom-events":150,"mouse-change":345,"mouse-wheel":348,"raf":379}],36:[function(_dereq_,module,exports){
+},{"../core/command":6,"../stats":64,"defined":155,"dom-events":156,"mouse-change":352,"mouse-wheel":355,"raf":386}],42:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -9857,17 +9107,17 @@ var globalState = exports.globalState = {
       deltaGamma: 0
     });
   });
-}
+});
 
 // expose device motion state
-);_domEvents2.default.on(_window2.default, 'devicemotion', function (e) {
+_domEvents2.default.on(_window2.default, 'devicemotion', function (e) {
   Object.assign(globalState, {
     accelerationIncludingGravity: e.accelerationIncludingGravity,
     acceleration: e.acceleration,
     rotationRate: e.rotationRate,
     interval: e.interval
   });
-}
+});
 
 /**
  * The OrientationInput class represents a stateless
@@ -9880,7 +9130,6 @@ var globalState = exports.globalState = {
  * @see Command
  */
 
-);
 var OrientationInput = exports.OrientationInput = function (_Command) {
   _inherits(OrientationInput, _Command);
 
@@ -9941,13 +9190,13 @@ var OrientationInput = exports.OrientationInput = function (_Command) {
     // fetch vr displays
     void navigator.getVRDisplays().then(onvrdisplays).catch(function (err) {
       ctx.emit('error', err);
-    }
+    });
 
     /**
      * Orienation command update function.
      */
 
-    );function update(state, block) {
+    function update(state, block) {
       // ensure correct values
       if ('function' == typeof state) {
         block = state;
@@ -9960,10 +9209,10 @@ var OrientationInput = exports.OrientationInput = function (_Command) {
       // ensure function
       block = 'function' == typeof block ? block : function () {};
 
-      computeDeviceRotationFromVRFrameData
+      computeDeviceRotationFromVRFrameData();
       // @TODO - computeDeviceRotationFromDeviceEuler()
 
-      ();block(_extends({}, globalState, { deviceRotation: deviceRotation, deviceEuler: deviceEuler }));
+      block(_extends({}, globalState, { deviceRotation: deviceRotation, deviceEuler: deviceEuler }));
     }
 
     /**
@@ -9983,7 +9232,7 @@ var OrientationInput = exports.OrientationInput = function (_Command) {
   return OrientationInput;
 }(_command.Command);
 
-},{"../core/command":6,"../math":50,"../stats":58,"../utils":59,"dom-events":150,"gl-quat":216,"global/window":321,"raf":379,"webvr-polyfill":451}],37:[function(_dereq_,module,exports){
+},{"../core/command":6,"../math":56,"../stats":64,"../utils":65,"dom-events":156,"gl-quat":222,"global/window":328,"raf":386,"webvr-polyfill":459}],43:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -10117,19 +9366,19 @@ var TouchInput = exports.TouchInput = function (_Command) {
        * @type {Object}
        */
 
-    };var touchListener = (0, _touchPosition.emitter)({ element: ctx.domElement
+    };var touchListener = (0, _touchPosition.emitter)({ element: ctx.domElement });
 
-      // bind touch listeners
-    });touchListener.on('move', ontouchmove);
+    // bind touch listeners
+    touchListener.on('move', ontouchmove);
     _domEvents2.default.on(ctx.domElement, 'touchstart', ontouchstart);
-    _domEvents2.default.on(ctx.domElement, 'touchend', ontouchend
+    _domEvents2.default.on(ctx.domElement, 'touchend', ontouchend);
 
     // remove listeners when context is destroyed
-    );ctx.once('destroy', function () {
+    ctx.once('destroy', function () {
       touchListener.dispose();
       _domEvents2.default.of(ctx.domElement, 'touchstart', ontouchstart);
       _domEvents2.default.of(ctx.domElement, 'touchend', ontouchend);
-    }
+    });
 
     /**
      * Handles touch start events
@@ -10139,7 +9388,7 @@ var TouchInput = exports.TouchInput = function (_Command) {
      * @param {Event} e
      */
 
-    );function ontouchstart(e) {
+    function ontouchstart(e) {
       var x = e.touches[0].clientX;
       var y = e.touches[0].clientY;
       e.preventDefault();
@@ -10230,12 +9479,12 @@ var TouchInput = exports.TouchInput = function (_Command) {
       (0, _raf2.default)(function () {
         touch.deltaX = 0;
         touch.deltaY = 0;
-      }
+      });
 
       // update touch state if x or y input coordinate values
       // are different than the current x or y touch coordinate
       // values
-      );if (touch.currentX != x && touch.currentY != y) {
+      if (touch.currentX != x && touch.currentY != y) {
         touch.prevX = touch.currentX;
         touch.prevY = touch.currentY;
         touch.deltaX = x - touch.currentX;
@@ -10250,7 +9499,7 @@ var TouchInput = exports.TouchInput = function (_Command) {
   return TouchInput;
 }(_command.Command);
 
-},{"../core/command":6,"../stats":58,"dom-events":150,"raf":379,"touch-position":423}],38:[function(_dereq_,module,exports){
+},{"../core/command":6,"../stats":64,"dom-events":156,"raf":386,"touch-position":431}],44:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -10318,25 +9567,7 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-/**
- * Default ambient light ambient factor.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 var kDefaultAmbientLightAmbient = exports.kDefaultAmbientLightAmbient = 0.01;
-
-/**
- *ent The defualt light context entry object for
- * a light uniform.
- *
- * @public
- * @const
- * @type {Object}
- */
-
 var kDefaultAmbientLightContextEntry = exports.kDefaultAmbientLightContextEntry = {
   identifier: 'ambient',
   type: _types.AmbientLightType,
@@ -10352,7 +9583,6 @@ var kDefaultAmbientLightContextEntry = exports.kDefaultAmbientLightContextEntry 
      * @class AmbientLight
      * @extends Light
      */
-
   } };
 var AmbientLight = exports.AmbientLight = function (_Light) {
   _inherits(AmbientLight, _Light);
@@ -10365,7 +9595,6 @@ var AmbientLight = exports.AmbientLight = function (_Light) {
    * @param {!Context} ctx Axis3D context.
    * @param {?Object} initialState Optional initial state.
    */
-
   function AmbientLight(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -10398,7 +9627,7 @@ var AmbientLight = exports.AmbientLight = function (_Light) {
   return AmbientLight;
 }(_light.Light);
 
-},{"../core/light":13,"../stats":58,"./limits":41,"./types":43,"defined":149}],39:[function(_dereq_,module,exports){
+},{"../core/light":19,"../stats":64,"./limits":47,"./types":49,"defined":155}],45:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -10576,7 +9805,7 @@ var DirectionalLight = exports.DirectionalLight = function (_Light) {
   return DirectionalLight;
 }(_light.Light);
 
-},{"../core/light":13,"../stats":58,"./limits":41,"./types":43,"defined":149,"gl-mat4":191}],40:[function(_dereq_,module,exports){
+},{"../core/light":19,"../stats":64,"./limits":47,"./types":49,"defined":155,"gl-mat4":197}],46:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -10635,7 +9864,7 @@ Object.keys(_types).forEach(function (key) {
   });
 });
 
-},{"./ambient":38,"./directional":39,"./point":42,"./types":43}],41:[function(_dereq_,module,exports){
+},{"./ambient":44,"./directional":45,"./point":48,"./types":49}],47:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -10671,7 +9900,7 @@ var kMaxDirectionalLights = exports.kMaxDirectionalLights = 12;
 
 var kMaxPointLights = exports.kMaxPointLights = 12;
 
-},{}],42:[function(_dereq_,module,exports){
+},{}],48:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -10851,7 +10080,7 @@ var PointLight = exports.PointLight = function (_DirectionalLight) {
   return PointLight;
 }(_directional.DirectionalLight);
 
-},{"../stats":58,"./directional":39,"./limits":41,"./types":43,"defined":149,"gl-mat4":191}],43:[function(_dereq_,module,exports){
+},{"../stats":64,"./directional":45,"./limits":47,"./types":49,"defined":155,"gl-mat4":197}],49:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -10872,12 +10101,8 @@ var AmbientLightType = exports.AmbientLightType = 0x6c0002;
 var DirectionalLightType = exports.DirectionalLightType = 0x6c0003;
 var SpotLightType = exports.SpotLightType = 0x6c0004;
 
-},{}],44:[function(_dereq_,module,exports){
+},{}],50:[function(_dereq_,module,exports){
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -10918,26 +10143,8 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-/**
- * FlatMaterial class represents a basic material that is not affected
- * by light.
- *
- * @public
- * @class FlatMaterial
- * @extends Material
- */
-
 var FlatMaterial = exports.FlatMaterial = function (_Material) {
   _inherits(FlatMaterial, _Material);
-
-  /**
-   * FlatMaterial class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
 
   function FlatMaterial(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -10950,7 +10157,7 @@ var FlatMaterial = exports.FlatMaterial = function (_Material) {
   return FlatMaterial;
 }(_material.Material);
 
-},{"../core/material":14,"./types":48}],45:[function(_dereq_,module,exports){
+},{"../core/material":20,"./types":54}],51:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -11009,12 +10216,8 @@ Object.keys(_flat).forEach(function (key) {
   });
 });
 
-},{"./flat":44,"./lambert":46,"./phong":47,"./types":48}],46:[function(_dereq_,module,exports){
+},{"./flat":50,"./lambert":52,"./phong":53,"./types":54}],52:[function(_dereq_,module,exports){
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -11053,6 +10256,8 @@ var _point = _dereq_('../light/point');
 
 var _utils = _dereq_('../utils');
 
+var _fog = _dereq_('../core/fog');
+
 var _types2 = _dereq_('../light/types');
 
 var lightTypes = _interopRequireWildcard(_types2);
@@ -11081,14 +10286,6 @@ function _interopRequireWildcard(obj) {
       }
     }newObj.default = obj;return newObj;
   }
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
-  } else {
-    obj[key] = value;
-  }return obj;
 }
 
 function _objectDestructuringEmpty(obj) {
@@ -11123,65 +10320,13 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-/**
- * Default material albedo.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 var kDefaultLambertMaterialAlbedo = exports.kDefaultLambertMaterialAlbedo = 0.8;
-
-/**
- * Default material roughness.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 var kDefaultLambertMaterialRoughness = exports.kDefaultLambertMaterialRoughness = 0.8;
-
-/**
- * Default material emissive color.
- *
- * @public
- * @const
- * @type {Color}
- */
-
 var kDefaultLambertMaterialEmissiveColor = exports.kDefaultLambertMaterialEmissiveColor = new _color.Color('black');
-
-/**
- * Default material ambient color.
- *
- * @public
- * @const
- * @type {Color}
- */
-
 var kDefaultLambertMaterialAmbientColor = exports.kDefaultLambertMaterialAmbientColor = new _color.Color(0.2 * 255, 0.2 * 255, 0.2 * 255);
-
-/**
- * LambertMaterial class
- *
- * @public
- * @class LambertMaterial
- * @extends Material
- */
 
 var LambertMaterial = exports.LambertMaterial = function (_Material) {
   _inherits(LambertMaterial, _Material);
-
-  /**
-   * LambertMaterial class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-  */
 
   function LambertMaterial(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -11196,25 +10341,8 @@ var LambertMaterial = exports.LambertMaterial = function (_Material) {
   return LambertMaterial;
 }(_material.Material);
 
-/**
- * LambertMaterialContext class.
- *
- * @public
- * @class LambertMaterialContext
- * @extends MaterialContext
- */
-
 var LambertMaterialContext = exports.LambertMaterialContext = function (_MaterialContext) {
   _inherits(LambertMaterialContext, _MaterialContext);
-
-  /**
-   * LambertMaterialContext class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
 
   function LambertMaterialContext(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -11227,40 +10355,17 @@ var LambertMaterialContext = exports.LambertMaterialContext = function (_Materia
   return LambertMaterialContext;
 }(_material.MaterialContext);
 
-/**
- * LambertMaterialUniforms class.
- *
- * @public
- * @class LambertMaterialUniforms
- * @extends MaterialUniforms
- */
-
 var LambertMaterialUniforms = exports.LambertMaterialUniforms = function (_MaterialUniforms) {
   _inherits(LambertMaterialUniforms, _MaterialUniforms);
-
-  /**
-   * LambertMaterialUniforms class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
 
   function LambertMaterialUniforms(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, LambertMaterialUniforms);
 
-    /**
-     * Lights that affect a lambert matertial.
-     *
-     * @private
-     */
-
     var _this3 = _possibleConstructorReturn(this, (LambertMaterialUniforms.__proto__ || Object.getPrototypeOf(LambertMaterialUniforms)).call(this, ctx, initialState));
 
-    var lightContext = [_directional.DirectionalLight.contextEntry(), _ambient.AmbientLight.contextEntry(), _point.PointLight.contextEntry()].concat(_toConsumableArray(initialState.lightContext || []));
+    var lightContext = [].concat(_toConsumableArray(initialState.lightContext || []), [_directional.DirectionalLight.contextEntry(), _ambient.AmbientLight.contextEntry(), _point.PointLight.contextEntry()]);
 
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
@@ -11273,12 +10378,7 @@ var LambertMaterialUniforms = exports.LambertMaterialUniforms = function (_Mater
         _this3.setLightsInContext(light);
       }
 
-      /**
-       * Material roughness.
-       *
-       * @public
-       * @type {Number}
-       */
+      // fog uniform properties
     } catch (err) {
       _didIteratorError = true;
       _iteratorError = err;
@@ -11294,122 +10394,81 @@ var LambertMaterialUniforms = exports.LambertMaterialUniforms = function (_Mater
       }
     }
 
-    _this3['material.roughness'] = function (_ref) {
-      var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          roughness = _ref2.roughness;
+    _this3.set(new _fog.FogUniforms(ctx, initialState));
 
-      _objectDestructuringEmpty(_ref);
+    // material uniform properties
+    _this3.set({
+      'material.roughness': function materialRoughness(_ref) {
+        var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+            roughness = _ref2.roughness;
 
-      return (0, _defined2.default)(roughness, initialState.roughness, kDefaultLambertMaterialRoughness);
-    };
+        _objectDestructuringEmpty(_ref);
 
-    /**
-     * Material emissive color.
-     *
-     * @public
-     * @type {Color|Array<Number>}
-     */
+        return (0, _defined2.default)(roughness, initialState.roughness, kDefaultLambertMaterialRoughness);
+      },
 
-    _this3['material.emissive'] = function (_ref3) {
-      var _ref4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          emissive = _ref4.emissive;
+      'material.emissive': function materialEmissive(_ref3) {
+        var _ref4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+            emissive = _ref4.emissive;
 
-      _objectDestructuringEmpty(_ref3);
+        _objectDestructuringEmpty(_ref3);
 
-      return [].concat(_toConsumableArray((0, _defined2.default)(emissive, initialState.emissive, kDefaultLambertMaterialEmissiveColor)));
-    };
+        return [].concat(_toConsumableArray((0, _defined2.default)(emissive, initialState.emissive, kDefaultLambertMaterialEmissiveColor)));
+      },
 
-    /**
-     * Material albedo.
-     *
-     * @public
-     * @type {Number}
-     */
+      'material.albedo': function materialAlbedo(_ref5) {
+        var _ref6 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+            albedo = _ref6.albedo;
 
-    _this3['material.albedo'] = function (_ref5) {
-      var _ref6 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          albedo = _ref6.albedo;
+        _objectDestructuringEmpty(_ref5);
 
-      _objectDestructuringEmpty(_ref5);
+        return (0, _defined2.default)(albedo, initialState.albedo, kDefaultLambertMaterialAlbedo);
+      },
 
-      return (0, _defined2.default)(albedo, initialState.albedo, kDefaultLambertMaterialAlbedo);
-    };
+      'material.ambient': function materialAmbient(_ref7) {
+        var _ref8 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+            ambient = _ref8.ambient;
 
-    /**
-     * Material ambient color.
-     *
-     * @public
-     * @type {Color|Array<Number>}
-     */
+        _objectDestructuringEmpty(_ref7);
 
-    _this3['material.ambient'] = function (_ref7) {
-      var _ref8 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          ambient = _ref8.ambient;
+        return [].concat(_toConsumableArray((0, _defined2.default)(ambient, initialState.ambient, kDefaultLambertMaterialAmbientColor)));
+      }
+    });
 
-      _objectDestructuringEmpty(_ref7);
+    // light context uniform properties
+    _this3.set({
+      'lightContext.ambient.count': function lightContextAmbientCount(_ref9) {
+        var lights = _ref9.lights;
+        var AmbientLightType = lightTypes.AmbientLightType;
 
-      return [].concat(_toConsumableArray((0, _defined2.default)(ambient, initialState.ambient, kDefaultLambertMaterialAmbientColor)));
-    };
+        var count = lights.filter(Boolean).filter(function (l) {
+          return l.type == AmbientLightType;
+        }).length;
+        return count;
+      },
 
-    /**
-     * Total ambient light count.
-     *
-     * @public
-     * @type {Number}
-     */
+      'lightContext.directional.count': function lightContextDirectionalCount(_ref10) {
+        var lights = _ref10.lights;
+        var DirectionalLightType = lightTypes.DirectionalLightType;
 
-    _this3['lightContext.ambient.count'] = function (_ref9) {
-      var lights = _ref9.lights;
-      var AmbientLightType = lightTypes.AmbientLightType;
+        var count = lights.filter(Boolean).filter(function (l) {
+          return l.type == DirectionalLightType;
+        }).length;
+        return count;
+      },
 
-      var count = lights.filter(Boolean).filter(function (l) {
-        return l.type == AmbientLightType;
-      }).length;
-      return count;
-    };
+      'lightContext.point.count': function lightContextPointCount(_ref11) {
+        var lights = _ref11.lights;
+        var PointLightType = lightTypes.PointLightType;
 
-    /**
-     * Total directional light count.
-     *
-     * @public
-     * @type {Number}
-     */
-
-    _this3['lightContext.directional.count'] = function (_ref10) {
-      var lights = _ref10.lights;
-      var DirectionalLightType = lightTypes.DirectionalLightType;
-
-      var count = lights.filter(Boolean).filter(function (l) {
-        return l.type == DirectionalLightType;
-      }).length;
-      return count;
-    };
-
-    /**
-     * Total point light count.
-     *
-     * @public
-     * @type {Number}
-     */
-
-    _this3['lightContext.point.count'] = function (_ref11) {
-      var lights = _ref11.lights;
-      var PointLightType = lightTypes.PointLightType;
-
-      var count = lights.filter(Boolean).filter(function (l) {
-        return l.type == PointLightType;
-      }).length;
-      return count;
-    };
+        var count = lights.filter(Boolean).filter(function (l) {
+          return l.type == PointLightType;
+        }).length;
+        return count;
+      }
+    });
     return _this3;
   }
-
-  /**
-   * Sets a lights in shader light context uniform at
-   * identifier with a type and defaults.
-   *
-   * @protected
-   */
 
   _createClass(LambertMaterialUniforms, [{
     key: 'setLightsInContext',
@@ -11422,9 +10481,9 @@ var LambertMaterialUniforms = exports.LambertMaterialUniforms = function (_Mater
           defaults = _ref12.defaults;
 
       var _loop = function _loop(i) {
-        var key = 'lightContext.' + identifier + '.lights[' + i + ']';
         var set = function set(property, fallback) {
-          Object.assign(_this4, _defineProperty({}, key + '.' + property, function undefined(_ref13) {
+          var key = identifier + 'Lights[' + i + ']';
+          _this4.set(key + '.' + property, function (_ref13) {
             var lights = _ref13.lights;
             var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -11438,11 +10497,11 @@ var LambertMaterialUniforms = exports.LambertMaterialUniforms = function (_Mater
               value = [].concat(_toConsumableArray(value));
             }
             return value;
-          }));
+          });
         };
 
-        for (var _key in defaults) {
-          set(_key, defaults[_key]);
+        for (var key in defaults) {
+          set(key, defaults[key]);
         }
       };
 
@@ -11455,12 +10514,8 @@ var LambertMaterialUniforms = exports.LambertMaterialUniforms = function (_Mater
   return LambertMaterialUniforms;
 }(_material.MaterialUniforms);
 
-},{"../core/color":5,"../core/material":14,"../core/vector":21,"../light/ambient":38,"../light/directional":39,"../light/point":42,"../light/types":43,"../utils":59,"./types":48,"defined":149}],47:[function(_dereq_,module,exports){
+},{"../core/color":5,"../core/fog":10,"../core/material":20,"../core/vector":27,"../light/ambient":44,"../light/directional":45,"../light/point":48,"../light/types":49,"../utils":65,"./types":54,"defined":155}],53:[function(_dereq_,module,exports){
 'use strict';
-
-/**
- * Module dependencies.
- */
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -11493,20 +10548,6 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }return arr2;
-  } else {
-    return Array.from(arr);
-  }
-}
-
-function _objectDestructuringEmpty(obj) {
-  if (obj == null) throw new TypeError("Cannot destructure undefined");
-}
-
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -11525,34 +10566,8 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-/**
- * Default PhongMaterial specular color.
- *
- * @public
- * @const
- * @type {Color}
- */
-
 var kDefaultPhongMaterialSpecularColor = exports.kDefaultPhongMaterialSpecularColor = new _color.Color(0x111111);
-
-/**
- * Default PhongMaterial shininess.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 var kDefaultPhongMaterialShininess = exports.kDefaultPhongMaterialShininess = 40;
-
-/**
- * PhongMaterial class.
- *
- * @public
- * @class PhongMaterial
- * @extends LambertMaterial
- * @see Material
- */
 
 var PhongMaterial = exports.PhongMaterial = function (_LambertMaterial) {
   _inherits(PhongMaterial, _LambertMaterial);
@@ -11570,71 +10585,27 @@ var PhongMaterial = exports.PhongMaterial = function (_LambertMaterial) {
   return PhongMaterial;
 }(_lambert.LambertMaterial);
 
-/**
- * PhongMaterialUniforms class.
- *
- * @public
- * @class PhongMaterialUniforms
- * @extends LambertMaterialUniforms
- */
-
 var PhongMaterialUniforms = exports.PhongMaterialUniforms = function (_LambertMaterialUnifo) {
   _inherits(PhongMaterialUniforms, _LambertMaterialUnifo);
-
-  /**
-   * PhongMaterialUniforms class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
 
   function PhongMaterialUniforms(ctx) {
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, PhongMaterialUniforms);
 
-    /**
-     * Material shininess.
-     *
-     * @public
-     * @type {Number}
-     */
-
     var _this2 = _possibleConstructorReturn(this, (PhongMaterialUniforms.__proto__ || Object.getPrototypeOf(PhongMaterialUniforms)).call(this, ctx, initialState));
 
-    _this2['material.shininess'] = function (_ref) {
-      var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          shininess = _ref2.shininess;
-
-      _objectDestructuringEmpty(_ref);
-
-      return (0, _defined2.default)(shininess, initialState.shininess, kDefaultPhongMaterialShininess);
-    };
-
-    /**
-     * Material specularity.
-     *
-     * @public
-     * @type {Color|Array<Number>}
-     */
-
-    _this2['material.specular'] = function (_ref3) {
-      var _ref4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          specular = _ref4.specular;
-
-      _objectDestructuringEmpty(_ref3);
-
-      return [].concat(_toConsumableArray((0, _defined2.default)(specular, initialState.specular, kDefaultPhongMaterialSpecularColor)));
-    };
+    _this2.set({
+      'material.shininess': _this2.argument('shininess', null, (0, _defined2.default)(initialState.shininess, kDefaultPhongMaterialShininess)),
+      'material.specular': _this2.argument('specular', null, (0, _defined2.default)(initialState.specular, kDefaultPhongMaterialSpecularColor))
+    });
     return _this2;
   }
 
   return PhongMaterialUniforms;
 }(_lambert.LambertMaterialUniforms);
 
-},{"../core/color":5,"./lambert":46,"./types":48,"defined":149}],48:[function(_dereq_,module,exports){
+},{"../core/color":5,"./lambert":52,"./types":54,"defined":155}],54:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -11644,8 +10615,6 @@ var PhongMaterialUniforms = exports.PhongMaterialUniforms = function (_LambertMa
  * @module material/types
  */
 
-/** @typedef {Number} MaterialType */
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11654,7 +10623,7 @@ var FlatMaterialType = exports.FlatMaterialType = 0x6d0001;
 var PhongMaterialType = exports.PhongMaterialType = 0x6d0002;
 var LambertMaterialType = exports.LambertMaterialType = 0x6d0003;
 
-},{}],49:[function(_dereq_,module,exports){
+},{}],55:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -11738,7 +10707,7 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var scratchMat4 = _glMat2.default.identity([]
+var scratchMat4 = _glMat2.default.identity([]);
 
 /**
  * The Euler class represents an abstraction around Euler angles.
@@ -11752,7 +10721,6 @@ var scratchMat4 = _glMat2.default.identity([]
  * @see {@link http://www.chrobotics.com/library/understanding-euler-angles}
  */
 
-);
 var Euler = exports.Euler = function (_Vector) {
   _inherits(Euler, _Vector);
 
@@ -11887,7 +10855,7 @@ var Euler = exports.Euler = function (_Vector) {
   return Euler;
 }(_vector.Vector);
 
-},{"../core/types":20,"../core/vector":21,"../core/vector_swizzle_map":22,"defined":149,"gl-mat4":191,"math-euler":343}],50:[function(_dereq_,module,exports){
+},{"../core/types":26,"../core/vector":27,"../core/vector_swizzle_map":28,"defined":155,"gl-mat4":197,"math-euler":350}],56:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -11970,7 +10938,7 @@ Object.keys(_euler).forEach(function (key) {
   });
 });
 
-},{"./euler":49,"./quaternion":51,"./vector1":52,"./vector2":53,"./vector3":54,"./vector4":55}],51:[function(_dereq_,module,exports){
+},{"./euler":55,"./quaternion":57,"./vector1":58,"./vector2":59,"./vector3":60,"./vector4":61}],57:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -12250,7 +11218,7 @@ var Quaternion = exports.Quaternion = function (_Vector) {
   return Quaternion;
 }(_vector.Vector);
 
-},{"../core/types":20,"../core/vector":21,"../core/vector_swizzle_map":22,"./euler":49,"defined":149}],52:[function(_dereq_,module,exports){
+},{"../core/types":26,"../core/vector":27,"../core/vector_swizzle_map":28,"./euler":55,"defined":155}],58:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -12348,7 +11316,7 @@ var Vector1 = exports.Vector1 = function (_Vector) {
   return Vector1;
 }(_vector.Vector);
 
-},{"../core/vector":21,"../core/vector_swizzle_map":22}],53:[function(_dereq_,module,exports){
+},{"../core/vector":27,"../core/vector_swizzle_map":28}],59:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -12464,7 +11432,7 @@ var Vector2 = exports.Vector2 = function (_Vector) {
   return Vector2;
 }(_vector.Vector);
 
-},{"../core/vector":21,"../core/vector_swizzle_map":22}],54:[function(_dereq_,module,exports){
+},{"../core/vector":27,"../core/vector_swizzle_map":28}],60:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -12614,7 +11582,7 @@ var Vector3 = exports.Vector3 = function (_Vector) {
   return Vector3;
 }(_vector.Vector);
 
-},{"../core/vector":21,"../core/vector_swizzle_map":22}],55:[function(_dereq_,module,exports){
+},{"../core/vector":27,"../core/vector_swizzle_map":28}],61:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -12782,7 +11750,7 @@ var Vector4 = exports.Vector4 = function (_Vector) {
   return Vector4;
 }(_vector.Vector);
 
-},{"../core/vector":21,"../core/vector_swizzle_map":22}],56:[function(_dereq_,module,exports){
+},{"../core/vector":27,"../core/vector_swizzle_map":28}],62:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -12805,7 +11773,7 @@ Object.keys(_lines).forEach(function (key) {
   });
 });
 
-},{"./lines":57}],57:[function(_dereq_,module,exports){
+},{"./lines":63}],63:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -12887,7 +11855,7 @@ function _inherits(subClass, superClass) {
  * @type {String}
  */
 
-var kDefaultLinesMeshVertexShader = exports.kDefaultLinesMeshVertexShader = 'precision mediump float;\n#define GLSLIFY 1\n\n//\n// Shader dependcies.\n//\n/**\n * Modulue exports.\n */\n\n/**\n * Camera structure.\n */\n\nstruct Camera {\n  mat4 projection;\n  float aspect;\n  mat4 view;\n  vec3 eye;\n};\n\n/**\n */\n\nstruct Object3D {\n  vec3 scale;\n  vec3 position;\n  vec4 rotation;\n  mat4 transform;\n};\n\nstruct Mesh {\n  mat4 model;\n  mat3 modelNormal;\n};\n\nvec4 linevoffset (vec4 p, vec4 n, float direction_0, float aspect_0) { \n  vec2 sp = p.xy/p.w*vec2(aspect_0,1);\n  vec2 sn = n.xy/n.w*vec2(aspect_0,1);\n  vec2 dir = normalize(sn-sp);\n  vec2 norm = dir.yx*vec2(-1.0/aspect_0,1);\n  return vec4(direction_0*norm,0,0);\n}\n\n//\n// Shader uniforms.\n//\nuniform Mesh mesh;\nuniform Camera camera;\nuniform float time;\nuniform float thickness;\n\n//\n// Shader IO.\n//\nattribute vec3 nextPosition;\nattribute float direction;\nattribute vec3 position;\nattribute vec3 normal;\n\nvarying vec3 vposition;\nvarying vec3 vnormal;\nvarying vec2 vuv;\n\nvec3 lerp(vec3 a, vec3 b, float t) {\n  return vec3(\n    a.x + t * (b.x - a.x),\n    a.y + t * (b.y - a.y),\n    a.z + t * (b.z - a.z)\n  );\n}\n\n//\n// Shader entry.\n//\n\nvoid main() {\n  // @TODO(werle) - abstract to geomorping interface\n  //float p = random(position.xy);\n  //vec3 pos = lerp(position, position + vec3(p, p, p), cos(0.5*time));\n\n  // @TODO(werle) - abstract to geomorping interface\n  //float np = random(nextPosition.yz);\n  //vec3 npos = lerp(nextPosition, nextPosition + vec3(np, np, np), sin(0.1*time));\n  vec4 linePosition =\n      camera.projection\n    * camera.view\n    * mesh.model\n    * vec4(position, 1.0)\n    ;\n\n  vec4 nextLinePosition =\n      camera.projection\n    * camera.view\n    * mesh.model\n    * vec4(nextPosition, 1.0)\n    ;\n\n  vec4 lineOffset = linevoffset(\n      linePosition,\n      nextLinePosition,\n      direction, camera.aspect);\n\n  gl_Position = linePosition + lineOffset*thickness;\n\n  // GeometryContext\n  vposition = (mesh.model * vec4(position, 1.0)).xyz;\n  vnormal = normalize(mesh.modelNormal * normal);\n}\n';
+var kDefaultLinesMeshVertexShader = exports.kDefaultLinesMeshVertexShader = 'precision mediump float;\n#define GLSLIFY 1\n\n//\n// Shader dependcies.\n//\n/**\n * Modulue exports.\n */\n\n/**\n * Camera structure.\n */\n\nstruct Camera {\n  mat4 invertedView;\n  mat4 projection;\n  float aspect;\n  mat4 view;\n  vec3 eye;\n};\n\nstruct Mesh {\n  vec3 scale;\n  mat4 model;\n  mat3 modelNormal;\n};\n\nvec4 linevoffset (vec4 p, vec4 n, float direction_0, float aspect_0) { \n  vec2 sp = p.xy/p.w*vec2(aspect_0,1);\n  vec2 sn = n.xy/n.w*vec2(aspect_0,1);\n  vec2 dir = normalize(sn-sp);\n  vec2 norm = dir.yx*vec2(-1.0/aspect_0,1);\n  return vec4(direction_0*norm,0,0);\n}\n\n//\n// Shader uniforms.\n//\nuniform Mesh mesh;\nuniform Camera camera;\nuniform float time;\nuniform float thickness;\n\n//\n// Shader IO.\n//\nattribute vec3 nextPosition;\nattribute float direction;\nattribute vec3 position;\nattribute vec3 normal;\n\nvarying vec3 vLocalPosition;\nvarying vec3 vLocalNormal;\nvarying vec3 vposition;\nvarying vec3 vnormal;\nvarying vec2 vuv;\n\n//\n// Shader entry.\n//\n\nvoid main() {\n  vec4 linePosition =\n      camera.projection\n    * camera.view\n    * mesh.model\n    * vec4(position, 1.0)\n    ;\n\n  vec4 nextLinePosition =\n      camera.projection\n    * camera.view\n    * mesh.model\n    * vec4(nextPosition, 1.0)\n    ;\n\n  vec4 lineOffset = linevoffset(\n      linePosition,\n      nextLinePosition,\n      direction, camera.aspect);\n\n  gl_Position = linePosition + lineOffset*thickness;\n\n  // GeometryContext\n  vposition = (mesh.model * vec4(position, 1.0)).xyz;\n  vnormal = normalize(mesh.modelNormal * normal);\n  vLocalPosition = position;\n  vLocalNormal = normal;\n}\n';
 
 /**
  * TBA
@@ -12924,12 +11892,14 @@ var LinesMesh = exports.LinesMesh = function (_Mesh) {
         _geometry$complex = _geometry.complex,
         complex = _geometry$complex === undefined ? geometry : _geometry$complex;
 
-    var cells = complex.cells.map(function (cell) {
-      return cell.slice();
-    });
-    var flattened = (0, _meshReindex2.default)((0, _unindexMesh2.default)(complex.positions, cells));
-    complex.normals = _normals2.default.vertexNormals(flattened.cells, flattened.positions);
-    Object.assign({}, complex, cells);
+    if (complex.cells) {
+      var cells = complex.cells.map(function (cell) {
+        return cell.slice();
+      });
+      var flattened = (0, _meshReindex2.default)((0, _unindexMesh2.default)(complex.positions, cells));
+      complex.normals = _normals2.default.vertexNormals(flattened.cells, flattened.positions);
+      Object.assign({}, complex, cells);
+    }
 
     var lines = (0, _screenProjectedLines2.default)(complex, {
       attributes: { normals: complex.normals }
@@ -12965,7 +11935,7 @@ var LinesMesh = exports.LinesMesh = function (_Mesh) {
   return LinesMesh;
 }(_mesh.Mesh);
 
-},{"../core/geometry":10,"../core/mesh":15,"../stats":58,"glslify":332,"mesh-reindex":344,"normals":355,"screen-projected-lines":409,"unindex-mesh":428}],58:[function(_dereq_,module,exports){
+},{"../core/geometry":12,"../core/mesh":21,"../stats":64,"glslify":339,"mesh-reindex":351,"normals":362,"screen-projected-lines":417,"unindex-mesh":436}],64:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -13261,7 +12231,7 @@ var StatNameError = exports.StatNameError = function (_TypeError) {
   return StatNameError;
 }(TypeError);
 
-},{}],59:[function(_dereq_,module,exports){
+},{}],65:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -13336,19 +12306,19 @@ var pow = Math.pow;
  */
 
 var define = exports.define = function define(a, b, c) {
-  return Object.defineProperty(a, b, _extends({}, c
+  return Object.defineProperty(a, b, _extends({}, c));
+};
 
-  /**
-   * Converts input degrees to radians
-   *
-   * @private
-   * @function
-   * @param {Number} n
-   * @return {Number}
-   */
+/**
+ * Converts input degrees to radians
+ *
+ * @private
+ * @function
+ * @param {Number} n
+ * @return {Number}
+ */
 
-  ));
-};var radians = exports.radians = function radians(n) {
+var radians = exports.radians = function radians(n) {
   return n == n ? n * Math.PI / 180.0 : 0;
 };
 
@@ -13361,7 +12331,7 @@ var define = exports.define = function define(a, b, c) {
  * @param {...Mixed} args
  */
 
-var debug = exports.debug = (0, _debug2.default)('[axis@' + kLibraryVersion + ']'
+var debug = exports.debug = (0, _debug2.default)('[axis@' + kLibraryVersion + ']');
 
 /**
  * Simple linear inerpolation function.
@@ -13374,7 +12344,7 @@ var debug = exports.debug = (0, _debug2.default)('[axis@' + kLibraryVersion + ']
  * @return {Number}
  */
 
-);var lerp = exports.lerp = function lerp(v0, v1, t) {
+var lerp = exports.lerp = function lerp(v0, v1, t) {
   return v0 * (1 - t) + v1 * t;
 };
 
@@ -13413,21 +12383,21 @@ var getScreenOrientation = exports.getScreenOrientation = function getScreenOrie
  */
 
 var nearestPowerOfTwo = exports.nearestPowerOfTwo = function nearestPowerOfTwo(value) {
-  return pow(2, round(Math.log(value) / Math.LN2
+  return pow(2, round(Math.log(value) / Math.LN2));
+};
 
-  /**
-   * Convert an image or canvas to the nearest power
-   * of two.
-   * Borrowed from https://github.com/mrdoob/three.js/blob/dev/src/renderers/webgl/WebGLTextures.js
-   *
-   * @private
-   * @function
-   * @param {HTMLImageElement|HTMLCanvasElement} image
-   * @return {HTMLImageElement|HTMLCanvasElement}
-   */
+/**
+ * Convert an image or canvas to the nearest power
+ * of two.
+ * Borrowed from https://github.com/mrdoob/three.js/blob/dev/src/renderers/webgl/WebGLTextures.js
+ *
+ * @private
+ * @function
+ * @param {HTMLImageElement|HTMLCanvasElement} image
+ * @return {HTMLImageElement|HTMLCanvasElement}
+ */
 
-  ));
-};var makePowerOfTwo = exports.makePowerOfTwo = function makePowerOfTwo(image) {
+var makePowerOfTwo = exports.makePowerOfTwo = function makePowerOfTwo(image) {
   if (image instanceof HTMLImageElement || image instanceof HTMLCanvasElement) {
     var canvas = createCanvas();
     var context = canvas.getContext('2d');
@@ -13449,25 +12419,25 @@ var nearestPowerOfTwo = exports.nearestPowerOfTwo = function nearestPowerOfTwo(v
  */
 
 var createCanvas = exports.createCanvas = function createCanvas() {
-  return document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas'
+  return document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
+};
 
-  /**
-   * Scale image using a canvas.
-   * Warning: Scaling through the canvas will only work with
-   * images that use premultiplied alpha.
-   *
-   * Borrowed from https://github.com/mrdoob/three.js/blob/dev/src/renderers/webgl/WebGLTextures.js
-   *
-   * @private
-   * @function
-   * @param {HTMLImageElement|HTMLCanvasElement} image
-   * @param {Number} scale
-   * @param {Boolean} scaleNearestPowerOfTwo
-   * @return {HTMLImageElement|HTMLCanvasElement}
-   */
+/**
+ * Scale image using a canvas.
+ * Warning: Scaling through the canvas will only work with
+ * images that use premultiplied alpha.
+ *
+ * Borrowed from https://github.com/mrdoob/three.js/blob/dev/src/renderers/webgl/WebGLTextures.js
+ *
+ * @private
+ * @function
+ * @param {HTMLImageElement|HTMLCanvasElement} image
+ * @param {Number} scale
+ * @param {Boolean} scaleNearestPowerOfTwo
+ * @return {HTMLImageElement|HTMLCanvasElement}
+ */
 
-  );
-};var scaleWithCanvas = exports.scaleWithCanvas = function scaleWithCanvas(image, scale) {
+var scaleWithCanvas = exports.scaleWithCanvas = function scaleWithCanvas(image, scale) {
   var scaleNearestPowerOfTwo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
   var canvas = createCanvas();
@@ -13549,7 +12519,7 @@ var isArrayLike = exports.isArrayLike = function isArrayLike(array) {
   return Boolean(array && (Array.isArray(array) || array instanceof TypedArray || 'number' == array.length && 'function' == typeof array[Symbol.iterator]));
 };
 
-},{"clamp":101,"debug":147,"global/window":321}],60:[function(_dereq_,module,exports){
+},{"clamp":107,"debug":153,"global/window":328}],66:[function(_dereq_,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -13585,22 +12555,22 @@ function placeHoldersCount (b64) {
 
 function byteLength (b64) {
   // base64 is 4/3 + up to two characters of the original data
-  return b64.length * 3 / 4 - placeHoldersCount(b64)
+  return (b64.length * 3 / 4) - placeHoldersCount(b64)
 }
 
 function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
+  var i, l, tmp, placeHolders, arr
   var len = b64.length
   placeHolders = placeHoldersCount(b64)
 
-  arr = new Arr(len * 3 / 4 - placeHolders)
+  arr = new Arr((len * 3 / 4) - placeHolders)
 
   // if there are placeholders, only get up to the last complete 4 chars
   l = placeHolders > 0 ? len - 4 : len
 
   var L = 0
 
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+  for (i = 0; i < l; i += 4) {
     tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
     arr[L++] = (tmp >> 16) & 0xFF
     arr[L++] = (tmp >> 8) & 0xFF
@@ -13665,7 +12635,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],61:[function(_dereq_,module,exports){
+},{}],67:[function(_dereq_,module,exports){
 'use strict'
 
 var rationalize = _dereq_('./lib/rationalize')
@@ -13678,7 +12648,7 @@ function add(a, b) {
     a[1].mul(b[1]))
 }
 
-},{"./lib/rationalize":71}],62:[function(_dereq_,module,exports){
+},{"./lib/rationalize":77}],68:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = cmp
@@ -13687,7 +12657,7 @@ function cmp(a, b) {
     return a[0].mul(b[1]).cmp(b[0].mul(a[1]))
 }
 
-},{}],63:[function(_dereq_,module,exports){
+},{}],69:[function(_dereq_,module,exports){
 'use strict'
 
 var rationalize = _dereq_('./lib/rationalize')
@@ -13698,7 +12668,7 @@ function div(a, b) {
   return rationalize(a[0].mul(b[1]), a[1].mul(b[0]))
 }
 
-},{"./lib/rationalize":71}],64:[function(_dereq_,module,exports){
+},{"./lib/rationalize":77}],70:[function(_dereq_,module,exports){
 'use strict'
 
 var isRat = _dereq_('./is-rat')
@@ -13760,7 +12730,7 @@ function makeRational(numer, denom) {
   return rationalize(a, b)
 }
 
-},{"./div":63,"./is-rat":65,"./lib/is-bn":69,"./lib/num-to-bn":70,"./lib/rationalize":71,"./lib/str-to-bn":72}],65:[function(_dereq_,module,exports){
+},{"./div":69,"./is-rat":71,"./lib/is-bn":75,"./lib/num-to-bn":76,"./lib/rationalize":77,"./lib/str-to-bn":78}],71:[function(_dereq_,module,exports){
 'use strict'
 
 var isBN = _dereq_('./lib/is-bn')
@@ -13771,7 +12741,7 @@ function isRat(x) {
   return Array.isArray(x) && x.length === 2 && isBN(x[0]) && isBN(x[1])
 }
 
-},{"./lib/is-bn":69}],66:[function(_dereq_,module,exports){
+},{"./lib/is-bn":75}],72:[function(_dereq_,module,exports){
 'use strict'
 
 var BN = _dereq_('bn.js')
@@ -13782,7 +12752,7 @@ function sign (x) {
   return x.cmp(new BN(0))
 }
 
-},{"bn.js":79}],67:[function(_dereq_,module,exports){
+},{"bn.js":85}],73:[function(_dereq_,module,exports){
 'use strict'
 
 var sign = _dereq_('./bn-sign')
@@ -13807,7 +12777,7 @@ function bn2num(b) {
   return sign(b) * out
 }
 
-},{"./bn-sign":66}],68:[function(_dereq_,module,exports){
+},{"./bn-sign":72}],74:[function(_dereq_,module,exports){
 'use strict'
 
 var db = _dereq_('double-bits')
@@ -13828,7 +12798,7 @@ function ctzNumber(x) {
   return h + 32
 }
 
-},{"bit-twiddle":78,"double-bits":151}],69:[function(_dereq_,module,exports){
+},{"bit-twiddle":84,"double-bits":157}],75:[function(_dereq_,module,exports){
 'use strict'
 
 var BN = _dereq_('bn.js')
@@ -13841,7 +12811,7 @@ function isBN(x) {
   return x && typeof x === 'object' && Boolean(x.words)
 }
 
-},{"bn.js":79}],70:[function(_dereq_,module,exports){
+},{"bn.js":85}],76:[function(_dereq_,module,exports){
 'use strict'
 
 var BN = _dereq_('bn.js')
@@ -13858,7 +12828,7 @@ function num2bn(x) {
   }
 }
 
-},{"bn.js":79,"double-bits":151}],71:[function(_dereq_,module,exports){
+},{"bn.js":85,"double-bits":157}],77:[function(_dereq_,module,exports){
 'use strict'
 
 var num2bn = _dereq_('./num-to-bn')
@@ -13886,7 +12856,7 @@ function rationalize(numer, denom) {
   return [ numer, denom ]
 }
 
-},{"./bn-sign":66,"./num-to-bn":70}],72:[function(_dereq_,module,exports){
+},{"./bn-sign":72,"./num-to-bn":76}],78:[function(_dereq_,module,exports){
 'use strict'
 
 var BN = _dereq_('bn.js')
@@ -13897,7 +12867,7 @@ function str2BN(x) {
   return new BN(x)
 }
 
-},{"bn.js":79}],73:[function(_dereq_,module,exports){
+},{"bn.js":85}],79:[function(_dereq_,module,exports){
 'use strict'
 
 var rationalize = _dereq_('./lib/rationalize')
@@ -13908,7 +12878,7 @@ function mul(a, b) {
   return rationalize(a[0].mul(b[0]), a[1].mul(b[1]))
 }
 
-},{"./lib/rationalize":71}],74:[function(_dereq_,module,exports){
+},{"./lib/rationalize":77}],80:[function(_dereq_,module,exports){
 'use strict'
 
 var bnsign = _dereq_('./lib/bn-sign')
@@ -13919,7 +12889,7 @@ function sign(x) {
   return bnsign(x[0]) * bnsign(x[1])
 }
 
-},{"./lib/bn-sign":66}],75:[function(_dereq_,module,exports){
+},{"./lib/bn-sign":72}],81:[function(_dereq_,module,exports){
 'use strict'
 
 var rationalize = _dereq_('./lib/rationalize')
@@ -13930,7 +12900,7 @@ function sub(a, b) {
   return rationalize(a[0].mul(b[1]).sub(a[1].mul(b[0])), a[1].mul(b[1]))
 }
 
-},{"./lib/rationalize":71}],76:[function(_dereq_,module,exports){
+},{"./lib/rationalize":77}],82:[function(_dereq_,module,exports){
 'use strict'
 
 var bn2num = _dereq_('./lib/bn-to-num')
@@ -13968,7 +12938,7 @@ function roundRat (f) {
   }
 }
 
-},{"./lib/bn-to-num":67,"./lib/ctz":68}],77:[function(_dereq_,module,exports){
+},{"./lib/bn-to-num":73,"./lib/ctz":74}],83:[function(_dereq_,module,exports){
 "use strict"
 
 function compileSearch(funcName, predicate, reversed, extraArgs, useNdarray, earlyOut) {
@@ -14030,7 +13000,7 @@ module.exports = {
   eq: compileBoundsSearch("-", true, "EQ", true)
 }
 
-},{}],78:[function(_dereq_,module,exports){
+},{}],84:[function(_dereq_,module,exports){
 /**
  * Bit twiddling hacks for JavaScript.
  *
@@ -14236,7 +13206,7 @@ exports.nextCombination = function(v) {
 }
 
 
-},{}],79:[function(_dereq_,module,exports){
+},{}],85:[function(_dereq_,module,exports){
 (function (module, exports) {
   'use strict';
 
@@ -14289,6 +13259,7 @@ exports.nextCombination = function(v) {
 
   var Buffer;
   try {
+    // Obfuscate that we require Buffer, to reduce size
     Buffer = _dereq_('buf' + 'fer').Buffer;
   } catch (e) {
   }
@@ -17526,7 +16497,7 @@ exports.nextCombination = function(v) {
   };
 
   Red.prototype.pow = function pow (a, num) {
-    if (num.isZero()) return new BN(1);
+    if (num.isZero()) return new BN(1).toRed(this);
     if (num.cmpn(1) === 0) return a.clone();
 
     var windowSize = 4;
@@ -17665,7 +16636,7 @@ exports.nextCombination = function(v) {
   };
 })(typeof module === 'undefined' || module, this);
 
-},{}],80:[function(_dereq_,module,exports){
+},{}],86:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = findBounds
@@ -17688,7 +16659,7 @@ function findBounds(points) {
   }
   return [lo, hi]
 }
-},{}],81:[function(_dereq_,module,exports){
+},{}],87:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = boxIntersectWrapper
@@ -17827,7 +16798,7 @@ function boxIntersectWrapper(arg0, arg1, arg2) {
       throw new Error('box-intersect: Invalid arguments')
   }
 }
-},{"./lib/intersect":83,"./lib/sweep":87,"typedarray-pool":427}],82:[function(_dereq_,module,exports){
+},{"./lib/intersect":89,"./lib/sweep":93,"typedarray-pool":435}],88:[function(_dereq_,module,exports){
 'use strict'
 
 var DIMENSION   = 'd'
@@ -17972,7 +16943,7 @@ function bruteForcePlanner(full) {
 
 exports.partial = bruteForcePlanner(false)
 exports.full    = bruteForcePlanner(true)
-},{}],83:[function(_dereq_,module,exports){
+},{}],89:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = boxIntersectIter
@@ -18467,7 +17438,7 @@ function boxIntersectIter(
     }
   }
 }
-},{"./brute":82,"./median":84,"./partition":85,"./sweep":87,"bit-twiddle":78,"typedarray-pool":427}],84:[function(_dereq_,module,exports){
+},{"./brute":88,"./median":90,"./partition":91,"./sweep":93,"bit-twiddle":84,"typedarray-pool":435}],90:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = findMedian
@@ -18610,7 +17581,7 @@ function findMedian(d, axis, start, end, boxes, ids) {
     start, mid, boxes, ids,
     boxes[elemSize*mid+axis])
 }
-},{"./partition":85}],85:[function(_dereq_,module,exports){
+},{"./partition":91}],91:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = genPartition
@@ -18631,7 +17602,7 @@ function genPartition(predicate, args) {
         .replace('$', predicate))
   return Function.apply(void 0, fargs)
 }
-},{}],86:[function(_dereq_,module,exports){
+},{}],92:[function(_dereq_,module,exports){
 'use strict';
 
 //This code is extracted from ndarray-sort
@@ -18868,7 +17839,7 @@ function quickSort(left, right, data) {
     quickSort(less, great, data);
   }
 }
-},{}],87:[function(_dereq_,module,exports){
+},{}],93:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = {
@@ -19303,9 +18274,9 @@ red_loop:
     }
   }
 }
-},{"./sort":86,"bit-twiddle":78,"typedarray-pool":427}],88:[function(_dereq_,module,exports){
+},{"./sort":92,"bit-twiddle":84,"typedarray-pool":435}],94:[function(_dereq_,module,exports){
 
-},{}],89:[function(_dereq_,module,exports){
+},{}],95:[function(_dereq_,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -21098,14 +20069,14 @@ function isnan (val) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":60,"ieee754":334,"isarray":90}],90:[function(_dereq_,module,exports){
+},{"base64-js":66,"ieee754":341,"isarray":96}],96:[function(_dereq_,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],91:[function(_dereq_,module,exports){
+},{}],97:[function(_dereq_,module,exports){
 var unproject = _dereq_('camera-unproject')
 var set = _dereq_('gl-vec3/set')
 var sub = _dereq_('gl-vec3/subtract')
@@ -21120,7 +20091,7 @@ function createPickRay(origin, direction, point, viewport, invProjView) {
   sub(direction, direction, origin)
   normalize(direction, direction)
 }
-},{"camera-unproject":93,"gl-vec3/normalize":281,"gl-vec3/set":288,"gl-vec3/subtract":291}],92:[function(_dereq_,module,exports){
+},{"camera-unproject":99,"gl-vec3/normalize":287,"gl-vec3/set":294,"gl-vec3/subtract":297}],98:[function(_dereq_,module,exports){
 var transformMat4 = _dereq_('gl-vec4/transformMat4')
 var set = _dereq_('gl-vec4/set')
 
@@ -21162,7 +20133,7 @@ function cameraProject (out, vec, viewport, combinedProjView) {
   return out
 }
 
-},{"gl-vec4/set":315,"gl-vec4/transformMat4":319}],93:[function(_dereq_,module,exports){
+},{"gl-vec4/set":321,"gl-vec4/transformMat4":325}],99:[function(_dereq_,module,exports){
 var transform = _dereq_('./lib/projectMat4')
 
 module.exports = unproject
@@ -21203,7 +20174,7 @@ function unproject (out, vec, viewport, invProjectionView) {
   return transform(out, out, invProjectionView)
 }
 
-},{"./lib/projectMat4":94}],94:[function(_dereq_,module,exports){
+},{"./lib/projectMat4":100}],100:[function(_dereq_,module,exports){
 module.exports = project
 
 /**
@@ -21235,7 +20206,7 @@ function project (out, vec, m) {
   return out
 }
 
-},{}],95:[function(_dereq_,module,exports){
+},{}],101:[function(_dereq_,module,exports){
 'use strict'
 
 var monotoneTriangulate = _dereq_('./lib/monotone')
@@ -21319,7 +20290,7 @@ function cdt2d(points, edges, options) {
   }
 }
 
-},{"./lib/delaunay":96,"./lib/filter":97,"./lib/monotone":98,"./lib/triangulation":99}],96:[function(_dereq_,module,exports){
+},{"./lib/delaunay":102,"./lib/filter":103,"./lib/monotone":104,"./lib/triangulation":105}],102:[function(_dereq_,module,exports){
 'use strict'
 
 var inCircle = _dereq_('robust-in-sphere')[4]
@@ -21436,7 +20407,7 @@ function delaunayRefine(points, triangulation) {
   }
 }
 
-},{"binary-search-bounds":100,"robust-in-sphere":401}],97:[function(_dereq_,module,exports){
+},{"binary-search-bounds":106,"robust-in-sphere":409}],103:[function(_dereq_,module,exports){
 'use strict'
 
 var bsearch = _dereq_('binary-search-bounds')
@@ -21618,7 +20589,7 @@ function classifyFaces(triangulation, target, infinity) {
   return result
 }
 
-},{"binary-search-bounds":100}],98:[function(_dereq_,module,exports){
+},{"binary-search-bounds":106}],104:[function(_dereq_,module,exports){
 'use strict'
 
 var bsearch = _dereq_('binary-search-bounds')
@@ -21807,7 +20778,7 @@ function monotoneTriangulate(points, edges) {
   return cells
 }
 
-},{"binary-search-bounds":100,"robust-orientation":402}],99:[function(_dereq_,module,exports){
+},{"binary-search-bounds":106,"robust-orientation":410}],105:[function(_dereq_,module,exports){
 'use strict'
 
 var bsearch = _dereq_('binary-search-bounds')
@@ -21913,7 +20884,7 @@ function createTriangulation(numVerts, edges) {
   return new Triangulation(stars, edges)
 }
 
-},{"binary-search-bounds":100}],100:[function(_dereq_,module,exports){
+},{"binary-search-bounds":106}],106:[function(_dereq_,module,exports){
 "use strict"
 
 function compileSearch(funcName, predicate, reversed, extraArgs, earlyOut) {
@@ -21967,7 +20938,7 @@ module.exports = {
   eq: compileBoundsSearch("-", true, "EQ", true)
 }
 
-},{}],101:[function(_dereq_,module,exports){
+},{}],107:[function(_dereq_,module,exports){
 module.exports = clamp
 
 function clamp(value, min, max) {
@@ -21976,7 +20947,7 @@ function clamp(value, min, max) {
     : (value < max ? max : value > min ? min : value)
 }
 
-},{}],102:[function(_dereq_,module,exports){
+},{}],108:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = cleanPSLG
@@ -22359,7 +21330,7 @@ function cleanPSLG (points, edges, colors) {
   return modified
 }
 
-},{"./lib/rat-seg-intersect":103,"big-rat":64,"big-rat/cmp":62,"big-rat/to-float":76,"box-intersect":81,"nextafter":354,"rat-vec":381,"robust-segment-intersect":405,"union-find":429}],103:[function(_dereq_,module,exports){
+},{"./lib/rat-seg-intersect":109,"big-rat":70,"big-rat/cmp":68,"big-rat/to-float":82,"box-intersect":87,"nextafter":361,"rat-vec":388,"robust-segment-intersect":413,"union-find":437}],109:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = solveIntersection
@@ -22403,7 +21374,7 @@ function solveIntersection (a, b, c, d) {
   return r
 }
 
-},{"big-rat/div":63,"big-rat/mul":73,"big-rat/sign":74,"big-rat/sub":75,"rat-vec/add":380,"rat-vec/muls":382,"rat-vec/sub":383}],104:[function(_dereq_,module,exports){
+},{"big-rat/div":69,"big-rat/mul":79,"big-rat/sign":80,"big-rat/sub":81,"rat-vec/add":387,"rat-vec/muls":389,"rat-vec/sub":390}],110:[function(_dereq_,module,exports){
 module.exports = {
 	"aliceblue": [240, 248, 255],
 	"antiquewhite": [250, 235, 215],
@@ -22554,7 +21525,7 @@ module.exports = {
 	"yellow": [255, 255, 0],
 	"yellowgreen": [154, 205, 50]
 };
-},{}],105:[function(_dereq_,module,exports){
+},{}],111:[function(_dereq_,module,exports){
 /**
  * @module color-space/cmy
  */
@@ -22610,7 +21581,7 @@ rgb.cmy = function(rgb) {
 	];
 };
 
-},{"./rgb":125}],106:[function(_dereq_,module,exports){
+},{"./rgb":131}],112:[function(_dereq_,module,exports){
 /**
  * @module color-space/cmyk
  */
@@ -22654,7 +21625,7 @@ rgb.cmyk = function(rgb) {
 	return [c * 100, m * 100, y * 100, k * 100];
 };
 
-},{"./rgb":125}],107:[function(_dereq_,module,exports){
+},{"./rgb":131}],113:[function(_dereq_,module,exports){
 
 /**
  * Architects and visual constructors hungarian color space.
@@ -22937,7 +21908,7 @@ module.exports = coloroid;
 
 
 
-},{"./xyy":130,"./xyz":131}],108:[function(_dereq_,module,exports){
+},{"./xyy":136,"./xyz":137}],114:[function(_dereq_,module,exports){
 /**
  * Cubehelix http://astron-soc.in/bulletin/11June/289392011.pdf
  *
@@ -23017,7 +21988,7 @@ rgb.cubehelix = function(rgb) {
 	//TODO - there is no backwise conversion yet
 };
 
-},{"./rgb":125,"mumath/clamp":350}],109:[function(_dereq_,module,exports){
+},{"./rgb":131,"mumath/clamp":357}],115:[function(_dereq_,module,exports){
 /**
  * @module color-space/hcg
  */
@@ -23190,7 +22161,7 @@ hwb.hcg = function(hwb){
 	return [hwb[0], c * 100, g * 100];
 }
 
-},{"./hsl":111,"./hsv":112,"./hwb":115,"./rgb":125,"mumath/mod":351}],110:[function(_dereq_,module,exports){
+},{"./hsl":117,"./hsv":118,"./hwb":121,"./rgb":131,"mumath/mod":358}],116:[function(_dereq_,module,exports){
 /**
  * http://www.cse.usf.edu/~mshreve/rgb-to-hsi
  * http://web.archive.org/web/20130124054245/http://web2.clarkson.edu/class/image_process/RGB_to_HSI.pdf
@@ -23280,7 +22251,7 @@ rgb.hsi = function (rgb) {
 	return [h * 180 / Math.PI, s * 100, i];
 };
 
-},{"./rgb":125,"mumath/clamp":350,"mumath/mod":351}],111:[function(_dereq_,module,exports){
+},{"./rgb":131,"mumath/clamp":357,"mumath/mod":358}],117:[function(_dereq_,module,exports){
 /**
  * @module color-space/hsl
  */
@@ -23389,7 +22360,7 @@ rgb.hsl = function(rgb) {
 	return [h, s * 100, l * 100];
 };
 
-},{"./rgb":125}],112:[function(_dereq_,module,exports){
+},{"./rgb":131}],118:[function(_dereq_,module,exports){
 /**
  * @module color-space/hsv
  */
@@ -23507,7 +22478,7 @@ hsl.hsv = function(hsl) {
 	return [h, sv * 100, v * 100];
 };
 
-},{"./hsl":111,"./rgb":125}],113:[function(_dereq_,module,exports){
+},{"./hsl":117,"./rgb":131}],119:[function(_dereq_,module,exports){
 /**
  * A uniform wrapper for husl.
  * // http://www.boronine.com/husl/
@@ -23546,7 +22517,7 @@ xyz.husl = function(arg){
 	return _husl._conv.lch.husl(xyz.lchuv(arg));
 };
 
-},{"./lchuv":121,"./xyz":131,"husl":333}],114:[function(_dereq_,module,exports){
+},{"./lchuv":127,"./xyz":137,"husl":340}],120:[function(_dereq_,module,exports){
 /**
  * A uniform wrapper for huslp.
  * // http://www.boronine.com/husl/
@@ -23579,7 +22550,7 @@ module.exports = {
 lchuv.huslp = _husl._conv.lch.huslp;
 xyz.huslp = function(arg){return _husl._conv.lch.huslp(xyz.lchuv(arg));};
 
-},{"./lchuv":121,"./xyz":131,"husl":333}],115:[function(_dereq_,module,exports){
+},{"./lchuv":127,"./xyz":137,"husl":340}],121:[function(_dereq_,module,exports){
 /**
  * @module color-space/hwb
  */
@@ -23692,7 +22663,7 @@ hsl.hwb = function(arg){
 	return hsv.hwb(hsl.hsv(arg));
 };
 
-},{"./hsl":111,"./hsv":112,"./rgb":125}],116:[function(_dereq_,module,exports){
+},{"./hsl":117,"./hsv":118,"./rgb":131}],122:[function(_dereq_,module,exports){
 /**
  * Color space data and conversions
  *
@@ -23780,7 +22751,7 @@ function getConvertor(fromSpaceName, toSpaceName){
 
 module.exports = spaces;
 
-},{"./cmy":105,"./cmyk":106,"./coloroid":107,"./cubehelix":108,"./hcg":109,"./hsi":110,"./hsl":111,"./hsv":112,"./husl":113,"./huslp":114,"./hwb":115,"./jpeg":117,"./lab":118,"./labh":119,"./lchab":120,"./lchuv":121,"./lms":122,"./luv":123,"./osaucs":124,"./rgb":125,"./tsl":126,"./ucs":127,"./uvw":128,"./xvycc":129,"./xyy":130,"./xyz":131,"./ycbcr":132,"./yccbccrc":133,"./ycgco":134,"./ydbdr":135,"./yes":136,"./yiq":137,"./ypbpr":138,"./yuv":139}],117:[function(_dereq_,module,exports){
+},{"./cmy":111,"./cmyk":112,"./coloroid":113,"./cubehelix":114,"./hcg":115,"./hsi":116,"./hsl":117,"./hsv":118,"./husl":119,"./huslp":120,"./hwb":121,"./jpeg":123,"./lab":124,"./labh":125,"./lchab":126,"./lchuv":127,"./lms":128,"./luv":129,"./osaucs":130,"./rgb":131,"./tsl":132,"./ucs":133,"./uvw":134,"./xvycc":135,"./xyy":136,"./xyz":137,"./ycbcr":138,"./yccbccrc":139,"./ycgco":140,"./ydbdr":141,"./yes":142,"./yiq":143,"./ypbpr":144,"./yuv":145}],123:[function(_dereq_,module,exports){
 /**
  * https://en.wikipedia.org/wiki/YCbCr#JPEG_conversion
  *
@@ -23838,7 +22809,7 @@ rgb.jpeg = function(arr) {
 	]
 };
 
-},{"./rgb":125}],118:[function(_dereq_,module,exports){
+},{"./rgb":131}],124:[function(_dereq_,module,exports){
 /**
  * CIE LAB space model
  *
@@ -23900,7 +22871,7 @@ xyz.lab = function(xyz){
 	return [l, a, b];
 };
 
-},{"./xyz":131}],119:[function(_dereq_,module,exports){
+},{"./xyz":137}],125:[function(_dereq_,module,exports){
 /**
  * Hunter-lab space.
  *
@@ -23946,7 +22917,7 @@ xyz.labh = function(xyz){
 	return [l, a, b];
 };
 
-},{"./xyz":131}],120:[function(_dereq_,module,exports){
+},{"./xyz":137}],126:[function(_dereq_,module,exports){
 /**
  * Cylindrical LAB
  *
@@ -24004,7 +22975,7 @@ xyz.lchab = function(arg){
 	return lab.lchab(xyz.lab(arg));
 };
 
-},{"./lab":118,"./xyz":131}],121:[function(_dereq_,module,exports){
+},{"./lab":124,"./xyz":137}],127:[function(_dereq_,module,exports){
 /**
  * Cylindrical CIE LUV
  *
@@ -24057,7 +23028,7 @@ xyz.lchuv = function(arg){
   return luv.lchuv(xyz.luv(arg));
 };
 
-},{"./luv":123,"./xyz":131}],122:[function(_dereq_,module,exports){
+},{"./luv":129,"./xyz":137}],128:[function(_dereq_,module,exports){
 /**
  * A responsivity of cones color space.
  * Used for CAT - chromatic adaptation transform.
@@ -24143,7 +23114,7 @@ xyz.lms = function(arg, matrix) {
 		];
 };
 
-},{"./xyz":131}],123:[function(_dereq_,module,exports){
+},{"./xyz":137}],129:[function(_dereq_,module,exports){
 /**
  * CIE LUV (C'est la vie)
  *
@@ -24245,7 +23216,7 @@ xyz.luv = function(arg, i, o) {
 	return [l, u, v];
 };
 
-},{"./xyz":131}],124:[function(_dereq_,module,exports){
+},{"./xyz":137}],130:[function(_dereq_,module,exports){
 /**
  * OSA-UCS
  *
@@ -24324,7 +23295,7 @@ xyz.osaucs = function (arg) {
 
 module.exports = osaucs;
 
-},{"./xyz":131}],125:[function(_dereq_,module,exports){
+},{"./xyz":137}],131:[function(_dereq_,module,exports){
 /**
  * RGB space.
  *
@@ -24340,7 +23311,7 @@ module.exports = {
 	alias: ['RGB']
 };
 
-},{}],126:[function(_dereq_,module,exports){
+},{}],132:[function(_dereq_,module,exports){
 /**
  * https://en.wikipedia.org/wiki/TSL_color_space
  * http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.86.6037&rep=rep1&type=pdf
@@ -24428,7 +23399,7 @@ rgb.tsl = function(rgb) {
 	return [T, S, L];
 };
 
-},{"./rgb":125}],127:[function(_dereq_,module,exports){
+},{"./rgb":131}],133:[function(_dereq_,module,exports){
 /**
  * https://en.wikipedia.org/wiki/CIE_1960_color_space
  *
@@ -24488,7 +23459,7 @@ xyz.ucs = function(xyz) {
 	];
 };
 
-},{"./xyz":131}],128:[function(_dereq_,module,exports){
+},{"./xyz":137}],134:[function(_dereq_,module,exports){
 /**
  * https://en.wikipedia.org/wiki/CIE_1964_color_space
  *
@@ -24604,7 +23575,7 @@ ucs.uvw = function(ucs) {
 	// v = 13 * w * (v - vn);
 };
 
-},{"./ucs":127,"./xyz":131}],129:[function(_dereq_,module,exports){
+},{"./ucs":133,"./xyz":137}],135:[function(_dereq_,module,exports){
 /**
  * https://en.wikipedia.org/wiki/XvYCC
  *
@@ -24693,7 +23664,7 @@ rgb.xvycc = function(arr, kb, kr) {
 	return ypbpr.xvycc(rgb.ypbpr(arr, kb, kr));
 };
 
-},{"./rgb":125,"./ypbpr":138}],130:[function(_dereq_,module,exports){
+},{"./rgb":131,"./ypbpr":144}],136:[function(_dereq_,module,exports){
 /**
  * Additional xyY space, where xy are relative chromacity params
  *
@@ -24734,7 +23705,7 @@ xyz.xyy = function(arg) {
 
 module.exports = xyy;
 
-},{"./xyz":131}],131:[function(_dereq_,module,exports){
+},{"./xyz":137}],137:[function(_dereq_,module,exports){
 /**
  * CIE XYZ
  *
@@ -24880,7 +23851,7 @@ rgb.xyz = function(rgb, white) {
 
 module.exports = xyz;
 
-},{"./rgb":125}],132:[function(_dereq_,module,exports){
+},{"./rgb":131}],138:[function(_dereq_,module,exports){
 /**
  * https://en.wikipedia.org/?title=YCbCr
  *
@@ -24960,7 +23931,7 @@ rgb.ycbcr = function(arr, kb, kr) {
 	return ypbpr.ycbcr(rgb.ypbpr(arr, kb, kr));
 };
 
-},{"./rgb":125,"./ypbpr":138}],133:[function(_dereq_,module,exports){
+},{"./rgb":131,"./ypbpr":144}],139:[function(_dereq_,module,exports){
 /**
  * YcCbcCrc is ITU-R BT.2020
  *
@@ -25003,7 +23974,7 @@ rgb.yccbccrc = function(arr) {
 	return rgb.ypbpr(arr, 0.0593, 0.2627);
 };
 
-},{"./rgb":125,"./ypbpr":138}],134:[function(_dereq_,module,exports){
+},{"./rgb":131,"./ypbpr":144}],140:[function(_dereq_,module,exports){
 /**
  * https://en.wikipedia.org/?title=YCgCo
  *
@@ -25061,7 +24032,7 @@ rgb.ycgco = function(arr) {
 	];
 };
 
-},{"./rgb":125}],135:[function(_dereq_,module,exports){
+},{"./rgb":131}],141:[function(_dereq_,module,exports){
 /**
  * https://en.wikipedia.org/?title=YDbDr
  *
@@ -25134,7 +24105,7 @@ ydbdr.yuv = function (ydbdr) {
 	]
 };
 
-},{"./rgb":125,"./yuv":139}],136:[function(_dereq_,module,exports){
+},{"./rgb":131,"./yuv":145}],142:[function(_dereq_,module,exports){
 /**
  * YES color space
  * http://www.atlantis-press.com/php/download_paper.php?id=198
@@ -25185,7 +24156,7 @@ rgb.yes = function(arg) {
 	];
 };
 
-},{"./rgb":125}],137:[function(_dereq_,module,exports){
+},{"./rgb":131}],143:[function(_dereq_,module,exports){
 /**
  * YIQ https://en.wikipedia.org/?title=YIQ
  *
@@ -25237,7 +24208,7 @@ rgb.yiq = function(rgb) {
 	return [y, i, q];
 };
 
-},{"./rgb":125}],138:[function(_dereq_,module,exports){
+},{"./rgb":131}],144:[function(_dereq_,module,exports){
 /**
  * https://en.wikipedia.org/?title=YPbPr
  *
@@ -25304,7 +24275,7 @@ rgb.ypbpr = function(rgb, kb, kr) {
 	return [y, pb, pr];
 };
 
-},{"./rgb":125}],139:[function(_dereq_,module,exports){
+},{"./rgb":131}],145:[function(_dereq_,module,exports){
 /**
  * YUV https://en.wikipedia.org/?title=YUV
  *
@@ -25354,7 +24325,7 @@ rgb.yuv = function(rgb) {
 	return [y, u, v];
 };
 
-},{"./rgb":125}],140:[function(_dereq_,module,exports){
+},{"./rgb":131}],146:[function(_dereq_,module,exports){
 /* MIT license */
 var colorNames = _dereq_('color-name');
 var swizzle = _dereq_('simple-swizzle');
@@ -25589,7 +24560,7 @@ function hexDouble(num) {
 	return (str.length < 2) ? '0' + str : str;
 }
 
-},{"color-name":104,"simple-swizzle":410}],141:[function(_dereq_,module,exports){
+},{"color-name":110,"simple-swizzle":418}],147:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = compareAngle
@@ -25675,7 +24646,7 @@ function compareAngle(a, b, c, d) {
     }
   }
 }
-},{"robust-orientation":402,"robust-product":403,"robust-sum":407,"signum":142,"two-sum":426}],142:[function(_dereq_,module,exports){
+},{"robust-orientation":410,"robust-product":411,"robust-sum":415,"signum":148,"two-sum":434}],148:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = function signum(x) {
@@ -25683,7 +24654,7 @@ module.exports = function signum(x) {
   if(x > 0) { return 1 }
   return 0.0
 }
-},{}],143:[function(_dereq_,module,exports){
+},{}],149:[function(_dereq_,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -25794,7 +24765,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":_dereq_("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":340}],144:[function(_dereq_,module,exports){
+},{"../../is-buffer/index.js":347}],150:[function(_dereq_,module,exports){
 "use strict"
 
 var createThunk = _dereq_("./lib/thunk.js")
@@ -25905,7 +24876,7 @@ function compileCwise(user_args) {
 
 module.exports = compileCwise
 
-},{"./lib/thunk.js":146}],145:[function(_dereq_,module,exports){
+},{"./lib/thunk.js":152}],151:[function(_dereq_,module,exports){
 "use strict"
 
 var uniq = _dereq_("uniq")
@@ -26265,7 +25236,7 @@ function generateCWiseOp(proc, typesig) {
 }
 module.exports = generateCWiseOp
 
-},{"uniq":430}],146:[function(_dereq_,module,exports){
+},{"uniq":438}],152:[function(_dereq_,module,exports){
 "use strict"
 
 // The function below is called when constructing a cwise function object, and does the following:
@@ -26353,7 +25324,7 @@ function createThunk(proc) {
 
 module.exports = createThunk
 
-},{"./compile.js":145}],147:[function(_dereq_,module,exports){
+},{"./compile.js":151}],153:[function(_dereq_,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -26542,7 +25513,7 @@ function localstorage() {
 }
 
 }).call(this,_dereq_('_process'))
-},{"./debug":148,"_process":378}],148:[function(_dereq_,module,exports){
+},{"./debug":154,"_process":385}],154:[function(_dereq_,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -26746,14 +25717,14 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":349}],149:[function(_dereq_,module,exports){
+},{"ms":356}],155:[function(_dereq_,module,exports){
 module.exports = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (arguments[i] !== undefined) return arguments[i];
     }
 };
 
-},{}],150:[function(_dereq_,module,exports){
+},{}],156:[function(_dereq_,module,exports){
 
 var synth = _dereq_('synthetic-dom-events');
 
@@ -26804,7 +25775,7 @@ module.exports = {
     emit: emit
 };
 
-},{"synthetic-dom-events":418}],151:[function(_dereq_,module,exports){
+},{"synthetic-dom-events":426}],157:[function(_dereq_,module,exports){
 (function (Buffer){
 var hasTypedArrays = false
 if(typeof Float64Array !== "undefined") {
@@ -26908,7 +25879,7 @@ module.exports.denormalized = function(n) {
   return !(hi & 0x7ff00000)
 }
 }).call(this,_dereq_("buffer").Buffer)
-},{"buffer":89}],152:[function(_dereq_,module,exports){
+},{"buffer":95}],158:[function(_dereq_,module,exports){
 "use strict"
 
 function dupe_array(count, value, i) {
@@ -26958,7 +25929,7 @@ function dupe(count, value) {
 }
 
 module.exports = dupe
-},{}],153:[function(_dereq_,module,exports){
+},{}],159:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = edgeToAdjacency
@@ -26992,7 +25963,7 @@ function edgeToAdjacency(edges, numVertices) {
   }
   return adj
 }
-},{"uniq":430}],154:[function(_dereq_,module,exports){
+},{"uniq":438}],160:[function(_dereq_,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -27296,7 +26267,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],155:[function(_dereq_,module,exports){
+},{}],161:[function(_dereq_,module,exports){
 var trmat = _dereq_('gl-vec3/transformMat4')
 var add = _dereq_('gl-vec3/add')
 var subtract = _dereq_('gl-vec3/subtract')
@@ -27372,7 +26343,7 @@ module.exports = function (opts) {
   return mesh
 }
 
-},{"gl-mat4/identity":190,"gl-mat4/rotate":198,"gl-vec3/add":262,"gl-vec3/cross":267,"gl-vec3/dot":270,"gl-vec3/normalize":281,"gl-vec3/subtract":291,"gl-vec3/transformMat4":293}],156:[function(_dereq_,module,exports){
+},{"gl-mat4/identity":196,"gl-mat4/rotate":204,"gl-vec3/add":268,"gl-vec3/cross":273,"gl-vec3/dot":276,"gl-vec3/normalize":287,"gl-vec3/subtract":297,"gl-vec3/transformMat4":299}],162:[function(_dereq_,module,exports){
 module.exports = extrude
 
 function extrude(out, arr, bot, top, brr) {
@@ -27411,7 +26382,7 @@ function faces(arr, out) {
   return out
 }
 
-},{}],157:[function(_dereq_,module,exports){
+},{}],163:[function(_dereq_,module,exports){
 var pnltri = _dereq_('pnltri')
 var defaults = _dereq_('lodash.defaults')
 
@@ -27465,7 +26436,7 @@ module.exports = function (points, opts) {
   }
 }
 
-},{"lodash.defaults":342,"pnltri":369}],158:[function(_dereq_,module,exports){
+},{"lodash.defaults":349,"pnltri":376}],164:[function(_dereq_,module,exports){
 var invert = _dereq_('gl-mat4/invert')
 var scratch = new Float32Array(16)
 
@@ -27480,7 +26451,7 @@ function getEyeVector(viewMatrix, out) {
   return out
 }
 
-},{"gl-mat4/invert":192}],159:[function(_dereq_,module,exports){
+},{"gl-mat4/invert":198}],165:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = createRBTree
@@ -28477,7 +27448,7 @@ function defaultCompare(a, b) {
 function createRBTree(compare) {
   return new RedBlackTree(compare || defaultCompare, null)
 }
-},{}],160:[function(_dereq_,module,exports){
+},{}],166:[function(_dereq_,module,exports){
 // transliterated from the python snippet here:
 // http://en.wikipedia.org/wiki/Lanczos_approximation
 
@@ -28546,7 +27517,7 @@ module.exports = function gamma (z) {
 
 module.exports.log = lngamma;
 
-},{}],161:[function(_dereq_,module,exports){
+},{}],167:[function(_dereq_,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28577,7 +27548,7 @@ var getPermutations = function getPermutations(arr) {
 exports["default"] = getPermutations;
 module.exports = exports["default"];
 
-},{}],162:[function(_dereq_,module,exports){
+},{}],168:[function(_dereq_,module,exports){
 "use strict";
 Object.defineProperty(exports, '__esModule', {
     value: true
@@ -28608,7 +27579,7 @@ var getUniquePermutations = function getUniquePermutations(arr) {
 exports['default'] = getUniquePermutations;
 module.exports = exports['default'];
 
-},{"get-permutations":161}],163:[function(_dereq_,module,exports){
+},{"get-permutations":167}],169:[function(_dereq_,module,exports){
 module.exports = adjoint
 
 /**
@@ -28637,7 +27608,7 @@ function adjoint(out, a) {
   return out
 }
 
-},{}],164:[function(_dereq_,module,exports){
+},{}],170:[function(_dereq_,module,exports){
 module.exports = clone
 
 /**
@@ -28661,7 +27632,7 @@ function clone(a) {
   return out
 }
 
-},{}],165:[function(_dereq_,module,exports){
+},{}],171:[function(_dereq_,module,exports){
 module.exports = copy
 
 /**
@@ -28685,7 +27656,7 @@ function copy(out, a) {
   return out
 }
 
-},{}],166:[function(_dereq_,module,exports){
+},{}],172:[function(_dereq_,module,exports){
 module.exports = create
 
 /**
@@ -28708,7 +27679,7 @@ function create() {
   return out
 }
 
-},{}],167:[function(_dereq_,module,exports){
+},{}],173:[function(_dereq_,module,exports){
 module.exports = determinant
 
 /**
@@ -28728,7 +27699,7 @@ function determinant(a) {
        + a02 * (a21 * a10 - a11 * a20)
 }
 
-},{}],168:[function(_dereq_,module,exports){
+},{}],174:[function(_dereq_,module,exports){
 module.exports = frob
 
 /**
@@ -28752,7 +27723,7 @@ function frob(a) {
   )
 }
 
-},{}],169:[function(_dereq_,module,exports){
+},{}],175:[function(_dereq_,module,exports){
 module.exports = fromMat2d
 
 /**
@@ -28779,7 +27750,7 @@ function fromMat2d(out, a) {
   return out
 }
 
-},{}],170:[function(_dereq_,module,exports){
+},{}],176:[function(_dereq_,module,exports){
 module.exports = fromMat4
 
 /**
@@ -28803,7 +27774,7 @@ function fromMat4(out, a) {
   return out
 }
 
-},{}],171:[function(_dereq_,module,exports){
+},{}],177:[function(_dereq_,module,exports){
 module.exports = fromQuat
 
 /**
@@ -28850,7 +27821,7 @@ function fromQuat(out, q) {
   return out
 }
 
-},{}],172:[function(_dereq_,module,exports){
+},{}],178:[function(_dereq_,module,exports){
 module.exports = identity
 
 /**
@@ -28873,7 +27844,7 @@ function identity(out) {
   return out
 }
 
-},{}],173:[function(_dereq_,module,exports){
+},{}],179:[function(_dereq_,module,exports){
 module.exports = {
   adjoint: _dereq_('./adjoint')
   , clone: _dereq_('./clone')
@@ -28895,7 +27866,7 @@ module.exports = {
   , transpose: _dereq_('./transpose')
 }
 
-},{"./adjoint":163,"./clone":164,"./copy":165,"./create":166,"./determinant":167,"./frob":168,"./from-mat2":169,"./from-mat4":170,"./from-quat":171,"./identity":172,"./invert":174,"./multiply":175,"./normal-from-mat4":176,"./rotate":177,"./scale":178,"./str":179,"./translate":180,"./transpose":181}],174:[function(_dereq_,module,exports){
+},{"./adjoint":169,"./clone":170,"./copy":171,"./create":172,"./determinant":173,"./frob":174,"./from-mat2":175,"./from-mat4":176,"./from-quat":177,"./identity":178,"./invert":180,"./multiply":181,"./normal-from-mat4":182,"./rotate":183,"./scale":184,"./str":185,"./translate":186,"./transpose":187}],180:[function(_dereq_,module,exports){
 module.exports = invert
 
 /**
@@ -28934,7 +27905,7 @@ function invert(out, a) {
   return out
 }
 
-},{}],175:[function(_dereq_,module,exports){
+},{}],181:[function(_dereq_,module,exports){
 module.exports = multiply
 
 /**
@@ -28970,7 +27941,7 @@ function multiply(out, a, b) {
   return out
 }
 
-},{}],176:[function(_dereq_,module,exports){
+},{}],182:[function(_dereq_,module,exports){
 module.exports = normalFromMat4
 
 /**
@@ -29027,7 +27998,7 @@ function normalFromMat4(out, a) {
   return out
 }
 
-},{}],177:[function(_dereq_,module,exports){
+},{}],183:[function(_dereq_,module,exports){
 module.exports = rotate
 
 /**
@@ -29062,7 +28033,7 @@ function rotate(out, a, rad) {
   return out
 }
 
-},{}],178:[function(_dereq_,module,exports){
+},{}],184:[function(_dereq_,module,exports){
 module.exports = scale
 
 /**
@@ -29093,7 +28064,7 @@ function scale(out, a, v) {
   return out
 }
 
-},{}],179:[function(_dereq_,module,exports){
+},{}],185:[function(_dereq_,module,exports){
 module.exports = str
 
 /**
@@ -29109,7 +28080,7 @@ function str(a) {
                    a[6] + ', ' + a[7] + ', ' + a[8] + ')'
 }
 
-},{}],180:[function(_dereq_,module,exports){
+},{}],186:[function(_dereq_,module,exports){
 module.exports = translate
 
 /**
@@ -29142,7 +28113,7 @@ function translate(out, a, v) {
   return out
 }
 
-},{}],181:[function(_dereq_,module,exports){
+},{}],187:[function(_dereq_,module,exports){
 module.exports = transpose
 
 /**
@@ -29178,7 +28149,7 @@ function transpose(out, a) {
   return out
 }
 
-},{}],182:[function(_dereq_,module,exports){
+},{}],188:[function(_dereq_,module,exports){
 module.exports = adjoint;
 
 /**
@@ -29212,7 +28183,7 @@ function adjoint(out, a) {
     out[15] =  (a00 * (a11 * a22 - a12 * a21) - a10 * (a01 * a22 - a02 * a21) + a20 * (a01 * a12 - a02 * a11));
     return out;
 };
-},{}],183:[function(_dereq_,module,exports){
+},{}],189:[function(_dereq_,module,exports){
 module.exports = clone;
 
 /**
@@ -29241,7 +28212,7 @@ function clone(a) {
     out[15] = a[15];
     return out;
 };
-},{}],184:[function(_dereq_,module,exports){
+},{}],190:[function(_dereq_,module,exports){
 module.exports = copy;
 
 /**
@@ -29270,7 +28241,7 @@ function copy(out, a) {
     out[15] = a[15];
     return out;
 };
-},{}],185:[function(_dereq_,module,exports){
+},{}],191:[function(_dereq_,module,exports){
 module.exports = create;
 
 /**
@@ -29298,7 +28269,7 @@ function create() {
     out[15] = 1;
     return out;
 };
-},{}],186:[function(_dereq_,module,exports){
+},{}],192:[function(_dereq_,module,exports){
 module.exports = determinant;
 
 /**
@@ -29329,7 +28300,7 @@ function determinant(a) {
     // Calculate the determinant
     return b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 };
-},{}],187:[function(_dereq_,module,exports){
+},{}],193:[function(_dereq_,module,exports){
 module.exports = fromQuat;
 
 /**
@@ -29377,7 +28348,7 @@ function fromQuat(out, q) {
 
     return out;
 };
-},{}],188:[function(_dereq_,module,exports){
+},{}],194:[function(_dereq_,module,exports){
 module.exports = fromRotationTranslation;
 
 /**
@@ -29431,7 +28402,7 @@ function fromRotationTranslation(out, q, v) {
     
     return out;
 };
-},{}],189:[function(_dereq_,module,exports){
+},{}],195:[function(_dereq_,module,exports){
 module.exports = frustum;
 
 /**
@@ -29468,7 +28439,7 @@ function frustum(out, left, right, bottom, top, near, far) {
     out[15] = 0;
     return out;
 };
-},{}],190:[function(_dereq_,module,exports){
+},{}],196:[function(_dereq_,module,exports){
 module.exports = identity;
 
 /**
@@ -29496,7 +28467,7 @@ function identity(out) {
     out[15] = 1;
     return out;
 };
-},{}],191:[function(_dereq_,module,exports){
+},{}],197:[function(_dereq_,module,exports){
 module.exports = {
   create: _dereq_('./create')
   , clone: _dereq_('./clone')
@@ -29522,7 +28493,7 @@ module.exports = {
   , lookAt: _dereq_('./lookAt')
   , str: _dereq_('./str')
 }
-},{"./adjoint":182,"./clone":183,"./copy":184,"./create":185,"./determinant":186,"./fromQuat":187,"./fromRotationTranslation":188,"./frustum":189,"./identity":190,"./invert":192,"./lookAt":193,"./multiply":194,"./ortho":195,"./perspective":196,"./perspectiveFromFieldOfView":197,"./rotate":198,"./rotateX":199,"./rotateY":200,"./rotateZ":201,"./scale":202,"./str":203,"./translate":204,"./transpose":205}],192:[function(_dereq_,module,exports){
+},{"./adjoint":188,"./clone":189,"./copy":190,"./create":191,"./determinant":192,"./fromQuat":193,"./fromRotationTranslation":194,"./frustum":195,"./identity":196,"./invert":198,"./lookAt":199,"./multiply":200,"./ortho":201,"./perspective":202,"./perspectiveFromFieldOfView":203,"./rotate":204,"./rotateX":205,"./rotateY":206,"./rotateZ":207,"./scale":208,"./str":209,"./translate":210,"./transpose":211}],198:[function(_dereq_,module,exports){
 module.exports = invert;
 
 /**
@@ -29578,7 +28549,7 @@ function invert(out, a) {
 
     return out;
 };
-},{}],193:[function(_dereq_,module,exports){
+},{}],199:[function(_dereq_,module,exports){
 var identity = _dereq_('./identity');
 
 module.exports = lookAt;
@@ -29669,7 +28640,7 @@ function lookAt(out, eye, center, up) {
 
     return out;
 };
-},{"./identity":190}],194:[function(_dereq_,module,exports){
+},{"./identity":196}],200:[function(_dereq_,module,exports){
 module.exports = multiply;
 
 /**
@@ -29712,7 +28683,7 @@ function multiply(out, a, b) {
     out[15] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
     return out;
 };
-},{}],195:[function(_dereq_,module,exports){
+},{}],201:[function(_dereq_,module,exports){
 module.exports = ortho;
 
 /**
@@ -29749,7 +28720,7 @@ function ortho(out, left, right, bottom, top, near, far) {
     out[15] = 1;
     return out;
 };
-},{}],196:[function(_dereq_,module,exports){
+},{}],202:[function(_dereq_,module,exports){
 module.exports = perspective;
 
 /**
@@ -29783,7 +28754,7 @@ function perspective(out, fovy, aspect, near, far) {
     out[15] = 0;
     return out;
 };
-},{}],197:[function(_dereq_,module,exports){
+},{}],203:[function(_dereq_,module,exports){
 module.exports = perspectiveFromFieldOfView;
 
 /**
@@ -29825,7 +28796,7 @@ function perspectiveFromFieldOfView(out, fov, near, far) {
 }
 
 
-},{}],198:[function(_dereq_,module,exports){
+},{}],204:[function(_dereq_,module,exports){
 module.exports = rotate;
 
 /**
@@ -29890,7 +28861,7 @@ function rotate(out, a, rad, axis) {
     }
     return out;
 };
-},{}],199:[function(_dereq_,module,exports){
+},{}],205:[function(_dereq_,module,exports){
 module.exports = rotateX;
 
 /**
@@ -29935,7 +28906,7 @@ function rotateX(out, a, rad) {
     out[11] = a23 * c - a13 * s;
     return out;
 };
-},{}],200:[function(_dereq_,module,exports){
+},{}],206:[function(_dereq_,module,exports){
 module.exports = rotateY;
 
 /**
@@ -29980,7 +28951,7 @@ function rotateY(out, a, rad) {
     out[11] = a03 * s + a23 * c;
     return out;
 };
-},{}],201:[function(_dereq_,module,exports){
+},{}],207:[function(_dereq_,module,exports){
 module.exports = rotateZ;
 
 /**
@@ -30025,7 +28996,7 @@ function rotateZ(out, a, rad) {
     out[7] = a13 * c - a03 * s;
     return out;
 };
-},{}],202:[function(_dereq_,module,exports){
+},{}],208:[function(_dereq_,module,exports){
 module.exports = scale;
 
 /**
@@ -30057,7 +29028,7 @@ function scale(out, a, v) {
     out[15] = a[15];
     return out;
 };
-},{}],203:[function(_dereq_,module,exports){
+},{}],209:[function(_dereq_,module,exports){
 module.exports = str;
 
 /**
@@ -30072,7 +29043,7 @@ function str(a) {
                     a[8] + ', ' + a[9] + ', ' + a[10] + ', ' + a[11] + ', ' + 
                     a[12] + ', ' + a[13] + ', ' + a[14] + ', ' + a[15] + ')';
 };
-},{}],204:[function(_dereq_,module,exports){
+},{}],210:[function(_dereq_,module,exports){
 module.exports = translate;
 
 /**
@@ -30111,7 +29082,7 @@ function translate(out, a, v) {
 
     return out;
 };
-},{}],205:[function(_dereq_,module,exports){
+},{}],211:[function(_dereq_,module,exports){
 module.exports = transpose;
 
 /**
@@ -30161,7 +29132,7 @@ function transpose(out, a) {
     
     return out;
 };
-},{}],206:[function(_dereq_,module,exports){
+},{}],212:[function(_dereq_,module,exports){
 /**
  * Adds two quat's
  *
@@ -30173,7 +29144,7 @@ function transpose(out, a) {
  */
 module.exports = _dereq_('gl-vec4/add')
 
-},{"gl-vec4/add":295}],207:[function(_dereq_,module,exports){
+},{"gl-vec4/add":301}],213:[function(_dereq_,module,exports){
 module.exports = calculateW
 
 /**
@@ -30195,7 +29166,7 @@ function calculateW (out, a) {
   return out
 }
 
-},{}],208:[function(_dereq_,module,exports){
+},{}],214:[function(_dereq_,module,exports){
 /**
  * Creates a new quat initialized with values from an existing quaternion
  *
@@ -30205,7 +29176,7 @@ function calculateW (out, a) {
  */
 module.exports = _dereq_('gl-vec4/clone')
 
-},{"gl-vec4/clone":296}],209:[function(_dereq_,module,exports){
+},{"gl-vec4/clone":302}],215:[function(_dereq_,module,exports){
 module.exports = conjugate
 
 /**
@@ -30224,7 +29195,7 @@ function conjugate (out, a) {
   return out
 }
 
-},{}],210:[function(_dereq_,module,exports){
+},{}],216:[function(_dereq_,module,exports){
 /**
  * Copy the values from one quat to another
  *
@@ -30235,7 +29206,7 @@ function conjugate (out, a) {
  */
 module.exports = _dereq_('gl-vec4/copy')
 
-},{"gl-vec4/copy":297}],211:[function(_dereq_,module,exports){
+},{"gl-vec4/copy":303}],217:[function(_dereq_,module,exports){
 module.exports = create
 
 /**
@@ -30252,7 +29223,7 @@ function create () {
   return out
 }
 
-},{}],212:[function(_dereq_,module,exports){
+},{}],218:[function(_dereq_,module,exports){
 /**
  * Calculates the dot product of two quat's
  *
@@ -30263,7 +29234,7 @@ function create () {
  */
 module.exports = _dereq_('gl-vec4/dot')
 
-},{"gl-vec4/dot":301}],213:[function(_dereq_,module,exports){
+},{"gl-vec4/dot":307}],219:[function(_dereq_,module,exports){
 module.exports = fromMat3
 
 /**
@@ -30314,7 +29285,7 @@ function fromMat3 (out, m) {
   return out
 }
 
-},{}],214:[function(_dereq_,module,exports){
+},{}],220:[function(_dereq_,module,exports){
 /**
  * Creates a new quat initialized with the given values
  *
@@ -30327,7 +29298,7 @@ function fromMat3 (out, m) {
  */
 module.exports = _dereq_('gl-vec4/fromValues')
 
-},{"gl-vec4/fromValues":302}],215:[function(_dereq_,module,exports){
+},{"gl-vec4/fromValues":308}],221:[function(_dereq_,module,exports){
 module.exports = identity
 
 /**
@@ -30344,7 +29315,7 @@ function identity (out) {
   return out
 }
 
-},{}],216:[function(_dereq_,module,exports){
+},{}],222:[function(_dereq_,module,exports){
 module.exports = {
   add: _dereq_('./add'),
   calculateW: _dereq_('./calculateW'),
@@ -30374,7 +29345,7 @@ module.exports = {
   squaredLength: _dereq_('./squaredLength')
 }
 
-},{"./add":206,"./calculateW":207,"./clone":208,"./conjugate":209,"./copy":210,"./create":211,"./dot":212,"./fromMat3":213,"./fromValues":214,"./identity":215,"./invert":217,"./length":218,"./lerp":219,"./multiply":220,"./normalize":221,"./rotateX":222,"./rotateY":223,"./rotateZ":224,"./rotationTo":225,"./scale":226,"./set":227,"./setAxes":228,"./setAxisAngle":229,"./slerp":230,"./sqlerp":231,"./squaredLength":232}],217:[function(_dereq_,module,exports){
+},{"./add":212,"./calculateW":213,"./clone":214,"./conjugate":215,"./copy":216,"./create":217,"./dot":218,"./fromMat3":219,"./fromValues":220,"./identity":221,"./invert":223,"./length":224,"./lerp":225,"./multiply":226,"./normalize":227,"./rotateX":228,"./rotateY":229,"./rotateZ":230,"./rotationTo":231,"./scale":232,"./set":233,"./setAxes":234,"./setAxisAngle":235,"./slerp":236,"./sqlerp":237,"./squaredLength":238}],223:[function(_dereq_,module,exports){
 module.exports = invert
 
 /**
@@ -30398,7 +29369,7 @@ function invert (out, a) {
   return out
 }
 
-},{}],218:[function(_dereq_,module,exports){
+},{}],224:[function(_dereq_,module,exports){
 /**
  * Calculates the length of a quat
  *
@@ -30408,7 +29379,7 @@ function invert (out, a) {
  */
 module.exports = _dereq_('gl-vec4/length')
 
-},{"gl-vec4/length":305}],219:[function(_dereq_,module,exports){
+},{"gl-vec4/length":311}],225:[function(_dereq_,module,exports){
 /**
  * Performs a linear interpolation between two quat's
  *
@@ -30421,7 +29392,7 @@ module.exports = _dereq_('gl-vec4/length')
  */
 module.exports = _dereq_('gl-vec4/lerp')
 
-},{"gl-vec4/lerp":306}],220:[function(_dereq_,module,exports){
+},{"gl-vec4/lerp":312}],226:[function(_dereq_,module,exports){
 module.exports = multiply
 
 /**
@@ -30443,7 +29414,7 @@ function multiply (out, a, b) {
   return out
 }
 
-},{}],221:[function(_dereq_,module,exports){
+},{}],227:[function(_dereq_,module,exports){
 /**
  * Normalize a quat
  *
@@ -30454,7 +29425,7 @@ function multiply (out, a, b) {
  */
 module.exports = _dereq_('gl-vec4/normalize')
 
-},{"gl-vec4/normalize":311}],222:[function(_dereq_,module,exports){
+},{"gl-vec4/normalize":317}],228:[function(_dereq_,module,exports){
 module.exports = rotateX
 
 /**
@@ -30478,7 +29449,7 @@ function rotateX (out, a, rad) {
   return out
 }
 
-},{}],223:[function(_dereq_,module,exports){
+},{}],229:[function(_dereq_,module,exports){
 module.exports = rotateY
 
 /**
@@ -30502,7 +29473,7 @@ function rotateY (out, a, rad) {
   return out
 }
 
-},{}],224:[function(_dereq_,module,exports){
+},{}],230:[function(_dereq_,module,exports){
 module.exports = rotateZ
 
 /**
@@ -30526,7 +29497,7 @@ function rotateZ (out, a, rad) {
   return out
 }
 
-},{}],225:[function(_dereq_,module,exports){
+},{}],231:[function(_dereq_,module,exports){
 var vecDot = _dereq_('gl-vec3/dot')
 var vecCross = _dereq_('gl-vec3/cross')
 var vecLength = _dereq_('gl-vec3/length')
@@ -30578,7 +29549,7 @@ function rotationTo (out, a, b) {
   }
 }
 
-},{"./normalize":221,"./setAxisAngle":229,"gl-vec3/cross":267,"gl-vec3/dot":270,"gl-vec3/length":275,"gl-vec3/normalize":281}],226:[function(_dereq_,module,exports){
+},{"./normalize":227,"./setAxisAngle":235,"gl-vec3/cross":273,"gl-vec3/dot":276,"gl-vec3/length":281,"gl-vec3/normalize":287}],232:[function(_dereq_,module,exports){
 /**
  * Scales a quat by a scalar number
  *
@@ -30590,7 +29561,7 @@ function rotationTo (out, a, b) {
  */
 module.exports = _dereq_('gl-vec4/scale')
 
-},{"gl-vec4/scale":313}],227:[function(_dereq_,module,exports){
+},{"gl-vec4/scale":319}],233:[function(_dereq_,module,exports){
 /**
  * Set the components of a quat to the given values
  *
@@ -30604,7 +29575,7 @@ module.exports = _dereq_('gl-vec4/scale')
  */
 module.exports = _dereq_('gl-vec4/set')
 
-},{"gl-vec4/set":315}],228:[function(_dereq_,module,exports){
+},{"gl-vec4/set":321}],234:[function(_dereq_,module,exports){
 var mat3create = _dereq_('gl-mat3/create')
 var fromMat3 = _dereq_('./fromMat3')
 var normalize = _dereq_('./normalize')
@@ -30639,7 +29610,7 @@ function setAxes (out, view, right, up) {
   return normalize(out, fromMat3(out, matr))
 }
 
-},{"./fromMat3":213,"./normalize":221,"gl-mat3/create":166}],229:[function(_dereq_,module,exports){
+},{"./fromMat3":219,"./normalize":227,"gl-mat3/create":172}],235:[function(_dereq_,module,exports){
 module.exports = setAxisAngle
 
 /**
@@ -30661,7 +29632,7 @@ function setAxisAngle (out, axis, rad) {
   return out
 }
 
-},{}],230:[function(_dereq_,module,exports){
+},{}],236:[function(_dereq_,module,exports){
 module.exports = slerp
 
 /**
@@ -30714,7 +29685,7 @@ function slerp (out, a, b, t) {
   return out
 }
 
-},{}],231:[function(_dereq_,module,exports){
+},{}],237:[function(_dereq_,module,exports){
 var slerp = _dereq_('./slerp')
 
 module.exports = sqlerp
@@ -30741,7 +29712,7 @@ function sqlerp (out, a, b, c, d, t) {
   return out
 }
 
-},{"./slerp":230}],232:[function(_dereq_,module,exports){
+},{"./slerp":236}],238:[function(_dereq_,module,exports){
 /**
  * Calculates the squared length of a quat
  *
@@ -30751,7 +29722,7 @@ function sqlerp (out, a, b, c, d, t) {
  */
 module.exports = _dereq_('gl-vec4/squaredLength')
 
-},{"gl-vec4/squaredLength":317}],233:[function(_dereq_,module,exports){
+},{"gl-vec4/squaredLength":323}],239:[function(_dereq_,module,exports){
 module.exports = add
 
 /**
@@ -30767,7 +29738,7 @@ function add(out, a, b) {
     out[1] = a[1] + b[1]
     return out
 }
-},{}],234:[function(_dereq_,module,exports){
+},{}],240:[function(_dereq_,module,exports){
 module.exports = clone
 
 /**
@@ -30782,7 +29753,7 @@ function clone(a) {
     out[1] = a[1]
     return out
 }
-},{}],235:[function(_dereq_,module,exports){
+},{}],241:[function(_dereq_,module,exports){
 module.exports = copy
 
 /**
@@ -30797,7 +29768,7 @@ function copy(out, a) {
     out[1] = a[1]
     return out
 }
-},{}],236:[function(_dereq_,module,exports){
+},{}],242:[function(_dereq_,module,exports){
 module.exports = create
 
 /**
@@ -30811,7 +29782,7 @@ function create() {
     out[1] = 0
     return out
 }
-},{}],237:[function(_dereq_,module,exports){
+},{}],243:[function(_dereq_,module,exports){
 module.exports = cross
 
 /**
@@ -30829,7 +29800,7 @@ function cross(out, a, b) {
     out[2] = z
     return out
 }
-},{}],238:[function(_dereq_,module,exports){
+},{}],244:[function(_dereq_,module,exports){
 module.exports = distance
 
 /**
@@ -30844,7 +29815,7 @@ function distance(a, b) {
         y = b[1] - a[1]
     return Math.sqrt(x*x + y*y)
 }
-},{}],239:[function(_dereq_,module,exports){
+},{}],245:[function(_dereq_,module,exports){
 module.exports = divide
 
 /**
@@ -30860,7 +29831,7 @@ function divide(out, a, b) {
     out[1] = a[1] / b[1]
     return out
 }
-},{}],240:[function(_dereq_,module,exports){
+},{}],246:[function(_dereq_,module,exports){
 module.exports = dot
 
 /**
@@ -30873,7 +29844,7 @@ module.exports = dot
 function dot(a, b) {
     return a[0] * b[0] + a[1] * b[1]
 }
-},{}],241:[function(_dereq_,module,exports){
+},{}],247:[function(_dereq_,module,exports){
 module.exports = forEach
 
 var vec = _dereq_('./create')()
@@ -30916,7 +29887,7 @@ function forEach(a, stride, offset, count, fn, arg) {
     
     return a
 }
-},{"./create":236}],242:[function(_dereq_,module,exports){
+},{"./create":242}],248:[function(_dereq_,module,exports){
 module.exports = fromValues
 
 /**
@@ -30932,7 +29903,7 @@ function fromValues(x, y) {
     out[1] = y
     return out
 }
-},{}],243:[function(_dereq_,module,exports){
+},{}],249:[function(_dereq_,module,exports){
 module.exports = {
   create: _dereq_('./create')
   , clone: _dereq_('./clone')
@@ -30963,7 +29934,7 @@ module.exports = {
   , transformMat4: _dereq_('./transformMat4')
   , forEach: _dereq_('./forEach')
 }
-},{"./add":233,"./clone":234,"./copy":235,"./create":236,"./cross":237,"./distance":238,"./divide":239,"./dot":240,"./forEach":241,"./fromValues":242,"./length":244,"./lerp":245,"./max":246,"./min":247,"./multiply":248,"./negate":249,"./normalize":250,"./random":251,"./scale":252,"./scaleAndAdd":253,"./set":254,"./squaredDistance":255,"./squaredLength":256,"./subtract":257,"./transformMat2":258,"./transformMat2d":259,"./transformMat3":260,"./transformMat4":261}],244:[function(_dereq_,module,exports){
+},{"./add":239,"./clone":240,"./copy":241,"./create":242,"./cross":243,"./distance":244,"./divide":245,"./dot":246,"./forEach":247,"./fromValues":248,"./length":250,"./lerp":251,"./max":252,"./min":253,"./multiply":254,"./negate":255,"./normalize":256,"./random":257,"./scale":258,"./scaleAndAdd":259,"./set":260,"./squaredDistance":261,"./squaredLength":262,"./subtract":263,"./transformMat2":264,"./transformMat2d":265,"./transformMat3":266,"./transformMat4":267}],250:[function(_dereq_,module,exports){
 module.exports = length
 
 /**
@@ -30977,7 +29948,7 @@ function length(a) {
         y = a[1]
     return Math.sqrt(x*x + y*y)
 }
-},{}],245:[function(_dereq_,module,exports){
+},{}],251:[function(_dereq_,module,exports){
 module.exports = lerp
 
 /**
@@ -30996,7 +29967,7 @@ function lerp(out, a, b, t) {
     out[1] = ay + t * (b[1] - ay)
     return out
 }
-},{}],246:[function(_dereq_,module,exports){
+},{}],252:[function(_dereq_,module,exports){
 module.exports = max
 
 /**
@@ -31012,7 +29983,7 @@ function max(out, a, b) {
     out[1] = Math.max(a[1], b[1])
     return out
 }
-},{}],247:[function(_dereq_,module,exports){
+},{}],253:[function(_dereq_,module,exports){
 module.exports = min
 
 /**
@@ -31028,7 +29999,7 @@ function min(out, a, b) {
     out[1] = Math.min(a[1], b[1])
     return out
 }
-},{}],248:[function(_dereq_,module,exports){
+},{}],254:[function(_dereq_,module,exports){
 module.exports = multiply
 
 /**
@@ -31044,7 +30015,7 @@ function multiply(out, a, b) {
     out[1] = a[1] * b[1]
     return out
 }
-},{}],249:[function(_dereq_,module,exports){
+},{}],255:[function(_dereq_,module,exports){
 module.exports = negate
 
 /**
@@ -31059,7 +30030,7 @@ function negate(out, a) {
     out[1] = -a[1]
     return out
 }
-},{}],250:[function(_dereq_,module,exports){
+},{}],256:[function(_dereq_,module,exports){
 module.exports = normalize
 
 /**
@@ -31081,7 +30052,7 @@ function normalize(out, a) {
     }
     return out
 }
-},{}],251:[function(_dereq_,module,exports){
+},{}],257:[function(_dereq_,module,exports){
 module.exports = random
 
 /**
@@ -31098,7 +30069,7 @@ function random(out, scale) {
     out[1] = Math.sin(r) * scale
     return out
 }
-},{}],252:[function(_dereq_,module,exports){
+},{}],258:[function(_dereq_,module,exports){
 module.exports = scale
 
 /**
@@ -31114,7 +30085,7 @@ function scale(out, a, b) {
     out[1] = a[1] * b
     return out
 }
-},{}],253:[function(_dereq_,module,exports){
+},{}],259:[function(_dereq_,module,exports){
 module.exports = scaleAndAdd
 
 /**
@@ -31131,7 +30102,7 @@ function scaleAndAdd(out, a, b, scale) {
     out[1] = a[1] + (b[1] * scale)
     return out
 }
-},{}],254:[function(_dereq_,module,exports){
+},{}],260:[function(_dereq_,module,exports){
 module.exports = set
 
 /**
@@ -31147,7 +30118,7 @@ function set(out, x, y) {
     out[1] = y
     return out
 }
-},{}],255:[function(_dereq_,module,exports){
+},{}],261:[function(_dereq_,module,exports){
 module.exports = squaredDistance
 
 /**
@@ -31162,7 +30133,7 @@ function squaredDistance(a, b) {
         y = b[1] - a[1]
     return x*x + y*y
 }
-},{}],256:[function(_dereq_,module,exports){
+},{}],262:[function(_dereq_,module,exports){
 module.exports = squaredLength
 
 /**
@@ -31176,7 +30147,7 @@ function squaredLength(a) {
         y = a[1]
     return x*x + y*y
 }
-},{}],257:[function(_dereq_,module,exports){
+},{}],263:[function(_dereq_,module,exports){
 module.exports = subtract
 
 /**
@@ -31192,7 +30163,7 @@ function subtract(out, a, b) {
     out[1] = a[1] - b[1]
     return out
 }
-},{}],258:[function(_dereq_,module,exports){
+},{}],264:[function(_dereq_,module,exports){
 module.exports = transformMat2
 
 /**
@@ -31210,7 +30181,7 @@ function transformMat2(out, a, m) {
     out[1] = m[1] * x + m[3] * y
     return out
 }
-},{}],259:[function(_dereq_,module,exports){
+},{}],265:[function(_dereq_,module,exports){
 module.exports = transformMat2d
 
 /**
@@ -31228,7 +30199,7 @@ function transformMat2d(out, a, m) {
     out[1] = m[1] * x + m[3] * y + m[5]
     return out
 }
-},{}],260:[function(_dereq_,module,exports){
+},{}],266:[function(_dereq_,module,exports){
 module.exports = transformMat3
 
 /**
@@ -31247,7 +30218,7 @@ function transformMat3(out, a, m) {
     out[1] = m[1] * x + m[4] * y + m[7]
     return out
 }
-},{}],261:[function(_dereq_,module,exports){
+},{}],267:[function(_dereq_,module,exports){
 module.exports = transformMat4
 
 /**
@@ -31267,7 +30238,7 @@ function transformMat4(out, a, m) {
     out[1] = m[1] * x + m[5] * y + m[13]
     return out
 }
-},{}],262:[function(_dereq_,module,exports){
+},{}],268:[function(_dereq_,module,exports){
 module.exports = add;
 
 /**
@@ -31284,7 +30255,7 @@ function add(out, a, b) {
     out[2] = a[2] + b[2]
     return out
 }
-},{}],263:[function(_dereq_,module,exports){
+},{}],269:[function(_dereq_,module,exports){
 module.exports = angle
 
 var fromValues = _dereq_('./fromValues')
@@ -31313,7 +30284,7 @@ function angle(a, b) {
     }     
 }
 
-},{"./dot":270,"./fromValues":272,"./normalize":281}],264:[function(_dereq_,module,exports){
+},{"./dot":276,"./fromValues":278,"./normalize":287}],270:[function(_dereq_,module,exports){
 module.exports = clone;
 
 /**
@@ -31329,7 +30300,7 @@ function clone(a) {
     out[2] = a[2]
     return out
 }
-},{}],265:[function(_dereq_,module,exports){
+},{}],271:[function(_dereq_,module,exports){
 module.exports = copy;
 
 /**
@@ -31345,7 +30316,7 @@ function copy(out, a) {
     out[2] = a[2]
     return out
 }
-},{}],266:[function(_dereq_,module,exports){
+},{}],272:[function(_dereq_,module,exports){
 module.exports = create;
 
 /**
@@ -31360,7 +30331,7 @@ function create() {
     out[2] = 0
     return out
 }
-},{}],267:[function(_dereq_,module,exports){
+},{}],273:[function(_dereq_,module,exports){
 module.exports = cross;
 
 /**
@@ -31380,7 +30351,7 @@ function cross(out, a, b) {
     out[2] = ax * by - ay * bx
     return out
 }
-},{}],268:[function(_dereq_,module,exports){
+},{}],274:[function(_dereq_,module,exports){
 module.exports = distance;
 
 /**
@@ -31396,7 +30367,7 @@ function distance(a, b) {
         z = b[2] - a[2]
     return Math.sqrt(x*x + y*y + z*z)
 }
-},{}],269:[function(_dereq_,module,exports){
+},{}],275:[function(_dereq_,module,exports){
 module.exports = divide;
 
 /**
@@ -31413,7 +30384,7 @@ function divide(out, a, b) {
     out[2] = a[2] / b[2]
     return out
 }
-},{}],270:[function(_dereq_,module,exports){
+},{}],276:[function(_dereq_,module,exports){
 module.exports = dot;
 
 /**
@@ -31426,7 +30397,7 @@ module.exports = dot;
 function dot(a, b) {
     return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
 }
-},{}],271:[function(_dereq_,module,exports){
+},{}],277:[function(_dereq_,module,exports){
 module.exports = forEach;
 
 var vec = _dereq_('./create')()
@@ -31471,7 +30442,7 @@ function forEach(a, stride, offset, count, fn, arg) {
         
         return a
 }
-},{"./create":266}],272:[function(_dereq_,module,exports){
+},{"./create":272}],278:[function(_dereq_,module,exports){
 module.exports = fromValues;
 
 /**
@@ -31489,7 +30460,7 @@ function fromValues(x, y, z) {
     out[2] = z
     return out
 }
-},{}],273:[function(_dereq_,module,exports){
+},{}],279:[function(_dereq_,module,exports){
 module.exports = {
   create: _dereq_('./create')
   , clone: _dereq_('./clone')
@@ -31524,7 +30495,7 @@ module.exports = {
   , rotateZ: _dereq_('./rotateZ')
   , forEach: _dereq_('./forEach')
 }
-},{"./add":262,"./angle":263,"./clone":264,"./copy":265,"./create":266,"./cross":267,"./distance":268,"./divide":269,"./dot":270,"./forEach":271,"./fromValues":272,"./inverse":274,"./length":275,"./lerp":276,"./max":277,"./min":278,"./multiply":279,"./negate":280,"./normalize":281,"./random":282,"./rotateX":283,"./rotateY":284,"./rotateZ":285,"./scale":286,"./scaleAndAdd":287,"./set":288,"./squaredDistance":289,"./squaredLength":290,"./subtract":291,"./transformMat3":292,"./transformMat4":293,"./transformQuat":294}],274:[function(_dereq_,module,exports){
+},{"./add":268,"./angle":269,"./clone":270,"./copy":271,"./create":272,"./cross":273,"./distance":274,"./divide":275,"./dot":276,"./forEach":277,"./fromValues":278,"./inverse":280,"./length":281,"./lerp":282,"./max":283,"./min":284,"./multiply":285,"./negate":286,"./normalize":287,"./random":288,"./rotateX":289,"./rotateY":290,"./rotateZ":291,"./scale":292,"./scaleAndAdd":293,"./set":294,"./squaredDistance":295,"./squaredLength":296,"./subtract":297,"./transformMat3":298,"./transformMat4":299,"./transformQuat":300}],280:[function(_dereq_,module,exports){
 module.exports = inverse;
 
 /**
@@ -31540,7 +30511,7 @@ function inverse(out, a) {
   out[2] = 1.0 / a[2]
   return out
 }
-},{}],275:[function(_dereq_,module,exports){
+},{}],281:[function(_dereq_,module,exports){
 module.exports = length;
 
 /**
@@ -31555,7 +30526,7 @@ function length(a) {
         z = a[2]
     return Math.sqrt(x*x + y*y + z*z)
 }
-},{}],276:[function(_dereq_,module,exports){
+},{}],282:[function(_dereq_,module,exports){
 module.exports = lerp;
 
 /**
@@ -31576,7 +30547,7 @@ function lerp(out, a, b, t) {
     out[2] = az + t * (b[2] - az)
     return out
 }
-},{}],277:[function(_dereq_,module,exports){
+},{}],283:[function(_dereq_,module,exports){
 module.exports = max;
 
 /**
@@ -31593,7 +30564,7 @@ function max(out, a, b) {
     out[2] = Math.max(a[2], b[2])
     return out
 }
-},{}],278:[function(_dereq_,module,exports){
+},{}],284:[function(_dereq_,module,exports){
 module.exports = min;
 
 /**
@@ -31610,7 +30581,7 @@ function min(out, a, b) {
     out[2] = Math.min(a[2], b[2])
     return out
 }
-},{}],279:[function(_dereq_,module,exports){
+},{}],285:[function(_dereq_,module,exports){
 module.exports = multiply;
 
 /**
@@ -31627,7 +30598,7 @@ function multiply(out, a, b) {
     out[2] = a[2] * b[2]
     return out
 }
-},{}],280:[function(_dereq_,module,exports){
+},{}],286:[function(_dereq_,module,exports){
 module.exports = negate;
 
 /**
@@ -31643,7 +30614,7 @@ function negate(out, a) {
     out[2] = -a[2]
     return out
 }
-},{}],281:[function(_dereq_,module,exports){
+},{}],287:[function(_dereq_,module,exports){
 module.exports = normalize;
 
 /**
@@ -31667,7 +30638,7 @@ function normalize(out, a) {
     }
     return out
 }
-},{}],282:[function(_dereq_,module,exports){
+},{}],288:[function(_dereq_,module,exports){
 module.exports = random;
 
 /**
@@ -31689,7 +30660,7 @@ function random(out, scale) {
     out[2] = z * scale
     return out
 }
-},{}],283:[function(_dereq_,module,exports){
+},{}],289:[function(_dereq_,module,exports){
 module.exports = rotateX;
 
 /**
@@ -31719,7 +30690,7 @@ function rotateX(out, a, b, c){
 
     return out
 }
-},{}],284:[function(_dereq_,module,exports){
+},{}],290:[function(_dereq_,module,exports){
 module.exports = rotateY;
 
 /**
@@ -31749,7 +30720,7 @@ function rotateY(out, a, b, c){
   
     return out
 }
-},{}],285:[function(_dereq_,module,exports){
+},{}],291:[function(_dereq_,module,exports){
 module.exports = rotateZ;
 
 /**
@@ -31779,7 +30750,7 @@ function rotateZ(out, a, b, c){
   
     return out
 }
-},{}],286:[function(_dereq_,module,exports){
+},{}],292:[function(_dereq_,module,exports){
 module.exports = scale;
 
 /**
@@ -31796,7 +30767,7 @@ function scale(out, a, b) {
     out[2] = a[2] * b
     return out
 }
-},{}],287:[function(_dereq_,module,exports){
+},{}],293:[function(_dereq_,module,exports){
 module.exports = scaleAndAdd;
 
 /**
@@ -31814,7 +30785,7 @@ function scaleAndAdd(out, a, b, scale) {
     out[2] = a[2] + (b[2] * scale)
     return out
 }
-},{}],288:[function(_dereq_,module,exports){
+},{}],294:[function(_dereq_,module,exports){
 module.exports = set;
 
 /**
@@ -31832,7 +30803,7 @@ function set(out, x, y, z) {
     out[2] = z
     return out
 }
-},{}],289:[function(_dereq_,module,exports){
+},{}],295:[function(_dereq_,module,exports){
 module.exports = squaredDistance;
 
 /**
@@ -31848,7 +30819,7 @@ function squaredDistance(a, b) {
         z = b[2] - a[2]
     return x*x + y*y + z*z
 }
-},{}],290:[function(_dereq_,module,exports){
+},{}],296:[function(_dereq_,module,exports){
 module.exports = squaredLength;
 
 /**
@@ -31863,7 +30834,7 @@ function squaredLength(a) {
         z = a[2]
     return x*x + y*y + z*z
 }
-},{}],291:[function(_dereq_,module,exports){
+},{}],297:[function(_dereq_,module,exports){
 module.exports = subtract;
 
 /**
@@ -31880,7 +30851,7 @@ function subtract(out, a, b) {
     out[2] = a[2] - b[2]
     return out
 }
-},{}],292:[function(_dereq_,module,exports){
+},{}],298:[function(_dereq_,module,exports){
 module.exports = transformMat3;
 
 /**
@@ -31898,7 +30869,7 @@ function transformMat3(out, a, m) {
     out[2] = x * m[2] + y * m[5] + z * m[8]
     return out
 }
-},{}],293:[function(_dereq_,module,exports){
+},{}],299:[function(_dereq_,module,exports){
 module.exports = transformMat4;
 
 /**
@@ -31919,7 +30890,7 @@ function transformMat4(out, a, m) {
     out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w
     return out
 }
-},{}],294:[function(_dereq_,module,exports){
+},{}],300:[function(_dereq_,module,exports){
 module.exports = transformQuat;
 
 /**
@@ -31948,7 +30919,7 @@ function transformQuat(out, a, q) {
     out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx
     return out
 }
-},{}],295:[function(_dereq_,module,exports){
+},{}],301:[function(_dereq_,module,exports){
 module.exports = add
 
 /**
@@ -31967,7 +30938,7 @@ function add (out, a, b) {
   return out
 }
 
-},{}],296:[function(_dereq_,module,exports){
+},{}],302:[function(_dereq_,module,exports){
 module.exports = clone
 
 /**
@@ -31985,7 +30956,7 @@ function clone (a) {
   return out
 }
 
-},{}],297:[function(_dereq_,module,exports){
+},{}],303:[function(_dereq_,module,exports){
 module.exports = copy
 
 /**
@@ -32003,7 +30974,7 @@ function copy (out, a) {
   return out
 }
 
-},{}],298:[function(_dereq_,module,exports){
+},{}],304:[function(_dereq_,module,exports){
 module.exports = create
 
 /**
@@ -32020,7 +30991,7 @@ function create () {
   return out
 }
 
-},{}],299:[function(_dereq_,module,exports){
+},{}],305:[function(_dereq_,module,exports){
 module.exports = distance
 
 /**
@@ -32038,7 +31009,7 @@ function distance (a, b) {
   return Math.sqrt(x * x + y * y + z * z + w * w)
 }
 
-},{}],300:[function(_dereq_,module,exports){
+},{}],306:[function(_dereq_,module,exports){
 module.exports = divide
 
 /**
@@ -32057,7 +31028,7 @@ function divide (out, a, b) {
   return out
 }
 
-},{}],301:[function(_dereq_,module,exports){
+},{}],307:[function(_dereq_,module,exports){
 module.exports = dot
 
 /**
@@ -32071,7 +31042,7 @@ function dot (a, b) {
   return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3]
 }
 
-},{}],302:[function(_dereq_,module,exports){
+},{}],308:[function(_dereq_,module,exports){
 module.exports = fromValues
 
 /**
@@ -32092,7 +31063,7 @@ function fromValues (x, y, z, w) {
   return out
 }
 
-},{}],303:[function(_dereq_,module,exports){
+},{}],309:[function(_dereq_,module,exports){
 module.exports = {
   create: _dereq_('./create'),
   clone: _dereq_('./clone'),
@@ -32121,7 +31092,7 @@ module.exports = {
   transformQuat: _dereq_('./transformQuat')
 }
 
-},{"./add":295,"./clone":296,"./copy":297,"./create":298,"./distance":299,"./divide":300,"./dot":301,"./fromValues":302,"./inverse":304,"./length":305,"./lerp":306,"./max":307,"./min":308,"./multiply":309,"./negate":310,"./normalize":311,"./random":312,"./scale":313,"./scaleAndAdd":314,"./set":315,"./squaredDistance":316,"./squaredLength":317,"./subtract":318,"./transformMat4":319,"./transformQuat":320}],304:[function(_dereq_,module,exports){
+},{"./add":301,"./clone":302,"./copy":303,"./create":304,"./distance":305,"./divide":306,"./dot":307,"./fromValues":308,"./inverse":310,"./length":311,"./lerp":312,"./max":313,"./min":314,"./multiply":315,"./negate":316,"./normalize":317,"./random":318,"./scale":319,"./scaleAndAdd":320,"./set":321,"./squaredDistance":322,"./squaredLength":323,"./subtract":324,"./transformMat4":325,"./transformQuat":326}],310:[function(_dereq_,module,exports){
 module.exports = inverse
 
 /**
@@ -32139,7 +31110,7 @@ function inverse (out, a) {
   return out
 }
 
-},{}],305:[function(_dereq_,module,exports){
+},{}],311:[function(_dereq_,module,exports){
 module.exports = length
 
 /**
@@ -32156,7 +31127,7 @@ function length (a) {
   return Math.sqrt(x * x + y * y + z * z + w * w)
 }
 
-},{}],306:[function(_dereq_,module,exports){
+},{}],312:[function(_dereq_,module,exports){
 module.exports = lerp
 
 /**
@@ -32180,7 +31151,7 @@ function lerp (out, a, b, t) {
   return out
 }
 
-},{}],307:[function(_dereq_,module,exports){
+},{}],313:[function(_dereq_,module,exports){
 module.exports = max
 
 /**
@@ -32199,7 +31170,7 @@ function max (out, a, b) {
   return out
 }
 
-},{}],308:[function(_dereq_,module,exports){
+},{}],314:[function(_dereq_,module,exports){
 module.exports = min
 
 /**
@@ -32218,7 +31189,7 @@ function min (out, a, b) {
   return out
 }
 
-},{}],309:[function(_dereq_,module,exports){
+},{}],315:[function(_dereq_,module,exports){
 module.exports = multiply
 
 /**
@@ -32237,7 +31208,7 @@ function multiply (out, a, b) {
   return out
 }
 
-},{}],310:[function(_dereq_,module,exports){
+},{}],316:[function(_dereq_,module,exports){
 module.exports = negate
 
 /**
@@ -32255,7 +31226,7 @@ function negate (out, a) {
   return out
 }
 
-},{}],311:[function(_dereq_,module,exports){
+},{}],317:[function(_dereq_,module,exports){
 module.exports = normalize
 
 /**
@@ -32281,7 +31252,7 @@ function normalize (out, a) {
   return out
 }
 
-},{}],312:[function(_dereq_,module,exports){
+},{}],318:[function(_dereq_,module,exports){
 var vecNormalize = _dereq_('./normalize')
 var vecScale = _dereq_('./scale')
 
@@ -32307,7 +31278,7 @@ function random (out, scale) {
   return out
 }
 
-},{"./normalize":311,"./scale":313}],313:[function(_dereq_,module,exports){
+},{"./normalize":317,"./scale":319}],319:[function(_dereq_,module,exports){
 module.exports = scale
 
 /**
@@ -32326,7 +31297,7 @@ function scale (out, a, b) {
   return out
 }
 
-},{}],314:[function(_dereq_,module,exports){
+},{}],320:[function(_dereq_,module,exports){
 module.exports = scaleAndAdd
 
 /**
@@ -32346,7 +31317,7 @@ function scaleAndAdd (out, a, b, scale) {
   return out
 }
 
-},{}],315:[function(_dereq_,module,exports){
+},{}],321:[function(_dereq_,module,exports){
 module.exports = set
 
 /**
@@ -32367,7 +31338,7 @@ function set (out, x, y, z, w) {
   return out
 }
 
-},{}],316:[function(_dereq_,module,exports){
+},{}],322:[function(_dereq_,module,exports){
 module.exports = squaredDistance
 
 /**
@@ -32385,7 +31356,7 @@ function squaredDistance (a, b) {
   return x * x + y * y + z * z + w * w
 }
 
-},{}],317:[function(_dereq_,module,exports){
+},{}],323:[function(_dereq_,module,exports){
 module.exports = squaredLength
 
 /**
@@ -32402,7 +31373,7 @@ function squaredLength (a) {
   return x * x + y * y + z * z + w * w
 }
 
-},{}],318:[function(_dereq_,module,exports){
+},{}],324:[function(_dereq_,module,exports){
 module.exports = subtract
 
 /**
@@ -32421,7 +31392,7 @@ function subtract (out, a, b) {
   return out
 }
 
-},{}],319:[function(_dereq_,module,exports){
+},{}],325:[function(_dereq_,module,exports){
 module.exports = transformMat4
 
 /**
@@ -32441,7 +31412,7 @@ function transformMat4 (out, a, m) {
   return out
 }
 
-},{}],320:[function(_dereq_,module,exports){
+},{}],326:[function(_dereq_,module,exports){
 module.exports = transformQuat
 
 /**
@@ -32470,7 +31441,28 @@ function transformQuat (out, a, q) {
   return out
 }
 
-},{}],321:[function(_dereq_,module,exports){
+},{}],327:[function(_dereq_,module,exports){
+(function (global){
+var topLevel = typeof global !== 'undefined' ? global :
+    typeof window !== 'undefined' ? window : {}
+var minDoc = _dereq_('min-document');
+
+var doccy;
+
+if (typeof document !== 'undefined') {
+    doccy = document;
+} else {
+    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
+
+    if (!doccy) {
+        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
+    }
+}
+
+module.exports = doccy;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"min-document":94}],328:[function(_dereq_,module,exports){
 (function (global){
 var win;
 
@@ -32487,7 +31479,7 @@ if (typeof window !== "undefined") {
 module.exports = win;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],322:[function(_dereq_,module,exports){
+},{}],329:[function(_dereq_,module,exports){
 var tokenize = _dereq_('glsl-tokenizer')
 var stringify = _dereq_('glsl-token-string')
 var inject = _dereq_('glsl-token-inject-block')
@@ -32519,7 +31511,7 @@ module.exports = function glslInjectDefine (source, defines) {
   return stringify(tokens)
 }
 
-},{"glsl-token-inject-block":323,"glsl-token-string":324,"glsl-tokenizer":331}],323:[function(_dereq_,module,exports){
+},{"glsl-token-inject-block":330,"glsl-token-string":331,"glsl-tokenizer":338}],330:[function(_dereq_,module,exports){
 module.exports = glslTokenInject
 
 var newline = { data: '\n', type: 'whitespace' }
@@ -32570,7 +31562,7 @@ function findNextSemicolon (tokens, start) {
   }
   return -1
 }
-},{}],324:[function(_dereq_,module,exports){
+},{}],331:[function(_dereq_,module,exports){
 module.exports = toString
 
 function toString(tokens) {
@@ -32584,7 +31576,7 @@ function toString(tokens) {
   return output.join('')
 }
 
-},{}],325:[function(_dereq_,module,exports){
+},{}],332:[function(_dereq_,module,exports){
 module.exports = tokenize
 
 var literals100 = _dereq_('./lib/literals')
@@ -32948,7 +31940,7 @@ function tokenize(opt) {
   }
 }
 
-},{"./lib/builtins":327,"./lib/builtins-300es":326,"./lib/literals":329,"./lib/literals-300es":328,"./lib/operators":330}],326:[function(_dereq_,module,exports){
+},{"./lib/builtins":334,"./lib/builtins-300es":333,"./lib/literals":336,"./lib/literals-300es":335,"./lib/operators":337}],333:[function(_dereq_,module,exports){
 // 300es builtins/reserved words that were previously valid in v100
 var v100 = _dereq_('./builtins')
 
@@ -33019,7 +32011,7 @@ module.exports = v100.concat([
   , 'textureProjGradOffset'
 ])
 
-},{"./builtins":327}],327:[function(_dereq_,module,exports){
+},{"./builtins":334}],334:[function(_dereq_,module,exports){
 module.exports = [
   // Keep this list sorted
   'abs'
@@ -33171,7 +32163,7 @@ module.exports = [
   , 'textureCubeGradEXT'
 ]
 
-},{}],328:[function(_dereq_,module,exports){
+},{}],335:[function(_dereq_,module,exports){
 var v100 = _dereq_('./literals')
 
 module.exports = v100.slice().concat([
@@ -33261,7 +32253,7 @@ module.exports = v100.slice().concat([
   , 'usampler2DMSArray'
 ])
 
-},{"./literals":329}],329:[function(_dereq_,module,exports){
+},{"./literals":336}],336:[function(_dereq_,module,exports){
 module.exports = [
   // current
     'precision'
@@ -33356,7 +32348,7 @@ module.exports = [
   , 'using'
 ]
 
-},{}],330:[function(_dereq_,module,exports){
+},{}],337:[function(_dereq_,module,exports){
 module.exports = [
     '<<='
   , '>>='
@@ -33405,7 +32397,7 @@ module.exports = [
   , '}'
 ]
 
-},{}],331:[function(_dereq_,module,exports){
+},{}],338:[function(_dereq_,module,exports){
 var tokenize = _dereq_('./index')
 
 module.exports = tokenizeString
@@ -33420,7 +32412,7 @@ function tokenizeString(str, opt) {
   return tokens
 }
 
-},{"./index":325}],332:[function(_dereq_,module,exports){
+},{"./index":332}],339:[function(_dereq_,module,exports){
 module.exports = function(strings) {
   if (typeof strings === 'string') strings = [strings]
   var exprs = [].slice.call(arguments,1)
@@ -33432,7 +32424,7 @@ module.exports = function(strings) {
   return parts.join('')
 }
 
-},{}],333:[function(_dereq_,module,exports){
+},{}],340:[function(_dereq_,module,exports){
 // Generated by CoffeeScript 1.9.1
 (function() {
   var L_to_Y, Y_to_L, conv, distanceFromPole, dotProduct, epsilon, fromLinear, getBounds, intersectLineLine, kappa, lengthOfRayUntilIntersect, m, m_inv, maxChromaForLH, maxSafeChromaForL, refU, refV, refX, refY, refZ, rgbPrepare, root, round, toLinear;
@@ -33864,7 +32856,7 @@ module.exports = function(strings) {
 
 }).call(this);
 
-},{}],334:[function(_dereq_,module,exports){
+},{}],341:[function(_dereq_,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -33950,7 +32942,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],335:[function(_dereq_,module,exports){
+},{}],342:[function(_dereq_,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -33975,7 +32967,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],336:[function(_dereq_,module,exports){
+},{}],343:[function(_dereq_,module,exports){
 "use strict"
 
 var bounds = _dereq_("binary-search-bounds")
@@ -34342,7 +33334,7 @@ function createWrapper(intervals) {
   return new IntervalTree(createIntervalTree(intervals))
 }
 
-},{"binary-search-bounds":77}],337:[function(_dereq_,module,exports){
+},{"binary-search-bounds":83}],344:[function(_dereq_,module,exports){
 "use strict"
 
 function invertPermutation(pi, result) {
@@ -34354,7 +33346,7 @@ function invertPermutation(pi, result) {
 }
 
 module.exports = invertPermutation
-},{}],338:[function(_dereq_,module,exports){
+},{}],345:[function(_dereq_,module,exports){
 "use strict"
 
 function iota(n) {
@@ -34366,7 +33358,7 @@ function iota(n) {
 }
 
 module.exports = iota
-},{}],339:[function(_dereq_,module,exports){
+},{}],346:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = function isArrayish(obj) {
@@ -34379,7 +33371,7 @@ module.exports = function isArrayish(obj) {
 			(Object.getOwnPropertyDescriptor(obj, (obj.length - 1)) && obj.constructor.name !== 'String')));
 };
 
-},{}],340:[function(_dereq_,module,exports){
+},{}],347:[function(_dereq_,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -34402,7 +33394,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],341:[function(_dereq_,module,exports){
+},{}],348:[function(_dereq_,module,exports){
 // Source: http://jsfiddle.net/vWx8V/
 // http://stackoverflow.com/questions/5603195/full-list-of-javascript-keycodes
 
@@ -34550,7 +33542,7 @@ for (var alias in aliases) {
   codes[alias] = aliases[alias]
 }
 
-},{}],342:[function(_dereq_,module,exports){
+},{}],349:[function(_dereq_,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -35220,7 +34212,7 @@ function keysIn(object) {
 
 module.exports = defaults;
 
-},{}],343:[function(_dereq_,module,exports){
+},{}],350:[function(_dereq_,module,exports){
 /**
  * @author mrdoob / http://mrdoob.com/
  * @author WestLangley / http://github.com/WestLangley
@@ -35519,7 +34511,7 @@ Euler.prototype = {
   }
 };
 
-},{}],344:[function(_dereq_,module,exports){
+},{}],351:[function(_dereq_,module,exports){
 module.exports = reindex
 
 function reindex(array) {
@@ -35551,7 +34543,7 @@ function reindex(array) {
   }
 }
 
-},{}],345:[function(_dereq_,module,exports){
+},{}],352:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = mouseListen
@@ -35758,7 +34750,7 @@ function mouseListen (element, callback) {
   return result
 }
 
-},{"mouse-event":347}],346:[function(_dereq_,module,exports){
+},{"mouse-event":354}],353:[function(_dereq_,module,exports){
 var rootPosition = { left: 0, top: 0 }
 
 module.exports = mouseEventOffset
@@ -35785,7 +34777,7 @@ function getBoundingClientOffset (element) {
   }
 }
 
-},{}],347:[function(_dereq_,module,exports){
+},{}],354:[function(_dereq_,module,exports){
 'use strict'
 
 function mouseButtons(ev) {
@@ -35847,7 +34839,7 @@ function mouseRelativeY(ev) {
 }
 exports.y = mouseRelativeY
 
-},{}],348:[function(_dereq_,module,exports){
+},{}],355:[function(_dereq_,module,exports){
 'use strict'
 
 var toPX = _dereq_('to-px')
@@ -35889,7 +34881,7 @@ function mouseWheelListen(element, callback, noScroll) {
   return listener
 }
 
-},{"to-px":422}],349:[function(_dereq_,module,exports){
+},{"to-px":430}],356:[function(_dereq_,module,exports){
 /**
  * Helpers.
  */
@@ -36043,7 +35035,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],350:[function(_dereq_,module,exports){
+},{}],357:[function(_dereq_,module,exports){
 /**
  * Clamp value.
  * Detects proper clamp min/max.
@@ -36059,7 +35051,7 @@ module.exports = function(a, min, max){
 	return max > min ? Math.max(Math.min(a,max),min) : Math.max(Math.min(a,min),max);
 };
 
-},{}],351:[function(_dereq_,module,exports){
+},{}],358:[function(_dereq_,module,exports){
 /**
  * Looping function for any framesize.
  * Like fmod.
@@ -36092,7 +35084,7 @@ module.exports = function (value, left, right) {
 	return value;
 };
 
-},{}],352:[function(_dereq_,module,exports){
+},{}],359:[function(_dereq_,module,exports){
 "use strict"
 
 var pool = _dereq_("typedarray-pool")
@@ -36508,7 +35500,7 @@ function createSurfaceExtractor(args) {
     order,
     typesig)
 }
-},{"typedarray-pool":427}],353:[function(_dereq_,module,exports){
+},{"typedarray-pool":435}],360:[function(_dereq_,module,exports){
 var iota = _dereq_("iota-array")
 var isBuffer = _dereq_("is-buffer")
 
@@ -36853,7 +35845,7 @@ function wrappedNDArrayCtor(data, shape, stride, offset) {
 
 module.exports = wrappedNDArrayCtor
 
-},{"iota-array":338,"is-buffer":340}],354:[function(_dereq_,module,exports){
+},{"iota-array":345,"is-buffer":347}],361:[function(_dereq_,module,exports){
 "use strict"
 
 var doubleBits = _dereq_("double-bits")
@@ -36896,7 +35888,7 @@ function nextafter(x, y) {
   }
   return doubleBits.pack(lo, hi)
 }
-},{"double-bits":151}],355:[function(_dereq_,module,exports){
+},{"double-bits":157}],362:[function(_dereq_,module,exports){
 var DEFAULT_NORMALS_EPSILON = 1e-6;
 var DEFAULT_FACE_EPSILON = 1e-6;
 
@@ -37021,7 +36013,7 @@ exports.faceNormals = function(faces, positions, specifiedEpsilon) {
 
 
 
-},{}],356:[function(_dereq_,module,exports){
+},{}],363:[function(_dereq_,module,exports){
 'use strict'
 
 /**
@@ -37093,7 +36085,7 @@ function createOrthographicCamera(opts) {
   }
 }
 
-},{"defined":149,"gl-mat4/lookAt":193,"gl-mat4/ortho":195,"gl-vec3/add":262,"perspective-camera/lib/camera-base":362}],357:[function(_dereq_,module,exports){
+},{"defined":155,"gl-mat4/lookAt":199,"gl-mat4/ortho":201,"gl-vec3/add":268,"perspective-camera/lib/camera-base":369}],364:[function(_dereq_,module,exports){
 module.exports = function parseUnit(str, out) {
     if (!out)
         out = [ 0, '' ]
@@ -37104,7 +36096,7 @@ module.exports = function parseUnit(str, out) {
     out[1] = str.match(/[\d.\-\+]*\s*(.*)/)[1] || ''
     return out
 }
-},{}],358:[function(_dereq_,module,exports){
+},{}],365:[function(_dereq_,module,exports){
 (function (process){
 // Generated by CoffeeScript 1.12.2
 (function() {
@@ -37144,7 +36136,7 @@ module.exports = function parseUnit(str, out) {
 
 
 }).call(this,_dereq_('_process'))
-},{"_process":378}],359:[function(_dereq_,module,exports){
+},{"_process":385}],366:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = permutationSign
@@ -37196,7 +36188,7 @@ function permutationSign(p) {
     return sgn
   }
 }
-},{"typedarray-pool":427}],360:[function(_dereq_,module,exports){
+},{"typedarray-pool":435}],367:[function(_dereq_,module,exports){
 "use strict"
 
 var pool = _dereq_("typedarray-pool")
@@ -37283,10 +36275,10 @@ function unrank(n, r, p) {
 exports.rank = rank
 exports.unrank = unrank
 
-},{"invert-permutation":337,"typedarray-pool":427}],361:[function(_dereq_,module,exports){
+},{"invert-permutation":344,"typedarray-pool":435}],368:[function(_dereq_,module,exports){
 module.exports = _dereq_('./lib/camera-perspective')
 
-},{"./lib/camera-perspective":364}],362:[function(_dereq_,module,exports){
+},{"./lib/camera-perspective":371}],369:[function(_dereq_,module,exports){
 var assign = _dereq_('object-assign')
 var Ray = _dereq_('ray-3d')
 
@@ -37370,7 +36362,7 @@ module.exports = function cameraBase (opt) {
   })
 }
 
-},{"./camera-look-at":363,"camera-picking-ray":91,"camera-project":92,"camera-unproject":93,"gl-mat4/identity":190,"gl-mat4/invert":192,"gl-mat4/multiply":194,"gl-vec3/add":262,"gl-vec3/set":288,"object-assign":365,"ray-3d":384}],363:[function(_dereq_,module,exports){
+},{"./camera-look-at":370,"camera-picking-ray":97,"camera-project":98,"camera-unproject":99,"gl-mat4/identity":196,"gl-mat4/invert":198,"gl-mat4/multiply":200,"gl-vec3/add":268,"gl-vec3/set":294,"object-assign":372,"ray-3d":391}],370:[function(_dereq_,module,exports){
 // could be modularized...
 var cross = _dereq_('gl-vec3/cross')
 var sub = _dereq_('gl-vec3/subtract')
@@ -37405,7 +36397,7 @@ module.exports = function (direction, up, position, target) {
   }
 }
 
-},{"gl-vec3/copy":265,"gl-vec3/cross":267,"gl-vec3/dot":270,"gl-vec3/normalize":281,"gl-vec3/scale":286,"gl-vec3/subtract":291}],364:[function(_dereq_,module,exports){
+},{"gl-vec3/copy":271,"gl-vec3/cross":273,"gl-vec3/dot":276,"gl-vec3/normalize":287,"gl-vec3/scale":292,"gl-vec3/subtract":297}],371:[function(_dereq_,module,exports){
 var create = _dereq_('./camera-base')
 var assign = _dereq_('object-assign')
 var defined = _dereq_('defined')
@@ -37448,7 +36440,7 @@ module.exports = function cameraPerspective (opt) {
   })
 }
 
-},{"./camera-base":362,"defined":149,"gl-mat4/lookAt":193,"gl-mat4/perspective":196,"gl-vec3/add":262,"object-assign":365}],365:[function(_dereq_,module,exports){
+},{"./camera-base":369,"defined":155,"gl-mat4/lookAt":199,"gl-mat4/perspective":202,"gl-vec3/add":268,"object-assign":372}],372:[function(_dereq_,module,exports){
 'use strict';
 
 function ToObject(val) {
@@ -37476,7 +36468,7 @@ module.exports = Object.assign || function (target, source) {
 	return to;
 };
 
-},{}],366:[function(_dereq_,module,exports){
+},{}],373:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = planarDual
@@ -37607,7 +36599,7 @@ function planarDual(cells, positions) {
   //Combine paths and loops together
   return cycles
 }
-},{"compare-angle":141}],367:[function(_dereq_,module,exports){
+},{"compare-angle":147}],374:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = trimLeaves
@@ -37663,7 +36655,7 @@ function trimLeaves(edges, positions) {
   
   return [ nedges, npositions ]
 }
-},{"edges-to-adjacency-list":153}],368:[function(_dereq_,module,exports){
+},{"edges-to-adjacency-list":159}],375:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = planarGraphToPolyline
@@ -37868,7 +36860,7 @@ function planarGraphToPolyline(edges, positions) {
 
   return result
 }
-},{"./lib/trim-leaves":367,"edges-to-adjacency-list":153,"planar-dual":366,"point-in-big-polygon":370,"robust-sum":407,"two-product":425,"uniq":430}],369:[function(_dereq_,module,exports){
+},{"./lib/trim-leaves":374,"edges-to-adjacency-list":159,"planar-dual":373,"point-in-big-polygon":377,"robust-sum":415,"two-product":433,"uniq":438}],376:[function(_dereq_,module,exports){
 // pnltri.js / raw.github.com/jahting/pnltri.js/master/LICENSE
 
 var self = self || {};
@@ -39983,7 +38975,7 @@ if (typeof exports !== 'undefined') {
   this['PNLTRI'] = PNLTRI;
 }
 
-},{}],370:[function(_dereq_,module,exports){
+},{}],377:[function(_dereq_,module,exports){
 module.exports = preprocessPolygon
 
 var orient = _dereq_('robust-orientation')[3]
@@ -40135,7 +39127,7 @@ function preprocessPolygon(loops) {
       testSlab)
   }
 }
-},{"binary-search-bounds":77,"interval-tree-1d":336,"robust-orientation":402,"slab-decomposition":416}],371:[function(_dereq_,module,exports){
+},{"binary-search-bounds":83,"interval-tree-1d":343,"robust-orientation":410,"slab-decomposition":424}],378:[function(_dereq_,module,exports){
 function createCapsule(radius, height, numSubdivisionsHeight, numSegments) {
     if (radius === undefined) radius = 0.5;
     if (height === undefined) height = radius * 2;
@@ -40206,7 +39198,7 @@ function createCapsule(radius, height, numSubdivisionsHeight, numSegments) {
 
 module.exports = createCapsule;
 
-},{}],372:[function(_dereq_,module,exports){
+},{}],379:[function(_dereq_,module,exports){
 function createCube(sx, sy, sz, nx, ny, nz) {
     if (sx === undefined) sx = 1.0;
     if (sy === undefined) sy = sx;
@@ -40276,7 +39268,7 @@ function createCube(sx, sy, sz, nx, ny, nz) {
 
 module.exports = createCube;
 
-},{}],373:[function(_dereq_,module,exports){
+},{}],380:[function(_dereq_,module,exports){
 function createCylinderMesh(
   radiusTop,
   radiusBottom,
@@ -40408,7 +39400,7 @@ function createCylinderMesh(
 
 module.exports = createCylinderMesh
 
-},{}],374:[function(_dereq_,module,exports){
+},{}],381:[function(_dereq_,module,exports){
 // 3x3 plane:
 //
 //  0   1   2   3
@@ -40457,7 +39449,7 @@ function createPlane (sx, sy, nx, ny, options) {
 
 module.exports = createPlane
 
-},{}],375:[function(_dereq_,module,exports){
+},{}],382:[function(_dereq_,module,exports){
 var identity = _dereq_('gl-mat4/identity')
 var rotateY = _dereq_('gl-mat4/rotateY')
 var rotateZ = _dereq_('gl-mat4/rotateZ')
@@ -40537,7 +39529,7 @@ function primitiveSphere (radius, opt) {
   }
 }
 
-},{"gl-mat4/identity":190,"gl-mat4/rotateY":200,"gl-mat4/rotateZ":201,"gl-vec3/normalize":281,"gl-vec3/scale":286,"gl-vec3/transformMat4":293}],376:[function(_dereq_,module,exports){
+},{"gl-mat4/identity":196,"gl-mat4/rotateY":206,"gl-mat4/rotateZ":207,"gl-vec3/normalize":287,"gl-vec3/scale":292,"gl-vec3/transformMat4":299}],383:[function(_dereq_,module,exports){
 var defined = _dereq_('defined')
 var sub = _dereq_('gl-vec3/subtract')
 var normalize = _dereq_('gl-vec3/normalize')
@@ -40601,7 +39593,7 @@ function createTorusMesh (opt) {
   }
 }
 
-},{"defined":149,"gl-vec3/normalize":281,"gl-vec3/subtract":291}],377:[function(_dereq_,module,exports){
+},{"defined":155,"gl-vec3/normalize":287,"gl-vec3/subtract":297}],384:[function(_dereq_,module,exports){
 (function (process){
 'use strict';
 
@@ -40648,7 +39640,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,_dereq_('_process'))
-},{"_process":378}],378:[function(_dereq_,module,exports){
+},{"_process":385}],385:[function(_dereq_,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -40834,7 +39826,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],379:[function(_dereq_,module,exports){
+},{}],386:[function(_dereq_,module,exports){
 (function (global){
 var now = _dereq_('performance-now')
   , root = typeof window === 'undefined' ? global : window
@@ -40910,7 +39902,7 @@ module.exports.polyfill = function() {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"performance-now":358}],380:[function(_dereq_,module,exports){
+},{"performance-now":365}],387:[function(_dereq_,module,exports){
 'use strict'
 
 var bnadd = _dereq_('big-rat/add')
@@ -40926,7 +39918,7 @@ function add (a, b) {
   return r
 }
 
-},{"big-rat/add":61}],381:[function(_dereq_,module,exports){
+},{"big-rat/add":67}],388:[function(_dereq_,module,exports){
 'use strict'
 
 module.exports = float2rat
@@ -40941,7 +39933,7 @@ function float2rat(v) {
   return result
 }
 
-},{"big-rat":64}],382:[function(_dereq_,module,exports){
+},{"big-rat":70}],389:[function(_dereq_,module,exports){
 'use strict'
 
 var rat = _dereq_('big-rat')
@@ -40959,7 +39951,7 @@ function muls(a, x) {
   return r
 }
 
-},{"big-rat":64,"big-rat/mul":73}],383:[function(_dereq_,module,exports){
+},{"big-rat":70,"big-rat/mul":79}],390:[function(_dereq_,module,exports){
 'use strict'
 
 var bnsub = _dereq_('big-rat/sub')
@@ -40975,7 +39967,7 @@ function sub(a, b) {
   return r
 }
 
-},{"big-rat/sub":75}],384:[function(_dereq_,module,exports){
+},{"big-rat/sub":81}],391:[function(_dereq_,module,exports){
 var intersectRayTriangle = _dereq_('ray-triangle-intersection')
 var intersectRayPlane = _dereq_('ray-plane-intersection')
 var intersectRaySphere = _dereq_('ray-sphere-intersection')
@@ -41036,7 +40028,7 @@ Ray.prototype.intersectsTriangleCell = function (cell, positions) {
   return this.intersectsTriangle(tmpTriangle)
 }
 
-},{"gl-vec3/copy":265,"ray-aabb-intersection":385,"ray-plane-intersection":386,"ray-sphere-intersection":387,"ray-triangle-intersection":388}],385:[function(_dereq_,module,exports){
+},{"gl-vec3/copy":271,"ray-aabb-intersection":392,"ray-plane-intersection":393,"ray-sphere-intersection":394,"ray-triangle-intersection":395}],392:[function(_dereq_,module,exports){
 module.exports = intersection
 module.exports.distance = distance
 
@@ -41080,7 +40072,7 @@ function distance (ro, rd, aabb) {
   return lo > hi ? Infinity : lo
 }
 
-},{}],386:[function(_dereq_,module,exports){
+},{}],393:[function(_dereq_,module,exports){
 var dot = _dereq_('gl-vec3/dot')
 var add = _dereq_('gl-vec3/add')
 var scale = _dereq_('gl-vec3/scale')
@@ -41106,7 +40098,7 @@ function intersectRayPlane(out, origin, direction, normal, dist) {
   }
 }
 
-},{"gl-vec3/add":262,"gl-vec3/copy":265,"gl-vec3/dot":270,"gl-vec3/scale":286}],387:[function(_dereq_,module,exports){
+},{"gl-vec3/add":268,"gl-vec3/copy":271,"gl-vec3/dot":276,"gl-vec3/scale":292}],394:[function(_dereq_,module,exports){
 var squaredDist = _dereq_('gl-vec3/squaredDistance')
 var dot = _dereq_('gl-vec3/dot')
 var sub = _dereq_('gl-vec3/subtract')
@@ -41135,7 +40127,7 @@ function intersectRaySphere (out, origin, direction, center, radius) {
   return add(out, out, origin)
 }
 
-},{"gl-vec3/add":262,"gl-vec3/dot":270,"gl-vec3/scale":286,"gl-vec3/scaleAndAdd":287,"gl-vec3/squaredDistance":289,"gl-vec3/subtract":291}],388:[function(_dereq_,module,exports){
+},{"gl-vec3/add":268,"gl-vec3/dot":276,"gl-vec3/scale":292,"gl-vec3/scaleAndAdd":293,"gl-vec3/squaredDistance":295,"gl-vec3/subtract":297}],395:[function(_dereq_,module,exports){
 var cross = _dereq_('gl-vec3/cross');
 var dot = _dereq_('gl-vec3/dot');
 var sub = _dereq_('gl-vec3/subtract');
@@ -41171,7 +40163,28 @@ function intersectTriangle (out, pt, dir, tri) {
     return out;
 }
 
-},{"gl-vec3/cross":267,"gl-vec3/dot":270,"gl-vec3/subtract":291}],389:[function(_dereq_,module,exports){
+},{"gl-vec3/cross":273,"gl-vec3/dot":276,"gl-vec3/subtract":297}],396:[function(_dereq_,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -41181,6 +40194,10 @@ function intersectTriangle (out, pt, dir, tri) {
 
 /*<replacement>*/
 
+var processNextTick = _dereq_('process-nextick-args');
+/*</replacement>*/
+
+/*<replacement>*/
 var objectKeys = Object.keys || function (obj) {
   var keys = [];
   for (var key in obj) {
@@ -41190,10 +40207,6 @@ var objectKeys = Object.keys || function (obj) {
 /*</replacement>*/
 
 module.exports = Duplex;
-
-/*<replacement>*/
-var processNextTick = _dereq_('process-nextick-args');
-/*</replacement>*/
 
 /*<replacement>*/
 var util = _dereq_('core-util-is');
@@ -41242,12 +40255,61 @@ function onEndNT(self) {
   self.end();
 }
 
+Object.defineProperty(Duplex.prototype, 'destroyed', {
+  get: function () {
+    if (this._readableState === undefined || this._writableState === undefined) {
+      return false;
+    }
+    return this._readableState.destroyed && this._writableState.destroyed;
+  },
+  set: function (value) {
+    // we ignore the value if the stream
+    // has not been initialized yet
+    if (this._readableState === undefined || this._writableState === undefined) {
+      return;
+    }
+
+    // backward compatibility, the user is explicitly
+    // managing destroyed
+    this._readableState.destroyed = value;
+    this._writableState.destroyed = value;
+  }
+});
+
+Duplex.prototype._destroy = function (err, cb) {
+  this.push(null);
+  this.end();
+
+  processNextTick(cb, err);
+};
+
 function forEach(xs, f) {
   for (var i = 0, l = xs.length; i < l; i++) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":391,"./_stream_writable":393,"core-util-is":143,"inherits":335,"process-nextick-args":377}],390:[function(_dereq_,module,exports){
+},{"./_stream_readable":398,"./_stream_writable":400,"core-util-is":149,"inherits":342,"process-nextick-args":384}],397:[function(_dereq_,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -41274,15 +40336,37 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":392,"core-util-is":143,"inherits":335}],391:[function(_dereq_,module,exports){
-(function (process){
+},{"./_stream_transform":399,"core-util-is":149,"inherits":342}],398:[function(_dereq_,module,exports){
+(function (process,global){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 'use strict';
 
-module.exports = Readable;
-
 /*<replacement>*/
+
 var processNextTick = _dereq_('process-nextick-args');
 /*</replacement>*/
+
+module.exports = Readable;
 
 /*<replacement>*/
 var isArray = _dereq_('isarray');
@@ -41306,8 +40390,17 @@ var EElistenerCount = function (emitter, type) {
 var Stream = _dereq_('./internal/streams/stream');
 /*</replacement>*/
 
+// TODO(bmeurer): Change this back to const once hole checks are
+// properly optimized away early in Ignition+TurboFan.
 /*<replacement>*/
 var Buffer = _dereq_('safe-buffer').Buffer;
+var OurUint8Array = global.Uint8Array || function () {};
+function _uint8ArrayToBuffer(chunk) {
+  return Buffer.from(chunk);
+}
+function _isUint8Array(obj) {
+  return Buffer.isBuffer(obj) || obj instanceof OurUint8Array;
+}
 /*</replacement>*/
 
 /*<replacement>*/
@@ -41326,6 +40419,7 @@ if (debugUtil && debugUtil.debuglog) {
 /*</replacement>*/
 
 var BufferList = _dereq_('./internal/streams/BufferList');
+var destroyImpl = _dereq_('./internal/streams/destroy');
 var StringDecoder;
 
 util.inherits(Readable, Stream);
@@ -41364,7 +40458,7 @@ function ReadableState(options, stream) {
   this.highWaterMark = hwm || hwm === 0 ? hwm : defaultHwm;
 
   // cast to ints.
-  this.highWaterMark = ~~this.highWaterMark;
+  this.highWaterMark = Math.floor(this.highWaterMark);
 
   // A linked list is used to store data chunks instead of an array because the
   // linked list can remove elements from the beginning faster than
@@ -41378,10 +40472,10 @@ function ReadableState(options, stream) {
   this.endEmitted = false;
   this.reading = false;
 
-  // a flag to be able to tell if the onwrite cb is called immediately,
-  // or on a later tick.  We set this to true at first, because any
-  // actions that shouldn't happen until "later" should generally also
-  // not happen before the first write call.
+  // a flag to be able to tell if the event 'readable'/'data' is emitted
+  // immediately, or on a later tick.  We set this to true at first, because
+  // any actions that shouldn't happen until "later" should generally also
+  // not happen before the first read call.
   this.sync = true;
 
   // whenever we return null, then we set a flag to say
@@ -41391,14 +40485,13 @@ function ReadableState(options, stream) {
   this.readableListening = false;
   this.resumeScheduled = false;
 
+  // has it been destroyed
+  this.destroyed = false;
+
   // Crypto is kind of old and crusty.  Historically, its default string
   // encoding is 'binary' so we have to make this configurable.
   // Everything else in the universe uses 'utf8', though.
   this.defaultEncoding = options.defaultEncoding || 'utf8';
-
-  // when piping, we only care about 'readable' events that happen
-  // after read()ing all the bytes and not getting any pushback.
-  this.ranOut = false;
 
   // the number of writers that are awaiting a drain event in .pipe()s
   this.awaitDrain = 0;
@@ -41425,10 +40518,41 @@ function Readable(options) {
   // legacy
   this.readable = true;
 
-  if (options && typeof options.read === 'function') this._read = options.read;
+  if (options) {
+    if (typeof options.read === 'function') this._read = options.read;
+
+    if (typeof options.destroy === 'function') this._destroy = options.destroy;
+  }
 
   Stream.call(this);
 }
+
+Object.defineProperty(Readable.prototype, 'destroyed', {
+  get: function () {
+    if (this._readableState === undefined) {
+      return false;
+    }
+    return this._readableState.destroyed;
+  },
+  set: function (value) {
+    // we ignore the value if the stream
+    // has not been initialized yet
+    if (!this._readableState) {
+      return;
+    }
+
+    // backward compatibility, the user is explicitly
+    // managing destroyed
+    this._readableState.destroyed = value;
+  }
+});
+
+Readable.prototype.destroy = destroyImpl.destroy;
+Readable.prototype._undestroy = destroyImpl.undestroy;
+Readable.prototype._destroy = function (err, cb) {
+  this.push(null);
+  cb(err);
+};
 
 // Manually shove something into the read() buffer.
 // This returns true if the highWaterMark has not been hit yet,
@@ -41436,74 +40560,85 @@ function Readable(options) {
 // write() some more.
 Readable.prototype.push = function (chunk, encoding) {
   var state = this._readableState;
+  var skipChunkCheck;
 
-  if (!state.objectMode && typeof chunk === 'string') {
-    encoding = encoding || state.defaultEncoding;
-    if (encoding !== state.encoding) {
-      chunk = Buffer.from(chunk, encoding);
-      encoding = '';
+  if (!state.objectMode) {
+    if (typeof chunk === 'string') {
+      encoding = encoding || state.defaultEncoding;
+      if (encoding !== state.encoding) {
+        chunk = Buffer.from(chunk, encoding);
+        encoding = '';
+      }
+      skipChunkCheck = true;
     }
+  } else {
+    skipChunkCheck = true;
   }
 
-  return readableAddChunk(this, state, chunk, encoding, false);
+  return readableAddChunk(this, chunk, encoding, false, skipChunkCheck);
 };
 
 // Unshift should *always* be something directly out of read()
 Readable.prototype.unshift = function (chunk) {
-  var state = this._readableState;
-  return readableAddChunk(this, state, chunk, '', true);
+  return readableAddChunk(this, chunk, null, true, false);
 };
 
-Readable.prototype.isPaused = function () {
-  return this._readableState.flowing === false;
-};
-
-function readableAddChunk(stream, state, chunk, encoding, addToFront) {
-  var er = chunkInvalid(state, chunk);
-  if (er) {
-    stream.emit('error', er);
-  } else if (chunk === null) {
+function readableAddChunk(stream, chunk, encoding, addToFront, skipChunkCheck) {
+  var state = stream._readableState;
+  if (chunk === null) {
     state.reading = false;
     onEofChunk(stream, state);
-  } else if (state.objectMode || chunk && chunk.length > 0) {
-    if (state.ended && !addToFront) {
-      var e = new Error('stream.push() after EOF');
-      stream.emit('error', e);
-    } else if (state.endEmitted && addToFront) {
-      var _e = new Error('stream.unshift() after end event');
-      stream.emit('error', _e);
-    } else {
-      var skipAdd;
-      if (state.decoder && !addToFront && !encoding) {
-        chunk = state.decoder.write(chunk);
-        skipAdd = !state.objectMode && chunk.length === 0;
+  } else {
+    var er;
+    if (!skipChunkCheck) er = chunkInvalid(state, chunk);
+    if (er) {
+      stream.emit('error', er);
+    } else if (state.objectMode || chunk && chunk.length > 0) {
+      if (typeof chunk !== 'string' && !state.objectMode && Object.getPrototypeOf(chunk) !== Buffer.prototype) {
+        chunk = _uint8ArrayToBuffer(chunk);
       }
 
-      if (!addToFront) state.reading = false;
-
-      // Don't add to the buffer if we've decoded to an empty string chunk and
-      // we're not in object mode
-      if (!skipAdd) {
-        // if we want the data now, just emit it.
-        if (state.flowing && state.length === 0 && !state.sync) {
-          stream.emit('data', chunk);
-          stream.read(0);
+      if (addToFront) {
+        if (state.endEmitted) stream.emit('error', new Error('stream.unshift() after end event'));else addChunk(stream, state, chunk, true);
+      } else if (state.ended) {
+        stream.emit('error', new Error('stream.push() after EOF'));
+      } else {
+        state.reading = false;
+        if (state.decoder && !encoding) {
+          chunk = state.decoder.write(chunk);
+          if (state.objectMode || chunk.length !== 0) addChunk(stream, state, chunk, false);else maybeReadMore(stream, state);
         } else {
-          // update the buffer info.
-          state.length += state.objectMode ? 1 : chunk.length;
-          if (addToFront) state.buffer.unshift(chunk);else state.buffer.push(chunk);
-
-          if (state.needReadable) emitReadable(stream);
+          addChunk(stream, state, chunk, false);
         }
       }
-
-      maybeReadMore(stream, state);
+    } else if (!addToFront) {
+      state.reading = false;
     }
-  } else if (!addToFront) {
-    state.reading = false;
   }
 
   return needMoreData(state);
+}
+
+function addChunk(stream, state, chunk, addToFront) {
+  if (state.flowing && state.length === 0 && !state.sync) {
+    stream.emit('data', chunk);
+    stream.read(0);
+  } else {
+    // update the buffer info.
+    state.length += state.objectMode ? 1 : chunk.length;
+    if (addToFront) state.buffer.unshift(chunk);else state.buffer.push(chunk);
+
+    if (state.needReadable) emitReadable(stream);
+  }
+  maybeReadMore(stream, state);
+}
+
+function chunkInvalid(state, chunk) {
+  var er;
+  if (!_isUint8Array(chunk) && typeof chunk !== 'string' && chunk !== undefined && !state.objectMode) {
+    er = new TypeError('Invalid non-string/buffer chunk');
+  }
+  return er;
 }
 
 // if it's past the high water mark, we can push in some more.
@@ -41516,6 +40651,10 @@ function readableAddChunk(stream, state, chunk, encoding, addToFront) {
 function needMoreData(state) {
   return !state.ended && (state.needReadable || state.length < state.highWaterMark || state.length === 0);
 }
+
+Readable.prototype.isPaused = function () {
+  return this._readableState.flowing === false;
+};
 
 // backwards compatibility.
 Readable.prototype.setEncoding = function (enc) {
@@ -41665,14 +40804,6 @@ Readable.prototype.read = function (n) {
   return ret;
 };
 
-function chunkInvalid(state, chunk) {
-  var er = null;
-  if (!Buffer.isBuffer(chunk) && typeof chunk !== 'string' && chunk !== null && chunk !== undefined && !state.objectMode) {
-    er = new TypeError('Invalid non-string/buffer chunk');
-  }
-  return er;
-}
-
 function onEofChunk(stream, state) {
   if (state.ended) return;
   if (state.decoder) {
@@ -41764,10 +40895,13 @@ Readable.prototype.pipe = function (dest, pipeOpts) {
   if (state.endEmitted) processNextTick(endFn);else src.once('end', endFn);
 
   dest.on('unpipe', onunpipe);
-  function onunpipe(readable) {
+  function onunpipe(readable, unpipeInfo) {
     debug('onunpipe');
     if (readable === src) {
-      cleanup();
+      if (unpipeInfo && unpipeInfo.hasUnpiped === false) {
+        unpipeInfo.hasUnpiped = true;
+        cleanup();
+      }
     }
   }
 
@@ -41886,6 +41020,7 @@ function pipeOnDrain(src) {
 
 Readable.prototype.unpipe = function (dest) {
   var state = this._readableState;
+  var unpipeInfo = { hasUnpiped: false };
 
   // if we're not piping anywhere, then do nothing.
   if (state.pipesCount === 0) return this;
@@ -41901,7 +41036,7 @@ Readable.prototype.unpipe = function (dest) {
     state.pipes = null;
     state.pipesCount = 0;
     state.flowing = false;
-    if (dest) dest.emit('unpipe', this);
+    if (dest) dest.emit('unpipe', this, unpipeInfo);
     return this;
   }
 
@@ -41916,7 +41051,7 @@ Readable.prototype.unpipe = function (dest) {
     state.flowing = false;
 
     for (var i = 0; i < len; i++) {
-      dests[i].emit('unpipe', this);
+      dests[i].emit('unpipe', this, unpipeInfo);
     }return this;
   }
 
@@ -41928,7 +41063,7 @@ Readable.prototype.unpipe = function (dest) {
   state.pipesCount -= 1;
   if (state.pipesCount === 1) state.pipes = state.pipes[0];
 
-  dest.emit('unpipe', this);
+  dest.emit('unpipe', this, unpipeInfo);
 
   return this;
 };
@@ -41949,7 +41084,7 @@ Readable.prototype.on = function (ev, fn) {
       if (!state.reading) {
         processNextTick(nReadingNextTick, this);
       } else if (state.length) {
-        emitReadable(this, state);
+        emitReadable(this);
       }
     }
   }
@@ -42210,8 +41345,29 @@ function indexOf(xs, x) {
   }
   return -1;
 }
-}).call(this,_dereq_('_process'))
-},{"./_stream_duplex":389,"./internal/streams/BufferList":394,"./internal/streams/stream":395,"_process":378,"core-util-is":143,"events":154,"inherits":335,"isarray":396,"process-nextick-args":377,"safe-buffer":408,"string_decoder/":397,"util":88}],392:[function(_dereq_,module,exports){
+}).call(this,_dereq_('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./_stream_duplex":396,"./internal/streams/BufferList":401,"./internal/streams/destroy":402,"./internal/streams/stream":403,"_process":385,"core-util-is":149,"events":160,"inherits":342,"isarray":404,"process-nextick-args":384,"safe-buffer":416,"string_decoder/":405,"util":94}],399:[function(_dereq_,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -42285,7 +41441,9 @@ function afterTransform(stream, er, data) {
 
   var cb = ts.writecb;
 
-  if (!cb) return stream.emit('error', new Error('no writecb in Transform class'));
+  if (!cb) {
+    return stream.emit('error', new Error('write callback called multiple times'));
+  }
 
   ts.writechunk = null;
   ts.writecb = null;
@@ -42378,6 +41536,15 @@ Transform.prototype._read = function (n) {
   }
 };
 
+Transform.prototype._destroy = function (err, cb) {
+  var _this = this;
+
+  Duplex.prototype._destroy.call(this, err, function (err2) {
+    cb(err2);
+    _this.emit('close');
+  });
+};
+
 function done(stream, er, data) {
   if (er) return stream.emit('error', er);
 
@@ -42394,19 +41561,62 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":389,"core-util-is":143,"inherits":335}],393:[function(_dereq_,module,exports){
-(function (process){
+},{"./_stream_duplex":396,"core-util-is":149,"inherits":342}],400:[function(_dereq_,module,exports){
+(function (process,global){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
 
 'use strict';
 
-module.exports = Writable;
-
 /*<replacement>*/
+
 var processNextTick = _dereq_('process-nextick-args');
 /*</replacement>*/
+
+module.exports = Writable;
+
+/* <replacement> */
+function WriteReq(chunk, encoding, cb) {
+  this.chunk = chunk;
+  this.encoding = encoding;
+  this.callback = cb;
+  this.next = null;
+}
+
+// It seems a linked list but it is not
+// there will be only 2 of these for each stream
+function CorkedRequest(state) {
+  var _this = this;
+
+  this.next = null;
+  this.entry = null;
+  this.finish = function () {
+    onCorkedFinish(_this, state);
+  };
+}
+/* </replacement> */
 
 /*<replacement>*/
 var asyncWrite = !process.browser && ['v0.10', 'v0.9.'].indexOf(process.version.slice(0, 5)) > -1 ? setImmediate : processNextTick;
@@ -42435,18 +41645,20 @@ var Stream = _dereq_('./internal/streams/stream');
 
 /*<replacement>*/
 var Buffer = _dereq_('safe-buffer').Buffer;
+var OurUint8Array = global.Uint8Array || function () {};
+function _uint8ArrayToBuffer(chunk) {
+  return Buffer.from(chunk);
+}
+function _isUint8Array(obj) {
+  return Buffer.isBuffer(obj) || obj instanceof OurUint8Array;
+}
 /*</replacement>*/
+
+var destroyImpl = _dereq_('./internal/streams/destroy');
 
 util.inherits(Writable, Stream);
 
 function nop() {}
-
-function WriteReq(chunk, encoding, cb) {
-  this.chunk = chunk;
-  this.encoding = encoding;
-  this.callback = cb;
-  this.next = null;
-}
 
 function WritableState(options, stream) {
   Duplex = Duplex || _dereq_('./_stream_duplex');
@@ -42467,7 +41679,10 @@ function WritableState(options, stream) {
   this.highWaterMark = hwm || hwm === 0 ? hwm : defaultHwm;
 
   // cast to ints.
-  this.highWaterMark = ~~this.highWaterMark;
+  this.highWaterMark = Math.floor(this.highWaterMark);
+
+  // if _final has been called
+  this.finalCalled = false;
 
   // drain event flag.
   this.needDrain = false;
@@ -42477,6 +41692,9 @@ function WritableState(options, stream) {
   this.ended = false;
   // when 'finish' is emitted
   this.finished = false;
+
+  // has it been destroyed
+  this.destroyed = false;
 
   // should we decode strings into buffers before passing to _write?
   // this is here so that some node-core streams can optimize string
@@ -42559,7 +41777,7 @@ WritableState.prototype.getBuffer = function getBuffer() {
     Object.defineProperty(WritableState.prototype, 'buffer', {
       get: internalUtil.deprecate(function () {
         return this.getBuffer();
-      }, '_writableState.buffer is deprecated. Use _writableState.getBuffer ' + 'instead.')
+      }, '_writableState.buffer is deprecated. Use _writableState.getBuffer ' + 'instead.', 'DEP0003')
     });
   } catch (_) {}
 })();
@@ -42605,6 +41823,10 @@ function Writable(options) {
     if (typeof options.write === 'function') this._write = options.write;
 
     if (typeof options.writev === 'function') this._writev = options.writev;
+
+    if (typeof options.destroy === 'function') this._destroy = options.destroy;
+
+    if (typeof options.final === 'function') this._final = options.final;
   }
 
   Stream.call(this);
@@ -42645,7 +41867,11 @@ function validChunk(stream, state, chunk, cb) {
 Writable.prototype.write = function (chunk, encoding, cb) {
   var state = this._writableState;
   var ret = false;
-  var isBuf = Buffer.isBuffer(chunk);
+  var isBuf = _isUint8Array(chunk) && !state.objectMode;
+
+  if (isBuf && !Buffer.isBuffer(chunk)) {
+    chunk = _uint8ArrayToBuffer(chunk);
+  }
 
   if (typeof encoding === 'function') {
     cb = encoding;
@@ -42700,8 +41926,12 @@ function decodeChunk(state, chunk, encoding) {
 // If we return false, then we need a drain event, so set that flag.
 function writeOrBuffer(stream, state, isBuf, chunk, encoding, cb) {
   if (!isBuf) {
-    chunk = decodeChunk(state, chunk, encoding);
-    if (Buffer.isBuffer(chunk)) encoding = 'buffer';
+    var newChunk = decodeChunk(state, chunk, encoding);
+    if (chunk !== newChunk) {
+      isBuf = true;
+      encoding = 'buffer';
+      chunk = newChunk;
+    }
   }
   var len = state.objectMode ? 1 : chunk.length;
 
@@ -42713,7 +41943,13 @@ function writeOrBuffer(stream, state, isBuf, chunk, encoding, cb) {
 
   if (state.writing || state.corked) {
     var last = state.lastBufferedRequest;
-    state.lastBufferedRequest = new WriteReq(chunk, encoding, cb);
+    state.lastBufferedRequest = {
+      chunk: chunk,
+      encoding: encoding,
+      isBuf: isBuf,
+      callback: cb,
+      next: null
+    };
     if (last) {
       last.next = state.lastBufferedRequest;
     } else {
@@ -42738,10 +41974,26 @@ function doWrite(stream, state, writev, len, chunk, encoding, cb) {
 
 function onwriteError(stream, state, sync, er, cb) {
   --state.pendingcb;
-  if (sync) processNextTick(cb, er);else cb(er);
 
-  stream._writableState.errorEmitted = true;
-  stream.emit('error', er);
+  if (sync) {
+    // defer the callback if we are being called synchronously
+    // to avoid piling up things on the stack
+    processNextTick(cb, er);
+    // this can emit finish, and it will always happen
+    // after error
+    processNextTick(finishMaybe, stream, state);
+    stream._writableState.errorEmitted = true;
+    stream.emit('error', er);
+  } else {
+    // the caller expect this to happen before if
+    // it is async
+    cb(er);
+    stream._writableState.errorEmitted = true;
+    stream.emit('error', er);
+    // this can emit finish, but finish must
+    // always follow error
+    finishMaybe(stream, state);
+  }
 }
 
 function onwriteStateUpdate(state) {
@@ -42806,11 +42058,14 @@ function clearBuffer(stream, state) {
     holder.entry = entry;
 
     var count = 0;
+    var allBuffers = true;
     while (entry) {
       buffer[count] = entry;
+      if (!entry.isBuf) allBuffers = false;
       entry = entry.next;
       count += 1;
     }
+    buffer.allBuffers = allBuffers;
 
     doWrite(stream, state, true, state.length, buffer, '', holder.finish);
 
@@ -42884,23 +42139,37 @@ Writable.prototype.end = function (chunk, encoding, cb) {
 function needFinish(state) {
   return state.ending && state.length === 0 && state.bufferedRequest === null && !state.finished && !state.writing;
 }
-
-function prefinish(stream, state) {
-  if (!state.prefinished) {
+function callFinal(stream, state) {
+  stream._final(function (err) {
+    state.pendingcb--;
+    if (err) {
+      stream.emit('error', err);
+    }
     state.prefinished = true;
     stream.emit('prefinish');
+    finishMaybe(stream, state);
+  });
+}
+function prefinish(stream, state) {
+  if (!state.prefinished && !state.finalCalled) {
+    if (typeof stream._final === 'function') {
+      state.pendingcb++;
+      state.finalCalled = true;
+      processNextTick(callFinal, stream, state);
+    } else {
+      state.prefinished = true;
+      stream.emit('prefinish');
+    }
   }
 }
 
 function finishMaybe(stream, state) {
   var need = needFinish(state);
   if (need) {
+    prefinish(stream, state);
     if (state.pendingcb === 0) {
-      prefinish(stream, state);
       state.finished = true;
       stream.emit('finish');
-    } else {
-      prefinish(stream, state);
     }
   }
   return need;
@@ -42916,101 +42185,203 @@ function endWritable(stream, state, cb) {
   stream.writable = false;
 }
 
-// It seems a linked list but it is not
-// there will be only 2 of these for each stream
-function CorkedRequest(state) {
-  var _this = this;
-
-  this.next = null;
-  this.entry = null;
-  this.finish = function (err) {
-    var entry = _this.entry;
-    _this.entry = null;
-    while (entry) {
-      var cb = entry.callback;
-      state.pendingcb--;
-      cb(err);
-      entry = entry.next;
-    }
-    if (state.corkedRequestsFree) {
-      state.corkedRequestsFree.next = _this;
-    } else {
-      state.corkedRequestsFree = _this;
-    }
-  };
+function onCorkedFinish(corkReq, state, err) {
+  var entry = corkReq.entry;
+  corkReq.entry = null;
+  while (entry) {
+    var cb = entry.callback;
+    state.pendingcb--;
+    cb(err);
+    entry = entry.next;
+  }
+  if (state.corkedRequestsFree) {
+    state.corkedRequestsFree.next = corkReq;
+  } else {
+    state.corkedRequestsFree = corkReq;
+  }
 }
-}).call(this,_dereq_('_process'))
-},{"./_stream_duplex":389,"./internal/streams/stream":395,"_process":378,"core-util-is":143,"inherits":335,"process-nextick-args":377,"safe-buffer":408,"util-deprecate":431}],394:[function(_dereq_,module,exports){
+
+Object.defineProperty(Writable.prototype, 'destroyed', {
+  get: function () {
+    if (this._writableState === undefined) {
+      return false;
+    }
+    return this._writableState.destroyed;
+  },
+  set: function (value) {
+    // we ignore the value if the stream
+    // has not been initialized yet
+    if (!this._writableState) {
+      return;
+    }
+
+    // backward compatibility, the user is explicitly
+    // managing destroyed
+    this._writableState.destroyed = value;
+  }
+});
+
+Writable.prototype.destroy = destroyImpl.destroy;
+Writable.prototype._undestroy = destroyImpl.undestroy;
+Writable.prototype._destroy = function (err, cb) {
+  this.end();
+  cb(err);
+};
+}).call(this,_dereq_('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./_stream_duplex":396,"./internal/streams/destroy":402,"./internal/streams/stream":403,"_process":385,"core-util-is":149,"inherits":342,"process-nextick-args":384,"safe-buffer":416,"util-deprecate":439}],401:[function(_dereq_,module,exports){
 'use strict';
 
 /*<replacement>*/
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var Buffer = _dereq_('safe-buffer').Buffer;
 /*</replacement>*/
 
-module.exports = BufferList;
-
-function BufferList() {
-  this.head = null;
-  this.tail = null;
-  this.length = 0;
+function copyBuffer(src, target, offset) {
+  src.copy(target, offset);
 }
 
-BufferList.prototype.push = function (v) {
-  var entry = { data: v, next: null };
-  if (this.length > 0) this.tail.next = entry;else this.head = entry;
-  this.tail = entry;
-  ++this.length;
-};
+module.exports = function () {
+  function BufferList() {
+    _classCallCheck(this, BufferList);
 
-BufferList.prototype.unshift = function (v) {
-  var entry = { data: v, next: this.head };
-  if (this.length === 0) this.tail = entry;
-  this.head = entry;
-  ++this.length;
-};
-
-BufferList.prototype.shift = function () {
-  if (this.length === 0) return;
-  var ret = this.head.data;
-  if (this.length === 1) this.head = this.tail = null;else this.head = this.head.next;
-  --this.length;
-  return ret;
-};
-
-BufferList.prototype.clear = function () {
-  this.head = this.tail = null;
-  this.length = 0;
-};
-
-BufferList.prototype.join = function (s) {
-  if (this.length === 0) return '';
-  var p = this.head;
-  var ret = '' + p.data;
-  while (p = p.next) {
-    ret += s + p.data;
-  }return ret;
-};
-
-BufferList.prototype.concat = function (n) {
-  if (this.length === 0) return Buffer.alloc(0);
-  if (this.length === 1) return this.head.data;
-  var ret = Buffer.allocUnsafe(n >>> 0);
-  var p = this.head;
-  var i = 0;
-  while (p) {
-    p.data.copy(ret, i);
-    i += p.data.length;
-    p = p.next;
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
   }
-  return ret;
+
+  BufferList.prototype.push = function push(v) {
+    var entry = { data: v, next: null };
+    if (this.length > 0) this.tail.next = entry;else this.head = entry;
+    this.tail = entry;
+    ++this.length;
+  };
+
+  BufferList.prototype.unshift = function unshift(v) {
+    var entry = { data: v, next: this.head };
+    if (this.length === 0) this.tail = entry;
+    this.head = entry;
+    ++this.length;
+  };
+
+  BufferList.prototype.shift = function shift() {
+    if (this.length === 0) return;
+    var ret = this.head.data;
+    if (this.length === 1) this.head = this.tail = null;else this.head = this.head.next;
+    --this.length;
+    return ret;
+  };
+
+  BufferList.prototype.clear = function clear() {
+    this.head = this.tail = null;
+    this.length = 0;
+  };
+
+  BufferList.prototype.join = function join(s) {
+    if (this.length === 0) return '';
+    var p = this.head;
+    var ret = '' + p.data;
+    while (p = p.next) {
+      ret += s + p.data;
+    }return ret;
+  };
+
+  BufferList.prototype.concat = function concat(n) {
+    if (this.length === 0) return Buffer.alloc(0);
+    if (this.length === 1) return this.head.data;
+    var ret = Buffer.allocUnsafe(n >>> 0);
+    var p = this.head;
+    var i = 0;
+    while (p) {
+      copyBuffer(p.data, ret, i);
+      i += p.data.length;
+      p = p.next;
+    }
+    return ret;
+  };
+
+  return BufferList;
+}();
+},{"safe-buffer":416}],402:[function(_dereq_,module,exports){
+'use strict';
+
+/*<replacement>*/
+
+var processNextTick = _dereq_('process-nextick-args');
+/*</replacement>*/
+
+// undocumented cb() API, needed for core, not for public API
+function destroy(err, cb) {
+  var _this = this;
+
+  var readableDestroyed = this._readableState && this._readableState.destroyed;
+  var writableDestroyed = this._writableState && this._writableState.destroyed;
+
+  if (readableDestroyed || writableDestroyed) {
+    if (cb) {
+      cb(err);
+    } else if (err && (!this._writableState || !this._writableState.errorEmitted)) {
+      processNextTick(emitErrorNT, this, err);
+    }
+    return;
+  }
+
+  // we set destroyed to true before firing error callbacks in order
+  // to make it re-entrance safe in case destroy() is called within callbacks
+
+  if (this._readableState) {
+    this._readableState.destroyed = true;
+  }
+
+  // if this is a duplex stream mark the writable part as destroyed as well
+  if (this._writableState) {
+    this._writableState.destroyed = true;
+  }
+
+  this._destroy(err || null, function (err) {
+    if (!cb && err) {
+      processNextTick(emitErrorNT, _this, err);
+      if (_this._writableState) {
+        _this._writableState.errorEmitted = true;
+      }
+    } else if (cb) {
+      cb(err);
+    }
+  });
+}
+
+function undestroy() {
+  if (this._readableState) {
+    this._readableState.destroyed = false;
+    this._readableState.reading = false;
+    this._readableState.ended = false;
+    this._readableState.endEmitted = false;
+  }
+
+  if (this._writableState) {
+    this._writableState.destroyed = false;
+    this._writableState.ended = false;
+    this._writableState.ending = false;
+    this._writableState.finished = false;
+    this._writableState.errorEmitted = false;
+  }
+}
+
+function emitErrorNT(self, err) {
+  self.emit('error', err);
+}
+
+module.exports = {
+  destroy: destroy,
+  undestroy: undestroy
 };
-},{"safe-buffer":408}],395:[function(_dereq_,module,exports){
+},{"process-nextick-args":384}],403:[function(_dereq_,module,exports){
 module.exports = _dereq_('events').EventEmitter;
 
-},{"events":154}],396:[function(_dereq_,module,exports){
-arguments[4][90][0].apply(exports,arguments)
-},{"dup":90}],397:[function(_dereq_,module,exports){
+},{"events":160}],404:[function(_dereq_,module,exports){
+arguments[4][96][0].apply(exports,arguments)
+},{"dup":96}],405:[function(_dereq_,module,exports){
 'use strict';
 
 var Buffer = _dereq_('safe-buffer').Buffer;
@@ -43283,7 +42654,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":408}],398:[function(_dereq_,module,exports){
+},{"safe-buffer":416}],406:[function(_dereq_,module,exports){
 exports = module.exports = _dereq_('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -43292,10 +42663,10 @@ exports.Duplex = _dereq_('./lib/_stream_duplex.js');
 exports.Transform = _dereq_('./lib/_stream_transform.js');
 exports.PassThrough = _dereq_('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":389,"./lib/_stream_passthrough.js":390,"./lib/_stream_readable.js":391,"./lib/_stream_transform.js":392,"./lib/_stream_writable.js":393}],399:[function(_dereq_,module,exports){
+},{"./lib/_stream_duplex.js":396,"./lib/_stream_passthrough.js":397,"./lib/_stream_readable.js":398,"./lib/_stream_transform.js":399,"./lib/_stream_writable.js":400}],407:[function(_dereq_,module,exports){
 module.exports = _dereq_('./readable').Transform
 
-},{"./readable":398}],400:[function(_dereq_,module,exports){
+},{"./readable":406}],408:[function(_dereq_,module,exports){
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -52898,7 +52269,7 @@ return wrapREGL;
 })));
 
 
-},{}],401:[function(_dereq_,module,exports){
+},{}],409:[function(_dereq_,module,exports){
 "use strict"
 
 var twoProduct = _dereq_("two-product")
@@ -53066,7 +52437,7 @@ function generateInSphereTest() {
 }
 
 generateInSphereTest()
-},{"robust-scale":404,"robust-subtract":406,"robust-sum":407,"two-product":425}],402:[function(_dereq_,module,exports){
+},{"robust-scale":412,"robust-subtract":414,"robust-sum":415,"two-product":433}],410:[function(_dereq_,module,exports){
 "use strict"
 
 var twoProduct = _dereq_("two-product")
@@ -53257,7 +52628,7 @@ function generateOrientationProc() {
 }
 
 generateOrientationProc()
-},{"robust-scale":404,"robust-subtract":406,"robust-sum":407,"two-product":425}],403:[function(_dereq_,module,exports){
+},{"robust-scale":412,"robust-subtract":414,"robust-sum":415,"two-product":433}],411:[function(_dereq_,module,exports){
 "use strict"
 
 var robustSum = _dereq_("robust-sum")
@@ -53287,7 +52658,7 @@ function robustProduct(a, b) {
   }
   return r
 }
-},{"robust-scale":404,"robust-sum":407}],404:[function(_dereq_,module,exports){
+},{"robust-scale":412,"robust-sum":415}],412:[function(_dereq_,module,exports){
 "use strict"
 
 var twoProduct = _dereq_("two-product")
@@ -53338,7 +52709,7 @@ function scaleLinearExpansion(e, scale) {
   g.length = count
   return g
 }
-},{"two-product":425,"two-sum":426}],405:[function(_dereq_,module,exports){
+},{"two-product":433,"two-sum":434}],413:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = segmentsIntersect
@@ -53386,7 +52757,7 @@ function segmentsIntersect(a0, a1, b0, b1) {
 
   return true
 }
-},{"robust-orientation":402}],406:[function(_dereq_,module,exports){
+},{"robust-orientation":410}],414:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = robustSubtract
@@ -53543,7 +52914,7 @@ function robustSubtract(e, f) {
   g.length = count
   return g
 }
-},{}],407:[function(_dereq_,module,exports){
+},{}],415:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = linearExpansionSum
@@ -53700,10 +53071,71 @@ function linearExpansionSum(e, f) {
   g.length = count
   return g
 }
-},{}],408:[function(_dereq_,module,exports){
-module.exports = _dereq_('buffer')
+},{}],416:[function(_dereq_,module,exports){
+/* eslint-disable node/no-deprecated-api */
+var buffer = _dereq_('buffer')
+var Buffer = buffer.Buffer
 
-},{"buffer":89}],409:[function(_dereq_,module,exports){
+// alternative to using Object.keys for old browsers
+function copyProps (src, dst) {
+  for (var key in src) {
+    dst[key] = src[key]
+  }
+}
+if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
+  module.exports = buffer
+} else {
+  // Copy properties from require('buffer')
+  copyProps(buffer, exports)
+  exports.Buffer = SafeBuffer
+}
+
+function SafeBuffer (arg, encodingOrOffset, length) {
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+// Copy static methods from Buffer
+copyProps(Buffer, SafeBuffer)
+
+SafeBuffer.from = function (arg, encodingOrOffset, length) {
+  if (typeof arg === 'number') {
+    throw new TypeError('Argument must not be a number')
+  }
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+SafeBuffer.alloc = function (size, fill, encoding) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  var buf = Buffer(size)
+  if (fill !== undefined) {
+    if (typeof encoding === 'string') {
+      buf.fill(fill, encoding)
+    } else {
+      buf.fill(fill)
+    }
+  } else {
+    buf.fill(0)
+  }
+  return buf
+}
+
+SafeBuffer.allocUnsafe = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return Buffer(size)
+}
+
+SafeBuffer.allocUnsafeSlow = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return buffer.SlowBuffer(size)
+}
+
+},{"buffer":95}],417:[function(_dereq_,module,exports){
 module.exports = function (mesh, opts) {
   if (!opts) opts = {}
   var pts = [], npts = [], dirs = [], cells = []
@@ -53793,7 +53225,7 @@ module.exports = function (mesh, opts) {
   }
 }
 
-},{}],410:[function(_dereq_,module,exports){
+},{}],418:[function(_dereq_,module,exports){
 'use strict';
 
 var isArrayish = _dereq_('is-arrayish');
@@ -53824,9 +53256,9 @@ swizzle.wrap = function (fn) {
 	};
 };
 
-},{"is-arrayish":339}],411:[function(_dereq_,module,exports){
-arguments[4][78][0].apply(exports,arguments)
-},{"dup":78}],412:[function(_dereq_,module,exports){
+},{"is-arrayish":346}],419:[function(_dereq_,module,exports){
+arguments[4][84][0].apply(exports,arguments)
+},{"dup":84}],420:[function(_dereq_,module,exports){
 "use strict"; "use restrict";
 
 module.exports = UnionFind;
@@ -53883,7 +53315,7 @@ UnionFind.prototype.link = function(x, y) {
 }
 
 
-},{}],413:[function(_dereq_,module,exports){
+},{}],421:[function(_dereq_,module,exports){
 "use strict"; "use restrict";
 
 var bits      = _dereq_("bit-twiddle")
@@ -54227,7 +53659,7 @@ function connectedComponents(cells, vertex_count) {
 }
 exports.connectedComponents = connectedComponents
 
-},{"bit-twiddle":411,"union-find":412}],414:[function(_dereq_,module,exports){
+},{"bit-twiddle":419,"union-find":420}],422:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = simplifyPolygon
@@ -54499,7 +53931,7 @@ function simplifyPolygon(cells, positions, minArea) {
     edges: ncells
   }
 }
-},{"robust-orientation":402,"simplicial-complex":413}],415:[function(_dereq_,module,exports){
+},{"robust-orientation":410,"simplicial-complex":421}],423:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = orderSegments
@@ -54595,7 +54027,7 @@ function orderSegments(b, a) {
   }
   return ar[0] - br[0]
 }
-},{"robust-orientation":402}],416:[function(_dereq_,module,exports){
+},{"robust-orientation":410}],424:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = createSlabDecomposition
@@ -54826,7 +54258,7 @@ function createSlabDecomposition(segments) {
   }
   return new SlabDecomposition(slabs, lines, horizontal)
 }
-},{"./lib/order-segments":415,"binary-search-bounds":77,"functional-red-black-tree":159,"robust-orientation":402}],417:[function(_dereq_,module,exports){
+},{"./lib/order-segments":423,"binary-search-bounds":83,"functional-red-black-tree":165,"robust-orientation":410}],425:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = surfaceNets
@@ -55034,7 +54466,7 @@ function surfaceNets(array,level) {
   }
   return proc(array,level)
 }
-},{"ndarray-extract-contour":352,"triangulate-hypercube":424,"zero-crossings":464}],418:[function(_dereq_,module,exports){
+},{"ndarray-extract-contour":359,"triangulate-hypercube":432,"zero-crossings":472}],426:[function(_dereq_,module,exports){
 
 // for compression
 var win = window;
@@ -55155,7 +54587,7 @@ var typeOf = (function () {
     };
 })();
 
-},{"./init.json":419,"./types.json":420}],419:[function(_dereq_,module,exports){
+},{"./init.json":427,"./types.json":428}],427:[function(_dereq_,module,exports){
 module.exports={
   "initEvent" : [
     "type",
@@ -55222,7 +54654,7 @@ module.exports={
   ]
 }
 
-},{}],420:[function(_dereq_,module,exports){
+},{}],428:[function(_dereq_,module,exports){
 module.exports={
   "MouseEvent" : [
     "click",
@@ -55267,7 +54699,7 @@ module.exports={
   ]
 }
 
-},{}],421:[function(_dereq_,module,exports){
+},{}],429:[function(_dereq_,module,exports){
 (function (process){
 var Transform = _dereq_('readable-stream/transform')
   , inherits  = _dereq_('util').inherits
@@ -55367,7 +54799,7 @@ module.exports.obj = through2(function (options, transform, flush) {
 })
 
 }).call(this,_dereq_('_process'))
-},{"_process":378,"readable-stream/transform":399,"util":434,"xtend":462}],422:[function(_dereq_,module,exports){
+},{"_process":385,"readable-stream/transform":407,"util":442,"xtend":470}],430:[function(_dereq_,module,exports){
 'use strict'
 
 var parseUnit = _dereq_('parse-unit')
@@ -55428,7 +54860,7 @@ function toPX(str, element) {
   }
   return 1
 }
-},{"parse-unit":357}],423:[function(_dereq_,module,exports){
+},{"parse-unit":364}],431:[function(_dereq_,module,exports){
 var offset = _dereq_('mouse-event-offset');
 var EventEmitter = _dereq_('events').EventEmitter;
 
@@ -55477,7 +54909,7 @@ module.exports.emitter = function (opt) {
   return attach(opt);
 };
 
-},{"events":154,"mouse-event-offset":346}],424:[function(_dereq_,module,exports){
+},{"events":160,"mouse-event-offset":353}],432:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = triangulateCube
@@ -55511,7 +54943,7 @@ function triangulateCube(dimension) {
   }
   return result
 }
-},{"gamma":160,"permutation-parity":359,"permutation-rank":360}],425:[function(_dereq_,module,exports){
+},{"gamma":166,"permutation-parity":366,"permutation-rank":367}],433:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = twoProduct
@@ -55545,7 +54977,7 @@ function twoProduct(a, b, result) {
 
   return [ y, x ]
 }
-},{}],426:[function(_dereq_,module,exports){
+},{}],434:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = fastTwoSum
@@ -55563,7 +54995,7 @@ function fastTwoSum(a, b, result) {
 	}
 	return [ar+br, x]
 }
-},{}],427:[function(_dereq_,module,exports){
+},{}],435:[function(_dereq_,module,exports){
 (function (global,Buffer){
 'use strict'
 
@@ -55780,7 +55212,7 @@ exports.clearCache = function clearCache() {
   }
 }
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},_dereq_("buffer").Buffer)
-},{"bit-twiddle":78,"buffer":89,"dup":152}],428:[function(_dereq_,module,exports){
+},{"bit-twiddle":84,"buffer":95,"dup":158}],436:[function(_dereq_,module,exports){
 module.exports = unindex
 
 function unindex(positions, cells, out) {
@@ -55834,7 +55266,7 @@ function unindex(positions, cells, out) {
   return out
 }
 
-},{}],429:[function(_dereq_,module,exports){
+},{}],437:[function(_dereq_,module,exports){
 "use strict"; "use restrict";
 
 module.exports = UnionFind;
@@ -55897,7 +55329,7 @@ proto.link = function(x, y) {
     ++ranks[xr];
   }
 }
-},{}],430:[function(_dereq_,module,exports){
+},{}],438:[function(_dereq_,module,exports){
 "use strict"
 
 function unique_pred(list, compare) {
@@ -55956,7 +55388,7 @@ function unique(list, compare, sorted) {
 
 module.exports = unique
 
-},{}],431:[function(_dereq_,module,exports){
+},{}],439:[function(_dereq_,module,exports){
 (function (global){
 
 /**
@@ -56027,16 +55459,16 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],432:[function(_dereq_,module,exports){
-arguments[4][335][0].apply(exports,arguments)
-},{"dup":335}],433:[function(_dereq_,module,exports){
+},{}],440:[function(_dereq_,module,exports){
+arguments[4][342][0].apply(exports,arguments)
+},{"dup":342}],441:[function(_dereq_,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],434:[function(_dereq_,module,exports){
+},{}],442:[function(_dereq_,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -56626,7 +56058,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,_dereq_('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":433,"_process":378,"inherits":432}],435:[function(_dereq_,module,exports){
+},{"./support/isBuffer":441,"_process":385,"inherits":440}],443:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = createText
@@ -56653,7 +56085,7 @@ function createText(str, options) {
     options)
 }
 
-},{"./lib/vtext":436}],436:[function(_dereq_,module,exports){
+},{"./lib/vtext":444}],444:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = vectorizeText
@@ -56859,10 +56291,10 @@ function vectorizeText(str, canvas, context, options) {
   return processPixels(pixels, options, size)
 }
 
-},{"cdt2d":95,"clean-pslg":102,"ndarray":353,"planar-graph-to-polyline":368,"simplify-planar-graph":414,"surface-nets":417}],437:[function(_dereq_,module,exports){
+},{"cdt2d":101,"clean-pslg":108,"ndarray":360,"planar-graph-to-polyline":375,"simplify-planar-graph":422,"surface-nets":425}],445:[function(_dereq_,module,exports){
 module.exports={
   "name": "webvr-polyfill",
-  "version": "0.9.34",
+  "version": "0.9.35",
   "homepage": "https://github.com/googlevr/webvr-polyfill",
   "authors": [
     "Boris Smus <boris@smus.com>",
@@ -56895,7 +56327,7 @@ module.exports={
     "url": "https://github.com/googlevr/webvr-polyfill/issues"
   }
 }
-},{}],438:[function(_dereq_,module,exports){
+},{}],446:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -57358,7 +56790,7 @@ module.exports.VRDevice = VRDevice;
 module.exports.HMDVRDevice = HMDVRDevice;
 module.exports.PositionSensorVRDevice = PositionSensorVRDevice;
 
-},{"./util.js":458,"./wakelock.js":460}],439:[function(_dereq_,module,exports){
+},{"./util.js":466,"./wakelock.js":468}],447:[function(_dereq_,module,exports){
 /*
  * Copyright 2016 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -58008,7 +57440,7 @@ CardboardDistorter.prototype.getOwnPropertyDescriptor_ = function(proto, attrNam
 
 module.exports = CardboardDistorter;
 
-},{"./cardboard-ui.js":440,"./deps/wglu-preserve-state.js":442,"./util.js":458}],440:[function(_dereq_,module,exports){
+},{"./cardboard-ui.js":448,"./deps/wglu-preserve-state.js":450,"./util.js":466}],448:[function(_dereq_,module,exports){
 /*
  * Copyright 2016 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -58295,7 +57727,7 @@ CardboardUI.prototype.renderNoState = function() {
 
 module.exports = CardboardUI;
 
-},{"./deps/wglu-preserve-state.js":442,"./util.js":458}],441:[function(_dereq_,module,exports){
+},{"./deps/wglu-preserve-state.js":450,"./util.js":466}],449:[function(_dereq_,module,exports){
 /*
  * Copyright 2016 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -58579,7 +58011,7 @@ CardboardVRDisplay.prototype.fireVRDisplayDeviceParamsChange_ = function() {
 
 module.exports = CardboardVRDisplay;
 
-},{"./base.js":438,"./cardboard-distorter.js":439,"./cardboard-ui.js":440,"./device-info.js":443,"./dpdb/dpdb.js":447,"./rotate-instructions.js":452,"./sensor-fusion/fusion-pose-sensor.js":454,"./util.js":458,"./viewer-selector.js":459}],442:[function(_dereq_,module,exports){
+},{"./base.js":446,"./cardboard-distorter.js":447,"./cardboard-ui.js":448,"./device-info.js":451,"./dpdb/dpdb.js":455,"./rotate-instructions.js":460,"./sensor-fusion/fusion-pose-sensor.js":462,"./util.js":466,"./viewer-selector.js":467}],450:[function(_dereq_,module,exports){
 /**
  * Copyright (c) 2016, Brandon Jones.
  * https://github.com/toji/webgl-utils/blob/master/src/wglu-preserve-state.js
@@ -58692,7 +58124,7 @@ function WGLUPreserveGLState(gl, bindings, callback) {
 
 module.exports = WGLUPreserveGLState;
 
-},{}],443:[function(_dereq_,module,exports){
+},{}],451:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -59059,7 +58491,7 @@ function CardboardViewer(params) {
 DeviceInfo.Viewers = Viewers;
 module.exports = DeviceInfo;
 
-},{"./distortion/distortion.js":445,"./math-util.js":449,"./util.js":458}],444:[function(_dereq_,module,exports){
+},{"./distortion/distortion.js":453,"./math-util.js":457,"./util.js":466}],452:[function(_dereq_,module,exports){
 /*
  * Copyright 2016 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -59151,7 +58583,7 @@ module.exports.VRDisplayHMDDevice = VRDisplayHMDDevice;
 module.exports.VRDisplayPositionSensorDevice = VRDisplayPositionSensorDevice;
 
 
-},{"./base.js":438}],445:[function(_dereq_,module,exports){
+},{"./base.js":446}],453:[function(_dereq_,module,exports){
 /**
  * TODO(smus): Implement coefficient inversion.
  */
@@ -59201,50 +58633,50 @@ Distortion.prototype.distort = function(radius) {
 
 module.exports = Distortion;
 
-},{}],446:[function(_dereq_,module,exports){
+},{}],454:[function(_dereq_,module,exports){
 module.exports={
-  "format":1,
-  "last_updated":"2017-01-12T08:41:55Z",
-  "devices":[
+  "format": 1,
+  "last_updated": "2017-06-01T22:33:42Z",
+  "devices": [
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"asus/*/Nexus 7/*"
+          "mdmh": "asus/*/Nexus 7/*"
         },
         {
-          "ua":"Nexus 7"
+          "ua": "Nexus 7"
         }
       ],
-      "dpi":[
+      "dpi": [
         320.8,
         323
       ],
-      "bw":3,
-      "ac":500
-    },
-    {
-      "type":"android",
-      "rules":[
-        {
-          "mdmh":"asus/*/ASUS_Z00AD/*"
-        },
-        {
-          "ua":"ASUS_Z00AD"
-        }
-      ],
-      "dpi":[
-        403,
-        404.6
-      ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 500
     },
     {
       "type": "android",
       "rules": [
         {
-          "mdmh": "Google//Pixel XL/"
+          "mdmh": "asus/*/ASUS_Z00AD/*"
+        },
+        {
+          "ua": "ASUS_Z00AD"
+        }
+      ],
+      "dpi": [
+        403,
+        404.6
+      ],
+      "bw": 3,
+      "ac": 1000
+    },
+    {
+      "type": "android",
+      "rules": [
+        {
+          "mdmh": "Google/*/Pixel XL/*"
         },
         {
           "ua": "Pixel XL"
@@ -59261,7 +58693,7 @@ module.exports={
       "type": "android",
       "rules": [
         {
-          "mdmh": "Google//Pixel/"
+          "mdmh": "Google/*/Pixel/*"
         },
         {
           "ua": "Pixel"
@@ -59275,556 +58707,556 @@ module.exports={
       "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"HTC/*/HTC6435LVW/*"
+          "mdmh": "HTC/*/HTC6435LVW/*"
         },
         {
-          "ua":"HTC6435LVW"
+          "ua": "HTC6435LVW"
         }
       ],
-      "dpi":[
+      "dpi": [
         449.7,
         443.3
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"HTC/*/HTC One XL/*"
+          "mdmh": "HTC/*/HTC One XL/*"
         },
         {
-          "ua":"HTC One XL"
+          "ua": "HTC One XL"
         }
       ],
-      "dpi":[
+      "dpi": [
         315.3,
         314.6
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"htc/*/Nexus 9/*"
+          "mdmh": "htc/*/Nexus 9/*"
         },
         {
-          "ua":"Nexus 9"
+          "ua": "Nexus 9"
         }
       ],
-      "dpi":289,
-      "bw":3,
-      "ac":500
+      "dpi": 289,
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"HTC/*/HTC One M9/*"
+          "mdmh": "HTC/*/HTC One M9/*"
         },
         {
-          "ua":"HTC One M9"
+          "ua": "HTC One M9"
         }
       ],
-      "dpi":[
+      "dpi": [
         442.5,
         443.3
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"HTC/*/HTC One_M8/*"
+          "mdmh": "HTC/*/HTC One_M8/*"
         },
         {
-          "ua":"HTC One_M8"
+          "ua": "HTC One_M8"
         }
       ],
-      "dpi":[
+      "dpi": [
         449.7,
         447.4
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"HTC/*/HTC One/*"
+          "mdmh": "HTC/*/HTC One/*"
         },
         {
-          "ua":"HTC One"
+          "ua": "HTC One"
         }
       ],
-      "dpi":472.8,
-      "bw":3,
-      "ac":1000
+      "dpi": 472.8,
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"Huawei/*/Nexus 6P/*"
+          "mdmh": "Huawei/*/Nexus 6P/*"
         },
         {
-          "ua":"Nexus 6P"
+          "ua": "Nexus 6P"
         }
       ],
-      "dpi":[
+      "dpi": [
         515.1,
         518
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/Nexus 5X/*"
+          "mdmh": "LGE/*/Nexus 5X/*"
         },
         {
-          "ua":"Nexus 5X"
+          "ua": "Nexus 5X"
         }
       ],
-      "dpi":[
+      "dpi": [
         422,
         419.9
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/LGMS345/*"
+          "mdmh": "LGE/*/LGMS345/*"
         },
         {
-          "ua":"LGMS345"
+          "ua": "LGMS345"
         }
       ],
-      "dpi":[
+      "dpi": [
         221.7,
         219.1
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/LG-D800/*"
+          "mdmh": "LGE/*/LG-D800/*"
         },
         {
-          "ua":"LG-D800"
+          "ua": "LG-D800"
         }
       ],
-      "dpi":[
+      "dpi": [
         422,
         424.1
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/LG-D850/*"
+          "mdmh": "LGE/*/LG-D850/*"
         },
         {
-          "ua":"LG-D850"
+          "ua": "LG-D850"
         }
       ],
-      "dpi":[
+      "dpi": [
         537.9,
         541.9
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/VS985 4G/*"
+          "mdmh": "LGE/*/VS985 4G/*"
         },
         {
-          "ua":"VS985 4G"
+          "ua": "VS985 4G"
         }
       ],
-      "dpi":[
+      "dpi": [
         537.9,
         535.6
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/Nexus 5/*"
+          "mdmh": "LGE/*/Nexus 5/*"
         },
         {
-          "ua":"Nexus 5 B"
+          "ua": "Nexus 5 B"
         }
       ],
-      "dpi":[
+      "dpi": [
         442.4,
         444.8
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/Nexus 4/*"
+          "mdmh": "LGE/*/Nexus 4/*"
         },
         {
-          "ua":"Nexus 4"
+          "ua": "Nexus 4"
         }
       ],
-      "dpi":[
+      "dpi": [
         319.8,
         318.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/LG-P769/*"
+          "mdmh": "LGE/*/LG-P769/*"
         },
         {
-          "ua":"LG-P769"
+          "ua": "LG-P769"
         }
       ],
-      "dpi":[
+      "dpi": [
         240.6,
         247.5
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/LGMS323/*"
+          "mdmh": "LGE/*/LGMS323/*"
         },
         {
-          "ua":"LGMS323"
+          "ua": "LGMS323"
         }
       ],
-      "dpi":[
+      "dpi": [
         206.6,
         204.6
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"LGE/*/LGLS996/*"
+          "mdmh": "LGE/*/LGLS996/*"
         },
         {
-          "ua":"LGLS996"
+          "ua": "LGLS996"
         }
       ],
-      "dpi":[
+      "dpi": [
         403.4,
         401.5
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"Micromax/*/4560MMX/*"
+          "mdmh": "Micromax/*/4560MMX/*"
         },
         {
-          "ua":"4560MMX"
+          "ua": "4560MMX"
         }
       ],
-      "dpi":[
+      "dpi": [
         240,
         219.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"Micromax/*/A250/*"
+          "mdmh": "Micromax/*/A250/*"
         },
         {
-          "ua":"Micromax A250"
+          "ua": "Micromax A250"
         }
       ],
-      "dpi":[
+      "dpi": [
         480,
         446.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"Micromax/*/Micromax AQ4501/*"
+          "mdmh": "Micromax/*/Micromax AQ4501/*"
         },
         {
-          "ua":"Micromax AQ4501"
+          "ua": "Micromax AQ4501"
         }
       ],
-      "dpi":240,
-      "bw":3,
-      "ac":500
+      "dpi": 240,
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/DROID RAZR/*"
+          "mdmh": "motorola/*/DROID RAZR/*"
         },
         {
-          "ua":"DROID RAZR"
+          "ua": "DROID RAZR"
         }
       ],
-      "dpi":[
+      "dpi": [
         368.1,
         256.7
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT830C/*"
+          "mdmh": "motorola/*/XT830C/*"
         },
         {
-          "ua":"XT830C"
+          "ua": "XT830C"
         }
       ],
-      "dpi":[
+      "dpi": [
         254,
         255.9
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1021/*"
+          "mdmh": "motorola/*/XT1021/*"
         },
         {
-          "ua":"XT1021"
+          "ua": "XT1021"
         }
       ],
-      "dpi":[
+      "dpi": [
         254,
         256.7
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1023/*"
+          "mdmh": "motorola/*/XT1023/*"
         },
         {
-          "ua":"XT1023"
+          "ua": "XT1023"
         }
       ],
-      "dpi":[
+      "dpi": [
         254,
         256.7
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1028/*"
+          "mdmh": "motorola/*/XT1028/*"
         },
         {
-          "ua":"XT1028"
+          "ua": "XT1028"
         }
       ],
-      "dpi":[
+      "dpi": [
         326.6,
         327.6
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1034/*"
+          "mdmh": "motorola/*/XT1034/*"
         },
         {
-          "ua":"XT1034"
+          "ua": "XT1034"
         }
       ],
-      "dpi":[
+      "dpi": [
         326.6,
         328.4
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1053/*"
+          "mdmh": "motorola/*/XT1053/*"
         },
         {
-          "ua":"XT1053"
+          "ua": "XT1053"
         }
       ],
-      "dpi":[
+      "dpi": [
         315.3,
         316.1
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1562/*"
+          "mdmh": "motorola/*/XT1562/*"
         },
         {
-          "ua":"XT1562"
+          "ua": "XT1562"
         }
       ],
-      "dpi":[
+      "dpi": [
         403.4,
         402.7
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/Nexus 6/*"
+          "mdmh": "motorola/*/Nexus 6/*"
         },
         {
-          "ua":"Nexus 6 B"
+          "ua": "Nexus 6 B"
         }
       ],
-      "dpi":[
+      "dpi": [
         494.3,
         489.7
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1063/*"
+          "mdmh": "motorola/*/XT1063/*"
         },
         {
-          "ua":"XT1063"
+          "ua": "XT1063"
         }
       ],
-      "dpi":[
+      "dpi": [
         295,
         296.6
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1064/*"
+          "mdmh": "motorola/*/XT1064/*"
         },
         {
-          "ua":"XT1064"
+          "ua": "XT1064"
         }
       ],
-      "dpi":[
+      "dpi": [
         295,
         295.6
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1092/*"
+          "mdmh": "motorola/*/XT1092/*"
         },
         {
-          "ua":"XT1092"
+          "ua": "XT1092"
         }
       ],
-      "dpi":[
+      "dpi": [
         422,
         424.1
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"motorola/*/XT1095/*"
+          "mdmh": "motorola/*/XT1095/*"
         },
         {
-          "ua":"XT1095"
+          "ua": "XT1095"
         }
       ],
-      "dpi":[
+      "dpi": [
         422,
         423.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
       "type": "android",
@@ -59836,631 +59268,648 @@ module.exports={
           "ua": "Moto G (4)"
         }
       ],
-      "dpi": 401.0,
+      "dpi": 401,
       "bw": 4,
       "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"OnePlus/*/A0001/*"
+          "mdmh": "OnePlus/*/A0001/*"
         },
         {
-          "ua":"A0001"
+          "ua": "A0001"
         }
       ],
-      "dpi":[
+      "dpi": [
         403.4,
         401
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"OnePlus/*/ONE E1005/*"
+          "mdmh": "OnePlus/*/ONE E1005/*"
         },
         {
-          "ua":"ONE E1005"
+          "ua": "ONE E1005"
         }
       ],
-      "dpi":[
+      "dpi": [
         442.4,
         441.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"OnePlus/*/ONE A2005/*"
+          "mdmh": "OnePlus/*/ONE A2005/*"
         },
         {
-          "ua":"ONE A2005"
+          "ua": "ONE A2005"
         }
       ],
-      "dpi":[
+      "dpi": [
         391.9,
         405.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"OPPO/*/X909/*"
+          "mdmh": "OPPO/*/X909/*"
         },
         {
-          "ua":"X909"
+          "ua": "X909"
         }
       ],
-      "dpi":[
+      "dpi": [
         442.4,
         444.1
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/GT-I9082/*"
+          "mdmh": "samsung/*/GT-I9082/*"
         },
         {
-          "ua":"GT-I9082"
+          "ua": "GT-I9082"
         }
       ],
-      "dpi":[
+      "dpi": [
         184.7,
         185.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G360P/*"
+          "mdmh": "samsung/*/SM-G360P/*"
         },
         {
-          "ua":"SM-G360P"
+          "ua": "SM-G360P"
         }
       ],
-      "dpi":[
+      "dpi": [
         196.7,
         205.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/Nexus S/*"
+          "mdmh": "samsung/*/Nexus S/*"
         },
         {
-          "ua":"Nexus S"
+          "ua": "Nexus S"
         }
       ],
-      "dpi":[
+      "dpi": [
         234.5,
         229.8
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/GT-I9300/*"
+          "mdmh": "samsung/*/GT-I9300/*"
         },
         {
-          "ua":"GT-I9300"
+          "ua": "GT-I9300"
         }
       ],
-      "dpi":[
+      "dpi": [
         304.8,
         303.9
       ],
-      "bw":5,
-      "ac":500
+      "bw": 5,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-T230NU/*"
+          "mdmh": "samsung/*/SM-T230NU/*"
         },
         {
-          "ua":"SM-T230NU"
+          "ua": "SM-T230NU"
         }
       ],
-      "dpi":216,
-      "bw":3,
-      "ac":500
+      "dpi": 216,
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SGH-T399/*"
+          "mdmh": "samsung/*/SGH-T399/*"
         },
         {
-          "ua":"SGH-T399"
+          "ua": "SGH-T399"
         }
       ],
-      "dpi":[
+      "dpi": [
         217.7,
         231.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-N9005/*"
+          "mdmh": "samsung/*/SGH-M919/*"
         },
         {
-          "ua":"SM-N9005"
+          "ua": "SGH-M919"
         }
       ],
-      "dpi":[
+      "dpi": [
+        440.8,
+        437.7
+      ],
+      "bw": 3,
+      "ac": 1000
+    },
+    {
+      "type": "android",
+      "rules": [
+        {
+          "mdmh": "samsung/*/SM-N9005/*"
+        },
+        {
+          "ua": "SM-N9005"
+        }
+      ],
+      "dpi": [
         386.4,
         387
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SAMSUNG-SM-N900A/*"
+          "mdmh": "samsung/*/SAMSUNG-SM-N900A/*"
         },
         {
-          "ua":"SAMSUNG-SM-N900A"
+          "ua": "SAMSUNG-SM-N900A"
         }
       ],
-      "dpi":[
+      "dpi": [
         386.4,
         387.7
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/GT-I9500/*"
+          "mdmh": "samsung/*/GT-I9500/*"
         },
         {
-          "ua":"GT-I9500"
+          "ua": "GT-I9500"
         }
       ],
-      "dpi":[
+      "dpi": [
         442.5,
         443.3
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/GT-I9505/*"
+          "mdmh": "samsung/*/GT-I9505/*"
         },
         {
-          "ua":"GT-I9505"
+          "ua": "GT-I9505"
         }
       ],
-      "dpi":439.4,
-      "bw":4,
-      "ac":1000
+      "dpi": 439.4,
+      "bw": 4,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G900F/*"
+          "mdmh": "samsung/*/SM-G900F/*"
         },
         {
-          "ua":"SM-G900F"
+          "ua": "SM-G900F"
         }
       ],
-      "dpi":[
+      "dpi": [
         415.6,
         431.6
       ],
-      "bw":5,
-      "ac":1000
+      "bw": 5,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G900M/*"
+          "mdmh": "samsung/*/SM-G900M/*"
         },
         {
-          "ua":"SM-G900M"
+          "ua": "SM-G900M"
         }
       ],
-      "dpi":[
+      "dpi": [
         415.6,
         431.6
       ],
-      "bw":5,
-      "ac":1000
+      "bw": 5,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G800F/*"
+          "mdmh": "samsung/*/SM-G800F/*"
         },
         {
-          "ua":"SM-G800F"
+          "ua": "SM-G800F"
         }
       ],
-      "dpi":326.8,
-      "bw":3,
-      "ac":1000
+      "dpi": 326.8,
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G906S/*"
+          "mdmh": "samsung/*/SM-G906S/*"
         },
         {
-          "ua":"SM-G906S"
+          "ua": "SM-G906S"
         }
       ],
-      "dpi":[
+      "dpi": [
         562.7,
         572.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/GT-I9300/*"
+          "mdmh": "samsung/*/GT-I9300/*"
         },
         {
-          "ua":"GT-I9300"
+          "ua": "GT-I9300"
         }
       ],
-      "dpi":[
+      "dpi": [
         306.7,
         304.8
       ],
-      "bw":5,
-      "ac":1000
+      "bw": 5,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-T535/*"
+          "mdmh": "samsung/*/SM-T535/*"
         },
         {
-          "ua":"SM-T535"
+          "ua": "SM-T535"
         }
       ],
-      "dpi":[
+      "dpi": [
         142.6,
         136.4
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-N920C/*"
+          "mdmh": "samsung/*/SM-N920C/*"
         },
         {
-          "ua":"SM-N920C"
+          "ua": "SM-N920C"
         }
       ],
-      "dpi":[
+      "dpi": [
         515.1,
         518.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-       "type": "android",
-       "rules": [
-         {
-           "mdmh": "samsung/*/SM-N920W8/*"
-         },
-         {
-           "ua": "SM-N920W8"
-         }
-       ],
-       "dpi": [
-         515.1,
-         518.4
-       ],
-       "bw": 3,
-       "ac": 1000
-     },
-    {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/GT-I9300I/*"
+          "mdmh": "samsung/*/SM-N920W8/*"
         },
         {
-          "ua":"GT-I9300I"
+          "ua": "SM-N920W8"
         }
       ],
-      "dpi":[
+      "dpi": [
+        515.1,
+        518.4
+      ],
+      "bw": 3,
+      "ac": 1000
+    },
+    {
+      "type": "android",
+      "rules": [
+        {
+          "mdmh": "samsung/*/GT-I9300I/*"
+        },
+        {
+          "ua": "GT-I9300I"
+        }
+      ],
+      "dpi": [
         304.8,
         305.8
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/GT-I9195/*"
+          "mdmh": "samsung/*/GT-I9195/*"
         },
         {
-          "ua":"GT-I9195"
+          "ua": "GT-I9195"
         }
       ],
-      "dpi":[
+      "dpi": [
         249.4,
         256.7
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SPH-L520/*"
+          "mdmh": "samsung/*/SPH-L520/*"
         },
         {
-          "ua":"SPH-L520"
+          "ua": "SPH-L520"
         }
       ],
-      "dpi":[
+      "dpi": [
         249.4,
         255.9
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SAMSUNG-SGH-I717/*"
+          "mdmh": "samsung/*/SAMSUNG-SGH-I717/*"
         },
         {
-          "ua":"SAMSUNG-SGH-I717"
+          "ua": "SAMSUNG-SGH-I717"
         }
       ],
-      "dpi":285.8,
-      "bw":3,
-      "ac":1000
+      "dpi": 285.8,
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SPH-D710/*"
+          "mdmh": "samsung/*/SPH-D710/*"
         },
         {
-          "ua":"SPH-D710"
+          "ua": "SPH-D710"
         }
       ],
-      "dpi":[
+      "dpi": [
         217.7,
         204.2
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/GT-N7100/*"
+          "mdmh": "samsung/*/GT-N7100/*"
         },
         {
-          "ua":"GT-N7100"
+          "ua": "GT-N7100"
         }
       ],
-      "dpi":265.1,
-      "bw":3,
-      "ac":1000
+      "dpi": 265.1,
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SCH-I605/*"
+          "mdmh": "samsung/*/SCH-I605/*"
         },
         {
-          "ua":"SCH-I605"
+          "ua": "SCH-I605"
         }
       ],
-      "dpi":265.1,
-      "bw":3,
-      "ac":1000
+      "dpi": 265.1,
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/Galaxy Nexus/*"
+          "mdmh": "samsung/*/Galaxy Nexus/*"
         },
         {
-          "ua":"Galaxy Nexus"
+          "ua": "Galaxy Nexus"
         }
       ],
-      "dpi":[
+      "dpi": [
         315.3,
         314.2
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-N910H/*"
+          "mdmh": "samsung/*/SM-N910H/*"
         },
         {
-          "ua":"SM-N910H"
+          "ua": "SM-N910H"
         }
       ],
-      "dpi":[
+      "dpi": [
         515.1,
         518
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-N910C/*"
+          "mdmh": "samsung/*/SM-N910C/*"
         },
         {
-          "ua":"SM-N910C"
+          "ua": "SM-N910C"
         }
       ],
-      "dpi":[
+      "dpi": [
         515.2,
         520.2
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G130M/*"
+          "mdmh": "samsung/*/SM-G130M/*"
         },
         {
-          "ua":"SM-G130M"
+          "ua": "SM-G130M"
         }
       ],
-      "dpi":[
+      "dpi": [
         165.9,
         164.8
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G928I/*"
+          "mdmh": "samsung/*/SM-G928I/*"
         },
         {
-          "ua":"SM-G928I"
+          "ua": "SM-G928I"
         }
       ],
-      "dpi":[
+      "dpi": [
         515.1,
         518.4
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G920F/*"
+          "mdmh": "samsung/*/SM-G920F/*"
         },
         {
-          "ua":"SM-G920F"
+          "ua": "SM-G920F"
         }
       ],
-      "dpi":580.6,
-      "bw":3,
-      "ac":500
+      "dpi": 580.6,
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G920P/*"
+          "mdmh": "samsung/*/SM-G920P/*"
         },
         {
-          "ua":"SM-G920P"
+          "ua": "SM-G920P"
         }
       ],
-      "dpi":[
+      "dpi": [
         522.5,
         577
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G925F/*"
+          "mdmh": "samsung/*/SM-G925F/*"
         },
         {
-          "ua":"SM-G925F"
+          "ua": "SM-G925F"
         }
       ],
-      "dpi":580.6,
-      "bw":3,
-      "ac":500
+      "dpi": 580.6,
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G925V/*"
+          "mdmh": "samsung/*/SM-G925V/*"
         },
         {
-          "ua":"SM-G925V"
+          "ua": "SM-G925V"
         }
       ],
-      "dpi":[
+      "dpi": [
         522.5,
         576.6
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
       "type": "android",
@@ -60477,238 +59926,237 @@ module.exports={
       "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"samsung/*/SM-G935F/*"
+          "mdmh": "samsung/*/SM-G935F/*"
         },
         {
-          "ua":"SM-G935F"
+          "ua": "SM-G935F"
         }
       ],
-      "dpi":533,
-      "bw":3,
-      "ac":500
+      "dpi": 533,
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"Sony/*/C6903/*"
+          "mdmh": "Sony/*/C6903/*"
         },
         {
-          "ua":"C6903"
+          "ua": "C6903"
         }
       ],
-      "dpi":[
+      "dpi": [
         442.5,
         443.3
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"Sony/*/D6653/*"
+          "mdmh": "Sony/*/D6653/*"
         },
         {
-          "ua":"D6653"
+          "ua": "D6653"
         }
       ],
-      "dpi":[
+      "dpi": [
         428.6,
         427.6
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"Sony/*/E6653/*"
+          "mdmh": "Sony/*/E6653/*"
         },
         {
-          "ua":"E6653"
+          "ua": "E6653"
         }
       ],
-      "dpi":[
+      "dpi": [
         428.6,
         425.7
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"Sony/*/E6853/*"
+          "mdmh": "Sony/*/E6853/*"
         },
         {
-          "ua":"E6853"
+          "ua": "E6853"
         }
       ],
-      "dpi":[
+      "dpi": [
         403.4,
         401.9
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"Sony/*/SGP321/*"
+          "mdmh": "Sony/*/SGP321/*"
         },
         {
-          "ua":"SGP321"
+          "ua": "SGP321"
         }
       ],
-      "dpi":[
+      "dpi": [
         224.7,
         224.1
       ],
-      "bw":3,
-      "ac":500
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"TCT/*/ALCATEL ONE TOUCH Fierce/*"
+          "mdmh": "TCT/*/ALCATEL ONE TOUCH Fierce/*"
         },
         {
-          "ua":"ALCATEL ONE TOUCH Fierce"
+          "ua": "ALCATEL ONE TOUCH Fierce"
         }
       ],
-      "dpi":[
+      "dpi": [
         240,
         247.5
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"THL/*/thl 5000/*"
+          "mdmh": "THL/*/thl 5000/*"
         },
         {
-          "ua":"thl 5000"
+          "ua": "thl 5000"
         }
       ],
-      "dpi":[
+      "dpi": [
         480,
         443.3
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"android",
-      "rules":[
+      "type": "android",
+      "rules": [
         {
-          "mdmh":"ZTE/*/ZTE Blade L2/*"
+          "mdmh": "ZTE/*/ZTE Blade L2/*"
         },
         {
-          "ua":"ZTE Blade L2"
+          "ua": "ZTE Blade L2"
         }
       ],
-      "dpi":240,
-      "bw":3,
-      "ac":500
+      "dpi": 240,
+      "bw": 3,
+      "ac": 500
     },
     {
-      "type":"ios",
-      "rules":[
+      "type": "ios",
+      "rules": [
         {
-          "res":[
+          "res": [
             640,
             960
           ]
         }
       ],
-      "dpi":[
+      "dpi": [
         325.1,
         328.4
       ],
-      "bw":4,
-      "ac":1000
+      "bw": 4,
+      "ac": 1000
     },
     {
-      "type":"ios",
-      "rules":[
+      "type": "ios",
+      "rules": [
         {
-          "res":[
+          "res": [
             640,
             1136
           ]
         }
       ],
-      "dpi":[
+      "dpi": [
         317.1,
         320.2
       ],
-      "bw":3,
-      "ac":1000
+      "bw": 3,
+      "ac": 1000
     },
     {
-      "type":"ios",
-      "rules":[
+      "type": "ios",
+      "rules": [
         {
-          "res":[
+          "res": [
             750,
             1334
           ]
         }
       ],
-      "dpi":326.4,
-      "bw":4,
-      "ac":1000
+      "dpi": 326.4,
+      "bw": 4,
+      "ac": 1000
     },
     {
-      "type":"ios",
-      "rules":[
+      "type": "ios",
+      "rules": [
         {
-          "res":[
+          "res": [
             1242,
             2208
           ]
         }
       ],
-      "dpi":[
+      "dpi": [
         453.6,
         458.4
       ],
-      "bw":4,
-      "ac":1000
+      "bw": 4,
+      "ac": 1000
     },
     {
-      "type":"ios",
-      "rules":[
+      "type": "ios",
+      "rules": [
         {
-          "res":[
+          "res": [
             1125,
             2001
           ]
         }
       ],
-      "dpi":[
+      "dpi": [
         410.9,
         415.4
       ],
-      "bw":4,
-      "ac":1000
+      "bw": 4,
+      "ac": 1000
     }
   ]
 }
-
-},{}],447:[function(_dereq_,module,exports){
+},{}],455:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60890,7 +60338,7 @@ function DeviceParams(params) {
 
 module.exports = Dpdb;
 
-},{"../util.js":458,"./dpdb.json":446}],448:[function(_dereq_,module,exports){
+},{"../util.js":466,"./dpdb.json":454}],456:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60983,7 +60431,7 @@ if (!window.WebVRConfig.DEFER_INITIALIZATION) {
 
 window.WebVRPolyfill = WebVRPolyfill;
 
-},{"./util.js":458,"./webvr-polyfill.js":461}],449:[function(_dereq_,module,exports){
+},{"./util.js":466,"./webvr-polyfill.js":469}],457:[function(_dereq_,module,exports){
 /*
  * Copyright 2016 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61342,7 +60790,7 @@ MathUtil.Quaternion.prototype = {
 
 module.exports = MathUtil;
 
-},{}],450:[function(_dereq_,module,exports){
+},{}],458:[function(_dereq_,module,exports){
 /*
  * Copyright 2016 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61521,11 +60969,11 @@ MouseKeyboardVRDisplay.prototype.resetPose = function() {
 
 module.exports = MouseKeyboardVRDisplay;
 
-},{"./base.js":438,"./math-util.js":449,"./util.js":458}],451:[function(_dereq_,module,exports){
+},{"./base.js":446,"./math-util.js":457,"./util.js":466}],459:[function(_dereq_,module,exports){
 (function (global){
 // This is the entry point if requiring/importing via node, or
 // a build tool that uses package.json entry (like browserify, webpack).
-// If running in node with a window mock available, globalize it's members
+// If running in node with a window mock available, globalize its members
 // if needed. Otherwise, just continue to `./main`
 if (typeof global !== 'undefined' && global.window) {
   global.document = global.window.document;
@@ -61535,7 +60983,7 @@ if (typeof global !== 'undefined' && global.window) {
 _dereq_('./main');
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./main":448}],452:[function(_dereq_,module,exports){
+},{"./main":456}],460:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61681,7 +61129,7 @@ RotateInstructions.prototype.loadIcon_ = function() {
 
 module.exports = RotateInstructions;
 
-},{"./util.js":458}],453:[function(_dereq_,module,exports){
+},{"./util.js":466}],461:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -61849,7 +61297,7 @@ ComplementaryFilter.prototype.gyroToQuaternionDelta_ = function(gyro, dt) {
 
 module.exports = ComplementaryFilter;
 
-},{"../math-util.js":449,"../util.js":458,"./sensor-sample.js":456}],454:[function(_dereq_,module,exports){
+},{"../math-util.js":457,"../util.js":466,"./sensor-sample.js":464}],462:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62080,7 +61528,7 @@ FusionPoseSensor.prototype.stop = function() {
 
 module.exports = FusionPoseSensor;
 
-},{"../math-util.js":449,"../touch-panner.js":457,"../util.js":458,"./complementary-filter.js":453,"./pose-predictor.js":455}],455:[function(_dereq_,module,exports){
+},{"../math-util.js":457,"../touch-panner.js":465,"../util.js":466,"./complementary-filter.js":461,"./pose-predictor.js":463}],463:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62163,7 +61611,7 @@ PosePredictor.prototype.getPrediction = function(currentQ, gyro, timestampS) {
 
 module.exports = PosePredictor;
 
-},{"../math-util":449,"../util":458}],456:[function(_dereq_,module,exports){
+},{"../math-util":457,"../util":466}],464:[function(_dereq_,module,exports){
 function SensorSample(sample, timestampS) {
   this.set(sample, timestampS);
 };
@@ -62179,7 +61627,7 @@ SensorSample.prototype.copy = function(sensorSample) {
 
 module.exports = SensorSample;
 
-},{}],457:[function(_dereq_,module,exports){
+},{}],465:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62259,7 +61707,7 @@ TouchPanner.prototype.onTouchEnd_ = function(e) {
 
 module.exports = TouchPanner;
 
-},{"./math-util.js":449,"./util.js":458}],458:[function(_dereq_,module,exports){
+},{"./math-util.js":457,"./util.js":466}],466:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62734,7 +62182,7 @@ Util.getDomainFromUrl = function(url) {
 
 module.exports = Util;
 
-},{}],459:[function(_dereq_,module,exports){
+},{}],467:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62947,7 +62395,7 @@ ViewerSelector.prototype.createButton_ = function(label, onclick) {
 
 module.exports = ViewerSelector;
 
-},{"./device-info.js":443,"./util.js":458}],460:[function(_dereq_,module,exports){
+},{"./device-info.js":451,"./util.js":466}],468:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -63026,7 +62474,7 @@ function getWakeLock() {
 }
 
 module.exports = getWakeLock();
-},{"./util.js":458}],461:[function(_dereq_,module,exports){
+},{"./util.js":466}],469:[function(_dereq_,module,exports){
 /*
  * Copyright 2015 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -63137,11 +62585,17 @@ WebVRPolyfill.prototype.enablePolyfill = function() {
 
   // Polyfill native VRDisplay.getFrameData
   if (this.nativeWebVRAvailable && window.VRFrameData) {
+    var NativeVRFrameData = window.VRFrameData;
     var nativeFrameData = new window.VRFrameData();
     var nativeGetFrameData = window.VRDisplay.prototype.getFrameData;
     window.VRFrameData = VRFrameData;
 
     window.VRDisplay.prototype.getFrameData = function(frameData) {
+      if (frameData instanceof NativeVRFrameData) {
+        nativeGetFrameData.call(this, frameData);
+        return;
+      }
+
       /*
       Copy frame data from the native object into the polyfilled object.
       */
@@ -63258,6 +62712,8 @@ WebVRPolyfill.prototype.getVRDevices = function() {
   });
 };
 
+WebVRPolyfill.prototype.NativeVRFrameData = window.VRFrameData;
+
 /**
  * Determine if a device is mobile.
  */
@@ -63301,11 +62757,12 @@ function InstallWebVRSpecShim() {
   }
 };
 
+WebVRPolyfill.InstallWebVRSpecShim = InstallWebVRSpecShim;
 WebVRPolyfill.version = version;
 
 module.exports.WebVRPolyfill = WebVRPolyfill;
 
-},{"../package.json":437,"./base.js":438,"./cardboard-vr-display.js":441,"./display-wrappers.js":444,"./mouse-keyboard-vr-display.js":450,"./util.js":458}],462:[function(_dereq_,module,exports){
+},{"../package.json":445,"./base.js":446,"./cardboard-vr-display.js":449,"./display-wrappers.js":452,"./mouse-keyboard-vr-display.js":458,"./util.js":466}],470:[function(_dereq_,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -63326,7 +62783,7 @@ function extend() {
     return target
 }
 
-},{}],463:[function(_dereq_,module,exports){
+},{}],471:[function(_dereq_,module,exports){
 module.exports = _dereq_('cwise-compiler')({
     args: ['array', {
         offset: [1],
@@ -63378,7 +62835,7 @@ module.exports = _dereq_('cwise-compiler')({
     funcName: 'zeroCrossings'
 })
 
-},{"cwise-compiler":144}],464:[function(_dereq_,module,exports){
+},{"cwise-compiler":150}],472:[function(_dereq_,module,exports){
 "use strict"
 
 module.exports = findZeroCrossings
@@ -63391,5 +62848,5 @@ function findZeroCrossings(array, level) {
   core(array.hi(array.shape[0]-1), cross, level)
   return cross
 }
-},{"./lib/zc-core":463}]},{},[32])(32)
+},{"./lib/zc-core":471}]},{},[38])(38)
 });

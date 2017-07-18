@@ -84,5 +84,6 @@ export class PlaneGeometry extends Geometry {
     this.size = size
     this.quads = quads
     this.segments = segments
+    console.log(this)
   }
 }

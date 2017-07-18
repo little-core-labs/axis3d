@@ -23,30 +23,17 @@ attribute float direction;
 attribute vec3 position;
 attribute vec3 normal;
 
+varying vec3 vLocalPosition;
+varying vec3 vLocalNormal;
 varying vec3 vposition;
 varying vec3 vnormal;
 varying vec2 vuv;
-
-vec3 lerp(vec3 a, vec3 b, float t) {
-  return vec3(
-    a.x + t * (b.x - a.x),
-    a.y + t * (b.y - a.y),
-    a.z + t * (b.z - a.z)
-  );
-}
 
 //
 // Shader entry.
 //
 #pragma glslify: export(main)
 void main() {
-  // @TODO(werle) - abstract to geomorping interface
-  //float p = random(position.xy);
-  //vec3 pos = lerp(position, position + vec3(p, p, p), cos(0.5*time));
-
-  // @TODO(werle) - abstract to geomorping interface
-  //float np = random(nextPosition.yz);
-  //vec3 npos = lerp(nextPosition, nextPosition + vec3(np, np, np), sin(0.1*time));
   vec4 linePosition =
       camera.projection
     * camera.view
@@ -71,4 +58,6 @@ void main() {
   // GeometryContext
   vposition = (mesh.model * vec4(position, 1.0)).xyz;
   vnormal = normalize(mesh.modelNormal * normal);
+  vLocalPosition = position;
+  vLocalNormal = normal;
 }

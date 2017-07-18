@@ -1,9 +1,6 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
-
+import { ShaderUniforms, DynamicValue } from './gl'
 import { ensureRGBA, isArrayLike } from '../utils'
 import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
@@ -24,102 +21,28 @@ import coalesce from 'defined'
 import glslify from 'glslify'
 import vec4 from 'gl-vec4'
 
-/**
- * Next available Material ID represented
- * as an integer.
- * @private
- */
-
 let MATERIAL_COMMAND_NEXT_ID = 0x6d
 
-/**
- * The default material fragment shader.
- *
- * @public
- * @const
- * @type {String}
- * @see {@link https://www.npmjs.com/package/glslify}
- * @see {@link http://stack.gl}
- */
+export const kDefaultMaterialType = types.MaterialType
+export const kDefaultMaterialColor = new Color(100/255, 110/255, 255/255)
+export const kDefaultMaterialOpacity = 1
 
 export const kDefaultMaterialFragmentShader =
   glslify(__dirname + '/../glsl/material/fragments/main.glsl', {
     transform: ['glslify-fancy-imports']
   })
 
-/**
- * The default material opacity value.
- *
- * @public
- * @const
- * @type {Number}
- */
-
-export const kDefaultMaterialOpacity = 1
-
-/**
- * The default material color.
- *
- * @public
- * @const
- * @type {Color}
- */
-
-export const kDefaultMaterialColor = new Color(
-  100/255, 110/255, 255/255
-)
-
-/**
- * The default material type.
- *
- * @public
- * @const
- * @type {MaterialType}
- */
-
-export const kDefaultMaterialType = types.MaterialType
-
-/**
- * The default WebGL blending state for a material.
- *
- * @public
- * @const
- * @type {Object}
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#blending}
- */
-
 export const kDefaultMaterialBlendingState = {
   equation: 'add',
   enable: true,
   color: [0, 0, 0, 1],
-  func: {
-    src: 'src alpha',
-    dst: 'one minus src alpha'
-  },
+  func: { src: 'src alpha', dst: 'one minus src alpha' },
 }
-
-/**
- * The default WebGL culling state for a material.
- *
- * @public
- * @const
- * @type {Object}
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#culling}
- */
 
 export const kDefaultMaterialCullingState = {
-  enable: true,
+  enable: false,
   face: 'back',
 }
-
-/**
- * The default WebGL depth buffer state for a material.
- *
- * @public
- * @const
- * @type {Object}
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#depth-buffer}
- */
 
 export const kDefaultMaterialDepthState = {
   enable: true,
@@ -128,41 +51,10 @@ export const kDefaultMaterialDepthState = {
   mask: true,
 }
 
-/**
- * The Material class represents the base type for
- * all materials.
- *
- * @public
- * @abstract
- * @class Material
- * @extends Command
- */
-
 export class Material extends Command {
-
-  /**
-   * Returns the next material ID
-   *
-   * @public
-   * @method
-   * @static
-   * @return {Number}
-   */
-
   static id() {
     return MATERIAL_COMMAND_NEXT_ID ++
   }
-
-  /**
-   * Returns a string representation of a material type
-   * from a given type identifier.
-   *
-   * @public
-   * @static
-   * @method
-   * @param {MaterialType|Number} type
-   * @return {String}
-   */
 
   static typeName(type) {
     return coalesce(
@@ -171,15 +63,6 @@ export class Material extends Command {
       'Material')
       .replace(/Type$/, '')
   }
-
-  /**
-   * Material class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
 
   constructor(ctx, initialState = {}) {
     super(update)
@@ -190,11 +73,7 @@ export class Material extends Command {
     const {context = new MaterialContext(ctx, initialState)} = initialState
     const {state = new MaterialState(ctx, initialState)} = initialState
 
-    const injectContext = ctx.regl({
-      ...state,
-      uniforms,
-      context,
-    })
+    const injectContext = ctx.regl({ ...state, uniforms, context })
 
     const injectMapContext = ctx.regl({
       context: {
@@ -225,15 +104,8 @@ export class Material extends Command {
       block = block || function() {}
 
       const mapState = isArrayLike(state) ? {} : state
-      const envmap = coalesce(state.envmap, initialState.envmap)
-      const map = coalesce(state.map, initialState.map)
-      const fog = coalesce(state.fog, initialState.fog)
-
-      if ('function' == typeof fog) {
-        fog(() => {
-          injectContext(state, block)
-        })
-      }
+      const envmap = isArrayLike(state) ? initialState.envmap : coalesce(state.envmap, initialState.envmap)
+      const map = isArrayLike(state) ? initialState.map : coalesce(state.map, initialState.map)
 
       injectEnvmap(() => {
         injectMap(() => {
@@ -242,23 +114,13 @@ export class Material extends Command {
       })
 
       function injectEnvmap(next) {
-        if ('function' != typeof envmap) {
-          next()
-        } else {
-          envmap(() => {
-            injectEnvmapContext(next)
-          })
-        }
+        if ('function' != typeof envmap) { next() }
+        else { envmap(() => { injectEnvmapContext(next) }) }
       }
 
       function injectMap(next) {
-        if ('function' != typeof map) {
-          next()
-        } else {
-          map(() => {
-            injectMapContext(next)
-          })
-        }
+        if ('function' != typeof map) { next() }
+        else { map(() => { injectMapContext(next) }) }
       }
 
       return this
@@ -266,24 +128,7 @@ export class Material extends Command {
   }
 }
 
-/**
- * MaterialState class.
- *
- * @public
- * @class MaterialState
- */
-
 export class MaterialState {
-
-  /**
-   * MaterialState class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
-
   constructor(ctx, initialState = {}) {
     if (initialState.blending) {
       initialState.blend = initialState.blending
@@ -326,10 +171,6 @@ export class MaterialState {
       shaderDefines[`use${typeName}`] = 1 // `useLambertMaterial', etc
     }
 
-    if (null != initialState.fog) {
-      shaderDefines.HAS_FOG = 1
-    }
-
     if (null != initialState.map) {
       if ('cubetexture' === typeOf(initialState.map)) {
         shaderDefines.HAS_CUBE_MAP = 1
@@ -359,60 +200,28 @@ export class MaterialState {
       fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
     }
 
-    /**
-     * Material fragment shader source string.
-     *
-     * @public
-     * @type {String}
-     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#shaders}
-     */
-
+    console.log(fragmentShader)
     this.frag = fragmentShader
-
-    /**
-     * Blending state for a material.
-     *
-     * @public
-     * @type {Object}
-     * @see {@link kDefaultMaterialBlendingState}
-     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#blending}
-     */
-
     this.blend = {
+      equation: () => coalesce(
+        initialState.blend.equation,
+        kDefaultMaterialBlendingState.equation
+      ),
 
-      /**
-       * Blending equation.
-       *
-       * @public
-       * @property
-       * @type {String}
-       * @name blend.equation
-       */
-
-      equation() {
-        return coalesce(
-          initialState.blend.equation,
-          kDefaultMaterialBlendingState.equation)
-      },
-
-      /**
-       * Indicates if blending is enabled.
-       *
-       * @public
-       * @property
-       * @type {Boolean}
-       * @name blend.enabled
-       */
+      color: () => ensureRGBA(coalesce(
+        initialState.blend.color,
+        kDefaultMaterialBlendingState.color
+      )),
 
       enable({}, {
         blend = undefined,
         opacity = coalesce(initialState.opacity, 1),
         transparent = coalesce(initialState.transparent, false),
-
         blending = coalesce(
           blend,
           initialState.blend.enable,
-          kDefaultMaterialBlendingState.enable),
+          kDefaultMaterialBlendingState.enable
+        ),
       } = {}) {
         if (opacity < 1.0 || transparent) {
           return true
@@ -422,30 +231,6 @@ export class MaterialState {
           return transparent
         }
       },
-
-      /**
-       * Blending color
-       *
-       * @public
-       * @property
-       * @type {Array<Number>|Color|Vector4}
-       * @name blend.color
-       */
-
-      color() {
-       return ensureRGBA(coalesce(
-          initialState.blend.color,
-          kDefaultMaterialBlendingState.color))
-      },
-
-      /**
-       * Blending function
-       *
-       * @public
-       * @property
-       * @type {Object}
-       * @name blend.func
-       */
 
       func({}, {
         opacity = coalesce(initialState.opacity, 1),
@@ -461,46 +246,35 @@ export class MaterialState {
       },
     }
 
-    /**
-     * Culling state for a material.
-     *
-     * @public
-     * @type {Object}
-     * @see {@link kDefaultMaterialCullingState}
-     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#culling}
-     */
-
     this.cull = {
-      enable({}, {cull = initialState.cull.enable} = {}) {
-        return Boolean(coalesce(cull, kDefaultMaterialCullingState.enable))
-      },
+      enable: ({}, {cull} = {}) => Boolean(coalesce(
+        cull,
+        initialState.cull.enable,
+        kDefaultMaterialCullingState.enable
+      )),
 
-      face({}, {cullFace = initialState.cull.face}) {
-        return coalesce(cullFace, kDefaultMaterialCullingState.face)
-      },
+      face: ({}, {cullFace}) => coalesce(
+        cullFace,
+        initialState.cull.face,
+        kDefaultMaterialCullingState.face
+      ),
     }
 
-    /**
-     * Depth buffer state for a material.
-     *
-     * @public
-     * @type {Object}
-     * @see {@link kDefaultMaterialDepthState}
-     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#depth-buffer}
-     */
-
     this.depth = {
-      enable() {
-        return coalesce(initialState.depth.enable, kDefaultMaterialDepthState.enable)
-      },
+      enable: () => coalesce(
+        initialState.depth.enable,
+        kDefaultMaterialDepthState.enable
+      ),
 
-      range() {
-        return coalesce(initialState.depth.range, kDefaultMaterialDepthState.range)
-      },
+      range: () => coalesce(
+        initialState.depth.range,
+        kDefaultMaterialDepthState.range
+      ),
 
-      func() {
-        return coalesce(initialState.depth.func, kDefaultMaterialDepthState.func)
-      },
+      func: () => coalesce(
+        initialState.depth.func,
+        kDefaultMaterialDepthState.func
+      ),
 
       mask({}, {
         opacity = coalesce(initialState.opacity, 1),
@@ -520,273 +294,104 @@ export class MaterialState {
   }
 }
 
-/**
- * MaterialContext class.
- *
- * @public
- * @class MaterialContext
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#context}
- */
-
-export class MaterialContext {
-
-  /**
-   * MaterialContext class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D render context.
-   * @param {Object} initialState
-   */
-
+export class MaterialContext extends DynamicValue {
   constructor(ctx, initialState = {}) {
-    const {
-      type = types.MaterialType,
-    } = initialState
-
-    /**
-     * Material opacity.
-     *
-     * @public
-     * @type {Number}
-     */
-
-    this.opacity = ({}, {opacity = initialState.opacity} = {}) => {
-      return coalesce(opacity, kDefaultMaterialOpacity)
-    }
-
-    /**
-     * Material type.
-     *
-     * @public
-     * @type {Number}
-     */
-
-    this.type = () => {
-      return coalesce(type, types.MaterialType)
-    }
-
-    /**
-     * Material color value.
-     *
-     * @public
-     * @type {Color|Vector4|Array}
-     * @name material.color
-     */
-
-    this.color = ({}, {color = initialState.color} = {}) => {
-      return ensureRGBA(coalesce(color, kDefaultMaterialColor))
-    }
+    super(ctx)
+    const { type = types.MaterialType, } = initialState
+    this.type = () => coalesce(type, types.MaterialType)
+    this.color = ({}, {color} = {}) => ensureRGBA(new Color(coalesce(
+      color,
+      initialState.color,
+      kDefaultMaterialColor
+    )))
+    this.opacity = ({}, {opacity} = {}) => coalesce(
+      opacity,
+      initialState.opacity,
+      kDefaultMaterialOpacity
+    )
   }
 }
 
-/**
- * The MaterialUniforms class represents an object of
- * all injected uniforms for a material.
- *
- * @public
- * @class MaterialUniforms
- */
-
-export class MaterialUniforms {
-
-  /**
-   * MaterialUniforms class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
-
+export class MaterialUniforms extends ShaderUniforms {
   constructor(ctx, initialState = {}) {
-    const emptyTexture = ctx.regl.texture()
-    const emptyCubeTexture = ctx.regl.cube()
+    super(ctx)
+    const emptyTexture =
+         ctx.get('emptyTexture')
+      || ctx.set('emptyTexture', ctx.regl.texture())
+    const emptyCubeTexture =
+         ctx.get('emptyCubeTexture')
+      || ctx.set('emptyCubeTexture', ctx.regl.cube())
 
-    this['fog.enabled'] = ({fog}) => {
-      if (fog && true == fog.enabled) {
-        return true
-      } else {
-        return false
+    let hasMap = false
+    let hasEnvMap = false
+
+    if (null != initialState.map) {
+      if (['cubetexture', 'texture'].indexOf(typeOf(initialState.map)) > -1) {
+        hasMap = true
       }
     }
 
-    this['fog.color'] = ({fog = {}}) => {
-      return coalesce(fog.color, [1.0, 1.0, 1.0, 1.0])
-    }
-
-    this['fog.amount'] = ({fog = {}}) => {
-      return coalesce(fog.amount, 0.02)
-    }
-
-    /**
-     * Material opacity value.
-     *
-     * @public
-     * @type {Number}
-     * @name material.opacity
-     */
-
-    this['material.opacity'] = ({opacity = initialState.opacity}) => {
-      return coalesce(opacity, kDefaultMaterialOpacity)
-    }
-
-    /**
-     * Material color value.
-     *
-     * @public
-     * @type {Color|Vector4|Array}
-     * @name material.color
-     */
-
-    this['material.color'] = ({color = initialState.color}) => {
-      return coalesce(color, kDefaultMaterialColor)
-    }
-
-    /**
-     * Material type identifier.
-     *
-     * @public
-     * @type {Number}
-     * @name material.type
-     * @see {@link material/types}
-     */
-
-    this['material.type'] = ({type = initialState.type}) => {
-      return coalesce(type, kDefaultMaterialType)
-    }
-
-    /**
-     * Texture map resolution if available.
-     *
-     * @public
-     * @type {Array<Number>|Vector2}
-     */
-
-    this['map.resolution'] = ({
-      textureResolution,
-      mapTextureResolution = textureResolution
-    }) => {
-      return coalesce(mapTextureResolution, [0, 0])
-    }
-
-    /**
-     * Texture map data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['map.data'] = ({
-      texture,
-      mapTexture = texture
-    }) => {
-      let placeholder = null
-      if ('texture' == typeOf(mapTexture)) {
-        placeholder = emptyTexture
-      } else {
-        placeholder = emptyCubeTexture
-      }
-      if (null == initialState.map) {
-        return placeholder
-      } else {
-        return coalesce(mapTexture, placeholder)
+    if (null != initialState.envmap) {
+      if (['cubetexture', 'texture'].indexOf(typeOf(initialState.envmap)) > -1) {
+        hasEnvMap = true
       }
     }
 
-    /**
-     * Texture envmap resolution if available.
-     *
-     * @public
-     * @type {Array<Number>|Vector2}
-     */
+    // material uniform properties
+    /*this.set({
+      'material.opacity': ({opacity}) => coalesce(
+        opacity,
+        initialState.opacity,
+        kDefaultMaterialOpacity
+      ),
 
-    this['envmap.resolution'] = ({
-      textureResolution,
-      envmapTextureResolution = textureResolution
-    }) => {
-      return coalesce(envmapTextureResolution, [0, 0])
+      'material.color': ({color}) => coalesce(
+        color,
+        initialState.color,
+        kDefaultMaterialColor
+      ),
+
+      'material.type': ({type}) => coalesce(
+        type,
+        initialState.type,
+        kDefaultMaterialType
+      )
+    })*/
+
+    // texture map uniform properties
+    if (hasMap) {
+      this.set({
+        'map.resolution': ({textureResolution, mapTextureResolution}) => {
+          return coalesce(mapTextureResolution, textureResolution, [0, 0])
+        },
+
+        'map.data': ({texture, mapTexture = texture}) => {
+          let placeholder ='texture' == typeOf(mapTexture)
+            ? emptyTexture
+            : emptyCubeTexture
+          return null == initialState.map
+            ? placeholder
+            : coalesce(mapTexture, placeholder)
+        },
+      })
     }
 
-    /**
-     * Texture envmap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
+    // texture environment map uniform properties
+    if (hasEnvMap) {
+      this.set({
+        'envmap.resolution': ({textureResolution, envmapTextureResolution}) => {
+          return coalesce(envmapTextureResolution, textureResolution, [0, 0])
+        },
 
-    this['envmap.data'] = ({texture, textureData}) => {
-      return coalesce(texture, emptyTexture)
-    }
-
-    /**
-     * Texture cubemap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['cubemap.resolution'] = ({textureResolution}) => {
-      return coalesce(textureResolution, [0, 0])
-    }
-
-    /**
-     * Texture cubemap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['cubemap.data'] = ({texture, textureData}) => {
-      return coalesce(texture, emptyCubeTexture)
-    }
-
-    /**
-     * Texture envcubemap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['envcubemap.resolution'] = ({textureResolution}) => {
-      return coalesce(textureResolution, [0, 0])
-    }
-
-    /**
-     * Texture envcubemap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['envcubemap.data'] = ({texture, textureData}) => {
-      return coalesce(texture, emptyCubeTexture)
-    }
-
-    /**
-     * Texture envmap data if available.
-     *
-     * @public
-     * @type {Texture}
-     */
-
-    this['envmap.data'] = ({
-      texture,
-      envmapTexture = texture
-    }) => {
-      let placeholder = null
-      if ('texture' == typeOf(envmapTexture)) {
-        placeholder = emptyTexture
-      } else {
-        placeholder = emptyCubeTexture
-      }
-      // ensure the cube/texture being passed in is envmap (not map)
-      if (null == initialState.envmap) {
-        return placeholder
-      } else {
-        return coalesce(envmapTexture, placeholder)
-      }
+        'envmap.data': ({texture, envmapTexture = texture}) => {
+          let placeholder ='texture' == typeOf(envmapTexture)
+            ? emptyTexture
+            : emptyCubeTexture
+          return null == initialState.envmap
+            ? placeholder
+            : coalesce(envmapTexture, placeholder)
+        },
+      })
     }
   }
 }
-

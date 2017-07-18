@@ -114,7 +114,7 @@ frame(() => {
     })
 
     backgroundMaterial({cull: false}, () => {
-      background({scale: [1, -1, 1]})
+      background({scale: [-1, 1, 1]})
     })
 
     reflectiveMaterial({

@@ -3,11 +3,11 @@
 /**
  * Module dependencies.
  */
-
 import { assignTypeName } from './types'
 import { registerStat } from '../stats'
 import { EventEmitter } from 'events'
 import coalesce from 'defined'
+import document from 'global/document'
 import window from 'global/window'
 import events from 'dom-events'
 import glsl from 'glslify'
@@ -27,7 +27,6 @@ import regl from 'regl'
  * @extends EventEmitter
  * @see {@link https://github.com/regl-project/regl}
  */
-
 export class Context extends EventEmitter {
 
   /**
@@ -38,26 +37,14 @@ export class Context extends EventEmitter {
    * @param {?Object} opts
    * @param {?ReglInitializer} createRegl
    */
-
   constructor(opts = {}, createRegl = regl) {
     super()
     this.setMaxListeners(Infinity)
     registerStat('Context')
     assignTypeName(this, 'context')
 
-    /**
-     * Internal predicate to indicate that the context
-     * has focus. IE, the HTMLCanvasElement has focus.
-     * @private
-     */
-
+    this._store = new Map()
     this._hasFocus = false
-
-    /**
-     * The regl context wrapped by this context object.
-     * @private
-     */
-
     this._reglContext = null
 
     // coalesce regl options if given as `.gl`
@@ -75,59 +62,44 @@ export class Context extends EventEmitter {
     // call regl initializer
     createRegl({
       ...opts.regl,
-
-      attributes: {
-        ...(opts.regl.attributes || {}),
-      },
-
-      extensions: [
-        ...(opts.regl.extensions || []),
-        'OES_texture_float',
-      ],
-
-      optionalExtensions: [
-        ...(opts.regl.optionalExtensions || []),
-      ],
-
+      attributes: {...(opts.regl.attributes || {})},
+      extensions: [...(opts.regl.extensions || []), 'OES_texture_float'],
+      optionalExtensions: [...(opts.regl.optionalExtensions || [])],
       onDone: (err, regl) => {
-        if (err) {
-          return this.emit('error', err)
-        }
-
+        if (err) { return this.emit('error', err) }
         this._regl = regl
-        this._domElement = this._regl._gl.canvas
         this._isDestroyed = false
+        if (regl._gl && regl._gl.canvas) {
+          this._domElement = this._regl._gl.canvas
+        } else {
+          this._domElement = null
+        }
       }
     })
 
-    // context focus event handlers
-    const onblur = () => { this.blur() }
-    const onfocus = () => { this.focus() }
-    const onwindowblur = () => { this.blur() }
-    const onmousedown = (e) => {
-      if (e.target == this._domElement) {
-        this.focus()
-      } else {
-        this.blur()
+    if (
+      null != this._domElement &&
+      'undefind' != typeof window &&
+      'undefind' != typeof document
+    ) {
+      const bind = (t, e, f) => {
+        events.on(t, e, f)
+        this.once('beforedestroy', () => events.off(t, e, f))
       }
+      // context focus event handlers
+      const onblur = () => { this.blur() }
+      const onfocus = () => { this.focus() }
+      const onwindowblur = () => { this.blur() }
+      const onmousedown = (e) => {
+        if (e.target == this._domElement) { this.focus() }
+        else { this.blur() }
+      }
+      bind(this._domElement, 'blur', onblur)
+      bind(this._domElement, 'focus', onfocus)
+      bind(window, 'blur', onwindowblur)
+      bind(document, 'mousedown', onmousedown)
+      bind(document, 'touchstart', onmousedown)
     }
-
-    // DOM events
-    events.on(this._domElement, 'focus', onfocus)
-    events.on(this._domElement, 'blur', onblur)
-    events.on(window, 'blur', () => onwindowblur)
-
-    // focus/blur context on mouse down
-    events.on(document, 'mousedown', onmousedown)
-    events.on(document, 'touchstart', onmousedown)
-
-    this.once('beforedestroy', () => {
-      events.off(this._domElement, 'focus', onfocus)
-      events.off(this._domElement, 'blur', onblur)
-      events.off(window, 'blur', onwindowblur)
-      events.off(document, 'mousedown', onmousedown)
-      events.off(document, 'touchstart', onmousedown)
-    })
   }
 
   /**
@@ -139,7 +111,6 @@ export class Context extends EventEmitter {
    * @name reglContext
    * @TODO(werle) - Remove this?
    */
-
   get reglContext() { return this._reglContext || null }
 
   /**
@@ -150,7 +121,6 @@ export class Context extends EventEmitter {
    * @type {HTMLCanvasElement|null}
    * @name domElement
    */
-
   get domElement() { return this._domElement || null }
 
   /**
@@ -165,7 +135,6 @@ export class Context extends EventEmitter {
    * @see {@link Context#focus}
    * @see {@link Context#blur}
    */
-
   get hasFocus() { return Boolean(this._hasFocus) }
 
   /**
@@ -176,7 +145,6 @@ export class Context extends EventEmitter {
    * @accessor
    * @type {regl|Function}
    */
-
   get regl() { return this._regl || null }
 
   /**
@@ -187,7 +155,6 @@ export class Context extends EventEmitter {
    * @accessor
    * @type {WebGLRenderingContext}
    */
-
   get gl() { return this._regl._gl || null  }
 
   /**
@@ -195,7 +162,6 @@ export class Context extends EventEmitter {
    *
    * @return {Context}
    */
-
   focus() {
     this._hasFocus = true
     this.emit('focus')
@@ -207,7 +173,6 @@ export class Context extends EventEmitter {
    *
    * @return {Context}
    */
-
   blur() {
     this._hasFocus = false
     this.emit('blur')
@@ -221,24 +186,21 @@ export class Context extends EventEmitter {
    * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#clean-up}
    * @return {Context}
    */
-
   destroy() {
     this.emit('beforedestroy')
-
     if (this._regl && 'function' == typeof this._regl.destroy) {
       this._regl.destroy()
     }
 
-    this._hasFocus = false
-
-    // remove canvas from DOM tree
     if (this._domElement && this._domElement.parentElement) {
       this._domElement.parentElement.removeChild(this._domElement)
     }
 
     delete this._regl
+    delete this._store
     delete this._domElement
     delete this._reglContext
+    this._hasFocus = false
     this.emit('destroy')
     return this
   }
@@ -250,12 +212,39 @@ export class Context extends EventEmitter {
    * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#unsafe-escape-hatch}
    * @return {Context}
    */
-
   refresh() {
     if (this._regl) {
       if ('function' == typeof this._regl._refresh)
       this._regl.refresh()
     }
     return this
+  }
+
+  /**
+   * Retrieve value from context store.
+   *
+   * @param {Mixed} key
+   * @return {Mixed}
+   */
+  get(key) {
+    if (this._store) {
+      return this._store.get(key)
+    }
+    return null
+  }
+
+  /**
+   * Set value in context store.
+   *
+   * @param {Mixed} key
+   * @param {Mixed} value
+   * @return {Mixed}
+   */
+  set(key, value) {
+    if (this._store) {
+      this._store.set(key, value)
+      return value
+    }
+    return null
   }
 }

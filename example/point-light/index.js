@@ -8,13 +8,16 @@ import {
   PhongMaterial,
   FlatMaterial,
 
+  AmbientLight,
   PointLight,
 
   SphereGeometry,
+  PlaneGeometry,
   BoxGeometry,
   Geometry,
 
   OrientationInput,
+  KeyboardInput,
   TouchInput,
   MouseInput,
 
@@ -26,8 +29,9 @@ import {
   Quaternion,
   Vector3,
   Color,
+  Object3D,
+  Fog,
 } from '../../src'
-
 import ControlPanel from 'control-panel'
 import coalesce from 'defined'
 import Bunny from 'bunny'
@@ -45,6 +49,8 @@ const ctx = new Context()
 const material = new PhongMaterial(ctx)
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
+const ambient = new AmbientLight(ctx)
+const fog = new Fog(ctx, {type: Fog.Exp2})
 
 const rotation = new Quaternion()
 const angle = new Quaternion()
@@ -56,7 +62,9 @@ const touch = new TouchInput(ctx)
 
 const orbitCamera = new OrbitCameraController(ctx, {
   camera: camera,
+  invert: true,
   inputs: {orientation, touch, mouse},
+  interpolationFactor: 0.5
 })
 
 const bunny = (() => {
@@ -86,6 +94,41 @@ const bunny = (() => {
   }
 })()
 
+const line = (()=> {
+  const defaultColor = new Color('cyan')
+  const material = new PhongMaterial(ctx)
+  const geometry = new Geometry({
+    complex: {
+      cells: [[0, 1, 2]],
+      positions: [ [0, 0, 0], [0.5, 0.5, 0.5], [1, 1, 1]],
+      get normals() { return this.positions },
+    }
+  })
+  const mesh = new LinesMesh(ctx, {geometry})
+  return ({
+    direction = [0, 0, 0],
+    lineWidth = 1,
+    thickness = lineWidth || 0.05,
+    rotation,
+    position,
+    scale = [1, 1, 1],
+    color = defaultColor
+  } = {}) => {
+    if ('number' == typeof scale) {
+      scale = Array(3).fill(scale)
+    }
+    material({color}, () => {
+      mesh({
+        scale: vec3.multiply([], direction, scale),
+        position,
+        rotation,
+        lineWidth,
+        thickness,
+      })
+    })
+  }
+})()
+
 const point = (() => {
   const material = new FlatMaterial(ctx)
   const geometry = new SphereGeometry({radius: 0.05, segments: 2})
@@ -97,6 +140,30 @@ const point = (() => {
         light({ ...args, radius: geometry.radius})
       })
     })
+  }
+})()
+
+const axes = (() => {
+  const entity = new Object3D(ctx)
+  return (args) => entity({scale: 50, ...args}, () => {
+    line({thickness: 0.1, direction: [1, 0, 0], color: new Color('red')})
+    line({thickness: 0.1, direction: [0, 1, 0], color: new Color('green')})
+    line({thickness: 0.1, direction: [0, 0, 1], color: new Color('blue')})
+  })
+})()
+
+const plane = (() => {
+  const geometry = new PlaneGeometry({size: 1, segments: 50})
+  const material = new PhongMaterial(ctx, {color: new Color('dark gray') })
+  const entity = new Object3D(ctx)
+  const mesh = new LinesMesh(ctx, {
+    geometry,
+    scale: 10,
+    wireframe: true,
+    rotation: quat.setAxisAngle([], [1, 0,0], -0.25*Math.PI),
+  })
+  return (args) => {
+    entity(args, () => material(() => mesh()))
   }
 })()
 
@@ -196,12 +263,22 @@ const panel = new ControlPanel([
   materialOpacity = Number(coalesce(e['Opacity'], materialOpacity))
 })
 
+let bottomY = 0
 const position = new Vector3(0, 0, 0)
 window.position = position
 
-frame(({time, lights, clear}) => {
-  //clear({color: Color('dark slate gray')})
-  orbitCamera({target: [0, 0, 0], position: [0, 5, 15] }, () => {
+frame(({time}) => {
+  quat.slerp(rotation, rotation, angle, 0.01)
+  quat.setAxisAngle(angle, [0, 1, 0], 0.1*time)
+})
+
+frame(({time}) => {
+  orbitCamera({
+    target: window.bunnyPosition || [0, 0, 0],
+    position: [10, 10, 10],
+  }, () => {
+    ambient()
+
     // lights
     point([{
       visible: lightXVisible,
@@ -215,25 +292,33 @@ frame(({time, lights, clear}) => {
       visible: lightZVisible,
       color: lightZColor,
       position:
-      vec3.transformQuat(
-        [],
+      vec3.transformQuat([],
         vec3.add([], vec3.negate([], position), [0.5, 0.5, 0.5]),
         quat.setAxisAngle([], [0, 0, 1], 0.5*time)),
     }])
 
+    fog({density: 0.005, color: materialColor})
+    plane({position: [0, bottomY, 0]})
+    axes({position: [0, bottomY, 0]})
     material({
       color: materialColor,
       emissive: materialEmissive,
       opacity: materialOpacity,
     }, () => {
-      quat.setAxisAngle(angle, [0, 1, 0], 0.1*time)
-      quat.slerp(rotation, rotation, angle, 0.01)
       bunny({
+        position: window.bunnyPosition || [0, 0, 0],
         wireframe: materialWireframe,
         segments: materialLineSegments,
         opacity: materialOpacity,
         rotation
-      }, ({position: bunnyPosition, geometry, transform, tick}) => {
+      }, ({
+        position: bunnyPosition,
+        geometry,
+        transform,
+        tick,
+        boundingBox
+      }) => {
+        bottomY = boundingBox[0][1]
         mouse(({buttons, deltaX: dx, deltaY: dy}) => {
           const i = parseInt(tick/24) % geometry.positions.length + 1
           const pos = vec3.transformMat4([], geometry.positions[i], transform)

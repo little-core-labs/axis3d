@@ -24,84 +24,14 @@ import mat4 from 'gl-mat4'
 
 const kMat4Identity = mat4.identity([])
 
-/**
- * Next available Light ID represented
- * as an integer.
- *
- * @private
- */
-
 let LIGHT_COMMAND_NEXT_ID = 0
 
-/**
- * Default light intensity, if applicable.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 export const kDefaultLightIntensity = 10
-
-
-/**
- * Default light position, if applicable.
- *
- * @public
- * @const
- * @type {Vector3}
- */
-
 export const kDefaultLightPosition = new Vector3(0, 0, 0)
-
-/**
- * Default light rotation, if applicable.
- *
- * @public
- * @const
- * @type {Quaternion}
- */
-
 export const kDefaultLightRotation = new Quaternion()
-
-/**
- * Default light ambient, if applicable.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 export const kDefaultLightAmbient = 0.1
-
-/**
- * Default light radius, if applicable.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 export const kDefaultLightRadius = 50
-
-/**
- * Default light color, if applicable.
- *
- * @public
- * @const
- * @type {Color}
- */
-
 export const kDefaultLightColor = new Color('white')
-
-/**
- * Default light type, if applicable.
- *
- * @public
- * @const
- * @type {LightType}
- */
-
 export const kDefaultLighType = BasicLightType
 
 /**
@@ -112,7 +42,6 @@ export const kDefaultLighType = BasicLightType
  * @extends Object3D
  * @see {@link Object3D}
  */
-
 export class Light extends Object3D {
 
   /**
@@ -123,7 +52,6 @@ export class Light extends Object3D {
    * @param {Context} ctx Axis3D render context.
    * @param {?Object} initialState Initial state
    */
-
   constructor(ctx, initialState = {}) {
     // init update method
     const {regl} = ctx
@@ -139,25 +67,14 @@ export class Light extends Object3D {
       id = Light.id(),
     } = initialState
 
-    const updateLight = initialState.update || (({} = {}, f) => f())
-
     const {context = new LightContext()} = initialState
     const injectContext = regl({ context })
+    const updateLight = initialState.update || (({} = {}, f) => f())
 
-    super(ctx, {
-      ...initialState,
-
-      // all Object3D descendants must implement an update
-      // method to actually do something
-      update
-    })
+    super(ctx, { ...initialState, update })
 
     incrementStat('Light')
     assignTypeName(this, 'light')
-
-    /**
-     * Calls current target render function
-     */
 
     function update({
       transform: contextTransform = kMat4Identity,
@@ -213,7 +130,6 @@ export class Light extends Object3D {
    * @static
    * @return {Number}
    */
-
   static id() {
     return LIGHT_COMMAND_NEXT_ID ++
   }
@@ -228,7 +144,6 @@ export class Light extends Object3D {
    * @param {LightType|Number} type
    * @return {String}
    */
-
   static typeName(type) {
     return coalesce(Object.keys(types).find((k) => type == types[k]), type)
   }
@@ -241,7 +156,6 @@ export class Light extends Object3D {
  * @class CameraContext
  * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#context}
  */
-
 export class LightContext extends Object3DContext {
 
   /**

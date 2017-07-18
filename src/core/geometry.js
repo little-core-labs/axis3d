@@ -3,8 +3,6 @@
 /**
  * Module dependencies.
  */
-
-import { Vector3, Vector2 } from '../math'
 import { assignTypeName } from './types'
 
 import getBoundingBox from 'bound-points'
@@ -23,7 +21,6 @@ import normals from 'normals'
  * @see {@link https://en.wikipedia.org/wiki/Abstract_simplicial_complex}
  * @see {@link https://github.com/mikolalysenko/simplicial-complex}
  */
-
 export class Geometry {
 
   /**
@@ -35,32 +32,15 @@ export class Geometry {
    * @param {?SimplicialComplex} opts.complex
    * @param {?Boolean} opts.flatten
    */
-
   constructor({complex = null, flatten = false} = {}) {
     assignTypeName(this, 'geometry')
-
-    /**
-     * Internal simplicial complex value.
-     * @private
-     */
-
     Object.defineProperty(this, '_complex', {
       enumerable: false,
       writable: false,
       value: {},
     })
 
-    /**
-     * Property indicating whether a geometry simplicial complex
-     * should be flattened.
-     *
-     * @public
-     * @type {Boolean}
-     */
-
-    this.flatten = flatten
-
-    /** @ignore */
+    this.flatten = Boolean(flatten)
     this.complex = complex || null
   }
 
@@ -73,7 +53,6 @@ export class Geometry {
    * @type {SimplicialComplex}
    * @see {@link Geometry#flatten}
    */
-
   set complex(complex) {
     if (complex instanceof Geometry) {
       complex = complex.complex
@@ -111,7 +90,6 @@ export class Geometry {
    * @accessor
    * @type {SimplicialComplex|null}
    */
-
   get complex() {
     return this._complex || null
   }
@@ -123,7 +101,6 @@ export class Geometry {
    * @accessor
    * @type {Array<Number|Array>|null}
    */
-
   get positions() {
     return this.complex ? this.complex.positions : null
   }
@@ -135,7 +112,6 @@ export class Geometry {
    * @accessor
    * @type {Array<Number|Array>|null}
    */
-
   get normals() {
     return this.complex ? this.complex.normals : null
   }
@@ -147,7 +123,6 @@ export class Geometry {
    * @accessor
    * @type {Array<Number|Array>|null}
    */
-
   get uvs() {
     return this.complex ? this.complex.uvs : null
   }
@@ -160,7 +135,6 @@ export class Geometry {
    * @accessor
    * @type {Array<Number|Array>|null}
    */
-
   get cells() {
     return this.complex ? this.complex.cells : null
   }
@@ -170,14 +144,7 @@ export class Geometry {
    *
    * @return {Array<Vector3|Vector2>}
    */
-
   computeBoundingBox() {
     return getBoundingBox(this.positions)
-      .map((p) => {
-        switch (p.length) {
-          case 3: return new Vector3(...p)
-          case 2: return new Vector2(...p)
-        }
-      })
   }
 }

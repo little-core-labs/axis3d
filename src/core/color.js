@@ -3,7 +3,6 @@
 /**
  * Module dependencies.
  */
-
 import * as VectorSwizzleMap from './vector_swizzle_map'
 import { assignTypeName } from './types'
 import { isArrayLike } from '../utils'
@@ -42,7 +41,6 @@ import clamp from 'clamp'
  * @see {@link https://www.npmjs.com/package/color-space}
  * @see {@link https://www.npmjs.com/package/color-name}
  */
-
 export class Color extends Vector4 {
 
   /**
@@ -52,8 +50,9 @@ export class Color extends Vector4 {
    * @constructor
    * @param {...Number|String|Array|Object} input
    */
-
   constructor(...input) {
+    if (input[0] instanceof Color) {
+    }
     super(0, 0, 0, 0)
     assignTypeName(this, 'color')
     this.set(input)
@@ -68,7 +67,6 @@ export class Color extends Vector4 {
    * @method
    * @return {Array<Array<String>>}
    */
-
   static swizzles() {
     return VectorSwizzleMap.Color
   }
@@ -83,7 +81,6 @@ export class Color extends Vector4 {
    * @param {Mixed} input
    * @return {Array}
    */
-
   static parseInput(input) {
     if (isArrayLike(input) && 1 == input.length) {
       input = input[0]
@@ -124,7 +121,6 @@ export class Color extends Vector4 {
    * @param {String} string
    * @return {Object}
    */
-
   static parseString(string) {
     if ('string' == typeof string) {
       return ColorString.get(string.replace(/\s+/g, '')) || null
@@ -140,7 +136,6 @@ export class Color extends Vector4 {
    * @param {String} int
    * @return {Object}
    */
-
   static parseInt(int) {
     if ('number' == typeof int) {
       let string = Color.parseString(`#${leftpad(0, 6, int.toString('16'))}`)
@@ -163,7 +158,6 @@ export class Color extends Vector4 {
    * @param {Number} index
    * @param {Number} value
    */
-
   onchange(index, value) {
     const elements = this.elements
     if (3 == index) { // alpha channel
@@ -178,6 +172,18 @@ export class Color extends Vector4 {
   }
 
   /**
+   * Copyies src color into instance.
+   *
+   * @public
+   * @method
+   * @param {...Array|Color|Number} input
+   * @return {Color}
+   */
+  copy(input) {
+    return this.set(input)
+  }
+
+  /**
    * Set color component values.
    *
    * @public
@@ -185,7 +191,6 @@ export class Color extends Vector4 {
    * @param {...Array|Color|Number} input
    * @return {Color}
    */
-
   set(...input) {
     if (1 == input.length) { input = input[0] }
     input = Color.parseInput(input)
@@ -200,7 +205,6 @@ export class Color extends Vector4 {
    * @param {String} which
    * @return {String}
    */
-
   toString(which = 'hex', denormalize) {
     if ('hex' == which) { denormalize = true }
     const values = this.toArray(denormalize)
@@ -217,7 +221,6 @@ export class Color extends Vector4 {
    * @param {Boolean} denormalize
    * @return {Array}
    */
-
   toArray(denormalize = false) {
     const values = super.toArray()
     if (denormalize) {
@@ -236,7 +239,6 @@ export class Color extends Vector4 {
    * @method
    * @return {Number}
    */
-
   valueOf() {
     let string = this.toString('hex', true).replace('#', '')
     string = leftpad(0, 6, string)
@@ -250,7 +252,6 @@ export class Color extends Vector4 {
  *
  * @private
  */
-
 function leftpad(c, n, s) {
   while (s.length < n) {
     s = `${c}${s}`

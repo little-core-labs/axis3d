@@ -1,11 +1,8 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
-
-import { Object3D, Object3DContext } from '../core/object3d'
+import { Object3D, Object3DContext } from './object3d'
 import { Quaternion, Vector3 } from '../math'
+import { ShaderUniforms } from './gl'
 import { assignTypeName } from './types'
 import { registerStat } from '../stats'
 
@@ -18,31 +15,7 @@ import quat from 'gl-quat'
 const scratchQuaternion = new Quaternion()
 const scratchMatrix = mat4.identity([])
 
-/**
- * The Camera class represents an abstraction around a view matrix. It
- * inherits from Object3D, so it has positional state input.
- *
- * @public
- * @abstract
- * @class Camera
- * @extends Object3D
- * @see {@link Object3D}
- * @see {@link PerspectiveCamera}
- * @see {@link OrthographicCamera}
- */
-
 export class Camera extends Object3D {
-
-  /**
-   * Camera class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   * @throws TypeError
-   */
-
   constructor(ctx, initialState = {}) {
     const {context = new CameraContext(ctx, initialState)} = initialState
     const {uniforms = new CameraUniforms(ctx, initialState)} = initialState
@@ -60,26 +33,7 @@ export class Camera extends Object3D {
   }
 }
 
-/**
- * CameraContext class.
- *
- * @public
- * @class CameraContext
- * @extends Object3DContext
- */
-
 export class CameraContext extends Object3DContext {
-
-  /**
-   * CameraContext class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   * @throws TypeError
-   */
-
   constructor(ctx, initialState) {
     super(ctx, {
       ...initialState,
@@ -108,132 +62,53 @@ export class CameraContext extends Object3DContext {
       controller: { get() { return controller }, enumerable: false, },
     })
 
-    /**
-     * The copmuted viewport aspect ratio.
-     *
-     * @public
-     * @type {Number}
-     */
-
     this.aspect = ({viewportWidth: width, viewportHeight: height}) => {
       return width/height
     }
-
-    /**
-     * The computed projection matrix for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
 
     this.projection = (...args) => {
       this.updateCameraController(...args)
       return controller.projection.slice()
     }
 
-    /**
-     * The computed view matrix for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     this.view = (...args) => {
       return this.computeViewMatrix(...args)
     }
 
-    /**
-     * The computed inverted view matrix for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     this.invertedView = (...args) => {
       return mat4.invert([], this.view(...args))
     }
-
-    /**
-     * The view direction for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
 
     this.direction = (...args) => {
       this.updateCameraController(...args)
       return controller.direction
     }
 
-    /**
-     * The view target.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
-    this.target = ({}, {target} = {}) => {
-      return coalesce(target, initialTarget)
+    this.target = ({scale}, {target} = {}) => {
+      return vec3.multiply([],
+        coalesce(target, initialTarget, [0, 0, 0]),
+        coalesce(scale, this.initialScale, [1, 1, 1]))
     }
-
-    /**
-     * The near plane for a camera.
-     *
-     * @public
-     * @type {Number}
-     */
 
     this.near = (...args) => {
       this.updateCameraController(...args)
       return controller.near
     }
 
-    /**
-     * The far plane for a camera.
-     *
-     * @public
-     * @type {Number}
-     */
-
     this.far = (...args) => {
       this.updateCameraController(...args)
       return controller.far
     }
-
-    /**
-     * The computed eye vector for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     * @see {@link https://github.com/hughsk/eye-vector}
-     */
 
     this.eye = (...args) => {
       computeEyeVector(viewMatrix, eye)
       return eye
     }
 
-    /**
-     * The computed up vector for a camera.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     this.up = (...args) => {
       this.updateCameraController(...args)
       return controller.up
     }
-
-    /**
-     * Creates a picking ray from a mouse input
-     *
-     * @public
-     * @type {Function}
-     * @param {MouseInput|Function} mouse
-     * @return {Ray3D}
-     * @see {@link https://github.com/Jam3/ray-3d}
-     */
 
     this.createPickingRay = ({viewportHeight: h}) => {
       let mx = 0, my = 0
@@ -246,25 +121,11 @@ export class CameraContext extends Object3DContext {
       }
     }
 
-    /**
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
     this.viewport = ({}, args) => {
       args = args || {}
       return coalesce(args.viewport, initialState.viewport, null)
     }
   }
-
-  /**
-   * Computes the view matrix.
-   *
-   * @protected
-   * @method
-   * @return {Array}
-   */
 
   // context properties are ignored
   computeViewMatrix({}, {
@@ -273,18 +134,13 @@ export class CameraContext extends Object3DContext {
     target = this.initialTarget,
     scale = this.initialScale,
   } = {}) {
+    const {localMatrix, viewMatrix, controller } = this
     this.updateCameraController(...arguments)
     this.updateCameraViewport(...arguments)
 
     if (!position || !rotation || !scale) {
       return
     }
-
-    const {
-      localMatrix,
-      viewMatrix,
-      controller,
-    } = this
 
     // update controller controller
     controller.identity()
@@ -298,15 +154,6 @@ export class CameraContext extends Object3DContext {
     mat4.multiply(viewMatrix, viewMatrix, scratchMatrix)
     return viewMatrix
   }
-
-  /**
-   * Updates controller camera controller, if needed.
-   *
-   * @protected
-   * @abstract
-   * @method
-   * @param {{far: Number, near: Number}} opts
-   */
 
   updateCameraController({
     near: contextNear = this.controller.near,
@@ -331,19 +178,6 @@ export class CameraContext extends Object3DContext {
     }
   }
 
-  /**
-   * Updates base camera controller viewport.
-   *
-   * @protected
-   * @abstract
-   * @method
-   * @param {!Object} opts
-   * @param {Number} opts.viewportTop
-   * @param {Number} opts.viewportLeft
-   * @param {Number} opts.viewportWidth
-   * @param {Number} opts.viewportHeight
-   */
-
   updateCameraViewport({
     viewportTop = -1,
     viewportLeft = -1,
@@ -360,84 +194,15 @@ export class CameraContext extends Object3DContext {
   }
 }
 
-/**
- * CameraUniforms class.
- *
- * @public
- * @class CameraUniforms
- */
-
-export class CameraUniforms {
-
-  /**
-   * CameraUniforms class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
-
+export class CameraUniforms extends ShaderUniforms {
   constructor(ctx, initialState) {
-
-    /**
-     * The computed projection matrix for a camera used
-     * as a uniform mat4 in a shader.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
-    this['camera.projection'] = ({projection}) => {
-      return projection
-    }
-
-    /**
-     * The computed aspect ratio for a camera used
-     * as a uniform float in a shader.
-     *
-     * @public
-     * @type {Number}
-     */
-
-    this['camera.aspect'] = ({aspect}) => {
-      return aspect
-    }
-
-    /**
-     * The computed view matrix for a camera used
-     * as a uniform mat4 in a shader.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
-    this['camera.view'] = ({view}) => {
-      return view
-    }
-
-    /**
-     * The computed eye vector  for a camera used
-     * as a uniform vec3 in a shader.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
-    this['camera.eye'] = ({eye}) => {
-      return [...eye]
-    }
-
-    /**
-     * The computed inverted view used
-     * as a uniform mat4 in a shader.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
-    this['camera.invertedView'] = ({invertedView}) => {
-      return invertedView
-    }
+    super(ctx)
+    this.set({
+      ///** mat4 */ 'camera.invertedView': ({invertedView}) => invertedView,
+      ///** mat4 */ 'camera.projection': ({projection}) => projection,
+      ///** float */ 'camera.aspect': ({aspect}) => aspect,
+      ///** mat4 */ 'camera.view': ({view}) => view,
+      ///** vec3 */ 'camera.eye': ({eye}) => [...eye],
+    })
   }
 }

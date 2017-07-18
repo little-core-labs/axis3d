@@ -21,12 +21,7 @@ import {
 import quat from 'gl-quat'
 
 // fullscreen canvas
-const ctx = new Context({
-  regl: {
-    profile: true,
-    extensions: ['EXT_disjoint_timer_query']
-  }
-})
+const ctx = new Context()
 
 // scene
 const camera = new PerspectiveCamera(ctx)
@@ -49,19 +44,19 @@ const mouse = new MouseInput(ctx)
 const touch = new TouchInput(ctx)
 
 // orbit camera controls
-const inputs = { orientation, keyboard, touch, mouse }
+const inputs = { keyboard, touch, mouse }
 const orbitCamera = new OrbitCameraController(ctx, {
   camera, inputs,
-  invert: true,
   interpolationFactor: 0.1,
-  euler: [0, 0.5*Math.PI, 0]
+  maxEuler: [0.5*Math.PI, Infinity],
+  minEuler: [-0.5*Math.PI, -Infinity],
 })
 
 // render loop
 frame(({time}) => {
-  orbitCamera(() => {
+  orbitCamera({position: [0, 0, 0]}, () => {
     material({cull: false}, () => {
-      sphere({scale: [1, -1, 1] })
+      sphere({scale: [-1, 1, 1] })
     })
   })
 })

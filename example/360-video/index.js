@@ -37,9 +37,10 @@ const inputs = { keyboard, touch, mouse }
 const orbitCamera = new OrbitCameraController(ctx, {
   camera,
   inputs,
-  invert: true,
-  interpolationFactor: 0.2,
-  rotation: quat.setAxisAngle([], [0, 1, 0], 0.5*Math.PI)
+  interpolationFactor: 0.1,
+  maxEuler: [0.5*Math.PI, Infinity],
+  minEuler: [-0.5*Math.PI, -Infinity],
+  rotation: quat.setAxisAngle([], [0, 1, 0], 0.5*Math.PI),
 })
 
 // init video
@@ -71,7 +72,7 @@ frame(({time}) => {
   orbitCamera(() => {
     texture({data: video})
     material({cull: false}, () => {
-      sphere()
+      sphere({scale: [-1, 1, 1] })
     })
   })
 })

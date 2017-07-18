@@ -6,6 +6,7 @@ precision mediump float;
 #pragma glslify: GeometryContext = require('../../geometry/GeometryContext')
 #pragma glslify: LightContext = require('../../light/LightContext')
 #pragma glslify: Camera = require('../../camera/Camera')
+#pragma glslify: Mesh = require('../../mesh/Mesh')
 
 // maps
 #pragma glslify: Cubemap = require('../Cubemap')
@@ -62,6 +63,7 @@ varying vec3 vLocalNormal;
 uniform LightContext lightContext;
 uniform MATERIAL_TYPE material;
 uniform Camera camera;
+uniform Mesh mesh;
 uniform Fog fog;
 
 // lights
@@ -94,12 +96,11 @@ import drawLambertMaterial from './lambert' where {
   lightContext=lightContext,
   pointLights=pointLights,
   material=material,
-  envmap=envmap,
-  map=map,
   camera=camera,
-  isnan=isnan,
-  isinf=isinf,
-  fog=fog
+  envmap=envmap,
+  mesh=mesh,
+  fog=fog,
+  map=map,
 }
 
 //
@@ -115,12 +116,11 @@ import drawPhongMaterial from './phong' where {
   lightContext=lightContext,
   pointLights=pointLights,
   material=material,
-  envmap=envmap,
-  map=map,
   camera=camera,
-  isnan=isnan,
-  isinf=isinf,
-  fog=fog
+  envmap=envmap,
+  mesh=mesh,
+  map=map,
+  fog=fog,
 }
 
 //
@@ -131,7 +131,8 @@ import drawFlatMaterial from './flat' where {
   material=material,
   envmap=envmap,
   camera=camera,
-  map=map
+  map=map,
+  mesh=mesh
 }
 
 //

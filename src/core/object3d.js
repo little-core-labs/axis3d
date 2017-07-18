@@ -3,13 +3,13 @@
 /**
  * Module dependencies.
  */
-
 import { incrementStat, getStats } from '../stats'
 import { assignTypeName } from './types'
 import { Quaternion } from '../math'
 import { Command } from './command'
 import { Vector } from './vector'
 import { define } from '../utils'
+import { Entity } from './entity'
 
 import coalesce from 'defined'
 import mat4 from 'gl-mat4'
@@ -18,19 +18,7 @@ import vec3 from 'gl-vec3'
 import vec2 from 'gl-vec2'
 import quat from 'gl-quat'
 
-/**
- * Next available Object3D ID represented
- * as an integer.
- * @private
- */
-
 let OBJECT_COMMAND_NEXT_ID = 0x6f
-
-/**
- * Mat4 identity matrix.
- * @private
- */
-
 const kMat4Identity = mat4.identity([])
 
 /**
@@ -41,8 +29,7 @@ const kMat4Identity = mat4.identity([])
  * @class Object3D
  * @extends Command
  */
-
-export class Object3D extends Command {
+export class Object3D extends Entity {
 
   /**
    * Returns the next object ID
@@ -52,7 +39,6 @@ export class Object3D extends Command {
    * @method
    * @return {Number}
    */
-
   static id() {
     return OBJECT_COMMAND_NEXT_ID ++
   }
@@ -65,7 +51,6 @@ export class Object3D extends Command {
    * @method
    * @return {Number}
    */
-
   static count() {
     const stats = getStats('Object3D')
     return stats ? stats.length : 0
@@ -80,45 +65,26 @@ export class Object3D extends Command {
    * @param {?Object} initialState Initial state
    * @see {@link Object3DContext}
    */
-
   constructor(ctx, initialState = {}) {
-    super(update)
+    super(ctx, initialState, update)
     incrementStat('Object3D')
     assignTypeName(this, 'object3d')
 
-    this.typeName = 'object3d'
-
-    /**
-     * Optional update function.
-     */
-
-    const {update: updateObject = null} = initialState
-
-    if (null != updateObject && 'function' != typeof updateObject) {
-      throw new TypeError(
-      `Expecting update function to be a function. Got ${typeof updateObject}.`)
-    }
-
-    /**
-     * The injected regl context.
-     */
-
     const {context = new Object3DContext(ctx, initialState)} = initialState
+    const {update: updateObject = null} = initialState
 
     // ensure context is a descendant of Object3DContext
     if (false == context instanceof Object3DContext) {
       throw new TypeError("Expecting instance of Object3DContext given.")
     }
 
-    /**
-     * Regl context injection function.
-     */
+    if (null != updateObject && 'function' != typeof updateObject) {
+      throw new TypeError(
+      `Expecting update function to be a function. Got ${typeof updateObject}.`)
+    }
+
 
     const injectContext = ctx.regl({context})
-
-    /**
-     * Calls current target render function
-     */
 
     function update(state, block) {
       // ensure correct values
@@ -157,7 +123,6 @@ export class Object3D extends Command {
  * @see {@link https://github.com/regl-project/regl}
  * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#context}
  */
-
 export class Object3DContext {
 
   /**
@@ -168,7 +133,6 @@ export class Object3DContext {
    * @param {!Context} ctx Axis3D render context.
    * @param {Object} initialState
    */
-
   constructor(ctx, initialState = {}) {
     const {
       computeTransformMatrix = true,
@@ -181,16 +145,7 @@ export class Object3DContext {
       id = Object3D.id(),
     } = initialState
 
-    /**
-     * World transform matrix.
-     */
-
     const transformMatrix = mat4.identity([])
-
-    /**
-     * Local model matrix.
-     */
-
     const localMatrix = mat4.identity([])
 
     // protected properties
@@ -215,29 +170,10 @@ export class Object3DContext {
       localMatrix: { get: () => localMatrix, enumerable: false},
     })
 
-    /**
-     * Object3D instance ID.
-     *
-     * @public
-     * @type {Number|String}
-     */
-
     this.id = ({}, args = {}) => {
       args = args || {}
-      // no null/undefined
-      if (null != args.id) {
-        return coalesce(args.id, id)
-      } else {
-        return id
-      }
+      return coalesce(args.id, id)
     }
-
-    /**
-     * Object3D scale vector applied to local matrix.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
 
     this.scale = ({}, args = {}) => {
       args = args || {}
@@ -251,16 +187,10 @@ export class Object3DContext {
       } else if (null != scale) {
         try { return [ ...scale ] }
         catch(e) { return [ scale, scale, scale ] }
+      } else {
+        return [1, 1, 1]
       }
     }
-
-    /**
-     * Object3D position vector that translates the
-     * local matrix.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
 
     this.position = ({}, args = {}) => {
       args = args || {}
@@ -272,15 +202,10 @@ export class Object3DContext {
       } else if (null != position) {
         try { return [ ...position ] }
         catch(e) { return [ position, position, position ] }
+      } else {
+        return [0, 0, 0]
       }
     }
-
-    /**
-     * Object3D rotation quaternion.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
 
     this.rotation = ({}, args = {}) => {
       args = args || {}
@@ -294,45 +219,9 @@ export class Object3DContext {
       }
     }
 
-    /**
-     * Object3D tranform matrix that is computed from positional
-     * context data such as position, rotation, and scale. If a
-     * transform is given as an argument to the command then it is
-     * applied to the computed transform last.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
-    this.transform = (...args) => {
-      return this.computeTransformMatrix(...args)
-    }
-
-    /**
-     * Object3D local matrix that is computed from positional
-     * context data such as position, rotation, and scale. If a
-     * transform is given as an argument to the command then it is
-     * applied to the computed transform last.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
-    this.matrix = (...args) => {
-      return this.computeLocalMatrix(...args)
-    }
+    this.transform = (...args) => this.computeTransformMatrix(...args)
+    this.matrix = (...args) => this.computeLocalMatrix(...args)
   }
-
-  /**
-   * Computes the transform matrix for the injected Object3D
-   * context derived from rotation, position, and scale data.
-   *
-   * @protected
-   * @method
-   * @param {{transform: Array}} ctx
-   * @param {{transform: Array}} opts
-   * @return {Array}
-   */
 
   computeTransformMatrix({
     transform: parentTransformMatrix
@@ -363,17 +252,6 @@ export class Object3DContext {
     }
     return this.transformMatrix
   }
-
-  /**
-   * Computes the local matrix for the injected Object3D
-   * context derived from rotation, position, and scale data.
-   *
-   * @protected
-   * @method
-   * @param {{transform: Array}} ctx
-   * @param {{transform: Array}} opts
-   * @return {Array}
-   */
 
   computeLocalMatrix({}, {
     rotation = this.initialRotation,

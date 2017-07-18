@@ -15,6 +15,7 @@ import {
   Context,
   Frame,
   Mesh,
+  Fog,
 } from '../../src'
 
 import ControlPanel from 'control-panel'
@@ -28,6 +29,7 @@ const material = new LambertMaterial(ctx)
 const directional = new DirectionalLight(ctx)
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
+const fog = new Fog(ctx, {type: Fog.Exp2})
 
 // box rotation
 const rotation = [0, 0, 0, 1]
@@ -123,19 +125,26 @@ const box = (() => {
 })()
 
 frame(({time}) => {
-  orbitCamera({position: [0, 0, 3]}, () => {
+  const right = []
+  orbitCamera({ position: [0, 0, 3] }, ({direction, up}) => {
+    fog()
     directional({
       color: directionalLightColor,
-      position: [10, 10, 10]
+      position: [10, 10, 10],
+      intensity: 2
     })
+
+    vec3.cross(up, direction, [0, 1, 0])
+    vec3.cross(up, up, direction)
+    vec3.cross(right, direction, up)
 
     material({
       color: materialColor,
       emissive: materialEmissive,
       opacity: materialOpacity,
     }, () => {
-      const x = quat.setAxisAngle([], [1, 0, 0], 0.5*time)
-      const z = quat.setAxisAngle([], [0, 0, 1], 0.5*time)
+      const x = quat.setAxisAngle([], right, 0.5*time)
+      const z = quat.setAxisAngle([], [0, 0, 1], 0.5*Math.PI)
       quat.slerp(rotation, rotation, quat.multiply([], x, z), 0.01)
       box({
         rotation,

@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import { Quaternion, Vector3 } from '../../../src/math'
+import { Quaternion, Vector3, Euler} from '../../../src/math'
 import { radians } from '../../../src/utils'
 
 // inputs
@@ -27,6 +27,8 @@ export const DEFAULT_DAMPING = 0.8
 export class OrbitCameraController extends AbstractControllerCommand {
   constructor(ctx, initial = {}) {
     let {
+      maxEuler = [Infinity, Infinity],
+      minEuler = [-Infinity, -Infinity],
       euler: initialEuler = [0, 0, 0],
       camera: initialCamera,
       inputs: initialInputs = {},
@@ -35,39 +37,52 @@ export class OrbitCameraController extends AbstractControllerCommand {
       interpolationFactor: initialInterpolationFactor = 1,
     } = initial
 
-    const position = new Vector3(0, 0, 0)
+    const direction = new Vector3()
+    const worldUp = new Vector3(0, 1, 0)
+    const right = new Vector3()
+    const up = new Vector3()
+
+    const position = new Vector3()
     const rotation = new Quaternion()
+    const target = new Vector3()
     const x = new Quaternion()
     const y = new Quaternion()
 
+    let offset = new Vector3()
+    let fov = 0
+
     position.set(...(initialPosition || []))
 
+    // read current camera state
+    initialCamera(({
+      position: currentPosition,
+      target: currentTarget,
+      fov: initialFov
+    }) => {
+      if (null == initialPosition) {
+        initialPosition = currentPosition
+        vec3.copy(position, initialPosition)
+      }
+      vec3.copy(target, currentTarget)
+      fov = initialFov
+    })
+
     super(ctx, {
-      ...initial, update(updates, block) {
+      ...initial, update(args, block) {
         let {
           interpolationFactor = initialInterpolationFactor,
-          camera = initialCamera,
-          euler = initialEuler,
-
           damping = initial.damping || DEFAULT_DAMPING,
+          camera = initialCamera,
           inputs = initialInputs,
+          euler = initialEuler,
           zoom = initial.zoom || true,
-          fov,
+        } = args
 
-        } = updates
+        damping = clamp(damping, 0, 1)
 
-        // read current camera state
-        camera(({ position: currentPosition, fov: currentFov, }) => {
-          if (null == initialPosition) {
-            initialPosition = currentPosition
-            if ('position' in updates) {
-              vec3.copy(position, updates.position)
-            } else {
-              vec3.copy(position, initialPosition)
-            }
-          }
-          fov = currentFov
-        })
+        if ('position' in args) { vec3.copy(position, args.position) }
+        if ('target' in args) { vec3.copy(target, args.target) }
+        if ('fov' in args) { fov = args.fov }
 
         // coerce zoom into something useable
         if (zoom && true === zoom.fov) {
@@ -76,10 +91,6 @@ export class OrbitCameraController extends AbstractControllerCommand {
           delete zoom.fov
         }
 
-        // clamp damping value
-        damping = clamp(damping, 0, 1)
-
-        // supported controller inputs
         const {
           keyboard: keyboardInput,
           mouse: mouseInput,
@@ -89,17 +100,17 @@ export class OrbitCameraController extends AbstractControllerCommand {
         // input state given to controller inputs
         const state = {
           ...initial,
-          ...updates,
+          ...args,
+          interpolationFactor,
           keyboardInput,
           mouseInput,
           touchInput,
-
           position,
-          euler,
-
-          interpolationFactor,
           damping,
           camera,
+          offset,
+          target,
+          euler,
           zoom,
         }
 
@@ -110,20 +121,48 @@ export class OrbitCameraController extends AbstractControllerCommand {
           if (touchInput) { applyTouchInput({ ...state }) }
         }
 
-        euler[0] = clamp(euler[0], -0.49*Math.PI, 0.49*Math.PI)
+        vec3.cross(up, direction, [0, 1, 0])
+        vec3.cross(up, up, direction)
+        vec3.cross(right, direction, up)
 
-        quat.setAxisAngle(x, [1, 0, 0], euler[0] * interpolationFactor)
-        quat.setAxisAngle(y, [0, 1, 0], euler[1])
+        const multiply = (a, b) => quat.multiply([], a, b)
+        const angle = (a, x) => quat.setAxisAngle([], a, x)
 
-        quat.slerp(rotation, rotation, y, interpolationFactor)
-        quat.multiply(rotation, x, rotation)
+        euler[0] = clamp(euler[0], minEuler[0], maxEuler[0])
+        euler[1] = clamp(euler[1], minEuler[1], maxEuler[1])
+
+        quat.slerp(x, x, angle(right, euler[0]), clamp(0.5+interpolationFactor, 0, 1));
+        quat.slerp(y, y, angle(worldUp, euler[1]), interpolationFactor)
+        quat.slerp(rotation, rotation, multiply(x, y), interpolationFactor)
 
         // clamp fov if fov zoom requested
         if (zoom && zoom.fov) {
           fov = clamp(zoom.fov, radians(1.1) , radians(120))
         }
 
-        camera({ ...updates, position, rotation, fov }, block)
+        const lerp = (a, b, t) => vec3.lerp([], a, b, t)
+        const add = (a, b) => vec3.add([], a, b)
+
+        camera({
+          ...args,
+          position: lerp(position, add(position, offset), interpolationFactor),
+          rotation,
+          target,
+          fov
+        }, function({
+          direction: currentDirection,
+          position: currentPosition,
+          target: currentTarget,
+          fov: currentFov,
+          up: currentUp
+        }) {
+          vec3.copy(direction, currentDirection)
+          vec3.copy(position, currentPosition)
+          vec3.copy(target, currentTarget)
+          vec3.copy(up, currentUp)
+          fov = currentFov
+          block(...arguments)
+        })
       }
     })
   }

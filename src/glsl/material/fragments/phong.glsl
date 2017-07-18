@@ -22,7 +22,9 @@
 #pragma glslify: phong = require('glsl-specular-blinn-phong')
 
 // fog
-#pragma glslify: fogFactorExp2 = require(glsl-fog/exp2)
+#pragma glslify: fogExp = require(glsl-fog/exp)
+#pragma glslify: fogExp2 = require(glsl-fog/exp2)
+#pragma glslify: fogLinear = require(glsl-fog/linear)
 
 //
 // Material implementation header guard.
@@ -94,7 +96,7 @@ void main() {
   GeometryContext geometry = getGeometryContext();
   vec3 surfaceColor = material.color.xyz;
   vec3 fragColor = vec3(0.0);
-  vec3 reflectivity = vec3(0.4);
+  vec3 reflectivity = vec3(0.0);
   float reflectivityAmount = 1.0;
 
   // adapted from https://github.com/regl-project/regl/blob/gh-pages/example/theta360.js
@@ -109,12 +111,6 @@ void main() {
   }
 #elif defined HAS_CUBE_MAP
   surfaceColor = textureCube(map.data, geometry.localPosition).rgb;
-#endif
-
-#ifdef HAS_ENVIRONMENT_MAP
-  reflectivity = lookupEnv(rdir).rgb;
-#elif defined HAS_ENVIRONMENT_CUBE_MAP
-  reflectivity = lookupCubeEnv(rdir).rgb;
 #endif
 
   // accumulate ambient
@@ -155,18 +151,33 @@ void main() {
     }
   }
 
+#ifdef HAS_ENVIRONMENT_MAP
+  reflectivity = lookupEnv(rdir).rgb;
   reflectivity = reflectivityAmount * reflectivity * surfaceColor;
+#elif defined HAS_ENVIRONMENT_CUBE_MAP
+  reflectivity = lookupCubeEnv(rdir).rgb;
+  reflectivity = reflectivityAmount * reflectivity * surfaceColor;
+#endif
+
   fragColor = fragColor + material.emissive.xyz + reflectivity;
 
   vec4 finalColor = vec4(fragColor, material.opacity);
 
-  if (fog.enabled) {
-    vec4 fogColor = fog.color;
-    float fogAmount = fog.amount;
-    float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
-    float fogAmountCalculated = fogFactorExp2(fogDistance, fogAmount);
+  float fogDistance = gl_FragCoord.z / gl_FragCoord.w;
+  float fogDensity = fog.density;
+  float fogFactor = 0.0;
+  vec4 fogColor = fog.color;
 
-    finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogAmountCalculated);
+  if (fog.enabled) {
+    if (0 == fog.type) {
+      fogFactor = fogLinear(fogDistance, fog.near, fog.far);
+    } else if (1 == fog.type) {
+      fogFactor = fogExp(fogDistance, fogDensity);
+    } else if (2 == fog.type) {
+      fogFactor = fogExp2(fogDistance, fogDensity);
+    }
+
+    finalColor = mix(vec4(fragColor, material.opacity), fogColor, fogFactor);
   }
 
   gl_FragColor = finalColor;

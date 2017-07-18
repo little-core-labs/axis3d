@@ -29,29 +29,29 @@ module.exports = exports = ({
 
     if (mappings.value('up')) {
       if (invert) {
-        euler[0] -= 0.1*damping
-      } else {
         euler[0] += 0.1*damping
+      } else {
+        euler[0] -= 0.1*damping
       }
     } else if (mappings.value('down')) {
       if (invert) {
-        euler[0] += 0.1*damping
-      } else {
         euler[0] -= 0.1*damping
+      } else {
+        euler[0] += 0.1*damping
       }
     }
 
     if (mappings.value('left')) {
       if (invert) {
-        euler[1] -= 0.08*damping
-      } else {
         euler[1] += 0.08*damping
+      } else {
+        euler[1] -= 0.08*damping
       }
     } else if (mappings.value('right')) {
       if (invert) {
-        euler[1] += 0.08*damping
-      } else {
         euler[1] -= 0.08*damping
+      } else {
+        euler[1] += 0.08*damping
       }
     }
   })

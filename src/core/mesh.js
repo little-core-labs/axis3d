@@ -1,12 +1,8 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
-
+import { ShaderUniforms, ShaderAttributes } from './gl'
 import { ensureRGBA, define, isArrayLike } from '../utils'
 import { Object3D, Object3DContext} from './object3d'
-import { Vector3, Vector2 } from '../math'
 import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
 import { Geometry } from './geometry'
@@ -24,131 +20,29 @@ import vec2 from 'gl-vec2'
 const kMat4Identity = mat4.identity([])
 const kMat3Identity = mat3.identity([])
 
-/**
- * The default wireframe drawing primitive.
- *
- * @public
- * @const
- * @type {String}
- */
-
 export const kDefaultMeshWireframePrimitive = 'line strip'
-
-/**
- * The default wireframe line thickness value.
- *
- * @public
- * @const
- * @type {Number}
- */
-
 export const kDefaultMeshWireframeThickness = 1
-
-/**
- * The default mesh drawing primitive.
- *
- * @public
- * @const
- * @type {String}
- */
-
 export const kDefaultMeshPrimitive = 'triangles'
-
-/**
- * The default vertex shader shource string.
- *
- * @public
- * @const
- * @type {String}
- */
-
-export const kDefaultMeshVertexShader = glslify(__dirname + '/../glsl/mesh/vert.glsl')
-
-/**
- * The Mesh class represents an abstraction around something drawable
- * to the screen. This class consumes a {@link Geometry} that provides
- * simplicial complex data such as positions, normals, and uv coordinates.
- * This class provides a default vertex shader and expects a fragment shader
- * to be injected into the context before drawing. This class extends
- * {@link Object3D] which gives it a 3D positional interface.
- *
- * @public
- * @class Mesh
- * @extends Object3D
- */
+export const kDefaultMeshVertexShader =
+  glslify(__dirname+'/../glsl/mesh/vert.glsl')
 
 export class Mesh extends Object3D {
-
-  /**
-   * Mesh class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {!Object} initialState Required initial state.
-   */
-
   constructor(ctx, initialState = {}) {
     if (false == initialState.geometry instanceof Geometry) {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
 
-    /**
-     * Mesh shader attributes.
-     */
-
     const {attributes = new MeshAttributes(ctx, initialState)} = initialState
-
-    /**
-     * Mesh shader uniforms.
-     */
-
     const {uniforms = new MeshUniforms(ctx, initialState)} = initialState
-
-    /**
-     * Mesh context.
-     */
-
     const {context = new MeshContext(ctx, initialState)} = initialState
-
-    /**
-     * Mesh state.
-     */
-
     const {state = new MeshState(ctx, initialState)} = initialState
-
-    /**
-     * Optional update function.
-     */
-
     const {update: updateMesh = ({}, f) => f()} = initialState
-
-    /**
-     * Regl contest.
-     */
-
     const injectContext = ctx.regl({context})
-
-    /**
-     * Mesh draw command.
-     */
-
-    const draw = ctx.regl({
-      ...state,
-      attributes,
-      uniforms,
-    })
+    const draw = ctx.regl({ ...state, attributes, uniforms, })
 
     super(ctx, { ...initialState, context, update })
     incrementStat('Mesh')
     assignTypeName(this, 'mesh')
-
-    this.typeName = 'mesh'
-
-    /**
-     * Draws mesh and with given state and
-     * then calling an optional given block
-     */
 
     function update({}, state, block) {
       injectContext(state, (...args) => {
@@ -168,122 +62,31 @@ export class Mesh extends Object3D {
   }
 }
 
-/**
- * Object3DContext class that represents an injected regl context.
- *
- * @public
- * @class MeshContext
- * @see {@link Object3DContext}
- */
-
 export class MeshContext extends Object3DContext {
-
-  /**
-   * MeshContext class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D render context.
-   * @param {Object} initialState
-   */
-
   constructor(ctx, initialState = {}) {
     super(ctx, initialState)
-
     const {geometry} = initialState
 
     // protected properties
     Object.defineProperties(this, {
-      computedBoundingBox: {
-        enumerable: false,
-        writable: true,
-        value: null
-      },
-
-      computedSize: {
-        enumerable: false,
-        writable: true,
-        value: null
-      },
-
-      computedSize: {
-        enumerable: false,
-        writable: true,
-        value: null
-      },
+      computedBoundingBox: {enumerable: false, writable: true, value: null},
+      computedSize: {enumerable: false, writable: true, value: null},
     })
 
-    /**
-     * The underlying geometry that wraps a simplicial complex
-     * that is given as shader attribute input.
-     *
-     * @public
-     * @type {Geometry}
-     */
-
+    this.size = (...args) => this.computeSize(...args)
+    this.visible = ({}, {visible} = {}) => coalesce(visible, initialState.visible, true)
     this.geometry = geometry
-
-    /**
-     * A computed bounding box for a mesh.
-     *
-     * @public
-     * @type {Array<Vector>}
-     */
-
-    this.boundingBox = (...args) => {
-      return this.computeBoundingBox(...args)
-    }
-
-    /**
-     * A computed size represented for a mesh.
-     *
-     * @public
-     * @type {Vector}
-     */
-
-    this.size = (...args) => {
-      return this.computeSize(...args)
-    }
-
-    /**
-     * Visibility boolean
-     *
-     * @public
-     * @type {Boolean}
-     */
-
-    this.visible = ({}, {visible} = {}) => {
-      return coalesce(visible, initialState.visible, true)
-    }
+    this.boundingBox = (...args) => this.computeBoundingBox(...args)
   }
 
-  /**
-   * Function to compute the bounding box of the internal
-   * geometry. The bounding box is computed once and cached.
-   *
-   * @public
-   * @method
-   * @param {Boolean} force
-   */
-
-  computeBoundingBox(force = false) {
+  computeBoundingBox() {
+    const force = arguments[0]
     if (null == this.geometry) { return null }
     if (true == force || null == this.computedBoundingBox) {
       this.computedBoundingBox = this.geometry.computeBoundingBox()
     }
     return this.computedBoundingBox
   }
-
-  /**
-   * Function to compute the size of the geometry with
-   * respect to scaling and dimension.
-   *
-   * @public
-   * @method
-   * @param {?Object} opts
-   * @param {?Number} opts.scale - default is 1
-   *
-   */
 
   computeSize({scale = 1} = {}) {
     if (null == this.geometry) {
@@ -295,14 +98,14 @@ export class MeshContext extends Object3DContext {
     this.computeBoundingBox()
 
     const boundingBox = this.computedBoundingBox
-    const dimension = boundingBox[0].length
+    const dimension = boundingBox && boundingBox[0].length
     const min = boundingBox[0]
     const max = boundingBox[1]
     let size = null
 
     switch (dimension) {
-      case 3: size = vec3.subtract(new Vector3(), max, min); break
-      case 2: size = vec2.subtract(new Vector2(), max, min); break
+      case 3: size = vec3.subtract([], max, min); break
+      case 2: size = vec2.subtract([], max, min); break
       default: return null
     }
 
@@ -315,27 +118,11 @@ export class MeshContext extends Object3DContext {
   }
 }
 
-/**
- * MeshState class.
- *
- * @public
- * @class MeshState
-*/
-
 export class MeshState {
-  /**
-   * MeshState class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D render context.
-   * @param {Object} initialState
-   */
-
   constructor(ctx, initialState) {
     let {
-      frag: fragmentShader = null,
-      vert: vertexShader = kDefaultMeshVertexShader,
+      fragmentShader = null,
+      vertexShader = kDefaultMeshVertexShader,
       geometry = null,
       vertexShaderTransform,
     } = initialState
@@ -365,36 +152,15 @@ export class MeshState {
       }
     }
 
-    /**
-     * Mesh vertex shader source.
-     *
-     * @public
-     * @type {String}
-     */
-
     this.vert =
       'string' == typeof vertexShader
       ? injectDefines(vertexShader, shaderDefines)
       : null
 
-    /**
-     * Optional mesh fragment shader source.
-     *
-     * @public
-     * @type {String|undefined}
-     */
-
     this.frag =
       'string' == typeof fragmentShader
       ? injectDefines(fragmentShader, shaderDefines)
       : null
-
-    /**
-     * The line width value used for wireframe meshes.
-     *
-     * @public
-     * @type {Number}
-     */
 
     this.lineWidth = ({}, {
       wireframeThickness = initialState.wireframeThickness,
@@ -406,36 +172,22 @@ export class MeshState {
         kDefaultMeshWireframeThickness))
     }
 
-    /**
-     * The mesh drawing primitive.
-     *
-     * @public
-     * @type {String}
-     */
-
     this.primitive = ({}, {
       primitive = null,
-      wireframe = false,
+      wireframe = coalesce(initialState.wireframe, false)
     } = {}) => {
-      if ('string' == typeof primitive) {
-        return primitive
-      } else if (wireframe) {
+      if (wireframe) {
         return coalesce(
           initialState.wireframePrimitive,
           kDefaultMeshWireframePrimitive)
+      } else if ('string' == typeof primitive) {
+        return primitive
       } else if ('string' == typeof initialState.primitive) {
         return initialState.primitive
       } else {
         return kDefaultMeshPrimitive
       }
     }
-
-    /**
-     * Mesh elements array if geometry provides cells.
-     *
-     * @public
-     * @type {Array|null}
-     */
 
     this.elements = !geometry || !geometry.cells ? null : (({}, {
       wireframe = initialState.wireframe,
@@ -448,13 +200,6 @@ export class MeshState {
       }
       return cells
     })
-
-    /**
-     * Mesh triangle count if geometry does not provide cells.
-     *
-     * @public
-     * @type {Number|null}
-     */
 
     this.count = !geometry || geometry.cells ? null : (({}, {
       count = geometry.positions.length
@@ -477,147 +222,28 @@ export class MeshState {
   }
 }
 
-/**
- * MeshUniforms class.
- *
- * @public
- * @class MeshUniforms
- */
+export class MeshUniforms extends ShaderUniforms {
+  constructor(ctx, initialState = {}) {
+    super(ctx)
+    this.set({
+      //'mesh.scale': this.contextOrArgument('scale', null, [1, 1, 1]),
+      //'mesh.position': this.contextOrArgument('position', null, [0, 0, 0]),
+      //'mesh.rotation': this.contextOrArgument('rotation', null, [0, 0, 0, 1]),
+      //'mesh.model': ({transform}) => isArrayLike(transform) ? transform : kMat4Identity,
 
-export class MeshUniforms {
-
-  /**
-   * MeshUniforms class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D render context.
-   * @param {Object} initialState
-   */
-
-  constructor(ctx, initialState) {
-
-    this['fog.color'] = ({color: contextColor}, {color = contextColor} = {}) => {
-      return coalesce(color, [1.0,0.0,1.0,1.0])
-    }
-    this['fog.near'] = () => 1.0
-    this['fog.far'] = () => 2000.0
-
-    /**
-     * Mesh model matrix uniform.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
-    this['mesh.model'] = ({transform}) => {
-      return transform || kMat4Identity
-    }
-
-    /**
-     * Mesh model normal matrix uniform.
-     *
-     * @public
-     * @type {Array<Number>}
-     */
-
-    this['mesh.modelNormal'] = ({transform}) => {
-      if (isArrayLike(transform)) {
-        return mat3.normalFromMat4([], transform) || kMat3Identity
-      } else {
-        return kMat3Identity
-      }
-    }
-
-    /**
-     * Mesh fallback opacity uniform value.
-     *
-     * @public
-     * @type {Number}
-     * @TODO - figure out a better fallback here and in the shader.
-     */
-
-    // at least enough for flat shading incase a material isn't given
-    this['material.opacity'] =
-      ({opacity: contextOpacity}, {opacity = contextOpacity} = {}) => {
-        return coalesce(opacity, 1)
-      }
-
-    /**
-     * Mesh fallback color uniform value.
-     *
-     * @public
-     * @type {Array<Number>}
-     * @TODO - figure out a better fallback here and in the shader.
-     */
-
-    this['material.color'] =
-      ({color: contextColor}, {color = contextColor} = {}) => {
-        return ensureRGBA(color)
-      }
-
-    // remove null or undefined values
-    for (const key in this) {
-      if (null == this[key]) {
-        delete this[key]
-      }
-    }
+      //'mesh.modelNormal': ({transform}) => isArrayLike(transform) ? mat3.normalFromMat4([], transform) || kMat3Identity : kMat3Identity,
+    })
   }
 }
 
-/**
- * MeshAttributes class.
- *
- * @public
- * @class MeshAttributes
-*/
-
-export class MeshAttributes {
-
-  /**
-   * MeshAttributes class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D render context.
-   * @param {!Object} initialState
-  */
-
+export class MeshAttributes extends ShaderAttributes {
   constructor(ctx, initialState) {
     const {geometry} = initialState
-
-    /**
-     * 'position' vertex attributes value.
-     *
-     * @public
-     * @type {Array<Array<Number>>|Array<Vector3>|null}
-     */
-
-    this.position = coalesce(geometry.positions, null)
-
-    /**
-     * 'normal' vertex attributes value.
-     *
-     * @public
-     * @type {Array<Array<Number>>|Array<Vector3>|null}
-     */
-
-    this.normal = coalesce(geometry.normals, null)
-
-    /**
-     * 'uv' vertex attributes value.
-     *
-     * @public
-     * @type {Array<Array<Number>>|Array<Vector2>|null}
-     */
-
-    this.uv = coalesce(geometry.uvs, null)
-
-    // remove null or undefined values
-    for (const key in this) {
-      if (null == this[key]) {
-        delete this[key]
-      }
-    }
+    super(ctx)
+    this.set({
+      position: coalesce(geometry.positions, null),
+      normal: coalesce(geometry.normals, null),
+      uv: coalesce(geometry.uvs, null),
+    })
   }
 }

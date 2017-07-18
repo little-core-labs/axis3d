@@ -13,7 +13,7 @@
     "axis3d",
     "graphics"
   ],
-  "main": "dist/axis3d.min.js",
+  "main": "lib/index.js",
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "MIT",
   "dependencies": {
@@ -63,6 +63,7 @@
     "derequire": "^2.0.6",
     "devtool": "^2.3.1",
     "dom-events": "^0.1.1",
+    "domready": "^1.0.8",
     "esdoc": "^0.5.2",
     "esdoc-es7-plugin": "0.0.3",
     "esdoc-importpath-plugin": "^0.1.1",
@@ -109,6 +110,7 @@
     "screen-projected-lines": "^1.2.0",
     "snowden": "^1.0.1",
     "standard": "^8.0.0",
+    "stats.js": "^0.17.0",
     "tape": "^4.6.3",
     "teapot": "^1.0.0",
     "touch-position": "^2.0.0",

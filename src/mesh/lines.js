@@ -60,10 +60,13 @@ export class LinesMesh extends Mesh {
 
     let {complex = geometry} = geometry
 
-    const cells = complex.cells.map((cell) => cell.slice())
-    const flattened = reindex(unindex(complex.positions, cells))
-    complex.normals = normals.vertexNormals(flattened.cells, flattened.positions)
-    Object.assign({}, complex, cells)
+    if (complex.cells) {
+      const cells = complex.cells.map((cell) => cell.slice())
+      const flattened = reindex(unindex(complex.positions, cells))
+      complex.normals = normals.vertexNormals(
+        flattened.cells, flattened.positions)
+      Object.assign({}, complex, cells)
+    }
 
     const lines = ProjectedLines(complex, {
       attributes: {normals: complex.normals}

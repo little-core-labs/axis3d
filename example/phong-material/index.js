@@ -111,12 +111,14 @@ frame(({time, lights}) => {
     quat.slerp(rotation, rotation, rot, 0.01)
     directional({
       color: directionalLightColor,
-      position: [5, 5, 5]
+      position: [5, 5, 5],
+      intensity: 1.5,
     })
 
     directional({
       color: directionalLightColor,
-      position: [-10, -10, -10]
+      position: [-10, -10, -10],
+      intensity: 2,
     })
 
     material({
