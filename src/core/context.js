@@ -1,8 +1,5 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
 import { assignTypeName } from './types'
 import { registerStat } from '../stats'
 import { EventEmitter } from 'events'
@@ -13,30 +10,7 @@ import events from 'dom-events'
 import glsl from 'glslify'
 import regl from 'regl'
 
-/** @virtual {WebGLRenderingContext} https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext */
-/** @virtual {HTMLCanvasElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement */
-/** @virtual {ReglInitializer} https://github.com/regl-project/regl/blob/gh-pages/API.md#all-initialization-options */
-/** @virtual {regl} https://github.com/regl-project/regl/blob/gh-pages/API.md */
-
-/**
- * The Context class represents an object that wraps
- * a WebGL context created by regl.
- *
- * @public
- * @class Context
- * @extends EventEmitter
- * @see {@link https://github.com/regl-project/regl}
- */
 export class Context extends EventEmitter {
-
-  /**
-   * Context class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {?Object} opts
-   * @param {?ReglInitializer} createRegl
-   */
   constructor(opts = {}, createRegl = regl) {
     super()
     this.setMaxListeners(Infinity)
@@ -102,90 +76,24 @@ export class Context extends EventEmitter {
     }
   }
 
-  /**
-   * The regl context wrapped by this context object.
-   *
-   * @public
-   * @accessor
-   * @type {Object|null}
-   * @name reglContext
-   * @TODO(werle) - Remove this?
-   */
   get reglContext() { return this._reglContext || null }
-
-  /**
-   * The Canvas DOM element wrapped by this context object.
-   *
-   * @public
-   * @accessor
-   * @type {HTMLCanvasElement|null}
-   * @name domElement
-   */
   get domElement() { return this._domElement || null }
-
-  /**
-   * Predicate to indicate that the context
-   * has focus. This is true if the HTMLCanvasElement has focus,
-   * or explicit focus has been given.
-   *
-   * @public
-   * @accessor
-   * @type {Boolean}
-   * @name hasFocus
-   * @see {@link Context#focus}
-   * @see {@link Context#blur}
-   */
   get hasFocus() { return Boolean(this._hasFocus) }
-
-  /**
-   * An instance of the wrapped regl context
-   * command initializer.
-   *
-   * @public
-   * @accessor
-   * @type {regl|Function}
-   */
   get regl() { return this._regl || null }
-
-  /**
-   * An instance of the wrapped WebGL context exposed
-   * by regl.
-   *
-   * @public
-   * @accessor
-   * @type {WebGLRenderingContext}
-   */
   get gl() { return this._regl._gl || null  }
 
-  /**
-   * Focuses context.
-   *
-   * @return {Context}
-   */
   focus() {
     this._hasFocus = true
     this.emit('focus')
     return this
   }
 
-  /**
-   * Blurs context.
-   *
-   * @return {Context}
-   */
   blur() {
     this._hasFocus = false
     this.emit('blur')
     return this
   }
 
-  /**
-   * Destroys the context and the
-   * regl context associated with it.
-   *
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#clean-up}
-   * @return {Context}
-   */
   destroy() {
     this.emit('beforedestroy')
     if (this._regl && 'function' == typeof this._regl.destroy) {
@@ -205,13 +113,6 @@ export class Context extends EventEmitter {
     return this
   }
 
-  /**
-   * Refreshes context. This is useful if you access the
-   * .gl property outside of this library.
-   *
-   * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#unsafe-escape-hatch}
-   * @return {Context}
-   */
   refresh() {
     if (this._regl) {
       if ('function' == typeof this._regl._refresh)
@@ -220,12 +121,6 @@ export class Context extends EventEmitter {
     return this
   }
 
-  /**
-   * Retrieve value from context store.
-   *
-   * @param {Mixed} key
-   * @return {Mixed}
-   */
   get(key) {
     if (this._store) {
       return this._store.get(key)
@@ -233,13 +128,6 @@ export class Context extends EventEmitter {
     return null
   }
 
-  /**
-   * Set value in context store.
-   *
-   * @param {Mixed} key
-   * @param {Mixed} value
-   * @return {Mixed}
-   */
   set(key, value) {
     if (this._store) {
       this._store.set(key, value)

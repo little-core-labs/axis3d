@@ -1,16 +1,8 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
-
-import { kDefaultMaterialFragmentShader } from './material'
-import { incrementStat, registerStat } from '../stats'
+import { ShaderUniforms, DynamicValue } from './gl'
 import { assignTypeName } from './types'
-import { ShaderUniforms } from './gl'
-import { Command } from './command'
-import { define } from '../utils'
-import { Color } from './color'
+import { Entity } from './entity'
 import coalesce from 'defined'
 
 export const kDefaultFrameBlendingState = Object.seal({
@@ -30,37 +22,34 @@ export const kDefaultFrameDepthState = Object.seal({
   range: [0, 1],
   func: 'less',
   mask: true,
-})
 
+})
 export const kDefaultFrameClearState = Object.seal({
   color: [17/255, 17/255, 17/255, 1],
   depth: 1,
 })
 
-export class Frame extends Command {
+export class Frame extends Entity {
   constructor(ctx, initialState = {}) {
-    super(update)
-    incrementStat('Frame')
+    super(ctx, initialState, update)
     assignTypeName(this, 'frame')
     const state = new FrameState(ctx, initialState.state || {})
     const context = new FrameContext(ctx, initialState.context || {})
     const uniforms = new FrameUniforms(ctx, initialState.uniforms || {})
-    const injectContext = ctx.regl({ uniforms, context, ...state })
-    function update(refresh) {
+    const injectContext = ctx.regl({ ...state, uniforms, context })
+    function update(state, refresh) {
       context.init(injectContext).enqueue(refresh)
       return () => context.cancelFrame()
     }
   }
 }
 
-export class FrameContext {
+export class FrameContext extends DynamicValue {
   constructor(ctx, initialState = {}) {
-    Object.assign(this, initialState)
-
-    const queue = []
-    const lights = []
+    super(ctx)
     const clearState = { ...kDefaultFrameClearState, ...initialState.clear }
-
+    const lights = []
+    const queue = []
 
     // protected properties
     Object.defineProperties(this, {
@@ -72,14 +61,17 @@ export class FrameContext {
       ctx: { get() { return ctx }, enumerable: false, },
     })
 
-    this.gl = () => ctx ? ctx.gl : null
-    this.fog = null
-    this.regl = () => ctx ? ctx.regl : null
-    this.lights = () => lights
+    this.set({
+      get lights() { return lights },
+      get fog() { return null },
+      get gl() { return ctx ? ctx.gl : null },
 
-    // functions
-    this.cancel = () => (...args) => this.cancelFrame(...args)
-    this.clear = () => (...args) => this.clearBuffers(...args)
+      // functions
+      cancel: () => (...args) => this.cancelFrame(...args),
+      clear: () => (...args) => this.clearBuffers(...args),
+      regl: () => ctx ? ctx.regl : null ,
+    })
+
   }
 
   enqueue(refresh) {
@@ -101,7 +93,6 @@ export class FrameContext {
       this.isCancelled = false
       this.loop = this.ctx.regl.frame(() => {
         inject((...args) => {
-          registerStat('Frame refresh')
           try { this.onrefresh(...args) }
           catch (err) {
             this.cancelFrame()
@@ -141,46 +132,31 @@ export class FrameUniforms extends ShaderUniforms {
   constructor(ctx, initialState = {}) {
     super(ctx)
     this.set({
-      //...initialState,
-      //time: ({time}) => time,
-      //tick: ({tick}) => tick,
+      ...initialState,
+      time: ({time}) => time,
+      tick: ({tick}) => tick,
     })
   }
 }
 
-export class FrameState {
+export class FrameState extends DynamicValue {
   constructor(ctx, initialState = {}) {
-    Object.assign(this, { ...initialState })
+    super(ctx)
+    this.set(initialState)
+    this.set({
+      depth: { ...kDefaultFrameDepthState, ...initialState.depth },
+      blend: {
+        ...kDefaultFrameBlendingState,
+        ...coalesce(initialState.blend, initialState.blending)
+      },
+      cull: {
+        ...kDefaultFrameCullingState,
+        ...coalesce(initialState.cull, initialState.culling)
+      },
+    })
 
     // remove alias properties this object
     delete this.blending
     delete this.culling
-
-    this.frag = coalesce(
-      initialState.frag,
-      initialState.fragmentShader,
-      kDefaultMaterialFragmentShader)
-
-    this.blend = {
-      ...kDefaultFrameBlendingState,
-      ...(initialState.blend || initialState.blending)
-    }
-
-    this.cull = {
-      ...kDefaultFrameCullingState,
-      ...(initialState.cull|| initialState.culling)
-    }
-
-    this.depth = {
-      ...kDefaultFrameDepthState,
-      ...initialState.depth
-    }
-
-    // remove undefined/null values
-    for (const key in this) {
-      if (null == this[key]) {
-        delete this[key]
-      }
-    }
   }
 }

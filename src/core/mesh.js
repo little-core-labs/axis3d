@@ -226,12 +226,11 @@ export class MeshUniforms extends ShaderUniforms {
   constructor(ctx, initialState = {}) {
     super(ctx)
     this.set({
-      //'mesh.scale': this.contextOrArgument('scale', null, [1, 1, 1]),
-      //'mesh.position': this.contextOrArgument('position', null, [0, 0, 0]),
-      //'mesh.rotation': this.contextOrArgument('rotation', null, [0, 0, 0, 1]),
-      //'mesh.model': ({transform}) => isArrayLike(transform) ? transform : kMat4Identity,
-
-      //'mesh.modelNormal': ({transform}) => isArrayLike(transform) ? mat3.normalFromMat4([], transform) || kMat3Identity : kMat3Identity,
+      'mesh.scale': this.contextOrArgument('scale', null, [1, 1, 1]),
+      'mesh.position': this.contextOrArgument('position', null, [0, 0, 0]),
+      'mesh.rotation': this.contextOrArgument('rotation', null, [0, 0, 0, 1]),
+      'mesh.model': ({transform}) => isArrayLike(transform) ? transform : kMat4Identity,
+      'mesh.modelNormal': ({transform}) => isArrayLike(transform) ? mat3.normalFromMat4([], transform) || kMat3Identity : kMat3Identity,
     })
   }
 }

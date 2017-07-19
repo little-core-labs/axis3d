@@ -198,11 +198,11 @@ export class CameraUniforms extends ShaderUniforms {
   constructor(ctx, initialState) {
     super(ctx)
     this.set({
-      ///** mat4 */ 'camera.invertedView': ({invertedView}) => invertedView,
-      ///** mat4 */ 'camera.projection': ({projection}) => projection,
-      ///** float */ 'camera.aspect': ({aspect}) => aspect,
-      ///** mat4 */ 'camera.view': ({view}) => view,
-      ///** vec3 */ 'camera.eye': ({eye}) => [...eye],
+      /** mat4 */ 'camera.invertedView': ({invertedView}) => invertedView,
+      /** mat4 */ 'camera.projection': ({projection}) => projection,
+      /** float */ 'camera.aspect': ({aspect}) => aspect,
+      /** mat4 */ 'camera.view': ({view}) => view,
+      /** vec3 */ 'camera.eye': ({eye}) => [...eye],
     })
   }
 }

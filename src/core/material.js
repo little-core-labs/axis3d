@@ -200,7 +200,6 @@ export class MaterialState {
       fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
     }
 
-    console.log(fragmentShader)
     this.frag = fragmentShader
     this.blend = {
       equation: () => coalesce(
@@ -338,7 +337,7 @@ export class MaterialUniforms extends ShaderUniforms {
     }
 
     // material uniform properties
-    /*this.set({
+    this.set({
       'material.opacity': ({opacity}) => coalesce(
         opacity,
         initialState.opacity,
@@ -356,7 +355,7 @@ export class MaterialUniforms extends ShaderUniforms {
         initialState.type,
         kDefaultMaterialType
       )
-    })*/
+    })
 
     // texture map uniform properties
     if (hasMap) {

@@ -35,17 +35,20 @@ export class DynamicValue {
   }
 
   set(name, value) {
-    Object.assign(this,
-      (name && 'object' == typeof name)
-      ? name : ({[name]: value})
-    )
+    if (name && 'object' == typeof name) {
+      Object.defineProperties(this, Object.getOwnPropertyDescriptors(name))
+    } else {
+      this[name] = value
+    }
     this.purge()
     return this
   }
 
   purge() {
     for (const key in this) {
-      if (null == this[key]) { delete this[key] }
+      if (null == this[key]) {
+        delete this[key]
+      }
     }
     return this
   }
