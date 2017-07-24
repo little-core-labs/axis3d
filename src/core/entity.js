@@ -11,6 +11,7 @@ export class Entity extends Command {
     const context = new EntityContext(ctx, initialState, id)
     const injectContext = ctx.regl({context})
     let currentState = { ...initialState }
+    let previousState = null
     super((state, block) => {
       if ('function' == typeof state) {
         block = state
@@ -18,9 +19,10 @@ export class Entity extends Command {
       }
       state = 'object' == typeof state && state ? state : {}
       block = 'function' == typeof block ? block : function() {}
-      currentState = { ...currentState, ...state }
+      previousState = { ...currentState }
+      currentState = { ...initialState, ...state }
       injectContext(currentState, () => {
-        update(currentState, block)
+        update(currentState, block, previousState)
       })
     })
   }

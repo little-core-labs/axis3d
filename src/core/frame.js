@@ -46,22 +46,10 @@ export class Frame extends Entity {
 
 export class FrameContext extends DynamicValue {
   constructor(ctx, initialState = {}) {
-    super(ctx)
     const clearState = { ...kDefaultFrameClearState, ...initialState.clear }
     const lights = []
     const queue = []
-
-    // protected properties
-    Object.defineProperties(this, {
-      reglContext: { enumerable: false, writable: true, value: null, },
-      isCancelled: { enumerable: false, writable: true, value: false, },
-      clearState: { get() { return clearState }, enumerable: false, },
-      queue: { get() { return queue }, enumerable: false, },
-      loop: { enumerable: false, writable: true, value: null, },
-      ctx: { get() { return ctx }, enumerable: false, },
-    })
-
-    this.set({
+    super(ctx, {
       get lights() { return lights },
       get fog() { return null },
       get gl() { return ctx ? ctx.gl : null },
@@ -69,9 +57,17 @@ export class FrameContext extends DynamicValue {
       // functions
       cancel: () => (...args) => this.cancelFrame(...args),
       clear: () => (...args) => this.clearBuffers(...args),
-      regl: () => ctx ? ctx.regl : null ,
+      regl: () => ctx ? ctx.regl : null,
     })
 
+    // protected properties
+    Object.defineProperties(this, {
+      reglContext: { enumerable: false, writable: true, value: null, },
+      isCancelled: { enumerable: false, writable: true, value: false, },
+      clearState: { get: () => clearState, enumerable: false, },
+      queue: { get: () => queue, enumerable: false, },
+      loop: { value: null, enumerable: false, writable: true, },
+    })
   }
 
   enqueue(refresh) {
@@ -141,9 +137,8 @@ export class FrameUniforms extends ShaderUniforms {
 
 export class FrameState extends DynamicValue {
   constructor(ctx, initialState = {}) {
-    super(ctx)
-    this.set(initialState)
-    this.set({
+    super(ctx, {
+      ...initialState,
       depth: { ...kDefaultFrameDepthState, ...initialState.depth },
       blend: {
         ...kDefaultFrameBlendingState,

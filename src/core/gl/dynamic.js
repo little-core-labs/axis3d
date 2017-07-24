@@ -34,13 +34,27 @@ export class DynamicValue {
     return value
   }
 
+  constructor(ctx, initialState = {}) {
+    if ('object' == typeof ctx) {
+      Object.defineProperty(this, 'ctx', {enumerable: false, get: () => ctx})
+    }
+    this.set(initialState)
+  }
+
   set(name, value) {
     if (name && 'object' == typeof name) {
       Object.defineProperties(this, Object.getOwnPropertyDescriptors(name))
-    } else {
+    } else if ('string' == typeof name && null != value) {
       this[name] = value
     }
     this.purge()
+    return this
+  }
+
+  unset(name) {
+    if ('string' == typeof name) {
+      delete this[name]
+    }
     return this
   }
 

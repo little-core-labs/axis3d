@@ -17,7 +17,12 @@
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "MIT",
   "dependencies": {
-    "glsl-fog": "^0.0.1"
+    "comment-regex": "^1.0.0",
+    "glsl-fog": "^0.0.1",
+    "glsl-token-defines": "^1.0.0",
+    "glsl-token-string": "^1.0.1",
+    "glsl-tokenizer": "^2.1.2",
+    "prepr": "^1.1.1"
   },
   "standard": {
     "ignore": [
@@ -86,7 +91,6 @@
     "glslify-babel": "^1.0.1",
     "glslify-fancy-imports": "^1.0.1",
     "glslify-import": "^3.0.0",
-    "glslify-live": "^2.1.1",
     "icosphere": "^1.0.0",
     "keycode": "^2.1.4",
     "math-euler": "^0.1.1",
