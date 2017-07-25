@@ -1,8 +1,8 @@
 'use strict'
 
 import { ShaderUniforms, ShaderAttributes, DynamicValue } from './gl'
-import { ensureRGBA, define, isArrayLike } from '../utils'
 import { Object3D, Object3DContext} from './object3d'
+import { isArrayLike } from '../utils'
 import { Geometry } from './geometry'
 import { Shader } from './shader'
 
@@ -12,7 +12,6 @@ import glslify from 'glslify'
 import clamp from 'clamp'
 import mat4 from 'gl-mat4'
 import mat3 from 'gl-mat3'
-import vec4 from 'gl-vec4'
 import vec3 from 'gl-vec3'
 import vec2 from 'gl-vec2'
 
