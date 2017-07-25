@@ -149,13 +149,12 @@ export class ShaderLib {
   } = {}) {
     this.cache = new DynamicValue(this)
     this.store = new DynamicValue(this)
-    this.version = version || kDefaultShaderLibVersion
+    this.version = coalesce(version || kDefaultShaderLibVersion)
     this.precision = coalesce(precision, kDefaultShaderLibPrecision)
     this.middleware = coalesce(middleware, [])
-    this.preprocessor = preprocessor || new ShaderLibPreprocessor(this)
+    this.preprocessor = coalesce(preprocessor, new ShaderLibPreprocessor(this))
     this.preprocessor.define(defines)
     this.add({ ...libglsl, ...glsl })
-    console.log(this);
   }
 
   get defines() {

@@ -135,7 +135,9 @@ export class MeshXShader extends Shader {
           ${uniformName}.model,
           position);
       }
-  `,
+     `,
+
+      ...initialState
     })
   }
 }

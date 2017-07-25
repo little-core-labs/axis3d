@@ -54,6 +54,7 @@ export class MaterialX extends Entity {
 export class MaterialXShader extends Shader {
   constructor(ctx, initialState = {}) {
     const {uniformName = kDefaultMaterialUniformName} = initialState
+    const {fragmentShader = null} = initialState
     super(ctx, {
       fragmentShader: `
       #define GLSL_MATERIAL_UNIFORM_VARIABLE ${uniformName}
@@ -65,7 +66,8 @@ export class MaterialXShader extends Shader {
           ${uniformName}.color,
           ${uniformName}.opacity);
       }
-      `
+      `,
+      ...initialState
     })
   }
 }
@@ -171,7 +173,9 @@ export class MaterialXState {
         if (opacity < 1.0 || transparent) {
           return true
         } else {
-          return coalesce(initialState.depth.mask, kDefaultMaterialXDepthState.mask)
+          return coalesce(
+            initialState.depth.mask,
+            kDefaultMaterialXDepthState.mask)
         }
       }
     }
