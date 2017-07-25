@@ -51,9 +51,9 @@ vertexShader({
   #include <vertex/attributes/normal>
   #include <vertex/main>
 
-  void Main(inout VaryingData data) {
+  void Main(inout vec4 vertexPosition, inout VaryingData data) {
     data.color = vec4(0.2, 0.4, 0.5, 1.0);
-    gl_Position = MeshVertex(
+    vertexPosition = MeshVertex(
       camera.projection,
       camera.view,
       mesh.model,
@@ -64,7 +64,6 @@ vertexShader({
 })
 
 fragmentShader({
-
   fragmentShader: glsl`
   #include <mesh/fragment>
   #include <texture/2d>
@@ -73,13 +72,19 @@ fragmentShader({
   #include <varying/color>
   #include <varying/read>
 
+  #define GLSL_FRAGMENT_MAIN_TRANSFORM Transform
+
   #include <fragment/main>
-  void Main(inout VaryingData data) {
-    data = ReadVaryingData();
-    gl_FragColor = MeshFragment(data.color);
+  uniform float time;
+  void Main(inout vec4 fragColor, inout VaryingData data) {
+    fragColor = MeshFragment(data.color);
+  }
+
+  void Transform(inout vec4 fragColor, inout VaryingData data) {
+    fragColor.r = 1.0/cos(0.2*time);
   }
   `
-}, ({fragmentShader}) => console.log(fragmentShader))
+})
 
 function scene({time}) {
   camera({position: [5, 5, -5]}, () => {

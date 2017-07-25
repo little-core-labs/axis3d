@@ -3,41 +3,56 @@
 
 #include "../varying/data"
 
-void Main(inout VaryingData data);
-void BeforeMain(inout VaryingData varyingData);
-void TransformMain(inout VaryingData varyingData);
-void AfterMain(inout VaryingData varyingData);
+void BeforeMain(inout vec4 vertexPosition, inout VaryingData varyingData);
+void Main(inout vec4 vertexPosition, inout VaryingData data);
+void TransformMain(inout vec4 vertexPosition, inout VaryingData varyingData);
+void AfterMain(inout vec4 vertexPosition, inout VaryingData varyingData);
+
 void InitVarying(inout VaryingData varyingData);
 
 void main() {
+  vec4 vertexPosition = vec4(0.0);
   VaryingData varyingData = CreateVaryingData();
-  BeforeMain(varyingData);
   InitVarying(varyingData);
-  Main(varyingData);
+  BeforeMain(vertexPosition, varyingData);
+  Main(vertexPosition, varyingData);
+  TransformMain(vertexPosition, varyingData);
 
 #ifdef GLSL_VARYING_EMIT
   EmitVaryingData(varyingData);
 #endif
 
-  TransformMain(varyingData);
-  AfterMain(varyingData);
+  AfterMain(vertexPosition, varyingData);
+  gl_Position = vertexPosition;
 }
 
-void BeforeMain(inout VaryingData varyingData) {
 #ifdef GLSL_VERTEX_MAIN_BEFORE
-  GLSL_VERTEX_MAIN_BEFORE;
+  void GLSL_VERTEX_MAIN_BEFORE(inout vec4 vertexPosition, inout VaryingData varyingData);
 #endif
-}
 
-void TransformMain(inout VaryingData varyingData) {
 #ifdef GLSL_VERTEX_MAIN_TRANSFORM
-  GLSL_VERTEX_MAIN_TRANSFORM;
+  void GLSL_VERTEX_MAIN_TRANSFORM(inout vec4 vertexPosition, inout VaryingData varyingData);
+#endif
+
+#ifdef GLSL_VERTEX_MAIN_AFTER
+  void GLSL_VERTEX_MAIN_AFTER(inout vec4 vertexPosition, inout VaryingData varyingData);
+#endif
+
+void BeforeMain(inout vec4 vertexPosition, inout VaryingData varyingData) {
+#ifdef GLSL_VERTEX_MAIN_BEFORE
+  GLSL_VERTEX_MAIN_BEFORE(vertexPosition, varyingData);
 #endif
 }
 
-void AfterMain(inout VaryingData varyingData) {
+void TransformMain(inout vec4 vertexPosition, inout VaryingData varyingData) {
+#ifdef GLSL_VERTEX_MAIN_TRANSFORM
+  GLSL_VERTEX_MAIN_TRANSFORM(vertexPosition, varyingData);
+#endif
+}
+
+void AfterMain(inout vec4 vertexPosition, inout VaryingData varyingData) {
 #ifdef GLSL_VERTEX_MAIN_AFTER
-  GLSL_VERTEX_MAIN_AFTER;
+  GLSL_VERTEX_MAIN_AFTER(vertexPosition, varyingData);
 #endif
 }
 
