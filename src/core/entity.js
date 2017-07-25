@@ -7,6 +7,11 @@ let entityCount = 0
 export class Entity extends Command {
   static id() { return ++ entityCount }
   constructor(ctx, initialState = {}, update) {
+    if ('function' == typeof initialState) {
+      update = initialState
+      initialState = {}
+    }
+
     const id = Entity.id()
     const context = new EntityContext(ctx, initialState, id)
     const injectContext = ctx.regl({context})
@@ -21,7 +26,7 @@ export class Entity extends Command {
       block = 'function' == typeof block ? block : function() {}
       previousState = { ...currentState }
       currentState = { ...initialState, ...state }
-      injectContext(currentState, () => {
+      injectContext(currentState, (ctx) => {
         update(currentState, block, previousState)
       })
     })

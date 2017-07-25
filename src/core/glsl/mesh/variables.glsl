@@ -1,0 +1,8 @@
+#ifndef GLSL_MESH_VARIABLES
+#define GLSL_MESH_VARIABLES
+
+#ifndef GLSL_MESH_UNIFORM_VARIABLE
+#define GLSL_MESH_UNIFORM_VARIABLE mesh
+#endif
+
+#endif

@@ -9,22 +9,8 @@ import { incrementStat } from '../stats'
 import { Command } from './command'
 import window from 'global/window'
 
-/**
-  * @virtual {HTMLVideoElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement
-  */
-
 const {HTMLVideoElement} = window
-
-/**
-  * @virtual {HTMLCanvasElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
-  */
-
 const {HTMLCanvasElement} = window
-
-/**
-  * @virtual {HTMLImageElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement
-  */
-
 const {HTMLImageElement} = window
 
 // predicate helpers
@@ -41,42 +27,12 @@ const {
   HAVE_ENOUGH_DATA = 4,
 } = HTMLVideoElement
 
-/**
- * Default underlying texture state.
- *
- * @public
- * @const
- * @type {Object}
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#textures}
- */
-
 export const kDefaultTextureState = Object.seal({
   min: 'linear',
   mag: 'linear',
 })
 
-/**
- * A Texture class represents an interface wrapping, uploading,
- * data.
- * and manipulating 2D texture data such as image, video, and canvas
- *
- * @public
- * @class Texture
- * @extends Command
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#textures}
- */
-
 export class Texture extends Command {
-
-  /**
-   * Texture class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
-
   constructor(ctx, initialState = {}) {
     super(update)
     incrementStat('Texture')

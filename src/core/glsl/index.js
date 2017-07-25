@@ -1,4 +1,8 @@
 export * as material from './material'
+export * as fragment from './fragment'
+export * as texture from './texture'
+export * as varying from './varying'
+export * as vertex from './vertex'
 export * as camera from './camera'
 export * as common from './common'
 export * as mesh from './mesh'
@@ -10,5 +14,3 @@ for (const lib in exports) {
     delete exports[lib][path]
   }
 }
-
-console.log(exports);

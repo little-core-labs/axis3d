@@ -1,0 +1,8 @@
+#ifndef GLSL_VERTEX_ATTRIBUTES_COLOR
+#define GLSL_VERTEX_ATTRIBUTES_COLOR
+
+#include "./variables"
+
+attribute vec4 GLSL_VERTEX_ATTRIBUTES_COLOR_VARIABLE;
+
+#endif

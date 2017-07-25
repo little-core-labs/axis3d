@@ -11,8 +11,8 @@ import glslTokensToString from 'glsl-token-string'
 import injectDefines from 'glsl-inject-defines'
 import CommentRegExp from 'comment-regex'
 import glslTokenize from 'glsl-tokenizer'
+import preprocess from 'prepr'
 import coalesce from 'defined'
-import prepr from 'prepr'
 
 const kDefaultShaderLibVersion = '100'
 const kDefaultShaderLibPrecision = 'mediump float'
@@ -54,6 +54,7 @@ export class Shader extends Entity {
         compile()
       }
       if ('function' == typeof injectContext) {
+        //Object.assign(state, {vertexShader, fragmentShader})
         injectContext(state, block)
       } else {
         block(state)
@@ -61,10 +62,15 @@ export class Shader extends Entity {
     }
 
     function compile() {
-      const opts = {}
+      const opts = {
+        context: {
+          get vertexShader() { return vertexShader },
+          get fragmentShader() { return fragmentShader }
+        }
+      }
       if ('string' == typeof vertexShader) { opts.vert = vertexShader }
       if ('string' == typeof fragmentShader) { opts.frag = fragmentShader }
-      if ('string' == typeof opts.vert && 'string' == typeof opts.frag) {
+      if ('string' == typeof opts.vert || 'string' == typeof opts.frag) {
         injectContext = ctx.regl(opts)
       }
     }
@@ -74,19 +80,14 @@ export class Shader extends Entity {
       const shaderName = `${kAnonymousShaderName} (vertex)`
 
       check('function' != typeof injectContext)
-
-      checkShader(vertexShaderUncompiled, currentState.vertexShader, () => {
-        vertexShaderUncompiled = currentState.vertexShader
-        vertexShader = shaderLib.compile(shaderName, vertexShaderUncompiled)
-        vertexShader = shaderLib.preprocess(vertexShader)
-        console.log(vertexShader);
-      })
-
-      checkShader(fragmentShaderUncompiled, currentState.fragmentShader, () => {
-        fragmentShaderUncompiled = currentState.fragmentShader
-        fragmentShader = shaderLib.compile(shaderName, fragmentShaderUncompiled)
-        fragmentShader = shaderLib.preprocess(fragmentShader)
-      })
+      checkShader(
+        vertexShaderUncompiled,
+        currentState.vertexShader,
+        compileVertexShader)
+      checkShader(
+        fragmentShaderUncompiled,
+        currentState.fragmentShader,
+        compileFragmentShader)
 
       return needsCompile
       function check(cond, block) {
@@ -98,9 +99,27 @@ export class Shader extends Entity {
 
       function checkShader(current, next, block) {
         let cond = false
-        if ('string' != typeof current) { cond =  true }
-        if (current != next) { cond = true }
-        check(cond, block)
+        if ('string' != typeof current && 'string' == typeof next) {
+          return check(true, block)
+        } else if ('string' == typeof next && current != next) {
+          return check(true, block)
+        }
+      }
+
+      function compileVertexShader() {
+        if ('string' == typeof currentState.vertexShader) {
+          vertexShaderUncompiled = currentState.vertexShader
+          vertexShader = shaderLib.compile(shaderName, vertexShaderUncompiled)
+          vertexShader = shaderLib.preprocess(vertexShader)
+        }
+      }
+
+      function compileFragmentShader() {
+        if ('string' == typeof currentState.fragmentShader) {
+          fragmentShaderUncompiled = currentState.fragmentShader
+          fragmentShader = shaderLib.compile(shaderName, fragmentShaderUncompiled)
+          fragmentShader = shaderLib.preprocess(fragmentShader)
+        }
       }
     }
   }
@@ -131,15 +150,22 @@ export class ShaderLib {
     return defines
   }
 
+  define(key, value) {
+    this.preprocessor.define(key, value)
+    return this
+  }
+
   injectShaderNameDefine(name, source) {
-    const regex = /\s?#ifndef SHADER_NAME\s?\n#define SHADER_NAME\s?.*\n#endif\n?$/g
+    const regex =
+      /\s?#ifndef SHADER_NAME\s?\n#define SHADER_NAME\s?.*\n#endif\n?$/g
     return String(source).replace(regex, '')
   }
 
   injectShaderPrecision(source) {
     const {precision = kDefaultShaderLibPrecision} = this
     const header = `precision ${precision};`
-    const regex = /[\s|\t]?precision\s+([a-z]+)\s+([a-z|A-Z]+)[\s+]?;[\s|\t|\r]?/g
+    const regex =
+      /[\s|\t]?precision\s+([a-z]+)\s+([a-z|A-Z]+)[\s+]?;[\s|\t|\r]?/g
     source = source
       .replace(header, '')
       .replace(regex, '')
@@ -197,7 +223,8 @@ export class ShaderLib {
 
   preprocess(source) {
     const {defines} = this
-    source = prepr(source, defines)
+    let whitespace = 0
+    source = preprocess(source, defines)
     source = source
       .split('\n')
       .filter((line) => false == /^\s*$/.test(line))
@@ -233,6 +260,10 @@ export class ShaderLib {
 
 export class ShaderLibPlugin extends Command { }
 
+/*shaderLib.use(new ShaderLibPlugin((shaderLib, this, src, opts)) => {
+
+})*/
+
 export class ShaderLibPreprocessor {
   constructor(shaderLib) {
     this.defines = new DynamicValue(this)
@@ -264,7 +295,6 @@ export class ShaderLibPreprocessor {
   process(name, source, opts = {}) {
     const { shaderLib, defines } = this
     const { middleware, version } = shaderLib
-    const included = []
     const includeStack = []
     const stack = []
     opts = !opts || 'object' != typeof opts ? {} : opts
@@ -274,7 +304,6 @@ export class ShaderLibPreprocessor {
     }
     visit(source, stack, name != kAnonymousShaderName ? dirname(name) : '/')
     source = glslTokensToString(stack)
-    //source = prepr(source, defines)
     return middleware
       .filter((ware) => 'function' == typeof ware)
       .reduce((src, ware) => {
@@ -343,17 +372,14 @@ export class ShaderLibPreprocessor {
                 const nextRoot = '<' == left && '>' == right ? '/' : root
                 const prefix = '.' != path[0] ? './' : ''
                 const resolvedPath = shaderLib.resolve(`${prefix}${path}`, nextRoot)
-                if (-1 == included.indexOf(resolvedPath)) {
-                  const shader = shaderLib.get(resolvedPath)
-                  included.push(resolvedPath)
+                const shader = shaderLib.get(resolvedPath)
+                if (shader) {
                   includeStack.push(`${path}:${token.line}`)
-                  if (shader) {
-                    visit(shader + '\n', stack, nextRoot)
-                  } else {
-                    throw createError(ReferenceError, `glsl lib ${arg} not found.`)
-                  }
-                  includeStack.pop()
+                  visit(shader + '\n', stack, nextRoot)
+                } else {
+                  throw createError(ReferenceError, `glsl lib ${arg} not found.`)
                 }
+                includeStack.pop()
                 break
 
               default: push()

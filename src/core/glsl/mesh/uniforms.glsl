@@ -1,8 +1,9 @@
 #ifndef GLSL_MESH_UNIFORMS
 #define GLSL_MESH_UNIFORMS
 
-#include "uniforms/material"
-#include "uniforms/camera"
-#include "uniforms/mesh"
+#include "./variables"
+#include "./mesh"
+
+uniform Mesh GLSL_MESH_UNIFORM_VARIABLE;
 
 #endif

@@ -1,0 +1,8 @@
+#ifndef GLSL_VERTEX_ATTRIBUTES_POSITION
+#define GLSL_VERTEX_ATTRIBUTES_POSITION
+
+#include "./variables"
+
+attribute vec3 GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE;
+
+#endif

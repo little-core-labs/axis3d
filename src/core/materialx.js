@@ -1,7 +1,9 @@
 'use strict'
 
 import { ShaderUniforms, DynamicValue } from './gl'
+import { ensureRGBA, isArrayLike } from '../utils'
 import { Command } from './command'
+import { Shader } from './shader'
 import { Entity } from './entity'
 
 import injectDefines from 'glsl-inject-defines'
@@ -11,13 +13,9 @@ import vec4 from 'gl-vec4'
 
 let MATERIAL_COMMAND_NEXT_ID = 0x6d
 
-export const kDefaultMaterialXColor = [100/255, 110/255, 255/255, 1]
+export const kDefaultMaterialXColor = [100/255, 110/255, 255/255]
 export const kDefaultMaterialXOpacity = 1
-
-export const kDefaultMaterialXFragmentShader =
-  glslify(__dirname + '/../glsl/material/fragments/main.glsl', {
-    transform: ['glslify-fancy-imports']
-  })
+export const kDefaultMaterialUniformName = 'material'
 
 export const kDefaultMaterialXBlendingState = {
   equation: 'add',
@@ -42,9 +40,33 @@ export class MaterialX extends Entity {
   constructor(ctx, initialState = {}) {
     const {uniforms = new MaterialXUniforms(ctx, initialState)} = initialState
     const {context = new MaterialXContext(ctx, initialState)} = initialState
+    const {shader = new MaterialXShader(ctx, initialState)} = initialState
     const {state = new MaterialXState(ctx, initialState)} = initialState
     const injectContext = ctx.regl({ ...state, uniforms, context })
-    super(injectContext)
+    super(ctx, (state, block) => {
+      shader(() => {
+        injectContext(state, block)
+      })
+    })
+  }
+}
+
+export class MaterialXShader extends Shader {
+  constructor(ctx, initialState = {}) {
+    const {uniformName = kDefaultMaterialUniformName} = initialState
+    super(ctx, {
+      fragmentShader: `
+      #define GLSL_MATERIAL_UNIFORM_VARIABLE ${uniformName}
+      #include <mesh/fragment>
+      #include <material/material>
+      #include <material/uniforms>
+      void main() {
+        gl_FragColor = MeshFragment(
+          ${uniformName}.color,
+          ${uniformName}.opacity);
+      }
+      `
+    })
   }
 }
 
@@ -60,27 +82,10 @@ export class MaterialXState {
       delete initialState.culling
     }
 
-    if (null == initialState.blend) {
-      initialState.blend = {}
-    }
+    if (null == initialState.blend) { initialState.blend = {} }
+    if (null == initialState.cull) { initialState.cull = {} }
+    if (null == initialState.depth) { initialState.depth = {} }
 
-    if (null == initialState.cull) {
-      initialState.cull = {}
-    }
-
-    if (null == initialState.depth) {
-      initialState.depth = {}
-    }
-
-    let {fragmentShader = kDefaultMaterialXFragmentShader} = initialState
-
-    const shaderDefines = { ...initialState.shaderDefines }
-
-    for (let key in shaderDefines) {
-      fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
-    }
-
-    this.frag = fragmentShader
     this.blend = {
       equation: () => coalesce(
         initialState.blend.equation,
@@ -176,30 +181,31 @@ export class MaterialXState {
 export class MaterialXContext extends DynamicValue {
   constructor(ctx, initialState = {}) {
     super(ctx)
-    this.color = ({}, {color} = {}) => ensureRGBA(coalesce(
-      color,
-      initialState.color,
-      kDefaultMaterialXColor
-    ))
-    this.opacity = ({}, {opacity} = {}) => coalesce(
-      opacity,
-      initialState.opacity,
-      kDefaultMaterialXOpacity
-    )
+    this.set({
+      color: this.argument('color', null, coalesce(
+        initialState.color,
+        kDefaultMaterialXColor
+      )),
+      opacity: this.argument('opacity', null, coalesce(
+        initialState.opacity,
+        kDefaultMaterialXOpacity
+      ))
+    })
   }
 }
 
 export class MaterialXUniforms extends ShaderUniforms {
   constructor(ctx, initialState = {}) {
+    const {uniformName = kDefaultMaterialUniformName} = initialState
     super(ctx)
     this.set({
-      'material.opacity': ({opacity}) => coalesce(
+      [`${uniformName}.opacity`]: ({opacity}) => coalesce(
         opacity,
         initialState.opacity,
         kDefaultMaterialXOpacity
       ),
 
-      'material.color': ({color}) => coalesce(
+      [`${uniformName}.color`]: ({color}) => coalesce(
         color,
         initialState.color,
         kDefaultMaterialXColor
