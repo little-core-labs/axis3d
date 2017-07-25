@@ -23,8 +23,6 @@ const ctx = new Context()
 
 const material = new MaterialX(ctx)
 const geometry = new BoxGeometry()
-const vertexShader = new Shader(ctx)
-const fragmentShader = new Shader(ctx)
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
 const stats = new Stats()
@@ -35,65 +33,17 @@ frame(() => stats.begin())
 frame(scene)
 frame(() => stats.end())
 
-vertexShader({
-  vertexShader: glsl`
-  #include <camera/camera>
-  #include <mesh/vertex>
-  #include <mesh/mesh>
-
-  #include <camera/uniforms>
-  #include <mesh/uniforms>
-
-  #include <varying/color>
-  #include <varying/emit>
-
-  #include <vertex/attributes/position>
-  #include <vertex/attributes/normal>
-  #include <vertex/main>
-
-  void Main(inout vec4 vertexPosition, inout VaryingData data) {
-    data.color = vec4(0.2, 0.4, 0.5, 1.0);
-    vertexPosition = MeshVertex(
-      camera.projection,
-      camera.view,
-      mesh.model,
-      position);
-  }
-  `,
+const vertexShader = new Shader(ctx, {
 
 })
 
-fragmentShader({
-  fragmentShader: glsl`
-  #include <mesh/fragment>
-  #include <texture/2d>
-
-  #include <texture/uniforms>
-  #include <varying/color>
-  #include <varying/read>
-
-  #define GLSL_FRAGMENT_MAIN_TRANSFORM Transform
-
-  #include <fragment/main>
-  uniform float time;
-  void Main(inout vec4 fragColor, inout VaryingData data) {
-    fragColor = MeshFragment(data.color);
-  }
-
-  void Transform(inout vec4 fragColor, inout VaryingData data) {
-    fragColor.r = 1.0/cos(0.2*time);
-  }
-  `
+const fragmentShader = new Shader(ctx, {
 })
 
 function scene({time}) {
   camera({position: [5, 5, -5]}, () => {
     material(() => {
-      fragmentShader(() => {
-        vertexShader(() => {
-          box()
-        })
-      })
+      box()
     })
   })
 }

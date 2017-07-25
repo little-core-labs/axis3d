@@ -1,11 +1,10 @@
 'use strict'
 
-import { ShaderUniforms, ShaderAttributes } from './gl'
+import { ShaderUniforms, ShaderAttributes, DynamicValue } from './gl'
 import { ensureRGBA, define, isArrayLike } from '../utils'
 import { Object3D, Object3DContext} from './object3d'
-import { assignTypeName } from './types'
-import { incrementStat } from '../stats'
 import { Geometry } from './geometry'
+import { Shader } from './shader'
 
 import injectDefines from 'glsl-inject-defines'
 import coalesce from 'defined'
@@ -21,10 +20,9 @@ const kMat4Identity = mat4.identity([])
 const kMat3Identity = mat3.identity([])
 
 export const kDefaultMeshXWireframePrimitive = 'line strip'
-export const kDefaultMeshXWireframeThickness = 1
+export const kDefaultMeshXUniformName = 'mesh'
 export const kDefaultMeshXPrimitive = 'triangles'
-export const kDefaultMeshXVertexShader =
-  glslify(__dirname+'/../glsl/mesh/vert.glsl')
+export const kDefaultMeshXLineWidth = 1
 
 export class MeshX extends Object3D {
   constructor(ctx, initialState = {}) {
@@ -35,27 +33,22 @@ export class MeshX extends Object3D {
     const {attributes = new MeshXAttributes(ctx, initialState)} = initialState
     const {uniforms = new MeshXUniforms(ctx, initialState)} = initialState
     const {context = new MeshXContext(ctx, initialState)} = initialState
+    const {shader = new MeshXShader(ctx, initialState)} = initialState
     const {state = new MeshXState(ctx, initialState)} = initialState
+
     const {update: updateMeshX = ({}, f) => f()} = initialState
+
     const injectContext = ctx.regl({context})
     const draw = ctx.regl({ ...state, attributes, uniforms, })
 
     super(ctx, { ...initialState, context, update })
-    incrementStat('MeshX')
-    assignTypeName(this, 'mesh')
-
     function update({}, state, block) {
-      injectContext(state, (...args) => {
-        const {visible} = args[0]
-        updateMeshX(state, () => {
-          if (false === state.visible) {
-            draw(state, block)
-          } else if (false != state.draw) {
+      shader(() => {
+        injectContext(state, (...args) => {
+          updateMeshX(state, () => {
             draw(state)
             block(...args)
-          } else {
-            draw(state, block)
-          }
+          })
         })
       })
     }
@@ -118,115 +111,54 @@ export class MeshXContext extends Object3DContext {
   }
 }
 
-export class MeshXState {
-  constructor(ctx, initialState) {
-    let {
-      fragmentShader = null,
-      vertexShader = kDefaultMeshXVertexShader,
-      geometry = null,
-      vertexShaderTransform,
-    } = initialState
+export class MeshXShader extends Shader {
+  constructor(ctx, initialState = {}) {
+    const {uniformName = kDefaultMeshXUniformName} = initialState
+    super(ctx, {
+      vertexShader: `
+      #define GLSL_MESH_UNIFORM_VARIABLE ${uniformName}
+      #include <camera/camera>
+      #include <mesh/vertex>
+      #include <mesh/mesh>
 
-    // shader defines injected into vertex shader
-    const shaderDefines = {
-      ...initialState.shaderDefines
-    }
+      #include <camera/uniforms>
+      #include <mesh/uniforms>
 
-    if (geometry.positions) {
-      shaderDefines['HAS_POSITIONS'] = 1
-    }
+      #include <vertex/attributes/position>
+      #include <vertex/attributes/normal>
+      #include <vertex/attributes/uv>
+      #include <vertex/main>
 
-    if (geometry.normals) {
-      shaderDefines['HAS_NORMALS'] = 1
-    }
-
-    if (geometry.uvs) {
-      shaderDefines['HAS_UVS'] = 1
-    }
-
-    if ('string' == typeof vertexShaderTransform) {
-      shaderDefines['HAS_TRANSFORM_FUNC'] = 1
-      if ('string' == typeof vertexShader) {
-        vertexShader = vertexShader
-          .replace('TRANSFORM_FUNC_SOURCE', vertexShaderTransform)
+      void Main(inout vec4 vertexPosition, inout VaryingData data) {
+        vertexPosition = MeshVertex(
+          camera.projection,
+          camera.view,
+          ${uniformName}.model,
+          position);
       }
-    }
-
-    this.lineWidth = ({}, {
-      wireframeThickness = initialState.wireframeThickness,
-      lineWidth = 1,
-    } = {}) => {
-      return Math.max(1, coalesce(
-        wireframeThickness,
-        lineWidth,
-        kDefaultMeshXWireframeThickness))
-    }
-
-    this.primitive = ({}, {
-      primitive = null,
-      wireframe = coalesce(initialState.wireframe, false)
-    } = {}) => {
-      if (wireframe) {
-        return coalesce(
-          initialState.wireframePrimitive,
-          kDefaultMeshXWireframePrimitive)
-      } else if ('string' == typeof primitive) {
-        return primitive
-      } else if ('string' == typeof initialState.primitive) {
-        return initialState.primitive
-      } else {
-        return kDefaultMeshXPrimitive
-      }
-    }
-
-    this.elements = !geometry || !geometry.cells ? null : (({}, {
-      wireframe = initialState.wireframe,
-      count = initialState.count,
-    } = {}) => {
-      let cells = geometry.cells
-      if (cells && 'number' == typeof count) {
-        count = clamp(Math.floor(count), 0, cells.length)
-        cells = cells.slice(0, count)
-      }
-      return cells
+  `,
     })
-
-    this.count = !geometry || geometry.cells ? null : (({}, {
-      count = geometry.positions.length
-    } = {}) => {
-      if (null != count) { return count }
-      else if (initialState.count) { return initialState.count }
-      else if (geometry && geometry.complex) {
-        return geometry.positions.length
-      } else {
-        return null
-      }
-    })
-
-    // remove null or undefined values
-    for (const key in this) {
-      if (null == this[key]) {
-        delete this[key]
-      }
-    }
   }
 }
 
 export class MeshXUniforms extends ShaderUniforms {
   constructor(ctx, initialState = {}) {
+    const {uniformName = kDefaultMeshXUniformName} = initialState
     super(ctx)
     this.set({
-      'mesh.position': this.contextOrArgument('position', null, [0, 0, 0]),
-      'mesh.rotation': this.contextOrArgument('rotation', null, [0, 0, 0, 1]),
-      'mesh.scale': this.contextOrArgument('scale', null, [1, 1, 1]),
-      'mesh.modelNormal': ({transform}) =>
+      [`${uniformName}.position`]: this.contextOrArgument('position', null, [0, 0, 0]),
+      [`${uniformName}.rotation`]: this.contextOrArgument('rotation', null, [0, 0, 0, 1]),
+      [`${uniformName}.scale`]: this.contextOrArgument('scale', null, [1, 1, 1]),
+
+      [`${uniformName}.modelNormal`]: ({transform}) =>
         isArrayLike(transform)
           ? mat3.normalFromMat4([], transform) || kMat3Identity
           : kMat3Identity,
-      'mesh.model': ({transform}) =>
+
+      [`${uniformName}.model`]: ({transform}) =>
         isArrayLike(transform)
           ? transform
-      : kMat4Identity,
+          : kMat4Identity,
     })
   }
 }
@@ -240,5 +172,57 @@ export class MeshXAttributes extends ShaderAttributes {
       normal: coalesce(geometry.normals, null),
       uv: coalesce(geometry.uvs, null),
     })
+  }
+}
+
+export class MeshXState extends DynamicValue {
+  constructor(ctx, initialState) {
+    super(ctx)
+    let { geometry = null } = initialState
+    this.set({
+      lineWidth({}, {lineWidth} = {}) {
+        return Math.max(1, coalesce(lineWidth, kDefaultMeshXLineWidth))
+      },
+
+      primitive({}, {primitive, wireframe} = {}) {
+        wireframe = coalesce(wireframe, initialState.wireframe, false)
+        if (wireframe) {
+          return coalesce(
+            initialState.wireframePrimitive,
+            kDefaultMeshXWireframePrimitive)
+        } else if ('string' == typeof primitive) {
+          return primitive
+        } else if ('string' == typeof initialState.primitive) {
+          return initialState.primitive
+        } else {
+          return kDefaultMeshXPrimitive
+        }
+      }
+    })
+
+    if (geometry && geometry.cells) {
+      this.set({
+        elements({}, {count} = {}) {
+          count = coalesce(count, initialState.count)
+          let cells = geometry.cells
+          if (cells && 'number' == typeof count) {
+            count = clamp(Math.floor(count), 0, cells.length)
+            cells = cells.slice(0, count)
+          }
+          return cells
+        },
+
+        count({}, {count} = {}) {
+          count = coalesce(count, initialState.count, geometry.positions.length)
+          if (null != count) { return count }
+          else if (initialState.count) { return initialState.count }
+          else if (geometry && geometry.complex) {
+            return geometry.positions.length
+          } else {
+            return null
+          }
+        }
+      })
+    }
   }
 }

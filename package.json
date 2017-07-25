@@ -17,7 +17,6 @@
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "MIT",
   "dependencies": {
-    "comment-regex": "^1.0.0",
     "glsl-fog": "^0.0.1",
     "glsl-token-defines": "^1.0.0",
     "glsl-token-string": "^1.0.1",

@@ -9,13 +9,12 @@ import { dirname, extname, resolve } from 'path'
 import glslTokensToDefines from 'glsl-token-defines'
 import glslTokensToString from 'glsl-token-string'
 import injectDefines from 'glsl-inject-defines'
-import CommentRegExp from 'comment-regex'
 import glslTokenize from 'glsl-tokenizer'
 import preprocess from 'prepr'
 import coalesce from 'defined'
 
-const kDefaultShaderLibVersion = '100'
 const kDefaultShaderLibPrecision = 'mediump float'
+const kDefaultShaderLibVersion = '100'
 const kAnonymousShaderName = '<anonymous>'
 
 const kGLSLTokenPreprocecsor = 'preprocessor'
@@ -45,16 +44,20 @@ export class Shader extends Entity {
     let fragmentShader = null
     let vertexShader = null
 
+    let attributes = null
+    let uniforms = null
+
     super(ctx, initialState, update)
     function update(state, block, previousState) {
       const {forceCompile = false} = state
       Object.assign(defines, { ...state.defines })
+      uniforms = coalesce(state.uniforms, uniforms, null)
+      attributes = coalesce(state.attributes, attributes, null)
       shaderLib.preprocessor.define(defines)
       if (true === forceCompile || shouldCompile(state, previousState)) {
         compile()
       }
       if ('function' == typeof injectContext) {
-        //Object.assign(state, {vertexShader, fragmentShader})
         injectContext(state, block)
       } else {
         block(state)
@@ -68,9 +71,19 @@ export class Shader extends Entity {
           get fragmentShader() { return fragmentShader }
         }
       }
+      if (uniforms && 'object' == typeof uniforms) {
+        Object.assign(opts, {uniforms})
+      }
+      if (attributes && 'object' == typeof attributes) {
+        Object.assign(opts, {attributes})
+      }
       if ('string' == typeof vertexShader) { opts.vert = vertexShader }
       if ('string' == typeof fragmentShader) { opts.frag = fragmentShader }
-      if ('string' == typeof opts.vert || 'string' == typeof opts.frag) {
+      if ( 'string' == typeof opts.vert
+        || 'string' == typeof opts.frag
+        || uniforms
+        || attributes
+      ) {
         injectContext = ctx.regl(opts)
       }
     }
