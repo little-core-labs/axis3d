@@ -140,7 +140,7 @@ export class Shader extends Entity {
 
 export class ShaderLib {
   constructor({
-    preprocessor = null,
+    preprocessor = undefined,
     middleware = [],
     precision = kDefaultShaderLibPrecision,
     version = kDefaultShaderLibVersion,
