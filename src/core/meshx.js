@@ -126,14 +126,24 @@ export class MeshXShader extends Shader {
       #include <vertex/attributes/position>
       #include <vertex/attributes/normal>
       #include <vertex/attributes/uv>
-      #include <vertex/main>
 
+      /*
+      #include <vertex/main>
       void Main(inout vec4 vertexPosition, inout VaryingData data) {
         vertexPosition = MeshVertex(
           camera.projection,
           camera.view,
           ${uniformName}.model,
           position);
+      }
+      */
+
+      void main() {
+        gl_Position =
+            camera.projection
+          * camera.view
+          * ${uniformName}.model
+          * vec4(position, 1.0);
       }
      `,
 
@@ -201,29 +211,31 @@ export class MeshXState extends DynamicValue {
       }
     })
 
-    if (geometry && geometry.cells) {
-      this.set({
-        elements({}, {count} = {}) {
-          count = coalesce(count, initialState.count)
-          let cells = geometry.cells
-          if (cells && 'number' == typeof count) {
-            count = clamp(Math.floor(count), 0, cells.length)
-            cells = cells.slice(0, count)
+    if (geometry) {
+      if (geometry.cells) {
+        this.set({
+          elements({}, {count} = {}) {
+            count = coalesce(count, initialState.count)
+            let cells = geometry.cells
+            if (cells && 'number' == typeof count) {
+              count = clamp(Math.floor(count), 0, cells.length)
+              cells = cells.slice(0, count)
+            }
+            return cells
           }
-          return cells
-        },
-
-        count({}, {count} = {}) {
-          count = coalesce(count, initialState.count, geometry.positions.length)
-          if (null != count) { return count }
-          else if (initialState.count) { return initialState.count }
-          else if (geometry && geometry.complex) {
-            return geometry.positions.length
-          } else {
-            return null
+        })
+      } else {
+        this.set({
+          count({}, {count} = {}) {
+            return coalesce(
+              count,
+              initialState.count,
+              geometry.positions && geometry.positions.length,
+              0
+            )
           }
-        }
-      })
+        })
+      }
     }
   }
 }

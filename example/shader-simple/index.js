@@ -2,6 +2,7 @@
 
 import {
   PerspectiveCamera,
+  Geometry,
   BoxGeometry,
   Context,
   ShaderLib,
@@ -18,11 +19,13 @@ import ready from 'domready'
 import Stats from 'stats.js'
 import quat from 'gl-quat'
 import vec3 from 'gl-vec3'
+import Bunny from 'bunny'
 
 const ctx = new Context()
 
 const material = new MaterialX(ctx)
-const geometry = new BoxGeometry()
+//const geometry = new BoxGeometry()
+const geometry = new Geometry({complex: Bunny})
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
 const stats = new Stats()
@@ -33,17 +36,12 @@ frame(() => stats.begin())
 frame(scene)
 frame(() => stats.end())
 
-const vertexShader = new Shader(ctx, {
-
-})
-
-const fragmentShader = new Shader(ctx, {
-})
-
-function scene({time}) {
-  camera({position: [5, 5, -5]}, () => {
+function scene({time, cancel}) {
+  camera({position: [5, 5, 5]}, () => {
     material(() => {
-      box()
+      box({scale: 0.8}, ({vertexShader, fragmentShader}) => {
+        cancel()
+      })
     })
   })
 }
