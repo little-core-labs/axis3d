@@ -44,7 +44,7 @@ export class MaterialX extends Entity {
     const {state = new MaterialXState(ctx, initialState)} = initialState
     const injectContext = ctx.regl({ ...state, uniforms, context })
     super(ctx, (state, block) => {
-      shader(() => {
+      shader(state, () => {
         injectContext(state, block)
       })
     })
