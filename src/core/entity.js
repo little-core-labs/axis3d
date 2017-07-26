@@ -26,7 +26,7 @@ export class Entity extends Command {
       block = 'function' == typeof block ? block : function() {}
       previousState = { ...currentState }
       currentState = { ...initialState, ...state }
-      injectContext(currentState, (ctx) => {
+      injectContext(currentState, () => {
         update(currentState, block, previousState)
       })
     })

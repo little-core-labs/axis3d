@@ -37,6 +37,7 @@ export class Shader extends Entity {
       shaderLib = new ShaderLib({ ...initialState, precision, defines }),
     } = initialState
 
+    const injectParentContext = ctx.regl({})
     let injectContext = null
 
     let fragmentShaderUncompiled = null
@@ -49,26 +50,33 @@ export class Shader extends Entity {
 
     super(ctx, initialState, update)
     function update(state, block, previousState) {
-      const {forceCompile = false} = state
-      Object.assign(defines, { ...state.defines })
-      uniforms = coalesce(state.uniforms, uniforms, null)
-      attributes = coalesce(state.attributes, attributes, null)
-      shaderLib.preprocessor.define(defines)
-      if (true === forceCompile || shouldCompile(state, previousState)) {
-        compile()
-      }
-      if ('function' == typeof injectContext) {
-        injectContext(state, block)
-      } else {
-        block(state)
-      }
+      injectParentContext((reglContext) => {
+        const {forceCompile = false} = state
+        Object.assign(defines, { ...state.defines })
+
+        uniforms = coalesce(state.uniforms, uniforms, null)
+        attributes = coalesce(state.attributes, attributes, null)
+
+        shaderLib.preprocessor.define(defines)
+
+        if (true == forceCompile) { compile() }
+        else if (shouldCompile(reglContext, state, previousState)) {
+          compile()
+        }
+
+        if ('function' == typeof injectContext) {
+          injectContext(state, block)
+        } else {
+          block(state)
+        }
+      })
     }
 
     function compile() {
       const opts = {
         context: {
-          fragmentShader: ({fragmentShader: fs = fragmentShader}) => fs,
-          vertexShader: ({vertexShader: vs = vertexShader}) => vs,
+          fragmentShader: ({fragmentShader: fs}) => fs || fragmentShader,
+          vertexShader: ({vertexShader: vs }) => vs || vertexShader,
         }
       }
       if (uniforms && 'object' == typeof uniforms) {
@@ -88,7 +96,7 @@ export class Shader extends Entity {
       }
     }
 
-    function shouldCompile(currentState, previousState) {
+    function shouldCompile(reglContext, currentState, previousState) {
       let needsCompile = false
       const shaderName = `${kAnonymousShaderName} (vertex)`
 
@@ -112,26 +120,50 @@ export class Shader extends Entity {
 
       function checkShader(current, next, block) {
         let cond = false
-        if ('string' != typeof current && 'string' == typeof next) {
+        next = getViableShader(next)
+        if ('string' != typeof current && next) {
           return check(true, block)
         } else if ('string' == typeof next && current != next) {
           return check(true, block)
         }
       }
 
+      function getViableShader(shader) {
+        if ('string' == typeof shader) { return shader }
+        else if ('function' == typeof shader) {
+          return shader(reglContext, currentState)
+        }
+      }
+
+      function isViableShader(shader) {
+        return ['string', 'function'].indexOf(typeof shader) > -1
+      }
+
+      function compileShader(shader) {
+        let compiled = null
+        let uncompiled = null
+        if (isViableShader(shader)) {
+          uncompiled = getViableShader(shader)
+          compiled = shaderLib.compile(shaderName, uncompiled)
+          compiled = shaderLib.preprocess(compiled)
+          return {compiled, uncompiled}
+        }
+        return null
+      }
+
       function compileVertexShader() {
-        if ('string' == typeof currentState.vertexShader) {
-          vertexShaderUncompiled = currentState.vertexShader
-          vertexShader = shaderLib.compile(shaderName, vertexShaderUncompiled)
-          vertexShader = shaderLib.preprocess(vertexShader)
+        const result = compileShader(currentState.vertexShader)
+        if (result) {
+          vertexShader = result.compiled
+          vertexShaderUncompiled = result.uncompiled
         }
       }
 
       function compileFragmentShader() {
-        if ('string' == typeof currentState.fragmentShader) {
-          fragmentShaderUncompiled = currentState.fragmentShader
-          fragmentShader = shaderLib.compile(shaderName, fragmentShaderUncompiled)
-          fragmentShader = shaderLib.preprocess(fragmentShader)
+        const result = compileShader(currentState.fragmentShader)
+        if (result) {
+          fragmentShader = result.compiled
+          fragmentShaderUncompiled = result.uncompiled
         }
       }
     }

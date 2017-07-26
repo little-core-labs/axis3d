@@ -56,11 +56,11 @@ export class MaterialXShader extends Shader {
     const {uniformName = kDefaultMaterialUniformName} = initialState
     const {fragmentShader = null} = initialState
     super(ctx, {
-      fragmentShader: `
+      fragmentShader: ({fragmentShader}) => fragmentShader || `
       #define GLSL_MATERIAL_UNIFORM_VARIABLE ${uniformName}
-      #include <mesh/fragment>
       #include <material/material>
       #include <material/uniforms>
+      #include <mesh/fragment>
       void main() {
         gl_FragColor = MeshFragment(
           ${uniformName}.color,

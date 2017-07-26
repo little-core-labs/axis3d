@@ -114,7 +114,7 @@ export class MeshXShader extends Shader {
   constructor(ctx, initialState = {}) {
     const {uniformName = kDefaultMeshXUniformName} = initialState
     super(ctx, {
-      vertexShader: `
+      vertexShader: ({vertexShader}) => vertexShader || `
       #define GLSL_MESH_UNIFORM_VARIABLE ${uniformName}
       #include <camera/camera>
       #include <mesh/vertex>
@@ -127,7 +127,6 @@ export class MeshXShader extends Shader {
       #include <vertex/attributes/normal>
       #include <vertex/attributes/uv>
 
-      /*
       #include <vertex/main>
       void Main(inout vec4 vertexPosition, inout VaryingData data) {
         vertexPosition = MeshVertex(
@@ -136,15 +135,7 @@ export class MeshXShader extends Shader {
           ${uniformName}.model,
           position);
       }
-      */
 
-      void main() {
-        gl_Position =
-            camera.projection
-          * camera.view
-          * ${uniformName}.model
-          * vec4(position, 1.0);
-      }
      `,
 
       ...initialState
