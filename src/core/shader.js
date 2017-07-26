@@ -67,8 +67,8 @@ export class Shader extends Entity {
     function compile() {
       const opts = {
         context: {
-          get vertexShader() { return vertexShader },
-          get fragmentShader() { return fragmentShader }
+          fragmentShader: ({fragmentShader: fs = fragmentShader}) => fs,
+          vertexShader: ({vertexShader: vs = vertexShader}) => vs,
         }
       }
       if (uniforms && 'object' == typeof uniforms) {

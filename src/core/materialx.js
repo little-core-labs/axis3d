@@ -209,11 +209,11 @@ export class MaterialXUniforms extends ShaderUniforms {
         kDefaultMaterialXOpacity
       ),
 
-      [`${uniformName}.color`]: ({color}) => coalesce(
+      [`${uniformName}.color`]: ({color}) => ensureRGBA(coalesce(
         color,
         initialState.color,
         kDefaultMaterialXColor
-      )
+      )).slice(0, 3)
     })
   }
 }
