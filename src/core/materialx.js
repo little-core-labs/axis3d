@@ -56,17 +56,33 @@ export class MaterialXShader extends Shader {
     const {uniformName = kDefaultMaterialUniformName} = initialState
     const {fragmentShader = null} = initialState
     super(ctx, {
-      fragmentShader: ({fragmentShader}) => fragmentShader || `
-      #define GLSL_MATERIAL_UNIFORM_VARIABLE ${uniformName}
-      #include <material/material>
-      #include <material/uniforms>
-      #include <mesh/fragment>
-      void main() {
-        gl_FragColor = MeshFragment(
-          ${uniformName}.color,
-          ${uniformName}.opacity);
-      }
-      `,
+      fragmentShader: ({fragmentShader, texture}) => {
+        if (fragmentShader) { return fragmentShader }
+        return `
+        #define GLSL_MATERIAL_UNIFORM_VARIABLE ${uniformName}
+        #include <material/material>
+        #include <material/uniforms>
+        #include <texture/2d>
+        #include <texture/cube>
+        #include <varying/uv>
+        #include <varying/read>
+        #include <varying/data>
+        #include <mesh/fragment>
+        #if ${texture ? 1 : 0} > 0
+        uniform Texture2D texture2d;
+        void main() {
+          VaryingData data = ReadVaryingData();
+          gl_FragColor = texture2D(texture2d.data, data.uv);
+        }
+        #else
+        void main() {
+          gl_FragColor = MeshFragment(
+            ${uniformName}.color,
+            ${uniformName}.opacity);
+        }
+        #endif
+        `
+      },
       ...initialState
     })
   }
@@ -213,7 +229,10 @@ export class MaterialXUniforms extends ShaderUniforms {
         color,
         initialState.color,
         kDefaultMaterialXColor
-      )).slice(0, 3)
+      )).slice(0, 3),
+
+      ['texture2d.resolution']: ({textureResolution}) => textureResolution,
+      ['texture2d.data']: ({texture}) => texture,
     })
   }
 }

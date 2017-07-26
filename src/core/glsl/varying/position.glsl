@@ -1,6 +1,8 @@
 #ifndef GLSL_VARYING_POSITION
 #define GLSL_VARYING_POSITION
 
+#include "./variables"
+
 varying vec3 GLSL_VARYING_LOCAL_POSITION_VARIABLE;
 varying vec3 GLSL_VARYING_POSITION_VARIABLE;
 

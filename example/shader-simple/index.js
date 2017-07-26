@@ -5,6 +5,7 @@ import {
   BoxGeometry,
   Context,
   ShaderLib,
+  Texture,
   Shader,
   Frame,
   MaterialX,
@@ -22,11 +23,16 @@ import glsl from 'glslify'
 const ctx = new Context()
 
 const material = new MaterialX(ctx)
+const texture = new Texture(ctx, {})
 const geometry = new BoxGeometry()
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
 const stats = new Stats()
 const box = new MeshX(ctx, {geometry})
+
+const image = new Image()
+image.src = '/assets/texture.jpg'
+image.onload = () => texture({data: image})
 
 ready(() => document.body.appendChild(stats.dom))
 frame(() => stats.begin())
@@ -84,12 +90,16 @@ const fragmentShader = new Shader(ctx, {
 
 function scene({cancel}) {
   camera({position: [5, 5, -5]}, () => {
-    fragmentShader(() => {
-      vertexShader(({vertexShader, fragmentShader}) => {
+    texture(() => {
+      material(() => {
+        //fragmentShader(() => {
+        //vertexShader(({vertexShader, fragmentShader}) => {
         console.log(vertexShader, fragmentShader);
         box(() => {
-          cancel()
+          //cancel()
         })
+        //})
+        //})
       })
     })
   })
