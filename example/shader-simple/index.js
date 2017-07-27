@@ -91,6 +91,12 @@ frame(() => stats.begin())
 frame(scene)
 frame(() => stats.end())
 
+const defines = new Shader(ctx, {
+  defines: {
+    key: 0.5
+  }
+})
+
 const vertexShader = new Shader(ctx, {
   vertexShader: glsl`
 
@@ -159,21 +165,22 @@ const fragmentShader = new Shader(ctx, {
 
 function scene({cancel}) {
   camera({position: [2.5, 2.5, 2.5]}, () => {
-    texture(() => {
-    //cubeTexture(() => {
-      entity(({foo}) => {
-        //material(() => {
-        fragmentShader(() => {
-          vertexShader(({vertexShader, fragmentShader}) => {
-            //box({wireframe: true}, () => {
-            box(() => {
-              //cancel()
+    defines(() => {
+      texture(() => {
+        cubeTexture(() => {
+        entity(({foo}) => {
+          fragmentShader(() => {
+            vertexShader(({vertexShader, fragmentShader}) => {
+              //console.log(vertexShader);
+              //box({wireframe: true}, () => {
+              box(() => {
+                //cancel()
+              })
+            })
             })
           })
-          //})
         })
       })
-      //})
     })
   })
 }

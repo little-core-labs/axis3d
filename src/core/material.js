@@ -65,7 +65,7 @@ export class MaterialShader extends Shader {
     const {uniformName = kDefaultMaterialUniformName} = initialState
     const {fragmentShader = null} = initialState
     super(ctx, {
-      fragmentShader: ({fragmentShader, texture}) => {
+      fragmentShader: ({fragmentShader}) => {
         if (fragmentShader) { return fragmentShader }
         return `
         #define GLSL_MATERIAL_UNIFORM_VARIABLE ${uniformName}

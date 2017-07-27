@@ -2,7 +2,6 @@
 
 import { DynamicValue } from './gl'
 import * as libglsl from './glsl'
-import { Command } from './command'
 import { Entity } from './entity'
 
 import { dirname, extname, resolve } from 'path'
@@ -35,9 +34,10 @@ export class Shader extends Entity {
       defines = {},
       precision = 'mediump float',
       shaderLib = new ShaderLib({ ...initialState, precision, defines }),
+      shaderName = kAnonymousShaderName,
     } = initialState
 
-    const injectParentContext = ctx.regl({})
+    let injectParentContext = ctx.regl({})
     let injectContext = null
 
     let fragmentShaderUncompiled = null
@@ -51,17 +51,20 @@ export class Shader extends Entity {
     super(ctx, initialState, update)
     function update(state, block, previousState) {
       injectParentContext((reglContext) => {
-        const {forceCompile = false} = state
-        Object.assign(defines, { ...state.defines })
+        let {forceCompile = false} = state
+        Object.assign(defines, { ...reglContext.defines, ...state.defines })
 
         uniforms = coalesce(state.uniforms, uniforms, null)
         attributes = coalesce(state.attributes, attributes, null)
 
-        shaderLib.preprocessor.define(defines)
+        if (Object.keys(defines).length) {
+          if (shaderLib.preprocessor.define(defines)) {
+            forceCompile = true
+          }
+        }
 
-        if (true == forceCompile) { compile() }
-        else if (shouldCompile(reglContext, state, previousState)) {
-          compile()
+        if (forceCompile || shouldCompile(reglContext, state)) {
+          compile(reglContext, state)
         }
 
         if ('function' == typeof injectContext) {
@@ -72,19 +75,36 @@ export class Shader extends Entity {
       })
     }
 
-    function compile() {
+    function compile(reglContext, currentState) {
       const opts = {
         context: {
           fragmentShader: ({fragmentShader: fs}) => fs || fragmentShader,
           vertexShader: ({vertexShader: vs }) => vs || vertexShader,
         }
       }
+
+      const parentOpts = {
+        context: {
+          defines({defines: contextDefines}) {
+            return {
+              ...contextDefines, ...defines
+            }
+          }
+        }
+      }
+
+      compileVertexShader()
+      compileFragmentShader()
+      injectParentContext = ctx.regl(parentOpts)
+
       if (uniforms && 'object' == typeof uniforms) {
         Object.assign(opts, {uniforms})
       }
+
       if (attributes && 'object' == typeof attributes) {
         Object.assign(opts, {attributes})
       }
+
       if ('string' == typeof vertexShader) { opts.vert = vertexShader }
       if ('string' == typeof fragmentShader) { opts.frag = fragmentShader }
       if ( 'string' == typeof opts.vert
@@ -94,57 +114,13 @@ export class Shader extends Entity {
       ) {
         injectContext = ctx.regl(opts)
       }
-    }
 
-    function shouldCompile(reglContext, currentState, previousState) {
-      let needsCompile = false
-      const shaderName = `${kAnonymousShaderName} (vertex)`
-
-      check('function' != typeof injectContext)
-      checkShader(
-        vertexShaderUncompiled,
-        currentState.vertexShader,
-        compileVertexShader)
-      checkShader(
-        fragmentShaderUncompiled,
-        currentState.fragmentShader,
-        compileFragmentShader)
-
-      return needsCompile
-      function check(cond, block) {
-        if (cond) {
-          needsCompile = true
-          block && block()
-        }
-      }
-
-      function checkShader(current, next, block) {
-        let cond = false
-        next = getViableShader(next)
-        if ('string' != typeof current && next) {
-          return check(true, block)
-        } else if ('string' == typeof next && current != next) {
-          return check(true, block)
-        }
-      }
-
-      function getViableShader(shader) {
-        if ('string' == typeof shader) { return shader }
-        else if ('function' == typeof shader) {
-          return shader(reglContext, currentState)
-        }
-      }
-
-      function isViableShader(shader) {
-        return ['string', 'function'].indexOf(typeof shader) > -1
-      }
-
-      function compileShader(shader) {
+      function compileShader(type, shader) {
         let compiled = null
         let uncompiled = null
         if (isViableShader(shader)) {
-          uncompiled = getViableShader(shader)
-          compiled = shaderLib.compile(shaderName, uncompiled)
+          uncompiled = getViableShader(reglContext, currentState, shader)
+          compiled = shaderLib.compile(`${shaderName} (${type})`, uncompiled)
           compiled = shaderLib.preprocess(compiled)
           return {compiled, uncompiled}
         }
@@ -152,7 +128,7 @@ export class Shader extends Entity {
       }
 
       function compileVertexShader() {
-        const result = compileShader(currentState.vertexShader)
+        const result = compileShader('vertex', currentState.vertexShader)
         if (result) {
           vertexShader = result.compiled
           vertexShaderUncompiled = result.uncompiled
@@ -160,10 +136,47 @@ export class Shader extends Entity {
       }
 
       function compileFragmentShader() {
-        const result = compileShader(currentState.fragmentShader)
+        const result = compileShader('fragment', currentState.fragmentShader)
         if (result) {
           fragmentShader = result.compiled
           fragmentShaderUncompiled = result.uncompiled
+        }
+      }
+
+    }
+
+    function getViableShader(reglContext, currentState, shader) {
+      if ('string' == typeof shader) { return shader }
+      else if ('function' == typeof shader) {
+        return shader(reglContext, currentState)
+      }
+    }
+
+    function isViableShader(shader) {
+      return ['string', 'function'].indexOf(typeof shader) > -1
+    }
+
+    function shouldCompile(reglContext, currentState) {
+      let needsCompile = false
+
+      check('function' != typeof injectContext)
+      checkShader(vertexShaderUncompiled, currentState.vertexShader)
+      checkShader(fragmentShaderUncompiled, currentState.fragmentShader)
+
+      return needsCompile
+      function check(cond) {
+        if (cond) {
+          needsCompile = true
+        }
+      }
+
+      function checkShader(current, next) {
+        let cond = false
+        next = getViableShader(reglContext, currentState, next)
+        if ('string' != typeof current && next) {
+          return check(true)
+        } else if ('string' == typeof next && current != next) {
+          return check(true)
         }
       }
     }
@@ -195,8 +208,7 @@ export class ShaderLib {
   }
 
   define(key, value) {
-    this.preprocessor.define(key, value)
-    return this
+    return this.preprocessor.define(key, value)
   }
 
   injectShaderNameDefine(name, source) {
@@ -302,11 +314,7 @@ export class ShaderLib {
   }
 }
 
-export class ShaderLibPlugin extends Command { }
-
-/*shaderLib.use(new ShaderLibPlugin((shaderLib, this, src, opts)) => {
-
-})*/
+export class ShaderLibPlugin extends Entity { }
 
 export class ShaderLibPreprocessor {
   constructor(shaderLib) {
@@ -316,19 +324,26 @@ export class ShaderLibPreprocessor {
   }
 
   define(key, value) {
-    if ('string' == typeof key) {
+    if ('object' == typeof key) {
+      return Object.keys(key)
+        .map((k) => this.define(k, key[k]))
+        .some((v) => true === v)
+    } else if ('string' == typeof key) {
       // boolean -> number
       if (true === value) { value = 1 }
       else if (false === value) { value = 0 }
       if (null != value) {
         // any -> string
         value = String(value)
-        this.defines.set(key, value)
+        if (value != this.defines[key]) {
+          this.defines.set(key, value)
+          return true
+        } else {
+          return false
+        }
       }
-    } else if ('object' == typeof key) {
-      for (const k in key) { this.define(k, key[k]) }
     }
-    return this
+    return false
   }
 
   undefine(key) {
@@ -342,7 +357,6 @@ export class ShaderLibPreprocessor {
     const includeStack = []
     const stack = []
     opts = !opts || 'object' != typeof opts ? {} : opts
-    // inject shader defines and optional provided defines
     if ('string' == typeof source) {
       source = injectDefines(source, { ...defines, ...opts.defines })
     }
@@ -363,18 +377,6 @@ export class ShaderLibPreprocessor {
           case kGLSLTokenBlockComment:
           case kGLSLTokenLineComment:
             break
-          case kGLSLTokenWhitespace:
-          case kGLSLTokenIdentifier:
-          case kGLSLTokenOperator:
-          case kGLSLTokenBuiltin:
-          case kGLSLTokenInteger:
-          case kGLSLTokenKeyword:
-          case kGLSLTokenInteger:
-          case kGLSLTokenFloat:
-          case kGLSLTokenEOF:
-            push()
-            break
-
           case kGLSLTokenPreprocecsor:
             const includeRegex = RegExp(/[\s|\t]?#include[\s]+([<|"]?.*[>|"]?)$/)
             const directive = token.data.match(/(#[a-z]+)\s?/)[0].trim()
@@ -430,8 +432,7 @@ export class ShaderLibPreprocessor {
             }
             break
 
-          default:
-            break
+          default: push(); break
         }
       }
     }
