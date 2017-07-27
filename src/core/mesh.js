@@ -1,11 +1,10 @@
 'use strict'
 
-import { ShaderUniforms, ShaderAttributes } from './gl'
-import { ensureRGBA, define, isArrayLike } from '../utils'
-import { Object3D, Object3DContext} from './object3d'
-import { assignTypeName } from './types'
-import { incrementStat } from '../stats'
+import { ShaderUniforms, ShaderAttributes, DynamicValue } from './gl'
+import { isArrayLike, get } from '../utils'
+import { Object3D } from './object3d'
 import { Geometry } from './geometry'
+import { Shader } from './shader'
 
 import injectDefines from 'glsl-inject-defines'
 import coalesce from 'defined'
@@ -13,7 +12,6 @@ import glslify from 'glslify'
 import clamp from 'clamp'
 import mat4 from 'gl-mat4'
 import mat3 from 'gl-mat3'
-import vec4 from 'gl-vec4'
 import vec3 from 'gl-vec3'
 import vec2 from 'gl-vec2'
 
@@ -21,228 +19,195 @@ const kMat4Identity = mat4.identity([])
 const kMat3Identity = mat3.identity([])
 
 export const kDefaultMeshWireframePrimitive = 'line strip'
-export const kDefaultMeshWireframeThickness = 1
+export const kDefaultMeshUniformName = 'mesh'
 export const kDefaultMeshPrimitive = 'triangles'
-export const kDefaultMeshVertexShader =
-  glslify(__dirname+'/../glsl/mesh/vert.glsl')
+export const kDefaultMeshLineWidth = 1
 
 export class Mesh extends Object3D {
+  static defaults() {
+    return {
+      wireframePrimitive: 'line strip',
+      uniformName: 'mesh',
+      primitive: 'triangles',
+      lineWidth: 1
+    }
+  }
+
   constructor(ctx, initialState = {}) {
+    Object.assign(initialState, Mesh.defaults(), initialState)
+
     if (false == initialState.geometry instanceof Geometry) {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
 
-    const {attributes = new MeshAttributes(ctx, initialState)} = initialState
-    const {uniforms = new MeshUniforms(ctx, initialState)} = initialState
-    const {context = new MeshContext(ctx, initialState)} = initialState
-    const {state = new MeshState(ctx, initialState)} = initialState
-    const {update: updateMesh = ({}, f) => f()} = initialState
+    const attributes = new MeshAttributes(ctx, initialState)
+    const uniforms = new MeshUniforms(ctx, initialState)
+    const context = new MeshContext(ctx, initialState)
+    const shader = new MeshShader(ctx, initialState)
+    const state = new MeshState(ctx, initialState)
+
     const injectContext = ctx.regl({context})
     const draw = ctx.regl({ ...state, attributes, uniforms, })
 
-    super(ctx, { ...initialState, context, update })
-    incrementStat('Mesh')
-    assignTypeName(this, 'mesh')
-
-    function update({}, state, block) {
-      injectContext(state, (...args) => {
-        const {visible} = args[0]
-        updateMesh(state, () => {
-          if (false === state.visible) {
-            draw(state, block)
-          } else if (false != state.draw) {
-            draw(state)
-            block(...args)
-          } else {
-            draw(state, block)
-          }
+    super(ctx, {
+      ...initialState,
+      update(state, block) {
+        const {update} = initialState
+        const inject = () => injectContext(state, (...args) => {
+          draw(state)
+          block(...args)
         })
-      })
-    }
+        shader(() => {
+          if ('function' == typeof update) { update(state, inject) }
+          else { inject() }
+        })
+      }
+    })
   }
 }
 
-export class MeshContext extends Object3DContext {
+export class MeshContext extends DynamicValue {
   constructor(ctx, initialState = {}) {
-    super(ctx, initialState)
+    Object.assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
+    let computedBoundingBox = null
+    let computedSize = null
+    super(ctx, initialState, {
+      geometry() { return geometry },
+      size({boundingBox}) {
+        if (!boundingBox) { return [0, 0] }
+        if (computedSize) { return computedSize }
+        const dimension = boundingBox && boundingBox[0].length
+        const min = boundingBox[0]
+        const max = boundingBox[1]
+        switch (dimension) {
+          case 3:
+            computedSize = []
+            vec3.subtract(computedSize, max, min);
+            vec3.multiply(computedSize, computedSize, scale);
+            break
+          case 2:
+            vec2.subtract(computedSize, max, min);
+            vec2.multiply(computedSize, computedSize, scale);
+            break
+        }
+        return computedSize
+      },
 
-    // protected properties
-    Object.defineProperties(this, {
-      computedBoundingBox: {enumerable: false, writable: true, value: null},
-      computedSize: {enumerable: false, writable: true, value: null},
+      boundingBox() {
+        if (!geometry) { return null }
+        if (computedBoundingBox) { return computedBoundingBox }
+        computedBoundingBox = geometry.computeBoundingBox()
+        return computedBoundingBox
+      }
     })
-
-    this.size = (...args) => this.computeSize(...args)
-    this.visible = ({}, {visible} = {}) => coalesce(visible, initialState.visible, true)
-    this.geometry = geometry
-    this.boundingBox = (...args) => this.computeBoundingBox(...args)
-  }
-
-  computeBoundingBox() {
-    const force = arguments[0]
-    if (null == this.geometry) { return null }
-    if (true == force || null == this.computedBoundingBox) {
-      this.computedBoundingBox = this.geometry.computeBoundingBox()
-    }
-    return this.computedBoundingBox
-  }
-
-  computeSize({scale = 1} = {}) {
-    if (null == this.geometry) {
-      return null
-    } else if (this.computedSize) {
-      return this.computedSize
-    }
-
-    this.computeBoundingBox()
-
-    const boundingBox = this.computedBoundingBox
-    const dimension = boundingBox && boundingBox[0].length
-    const min = boundingBox[0]
-    const max = boundingBox[1]
-    let size = null
-
-    switch (dimension) {
-      case 3: size = vec3.subtract([], max, min); break
-      case 2: size = vec2.subtract([], max, min); break
-      default: return null
-    }
-
-    switch (dimension) {
-      case 3: vec3.multiply(size, size, scale); break
-      case 2: vec2.multiply(size, size, scale); break
-    }
-
-    this.computedSize = size
   }
 }
 
-export class MeshState {
-  constructor(ctx, initialState) {
-    let {
-      fragmentShader = null,
-      vertexShader = kDefaultMeshVertexShader,
-      geometry = null,
-      vertexShaderTransform,
-    } = initialState
+export class MeshShader extends Shader {
+  constructor(ctx, initialState = {}) {
+    Object.assign(initialState, Mesh.defaults(), initialState)
+    const {uniformName} = initialState
+    super(ctx, {
+      vertexShader: ({vertexShader}) => vertexShader || `
+      #define GLSL_MESH_UNIFORM_VARIABLE ${uniformName}
+      #include <camera/camera>
+      #include <mesh/vertex>
+      #include <mesh/mesh>
 
-    // shader defines injected into vertex shader
-    const shaderDefines = {
-      ...initialState.shaderDefines
-    }
+      #include <camera/uniforms>
+      #include <mesh/uniforms>
 
-    if (geometry.positions) {
-      shaderDefines['HAS_POSITIONS'] = 1
-    }
+      #include <vertex/attributes/position>
+      #include <vertex/attributes/normal>
+      #include <vertex/attributes/uv>
 
-    if (geometry.normals) {
-      shaderDefines['HAS_NORMALS'] = 1
-    }
+      #include <varying/position>
+      #include <varying/normal>
+      #include <varying/uv>
+      #include <varying/emit>
 
-    if (geometry.uvs) {
-      shaderDefines['HAS_UVS'] = 1
-    }
-
-    if ('string' == typeof vertexShaderTransform) {
-      shaderDefines['HAS_TRANSFORM_FUNC'] = 1
-      if ('string' == typeof vertexShader) {
-        vertexShader = vertexShader
-          .replace('TRANSFORM_FUNC_SOURCE', vertexShaderTransform)
+      #include <vertex/main>
+      void Main(inout vec4 vertexPosition, inout VaryingData data) {
+        vertexPosition = MeshVertex(
+          camera.projection,
+          camera.view,
+          ${uniformName}.model,
+          position);
       }
-    }
 
-    this.vert =
-      'string' == typeof vertexShader
-      ? injectDefines(vertexShader, shaderDefines)
-      : null
+     `,
 
-    this.frag =
-      'string' == typeof fragmentShader
-      ? injectDefines(fragmentShader, shaderDefines)
-      : null
-
-    this.lineWidth = ({}, {
-      wireframeThickness = initialState.wireframeThickness,
-      lineWidth = 1,
-    } = {}) => {
-      return Math.max(1, coalesce(
-        wireframeThickness,
-        lineWidth,
-        kDefaultMeshWireframeThickness))
-    }
-
-    this.primitive = ({}, {
-      primitive = null,
-      wireframe = coalesce(initialState.wireframe, false)
-    } = {}) => {
-      if (wireframe) {
-        return coalesce(
-          initialState.wireframePrimitive,
-          kDefaultMeshWireframePrimitive)
-      } else if ('string' == typeof primitive) {
-        return primitive
-      } else if ('string' == typeof initialState.primitive) {
-        return initialState.primitive
-      } else {
-        return kDefaultMeshPrimitive
-      }
-    }
-
-    this.elements = !geometry || !geometry.cells ? null : (({}, {
-      wireframe = initialState.wireframe,
-      count = initialState.count,
-    } = {}) => {
-      let cells = geometry.cells
-      if (cells && 'number' == typeof count) {
-        count = clamp(Math.floor(count), 0, cells.length)
-        cells = cells.slice(0, count)
-      }
-      return cells
+      ...initialState
     })
-
-    this.count = !geometry || geometry.cells ? null : (({}, {
-      count = geometry.positions.length
-    } = {}) => {
-      if (null != count) { return count }
-      else if (initialState.count) { return initialState.count }
-      else if (geometry && geometry.complex) {
-        return geometry.positions.length
-      } else {
-        return null
-      }
-    })
-
-    // remove null or undefined values
-    for (const key in this) {
-      if (null == this[key]) {
-        delete this[key]
-      }
-    }
   }
 }
 
 export class MeshUniforms extends ShaderUniforms {
   constructor(ctx, initialState = {}) {
+    Object.assign(initialState, Mesh.defaults(), initialState)
+    const {uniformName} = initialState
     super(ctx)
     this.set({
-      'mesh.scale': this.contextOrArgument('scale', null, [1, 1, 1]),
-      'mesh.position': this.contextOrArgument('position', null, [0, 0, 0]),
-      'mesh.rotation': this.contextOrArgument('rotation', null, [0, 0, 0, 1]),
-      'mesh.model': ({transform}) => isArrayLike(transform) ? transform : kMat4Identity,
-      'mesh.modelNormal': ({transform}) => isArrayLike(transform) ? mat3.normalFromMat4([], transform) || kMat3Identity : kMat3Identity,
+      [`${uniformName}.position`]: this.contextOrArgument('position', null, [0, 0, 0]),
+      [`${uniformName}.rotation`]: this.contextOrArgument('rotation', null, [0, 0, 0, 1]),
+      [`${uniformName}.scale`]: this.contextOrArgument('scale', null, [1, 1, 1]),
+
+      [`${uniformName}.modelNormal`]: ({transform}) =>
+        isArrayLike(transform)
+          ? mat3.normalFromMat4([], transform) || kMat3Identity
+          : kMat3Identity,
+
+      [`${uniformName}.model`]: ({transform}) =>
+        isArrayLike(transform)
+          ? transform
+          : kMat4Identity,
     })
   }
 }
 
 export class MeshAttributes extends ShaderAttributes {
   constructor(ctx, initialState) {
+    Object.assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
-    super(ctx)
-    this.set({
+    super(ctx, initialState, {
       position: coalesce(geometry.positions, null),
       normal: coalesce(geometry.normals, null),
       uv: coalesce(geometry.uvs, null),
     })
+  }
+}
+
+export class MeshState extends DynamicValue {
+  constructor(ctx, initialState) {
+    Object.assign(initialState, Mesh.defaults(), initialState)
+    const {geometry} = initialState
+    super(ctx, initialState, {
+      lineWidth(ctx, args) {
+        return Math.max(1, get('lineWidth', [args, ctx, initialState]))
+      },
+
+      primitive(ctx, args) {
+        if (get('wireframe', [args, ctx, initialState])) {
+          return get('wireframePrimitive', [args, ctx, initialState])
+        }
+        return get('primitive', [args, ctx, initialState])
+      }
+    })
+
+    if (geometry && geometry.cells) {
+      this.set('elements', (ctx, args) => {
+        const cells = geometry.cells
+        const count = get('count', [args, initialState, ctx])
+        if (cells && 'number' == typeof count) {
+          return cells.slice(0, clamp(Math.floor(count), 0, cells.length))
+        }
+        return cells
+      })
+    } else if (geometry) {
+      this.set('count', (ctx, args) => {
+        return get('count', [args, initialState, ctx]) || geometry.positions.length
+      })
+    }
   }
 }

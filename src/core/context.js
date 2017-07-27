@@ -1,21 +1,14 @@
-'use strict'
-
-import { assignTypeName } from './types'
-import { registerStat } from '../stats'
 import { EventEmitter } from 'events'
 import coalesce from 'defined'
 import document from 'global/document'
 import window from 'global/window'
 import events from 'dom-events'
-import glsl from 'glslify'
 import regl from 'regl'
 
 export class Context extends EventEmitter {
   constructor(opts = {}, createRegl = regl) {
     super()
     this.setMaxListeners(Infinity)
-    registerStat('Context')
-    assignTypeName(this, 'context')
 
     this._store = new Map()
     this._hasFocus = false

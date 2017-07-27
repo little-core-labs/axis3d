@@ -1,87 +1,20 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
-
 import createDebug from 'debug'
+import document from 'global/document'
 import window from 'global/window'
 import clamp from 'clamp'
 
-/** @virtual {HTMLCanvasElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement */
-/** @virtual {HTMLImageElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement */
-
-const TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor
+const { round, floor, pow } = Math
 
 const kLibraryVersion = __AXIS3D_VERSION__
+const TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor
 
-/**
- * Math dependencies.
- *
- * @private
- */
-
-const {
-  round,
-  floor,
-  pow,
-} = Math
-
-/**
- * Define property helper.
- *
- * @private
- * @function
- * @param {Object} a
- * @param {String} b
- * @param {Object} c
- */
-
-export const define = (a, b, c) => Object.defineProperty(a, b, { ...c })
-
-/**
- * Converts input degrees to radians
- *
- * @private
- * @function
- * @param {Number} n
- * @return {Number}
- */
-
+export const nearestPowerOfTwo = (value) => pow(2, round(Math.log(value) / Math.LN2))
 export const radians = (n) => n == n ? (n*Math.PI/180.0) : 0
-
-/**
- * Utility debug output
- *
- * @private
- * @function
- * @param {String} fmt
- * @param {...Mixed} args
- */
-
 export const debug = createDebug(`[axis@${kLibraryVersion}]`)
-
-/**
- * Simple linear inerpolation function.
- *
- * @private
- * @function
- * @param {Number} v0
- * @param {Number} v1
- * @param {Number} t
- * @return {Number}
- */
-
 export const lerp = (v0, v1, t) => v0*(1 - t) + v1*t
-
-/**
- * Returns the screen orientation angle.
- * Borrowed from https://github.com/hawksley/eleVR-Web-Player/blob/master/lib/util.js
- *
- * @private
- * @function
- * @return {Number}
- */
+export const get = (k, objs) => (objs.filter((o) => o).find((o) => o[k]) || {})[k]
 
 export const getScreenOrientation = () => {
   switch (window.screen.orientation || window.screen.mozOrientation) {
@@ -90,32 +23,8 @@ export const getScreenOrientation = () => {
     case 'portrait-secondary': return 180
     case 'portrait-primary': return 0
   }
-
   return window.orientation || 0
 }
-
-/**
- * Finds the nearest power of two for a
- * given number value.
- *
- * @private
- * @function
- * @param {Number} value
- * @return {Number}
- */
-
-export const nearestPowerOfTwo = (value) => pow(2, round(Math.log(value) / Math.LN2))
-
-/**
- * Convert an image or canvas to the nearest power
- * of two.
- * Borrowed from https://github.com/mrdoob/three.js/blob/dev/src/renderers/webgl/WebGLTextures.js
- *
- * @private
- * @function
- * @param {HTMLImageElement|HTMLCanvasElement} image
- * @return {HTMLImageElement|HTMLCanvasElement}
- */
 
 export const makePowerOfTwo = (image) => {
 	if (image instanceof HTMLImageElement || image instanceof HTMLCanvasElement) {
@@ -130,31 +39,8 @@ export const makePowerOfTwo = (image) => {
 	return image
 }
 
-/**
- * Creates a canvas DOM element.
- *
- * @private
- * @function
- * @return {HTMLCanvasElement}
- */
-
 export const createCanvas = () =>
   document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas')
-
-/**
- * Scale image using a canvas.
- * Warning: Scaling through the canvas will only work with
- * images that use premultiplied alpha.
- *
- * Borrowed from https://github.com/mrdoob/three.js/blob/dev/src/renderers/webgl/WebGLTextures.js
- *
- * @private
- * @function
- * @param {HTMLImageElement|HTMLCanvasElement} image
- * @param {Number} scale
- * @param {Boolean} scaleNearestPowerOfTwo
- * @return {HTMLImageElement|HTMLCanvasElement}
- */
 
 export const scaleWithCanvas = (image, scale, scaleNearestPowerOfTwo = false) => {
   const canvas = createCanvas()
@@ -173,17 +59,6 @@ export const scaleWithCanvas = (image, scale, scaleNearestPowerOfTwo = false) =>
   return canvas
 }
 
-/**
- * Clamp an image to a max size.
- *
- * @private
- * @function
- * @param {HTMLImageElement|HTMLCanvasElement} image
- * @param {Number} maxSize
- * @param {Boolean} scaleNearestPowerOfTwo
- * @return {HTMLImageElement|HTMLCanvasElement}
- */
-
 export const clampToMaxSize = (image, maxSize, scaleNearestPowerOfTwo = false) => {
 	if (image.width > maxSize || image.height > maxSize) {
     const scale = maxSize/Math.max(image.width, image.height)
@@ -192,15 +67,6 @@ export const clampToMaxSize = (image, maxSize, scaleNearestPowerOfTwo = false) =
     return scaleNearestPowerOfTwo ? makePowerOfTwo(image) : image
   }
 }
-
-/**
- * Ensures input color has RGBA values in the interval of [0, 1].
- *
- * @private
- * @function
- * @param {Array<Number>} color
- * @return {Array<Number>}
- */
 
 export const ensureRGBA = (color) => {
   color = [...(color || [])]
@@ -220,15 +86,6 @@ export const ensureRGBA = (color) => {
 
   return [...color].slice(0, 4)
 }
-
-/**
- * Predicate function to determine if input is "array like".
- *
- * @public
- * @function
- * @param {Mixed} array
- * @return {Boolean}
- */
 
 export const isArrayLike = (array) => {
   return Boolean(array && (

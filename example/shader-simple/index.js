@@ -94,7 +94,6 @@ function scene({cancel}) {
       material(() => {
         //fragmentShader(() => {
         //vertexShader(({vertexShader, fragmentShader}) => {
-        console.log(vertexShader, fragmentShader);
         box(() => {
           //cancel()
         })

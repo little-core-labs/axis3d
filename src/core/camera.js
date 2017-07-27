@@ -1,10 +1,5 @@
-'use strict'
-
-import { Object3D, Object3DContext } from './object3d'
-import { Quaternion, Vector3 } from '../math'
-import { ShaderUniforms } from './gl'
-import { assignTypeName } from './types'
-import { registerStat } from '../stats'
+import { DynamicValue, ShaderUniforms } from './gl'
+import { Object3D } from './object3d'
 
 import computeEyeVector from 'eye-vector'
 import coalesce from 'defined'
@@ -12,197 +7,154 @@ import mat4 from 'gl-mat4'
 import vec3 from 'gl-vec3'
 import quat from 'gl-quat'
 
-const scratchQuaternion = new Quaternion()
+const scratchQuaternion = quat.identity([])
 const scratchMatrix = mat4.identity([])
+const kMat4Identity = mat4.identity([])
 
 export class Camera extends Object3D {
+  static defaults() {
+    return {
+      ...super.defaults(),
+      projection: kMat4Identity,
+      direction: [0, 0, -1],
+      target: [0, 0, 0],
+      near: 0.01,
+      view: kMat4Identity,
+      far: 1000,
+      up: [0, 1, 0],
+    }
+  }
+
   constructor(ctx, initialState = {}) {
-    const {context = new CameraContext(ctx, initialState)} = initialState
-    const {uniforms = new CameraUniforms(ctx, initialState)} = initialState
+    Object.assign(initialState, Camera.defaults(), initialState)
+    const {update} = initialState
+    const context = new CameraContext(ctx, initialState)
+    const uniforms = new CameraUniforms(ctx, initialState)
     const injectContext = ctx.regl({ context, uniforms })
 
     super(ctx, {
       ...initialState,
-      update({}, state, block) {
-        injectContext(state, block)
+      update(state, block) {
+        if ('function' == typeof update) {
+          update(state, () => {
+            injectContext(state, block)
+          })
+        } else {
+          injectContext(state, block)
+        }
       }
     })
-
-   registerStat('Camera')
-    assignTypeName(this, 'camera')
   }
 }
 
-export class CameraContext extends Object3DContext {
+export class CameraContext extends DynamicValue {
   constructor(ctx, initialState) {
-    super(ctx, {
-      ...initialState,
-      computeTransformMatrix: false,
-      computeLocalMatrix: false,
-    })
+    Object.assign(initialState, Camera.defaults(), initialState)
+    const get = (k, objs) => (objs.filter((o) => o).find((o) => o[k]) || {})[k]
+    super(ctx, initialState, {
+      matrix() { return kMat4Identity },
 
-    const {initialTarget = new Vector3(0, 0, 0)} = initialState
-    const {controller} = initialState
-
-    if (null == controller) {
-      throw TypeError("CameraContext expects a controller.")
-    }
-
-    const viewMatrix = mat4.identity([])
-    const eye = new Vector3(0, 0, 0)
-
-    // protected properties
-    Object.defineProperties(this, {
-      initialViewport: {
-        get() { return initialState.viewport },
-        enumerable: false,
+      invertedView({view}) {
+        return view ? mat4.invert([], view) : kMat4Identity
       },
-      initialTarget: { get() { return initialTarget }, enumerable: false },
-      viewMatrix: { get() { return viewMatrix }, enumerable: false },
-      controller: { get() { return controller }, enumerable: false, },
-    })
 
-    this.aspect = ({viewportWidth: width, viewportHeight: height}) => {
-      return width/height
-    }
+      projection({controller}, args) {
+        return get('projection', [controller, args, initialState])
+      },
 
-    this.projection = (...args) => {
-      this.updateCameraController(...args)
-      return controller.projection.slice()
-    }
+      direction({controller}, args) {
+        return get('direction', [controller, args, initialState])
+      },
 
-    this.view = (...args) => {
-      return this.computeViewMatrix(...args)
-    }
+      aspect(ctx, args) {
+        const width = get('viewportWidth', [args, ctx])
+        const height = get('viewportHeight', [args, ctx])
+        return width/height
+      },
 
-    this.invertedView = (...args) => {
-      return mat4.invert([], this.view(...args))
-    }
+      target(ctx, args) {
+        const scale = get('scale', [ctx, args, initialState])
+        const target  = get('target', [args, initialState, ctx])
+        return vec3.multiply([], target, scale)
+      },
 
-    this.direction = (...args) => {
-      this.updateCameraController(...args)
-      return controller.direction
-    }
+      near({controller}, args) {
+        return get('near', [controller, args, initialState])
+      },
 
-    this.target = ({scale}, {target} = {}) => {
-      return vec3.multiply([],
-        coalesce(target, initialTarget, [0, 0, 0]),
-        coalesce(scale, this.initialScale, [1, 1, 1]))
-    }
+      far({controller}, args) {
+        return get('far', [controller, args, initialState])
+      },
 
-    this.near = (...args) => {
-      this.updateCameraController(...args)
-      return controller.near
-    }
+      eye(ctx, args) {
+        const view = get('view', [ctx, args]) || kMat4Identity
+        return computeEyeVector(view)
+      },
 
-    this.far = (...args) => {
-      this.updateCameraController(...args)
-      return controller.far
-    }
+      up({controller}, args) {
+        return get('up', [controller, args, initialState])
+      },
 
-    this.eye = (...args) => {
-      computeEyeVector(viewMatrix, eye)
-      return eye
-    }
-
-    this.up = (...args) => {
-      this.updateCameraController(...args)
-      return controller.up
-    }
-
-    this.createPickingRay = ({viewportHeight: h}) => {
-      let mx = 0, my = 0
-      return (mouse) => {
-        mouse(({currentX: x, currentY: y}) => {
+      createPickingRay({controller, viewportHeight: h}) {
+        let mx = 0, my = 0
+        return ({x, y}) => {
           mx = x
           my = h - y
-        })
-        return controller.createPickingRay([mx, my])
-      }
-    }
+          return controller.createPickingRay([mx, my])
+        }
+      },
 
-    this.viewport = ({}, args) => {
-      args = args || {}
-      return coalesce(args.viewport, initialState.viewport, null)
-    }
-  }
+      view(ctx, args) {
+        const matrix = mat4.identity([])
+        const controller = get('controller', [args, ctx, initialState])
+        const position = get('position', [args, ctx, initialState])
+        const rotation = get('rotation', [args, ctx, initialState])
+        const target = get('target', [args, ctx, initialState])
+        const scale = get('scale', [args, ctx, initialState])
 
-  // context properties are ignored
-  computeViewMatrix({}, {
-    position = this.initialPosition,
-    rotation = this.initialRotation,
-    target = this.initialTarget,
-    scale = this.initialScale,
-  } = {}) {
-    const {localMatrix, viewMatrix, controller } = this
-    this.updateCameraController(...arguments)
-    this.updateCameraViewport(...arguments)
+        if (!controller || !position || !rotation || !target || !scale) {
+          return kMat4Identity
+        }
 
-    if (!position || !rotation || !scale) {
-      return
-    }
+        controller.identity()
+        controller.translate(position)
+        controller.lookAt(vec3.multiply([], target, scale))
+        controller.update()
 
-    // update controller controller
-    controller.identity()
-    controller.translate(position)
-    controller.lookAt(vec3.multiply([], target, scale))
-    controller.update()
+        quat.normalize(scratchQuaternion, rotation)
+        mat4.fromQuat(scratchMatrix, scratchQuaternion)
+        mat4.copy(matrix, controller.view)
+        mat4.multiply(matrix, matrix, scratchMatrix)
+        return matrix
+      },
 
-    quat.normalize(scratchQuaternion, rotation)
-    mat4.copy(viewMatrix, controller.view)
-    mat4.fromQuat(scratchMatrix, scratchQuaternion)
-    mat4.multiply(viewMatrix, viewMatrix, scratchMatrix)
-    return viewMatrix
-  }
-
-  updateCameraController({
-    near: contextNear = this.controller.near,
-    far: contextFar = this.controller.far,
-  }, {
-    near = contextNear,
-    far = contextFar,
-  } = {}) {
-    let needsUpdate = false
-    if (far && this.controller.far != far) {
-      this.controller.far = far
-      needsUpdate = true
-    }
-
-    if (near && this.controller.near != near) {
-      this.controller.near = near
-      needsUpdate = true
-    }
-
-    if (needsUpdate) {
-      this.controller.update()
-    }
-  }
-
-  updateCameraViewport({
-    viewportTop = -1,
-    viewportLeft = -1,
-    viewportWidth,
-    viewportHeight,
-    viewport: contextViewport = null
-  }, {
-    viewport = contextViewport
-  } = {}) {
-    // update controller viewport
-    Object.assign(this.controller.viewport, viewport || [
-      viewportLeft, viewportTop, viewportWidth, viewportHeight
-    ])
+      viewport(ctx, args) {
+        const controller = get('controller', [args, ctx, initialState])
+        const viewport = get('viewport', [args, ctx, initialState])
+        const height = get('viewportHeight', [args, ctx, initialState])
+        const width = get('viewportWidth', [args, ctx, initialState])
+        const left = get('viewportLeft', [args, ctx, initialState])
+        const top = get('viewportTop', [args, ctx, initialState])
+        if (controller) {
+          return Object.assign(controller.viewport, viewport || [
+            (left || 0), (top || 0), (width || 0), (height || 0)
+          ])
+        }
+        return viewport
+      },
+    })
   }
 }
 
 export class CameraUniforms extends ShaderUniforms {
-  constructor(ctx, initialState) {
+  constructor(ctx) {
     super(ctx)
     this.set({
-      /** mat4 */ 'camera.invertedView': ({invertedView}) => invertedView,
-      /** mat4 */ 'camera.projection': ({projection}) => projection,
-      /** float */ 'camera.aspect': ({aspect}) => aspect,
-      /** mat4 */ 'camera.view': ({view}) => view,
-      /** vec3 */ 'camera.eye': ({eye}) => [...eye],
+      'camera.invertedView': ({invertedView}) => invertedView,
+      'camera.projection': ({projection}) => projection,
+      'camera.aspect': ({aspect}) => aspect,
+      'camera.view': ({view}) => view,
+      'camera.eye': ({eye}) => [...eye],
     })
   }
 }

@@ -1,16 +1,9 @@
-'use strict'
-
-/**
- * Module dependencies.
- */
 import * as VectorSwizzleMap from './vector_swizzle_map'
-import { assignTypeName } from './types'
 import { isArrayLike } from '../utils'
-import { Command } from './command'
 import { Vector4 } from '../math'
 
 import ColorString from 'color-string'
-import space from 'color-space'
+import ColorSpace from 'color-space'
 import clamp from 'clamp'
 
 /**
@@ -42,21 +35,12 @@ import clamp from 'clamp'
  * @see {@link https://www.npmjs.com/package/color-name}
  */
 export class Color extends Vector4 {
-
-  /**
-   * Color class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {...Number|String|Array|Object} input
-   */
   constructor(...input) {
     if (input[0] instanceof Color) {
+      input = input[0]
     }
     super(0, 0, 0, 0)
-    assignTypeName(this, 'color')
     this.set(input)
-    this.typeName = 'color'
   }
 
   /**
@@ -103,8 +87,8 @@ export class Color extends Vector4 {
         alpha = input[3]
       } else {
         alpha = input.value ? input.value[3] : input[3]
-        if (space[input.model]) {
-          try { input = space[input.model].rgb(input.value) }
+        if (ColorSpace[input.model]) {
+          try { input = ColorSpace[input.model].rgb(input.value) }
           catch (e) { console.warn("Color conversation failed", e) }
         }
       }

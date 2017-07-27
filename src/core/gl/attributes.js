@@ -1,4 +1,3 @@
-'use strict'
 import { DynamicValue } from './dynamic'
 
 const shaderAttributesCounter = DynamicValue.createCounter()
@@ -22,8 +21,8 @@ export class ShaderAttributes extends DynamicValue {
     const sum = Object.keys(attributes).length
     return sum
   }
-  constructor(ctx) {
-    super()
+  constructor(ctx, initialState, props) {
+    super(ctx, initialState, props)
     shaderAttributesCounter.addValueForContext(ctx, this)
   }
 }

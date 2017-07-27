@@ -1,5 +1,3 @@
-'use strict'
-
 import coalesce from 'defined'
 
 export class DynamicValue {
@@ -9,7 +7,7 @@ export class DynamicValue {
 
   static pluck(scope, property, key, ...defaultValues) {
     let value = undefined
-    if (null != scope[property]) {
+    if (scope && null != scope[property]) {
       value = null != key ? scope[property][key] : scope[property]
     }
     return DynamicValue.primitive(coalesce(value, ...defaultValues))
@@ -34,18 +32,22 @@ export class DynamicValue {
     return value
   }
 
-  constructor(ctx, initialState = {}) {
-    if ('object' == typeof ctx) {
-      Object.defineProperty(this, 'ctx', {enumerable: false, get: () => ctx})
+  constructor(ctx, initialState = {}, props = {}) {
+    const define = (k, v) => Object.defineProperty(this, k, {
+      enumerable: false, get: () => v
+    })
+    define('ctx', ctx)
+    define('initialState', initialState)
+    if ('object' == typeof props) {
+      this.set(props)
     }
-    this.set(initialState)
   }
 
   set(name, value) {
     if (name && 'object' == typeof name) {
       Object.defineProperties(this, Object.getOwnPropertyDescriptors(name))
     } else if ('string' == typeof name && null != value) {
-      this[name] = value
+      this[name] = DynamicValue.primitive(value)
     }
     this.purge()
     return this

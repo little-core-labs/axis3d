@@ -49,7 +49,7 @@ export class FrameContext extends DynamicValue {
     const clearState = { ...kDefaultFrameClearState, ...initialState.clear }
     const lights = []
     const queue = []
-    super(ctx, {
+    super(ctx, initialState, {
       get lights() { return lights },
       get fog() { return null },
       get gl() { return ctx ? ctx.gl : null },

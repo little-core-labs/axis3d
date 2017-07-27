@@ -6,6 +6,7 @@ let entityCount = 0
 
 export class Entity extends Command {
   static id() { return ++ entityCount }
+  static defaults() { return {} }
   constructor(ctx, initialState = {}, update) {
     if ('function' == typeof initialState) {
       update = initialState

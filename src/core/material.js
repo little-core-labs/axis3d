@@ -2,19 +2,9 @@
 
 import { ShaderUniforms, DynamicValue } from './gl'
 import { ensureRGBA, isArrayLike } from '../utils'
-import { assignTypeName } from './types'
-import { incrementStat } from '../stats'
 import { Command } from './command'
-import { Texture } from './texture'
-import { Color } from './color'
-import * as types from '../material/types'
-import { typeOf } from './types'
-
-import {
-  kMaxDirectionalLights,
-  kMaxAmbientLights,
-  kMaxPointLights,
-} from '../light/limits'
+import { Shader } from './shader'
+import { Entity } from './entity'
 
 import injectDefines from 'glsl-inject-defines'
 import coalesce from 'defined'
@@ -23,14 +13,9 @@ import vec4 from 'gl-vec4'
 
 let MATERIAL_COMMAND_NEXT_ID = 0x6d
 
-export const kDefaultMaterialType = types.MaterialType
-export const kDefaultMaterialColor = new Color(100/255, 110/255, 255/255)
+export const kDefaultMaterialColor = [100/255, 110/255, 255/255]
 export const kDefaultMaterialOpacity = 1
-
-export const kDefaultMaterialFragmentShader =
-  glslify(__dirname + '/../glsl/material/fragments/main.glsl', {
-    transform: ['glslify-fancy-imports']
-  })
+export const kDefaultMaterialUniformName = 'material'
 
 export const kDefaultMaterialBlendingState = {
   equation: 'add',
@@ -51,80 +36,64 @@ export const kDefaultMaterialDepthState = {
   mask: true,
 }
 
-export class Material extends Command {
-  static id() {
-    return MATERIAL_COMMAND_NEXT_ID ++
-  }
-
-  static typeName(type) {
-    return coalesce(
-      Object.keys(types).find((k) => type == types[k]),
-      type,
-      'Material')
-      .replace(/Type$/, '')
+export class Material extends Entity {
+  static defaults() {
+    return {
+      ...super.defaults(),
+      uniformName: 'material',
+      opacity: 1,
+      color:  [100/255, 110/255, 255/255],
+    }
   }
 
   constructor(ctx, initialState = {}) {
-    super(update)
-    incrementStat('Material')
-    assignTypeName(this, 'material')
-
     const {uniforms = new MaterialUniforms(ctx, initialState)} = initialState
     const {context = new MaterialContext(ctx, initialState)} = initialState
+    const {shader = new MaterialShader(ctx, initialState)} = initialState
     const {state = new MaterialState(ctx, initialState)} = initialState
-
     const injectContext = ctx.regl({ ...state, uniforms, context })
-
-    const injectMapContext = ctx.regl({
-      context: {
-        mapTexure: ({texture}) => texture,
-        mapTextureResolution: ({textureResolution}) => textureResolution,
-      }
-    })
-
-    const injectEnvmapContext = ctx.regl({
-      context: {
-        envmapTexture: ({texture}) => texture,
-        envmapTextureResolution: ({textureResolution}) => textureResolution,
-      }
-    })
-
-    function update(state, block) {
-      if ('function' == typeof state) {
-        block = state
-        state = {}
-      }
-
-      if (isArrayLike(state)) {
-        state = [ ...state ]
-      } else {
-        state = { ...(state || {}) }
-      }
-
-      block = block || function() {}
-
-      const mapState = isArrayLike(state) ? {} : state
-      const envmap = isArrayLike(state) ? initialState.envmap : coalesce(state.envmap, initialState.envmap)
-      const map = isArrayLike(state) ? initialState.map : coalesce(state.map, initialState.map)
-
-      injectEnvmap(() => {
-        injectMap(() => {
-          injectContext(state, block)
-        })
+    super(ctx, (state, block) => {
+      shader(state, () => {
+        injectContext(state, block)
       })
+    })
+  }
+}
 
-      function injectEnvmap(next) {
-        if ('function' != typeof envmap) { next() }
-        else { envmap(() => { injectEnvmapContext(next) }) }
-      }
-
-      function injectMap(next) {
-        if ('function' != typeof map) { next() }
-        else { map(() => { injectMapContext(next) }) }
-      }
-
-      return this
-    }
+export class MaterialShader extends Shader {
+  constructor(ctx, initialState = {}) {
+    const {uniformName = kDefaultMaterialUniformName} = initialState
+    const {fragmentShader = null} = initialState
+    super(ctx, {
+      fragmentShader: ({fragmentShader, texture}) => {
+        if (fragmentShader) { return fragmentShader }
+        return `
+        #define GLSL_MATERIAL_UNIFORM_VARIABLE ${uniformName}
+        #include <material/material>
+        #include <material/uniforms>
+        #include <texture/2d>
+        #include <texture/cube>
+        #include <varying/uv>
+        #include <varying/read>
+        #include <varying/data>
+        #include <mesh/fragment>
+        #if ${texture ? 1 : 0} > 0
+        uniform Texture2D texture2d;
+        void main() {
+          VaryingData data = ReadVaryingData();
+          gl_FragColor = texture2D(texture2d.data, data.uv);
+        }
+        #else
+        void main() {
+          gl_FragColor = MeshFragment(
+            ${uniformName}.color,
+            ${uniformName}.opacity);
+        }
+        #endif
+        `
+      },
+      ...initialState
+    })
   }
 }
 
@@ -140,67 +109,10 @@ export class MaterialState {
       delete initialState.culling
     }
 
-    if (null == initialState.blend) {
-      initialState.blend = {}
-    }
+    if (null == initialState.blend) { initialState.blend = {} }
+    if (null == initialState.cull) { initialState.cull = {} }
+    if (null == initialState.depth) { initialState.depth = {} }
 
-    if (null == initialState.cull) {
-      initialState.cull = {}
-    }
-
-    if (null == initialState.depth) {
-      initialState.depth = {}
-    }
-
-    let {fragmentShader = kDefaultMaterialFragmentShader} = initialState
-    let {fragmentShaderMain} = initialState
-
-    const {type = types.MaterialType} = initialState
-    const typeName = Material.typeName(type)
-
-    const shaderDefines = {
-      MATERIAL_TYPE: typeName,
-      ...initialState.shaderDefines
-    }
-
-    if ('string' == typeof fragmentShaderMain) {
-      shaderDefines['SHADER_MAIN_BODY'] = 1
-      fragmentShader = fragmentShader
-        .replace('SHADER_MAIN_BODY_SOURCE', fragmentShaderMain)
-    } else {
-      shaderDefines[`use${typeName}`] = 1 // `useLambertMaterial', etc
-    }
-
-    if (null != initialState.map) {
-      if ('cubetexture' === typeOf(initialState.map)) {
-        shaderDefines.HAS_CUBE_MAP = 1
-      } else {
-        shaderDefines.HAS_MAP = 1
-      }
-    }
-
-    if (null != initialState.envmap) {
-      if ('cubetexture' === typeOf(initialState.envmap)) {
-        shaderDefines.HAS_ENVIRONMENT_CUBE_MAP = 1
-      } else {
-        shaderDefines.HAS_ENVIRONMENT_MAP = 1
-      }
-    }
-
-    for (let key in types) {
-      shaderDefines[`${key}`] = types[key]
-    }
-
-    //shaderDefines['MAX_SPOT_LIGHTS'] = kMaxSpotLights
-    shaderDefines['MAX_POINT_LIGHTS'] = kMaxPointLights
-    shaderDefines['MAX_AMBIENT_LIGHTS'] = kMaxAmbientLights
-    shaderDefines['MAX_DIRECTIONAL_LIGHTS'] = kMaxDirectionalLights
-
-    for (let key in shaderDefines) {
-      fragmentShader = `#define ${key} ${shaderDefines[key]}\n`+fragmentShader
-    }
-
-    this.frag = fragmentShader
     this.blend = {
       equation: () => coalesce(
         initialState.blend.equation,
@@ -286,7 +198,9 @@ export class MaterialState {
         if (opacity < 1.0 || transparent) {
           return true
         } else {
-          return coalesce(initialState.depth.mask, kDefaultMaterialDepthState.mask)
+          return coalesce(
+            initialState.depth.mask,
+            kDefaultMaterialDepthState.mask)
         }
       }
     }
@@ -296,101 +210,38 @@ export class MaterialState {
 export class MaterialContext extends DynamicValue {
   constructor(ctx, initialState = {}) {
     super(ctx)
-    const { type = types.MaterialType, } = initialState
-    this.type = () => coalesce(type, types.MaterialType)
-    this.color = ({}, {color} = {}) => ensureRGBA(new Color(coalesce(
-      color,
-      initialState.color,
-      kDefaultMaterialColor
-    )))
-    this.opacity = ({}, {opacity} = {}) => coalesce(
-      opacity,
-      initialState.opacity,
-      kDefaultMaterialOpacity
-    )
+    this.set({
+      color: this.argument('color', null, coalesce(
+        initialState.color,
+        kDefaultMaterialColor
+      )),
+      opacity: this.argument('opacity', null, coalesce(
+        initialState.opacity,
+        kDefaultMaterialOpacity
+      ))
+    })
   }
 }
 
 export class MaterialUniforms extends ShaderUniforms {
   constructor(ctx, initialState = {}) {
+    const {uniformName = kDefaultMaterialUniformName} = initialState
     super(ctx)
-    const emptyTexture =
-         ctx.get('emptyTexture')
-      || ctx.set('emptyTexture', ctx.regl.texture())
-    const emptyCubeTexture =
-         ctx.get('emptyCubeTexture')
-      || ctx.set('emptyCubeTexture', ctx.regl.cube())
-
-    let hasMap = false
-    let hasEnvMap = false
-
-    if (null != initialState.map) {
-      if (['cubetexture', 'texture'].indexOf(typeOf(initialState.map)) > -1) {
-        hasMap = true
-      }
-    }
-
-    if (null != initialState.envmap) {
-      if (['cubetexture', 'texture'].indexOf(typeOf(initialState.envmap)) > -1) {
-        hasEnvMap = true
-      }
-    }
-
-    // material uniform properties
     this.set({
-      'material.opacity': ({opacity}) => coalesce(
+      [`${uniformName}.opacity`]: ({opacity}) => coalesce(
         opacity,
         initialState.opacity,
         kDefaultMaterialOpacity
       ),
 
-      'material.color': ({color}) => coalesce(
+      [`${uniformName}.color`]: ({color}) => ensureRGBA(coalesce(
         color,
         initialState.color,
         kDefaultMaterialColor
-      ),
+      )).slice(0, 3),
 
-      'material.type': ({type}) => coalesce(
-        type,
-        initialState.type,
-        kDefaultMaterialType
-      )
+      ['texture2d.resolution']: ({textureResolution}) => textureResolution,
+      ['texture2d.data']: ({texture}) => texture,
     })
-
-    // texture map uniform properties
-    if (hasMap) {
-      this.set({
-        'map.resolution': ({textureResolution, mapTextureResolution}) => {
-          return coalesce(mapTextureResolution, textureResolution, [0, 0])
-        },
-
-        'map.data': ({texture, mapTexture = texture}) => {
-          let placeholder ='texture' == typeOf(mapTexture)
-            ? emptyTexture
-            : emptyCubeTexture
-          return null == initialState.map
-            ? placeholder
-            : coalesce(mapTexture, placeholder)
-        },
-      })
-    }
-
-    // texture environment map uniform properties
-    if (hasEnvMap) {
-      this.set({
-        'envmap.resolution': ({textureResolution, envmapTextureResolution}) => {
-          return coalesce(envmapTextureResolution, textureResolution, [0, 0])
-        },
-
-        'envmap.data': ({texture, envmapTexture = texture}) => {
-          let placeholder ='texture' == typeOf(envmapTexture)
-            ? emptyTexture
-            : emptyCubeTexture
-          return null == initialState.envmap
-            ? placeholder
-            : coalesce(envmapTexture, placeholder)
-        },
-      })
-    }
   }
 }

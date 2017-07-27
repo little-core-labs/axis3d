@@ -1,5 +1,3 @@
-'use strict'
-
 import { DynamicValueCounter, DynamicValue } from './dynamic'
 
 const shaderUniformsCounter = DynamicValue.createCounter()
@@ -23,8 +21,8 @@ export class ShaderUniforms extends DynamicValue {
     return sum
   }
 
-  constructor(ctx) {
-    super()
+  constructor(ctx, initialState, props) {
+    super(ctx, initialState, props)
     shaderUniformsCounter.addValueForContext(ctx, this)
   }
 }

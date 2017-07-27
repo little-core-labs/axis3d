@@ -1,10 +1,4 @@
 'use strict'
-
-/**
- * Module dependencies.
- */
-
-import { assignTypeName } from './types'
 import { Vector } from './vector'
 
 export class Matrix extends Vector {
