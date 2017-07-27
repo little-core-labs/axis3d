@@ -1,7 +1,7 @@
 'use strict'
 
 import { ShaderUniforms, DynamicValue } from './gl'
-import { ensureRGBA, isArrayLike } from '../utils'
+import { ensureRGBA, isArrayLike, get } from '../utils'
 import { Command } from './command'
 import { Shader } from './shader'
 import { Entity } from './entity'
@@ -239,9 +239,6 @@ export class MaterialUniforms extends ShaderUniforms {
         initialState.color,
         kDefaultMaterialColor
       )).slice(0, 3),
-
-      ['texture2d.resolution']: ({textureResolution}) => textureResolution,
-      ['texture2d.data']: ({texture}) => texture,
     })
   }
 }

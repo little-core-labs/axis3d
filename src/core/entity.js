@@ -1,5 +1,6 @@
 'use strict'
 
+import { DynamicValue } from './gl'
 import { Command } from './command'
 
 let entityCount = 0
@@ -27,18 +28,22 @@ export class Entity extends Command {
       block = 'function' == typeof block ? block : function() {}
       previousState = { ...currentState }
       currentState = { ...initialState, ...state }
-      injectContext(currentState, () => {
-        update(currentState, block, previousState)
+      injectContext(currentState, (...args) => {
+        if ('function' == typeof update) {
+          update(currentState, block, previousState)
+        } else {
+          block(...args)
+        }
       })
     })
   }
 }
 
-export class EntityContext {
+export class EntityContext extends DynamicValue {
   constructor(ctx, initialState = {}, id = 0) {
-    Object.assign(this, {entityID: id})
-    if ('context' in initialState ) {
-      Object.assign(this, { ...initialState.context })
-    }
+    super(ctx, initialState, {
+      ...initialState.context,
+      entityID() { return id }
+    })
   }
 }

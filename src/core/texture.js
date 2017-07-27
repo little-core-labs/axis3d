@@ -1,9 +1,4 @@
-'use strict'
-
-/**
- * Module dependencies.
- */
-
+import { DynamicValue, ShaderUniforms } from './gl'
 import { assignTypeName } from './types'
 import { incrementStat } from '../stats'
 import { Command } from './command'
@@ -33,6 +28,11 @@ export const kDefaultTextureState = Object.seal({
 })
 
 export class Texture extends Command {
+  static defaults() {
+    return {
+      uniformName: 'tex2d'
+    }
+  }
   constructor(ctx, initialState = {}) {
     super(update)
     incrementStat('Texture')
@@ -47,8 +47,10 @@ export class Texture extends Command {
       context = new TextureContext(ctx, textureState, initialState)
     } = initialState
 
+    const uniforms = new TextureUniforms(ctx, initialState)
+
     // regl context
-    const injectContext = ctx.regl({context})
+    const injectContext = ctx.regl({context, uniforms})
 
     // texture update function
     function update(state, block) {
@@ -72,17 +74,6 @@ export class Texture extends Command {
     }
   }
 
-  /**
-   * A predicate helper function to determine if
-   * given data is ready for upload
-   *
-   * @public
-   * @static
-   * @method
-   * @param {Mixed} data
-   * @return {Boolean}
-   */
-
   static isTextureDataReady(data) {
     if (data && isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
       return true
@@ -93,18 +84,6 @@ export class Texture extends Command {
     }
     return false
   }
-
-  /**
-   * Helper function to return a 2d vector
-   * representing the texture data resolution.
-   *
-   * @public
-   * @static
-   * @method
-   * @param {TextureState} state
-   * @param {Mixed} data
-   * @return {Array<Number>|Vector2}
-   */
 
   static getTextureDataResolution(state, data) {
     if (isImage(data) || isCanvas(data)) {
@@ -123,25 +102,11 @@ export class Texture extends Command {
   }
 }
 
-/**
- * TextureContext class.
- *
- * @public
- * @class TextureContext
- */
-
-export class TextureContext {
-
-  /**
-   * TextureContext class constructor.
-   *
-   * @public
-   * @param {!Context} ctx Axis3D context.
-   * @param {!TextureState} textureState Required texture state.
-   * @param {?Object} initialState Optional initial context state.
-   */
-
+export class TextureContext extends DynamicValue {
   constructor(ctx, textureState, initialState = {}) {
+    Object.assign(initialState, Texture.defaults(), initialState)
+    const {uniformName} = initialState
+    super(ctx, initialState)
     // protected properties
     Object.defineProperties(this, {
       data: {
@@ -155,36 +120,15 @@ export class TextureContext {
       },
     })
 
-    /**
-     * Underlying resolution of the texture data.
-     *
-     * @public
-     * @type {Vector2|Array<Number>}
-     */
+    this.textureUniformName = () => uniformName
 
     this.textureResolution = () => {
       return Texture.getTextureDataResolution(textureState, textureState.data)
     }
 
-    /**
-     * Underlying texture data.
-     *
-     * @public
-     * @type {HTMLImageElement|HTMLVideoElement|HTMLCanvasElement|TypedArray|Array|Mixed}
-     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#textures}
-     */
-
     this.textureData = () => {
       return textureState.data
     }
-
-    /**
-     * REGL texture pointer.
-     *
-     * @public
-     * @type {Function}
-     * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#texture-constructor}
-     */
 
     this.texture = () => {
       return textureState.texture
@@ -305,5 +249,16 @@ export class TextureState {
     }
 
     return needsUpdate
+  }
+}
+
+export class TextureUniforms extends ShaderUniforms {
+  constructor(ctx, initialState = {}) {
+    Object.assign(initialState, Texture.defaults(), initialState)
+    const {uniformName} = initialState
+    super(ctx, initialState, {
+      [`${uniformName}.resolution`]: ({textureResolution}) => textureResolution,
+      [`${uniformName}.data`]: ({texture}) => texture,
+    })
   }
 }

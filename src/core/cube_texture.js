@@ -1,31 +1,13 @@
 'use strict'
-
-/**
- * Module dependencies.
- */
-
+import { DynamicValue, ShaderUniforms } from './gl'
+import { kDefaultTextureState } from './texture'
 import { incrementStat } from '../stats'
 import { assignTypeName } from './types'
 import { Command } from './command'
-import { TextureContext, kDefaultTextureState } from './texture'
 import window from 'global/window'
 
-/**
-  * @virtual {HTMLVideoElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLVideoElement
-  */
-
 const {HTMLVideoElement} = window
-
-/**
-  * @virtual {HTMLVideoElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
-  */
-
 const {HTMLCanvasElement} = window
-
-/**
-  * @virtual {HTMLVideoElement} https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement
-  */
-
 const {HTMLImageElement} = window
 
 // predicate helpers
@@ -42,41 +24,16 @@ const {
   HAVE_ENOUGH_DATA = 4,
 } = HTMLVideoElement
 
-/**
- * Array of 6 default underlying texture states.
- *
- * @public
- * @const
- * @type {Object}
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#cube-maps}
- */
-
 export const kDefaultTextures = (() => {
   return new Array(6).fill(kDefaultTextureState)
 })()
 
-/**
- * Cube Texture class represents an interface wrapping the
- * uploading of data.  Also the // TODO: finish writing this
- * manipulating 2D texture data such as image, video, and canvas.
- *
- * @public
- * @class Texture
- * @extends Command
- * @see {@link https://github.com/regl-project/regl/blob/gh-pages/API.md#cube-maps}
- */
-
 export class CubeTexture extends Command {
-
-  /**
-   * Cube Texture class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context.
-   * @param {?Object} initialState Optional initial state.
-   */
-
+  static defaults() {
+    return {
+      uniformName: 'texCube'
+    }
+  }
   constructor(ctx, initialState = {}) {
     incrementStat('CubeTexture')
     super(update)
@@ -89,12 +46,11 @@ export class CubeTexture extends Command {
     const cubeTextureState = new CubeTextureState(ctx, initialState || {})
 
     // injected texture context
-    const {
-      context = new TextureContext(ctx, cubeTextureState, initialState)
-    } = initialState
+    const context = new CubeTextureContext(ctx, cubeTextureState, initialState)
+    const uniforms = new CubeTextureUniforms(ctx, initialState)
 
     // regl context
-    const injectContext = ctx.regl({context})
+    const injectContext = ctx.regl({context, uniforms})
 
     // cube texture update function
     function update(state, block) {
@@ -173,50 +129,15 @@ export class CubeTexture extends Command {
   }
 }
 
-/**
- * CubeTextureState class.
- *
- * @public
- * @class CubeTextureState
- */
-
 export class CubeTextureState {
-
-  /**
-   * CubeTextureState class constructor.
-   *
-   * @param {!Context} ctx Axis3D context.
-   * @param {!Object} initialState Required initial state.
-   */
-
   constructor(ctx, initialState = []) {
     Object.assign(this, {
       ...initialState,
     })
 
-    /**
-     * Cube Texture state data stored an array
-     * as reference for injection into the regl conext.
-     */
-
     let {data = kDefaultTextures} = initialState
-
-    /**
-     * Underlying pointer to cube map.
-     */
-
     const texture = ctx.regl.cube( ...data )
-
-    /**
-     * Timestamp of last known update of a video texture.
-     */
-
     let lastVideoUpdate = 0
-
-    /**
-     * Previous raw texture data (array of 6 textures).
-     */
-
     let previouslyUploadedData = null
 
     // protected properties
@@ -250,18 +171,6 @@ export class CubeTextureState {
       },
     })
   }
-
-  /**
-   * Updates internal cube texture state. Returns true if the internal
-   * cube texture was updated, otherwise false.
-   *
-   * @public
-   * @method
-   * @param {Object} data
-   * @param {Object} this.data
-   * @return {Boolean}
-   * @throws TypeError
-   */
 
   update({data = this.data} = []) {
     const now = this.ctx.regl.now()
@@ -329,5 +238,50 @@ export class CubeTextureState {
     }
 
     return needsUpdate
+  }
+}
+
+export class CubeTextureContext extends DynamicValue {
+  constructor(ctx, textureState, initialState = {}) {
+    Object.assign(initialState, CubeTexture.defaults(), initialState)
+    const {uniformName} = initialState
+    super(ctx, initialState)
+    // protected properties
+    Object.defineProperties(this, {
+      data: {
+        enumerable: false,
+        get() { return textureState.data },
+      },
+
+      textureState: {
+        enumerable: false,
+        get() { return textureState }
+      },
+    })
+
+    this.cubeTextureUniformName = () => uniformName
+
+    this.cubeTextureResolution = () => {
+      return CubeTexture.getTextureDataResolution(textureState, textureState.data)
+    }
+
+    this.cubeTextureData = () => {
+      return textureState.data
+    }
+
+    this.cubeTexture = () => {
+      return textureState.texture
+    }
+  }
+}
+
+export class CubeTextureUniforms extends ShaderUniforms {
+  constructor(ctx, initialState = {}) {
+    Object.assign(initialState, CubeTexture.defaults(), initialState)
+    const {uniformName} = initialState
+    super(ctx, initialState, {
+      [`${uniformName}.resolution`]: ({cubeTextureResolution}) => cubeTextureResolution,
+      [`${uniformName}.data`]: ({cubeTexture}) => cubeTexture,
+    })
   }
 }

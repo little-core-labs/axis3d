@@ -12,14 +12,12 @@ void AfterMain(inout vec4 fragColor, inout VaryingData varyingData);
 void InitVarying(inout VaryingData varyingData);
 
 void main() {
-  vec4 fragColor = vec4(0.0);
   VaryingData varyingData = ReadVaryingData();
   InitVarying(varyingData);
-  BeforeMain(fragColor, varyingData);
-  Main(fragColor, varyingData);
-  TransformMain(fragColor, varyingData);
-  AfterMain(fragColor, varyingData);
-  gl_FragColor = fragColor;
+  BeforeMain(gl_FragColor, varyingData);
+  Main(gl_FragColor, varyingData);
+  TransformMain(gl_FragColor, varyingData);
+  AfterMain(gl_FragColor, varyingData);
 }
 
 #ifdef GLSL_FRAGMENT_MAIN_BEFORE

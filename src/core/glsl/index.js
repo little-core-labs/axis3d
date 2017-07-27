@@ -6,6 +6,7 @@ export * as vertex from './vertex'
 export * as camera from './camera'
 export * as common from './common'
 export * as mesh from './mesh'
+export * as time from './time'
 
 for (const lib in exports) {
   for (const path in exports[lib]) {
