@@ -74,7 +74,7 @@ export class MeshContext extends DynamicValue {
     let computedSize = null
     super(ctx, initialState, {
       geometry() { return geometry },
-      size({boundingBox}) {
+      size({boundingBox, scale}) {
         if (!boundingBox) { return [0, 0] }
         if (computedSize) { return computedSize }
         const dimension = boundingBox && boundingBox[0].length
@@ -145,13 +145,22 @@ export class MeshShader extends Shader {
 
 export class MeshUniforms extends ShaderUniforms {
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Mesh.defaults(), initialState)
+    const defaults = Mesh.defaults()
+    Object.assign(initialState, defaults, initialState)
     const {uniformName} = initialState
     super(ctx)
     this.set({
-      [`${uniformName}.position`]: this.contextOrArgument('position', null, [0, 0, 0]),
-      [`${uniformName}.rotation`]: this.contextOrArgument('rotation', null, [0, 0, 0, 1]),
-      [`${uniformName}.scale`]: this.contextOrArgument('scale', null, [1, 1, 1]),
+      [`${uniformName}.position`](ctx, args) {
+        return get('position', [ctx, args, initialState, defaults])
+      },
+
+      [`${uniformName}.rotation`](ctx, args) {
+        return get('rotation', [ctx, args, initialState, defaults])
+      },
+
+      [`${uniformName}.scale`](ctx, args) {
+        return get('scale', [ctx, args, initialState, defaults])
+      },
 
       [`${uniformName}.modelNormal`]: ({transform}) =>
         isArrayLike(transform)

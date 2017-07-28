@@ -1,5 +1,6 @@
 import { DynamicValue, ShaderUniforms } from './gl'
 import { Object3D } from './object3d'
+import { get } from '../utils'
 
 import computeEyeVector from 'eye-vector'
 import coalesce from 'defined'
@@ -31,6 +32,10 @@ export class Camera extends Object3D {
     const context = new CameraContext(ctx, initialState)
     const uniforms = new CameraUniforms(ctx, initialState)
     const injectContext = ctx.regl({ context, uniforms })
+    const injectView = ctx.regl({
+      context: new DynamicValue(ctx, {}, {
+      })
+    })
 
     super(ctx, {
       ...initialState,
@@ -50,7 +55,6 @@ export class Camera extends Object3D {
 export class CameraContext extends DynamicValue {
   constructor(ctx, initialState) {
     Object.assign(initialState, Camera.defaults(), initialState)
-    const get = (k, objs) => (objs.filter((o) => o).find((o) => o[k]) || {})[k]
     super(ctx, initialState, {
       matrix() { return kMat4Identity },
 
@@ -74,7 +78,7 @@ export class CameraContext extends DynamicValue {
 
       target(ctx, args) {
         const scale = get('scale', [ctx, args, initialState])
-        const target  = get('target', [args, initialState, ctx])
+        const target  = get('target', [args, ctx, initialState])
         return vec3.multiply([], target, scale)
       },
 
@@ -106,11 +110,11 @@ export class CameraContext extends DynamicValue {
 
       view(ctx, args) {
         const matrix = mat4.identity([])
-        const controller = get('controller', [args, ctx, initialState])
-        const position = get('position', [args, ctx, initialState])
-        const rotation = get('rotation', [args, ctx, initialState])
-        const target = get('target', [args, ctx, initialState])
-        const scale = get('scale', [args, ctx, initialState])
+        const controller = get('controller', [ctx, args, initialState])
+        const position = get('position', [ctx, args, initialState])
+        const rotation = get('rotation', [ctx, args, initialState])
+        const target = get('target', [ctx, args, initialState])
+        const scale = get('scale', [ctx, args, initialState])
 
         if (!controller || !position || !rotation || !target || !scale) {
           return kMat4Identity
@@ -125,6 +129,7 @@ export class CameraContext extends DynamicValue {
         mat4.fromQuat(scratchMatrix, scratchQuaternion)
         mat4.copy(matrix, controller.view)
         mat4.multiply(matrix, matrix, scratchMatrix)
+        mat4.scale(matrix, matrix, scale)
         return matrix
       },
 

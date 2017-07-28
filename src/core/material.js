@@ -77,19 +77,11 @@ export class MaterialShader extends Shader {
         #include <varying/read>
         #include <varying/data>
         #include <mesh/fragment>
-        #if ${texture ? 1 : 0} > 0
-        uniform Texture2D texture2d;
-        void main() {
-          VaryingData data = ReadVaryingData();
-          gl_FragColor = texture2D(texture2d.data, data.uv);
-        }
-        #else
         void main() {
           gl_FragColor = MeshFragment(
             ${uniformName}.color,
             ${uniformName}.opacity);
         }
-        #endif
         `
       },
       ...initialState

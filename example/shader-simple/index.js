@@ -133,7 +133,7 @@ const vertexShader = new Shader(ctx, {
     float x = 0.5 - (1.0 + cos(GetTime()));
     float y = 0.5 - (1.0 + sin(0.5 - GetTime()));
     float s = 0.5 - cos(1.0 - GetTime());
-    vertexPosition.x += s/(x + y);
+    //vertexPosition.x += s/(x + y);
   }
   `,
 
@@ -163,7 +163,9 @@ const fragmentShader = new Shader(ctx, {
   `
 })
 
-function scene({cancel}) {
+const rotation = quat.identity([])
+function scene({cancel, time}) {
+  quat.setAxisAngle(rotation, [0, 1, 0], 0.5*time)
   camera({position: [2.5, 2.5, 2.5]}, () => {
     defines(() => {
       texture(() => {
@@ -173,7 +175,7 @@ function scene({cancel}) {
             vertexShader(({vertexShader, fragmentShader}) => {
               //console.log(vertexShader);
               //box({wireframe: true}, () => {
-              box(() => {
+              box({rotation}, () => {
                 //cancel()
               })
             })
