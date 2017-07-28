@@ -37,9 +37,7 @@ const lf = new Image(); lf.src = 'assets/criminal-impact_lf.jpg'
 const rt = new Image(); rt.src = 'assets/criminal-impact_rt.jpg'
 const up = new Image(); up.src = 'assets/criminal-impact_up.jpg'
 
-cubeTexture({ data: [ ft, bk, up, dn, rt, lf ] })
-
-const entity = new Entity(ctx, {
+const injectGlsl = new Entity(ctx, {
   context: {
     glsl({textureUniformName, cubeTextureUniformName}) {
       let glsl = `
@@ -57,8 +55,8 @@ const entity = new Entity(ctx, {
         uniform Texture2D ${textureUniformName};
         `
         after += `
-          //fragColor = mix(fragColor, texture2D(${textureUniformName}.data, data.uv), 1.0 - cos(1.0 / GetTime()));
-          fragColor = texture2D(${textureUniformName}.data, data.uv);
+          fragColor = mix(fragColor, texture2D(${textureUniformName}.data, data.uv), 0.5);
+          //fragColor = texture2D(${textureUniformName}.data, data.uv);
         `
       }
 
@@ -72,7 +70,8 @@ const entity = new Entity(ctx, {
         `
 
         after += `
-        fragColor = mix(fragColor, textureCube(${cubeTextureUniformName}.data, data.localPosition), 0.5 + cos(1.0 - (1.0 / GetTime())));
+          fragColor = mix(fragColor, textureCube(${cubeTextureUniformName}.data, data.localPosition), 0.25);
+          //fragColor = textureCube(${cubeTextureUniformName}.data, data.localPosition);
         `
       }
 
@@ -84,18 +83,11 @@ const entity = new Entity(ctx, {
 
 const image = new Image()
 image.src = '/assets/texture.jpg'
-image.onload = () => texture({data: image})
 
 ready(() => document.body.appendChild(stats.dom))
 frame(() => stats.begin())
 frame(scene)
 frame(() => stats.end())
-
-const defines = new Shader(ctx, {
-  defines: {
-    key: 0.5
-  }
-})
 
 const vertexShader = new Shader(ctx, {
   vertexShader: glsl`
@@ -133,7 +125,7 @@ const vertexShader = new Shader(ctx, {
     float x = 0.5 - (1.0 + cos(GetTime()));
     float y = 0.5 - (1.0 + sin(0.5 - GetTime()));
     float s = 0.5 - cos(1.0 - GetTime());
-    //vertexPosition.x += s/(x + y);
+    vertexPosition.x += s/(x + y);
   }
   `,
 
@@ -153,32 +145,42 @@ const fragmentShader = new Shader(ctx, {
   #include <fragment/main>
 
   void Main(inout vec4 fragColor, inout VaryingData data) {
-    float time = GetTime();
     fragColor = MeshFragment(data.color);
   }
 
   void Transform(inout vec4 fragColor, inout VaryingData data) {
-    fragColor.r = 1.0/cos(0.2*time);
+    float x = 0.5 - (1.0 + cos(GetTime()));
+    float y = 0.5 - (1.0 + sin(0.5 - GetTime()));
+    float s = 0.5 - cos(1.0 - GetTime());
+    fragColor.r += s/(x + y);
   }
   `
 })
 
+const cubeTextureData = []
+const faces = [ft, bk, up, dn, rt, lf]
+const to = setInterval(() => {
+  const i = (Math.random()*100%(faces.length ))|0
+  if (!cubeTextureData[i]) {
+    console.log('face', i);
+    cubeTextureData[i] = faces[i]
+  }
+  if (faces.length == cubeTextureData.length) {
+    clearInterval(to)
+  }
+}, 200)
+
 const rotation = quat.identity([])
 function scene({cancel, time}) {
   quat.setAxisAngle(rotation, [0, 1, 0], 0.5*time)
-  camera({position: [2.5, 2.5, 2.5]}, () => {
-    defines(() => {
-      texture(() => {
-        cubeTexture(() => {
-        entity(({foo}) => {
+  camera({fov: Math.PI*0.25, position: [2.5, 2.5, 2.5]}, () => {
+    texture({data: image}, () => {
+      cubeTexture({data: cubeTextureData},() => {
+        injectGlsl(() => {
           fragmentShader(() => {
             vertexShader(({vertexShader, fragmentShader}) => {
-              //console.log(vertexShader);
-              //box({wireframe: true}, () => {
-              box({rotation}, () => {
-                //cancel()
+              box({position: [0, 0, 0], rotation}, () => {
               })
-            })
             })
           })
         })

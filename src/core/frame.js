@@ -31,16 +31,17 @@ export const kDefaultFrameClearState = Object.seal({
 
 export class Frame extends Entity {
   constructor(ctx, initialState = {}) {
-    super(ctx, initialState, update)
-    assignTypeName(this, 'frame')
-    const state = new FrameState(ctx, initialState.state || {})
     const context = new FrameContext(ctx, initialState.context || {})
-    const uniforms = new FrameUniforms(ctx, initialState.uniforms || {})
-    const injectContext = ctx.regl({ ...state, uniforms, context })
-    function update(state, refresh) {
-      context.init(injectContext).enqueue(refresh)
+    const inject = ctx.regl({})
+    const update = Entity.compose(ctx, [
+      ctx.regl(new FrameState(ctx, initialState.state || {})),
+      ctx.regl({context}),
+      ctx.regl({uniforms: new FrameUniforms(ctx, initialState.uniforms || {})}),
+    ])
+    super(ctx, initialState, (state, refresh) => {
+      context.init((block) => update(() => inject(block))).enqueue(refresh)
       return () => context.cancelFrame()
-    }
+    })
   }
 }
 
@@ -126,9 +127,7 @@ export class FrameContext extends DynamicValue {
 
 export class FrameUniforms extends ShaderUniforms {
   constructor(ctx, initialState = {}) {
-    super(ctx)
-    this.set({
-      ...initialState,
+    super(ctx, initialState, {
       time: ({time}) => time,
       tick: ({tick}) => tick,
     })

@@ -1,42 +1,47 @@
-import createBaseCameraController from 'orthographic-camera'
+import { PerspectiveCamera } from './perspective'
+import { CameraUniforms } from '../core/camera'
 import { DynamicValue } from '../core/gl'
-import { Camera } from '../core/camera'
+import { Entity } from '../core/entity'
+import mat4 from 'gl-mat4'
 
-export class OrthographicCamera extends Camera {
+const scratchMatrix = mat4.identity([])
+const kMat4Identity = mat4.identity([])
+
+export class OrthographicCamera extends Entity {
   static defaults() {
-    return { ...super.defaults() }
+    return {
+      ...super.defaults(),
+      ...PerspectiveCamera.defaults(),
+      near: 100,
+      far: 1,
+    }
   }
 
-  constructor(ctx, initialState) {
+  constructor(ctx, initialState = {}) {
     Object.assign(initialState, OrthographicCamera.defaults(), initialState)
-    const context = new OrthographicCameraContext(ctx, initialState)
-    const injectContext = ctx.regl({context})
-    super(ctx, {
-      ...initialState,
-      update(state, block) {
-        injectContext(state, block)
-      }
-    })
+    super(ctx, initialState, Entity.compose(ctx, [
+      new PerspectiveCamera(ctx, initialState),
+      ctx.regl({context: new OrthographicCameraContext(ctx, initialState)}),
+      ctx.regl({uniforms: new CameraUniforms(ctx, initialState)}),
+    ]))
   }
 }
 
 export class OrthographicCameraContext extends DynamicValue {
-  constructor(ctx, initialState = {}) {
-    Object.assign(initialState, OrthographicCamera.defaults(), initialState)
-    const controller = createBaseCameraController(initialState)
-    const get = (k, objs) => (objs.filter((o)=> o).find((o) => o[k]) || {})[k]
+  constructor(ctx, initialState) {
+    Object.assign(initialState, Camera.defaults(), initialState)
     super(ctx, initialState, {
-      viewport(ctx, args) {
-        const controller = get('controller', [args, ctx, initialState])
+      projection() {
+        const projection = mat4.identity(scratchMatrix)
         const viewport = get('viewport', [args, ctx, initialState])
-        const height = get('viewportHeight', [args, ctx, initialState])
-        const width = get('viewportWidth', [args, ctx, initialState])
-        if (controller) {
-          return Object.assign(controller.viewport, viewport || [
-            -width, -height, width, height,
-          ])
-        }
-        return viewport
+        const near = get('near', [args, ctx, initialState])
+        const far = get('far', [args, ctx, initialState])
+        const left = viewport[0]
+        const bottom = viewport[1]
+        const right = viewport[2]
+        const top = viewport[3]
+        mat4.ortho(projection, left, right, bottom, top, near, far)
+        return projection
       }
     })
   }

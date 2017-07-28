@@ -1,9 +1,7 @@
-'use strict'
 import { DynamicValue, ShaderUniforms } from './gl'
-import { kDefaultTextureState } from './texture'
-import { incrementStat } from '../stats'
-import { assignTypeName } from './types'
 import { Command } from './command'
+import { Entity } from './entity'
+import { get } from '../utils'
 import window from 'global/window'
 
 const {HTMLVideoElement} = window
@@ -22,256 +20,124 @@ const {
   HAVE_CURRENT_DATA = 2,
   HAVE_FUTURE_DATA = 3,
   HAVE_ENOUGH_DATA = 4,
-} = HTMLVideoElement
+} = (HTMLVideoElement || {})
 
-export const kDefaultTextures = (() => {
-  return new Array(6).fill(kDefaultTextureState)
-})()
+export const kDefaultCubeTextureState = Object.seal({ min: 'linear', mag: 'linear', })
 
-export class CubeTexture extends Command {
-  static defaults() {
-    return {
-      uniformName: 'texCube'
+function isCubeTextureDataReady(data) {
+  if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
+    return true
+  } else if (isImage(data) || isCanvas(data)) {
+    if (data.width && data.height) {
+      return true
     }
   }
-  constructor(ctx, initialState = {}) {
-    incrementStat('CubeTexture')
-    super(update)
+  return false
+}
 
-    this.typeName = 'cubetexture'
-    assignTypeName(this, 'cubetexture')
-
-    // cube texture state used for in place regl
-    // cube texture reinitialization
-    const cubeTextureState = new CubeTextureState(ctx, initialState || {})
-
-    // injected texture context
-    const context = new CubeTextureContext(ctx, cubeTextureState, initialState)
-    const uniforms = new CubeTextureUniforms(ctx, initialState)
-
-    // regl context
-    const injectContext = ctx.regl({context, uniforms})
-
-    // cube texture update function
-    function update(state, block) {
-      if ('function' == typeof state) {
-        block = state
-        state = {}
-      }
-
-      state = state || {}
-      block = block || function() {}
-
-      let data = state
-      cubeTextureState.update({
-        ...initialState,
-        data
-      })
-
-      // inject cube texture context exposing useful
-      // cube texture state variables
-      injectContext(block)
-
-      return this
-    }
+function getCubeTextureDataResolution(data) {
+  if (Array.isArray(data)) {
+    data = data
+      .filter((d) => d)
+      .filter((d) => isImage(d) || isVideo(d) || d.shape.every(Boolean))
+      [0]
+    return getCubeTextureDataResolution(data)
   }
-
-  /**
-   * A predicate helper function to determine if
-   * given data is ready for upload
-   *
-   * @public
-   * @static
-   * @method
-   * @param {Mixed} data
-   * @return {Boolean}
-   */
-
-  static isTextureDataReady(data) {
-    if (data) {
-      if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
-        return true
-      } else if (isImage(data) || isCanvas(data)) {
-        if (data.width && data.height) {
-          return true
-        }
-      }
-    }
-    return false
-  }
-
-  /**
-   * Helper function to return a 2d vector
-   * representing the cube texture data resolution.
-   *
-   * @public
-   * @static
-   * @method
-   * @param {TextureState} state
-   * @param {Mixed} data
-   * @return {Array<Number>|Vector2}
-   */
-
-  static getTextureDataResolution(state, data) {
-    if (isImage(data) || isCanvas(data)) {
-      return [data.width, data.height]
-    } else if (isVideo(data)) {
-      return [data.videoWidth || 0, data.videoHeight || 0]
-    } else if (data && data.shape) {
-      return data.shape
-    } else if (state && state.shape) {
-      return state.shape
-    } else if (state && state.width && state.height) {
-      return [state.width, state.height]
-    } else {
-      return [0, 0]
-    }
+  if (isImage(data) || isCanvas(data)) {
+    return [data.width, data.height]
+  } else if (isVideo(data)) {
+    return [data.videoWidth || 0, data.videoHeight || 0]
+  } else if (data && data.shape) {
+    return data.shape
+  } else {
+    return [0, 0]
   }
 }
 
-export class CubeTextureState {
-  constructor(ctx, initialState = []) {
-    Object.assign(this, {
-      ...initialState,
-    })
-
-    let {data = kDefaultTextures} = initialState
-    const texture = ctx.regl.cube( ...data )
-    let lastVideoUpdate = 0
-    let previouslyUploadedData = null
-
-    // protected properties
-    Object.defineProperties(this, {
-      ctx: {
-        enumerable: false,
-        get() { return ctx },
-      },
-
-      data: {
-        enumerable: true,
-        get() { return data || null },
-        set(value) { data = value },
-      },
-
+export class CubeTexture extends Entity {
+  static defaults() {
+    return {
+      uniformName: 'texCube',
       texture: {
-        enumerable: false,
-        get() { return texture },
-      },
+        min: 'linear',
+        mag: 'linear',
+      }
+    }
+  }
+  constructor(ctx, initialState = {}) {
+    super(ctx, initialState, Entity.compose(ctx, [
+      ctx.regl({context: new CubeTextureDataContext(ctx, initialState)}),
+      ctx.regl({context: new CubeTexturePointerContext(ctx, initialState)}),
+      ctx.regl({context: new CubeTextureContext(ctx, initialState)}),
+      ctx.regl({uniforms: new CubeTextureUniforms(ctx, initialState)}),
+    ]))
+  }
+}
 
-      lastVideoUpdate: {
-        enumerable: false,
-        set(value) { lastVideoUpdate = value },
-        get() { return lastVideoUpdate },
-      },
-
-      previouslyUploadedData: {
-        enumerable: false,
-        set(value) { previouslyUploadedData = value },
-        get() { return previouslyUploadedData },
-      },
+export class CubeTextureDataContext extends DynamicValue {
+  constructor(ctx, initialState = {}) {
+    Object.assign(initialState, CubeTexture.defaults(), initialState)
+    super(ctx, initialState, {
+      cubeTextureData(ctx, args) {
+        const data = get('data', [args, ctx, initialState])
+        if (data && Array.isArray(data) && data.some(isCubeTextureDataReady)) {
+          const [w, h] = getCubeTextureDataResolution(data)
+          if (w && h) {
+            return [ ...data ]
+          }
+        }
+        return null
+      }
     })
   }
+}
 
-  update({data = this.data} = []) {
-    const now = this.ctx.regl.now()
-    let needsUpdate = false
-    let ready = true
-
-    // handle if array is passed inside a data obj
-    if (data && 'undefined' === typeof data.length) {
-      data = data.data || this.data
-    }
-
-    // don't re-check if media is ready
-    if (null == this.previouslyUploadedData) {
-      for (let i = 0; i < data.length; i++) {
-        const loaded = CubeTexture.isTextureDataReady(data[i])
-        if (!loaded) {
-          this.data = data
-          return
-        }
-      }
-    }
-
-    if (ready) {
-      for (let i = 0; i < data.length; i++) {
-        if (isVideo(data[i]) && data[i].readyState >= HAVE_CURRENT_DATA) {
-          needsUpdate = true
-          if (now - this.lastVideoUpdate >= 0.01) {
-            this.lastVideoUpdate = now
+export class CubeTexturePointerContext extends DynamicValue {
+  constructor(ctx, initialState = {}) {
+    Object.assign(initialState, CubeTexture.defaults(), initialState)
+    const cubeTexture = ctx.regl.cube({ ...initialState.texture })
+    let faces = Array(6).fill(null)
+    super(ctx, initialState, {
+      cubeTexturePointer({cubeTextureData}) {
+        let needsUpload = false
+        if (Array.isArray(cubeTextureData)) {
+          for (let i = 0 ; i < faces.length; ++i) {
+            if (faces[i] != cubeTextureData[i]) {
+              if (isCubeTextureDataReady(cubeTextureData[[i]])) {
+                faces[i] = cubeTextureData[i]
+                needsUpload = true
+              }
+            }
           }
-        } else if (this.previouslyUploadedData == null || data[i] != this.previouslyUploadedData[i]) {
-          needsUpdate = true
         }
-      }
-    }
-
-    if (needsUpdate) {
-      for (let i = 0; i < data.length; i++) {
-        // computed cube texture data resolution
-        const resolution = CubeTexture.getTextureDataResolution(this, data[i])
-        // mark for update if resolution is available and
-        // the previously uploaded any of the cube texture data differs from
-        // the current input data
-        if ( !(resolution[0] > 0 && resolution[1] > 0) ) {
-          return
+        const resolution = getCubeTextureDataResolution(faces)
+        for (let i = 0; i < faces.length; ++i) {
+          if (null == faces[i] || !isCubeTextureDataReady(faces[i])) {
+            faces[i] = {shape: resolution}
+          }
         }
+        if (needsUpload) {
+          cubeTexture(...faces)
+        }
+        return cubeTexture
       }
-    }
-
-    // update regl cube texture and set
-    if (needsUpdate && data) {
-      this.data = data
-      for (let p = 0; p < data.length; p++) {
-        this.previouslyUploadedData = this.previouslyUploadedData || []
-        this.previouslyUploadedData[p] = data[p]
-      }
-      // update underlying regl texture
-      if ('function' == typeof this.texture) {
-        this.texture( ...this.data )
-      } else {
-        throw new TypeError(
-          `TextureState expects .texture to be a function. ` +
-          `Got ${typeof this.texture}.`
-        )
-      }
-    }
-
-    return needsUpdate
+    })
   }
 }
 
 export class CubeTextureContext extends DynamicValue {
-  constructor(ctx, textureState, initialState = {}) {
+  constructor(ctx, initialState = {}) {
     Object.assign(initialState, CubeTexture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState)
-    // protected properties
-    Object.defineProperties(this, {
-      data: {
-        enumerable: false,
-        get() { return textureState.data },
+    super(ctx, initialState, {
+      cubeTextureUniformName() {
+        return uniformName
       },
 
-      textureState: {
-        enumerable: false,
-        get() { return textureState }
+      cubeTextureResolution({cubeTextureData}) {
+        return getCubeTextureDataResolution(cubeTextureData)
       },
     })
-
-    this.cubeTextureUniformName = () => uniformName
-
-    this.cubeTextureResolution = () => {
-      return CubeTexture.getTextureDataResolution(textureState, textureState.data)
-    }
-
-    this.cubeTextureData = () => {
-      return textureState.data
-    }
-
-    this.cubeTexture = () => {
-      return textureState.texture
-    }
   }
 }
 
@@ -281,7 +147,7 @@ export class CubeTextureUniforms extends ShaderUniforms {
     const {uniformName} = initialState
     super(ctx, initialState, {
       [`${uniformName}.resolution`]: ({cubeTextureResolution}) => cubeTextureResolution,
-      [`${uniformName}.data`]: ({cubeTexture}) => cubeTexture,
+      [`${uniformName}.data`]: ({cubeTexturePointer}) => cubeTexturePointer,
     })
   }
 }

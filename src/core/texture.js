@@ -1,7 +1,7 @@
 import { DynamicValue, ShaderUniforms } from './gl'
-import { assignTypeName } from './types'
-import { incrementStat } from '../stats'
 import { Command } from './command'
+import { Entity } from './entity'
+import { get } from '../utils'
 import window from 'global/window'
 
 const {HTMLVideoElement} = window
@@ -20,235 +20,105 @@ const {
   HAVE_CURRENT_DATA = 2,
   HAVE_FUTURE_DATA = 3,
   HAVE_ENOUGH_DATA = 4,
-} = HTMLVideoElement
+} = (HTMLVideoElement || {})
 
-export const kDefaultTextureState = Object.seal({
-  min: 'linear',
-  mag: 'linear',
-})
+export const kDefaultTextureState = Object.seal({ min: 'linear', mag: 'linear', })
 
-export class Texture extends Command {
+function isTextureDataReady(data) {
+  if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
+    return true
+  } else if (isImage(data) || isCanvas(data)) {
+    if (data.width && data.height) {
+      return true
+    }
+  }
+  return false
+}
+
+function getTextureDataResolution(data) {
+  if (isImage(data) || isCanvas(data)) {
+    return [data.width, data.height]
+  } else if (isVideo(data)) {
+    return [data.videoWidth || 0, data.videoHeight || 0]
+  } else if (data && data.shape) {
+    return data.shape
+  } else {
+    return [0, 0]
+  }
+}
+
+export class Texture extends Entity {
   static defaults() {
     return {
-      uniformName: 'tex2d'
+      uniformName: 'tex2d',
+      texture: {
+        min: 'linear',
+        mag: 'linear',
+      }
     }
   }
   constructor(ctx, initialState = {}) {
-    super(update)
-    incrementStat('Texture')
-    assignTypeName(this, 'texture')
-
-    // texture state used for in place regl
-    // texture reinitialization
-    const textureState = new TextureState(ctx, initialState || {})
-
-    // injected texture context
-    const {
-      context = new TextureContext(ctx, textureState, initialState)
-    } = initialState
-
-    const uniforms = new TextureUniforms(ctx, initialState)
-
-    // regl context
-    const injectContext = ctx.regl({context, uniforms})
-
-    // texture update function
-    function update(state, block) {
-      if ('function' == typeof state) {
-        block = state
-        state = {}
-      }
-      state = state || {}
-      block = block || function() {}
-
-      textureState.update({
-        ...initialState,
-        ...state,
-      })
-
-      // inject texture context exposing useful
-      // texture state variables
-      injectContext(block)
-
-      return this
-    }
+    super(ctx, initialState, Entity.compose(ctx, [
+      ctx.regl({context: new TextureDataContext(ctx, initialState)}),
+      ctx.regl({context: new TexturePointerContext(ctx, initialState)}),
+      ctx.regl({context: new TextureContext(ctx, initialState)}),
+      ctx.regl({uniforms: new TextureUniforms(ctx, initialState)}),
+    ]))
   }
+}
 
-  static isTextureDataReady(data) {
-    if (data && isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
-      return true
-    } else if (data && isImage(data) || isCanvas(data)) {
-      if (data.width && data.height) {
-        return true
+export class TextureDataContext extends DynamicValue {
+  constructor(ctx, initialState = {}) {
+    Object.assign(initialState, Texture.defaults(), initialState)
+    super(ctx, initialState, {
+      textureData(ctx, args) {
+        const data = get('data', [args, ctx, initialState])
+        if (data && isTextureDataReady(data)) {
+          const [w, h] = getTextureDataResolution(data)
+          if (w && h) {
+            return data
+          }
+        }
+        return null
       }
-    }
-    return false
+    })
   }
+}
 
-  static getTextureDataResolution(state, data) {
-    if (isImage(data) || isCanvas(data)) {
-      return [data.width, data.height]
-    } else if (isVideo(data)) {
-      return [data.videoWidth || 0, data.videoHeight || 0]
-    } else if (data && data.shape) {
-      return data.shape
-    } else if (state.shape) {
-      return state.shape
-    } else if (state.width && state.height) {
-      return [state.width, state.height]
-    } else {
-      return [0, 0]
-    }
+export class TexturePointerContext extends DynamicValue {
+  constructor(ctx, initialState = {}) {
+    Object.assign(initialState, Texture.defaults(), initialState)
+    const texture = ctx.regl.texture({ ...initialState.texture })
+    let previouslyUploadedData = null
+    super(ctx, initialState, {
+      texturePointer({textureData}) {
+        if (textureData){
+          if (isImage(textureData)) {
+            if (textureData != previouslyUploadedData) {
+              texture({...initialState.texture, data: textureData})
+              previouslyUploadedData = textureData
+            }
+          }
+        }
+        return texture
+      }
+    })
   }
 }
 
 export class TextureContext extends DynamicValue {
-  constructor(ctx, textureState, initialState = {}) {
+  constructor(ctx, initialState = {}) {
     Object.assign(initialState, Texture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState)
-    // protected properties
-    Object.defineProperties(this, {
-      data: {
-        enumerable: false,
-        get() { return textureState.data },
+    super(ctx, initialState, {
+      textureUniformName() {
+        return uniformName
       },
 
-      textureState: {
-        enumerable: false,
-        get() { return textureState }
+      textureResolution({textureData}) {
+        return getTextureDataResolution(textureData)
       },
     })
-
-    this.textureUniformName = () => uniformName
-
-    this.textureResolution = () => {
-      return Texture.getTextureDataResolution(textureState, textureState.data)
-    }
-
-    this.textureData = () => {
-      return textureState.data
-    }
-
-    this.texture = () => {
-      return textureState.texture
-    }
-  }
-}
-
-/**
- * TextureState class.
- *
- * @public
- * @class TextureState
- */
-
-export class TextureState {
-
-  /**
-   * TextureState class constructor.
-   *
-   * @param {!Context} ctx Axis3D context.
-   * @param {!Object} initialState Required initial state.
-   */
-
-  constructor(ctx, initialState = {}) {
-    Object.assign(this, {
-      ...kDefaultTextureState,
-      ...initialState,
-    })
-
-    const texture = ctx.regl.texture({ ...this })
-
-    let {data = null} = initialState
-    let lastVideoUpdate = 0
-    let previouslyUploadedData = null
-
-    // protected properties
-    Object.defineProperties(this, {
-      ctx: {
-        enumerable: false,
-        get() { return ctx },
-      },
-
-      data: {
-        enumerable: true,
-        get() { return data || null },
-        set(value) { data = value },
-      },
-
-      texture: {
-        enumerable: false,
-        get() { return texture },
-      },
-
-      lastVideoUpdate: {
-        enumerable: false,
-        set(value) { lastVideoUpdate = value },
-        get() { return lastVideoUpdate },
-      },
-
-      previouslyUploadedData: {
-        enumerable: false,
-        set(value) { previouslyUploadedData = value },
-        get() { return previouslyUploadedData },
-      },
-    })
-  }
-
-  /**
-   * Updates internal texture state. Returns true if the internal texture
-   * was updated, otherwise false.
-   *
-   * @public
-   * @method
-   * @param {Object} state
-   * @param {Object} state.data
-   * @return {Boolean}
-   * @throws TypeError
-   */
-
-  update({data = this.data} = {}) {
-    const now = this.ctx.regl.now()
-    let needsUpdate = false
-
-    if (Texture.isTextureDataReady(data)) {
-      if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
-        needsUpdate = true
-        if (now - this.lastVideoUpdate >= 0.01) {
-          this.lastVideoUpdate = now
-        }
-      } else if (data != this.previouslyUploadedData) {
-        needsUpdate = true
-      }
-    }
-
-    if (needsUpdate) {
-      // computed texture data resolution
-      const resolution = Texture.getTextureDataResolution(this, data)
-      // mark for update if resolution is available and
-      // the previously uploaded texture data defers from
-      // the current input data
-      if (!(resolution[0] > 0 && resolution[1] > 0)) {
-        needsUpdate = false
-      }
-    }
-
-    // update regl rexture state and set
-    if (needsUpdate && data) {
-      this.data = data
-      this.previouslyUploadedData = data
-      // update underlying regl texture
-      if ('function' == typeof this.texture) {
-        this.texture(this)
-      } else {
-        throw new TypeError(
-        `TextureState expects .texture to be a function. `+
-        `Got ${typeof this.texture}.`)
-      }
-    }
-
-    return needsUpdate
   }
 }
 
@@ -258,7 +128,7 @@ export class TextureUniforms extends ShaderUniforms {
     const {uniformName} = initialState
     super(ctx, initialState, {
       [`${uniformName}.resolution`]: ({textureResolution}) => textureResolution,
-      [`${uniformName}.data`]: ({texture}) => texture,
+      [`${uniformName}.data`]: ({texturePointer}) => texturePointer,
     })
   }
 }
