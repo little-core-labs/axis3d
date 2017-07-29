@@ -1,39 +1,15 @@
-import { UniformsComponent } from './components/uniforms'
-import { ContextComponent } from './components/context'
+import { ContextComponent, UniformsComponent } from './components'
 import { Component } from './component'
-import coalesce from 'defined'
-
-export const kDefaultFrameBlendingState = Object.seal({
-  equation: 'add',
-  enable: true,
-  color: [0, 0, 0, 1],
-  func: { src: 'src alpha', dst: 'one minus src alpha' },
-})
-
-export const kDefaultFrameCullingState = Object.seal({
-  enable: true,
-  face: 'back',
-})
-
-export const kDefaultFrameDepthState = Object.seal({
-  enable: true,
-  range: [0, 1],
-  func: 'less',
-  mask: true,
-})
-
-export const kDefaultFrameClearState = Object.seal({
-  color: [17/255, 17/255, 17/255, 1],
-  depth: 1,
-})
+import { get } from '../utils'
 
 export class Frame extends Component {
   static defaults() {
     return {
-      blending: kDefaultFrameBlendingState,
-      culling: kDefaultFrameCullingState,
-      depth: kDefaultFrameDepthState,
-      clear: kDefaultFrameClearState,
+      blending: { equation: 'add', enable: false, color: [0, 0, 0, 1],
+                  func: { src: 'src alpha', dst: 'one minus src alpha' } },
+      culling: { enable: true, face: 'back' },
+      depth: { enable: true, range: [0, 1], func: 'less', mask: true, },
+      clear: { color: [17/255, 17/255, 17/255, 1], depth: 1, },
     }
   }
 
@@ -45,9 +21,28 @@ export class Frame extends Component {
     const frames = []
     super(ctx, initialState, (state, refresh) => {
       const inject = new ContextComponent(ctx, {frame: () => frame})
-      const components = [state, frame, context, uniforms, inject, refresh]
-      const component = Component.compose(components)
-      const frame = ctx.regl.frame(component)
+      const frame = ctx.regl.frame(onframe)
+      const clear = ({clear}, block) => {
+        clear();
+        block();
+      }
+      const component = Component.compose([
+        state,
+        frame,
+        context,
+        uniforms,
+        inject,
+        refresh
+      ])
+      frames.push(frame)
+      function onframe(...args) {
+        try { component(...args) }
+        catch (err) {
+          for (const f of frames) { f.cancel() }
+          frames.splice(0, frames.length)
+          ctx.emit('error', err)
+        }
+      }
     })
   }
 }
@@ -55,11 +50,12 @@ export class Frame extends Component {
 export class FrameContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Frame.defaults(), initialState)
-    const clearState = { ...kDefaultFrameClearState, ...initialState.clear }
     super(ctx, initialState, new ContextComponent(ctx, {
       // functions
       cancel: ({frame}) => () => frame ? frame.cancel() : null,
-      clear: () => () => ctx.regl.clear({ ...clearState }),
+      clear: (ctx, args) => (clear) => {
+        ctx.regl.clear({ ...(clear || get('clear', [args, initialState])) })
+      },
       // props
       regl: () => ctx ? ctx.regl : null,
       gl: () => ctx ? ctx.gl : null,
@@ -70,27 +66,24 @@ export class FrameContext extends Component {
 export class FrameUniforms extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Frame.defaults(), initialState)
-    super(ctx, initialState, new UniformsComponent(ctx, {
-      time: ({time}) => time,
-      tick: ({tick}) => tick,
-    }))
+    super(ctx, initialState,
+      new UniformsComponent(ctx, {
+        time: ({time}) => time,
+        tick: ({tick}) => tick,
+      })
+    )
   }
 }
 
 export class FrameState extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Frame.defaults(), initialState)
-    super(ctx, {}, ctx.regl({
-      ...initialState.state,
-      depth: { ...kDefaultFrameDepthState, ...initialState.depth },
-      blend: {
-        ...kDefaultFrameBlendingState,
-        ...coalesce(initialState.blend, initialState.blending)
-      },
-      cull: {
-        ...kDefaultFrameCullingState,
-        ...coalesce(initialState.cull, initialState.culling)
-      },
-    }))
+    super(ctx, {},
+      ctx.regl({
+        depth: { ...initialState.depth },
+        blend: { ...initialState.blending },
+        cull: { ...initialState.culling },
+      })
+    )
   }
 }

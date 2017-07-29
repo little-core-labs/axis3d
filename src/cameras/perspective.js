@@ -36,67 +36,78 @@ function lookAt(direction, target, position, up) {
 
 export class PerspectiveCamera extends Component {
   static defaults() {
-    return {
-      ...super.defaults(),
-      ...Camera.defaults(),
-      near: 0.01,
-      far: 1000,
-      fov: radians(60),
+    return { ...Component.defaults(), ...Camera.defaults(),
+      near: 0.01, far: 1000, fov: radians(60),
     }
   }
 
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, PerspectiveCamera.defaults(), initialState)
-    super(
-      ctx, initialState,
+    super(ctx, initialState,
       new Camera(ctx, initialState),
       new PerspectiveCameraContext(ctx, initialState),
-      new PerspectiveCameraComputeContext(ctx, initialState),
+      new PerspectiveCameraProjectionContext(ctx, initialState),
+      new PerspectiveCameraViewContext(ctx, initialState),
       new CameraUniforms(ctx, initialState),
     )
   }
 }
 
-export class PerspectiveCameraComputeContext extends Component {
+export class PerspectiveCameraProjectionContext extends Component {
+  static defaults() { return { ...PerspectiveCamera.defaults() } }
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, PerspectiveCamera.defaults(), initialState)
-    super(ctx, initialState, new ContextComponent(ctx, {
-      projection(ctx, args) {
-        const projection = mat4.identity([])
-        if ('projection' in args && args.projection) {
-          mat4.copy(projection, args.projection)
-        } else {
-          const aspect = get('aspect', [args, ctx, initialState])
-          const near = get('near', [args, ctx, initialState])
-          const far = get('far', [args, ctx, initialState])
-          const fov = get('fov', [args, ctx, initialState])
-          mat4.perspective(projection, fov, aspect, near, far)
-        }
-        return projection;
-      },
+    const defaults = PerspectiveCameraProjectionContext.defaults()
+    Object.assign(initialState, defaults, initialState)
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        projection(ctx, args) {
+          const projection = mat4.identity([])
+          if ('projection' in args && args.projection) {
+            mat4.copy(projection, args.projection)
+          } else {
+            const aspect = get('aspect', [args, ctx, initialState])
+            const near = get('near', [args, ctx, initialState])
+            const far = get('far', [args, ctx, initialState])
+            const fov = get('fov', [args, ctx, initialState])
+            mat4.perspective(projection, fov, aspect, near, far)
+          }
+          return projection;
+        },
+      })
+    )
+  }
+}
 
-      view(ctx, args) {
-        const matrix = mat4.identity([])
-        const center = [0, 0, 0]
-        const direction = get('direction', [ctx, args, initialState])
-        const position = get('position', [ctx, args, initialState])
-        const rotation = get('rotation', [ctx, args, initialState])
-        const target = get('target', [ctx, args, initialState])
-        const scale = get('scale', [ctx, args, initialState])
-        const up = get('up', [ctx, args, initialState])
-        if (!position || !rotation || !target || !scale) {
-          return kMat4Identity
+export class PerspectiveCameraViewContext extends Component {
+  static defaults() { return { ...PerspectiveCamera.defaults() } }
+  constructor(ctx, initialState = {}) {
+    const defaults = PerspectiveCameraViewContext.defaults()
+    Object.assign(initialState, defaults, initialState)
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        view(ctx, args) {
+          const matrix = mat4.identity([])
+          const center = [0, 0, 0]
+          const direction = get('direction', [ctx, args, initialState])
+          const position = get('position', [ctx, args, initialState])
+          const rotation = get('rotation', [ctx, args, initialState])
+          const target = get('target', [ctx, args, initialState])
+          const scale = get('scale', [ctx, args, initialState])
+          const up = get('up', [ctx, args, initialState])
+          if (!position || !rotation || !target || !scale) {
+            return kMat4Identity
+          }
+          lookAt(direction, target, position, up)
+          vec3.add(center, position, direction)
+          quat.normalize(scratchQuaternion, rotation)
+          mat4.fromQuat(scratchMatrix, scratchQuaternion)
+          mat4.lookAt(matrix, position, center, up)
+          mat4.multiply(matrix, matrix, scratchMatrix)
+          mat4.scale(matrix, matrix, scale)
+          return matrix
         }
-        lookAt(direction, target, position, up)
-        vec3.add(center, position, direction)
-        quat.normalize(scratchQuaternion, rotation)
-        mat4.fromQuat(scratchMatrix, scratchQuaternion)
-        mat4.lookAt(matrix, position, center, up)
-        mat4.multiply(matrix, matrix, scratchMatrix)
-        mat4.scale(matrix, matrix, scale)
-        return matrix
-      }
-    }))
+      })
+    )
   }
 }
 

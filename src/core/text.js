@@ -1,7 +1,6 @@
 'use strict'
 
 import { ExtrudeGeometry } from '../geometry/extrude_geometry'
-import { assignTypeName } from './types'
 import { Object3D } from './object3d'
 import { Command } from './command'
 import { Mesh } from './mesh'
@@ -18,8 +17,6 @@ export class Text extends Command {
 
   constructor(ctx, initialState = {}) {
     super(update)
-    assignTypeName(this, 'text')
-
 
     const {context = new TextContext(ctx, initialState)} = initialState
     const injectContext = ctx.regl({context})

@@ -8,7 +8,7 @@ const kMat4Identity = mat4.identity([])
 export class Object3D extends Component {
   static defaults() {
     return {
-      ...super.defaults(),
+      ...Component.defaults(),
       rotation: [0, 0, 0, 1],
       position: [0, 0, 0],
       scale: [1, 1, 1]
@@ -38,7 +38,7 @@ export class Object3DContext extends Component {
         return get('position', [args, initialState, ctx])
       },
 
-      rotation(ctx, args = {}) {
+      rotation(ctx, args) {
         return get('rotation', [args, initialState, ctx])
       },
     }))

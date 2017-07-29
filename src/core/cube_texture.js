@@ -73,16 +73,18 @@ export class CubeTexture extends Component {
 export class CubeTextureDataContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, CubeTexture.defaults(), initialState)
-    super(ctx, initialState, new ContextComponent(ctx, {
-      cubeTextureData(ctx, args) {
-        const data = get('data', [args, ctx, initialState])
-        if (data && Array.isArray(data) && data.some(isCubeTextureDataReady)) {
-          const [w, h] = getCubeTextureDataResolution(data)
-          if (w && h) { return [ ...data ] }
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        cubeTextureData(ctx, args) {
+          const data = get('data', [args, ctx, initialState])
+          if (data && Array.isArray(data) && data.some(isCubeTextureDataReady)) {
+            const [w, h] = getCubeTextureDataResolution(data)
+            if (w && h) { return [ ...data ] }
+          }
+          return null
         }
-        return null
-      }
-    }))
+      })
+    )
   }
 }
 
@@ -91,29 +93,31 @@ export class CubeTexturePointerContext extends Component {
     Object.assign(initialState, CubeTexture.defaults(), initialState)
     const cubeTexture = ctx.regl.cube({ ...initialState.texture })
     let faces = Array(6).fill(null)
-    super(ctx, initialState, new ContextComponent(ctx, {
-      cubeTexturePointer({cubeTextureData}) {
-        let needsUpload = false
-        if (Array.isArray(cubeTextureData)) {
-          for (let i = 0 ; i < faces.length; ++i) {
-            if (faces[i] != cubeTextureData[i]) {
-              if (isCubeTextureDataReady(cubeTextureData[[i]])) {
-                faces[i] = cubeTextureData[i]
-                needsUpload = true
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        cubeTexturePointer({cubeTextureData}) {
+          let needsUpload = false
+          if (Array.isArray(cubeTextureData)) {
+            for (let i = 0 ; i < faces.length; ++i) {
+              if (faces[i] != cubeTextureData[i]) {
+                if (isCubeTextureDataReady(cubeTextureData[[i]])) {
+                  faces[i] = cubeTextureData[i]
+                  needsUpload = true
+                }
               }
             }
           }
-        }
-        const resolution = getCubeTextureDataResolution(faces)
-        for (let i = 0; i < faces.length; ++i) {
-          if (null == faces[i] || !isCubeTextureDataReady(faces[i])) {
-            faces[i] = {shape: resolution}
+          const resolution = getCubeTextureDataResolution(faces)
+          for (let i = 0; i < faces.length; ++i) {
+            if (null == faces[i] || !isCubeTextureDataReady(faces[i])) {
+              faces[i] = {shape: resolution}
+            }
           }
+          if (needsUpload) { cubeTexture(...faces) }
+          return cubeTexture
         }
-        if (needsUpload) { cubeTexture(...faces) }
-        return cubeTexture
-      }
-    }))
+      })
+    )
   }
 }
 
@@ -121,12 +125,14 @@ export class CubeTextureContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, CubeTexture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState, new ContextComponent(ctx, {
-      cubeTextureUniformName() { return uniformName },
-      cubeTextureResolution({cubeTextureData}) {
-        return getCubeTextureDataResolution(cubeTextureData)
-      }
-    }))
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        cubeTextureUniformName() { return uniformName },
+        cubeTextureResolution({cubeTextureData}) {
+          return getCubeTextureDataResolution(cubeTextureData)
+        }
+      })
+    )
   }
 }
 
@@ -134,9 +140,11 @@ export class CubeTextureUniforms extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, CubeTexture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState, new UniformsComponent(ctx, {
-      [`${uniformName}.resolution`]: ({cubeTextureResolution}) => cubeTextureResolution,
-      [`${uniformName}.data`]: ({cubeTexturePointer}) => cubeTexturePointer,
-    }))
+    super(ctx, initialState,
+      new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {
+        resolution({cubeTextureResolution}) { return cubeTextureResolution },
+        data({cubeTexturePointer}) { return cubeTexturePointer },
+      })
+    )
   }
 }

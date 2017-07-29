@@ -16,7 +16,8 @@ const kMat4Identity = mat4.identity([])
 export class Camera extends Component {
   static defaults() {
     return {
-      ...super.defaults(),
+      ...Component.defaults(),
+      ...Object3D.defaults(),
       direction: [0, 0, -1],
       target: [0, 0, 0],
       view: kMat4Identity,
@@ -25,21 +26,23 @@ export class Camera extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Camera.defaults(), initialState)
+    const defaults = CameraViewContext.defaults()
+    Object.assign(initialState, defaults, initialState)
     super(ctx, initialState,
       new Object3D(ctx),
       new CameraContext(ctx, initialState),
       new CameraViewContext(ctx, initialState),
-      new CameraComputedContext(ctx, initialState),
+      new CameraInverseViewContext(ctx, initialState),
       new CameraUniforms(ctx, initialState),
-      initialState.update,
     )
   }
 }
 
 export class CameraContext extends Component {
+  static defaults() { return { ...Camera.defaults() } }
   constructor(ctx, initialState) {
-    Object.assign(initialState, Camera.defaults(), initialState)
+    const defaults = CameraViewContext.defaults()
+    Object.assign(initialState, defaults, initialState)
     super(ctx, initialState, new ContextComponent(ctx, {
       matrix() { return kMat4Identity },
 
@@ -83,50 +86,62 @@ export class CameraContext extends Component {
 }
 
 export class CameraViewContext extends Component {
+  static defaults() { return { ...Camera.defaults() } }
   constructor(ctx, initialState) {
-    Object.assign(initialState, Camera.defaults(), initialState)
-    super(ctx, initialState, new ContextComponent(ctx, {
-      view(ctx, args) {
-        const matrix = mat4.identity([])
-        const position = get('position', [ctx, args, initialState])
-        const rotation = get('rotation', [ctx, args, initialState])
-        const target = get('target', [ctx, args, initialState])
-        const scale = get('scale', [ctx, args, initialState])
-        const up = get('up', [ctx, args, initialState])
-        if (!position || !rotation || !target || !scale) {
-          return kMat4Identity
+    const defaults = CameraViewContext.defaults()
+    Object.assign(initialState, defaults, initialState)
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        view(ctx, args) {
+          const matrix = mat4.identity([])
+          const position = get('position', [ctx, args, initialState])
+          const rotation = get('rotation', [ctx, args, initialState])
+          const target = get('target', [ctx, args, initialState])
+          const scale = get('scale', [ctx, args, initialState])
+          const up = get('up', [ctx, args, initialState])
+          if (!position || !rotation || !target || !scale) {
+            return kMat4Identity
+          }
+          quat.normalize(scratchQuaternion, rotation)
+          mat4.fromQuat(scratchMatrix, scratchQuaternion)
+          mat4.translate(matrix, matrix, position)
+          mat4.lookAt(matrix, target, position, up)
+          mat4.multiply(matrix, matrix, scratchMatrix)
+          mat4.scale(matrix, matrix, scale)
+          return matrix
         }
-        quat.normalize(scratchQuaternion, rotation)
-        mat4.fromQuat(scratchMatrix, scratchQuaternion)
-        mat4.translate(matrix, matrix, position)
-        mat4.lookAt(matrix, target, position, up)
-        mat4.multiply(matrix, matrix, scratchMatrix)
-        mat4.scale(matrix, matrix, scale)
-        return matrix
-      }
-    }))
+      }))
   }
 }
 
-export class CameraComputedContext extends Component {
+export class CameraInverseViewContext extends Component {
+  static defaults() { return {} }
   constructor(ctx, initialState) {
-    Object.assign(initialState, Camera.defaults(), initialState)
-    super(ctx, initialState, new ContextComponent(ctx, {
-      invertedView({view}) {
-        return view ? mat4.invert([], view) : kMat4Identity
-      }
-    }))
+    const defaults = CameraInverseViewContext.defaults()
+    Object.assign(initialState, defaults, initialState)
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        invertedView({view}) {
+          return view ? mat4.invert([], view) : kMat4Identity
+        }
+      })
+    )
   }
 }
 
 export class CameraUniforms extends Component {
+  static defaults() { return { uniformName: 'camera' } }
   constructor(ctx, initialState) {
-    super(ctx, initialState, new UniformsComponent(ctx, {
-      'camera.invertedView': ({invertedView}) => invertedView,
-      'camera.projection': ({projection}) => projection,
-      'camera.aspect': ({aspect}) => aspect,
-      'camera.view': ({view}) => view,
-      'camera.eye': ({eye}) => [...eye],
+    const defaults = CameraUniforms.defaults()
+    Object.assign(initialState, defaults, initialState)
+    const {uniformName} = initialState
+    super(ctx, initialState,
+      new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {
+        invertedView({invertedView}) { return invertedView },
+        projection({projection}) { return projection },
+        aspect({aspect}) { return aspect },
+        view({view}) { return view },
+        eye({eye}) { return  [...eye] },
     }))
   }
 }

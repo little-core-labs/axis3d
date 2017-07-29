@@ -36,7 +36,9 @@ ready(() => document.body.appendChild(stats.dom))
 
 frame(() => stats.begin())
 
-frame(({time}) => {
+frame(({time, clear}) => {
+  clear()
+  //clear({color: [0, 0, 0, 1] })
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, () => {

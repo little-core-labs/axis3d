@@ -27,13 +27,19 @@ const kGLSLTokenFloat = 'float'
 const kGLSLTokenEOF = 'eof'
 
 export class Shader extends Component {
+  static defaults() {
+    return {
+      ...Component.defaults(),
+      defines: {},
+      precision: 'mediump float',
+      shaderName: kAnonymousShaderName,
+    }
+  }
+
   constructor(ctx, initialState = {}) {
-    const {
-      defines = {},
-      precision = 'mediump float',
-      shaderLib = new ShaderLib({ ...initialState, precision, defines }),
-      shaderName = kAnonymousShaderName,
-    } = initialState
+    Object.assign(initialState, Shader.defaults(), initialState)
+    const { defines, precision, shaderName } = initialState
+    const shaderLib = new ShaderLib({ ...initialState, precision, defines })
 
     let injectParentContext = ctx.regl({})
     let injectContext = null

@@ -1,4 +1,3 @@
-'use strict'
 import { Vector } from './vector'
 
 export class Matrix extends Vector {

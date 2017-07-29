@@ -33,33 +33,35 @@ export class DynamicValue {
   }
 
   constructor(ctx, initialState = {}, props = {}) {
-    const define = (k, v) => Object.defineProperty(this, k, {
-      enumerable: false, get: () => v
+    const define = (k, v, def) => Object.defineProperty(this, k, {
+      enumerable: false, get: () => v || def
     })
-    define('ctx', ctx)
-    define('initialState', initialState)
+    define('ctx', ctx, {})
+    define('initialState', initialState, {})
     if ('object' == typeof props) {
       this.set(props)
     }
   }
 
   set(name, value) {
+    const {prefix = ''} = this.initialState
     if (name && 'object' == typeof name) {
       const descriptors = Object.getOwnPropertyDescriptors(name)
       for (const key in descriptors) {
-        try { Object.defineProperty(this, key, descriptors[key]) }
+        try { Object.defineProperty(this, `${prefix}${key}`, descriptors[key]) }
         catch (e) {}
       }
     } else if ('string' == typeof name && null != value) {
-      this[name] = DynamicValue.primitive(value)
+      this[`${prefix}${name}`] = DynamicValue.primitive(value)
     }
     this.purge()
     return this
   }
 
   unset(name) {
+    const {prefix = ''} = this.initialState
     if ('string' == typeof name) {
-      delete this[name]
+      delete this[`${prefix}${name}`]
     }
     return this
   }
@@ -71,33 +73,6 @@ export class DynamicValue {
       }
     }
     return this
-  }
-
-  argument(property, key, ...defaultValues) {
-    const {pluck} = DynamicValue
-    return ({}, args) => pluck(args, property, key, ...defaultValues)
-  }
-
-  context(property, key, ...defaultValues) {
-    const {pluck} = DynamicValue
-    return (ctx) => pluck(ctx, property, key, ...defaultValues)
-  }
-
-  contextOrArgument(property, key, ...defaultValues) {
-    const {pluck} = DynamicValue
-    return (ctx, args) => coalesce(
-      pluck(ctx, property, key, undefined),
-      pluck(args, property, key, undefined),
-      ...defaultValues
-    )
-  }
-
-  argumentOrContext(property, key, ...defaultValues) {
-    return (ctx, args) => coalesce(
-      pluck(args, property, key, undefined),
-      pluck(ctx, property, key, undefined),
-      ...defaultValues
-    )
   }
 }
 

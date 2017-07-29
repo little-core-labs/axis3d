@@ -50,6 +50,7 @@ function getTextureDataResolution(data) {
 export class Texture extends Component {
   static defaults() {
     return {
+      ...Component.defaults(),
       uniformName: 'tex2d',
       texture: { min: 'linear', mag: 'linear' }
     }
@@ -106,12 +107,13 @@ export class TextureContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Texture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState, new ContextComponent(ctx, {
-      textureUniformName() { return uniformName },
-      textureResolution({textureData}) {
-        return getTextureDataResolution(textureData)
-      }
-    }))
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        textureUniformName() { return uniformName },
+        textureResolution({textureData}) {
+          return getTextureDataResolution(textureData)
+        }
+      }))
   }
 }
 
@@ -119,9 +121,11 @@ export class TextureUniforms extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Texture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState, new UniformsComponent(ctx, {
-      [`${uniformName}.resolution`]: ({textureResolution}) => textureResolution,
-      [`${uniformName}.data`]: ({texturePointer}) => texturePointer,
-    }))
+    super(ctx, initialState,
+      new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {
+        resolution({textureResolution}) { return textureResolution },
+        data({texturePointer}) { return texturePointer },
+      })
+    )
   }
 }
