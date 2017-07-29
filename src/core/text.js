@@ -1,9 +1,5 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
-
 import { ExtrudeGeometry } from '../geometry/extrude_geometry'
 import { assignTypeName } from './types'
 import { Object3D } from './object3d'
@@ -18,48 +14,16 @@ const kGeometryCache = {}
 const kComplexCache = {}
 const kMeshCache = {}
 
-/**
- * The Text class represents an interface for triangulating text strings
- * into a simplicial complex.
- *
- * @public
- * @class Text
- * @extends Command
- */
-
 export class Text extends Command {
-
-  /**
-   * Text class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context object.
-   * @param {?Object} initialState Optional initial state.
-   */
 
   constructor(ctx, initialState = {}) {
     super(update)
     assignTypeName(this, 'text')
 
-    this.typeName = 'text'
-    /**
-     * Injected regl context.
-     */
 
     const {context = new TextContext(ctx, initialState)} = initialState
-
-    /**
-     * Injects a text regl context.
-     */
-
     const injectContext = ctx.regl({context})
-
     const object = new Object3D(ctx, {scale: [1, -1, 1]})
-
-    /**
-     * Command update function.
-     */
 
     function update(state = {}, block) {
       const mesh = getMesh(state)
@@ -75,10 +39,6 @@ export class Text extends Command {
 
       return this
     }
-
-    /**
-     * Gets a cached mesh from input state.
-     */
 
     function getMesh(state) {
       if ('string' == typeof state) {
@@ -122,24 +82,7 @@ export class Text extends Command {
   }
 }
 
-/**
- * TextContext class.
- *
- * @public
- * @class TextContext
- */
-
 export class TextContext {
-
-  /**
-   * TextContext class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {!Context} ctx Axis3D context object.
-   * @param {?Object} initialState Optional initial state.
-   */
-
   constructor(ctx, initialState = {}) {
     this.text = ({}, args) => {
       args = args || {}

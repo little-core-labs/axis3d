@@ -1,10 +1,6 @@
-'use strict'
-
-/**
- * Module exports.
- */
-
 export * from './cube_texture'
+export * from './components'
+export * from './component'
 export * from './geometry'
 export * from './object3d'
 export * from './material'
@@ -18,4 +14,3 @@ export * from './color'
 export * from './frame'
 export * from './mesh'
 export * from './gl'
-

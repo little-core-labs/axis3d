@@ -1,57 +1,39 @@
-import { DynamicValue } from './gl'
 import { Command } from './command'
 
-let entityCount = 0
+/**
+ * An Entity is a command that injects a context with a unique ID. State
+ * is not preserved, but rather just provided. The current and previous states
+ * are captured and provided to an optional update function given to the
+ * constructor of this class. Basically, this class just constructs a command
+ * function that accepts some input, passes it to an optional update function,
+ * and then injects a regl context. The context just defines an `entityID`
+ * property. Most classes inherit from Component, which inherits Entity.
+ */
 
+let entityCount = 0
 export class Entity extends Command {
   static id() { return ++ entityCount }
-  static defaults() { return {} }
-
-  static compose(ctx, entities) {
-    return new Entity(ctx, (state, block) => {
-      walk(entities.slice().concat(block))
-      function walk(entities) {
-        const entity = entities.shift()
-        if ('function' == typeof entity) {
-          entity(state, () => { walk(entities) })
-        } else { walk(entities) }
-      }
-    })
-  }
-
-  constructor(ctx, initialState = {}, update) {
-    if ('function' == typeof initialState) {
-      update = initialState
-      initialState = {}
-    }
-    const context = ctx.regl({context: new EntityContext(ctx, initialState)})
-    let currentState = { ...initialState }
+  constructor(ctx, update) {
+    const id = Entity.id()
+    const context = ctx.regl({context: {entityID: () => id}})
+    let currentState = {}
     let previousState = null
     super((state, block) => {
       if ('function' == typeof state) {
-        block = state
+        block = state;
         state = {}
       }
       state = 'object' == typeof state && state ? state : {}
       block = 'function' == typeof block ? block : function() {}
       previousState = { ...currentState }
-      currentState = { ...initialState, ...state }
+      currentState = { ...state }
       context(currentState, (...args) => {
         if ('function' == typeof update) {
-          update(currentState, block, previousState)
+          update(currentState, () => block(...args), previousState)
         } else {
           block(...args)
         }
       })
-    })
-  }
-}
-
-export class EntityContext extends DynamicValue {
-  constructor(ctx, initialState = {}, id = Entity.id()) {
-    super(ctx, initialState, {
-      ...initialState.context,
-      entityID() { return id }
     })
   }
 }

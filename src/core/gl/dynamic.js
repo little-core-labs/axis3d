@@ -45,8 +45,11 @@ export class DynamicValue {
 
   set(name, value) {
     if (name && 'object' == typeof name) {
-      const descriptors = Object.getOwnPropertyDescriptors({ ...name })
-      Object.defineProperties(this, descriptors)
+      const descriptors = Object.getOwnPropertyDescriptors(name)
+      for (const key in descriptors) {
+        try { Object.defineProperty(this, key, descriptors[key]) }
+        catch (e) {}
+      }
     } else if ('string' == typeof name && null != value) {
       this[name] = DynamicValue.primitive(value)
     }

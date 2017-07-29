@@ -1,11 +1,11 @@
-import { DynamicValue } from './gl'
-import { Entity } from './entity'
-import coalesce from 'defined'
+import { ContextComponent } from './components/context'
+import { Component } from './component'
+import { get } from '../utils'
 import mat4 from 'gl-mat4'
 
 const kMat4Identity = mat4.identity([])
 
-export class Object3D extends Entity {
+export class Object3D extends Component {
   static defaults() {
     return {
       ...super.defaults(),
@@ -16,83 +16,67 @@ export class Object3D extends Entity {
   }
 
   constructor(ctx, initialState = {}) {
-    const get = (k, objs) => (objs.filter((o)=> o).find((o) => o[k]) || {})[k]
-    const defaults = Object3D.defaults()
-    const context = new Object3DContext(ctx, initialState)
-    const injectContext = ctx.regl({context})
-
-    const injectTRS = ctx.regl({
-      context: new DynamicValue(ctx, initialState, {
-        scale(ctx, args) {
-          const scale = get('scale', [args, initialState, ctx, defaults])
-          if ('number' == typeof scale) { return [scale, scale, scale] }
-          return scale
-        },
-
-        position(ctx, args) {
-          return get('position', [args, initialState, ctx, defaults])
-        },
-
-        rotation(ctx, args = {}) {
-          return get('rotation', [args, initialState, ctx, defaults])
-        },
-      })
-    })
-
-    const injectMatrix = ctx.regl({
-      context: new DynamicValue(ctx, initialState, {
-        matrix(ctx, args) {
-          const matrix = mat4.identity([])
-          const position = get('position', [ctx, args, initialState, defaults])
-          const rotation = get('rotation', [ctx, args, initialState, defaults])
-          const scale = get('scale', [ctx, args, initialState, defaults])
-          // M = T * R * S
-          mat4.fromRotationTranslation(matrix, rotation, position)
-          mat4.scale(matrix, matrix, scale)
-          return matrix
-        }
-      })
-    })
-
-    const injectTransform = ctx.regl({
-      context: {
-        transform(ctx, args) {
-          const {matrix: local, transform: parent} = ctx
-          const matrix = mat4.identity([])
-          const {transform} = (args || {})
-          // M' = Mp * M
-          if (parent) { mat4.multiply(matrix, parent, local) }
-          // apply external transform from arguments to computed transform
-          if (transform) { mat4.multiply(matrix, transform, matrix) }
-          return matrix
-        },
-      }
-    })
-
-    Object.assign(initialState, defaults, initialState)
-    super(ctx, initialState, (state, block) => {
-      injectTRS(state, () => {
-        injectMatrix(() => {
-          injectTransform(() => {
-            injectContext(state, (...args) => {
-              const {update} = initialState
-              if ('function' == typeof update) {
-                update(state, block)
-              } else if ('function' == typeof block) {
-                block(...args)
-              }
-            })
-          })
-        })
-      })
-    })
+    Object.assign(initialState, Object3D.defaults(), initialState)
+    super(ctx, initialState,
+      new Object3DContext(ctx, initialState),
+      new Object3DMatrixContext(ctx, initialState),
+      new Object3DTransformContext(ctx, initialState))
   }
 }
 
-export class Object3DContext extends DynamicValue {
+export class Object3DContext extends Component {
   constructor(ctx, initialState = {}) {
-    const defaults = Object3D.defaults()
-    Object.assign(initialState, defaults, initialState)
-    super(ctx, initialState, { })
+    Object.assign(initialState, Object3D.defaults(), initialState)
+    super(ctx, initialState, new ContextComponent(ctx, {
+      scale(ctx, args) {
+        const scale = get('scale', [args, initialState, ctx])
+        if ('number' == typeof scale) { return [scale, scale, scale] }
+        return scale
+      },
+
+      position(ctx, args) {
+        return get('position', [args, initialState, ctx])
+      },
+
+      rotation(ctx, args = {}) {
+        return get('rotation', [args, initialState, ctx])
+      },
+    }))
+  }
+}
+
+export class Object3DMatrixContext extends Component {
+  constructor(ctx, initialState = {}) {
+    Object.assign(initialState, Object3D.defaults(), initialState)
+    super(ctx, initialState, new ContextComponent(ctx, {
+      matrix(ctx, args) {
+        const matrix = mat4.identity([])
+        const position = get('position', [ctx, args, initialState])
+        const rotation = get('rotation', [ctx, args, initialState])
+        const scale = get('scale', [ctx, args, initialState])
+        // M = T * R * S
+        mat4.fromRotationTranslation(matrix, rotation, position)
+        mat4.scale(matrix, matrix, scale)
+        return matrix
+      }
+    }))
+  }
+}
+
+export class Object3DTransformContext extends Component {
+  constructor(ctx, initialState = {}) {
+    Object.assign(initialState, Object3D.defaults(), initialState)
+    super(ctx, initialState, new ContextComponent(ctx, {
+      transform(ctx, args) {
+        const {matrix: local, transform: parent} = ctx
+        const matrix = mat4.identity([])
+        const {transform} = (args || {})
+        // M' = Mp * M
+        if (parent) { mat4.multiply(matrix, parent, local) }
+        // apply external transform from arguments to computed transform
+        if (transform) { mat4.multiply(matrix, transform, matrix) }
+        return matrix
+      },
+    }))
   }
 }

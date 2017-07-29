@@ -18,7 +18,6 @@
   "license": "MIT",
   "dependencies": {
     "glsl-fog": "^0.0.1",
-    "glsl-token-defines": "^1.0.0",
     "glsl-token-string": "^1.0.1",
     "glsl-tokenizer": "^2.1.2",
     "prepr": "^1.1.1"

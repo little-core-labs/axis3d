@@ -1,8 +1,2 @@
-'use strict'
-
-/**
- * Module exports.
- */
-
-export { OrthographicCamera } from './orthographic'
-export { PerspectiveCamera } from './perspective'
+export * from './orthographic'
+export * from './perspective'

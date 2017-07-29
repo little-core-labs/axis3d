@@ -1,12 +1,5 @@
 'use strict'
 
-/**
- * Internal types symbol.
- *
- * @private
- * @type {Symbol}
- */
-
 const $types = Symbol('types')
 const registeredTypes = []
 

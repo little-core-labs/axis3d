@@ -1,15 +1,13 @@
-import { assignTypeName } from './types'
-
-let CORE_COMMAND_NEXT_ID = 0x0
-
+/**
+ * A Command extends the Function class by generating Javascript
+ * and passing it directly to the Function (super) constructor.
+ */
+let commandCount = 0
 export class Command extends Function {
-  static id() { return CORE_COMMAND_NEXT_ID ++ }
-  static count() { return CORE_COMMAND_NEXT_ID }
+  static count() { return count }
   static codegen(fn) {
-    if ('function' != typeof fn) {
-      throw new TypeError("Expecting a function.")
-    }
-    return `return (${String(fn)}).apply(this, arguments);`
+    if ('function' != typeof fn) { throw new TypeError("Expecting a function") }
+    else { return `return (${String(fn)}).apply(this, arguments);` }
   }
 
   constructor(fn) {
@@ -21,8 +19,8 @@ export class Command extends Function {
       return fn.apply(fn, Array.prototype.slice.call(arguments, 1))
     }))
     const exec = (...args) => this(fn, ...args)
-    const id = Command.id()
     this.constructor = exec.constructor = Command
-    return Object.assign(exec, {'this': this, id})
+    void commandCount ++
+    return Object.assign(exec, {'this': this})
   }
 }

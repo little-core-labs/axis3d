@@ -1,14 +1,12 @@
-'use strict'
-
-import { ShaderUniforms, ShaderAttributes, DynamicValue } from './gl'
+import { AttributesComponent } from './components/attributes'
+import { UniformsComponent } from './components/uniforms'
+import { ContextComponent } from './components/context'
 import { isArrayLike, get } from '../utils'
+import { Component } from './component'
 import { Object3D } from './object3d'
 import { Geometry } from './geometry'
 import { Shader } from './shader'
 
-import injectDefines from 'glsl-inject-defines'
-import coalesce from 'defined'
-import glslify from 'glslify'
 import clamp from 'clamp'
 import mat4 from 'gl-mat4'
 import mat3 from 'gl-mat3'
@@ -18,12 +16,7 @@ import vec2 from 'gl-vec2'
 const kMat4Identity = mat4.identity([])
 const kMat3Identity = mat3.identity([])
 
-export const kDefaultMeshWireframePrimitive = 'line strip'
-export const kDefaultMeshUniformName = 'mesh'
-export const kDefaultMeshPrimitive = 'triangles'
-export const kDefaultMeshLineWidth = 1
-
-export class Mesh extends Object3D {
+export class Mesh extends Component {
   static defaults() {
     return {
       wireframePrimitive: 'line strip',
@@ -35,44 +28,38 @@ export class Mesh extends Object3D {
 
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Mesh.defaults(), initialState)
-
     if (false == initialState.geometry instanceof Geometry) {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
-
     const attributes = new MeshAttributes(ctx, initialState)
     const uniforms = new MeshUniforms(ctx, initialState)
     const context = new MeshContext(ctx, initialState)
     const shader = new MeshShader(ctx, initialState)
+    const object = new Object3D(ctx, initialState)
     const state = new MeshState(ctx, initialState)
+    const draw = ctx.regl({ })
 
-    const injectContext = ctx.regl({context})
-    const draw = ctx.regl({ ...state, attributes, uniforms, })
-
-    super(ctx, {
-      ...initialState,
-      update(state, block) {
-        const {update} = initialState
-        const inject = () => injectContext(state, (...args) => {
-          draw(state)
-          block(...args)
-        })
-        shader(() => {
-          if ('function' == typeof update) { update(state, inject) }
-          else { inject() }
-        })
-      }
-    })
+    super(ctx, initialState,
+      state,
+      shader,
+      object,
+      attributes,
+      uniforms,
+      context,
+      (state, block) => {
+        draw(state)
+        block()
+      })
   }
 }
 
-export class MeshContext extends DynamicValue {
+export class MeshContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
     let computedBoundingBox = null
     let computedSize = null
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       geometry() { return geometry },
       size({boundingBox, scale}) {
         if (!boundingBox) { return [0, 0] }
@@ -100,7 +87,7 @@ export class MeshContext extends DynamicValue {
         computedBoundingBox = geometry.computeBoundingBox()
         return computedBoundingBox
       }
-    })
+    }))
   }
 }
 
@@ -143,23 +130,21 @@ export class MeshShader extends Shader {
   }
 }
 
-export class MeshUniforms extends ShaderUniforms {
+export class MeshUniforms extends Component {
   constructor(ctx, initialState = {}) {
-    const defaults = Mesh.defaults()
-    Object.assign(initialState, defaults, initialState)
+    Object.assign(initialState, Mesh.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx)
-    this.set({
+    super(ctx, initialState, new UniformsComponent(ctx, {
       [`${uniformName}.position`](ctx, args) {
-        return get('position', [ctx, args, initialState, defaults])
+        return get('position', [ctx, args, initialState])
       },
 
       [`${uniformName}.rotation`](ctx, args) {
-        return get('rotation', [ctx, args, initialState, defaults])
+        return get('rotation', [ctx, args, initialState])
       },
 
       [`${uniformName}.scale`](ctx, args) {
-        return get('scale', [ctx, args, initialState, defaults])
+        return get('scale', [ctx, args, initialState])
       },
 
       [`${uniformName}.modelNormal`]: ({transform}) =>
@@ -171,27 +156,27 @@ export class MeshUniforms extends ShaderUniforms {
         isArrayLike(transform)
           ? transform
           : kMat4Identity,
-    })
+    }))
   }
 }
 
-export class MeshAttributes extends ShaderAttributes {
+export class MeshAttributes extends Component {
   constructor(ctx, initialState) {
     Object.assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
-    super(ctx, initialState, {
-      position: coalesce(geometry.positions, null),
-      normal: coalesce(geometry.normals, null),
-      uv: coalesce(geometry.uvs, null),
-    })
+    super(ctx, initialState, new AttributesComponent(ctx, {
+      position: geometry.positions || null,
+      normal: geometry.normals || null,
+      uv: geometry.uvs || null,
+    }))
   }
 }
 
-export class MeshState extends DynamicValue {
+export class MeshState extends Component {
   constructor(ctx, initialState) {
     Object.assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
-    super(ctx, initialState, {
+    const opts = {
       lineWidth(ctx, args) {
         return Math.max(1, get('lineWidth', [args, ctx, initialState]))
       },
@@ -202,21 +187,24 @@ export class MeshState extends DynamicValue {
         }
         return get('primitive', [args, ctx, initialState])
       }
-    })
+    }
 
     if (geometry && geometry.cells) {
-      this.set('elements', (ctx, args) => {
+      opts.elements = (ctx, args) => {
         const cells = geometry.cells
         const count = get('count', [args, initialState, ctx])
         if (cells && 'number' == typeof count) {
           return cells.slice(0, clamp(Math.floor(count), 0, cells.length))
         }
         return cells
-      })
+      }
     } else if (geometry) {
-      this.set('count', (ctx, args) => {
-        return get('count', [args, initialState, ctx]) || geometry.positions.length
-      })
+      opts.count = (ctx, args) => {
+        return get('count', [args, initialState, ctx])
+          || geometry.positions.length
+      }
     }
+
+    super(ctx, initialState, ctx.regl(opts))
   }
 }

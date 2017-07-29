@@ -1,8 +1,6 @@
-'use strict'
-
 import { DynamicValue } from './gl'
+import { Component } from './component'
 import * as libglsl from './glsl'
-import { Entity } from './entity'
 
 import { dirname, extname, resolve } from 'path'
 import glslTokensToDefines from 'glsl-token-defines'
@@ -28,7 +26,7 @@ const kGLSLTokenInteger = 'integer'
 const kGLSLTokenFloat = 'float'
 const kGLSLTokenEOF = 'eof'
 
-export class Shader extends Entity {
+export class Shader extends Component {
   constructor(ctx, initialState = {}) {
     const {
       defines = {},
@@ -314,7 +312,7 @@ export class ShaderLib {
   }
 }
 
-export class ShaderLibPlugin extends Entity { }
+export class ShaderLibPlugin extends Component { }
 
 export class ShaderLibPreprocessor {
   constructor(shaderLib) {

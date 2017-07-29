@@ -1,13 +1,12 @@
 import { PerspectiveCamera } from './perspective'
+import { ContextComponent } from'../core/components/context'
 import { CameraUniforms } from '../core/camera'
-import { DynamicValue } from '../core/gl'
-import { Entity } from '../core/entity'
+import { Component } from '../core/component'
 import mat4 from 'gl-mat4'
 
 const scratchMatrix = mat4.identity([])
-const kMat4Identity = mat4.identity([])
 
-export class OrthographicCamera extends Entity {
+export class OrthographicCamera extends Component {
   static defaults() {
     return {
       ...super.defaults(),
@@ -19,18 +18,18 @@ export class OrthographicCamera extends Entity {
 
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, OrthographicCamera.defaults(), initialState)
-    super(ctx, initialState, Entity.compose(ctx, [
+    super(ctx, initialState, Component.compose(ctx, [
       new PerspectiveCamera(ctx, initialState),
-      ctx.regl({context: new OrthographicCameraContext(ctx, initialState)}),
-      ctx.regl({uniforms: new CameraUniforms(ctx, initialState)}),
+      new OrthographicCameraContext(ctx, initialState),
+      new CameraUniforms(ctx, initialState),
     ]))
   }
 }
 
-export class OrthographicCameraContext extends DynamicValue {
+export class OrthographicCameraContext extends Component {
   constructor(ctx, initialState) {
     Object.assign(initialState, Camera.defaults(), initialState)
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       projection() {
         const projection = mat4.identity(scratchMatrix)
         const viewport = get('viewport', [args, ctx, initialState])
@@ -43,6 +42,6 @@ export class OrthographicCameraContext extends DynamicValue {
         mat4.ortho(projection, left, right, bottom, top, near, far)
         return projection
       }
-    })
+    }))
   }
 }

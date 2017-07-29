@@ -1,30 +1,23 @@
-'use strict'
-
-import { assignTypeName } from './types'
 import getBoundingBox from 'bound-points'
 import Wireframe from 'screen-projected-lines'
+import coalesce from 'defined'
 import reindex from 'mesh-reindex'
 import unindex from 'unindex-mesh'
 import normals from 'normals'
 
 export class Geometry {
-  constructor({complex = null, flatten = false} = {}) {
-    assignTypeName(this, 'geometry')
-    Object.defineProperty(this, '_complex', {
-      enumerable: false,
-      writable: false,
-      value: {},
-    })
-
+  constructor(opts = {}) {
+    let complex = {}
+    let flatten = coalesce(opts.flatten, false)
+    if (opts.positions) { complex = opts }
+    else { complex = opts.complex }
+    Object.defineProperty(this, '_complex', {enumerable: false, value: {}})
     this.flatten = Boolean(flatten)
     this.complex = complex || null
   }
 
   set complex(complex) {
-    if (complex instanceof Geometry) {
-      complex = complex.complex
-    }
-
+    if (complex instanceof Geometry) { complex = complex.complex }
     if (complex) {
       if (this.flatten && complex.cells) {
         const cells = complex.cells.map((cell) => cell.slice())

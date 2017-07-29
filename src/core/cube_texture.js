@@ -1,6 +1,6 @@
-import { DynamicValue, ShaderUniforms } from './gl'
-import { Command } from './command'
-import { Entity } from './entity'
+import { UniformsComponent } from './components/uniforms'
+import { ContextComponent } from './components/context'
+import { Component } from './component'
 import { get } from '../utils'
 import window from 'global/window'
 
@@ -21,8 +21,6 @@ const {
   HAVE_FUTURE_DATA = 3,
   HAVE_ENOUGH_DATA = 4,
 } = (HTMLVideoElement || {})
-
-export const kDefaultCubeTextureState = Object.seal({ min: 'linear', mag: 'linear', })
 
 function isCubeTextureDataReady(data) {
   if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
@@ -54,50 +52,46 @@ function getCubeTextureDataResolution(data) {
   }
 }
 
-export class CubeTexture extends Entity {
+export class CubeTexture extends Component {
   static defaults() {
     return {
       uniformName: 'texCube',
-      texture: {
-        min: 'linear',
-        mag: 'linear',
-      }
+      texture: { min: 'linear', mag: 'linear' }
     }
   }
+
   constructor(ctx, initialState = {}) {
-    super(ctx, initialState, Entity.compose(ctx, [
-      ctx.regl({context: new CubeTextureDataContext(ctx, initialState)}),
-      ctx.regl({context: new CubeTexturePointerContext(ctx, initialState)}),
-      ctx.regl({context: new CubeTextureContext(ctx, initialState)}),
-      ctx.regl({uniforms: new CubeTextureUniforms(ctx, initialState)}),
-    ]))
+    super(ctx, initialState,
+      new CubeTextureDataContext(ctx, initialState),
+      new CubeTexturePointerContext(ctx, initialState),
+      new CubeTextureContext(ctx, initialState),
+      new CubeTextureUniforms(ctx, initialState),
+    )
   }
 }
 
-export class CubeTextureDataContext extends DynamicValue {
+export class CubeTextureDataContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, CubeTexture.defaults(), initialState)
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       cubeTextureData(ctx, args) {
         const data = get('data', [args, ctx, initialState])
         if (data && Array.isArray(data) && data.some(isCubeTextureDataReady)) {
           const [w, h] = getCubeTextureDataResolution(data)
-          if (w && h) {
-            return [ ...data ]
-          }
+          if (w && h) { return [ ...data ] }
         }
         return null
       }
-    })
+    }))
   }
 }
 
-export class CubeTexturePointerContext extends DynamicValue {
+export class CubeTexturePointerContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, CubeTexture.defaults(), initialState)
     const cubeTexture = ctx.regl.cube({ ...initialState.texture })
     let faces = Array(6).fill(null)
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       cubeTexturePointer({cubeTextureData}) {
         let needsUpload = false
         if (Array.isArray(cubeTextureData)) {
@@ -116,38 +110,33 @@ export class CubeTexturePointerContext extends DynamicValue {
             faces[i] = {shape: resolution}
           }
         }
-        if (needsUpload) {
-          cubeTexture(...faces)
-        }
+        if (needsUpload) { cubeTexture(...faces) }
         return cubeTexture
       }
-    })
+    }))
   }
 }
 
-export class CubeTextureContext extends DynamicValue {
+export class CubeTextureContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, CubeTexture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState, {
-      cubeTextureUniformName() {
-        return uniformName
-      },
-
+    super(ctx, initialState, new ContextComponent(ctx, {
+      cubeTextureUniformName() { return uniformName },
       cubeTextureResolution({cubeTextureData}) {
         return getCubeTextureDataResolution(cubeTextureData)
-      },
-    })
+      }
+    }))
   }
 }
 
-export class CubeTextureUniforms extends ShaderUniforms {
+export class CubeTextureUniforms extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, CubeTexture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState, {
+    super(ctx, initialState, new UniformsComponent(ctx, {
       [`${uniformName}.resolution`]: ({cubeTextureResolution}) => cubeTextureResolution,
       [`${uniformName}.data`]: ({cubeTexturePointer}) => cubeTexturePointer,
-    })
+    }))
   }
 }

@@ -1,8 +1,9 @@
-import { ShaderUniforms, DynamicValue } from '../core/gl'
+import { UniformsComponent } from '../core/components/uniforms'
+import { ContextComponent } from '../core/components/context'
 import { CameraUniforms } from '../core/camera'
 import { radians, get } from '../utils'
+import { Component } from '../core/component'
 import { Camera } from '../core/camera'
-import { Entity } from '../core/entity'
 import mat4 from 'gl-mat4'
 import vec3 from 'gl-vec3'
 import quat from 'gl-quat'
@@ -33,7 +34,7 @@ function lookAt(direction, target, position, up) {
   }
 }
 
-export class PerspectiveCamera extends Entity {
+export class PerspectiveCamera extends Component {
   static defaults() {
     return {
       ...super.defaults(),
@@ -46,21 +47,20 @@ export class PerspectiveCamera extends Entity {
 
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, PerspectiveCamera.defaults(), initialState)
-    const update = Entity.compose(ctx, [
+    super(
+      ctx, initialState,
       new Camera(ctx, initialState),
-      ctx.regl({context: new PerspectiveCameraContext(ctx, initialState)}),
-      ctx.regl({context: new PerspectiveCameraComputeContext(ctx, initialState)}),
-      ctx.regl({uniforms: new CameraUniforms(ctx, initialState)}),
-    ])
-
-    super(ctx, initialState, update)
+      new PerspectiveCameraContext(ctx, initialState),
+      new PerspectiveCameraComputeContext(ctx, initialState),
+      new CameraUniforms(ctx, initialState),
+    )
   }
 }
 
-export class PerspectiveCameraComputeContext extends DynamicValue {
+export class PerspectiveCameraComputeContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, PerspectiveCamera.defaults(), initialState)
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       projection(ctx, args) {
         const projection = mat4.identity([])
         if ('projection' in args && args.projection) {
@@ -96,33 +96,19 @@ export class PerspectiveCameraComputeContext extends DynamicValue {
         mat4.scale(matrix, matrix, scale)
         return matrix
       }
-    })
+    }))
   }
 }
 
-export class PerspectiveCameraContext extends DynamicValue {
+export class PerspectiveCameraContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, PerspectiveCamera.defaults(), initialState)
-    super(ctx, initialState, {
-      direction(ctx, args) {
-        return get('direction', [args, ctx, initialState])
-      },
-
-      up(ctx, args) {
-        return get('up', [args, ctx, initialState])
-      },
-
-      near(ctx, args) {
-        return get('near', [args, ctx, initialState])
-      },
-
-      far(ctx, args) {
-        return get('far', [args, ctx, initialState])
-      },
-
-      fov(ctx, args) {
-        return get('fov', [args, ctx, initialState])
-      },
+    super(ctx, initialState, new ContextComponent(ctx, {
+      direction: (ctx, args) => get('direction', [args, ctx, initialState]),
+      near: (ctx, args) => get('near', [args, ctx, initialState]),
+      far: (ctx, args) => get('far', [args, ctx, initialState]),
+      fov: (ctx, args) => get('fov', [args, ctx, initialState]),
+      up: (ctx, args) => get('up', [args, ctx, initialState]),
 
       viewport(ctx, args) {
         const viewport = get('viewport', [args, ctx, initialState])
@@ -134,6 +120,6 @@ export class PerspectiveCameraContext extends DynamicValue {
           (left || 0), (top || 0), (width || 0), (height || 0)
         ])
       },
-    })
+    }))
   }
 }

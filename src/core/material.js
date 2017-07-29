@@ -1,69 +1,50 @@
-'use strict'
-
-import { ShaderUniforms, DynamicValue } from './gl'
-import { ensureRGBA, isArrayLike, get } from '../utils'
-import { Command } from './command'
+import { UniformsComponent } from './components/uniforms'
+import { ContextComponent} from './components/context'
+import { ensureRGBA,  get } from '../utils'
+import { Component } from './component'
 import { Shader } from './shader'
-import { Entity } from './entity'
 
-import injectDefines from 'glsl-inject-defines'
-import coalesce from 'defined'
-import glslify from 'glslify'
-import vec4 from 'gl-vec4'
-
-let MATERIAL_COMMAND_NEXT_ID = 0x6d
-
-export const kDefaultMaterialColor = [100/255, 110/255, 255/255]
-export const kDefaultMaterialOpacity = 1
-export const kDefaultMaterialUniformName = 'material'
-
-export const kDefaultMaterialBlendingState = {
-  equation: 'add',
-  enable: true,
-  color: [0, 0, 0, 1],
-  func: { src: 'src alpha', dst: 'one minus src alpha' },
-}
-
-export const kDefaultMaterialCullingState = {
-  enable: false,
-  face: 'back',
-}
-
-export const kDefaultMaterialDepthState = {
-  enable: true,
-  range: [0, 1],
-  func: 'less',
-  mask: true,
-}
-
-export class Material extends Entity {
+export class Material extends Component {
   static defaults() {
     return {
       ...super.defaults(),
       uniformName: 'material',
       opacity: 1,
       color:  [100/255, 110/255, 255/255],
+      blending: {
+        equation: 'add',
+        enable: true,
+        color: [0, 0, 0, 1],
+        func: { src: 'src alpha', dst: 'one minus src alpha' },
+      },
+      culling: {
+        enable: false,
+        face: 'back',
+      },
+      depth: {
+        enable: true,
+        range: [0, 1],
+        func: 'less',
+        mask: true,
+      }
     }
   }
 
   constructor(ctx, initialState = {}) {
-    const {uniforms = new MaterialUniforms(ctx, initialState)} = initialState
-    const {context = new MaterialContext(ctx, initialState)} = initialState
-    const {shader = new MaterialShader(ctx, initialState)} = initialState
-    const {state = new MaterialState(ctx, initialState)} = initialState
-    const injectContext = ctx.regl({ ...state, uniforms, context })
-    super(ctx, (state, block) => {
-      shader(state, () => {
-        injectContext(state, block)
-      })
-    })
+    Object.assign(initialState, Material.defaults(), initialState)
+    super(ctx, initialState,
+      new MaterialShader(ctx, initialState),
+      new MaterialState(ctx, initialState),
+      new MaterialContext(ctx, initialState),
+      new MaterialUniforms(ctx, initialState),
+    )
   }
 }
 
 export class MaterialShader extends Shader {
   constructor(ctx, initialState = {}) {
-    const {uniformName = kDefaultMaterialUniformName} = initialState
-    const {fragmentShader = null} = initialState
+    Object.assign(initialState, Material.defaults(), initialState)
+    const {uniformName, fragmentShader = null} = initialState
     super(ctx, {
       fragmentShader: ({fragmentShader}) => {
         if (fragmentShader) { return fragmentShader }
@@ -89,148 +70,103 @@ export class MaterialShader extends Shader {
   }
 }
 
-export class MaterialState {
+export class MaterialState extends Component {
   constructor(ctx, initialState = {}) {
-    if (initialState.blending) {
-      initialState.blend = initialState.blending
-      delete initialState.blending
-    }
+    Object.assign(initialState, Material.defaults(), initialState)
+    super(ctx, initialState, ctx.regl({
+      blend: {
+        equation: (ctx, args) => get('equation', [
+          args.blending,
+          ctx.blending,
+          initialState.blending
+        ]),
 
-    if (initialState.culling) {
-      initialState.cull = initialState.culling
-      delete initialState.culling
-    }
+        color: (ctx, args) => get('color', [
+          args.blending,
+          ctx.blending,
+          initialState.blending
+        ]),
 
-    if (null == initialState.blend) { initialState.blend = {} }
-    if (null == initialState.cull) { initialState.cull = {} }
-    if (null == initialState.depth) { initialState.depth = {} }
+        enable: (ctx, args) => get('enable', [
+          args.blending,
+          ctx.blending,
+          initialState.blending
+        ]),
 
-    this.blend = {
-      equation: () => coalesce(
-        initialState.blend.equation,
-        kDefaultMaterialBlendingState.equation
-      ),
-
-      color: () => ensureRGBA(coalesce(
-        initialState.blend.color,
-        kDefaultMaterialBlendingState.color
-      )),
-
-      enable({}, {
-        blend = undefined,
-        opacity = coalesce(initialState.opacity, 1),
-        transparent = coalesce(initialState.transparent, false),
-        blending = coalesce(
-          blend,
-          initialState.blend.enable,
-          kDefaultMaterialBlendingState.enable
-        ),
-      } = {}) {
-        if (opacity < 1.0 || transparent) {
-          return true
-        } else if ('boolean' == typeof blending) {
-          return blending
-        } else {
-          return transparent
-        }
+        func: (ctx, args) => get('func', [
+          args.blending,
+          ctx.blending,
+          initialState.blending
+        ]),
       },
+      cull: {
+        enable: (ctx, args) => get('enable', [
+          args.culling,
+          ctx.culling,
+          initialState.culling
+        ]),
 
-      func({}, {
-        opacity = coalesce(initialState.opacity, 1),
-        transparent = coalesce(initialState.transparent, false),
-      } = {}) {
-        if (opacity < 1.0 || transparent) {
-          return {src: 'src alpha', dst: 'one'}
-        } else {
-          return coalesce(
-            initialState.blend.func,
-            kDefaultMaterialBlendingState.func)
-        }
+        face: (ctx, args) => get('face', [
+          args.culling,
+          ctx.culling,
+          initialState.culling
+        ]),
       },
-    }
+      depth: {
+        enable: (ctx, args) => get('enable', [
+          args.depth,
+          ctx.depth,
+          initialState.depth
+        ]),
 
-    this.cull = {
-      enable: ({}, {cull} = {}) => Boolean(coalesce(
-        cull,
-        initialState.cull.enable,
-        kDefaultMaterialCullingState.enable
-      )),
+        range: (ctx, args) => get('range', [
+          args.depth,
+          ctx.depth,
+          initialState.depth
+        ]),
 
-      face: ({}, {cullFace}) => coalesce(
-        cullFace,
-        initialState.cull.face,
-        kDefaultMaterialCullingState.face
-      ),
-    }
+        func: (ctx, args) => get('func', [
+          args.depth,
+          ctx.depth,
+          initialState.depth
+        ]),
 
-    this.depth = {
-      enable: () => coalesce(
-        initialState.depth.enable,
-        kDefaultMaterialDepthState.enable
-      ),
-
-      range: () => coalesce(
-        initialState.depth.range,
-        kDefaultMaterialDepthState.range
-      ),
-
-      func: () => coalesce(
-        initialState.depth.func,
-        kDefaultMaterialDepthState.func
-      ),
-
-      mask({}, {
-        opacity = coalesce(initialState.opacity, 1),
-        transparent = coalesce(
-          initialState.transparent,
-          initialState.blend.enable,
-          kDefaultMaterialDepthState.enable,
-          false),
-      } = {}) {
-        if (opacity < 1.0 || transparent) {
-          return true
-        } else {
-          return coalesce(
-            initialState.depth.mask,
-            kDefaultMaterialDepthState.mask)
-        }
+        mask: (ctx, args) => get('mask', [
+          args.depth,
+          ctx.depth,
+          initialState.depth
+        ]),
       }
-    }
+    }))
   }
 }
 
-export class MaterialContext extends DynamicValue {
+export class MaterialContext extends Component {
   constructor(ctx, initialState = {}) {
-    super(ctx)
-    this.set({
-      color: this.argument('color', null, coalesce(
-        initialState.color,
-        kDefaultMaterialColor
-      )),
-      opacity: this.argument('opacity', null, coalesce(
-        initialState.opacity,
-        kDefaultMaterialOpacity
-      ))
-    })
+    Object.assign(initialState, Material.defaults(), initialState)
+    super(ctx, initialState, new ContextComponent(ctx, {
+      color: (ctx, args) => get('color', [args, ctx, initialState]),
+      opacity: (ctx, args) => get('opacity', [args, ctx, initialState]),
+    }))
   }
 }
 
-export class MaterialUniforms extends ShaderUniforms {
+export class MaterialUniforms extends Component {
   constructor(ctx, initialState = {}) {
-    const {uniformName = kDefaultMaterialUniformName} = initialState
-    super(ctx)
-    this.set({
-      [`${uniformName}.opacity`]: ({opacity}) => coalesce(
-        opacity,
-        initialState.opacity,
-        kDefaultMaterialOpacity
-      ),
+    Object.assign(initialState, Material.defaults(), initialState)
+    const {uniformName} = initialState
+    super(ctx, initialState, new UniformsComponent(ctx, {
+      [`${uniformName}.opacity`]: (ctx, args) => get('opacity', [
+        ctx,
+        args,
+        initialState
+      ]),
 
-      [`${uniformName}.color`]: ({color}) => ensureRGBA(coalesce(
-        color,
-        initialState.color,
-        kDefaultMaterialColor
-      )).slice(0, 3),
-    })
+      [`${uniformName}.color`]: (ctx, args) => ensureRGBA(get('color', [
+        ctx,
+        args,
+        initialState
+      ])).slice(0, 3),
+    }))
   }
 }

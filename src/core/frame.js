@@ -1,8 +1,6 @@
-'use strict'
-
-import { ShaderUniforms, DynamicValue } from './gl'
-import { assignTypeName } from './types'
-import { Entity } from './entity'
+import { UniformsComponent } from './components/uniforms'
+import { ContextComponent } from './components/context'
+import { Component } from './component'
 import coalesce from 'defined'
 
 export const kDefaultFrameBlendingState = Object.seal({
@@ -22,122 +20,68 @@ export const kDefaultFrameDepthState = Object.seal({
   range: [0, 1],
   func: 'less',
   mask: true,
-
 })
+
 export const kDefaultFrameClearState = Object.seal({
   color: [17/255, 17/255, 17/255, 1],
   depth: 1,
 })
 
-export class Frame extends Entity {
+export class Frame extends Component {
+  static defaults() {
+    return {
+      blending: kDefaultFrameBlendingState,
+      culling: kDefaultFrameCullingState,
+      depth: kDefaultFrameDepthState,
+      clear: kDefaultFrameClearState,
+    }
+  }
+
   constructor(ctx, initialState = {}) {
-    const context = new FrameContext(ctx, initialState.context || {})
-    const inject = ctx.regl({})
-    const update = Entity.compose(ctx, [
-      ctx.regl(new FrameState(ctx, initialState.state || {})),
-      ctx.regl({context}),
-      ctx.regl({uniforms: new FrameUniforms(ctx, initialState.uniforms || {})}),
-    ])
+    Object.assign(initialState, Frame.defaults(), initialState)
+    const uniforms = new FrameUniforms(ctx, initialState)
+    const context = new FrameContext(ctx, initialState)
+    const state = new FrameState(ctx, initialState)
+    const frames = []
     super(ctx, initialState, (state, refresh) => {
-      context.init((block) => update(() => inject(block))).enqueue(refresh)
-      return () => context.cancelFrame()
+      const inject = new ContextComponent(ctx, {frame: () => frame})
+      const components = [state, frame, context, uniforms, inject, refresh]
+      const component = Component.compose(components)
+      const frame = ctx.regl.frame(component)
     })
   }
 }
 
-export class FrameContext extends DynamicValue {
+export class FrameContext extends Component {
   constructor(ctx, initialState = {}) {
+    Object.assign(initialState, Frame.defaults(), initialState)
     const clearState = { ...kDefaultFrameClearState, ...initialState.clear }
-    const lights = []
-    const queue = []
-    super(ctx, initialState, {
-      get lights() { return lights },
-      get fog() { return null },
-      get gl() { return ctx ? ctx.gl : null },
-
+    super(ctx, initialState, new ContextComponent(ctx, {
       // functions
-      cancel: () => (...args) => this.cancelFrame(...args),
-      clear: () => (...args) => this.clearBuffers(...args),
+      cancel: ({frame}) => () => frame ? frame.cancel() : null,
+      clear: () => () => ctx.regl.clear({ ...clearState }),
+      // props
       regl: () => ctx ? ctx.regl : null,
-    })
-
-    // protected properties
-    Object.defineProperties(this, {
-      reglContext: { enumerable: false, writable: true, value: null, },
-      isCancelled: { enumerable: false, writable: true, value: false, },
-      clearState: { get: () => clearState, enumerable: false, },
-      queue: { get: () => queue, enumerable: false, },
-      loop: { value: null, enumerable: false, writable: true, },
-    })
-  }
-
-  enqueue(refresh) {
-    this.queue.push(refresh)
-    return this
-  }
-
-  dequeue(...args) {
-    for (const refresh of this.queue) {
-      if ('function' == typeof refresh) {
-        refresh(this.reglContext, ...args)
-      }
-    }
-    return this
-  }
-
-  init(inject) {
-    if (this.isCancelled || null == this.loop) {
-      this.isCancelled = false
-      this.loop = this.ctx.regl.frame(() => {
-        inject((...args) => {
-          try { this.onrefresh(...args) }
-          catch (err) {
-            this.cancelFrame()
-            this.ctx.emit('error', err)
-          }
-        })
-      })
-    }
-    return this
-  }
-
-  cancelFrame() {
-    if (this.loop) {
-      this.queue.splice(0, -1)
-      this.loop.cancel()
-      this.ctx._reglContext =
-      this.reglContext =
-      this.loop = null
-    }
-  }
-
-  clearBuffers(state) {
-    this.ctx.regl.clear({ ...this.clearState, ...state})
-  }
-
-  onrefresh(reglContext, ...args) {
-    this.reglContext = reglContext
-    this.ctx._reglContext = reglContext
-    this.clearBuffers()
-    reglContext.lights.splice(0, reglContext.lights.length)
-    delete reglContext.fog
-    this.dequeue(...args)
+      gl: () => ctx ? ctx.gl : null,
+    }))
   }
 }
 
-export class FrameUniforms extends ShaderUniforms {
+export class FrameUniforms extends Component {
   constructor(ctx, initialState = {}) {
-    super(ctx, initialState, {
+    Object.assign(initialState, Frame.defaults(), initialState)
+    super(ctx, initialState, new UniformsComponent(ctx, {
       time: ({time}) => time,
       tick: ({tick}) => tick,
-    })
+    }))
   }
 }
 
-export class FrameState extends DynamicValue {
+export class FrameState extends Component {
   constructor(ctx, initialState = {}) {
-    super(ctx, {
-      ...initialState,
+    Object.assign(initialState, Frame.defaults(), initialState)
+    super(ctx, {}, ctx.regl({
+      ...initialState.state,
       depth: { ...kDefaultFrameDepthState, ...initialState.depth },
       blend: {
         ...kDefaultFrameBlendingState,
@@ -147,10 +91,6 @@ export class FrameState extends DynamicValue {
         ...kDefaultFrameCullingState,
         ...coalesce(initialState.cull, initialState.culling)
       },
-    })
-
-    // remove alias properties this object
-    delete this.blending
-    delete this.culling
+    }))
   }
 }

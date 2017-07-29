@@ -1,11 +1,4 @@
-'use strict'
-
-/**
- * Module dependencies.
- */
-
 import * as VectorSwizzleMap from '../core/vector_swizzle_map'
-import { assignTypeName } from '../core/types'
 import { Vector } from '../core/vector'
 
 import ThreeEuler from 'math-euler'
@@ -28,62 +21,9 @@ const scratchMat4 = mat4.identity([])
 
 export class Euler extends Vector {
 
-  /**
-   * Euler class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {?Number} x Rotation angle about the X axis.
-   * @param {?Number} y Rotation angle about the Y axis.
-   * @param {?Number} z Rotation angle about the Z axis.
-   * @param {?String} order Euler angle rotation order.
-   * @throws TypeError
-   */
-
-  constructor(x, y, z, order = 'xyz') {
-    super(coalesce(x, 0), coalesce(y, 0), coalesce(z, 0))
-    // Euler gets special treatment because it is 3 component vector
-    // and it would be beneficial to know if it is actually an Euler
-    assignTypeName(this, 'euler')
-    if ('string' != typeof order) {
-      throw new TypeError(
-        `Expecting euler order to be a string. Got ${typeof order}.`)
-    }
-
-    /**
-     * Euler angle rotation order.
-     *
-     * @public
-     * @type {String}
-     */
-
-    this.order = order
-  }
-
-  /**
-   * Euler swizzles.
-   *
-   * @public
-   * @static
-   * @method
-   * @return {Array<Array<String>>}
-   */
-
   static swizzles() {
     return VectorSwizzleMap.Euler
   }
-
-  /**
-   * Helper function to compute euler angles from
-   * a given quaternion.
-   *
-   * @public
-   * @function
-   * @param {Quaternion|Array<Nunber>} q Input quaternion.
-   * @param {?String} order Rotation order.
-   * @return {Vector}
-   * @throws TypeError
-   */
 
   static fromQuaternion(q, order = 'xyz') {
     if ('string' != typeof order) {
@@ -95,6 +35,15 @@ export class Euler extends Vector {
     const elements = mat4.fromQuat(scratchMat4, q)
     euler.setFromRotationMatrix({elements}, order)
     return new Euler(euler.x, euler.y, euler.z, order)
+  }
+  constructor(x, y, z, order = 'xyz') {
+    super(coalesce(x, 0), coalesce(y, 0), coalesce(z, 0))
+    if ('string' != typeof order) {
+      throw new TypeError(
+        `Expecting euler order to be a string. Got ${typeof order}.`)
+    }
+
+    this.order = order
   }
 
   get x() { return this[0] }

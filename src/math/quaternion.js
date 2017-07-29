@@ -1,14 +1,5 @@
-'use strict'
-
-/**
- * Module dependencies.
- */
-
 import * as VectorSwizzleMap from '../core/vector_swizzle_map'
-import { assignTypeName } from '../core/types'
 import { Vector } from '../core/vector'
-import { Euler } from './euler'
-
 import coalesce from 'defined'
 
 /**
@@ -26,77 +17,22 @@ import coalesce from 'defined'
  */
 
 export class Quaternion extends Vector {
-
-  /**
-   * Quaternion class constructor.
-   *
-   * @public
-   * @constructor
-   * @param {?Number} x x component of a Quaternion.
-   * @param {?Number} y y component of a Quaternion.
-   * @param {?Number} z z component of a Quaternion.
-   * @param {?Number} w w component of a Quaternion.
-   */
-
-  constructor(x = 0, y = 0, z = 0, w = 1) {
-    super(coalesce(x, 0), coalesce(y, 0), coalesce(z, 0), coalesce(w, 1))
-    // Quaternion gets special treatment because it is 3 component vector
-    // and it would be beneficial to know if it is actually an Quaternion
-    assignTypeName(this, 'quaternion')
-  }
-
-  /**
-   * Quaternion swizzles.
-   *
-   * @public
-   * @static
-   * @method
-   * @return {Array<Array<String>>}
-   */
-
   static swizzles() {
     return VectorSwizzleMap.Quaternion
   }
-
-  /**
-   * Returns a quaternion set from an input
-   * axis and angle in radians.
-   *
-   * @public
-   * @static
-   * @method
-   * @param {Vector|Array<Number>} angle Axis of rotation.
-   * @param {Number} radians Angle in radians.
-   * @return {Quaternion}
-   */
 
   static fromAxisAngle(angle, radians) {
     return quat.setAxisAngle(new Quaternion(), angle, radians)
   }
 
-  /**
-   * Computes a quaternion from given vector of Euler angles.
-   *
-   * @public
-   * @static
-   * @method
-   * @param {Euler|Array<Number>} euler Euler angles in radians
-   * @param {String} order Rotation order
-   * @return {Quaternion}
-   * @see {@link from http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/}
-   * @throws TypeError
-   */
-
   static fromEuler(euler, order = 'xyz') {
     if (null == euler || ![...euler].every((x) => x == x && 'number' == typeof x)) {
       throw new TypeError("Expecting euler to have numbers.")
     }
-
     order = order || euler.order || null
-
     if ('string' != typeof order) {
       throw new TypeError(
-        `Expecting euler order to be a string. Got ${typeof order}.`)
+      `Expecting euler order to be a string. Got ${typeof order}.`)
     }
 
     const cx = Math.cos(0.5*euler[0])
@@ -148,15 +84,16 @@ export class Quaternion extends Vector {
     return new Quaternion(x, y, z, w)
   }
 
+  constructor(x = 0, y = 0, z = 0, w = 1) {
+    super(coalesce(x, 0), coalesce(y, 0), coalesce(z, 0), coalesce(w, 1))
+  }
+
   get x() { return this[0] }
   set x(x) { return this[0] = x }
-
   get y() { return this[1] }
   set y(y) { return this[1] = y }
-
   get z() { return this[2] }
   set z(z) { return this[2] = z }
-
   get w() { return this[3] }
   set w(w) { return this[3] = w }
 }

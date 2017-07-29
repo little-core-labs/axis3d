@@ -1,6 +1,6 @@
-import { DynamicValue, ShaderUniforms } from './gl'
-import { Command } from './command'
-import { Entity } from './entity'
+import { UniformsComponent } from './components/uniforms'
+import { ContextComponent } from './components/context'
+import { Component } from './component'
 import { get } from '../utils'
 import window from 'global/window'
 
@@ -22,9 +22,9 @@ const {
   HAVE_ENOUGH_DATA = 4,
 } = (HTMLVideoElement || {})
 
-export const kDefaultTextureState = Object.seal({ min: 'linear', mag: 'linear', })
-
 function isTextureDataReady(data) {
+  const resolution = getTextureDataResolution(data)
+  if (!resolution[0] || !resolution[1]) { return false }
   if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
     return true
   } else if (isImage(data) || isCanvas(data)) {
@@ -47,50 +47,45 @@ function getTextureDataResolution(data) {
   }
 }
 
-export class Texture extends Entity {
+export class Texture extends Component {
   static defaults() {
     return {
       uniformName: 'tex2d',
-      texture: {
-        min: 'linear',
-        mag: 'linear',
-      }
+      texture: { min: 'linear', mag: 'linear' }
     }
   }
-  constructor(ctx, initialState = {}) {
-    super(ctx, initialState, Entity.compose(ctx, [
-      ctx.regl({context: new TextureDataContext(ctx, initialState)}),
-      ctx.regl({context: new TexturePointerContext(ctx, initialState)}),
-      ctx.regl({context: new TextureContext(ctx, initialState)}),
-      ctx.regl({uniforms: new TextureUniforms(ctx, initialState)}),
-    ]))
+
+  constructor(ctx, initialState = {}, ...children) {
+    super(ctx, initialState,
+      new TextureDataContext(ctx, initialState),
+      new TexturePointerContext(ctx, initialState),
+      new TextureContext(ctx, initialState),
+      new TextureUniforms(ctx, initialState))
   }
 }
 
-export class TextureDataContext extends DynamicValue {
+export class TextureDataContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Texture.defaults(), initialState)
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       textureData(ctx, args) {
         const data = get('data', [args, ctx, initialState])
         if (data && isTextureDataReady(data)) {
           const [w, h] = getTextureDataResolution(data)
-          if (w && h) {
-            return data
-          }
+          if (w && h) { return data }
         }
         return null
       }
-    })
+    }))
   }
 }
 
-export class TexturePointerContext extends DynamicValue {
+export class TexturePointerContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Texture.defaults(), initialState)
     const texture = ctx.regl.texture({ ...initialState.texture })
     let previouslyUploadedData = null
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       texturePointer({textureData}) {
         if (textureData){
           if (isImage(textureData)) {
@@ -98,37 +93,35 @@ export class TexturePointerContext extends DynamicValue {
               texture({...initialState.texture, data: textureData})
               previouslyUploadedData = textureData
             }
+          } else if (isVideo(textureData) && isTextureDataReady(textureData)) {
           }
         }
         return texture
       }
-    })
+    }))
   }
 }
 
-export class TextureContext extends DynamicValue {
+export class TextureContext extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Texture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState, {
-      textureUniformName() {
-        return uniformName
-      },
-
+    super(ctx, initialState, new ContextComponent(ctx, {
+      textureUniformName() { return uniformName },
       textureResolution({textureData}) {
         return getTextureDataResolution(textureData)
-      },
-    })
+      }
+    }))
   }
 }
 
-export class TextureUniforms extends ShaderUniforms {
+export class TextureUniforms extends Component {
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Texture.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState, {
+    super(ctx, initialState, new UniformsComponent(ctx, {
       [`${uniformName}.resolution`]: ({textureResolution}) => textureResolution,
       [`${uniformName}.data`]: ({texturePointer}) => texturePointer,
-    })
+    }))
   }
 }

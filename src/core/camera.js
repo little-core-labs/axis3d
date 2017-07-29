@@ -1,11 +1,10 @@
-import { DynamicValue, ShaderUniforms } from './gl'
+import { UniformsComponent } from './components/uniforms'
+import { ContextComponent } from './components/context'
+import { Component } from './component'
 import { Object3D } from './object3d'
-import { Component } from './entity'
-import { Entity } from './entity'
 import { get } from '../utils'
 
 import computeEyeVector from 'eye-vector'
-import coalesce from 'defined'
 import mat4 from 'gl-mat4'
 import vec3 from 'gl-vec3'
 import quat from 'gl-quat'
@@ -14,7 +13,7 @@ const scratchQuaternion = quat.identity([])
 const scratchMatrix = mat4.identity([])
 const kMat4Identity = mat4.identity([])
 
-export class Camera extends Entity {
+export class Camera extends Component {
   static defaults() {
     return {
       ...super.defaults(),
@@ -27,21 +26,21 @@ export class Camera extends Entity {
 
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Camera.defaults(), initialState)
-    super(ctx, initialState, Entity.compose(ctx, [
+    super(ctx, initialState,
       new Object3D(ctx),
-      ctx.regl({context: new CameraContext(ctx, initialState)}),
-      ctx.regl({context: new CameraViewContext(ctx, initialState)}),
-      ctx.regl({context: new CameraComputedContext(ctx, initialState)}),
-      ctx.regl({uniforms: new CameraUniforms(ctx, initialState)}),
+      new CameraContext(ctx, initialState),
+      new CameraViewContext(ctx, initialState),
+      new CameraComputedContext(ctx, initialState),
+      new CameraUniforms(ctx, initialState),
       initialState.update,
-    ]))
+    )
   }
 }
 
-export class CameraContext extends DynamicValue {
+export class CameraContext extends Component {
   constructor(ctx, initialState) {
     Object.assign(initialState, Camera.defaults(), initialState)
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       matrix() { return kMat4Identity },
 
       projection(ctx, args) {
@@ -79,14 +78,14 @@ export class CameraContext extends DynamicValue {
           (left || 0), (top || 0), (width || 0), (height || 0)
         ]
       },
-    })
+    }))
   }
 }
 
-export class CameraViewContext extends DynamicValue {
+export class CameraViewContext extends Component {
   constructor(ctx, initialState) {
     Object.assign(initialState, Camera.defaults(), initialState)
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       view(ctx, args) {
         const matrix = mat4.identity([])
         const position = get('position', [ctx, args, initialState])
@@ -105,29 +104,29 @@ export class CameraViewContext extends DynamicValue {
         mat4.scale(matrix, matrix, scale)
         return matrix
       }
-    })
+    }))
   }
 }
 
-export class CameraComputedContext extends DynamicValue {
+export class CameraComputedContext extends Component {
   constructor(ctx, initialState) {
     Object.assign(initialState, Camera.defaults(), initialState)
-    super(ctx, initialState, {
+    super(ctx, initialState, new ContextComponent(ctx, {
       invertedView({view}) {
         return view ? mat4.invert([], view) : kMat4Identity
-      },
-    })
+      }
+    }))
   }
 }
 
-export class CameraUniforms extends ShaderUniforms {
+export class CameraUniforms extends Component {
   constructor(ctx, initialState) {
-    super(ctx, initialState, {
+    super(ctx, initialState, new UniformsComponent(ctx, {
       'camera.invertedView': ({invertedView}) => invertedView,
       'camera.projection': ({projection}) => projection,
       'camera.aspect': ({aspect}) => aspect,
       'camera.view': ({view}) => view,
       'camera.eye': ({eye}) => [...eye],
-    })
+    }))
   }
 }

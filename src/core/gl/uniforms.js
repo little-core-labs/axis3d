@@ -22,7 +22,7 @@ export class ShaderUniforms extends DynamicValue {
   }
 
   constructor(ctx, initialState, props) {
-    super(ctx, initialState, props)
+    super(ctx, { ...initialState}, { ...props })
     shaderUniformsCounter.addValueForContext(ctx, this)
   }
 }
