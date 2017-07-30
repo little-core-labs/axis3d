@@ -31,6 +31,7 @@ export class Mesh extends Component {
     if (false == initialState.geometry instanceof Geometry) {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
+    const getContext = ctx.regl({})
     const attributes = new MeshAttributes(ctx, initialState)
     const uniforms = new MeshUniforms(ctx, initialState)
     const context = new MeshContext(ctx, initialState)
@@ -48,7 +49,7 @@ export class Mesh extends Component {
       context,
       (state, block) => {
         draw(state)
-        block()
+        getContext(block)
       })
   }
 }

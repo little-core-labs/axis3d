@@ -1,5 +1,3 @@
-'use strict'
-
 import {
   PerspectiveCamera,
   Geometry,
@@ -46,7 +44,8 @@ function scene({time, cancel}) {
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, () => {
     material({color}, () => {
-      bunny()
+      bunny(({vertexShader}) => {
+      })
     })
   })
 }

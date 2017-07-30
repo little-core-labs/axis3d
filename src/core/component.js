@@ -3,12 +3,14 @@ import { Entity } from './entity'
 import { assign } from '../utils'
 
 /**
- * A Component is an Entity that composes one or more components and functions
- * into a self-contained entity that is invokable like any command function.
+ * A Component is a commandthat composes one or more components and functions
+ * into a single function  that is invokable like any command function.
  * An initial or default state can be given which is injected into the block
  * context object each call.
  */
+let componentCount = 0
 export class Component extends Command {
+  static id() { return ++ componentCount }
   static defaults() { return { } }
   static compose(...components) {
     if (Array.isArray(components[0])) { components = components[0] }
