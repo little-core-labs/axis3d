@@ -1,4 +1,6 @@
+import { Command } from './command'
 import { Entity } from './entity'
+import { assign } from '../utils'
 
 /**
  * A Component is an Entity that composes one or more components and functions
@@ -6,19 +8,24 @@ import { Entity } from './entity'
  * An initial or default state can be given which is injected into the block
  * context object each call.
  */
-export class Component extends Entity {
+export class Component extends Command {
   static defaults() { return { } }
-
   static compose(...components) {
     if (Array.isArray(components[0])) { components = components[0] }
     components = Array.isArray(components) ? components : []
-    return (state, block) => {
-      walk(components.slice().concat(block))
-      function walk(components) {
-        const component = components.shift()
+    return component
+    function component(state, block) {
+      if ('function' == typeof state) { block = state; state = {} }
+      state = 'object' == typeof state && state ? state : {}
+      block = 'function' == typeof block ? block : function() {}
+      if (0 == components.length) { return block(state) }
+      else { walk(components.slice()) }
+      function walk(list) {
+        const component = list.shift()
         if ('function' == typeof component) {
-          component(state, () => { walk(components.slice()) })
-        } else { walk(components.slice()) }
+          if (list.length) { component(state, () => walk(list)) }
+          else { component(state, block) }
+        } else { walk(list) }
       }
     }
   }
@@ -31,10 +38,17 @@ export class Component extends Entity {
       children = initialState
       initialState = {}
     }
-    Object.assign(initialState, Component.defaults(), initialState)
+    assign(initialState, Component.defaults(), initialState)
     children = Component.compose(children)
-    super(ctx, (state, block) => {
-      children({ ...initialState, ...state }, block)
+    const entity = new Entity(ctx, initialState)
+    super((state, block) => {
+      if ('function' == typeof state) { block = state; state = {} }
+      state = 'object' == typeof state && state ? state : {}
+      block = 'function' == typeof block ? block : function() {}
+      state = { ...initialState, ...state }
+      entity(state, () => {
+        children(state, block)
+      })
     })
   }
 }

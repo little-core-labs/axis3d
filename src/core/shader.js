@@ -1,6 +1,7 @@
 import { DynamicValue } from './gl'
 import { Component } from './component'
 import * as libglsl from './glsl'
+import { assign } from '../utils'
 
 import { dirname, extname, resolve } from 'path'
 import glslTokensToDefines from 'glsl-token-defines'
@@ -37,7 +38,7 @@ export class Shader extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Shader.defaults(), initialState)
+    assign(initialState, Shader.defaults(), initialState)
     const { defines, precision, shaderName } = initialState
     const shaderLib = new ShaderLib({ ...initialState, precision, defines })
 
@@ -56,7 +57,7 @@ export class Shader extends Component {
     function update(state, block, previousState) {
       injectParentContext((reglContext) => {
         let {forceCompile = false} = state
-        Object.assign(defines, { ...reglContext.defines, ...state.defines })
+        assign(defines, { ...reglContext.defines, ...state.defines })
 
         uniforms = coalesce(state.uniforms, uniforms, null)
         attributes = coalesce(state.attributes, attributes, null)
@@ -102,11 +103,11 @@ export class Shader extends Component {
       injectParentContext = ctx.regl(parentOpts)
 
       if (uniforms && 'object' == typeof uniforms) {
-        Object.assign(opts, {uniforms})
+        assign(opts, {uniforms})
       }
 
       if (attributes && 'object' == typeof attributes) {
-        Object.assign(opts, {attributes})
+        assign(opts, {attributes})
       }
 
       if ('string' == typeof vertexShader) { opts.vert = vertexShader }

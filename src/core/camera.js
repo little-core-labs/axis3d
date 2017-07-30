@@ -1,8 +1,8 @@
 import { UniformsComponent } from './components/uniforms'
 import { ContextComponent } from './components/context'
+import { assign, get } from '../utils'
 import { Component } from './component'
 import { Object3D } from './object3d'
-import { get } from '../utils'
 
 import computeEyeVector from 'eye-vector'
 import mat4 from 'gl-mat4'
@@ -27,7 +27,7 @@ export class Camera extends Component {
 
   constructor(ctx, initialState = {}) {
     const defaults = CameraViewContext.defaults()
-    Object.assign(initialState, defaults, initialState)
+    assign(initialState, defaults, initialState)
     super(ctx, initialState,
       new Object3D(ctx),
       new CameraContext(ctx, initialState),
@@ -42,7 +42,7 @@ export class CameraContext extends Component {
   static defaults() { return { ...Camera.defaults() } }
   constructor(ctx, initialState) {
     const defaults = CameraViewContext.defaults()
-    Object.assign(initialState, defaults, initialState)
+    assign(initialState, defaults, initialState)
     super(ctx, initialState, new ContextComponent(ctx, {
       matrix() { return kMat4Identity },
 
@@ -89,7 +89,7 @@ export class CameraViewContext extends Component {
   static defaults() { return { ...Camera.defaults() } }
   constructor(ctx, initialState) {
     const defaults = CameraViewContext.defaults()
-    Object.assign(initialState, defaults, initialState)
+    assign(initialState, defaults, initialState)
     super(ctx, initialState,
       new ContextComponent(ctx, {
         view(ctx, args) {
@@ -118,7 +118,7 @@ export class CameraInverseViewContext extends Component {
   static defaults() { return {} }
   constructor(ctx, initialState) {
     const defaults = CameraInverseViewContext.defaults()
-    Object.assign(initialState, defaults, initialState)
+    assign(initialState, defaults, initialState)
     super(ctx, initialState,
       new ContextComponent(ctx, {
         invertedView({view}) {
@@ -133,7 +133,7 @@ export class CameraUniforms extends Component {
   static defaults() { return { uniformName: 'camera' } }
   constructor(ctx, initialState) {
     const defaults = CameraUniforms.defaults()
-    Object.assign(initialState, defaults, initialState)
+    assign(initialState, defaults, initialState)
     const {uniformName} = initialState
     super(ctx, initialState,
       new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {

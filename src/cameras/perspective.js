@@ -1,7 +1,7 @@
+import { radians, assign, get } from '../utils'
 import { UniformsComponent } from '../core/components/uniforms'
 import { ContextComponent } from '../core/components/context'
 import { CameraUniforms } from '../core/camera'
-import { radians, get } from '../utils'
 import { Component } from '../core/component'
 import { Camera } from '../core/camera'
 import mat4 from 'gl-mat4'
@@ -42,7 +42,7 @@ export class PerspectiveCamera extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, PerspectiveCamera.defaults(), initialState)
+    assign(initialState, PerspectiveCamera.defaults(), initialState)
     super(ctx, initialState,
       new Camera(ctx, initialState),
       new PerspectiveCameraContext(ctx, initialState),
@@ -57,7 +57,7 @@ export class PerspectiveCameraProjectionContext extends Component {
   static defaults() { return { ...PerspectiveCamera.defaults() } }
   constructor(ctx, initialState = {}) {
     const defaults = PerspectiveCameraProjectionContext.defaults()
-    Object.assign(initialState, defaults, initialState)
+    assign(initialState, defaults, initialState)
     super(ctx, initialState,
       new ContextComponent(ctx, {
         projection(ctx, args) {
@@ -82,7 +82,7 @@ export class PerspectiveCameraViewContext extends Component {
   static defaults() { return { ...PerspectiveCamera.defaults() } }
   constructor(ctx, initialState = {}) {
     const defaults = PerspectiveCameraViewContext.defaults()
-    Object.assign(initialState, defaults, initialState)
+    assign(initialState, defaults, initialState)
     super(ctx, initialState,
       new ContextComponent(ctx, {
         view(ctx, args) {
@@ -113,7 +113,7 @@ export class PerspectiveCameraViewContext extends Component {
 
 export class PerspectiveCameraContext extends Component {
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, PerspectiveCamera.defaults(), initialState)
+    assign(initialState, PerspectiveCamera.defaults(), initialState)
     super(ctx, initialState, new ContextComponent(ctx, {
       direction: (ctx, args) => get('direction', [args, ctx, initialState]),
       near: (ctx, args) => get('near', [args, ctx, initialState]),
@@ -127,7 +127,7 @@ export class PerspectiveCameraContext extends Component {
         const width = get('viewportWidth', [args, ctx, initialState])
         const left = get('viewportLeft', [args, ctx, initialState])
         const top = get('viewportTop', [args, ctx, initialState])
-        return Object.assign(viewport, viewport || [
+        return assign(viewport, viewport || [
           (left || 0), (top || 0), (width || 0), (height || 0)
         ])
       },

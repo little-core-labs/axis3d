@@ -21,10 +21,11 @@ for (const p of Bunny.positions) {
 }
 
 const ctx = new Context()
-const material = new Material(ctx, {})
+const geometry = new Geometry({complex: Bunny})
+const material = new Material(ctx)
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
-const bunny = new Mesh(ctx, {geometry: new Geometry({complex: Bunny})})
+const bunny = new Mesh(ctx, {geometry})
 
 const rotation = quat.identity([])
 const position = [15, 15, 15]
@@ -32,13 +33,15 @@ const angle = quat.identity([])
 const color = new Color('blue')
 const stats = new Stats()
 
+ctx.on('error', (err) => console.error(err.stack || err))
+
 ready(() => document.body.appendChild(stats.dom))
-
 frame(() => stats.begin())
+frame(scene)
+frame(() => stats.end())
 
-frame(({time, clear}) => {
-  clear()
-  //clear({color: [0, 0, 0, 1] })
+function scene({time, cancel}) {
+  //cancel()
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, () => {
@@ -46,6 +49,4 @@ frame(({time, clear}) => {
       bunny()
     })
   })
-})
-
-frame(() => stats.end())
+}

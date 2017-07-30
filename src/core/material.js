@@ -1,6 +1,6 @@
+import { ensureRGBA, ensureRGB, assign, get } from '../utils'
 import { UniformsComponent } from './components/uniforms'
 import { ContextComponent} from './components/context'
-import { ensureRGBA, ensureRGB, get } from '../utils'
 import { Component } from './component'
 import { Shader } from './shader'
 
@@ -19,7 +19,7 @@ export class Material extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Material.defaults(), initialState)
+    assign(initialState, Material.defaults(), initialState)
     super(ctx, initialState,
       new MaterialShader(ctx, initialState),
       new MaterialState(ctx, initialState),
@@ -31,7 +31,7 @@ export class Material extends Component {
 
 export class MaterialShader extends Component {
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Material.defaults(), initialState)
+    assign(initialState, Material.defaults(), initialState)
     const {uniformName, fragmentShader = null} = initialState
     super(ctx, initialState,
       new Shader(ctx, {
@@ -61,7 +61,7 @@ export class MaterialShader extends Component {
 
 export class MaterialState extends Component {
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Material.defaults(), initialState)
+    assign(initialState, Material.defaults(), initialState)
     super(ctx, initialState,
       ctx.regl({
         blend: {
@@ -135,7 +135,7 @@ export class MaterialState extends Component {
 
 export class MaterialContext extends Component {
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Material.defaults(), initialState)
+    assign(initialState, Material.defaults(), initialState)
     super(ctx, initialState, new ContextComponent(ctx, {
       color: (ctx, args) => get('color', [args, ctx, initialState]),
       opacity: (ctx, args) => get('opacity', [args, ctx, initialState]),
@@ -145,7 +145,7 @@ export class MaterialContext extends Component {
 
 export class MaterialUniforms extends Component {
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Material.defaults(), initialState)
+    assign(initialState, Material.defaults(), initialState)
     const {uniformName} = initialState
     super(ctx, initialState,
       new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {

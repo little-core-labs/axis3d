@@ -10,6 +10,6 @@ export class UniformsComponent extends Component {
     const uniforms = ctx.regl({
       uniforms: new ShaderUniforms(ctx, initialState, props)
     })
-    super(ctx, {}, uniforms, ...children)
+    super(ctx, uniforms, ...children)
   }
 }

@@ -2,6 +2,7 @@ import createDebug from 'debug'
 import document from 'global/document'
 import window from 'global/window'
 import clamp from 'clamp'
+import clone from 'clone'
 
 const kLibraryVersion = __AXIS3D_VERSION__
 const TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor
@@ -12,6 +13,10 @@ export const debug = createDebug(`[axis@${kLibraryVersion}]`)
 
 export const radians = (n) => n == n ? (n*Math.PI/180.0) : 0
 export const lerp = (v0, v1, t) => v0*(1 - t) + v1*t
+
+export const assign = (a, b, ...args) => {
+  return Object.assign(a, clone(b, true), ...args)
+}
 
 export const get = (k, objs) => {
   return (objs.filter((o) => o).find((o) => o[k]) || {})[k]

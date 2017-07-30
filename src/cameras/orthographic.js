@@ -6,6 +6,7 @@ import {
 import { CameraUniforms, Camera } from '../core/camera'
 import { ContextComponent } from'../core/components/context'
 import { Component } from '../core/component'
+import { assign } from '../utils'
 import mat4 from 'gl-mat4'
 
 const scratchMatrix = mat4.identity([])
@@ -16,7 +17,7 @@ export class OrthographicCamera extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, OrthographicCamera.defaults(), initialState)
+    assign(initialState, OrthographicCamera.defaults(), initialState)
     super(ctx, initialState,
       new Camera(ctx, initialState),
       new PerspectiveCameraContext(ctx, initialState),
@@ -29,7 +30,7 @@ export class OrthographicCamera extends Component {
 
 export class OrthographicCameraProjectionContext extends Component {
   constructor(ctx, initialState) {
-    Object.assign(initialState, Camera.defaults(), initialState)
+    assign(initialState, Camera.defaults(), initialState)
     super(ctx, initialState,
       new ContextComponent(ctx, {
         projection() {

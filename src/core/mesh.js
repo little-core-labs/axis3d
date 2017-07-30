@@ -1,7 +1,7 @@
+import { isArrayLike, assign, get } from '../utils'
 import { AttributesComponent } from './components/attributes'
 import { UniformsComponent } from './components/uniforms'
 import { ContextComponent } from './components/context'
-import { isArrayLike, get } from '../utils'
 import { Component } from './component'
 import { Object3D } from './object3d'
 import { Geometry } from './geometry'
@@ -27,7 +27,7 @@ export class Mesh extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, Mesh.defaults(), initialState)
     if (false == initialState.geometry instanceof Geometry) {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
@@ -55,7 +55,7 @@ export class Mesh extends Component {
 
 export class MeshContext extends Component {
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
     let computedBoundingBox = null
     let computedSize = null
@@ -93,7 +93,7 @@ export class MeshContext extends Component {
 
 export class MeshShader extends Shader {
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, Mesh.defaults(), initialState)
     const {uniformName} = initialState
     super(ctx, {
       vertexShader: ({vertexShader}) => vertexShader || `
@@ -132,7 +132,7 @@ export class MeshShader extends Shader {
 
 export class MeshUniforms extends Component {
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, Mesh.defaults(), initialState)
     const {uniformName} = initialState
     super(ctx, initialState, new UniformsComponent(ctx, {
       [`${uniformName}.position`](ctx, args) {
@@ -162,7 +162,7 @@ export class MeshUniforms extends Component {
 
 export class MeshAttributes extends Component {
   constructor(ctx, initialState) {
-    Object.assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
     super(ctx, initialState, new AttributesComponent(ctx, {
       position: geometry.positions || null,
@@ -174,7 +174,7 @@ export class MeshAttributes extends Component {
 
 export class MeshState extends Component {
   constructor(ctx, initialState) {
-    Object.assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
     const opts = {
       lineWidth(ctx, args) {
