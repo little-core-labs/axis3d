@@ -21,8 +21,8 @@ export class OrthographicCamera extends Component {
     super(ctx, initialState,
       new Camera(ctx, initialState),
       new PerspectiveCameraContext(ctx, initialState),
-      new OrthographicCameraProjectionContext(ctx, initialState),
       new PerspectiveCameraViewContext(ctx, initialState),
+      new OrthographicCameraProjectionContext(ctx, initialState),
       new CameraUniforms(ctx, initialState),
     )
   }

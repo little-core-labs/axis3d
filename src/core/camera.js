@@ -33,6 +33,7 @@ export class Camera extends Component {
       new CameraContext(ctx, initialState),
       new CameraViewContext(ctx, initialState),
       new CameraInverseViewContext(ctx, initialState),
+      new CameraEyeContext(ctx, initialState),
       new CameraUniforms(ctx, initialState),
     )
   }
@@ -44,6 +45,7 @@ export class CameraContext extends Component {
     const defaults = CameraViewContext.defaults()
     assign(initialState, defaults, initialState)
     super(ctx, initialState, new ContextComponent(ctx, {
+      transform() { return kMat4Identity },
       matrix() { return kMat4Identity },
 
       projection(ctx, args) {
@@ -62,11 +64,6 @@ export class CameraContext extends Component {
         return vec3.multiply([], target, scale)
       },
 
-      eye(ctx, args) {
-        const view = get('view', [ctx, args]) || kMat4Identity
-        return computeEyeVector(view)
-      },
-
       up(ctx, args) {
         return get('up', [args, ctx, initialState])
       },
@@ -82,6 +79,22 @@ export class CameraContext extends Component {
         ]
       },
     }))
+  }
+}
+
+export class CameraEyeContext extends Component {
+  static defaults() { return { ...Camera.defaults() } }
+  constructor(ctx, initialState) {
+    const defaults = CameraViewContext.defaults()
+    assign(initialState, defaults, initialState)
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        eye(ctx, args) {
+          const view = get('view', [args, ctx]) || kMat4Identity
+          return computeEyeVector(view)
+        },
+      })
+    )
   }
 }
 
