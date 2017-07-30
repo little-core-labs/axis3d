@@ -137,8 +137,8 @@ export class MaterialContext extends Component {
   constructor(ctx, initialState = {}) {
     assign(initialState, Material.defaults(), initialState)
     super(ctx, initialState, new ContextComponent(ctx, {
-      color: (ctx, args) => get('color', [args, ctx, initialState]),
-      opacity: (ctx, args) => get('opacity', [args, ctx, initialState]),
+      color: (ctx, args) => get('color', [args, initialState]),
+      opacity: (ctx, args) => get('opacity', [args, initialState]),
     }))
   }
 }
@@ -150,10 +150,10 @@ export class MaterialUniforms extends Component {
     super(ctx, initialState,
       new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {
         opacity: (ctx, args) => {
-          return get('opacity', [ ctx, args, initialState ])
+          return get('opacity', [args, ctx, initialState ])
         },
         color: (ctx, args) => {
-          return ensureRGB(get('color', [ ctx, args, initialState ]))
+          return ensureRGB(get('color', [ args, ctx, initialState ]))
         },
       })
     )

@@ -1,9 +1,8 @@
+import { CameraUniforms, CameraEyeContext, Camera } from '../core/camera'
 import { radians, assign, get } from '../utils'
 import { UniformsComponent } from '../core/components/uniforms'
 import { ContextComponent } from '../core/components/context'
-import { CameraUniforms } from '../core/camera'
 import { Component } from '../core/component'
-import { Camera } from '../core/camera'
 import mat4 from 'gl-mat4'
 import vec3 from 'gl-vec3'
 import quat from 'gl-quat'
@@ -48,6 +47,7 @@ export class PerspectiveCamera extends Component {
       new PerspectiveCameraContext(ctx, initialState),
       new PerspectiveCameraProjectionContext(ctx, initialState),
       new PerspectiveCameraViewContext(ctx, initialState),
+      new CameraEyeContext(ctx, initialState),
       new CameraUniforms(ctx, initialState),
     )
   }
@@ -120,17 +120,6 @@ export class PerspectiveCameraContext extends Component {
       far: (ctx, args) => get('far', [args, ctx, initialState]),
       fov: (ctx, args) => get('fov', [args, ctx, initialState]),
       up: (ctx, args) => get('up', [args, ctx, initialState]),
-
-      viewport(ctx, args) {
-        const viewport = get('viewport', [args, ctx, initialState])
-        const height = get('viewportHeight', [args, ctx, initialState])
-        const width = get('viewportWidth', [args, ctx, initialState])
-        const left = get('viewportLeft', [args, ctx, initialState])
-        const top = get('viewportTop', [args, ctx, initialState])
-        return assign(viewport, viewport || [
-          (left || 0), (top || 0), (width || 0), (height || 0)
-        ])
-      },
     }))
   }
 }

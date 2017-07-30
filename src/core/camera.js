@@ -89,9 +89,8 @@ export class CameraEyeContext extends Component {
     assign(initialState, defaults, initialState)
     super(ctx, initialState,
       new ContextComponent(ctx, {
-        eye(ctx, args) {
-          const view = get('view', [args, ctx]) || kMat4Identity
-          return computeEyeVector(view)
+        eye({view}, args) {
+          return computeEyeVector(view || kMat4Identity)
         },
       })
     )

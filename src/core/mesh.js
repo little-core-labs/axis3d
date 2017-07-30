@@ -32,25 +32,19 @@ export class Mesh extends Component {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
     const getContext = ctx.regl({})
-    const attributes = new MeshAttributes(ctx, initialState)
-    const uniforms = new MeshUniforms(ctx, initialState)
-    const context = new MeshContext(ctx, initialState)
-    const shader = new MeshShader(ctx, initialState)
-    const object = new Object3D(ctx, initialState)
-    const state = new MeshState(ctx, initialState)
-    const draw = ctx.regl({ })
-
+    const draw = ctx.regl({})
     super(ctx, initialState,
-      state,
-      shader,
-      object,
-      attributes,
-      uniforms,
-      context,
+      new MeshContext(ctx, initialState),
+      new MeshState(ctx, initialState),
+      new MeshShader(ctx, initialState),
+      new Object3D(ctx, initialState),
+      new MeshAttributes(ctx, initialState),
+      new MeshUniforms(ctx, initialState),
       (state, block) => {
         draw(state)
         getContext(block)
-      })
+      }
+    )
   }
 }
 
