@@ -47,9 +47,13 @@ export class Component extends Command {
       if ('function' == typeof state) { block = state; state = {} }
       state = 'object' == typeof state && state ? state : {}
       block = 'function' == typeof block ? block : function() {}
-      state = { ...initialState, ...state }
-      entity(state, () => {
-        children(state, block)
+      if (Array.isArray(state)) {
+        state = state.map((s) => ({ ...initialState, ...s }))
+      } else {
+        state = { ...initialState, ...state }
+      }
+      entity(state, ({}, args, batchID) => {
+        children(args, block)
       })
     })
   }

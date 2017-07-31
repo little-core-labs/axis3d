@@ -44,8 +44,7 @@ function scene({time, cancel}) {
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, () => {
     material({color}, () => {
-      bunny(({vertexShader}) => {
-      })
+      bunny([ {position: [5, 5, 5]}, {position: [-5, -5, -5]} ])
     })
   })
 }

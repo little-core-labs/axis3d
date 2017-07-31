@@ -13,18 +13,14 @@ import { Command } from './command'
 let entityCount = 0
 export class Entity extends Command {
   static id() { return ++ entityCount }
-  constructor(ctx, initialState = {}) {
+  constructor(ctx) {
     const id = Entity.id()
     const injectContext = ctx.regl({context: {entityID: () => id}})
-    let currentState = { ...initialState }
-    let previousState = null
     super((state, block) => {
       if ('function' == typeof state) { block = state; state = {} }
       state = 'object' == typeof state && state ? state : {}
       block = 'function' == typeof block ? block : function() {}
-      previousState = { ...currentState }
-      currentState = { ...state, previousState }
-      injectContext(currentState, block)
+      injectContext(state, block)
     })
   }
 }
