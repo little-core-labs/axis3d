@@ -34,7 +34,6 @@ export class Camera extends Component {
       new CameraViewContext(ctx, initialState),
       new CameraInverseViewContext(ctx, initialState),
       new CameraEyeContext(ctx, initialState),
-      new CameraUniforms(ctx, initialState),
     )
   }
 }
@@ -91,7 +90,7 @@ export class CameraEyeContext extends Component {
       new ContextComponent(ctx, {
         eye({view}, args) {
           return computeEyeVector(view || kMat4Identity)
-        },
+        }
       })
     )
   }

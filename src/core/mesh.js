@@ -2,6 +2,7 @@ import { isArrayLike, assign, get } from '../utils'
 import { AttributesComponent } from './components/attributes'
 import { UniformsComponent } from './components/uniforms'
 import { ContextComponent } from './components/context'
+import { CameraUniforms } from './camera'
 import { Component } from './component'
 import { Object3D } from './object3d'
 import { Geometry } from './geometry'
@@ -34,12 +35,13 @@ export class Mesh extends Component {
     const getContext = ctx.regl({})
     const draw = ctx.regl({})
     super(ctx, initialState,
+      new Object3D(ctx, initialState),
       new MeshContext(ctx, initialState),
       new MeshState(ctx, initialState),
       new MeshShader(ctx, initialState),
-      new Object3D(ctx, initialState),
       new MeshAttributes(ctx, initialState),
       new MeshUniforms(ctx, initialState),
+      new CameraUniforms(ctx, initialState),
       (state, block) => {
         draw(state)
         getContext(block)
@@ -129,29 +131,34 @@ export class MeshUniforms extends Component {
   constructor(ctx, initialState = {}) {
     assign(initialState, Mesh.defaults(), initialState)
     const {uniformName} = initialState
-    super(ctx, initialState, new UniformsComponent(ctx, {
-      [`${uniformName}.position`](ctx, args) {
-        return get('position', [ctx, args, initialState])
-      },
+    initialState.prefix = `${uniformName}.`
+    super(ctx, initialState,
+      new UniformsComponent(ctx, initialState, {
+        position(ctx, args) {
+          return get('position', [ctx, args, initialState])
+        },
 
-      [`${uniformName}.rotation`](ctx, args) {
-        return get('rotation', [ctx, args, initialState])
-      },
+        rotation(ctx, args) {
+          return get('rotation', [ctx, args, initialState])
+        },
 
-      [`${uniformName}.scale`](ctx, args) {
-        return get('scale', [ctx, args, initialState])
-      },
+        scale(ctx, args) {
+          return get('scale', [ctx, args, initialState])
+        },
 
-      [`${uniformName}.modelNormal`]: ({transform}) =>
-        isArrayLike(transform)
-          ? mat3.normalFromMat4([], transform) || kMat3Identity
-          : kMat3Identity,
+        modelNormal({transform}) {
+          return isArrayLike(transform)
+            ? mat3.normalFromMat4([], transform) || kMat3Identity
+            : kMat3Identity
+        },
 
-      [`${uniformName}.model`]: ({transform}) =>
-        isArrayLike(transform)
-          ? transform
-          : kMat4Identity,
-    }))
+        model({transform}) {
+          return isArrayLike(transform)
+            ? transform
+            : kMat4Identity
+        },
+      })
+    )
   }
 }
 

@@ -48,7 +48,6 @@ export class PerspectiveCamera extends Component {
       new PerspectiveCameraProjectionContext(ctx, initialState),
       new PerspectiveCameraViewContext(ctx, initialState),
       new CameraEyeContext(ctx, initialState),
-      new CameraUniforms(ctx, initialState),
     )
   }
 }
@@ -114,12 +113,28 @@ export class PerspectiveCameraViewContext extends Component {
 export class PerspectiveCameraContext extends Component {
   constructor(ctx, initialState = {}) {
     assign(initialState, PerspectiveCamera.defaults(), initialState)
-    super(ctx, initialState, new ContextComponent(ctx, {
-      direction: (ctx, args) => get('direction', [args, ctx, initialState]),
-      near: (ctx, args) => get('near', [args, ctx, initialState]),
-      far: (ctx, args) => get('far', [args, ctx, initialState]),
-      fov: (ctx, args) => get('fov', [args, ctx, initialState]),
-      up: (ctx, args) => get('up', [args, ctx, initialState]),
-    }))
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        direction(ctx, args) {
+          return get('direction', [args, ctx, initialState])
+        },
+
+        near(ctx, args) {
+          return get('near', [args, ctx, initialState])
+        },
+
+        far(ctx, args) {
+          return get('far', [args, ctx, initialState])
+        },
+
+        fov(ctx, args) {
+          return get('fov', [args, ctx, initialState])
+        },
+
+        up(ctx, args) {
+          return get('up', [args, ctx, initialState])
+        },
+      })
+    )
   }
 }
