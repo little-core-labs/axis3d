@@ -19,7 +19,7 @@ export const assign = (a, ...args) => {
 }
 
 export const get = (k, objs) => {
-  return (objs.filter((o) => o).find((o) => o[k]) || {})[k]
+  return (objs.filter((o) => o).find((o) => null != o[k]) || {})[k]
 }
 
 export const nearestPowerOfTwo = (value) => {

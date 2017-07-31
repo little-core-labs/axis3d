@@ -9,7 +9,7 @@
 
 void EmitVaryingData(const in VaryingData data) {
 #if defined(GLSL_VARYING_POSITION) && defined(GLSL_VARYING_EMIT_POSITION)
-  EmitVaryingPositions(data.model, data.scale, data.position);
+  EmitVaryingPositions(data.model, data.position);
 #endif
 
 #if defined(GLSL_VARYING_NORMAL) && defined(GLSL_VARYING_EMIT_NORMAL)

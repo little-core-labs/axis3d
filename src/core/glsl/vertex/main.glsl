@@ -77,7 +77,6 @@ void InitVarying(inout VaryingData varyingData) {
   #if defined(GLSL_MESH) && defined(GLSL_MESH_UNIFORMS)
     varyingData.modelNormal = mesh.modelNormal;
     varyingData.model = mesh.model;
-    varyingData.scale = mesh.scale;
   #endif
 }
 

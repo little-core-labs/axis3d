@@ -41,11 +41,6 @@ export class MaterialShader extends Component {
           #define GLSL_MATERIAL_UNIFORM_VARIABLE ${uniformName}
           #include <material/material>
           #include <material/uniforms>
-          #include <texture/2d>
-          #include <texture/cube>
-          #include <varying/uv>
-          #include <varying/read>
-          #include <varying/data>
           #include <mesh/fragment>
           void main() {
             gl_FragColor = MeshFragment(

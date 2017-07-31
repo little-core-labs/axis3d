@@ -14,7 +14,6 @@ struct VaryingData {
   // private
   mat3 modelNormal;
   mat4 model;
-  vec3 scale;
 };
 
 VaryingData CreateVaryingData() {
@@ -28,7 +27,6 @@ VaryingData CreateVaryingData() {
 
   data.modelNormal = mat3(1.0);
   data.model = mat4(1.0);
-  data.scale = vec3(1.0);
   return data;
 }
 
