@@ -93,8 +93,14 @@ export class Shader extends Component {
         }
       }
 
-      compileVertexShader()
-      compileFragmentShader()
+      if (!isShaderCached(currentState.vertexShader)) {
+        compileVertexShader()
+      }
+
+      if (!isShaderCached(currentState.fragmentShader)) {
+        compileFragmentShader()
+      }
+
       injectParentContext = ctx.regl(parentOpts)
 
       if ('string' == typeof vertexShader) { opts.vert = vertexShader }
@@ -118,6 +124,11 @@ export class Shader extends Component {
           return {compiled, uncompiled}
         }
         return null
+      }
+
+      function isShaderCached(shader) {
+        shader = getViableShader(reglContext, currentState, shader)
+        return Boolean(shaderCache[shaderLib.hash(shader)])
       }
 
       function compileVertexShader() {

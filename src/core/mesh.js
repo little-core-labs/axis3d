@@ -2,6 +2,7 @@ import { isArrayLike, assign, get } from '../utils'
 import { AttributesComponent } from './components/attributes'
 import { UniformsComponent } from './components/uniforms'
 import { ContextComponent } from './components/context'
+import { DefinesComponent } from './components/defines'
 import { CameraUniforms } from './camera'
 import { Component } from './component'
 import { Object3D } from './object3d'
@@ -57,6 +58,23 @@ export class MeshGeometryContext extends Component {
     super(ctx, initialState,
       new ContextComponent(ctx, {
         geometry() { return geometry },
+      }),
+
+      new DefinesComponent(ctx, {
+        GLSL_MESH_HAS_POSITION({geometry}) {
+          if (geometry.positions) { return true }
+          return null
+        },
+
+        GLSL_MESH_HAS_NORMAL({geometry}) {
+          if (geometry.normals) { return true }
+          return null
+        },
+
+        GLSL_MESH_HAS_UV({geometry}) {
+          if (geometry.uvs) { return true }
+          return null
+        }
       })
     )
   }
@@ -142,9 +160,9 @@ export class MeshShader extends Shader {
     const {uniformName} = initialState
     super(ctx, {
       vertexShader: ({vertexShader}) => vertexShader || `
-      #define GLSL_MESH_UNIFORM_VARIABLE ${uniformName}
-      #include <mesh/vertex/main>
-     `,
+        #define GLSL_MESH_UNIFORM_VARIABLE ${uniformName}
+        #include <mesh/vertex/main>
+      `,
 
       ...initialState
     })

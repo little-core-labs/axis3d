@@ -27,6 +27,8 @@ export class ShaderAttributes extends DynamicValue {
       props = initialState
       initialState = {}
     } else if (null == initialState && null == props) {
+      initialState = {}
+      props = {}
     }
     super(ctx, initialState, props)
     shaderAttributesCounter.addValueForContext(ctx, this)

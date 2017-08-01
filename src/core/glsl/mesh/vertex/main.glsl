@@ -9,9 +9,17 @@
 #include "../../camera/camera"
 #include "../../camera/uniforms"
 
+#ifdef GLSL_MESH_HAS_POSITION
 #include "../../vertex/attributes/position"
+#endif
+
+#ifdef GLSL_MESH_HAS_NORMAL
 #include "../../vertex/attributes/normal"
+#endif
+
+#ifdef GLSL_MESH_HAS_UV
 #include "../../vertex/attributes/uv"
+#endif
 
 #include "../../varying/position"
 #include "../../varying/normal"

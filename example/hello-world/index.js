@@ -48,23 +48,17 @@ function scene({time, cancel, cancelAll}) {
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, () => {
     material({color}, () => {
-      box({wireframe: true, scale: 1}, ({transform, size}) => {
+      box({wireframe: true, scale: 1}, ({size}) => {
         const [x, y, z] = size
-        bunny([
-          {position: [0, 0, 0,]},
-          {position: [0.5*x, 0.5*y, 0.5*z]},
-          {position: [-0.5*x, -0.5*y, -0.5*z]},
-
-          {position: [0.5*x, -0.5*y, 0.5*z]},
-          {position: [-0.5*x, 0.5*y, -0.5*z]},
-
-          {position: [0.5*x, 0.5*y, -0.5*z]},
-          {position: [-0.5*x, -0.5*y, 0.5*z]},
-
-          {position: [0.5*x, -0.5*y, -0.5*z]},
-          {position: [-0.5*x, 0.5*y, 0.5*z]},
-
-        ])
+        bunny([{position: [0, 0, 0,]},
+               {position: [0.5*x, 0.5*y, 0.5*z]},
+               {position: [-0.5*x, -0.5*y, -0.5*z]},
+               {position: [0.5*x, -0.5*y, 0.5*z]},
+               {position: [-0.5*x, 0.5*y, -0.5*z]},
+               {position: [0.5*x, 0.5*y, -0.5*z]},
+               {position: [-0.5*x, -0.5*y, 0.5*z]},
+               {position: [0.5*x, -0.5*y, -0.5*z]},
+               {position: [-0.5*x, 0.5*y, 0.5*z]} ])
       })
     })
   })
