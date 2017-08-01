@@ -29,7 +29,7 @@ export class Mesh extends Component {
 
   constructor(ctx, initialState = {}) {
     assign(initialState, Mesh.defaults(), initialState)
-    if (false == initialState.geometry instanceof Geometry) {
+    if (null == initialState.geometry.complex) {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
     const getContext = ctx.regl({})
@@ -50,47 +50,95 @@ export class Mesh extends Component {
   }
 }
 
-export class MeshContext extends Component {
+export class MeshGeometryContext extends Component {
   constructor(ctx, initialState = {}) {
     assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
-    let computedBoundingBox = null
-    let computedSize = null
-    super(ctx, initialState, new ContextComponent(ctx, {
-      geometry() { return geometry },
-      size({boundingBox, scale}) {
-        if (!boundingBox) { return [0, 0] }
-        if (computedSize) { return computedSize }
-        const dimension = boundingBox && boundingBox[0].length
-        const min = boundingBox[0]
-        const max = boundingBox[1]
-        switch (dimension) {
-          case 3:
-            computedSize = []
-            vec3.subtract(computedSize, max, min);
-            vec3.multiply(computedSize, computedSize, scale);
-            break
-          case 2:
-            vec2.subtract(computedSize, max, min);
-            vec2.multiply(computedSize, computedSize, scale);
-            break
-        }
-        return computedSize
-      },
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        geometry() { return geometry },
+      })
+    )
+  }
+}
 
-      boundingBox() {
-        if (!geometry) { return null }
-        if (computedBoundingBox) { return computedBoundingBox }
-        computedBoundingBox = geometry.computeBoundingBox()
-        return computedBoundingBox
-      }
-    }))
+export class MeshContext extends Component {
+  static defaults() {
+    return { ...Component.defaults(), ...Mesh.defaults() }
+  }
+  constructor(ctx, initialState = {}) {
+    assign(initialState, Mesh.defaults(), initialState)
+    super(ctx, initialState,
+      new MeshGeometryContext(ctx, initialState),
+      new MeshBoundingBoxContext(ctx, initialState),
+      new MeshSizeContext(ctx, initialState),
+    )
+  }
+}
+
+export class MeshBoundingBoxContext extends Component {
+  static defaults() {
+    return { ...Component.defaults(), ...Mesh.defaults() }
+  }
+
+  constructor(ctx, initialState = {}) {
+    assign(initialState, MeshBoundingBoxContext.defaults(), initialState)
+    let computedBoundingBox = null
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        boundingBox({geometry}) {
+          if (!geometry) { return null }
+          if (computedBoundingBox) { return computedBoundingBox }
+          computedBoundingBox = geometry.computeBoundingBox()
+          return computedBoundingBox
+        }
+      })
+    )
+  }
+}
+
+export class MeshSizeContext extends Component {
+  static defaults() {
+    return { ...Component.defaults(), ...Mesh.defaults() }
+  }
+
+  constructor(ctx, initialState = {}) {
+    assign(initialState, MeshSizeContext.defaults(), initialState)
+    let computedSize = null
+    super(ctx, initialState,
+      new ContextComponent(ctx, {
+        size({boundingBox, scale}) {
+          if (!boundingBox) { return [0, 0] }
+          if (computedSize) { return computedSize }
+          if (!scale) { scale = [1, 1, 1] }
+          const dimension = boundingBox && boundingBox[0].length
+          const min = boundingBox[0]
+          const max = boundingBox[1]
+          computedSize = []
+          switch (dimension) {
+            case 3:
+              vec3.subtract(computedSize, max, min);
+              vec3.multiply(computedSize, computedSize, scale);
+              break
+            case 2:
+              vec2.subtract(computedSize, max, min);
+              vec2.multiply(computedSize, computedSize, scale);
+              break
+          }
+          return computedSize
+        }
+      })
+    )
   }
 }
 
 export class MeshShader extends Shader {
+  static defaults() {
+    return { ...Component.defaults(), ...Mesh.defaults() }
+  }
+
   constructor(ctx, initialState = {}) {
-    assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, MeshShader.defaults(), initialState)
     const {uniformName} = initialState
     super(ctx, {
       vertexShader: ({vertexShader}) => vertexShader || `
@@ -104,8 +152,12 @@ export class MeshShader extends Shader {
 }
 
 export class MeshUniforms extends Component {
+  static defaults() {
+    return { ...Component.defaults(), ...Mesh.defaults() }
+  }
+
   constructor(ctx, initialState = {}) {
-    assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, MeshUniforms.defaults(), initialState)
     const {uniformName} = initialState
     initialState.prefix = `${uniformName}.`
     super(ctx, initialState,
@@ -139,8 +191,12 @@ export class MeshUniforms extends Component {
 }
 
 export class MeshAttributes extends Component {
+  static defaults() {
+    return { ...Component.defaults(), ...Mesh.defaults() }
+  }
+
   constructor(ctx, initialState) {
-    assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, MeshAttributes.defaults(), initialState)
     const {geometry} = initialState
     const attributes = {}
     if (geometry) {
@@ -153,8 +209,12 @@ export class MeshAttributes extends Component {
 }
 
 export class MeshState extends Component {
+  static defaults() {
+    return { ...Component.defaults(), ...Mesh.defaults() }
+  }
+
   constructor(ctx, initialState) {
-    assign(initialState, Mesh.defaults(), initialState)
+    assign(initialState, MeshState.defaults(), initialState)
     const {geometry} = initialState
     const opts = {
       lineWidth(ctx, args) {

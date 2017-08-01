@@ -27,11 +27,11 @@ const material = new Material(ctx)
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
 
-const box = new Mesh(ctx, {geometry: new BoxGeometry()})
+const box = new Mesh(ctx, {geometry: new BoxGeometry({x: 20, y: 20, z: 20})})
 const bunny = new Mesh(ctx, {geometry: new Geometry({complex: Bunny}) })
 
 const rotation = quat.identity([])
-const position = [15, 15, 15]
+const position = [25, 25, 25]
 const angle = quat.identity([])
 const color = new Color('blue')
 const stats = new Stats()
@@ -48,7 +48,24 @@ function scene({time, cancel, cancelAll}) {
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, () => {
     material({color}, () => {
-      bunny([ {position: [5, 5, 5]}, {}, {position: [-5, -5, -5]} ])
+      box({wireframe: true, scale: 1}, ({transform, size}) => {
+        const [x, y, z] = size
+        bunny([
+          {position: [0, 0, 0,]},
+          {position: [0.5*x, 0.5*y, 0.5*z]},
+          {position: [-0.5*x, -0.5*y, -0.5*z]},
+
+          {position: [0.5*x, -0.5*y, 0.5*z]},
+          {position: [-0.5*x, 0.5*y, -0.5*z]},
+
+          {position: [0.5*x, 0.5*y, -0.5*z]},
+          {position: [-0.5*x, -0.5*y, 0.5*z]},
+
+          {position: [0.5*x, -0.5*y, -0.5*z]},
+          {position: [-0.5*x, 0.5*y, 0.5*z]},
+
+        ])
+      })
     })
   })
 }
