@@ -12,6 +12,7 @@ void AfterMain(inout vec4 vertexPosition, inout VaryingData varyingData);
 void main() {
   VaryingData varyingData = CreateVaryingData();
   InitVarying(varyingData);
+  gl_Position = vec4(vec3(0.0), 1.0);
   BeforeMain(gl_Position, varyingData);
   Main(gl_Position, varyingData);
   TransformMain(gl_Position, varyingData);
