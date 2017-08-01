@@ -13,7 +13,7 @@
     "axis3d",
     "graphics"
   ],
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "MIT",
   "dependencies": {
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "ava": "^0.18.2",
+    "axis3d-geometry": "github:littlstar/axis3d-geometry",
     "babel-cli": "^6.x.0",
     "babel-core": "^6.x.0",
     "babel-eslint": "^6.1.2",

@@ -30,7 +30,7 @@ export class Context extends EventEmitter {
     createRegl({
       ...opts.regl,
       attributes: {...(opts.regl.attributes || {})},
-      extensions: [...(opts.regl.extensions || []), 'OES_texture_float'],
+      extensions: [...(opts.regl.extensions || []), 'OES_texture_float', 'ANGLE_instanced_arrays'],
       optionalExtensions: [...(opts.regl.optionalExtensions || [])],
       onDone: (err, regl) => {
         if (err) { return this.emit('error', err) }

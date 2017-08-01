@@ -365,7 +365,7 @@ export class ShaderLibPreprocessor {
     if ('string' == typeof source) {
       source = injectDefines(source, { ...defines, ...opts.defines })
     }
-    visit(source, stack, name != kAnonymousShaderName ? dirname(name) : '/')
+    visit(`\n${source}\n`, stack, name != kAnonymousShaderName ? dirname(name) : '/')
     source = glslTokensToString(stack)
     return middleware
       .filter((ware) => 'function' == typeof ware)
@@ -397,9 +397,9 @@ export class ShaderLibPreprocessor {
 
               case '#include':
                 const [statement, arg] = token.data.match(includeRegex) || []
-                const path = arg.replace(/^["|<](.*)["|>]/, '$1')
-                const left = arg[0]
-                const right = arg[arg.length - 1]
+                const path = arg.replace(/^["|<](.*)["|>]/, '$1').trim()
+                const left = arg[0].trim()
+                const right = arg[arg.trim().length - 1].trim()
                 const createError = (ErrorType, msg) => new ErrorType(
                   `${msg || ''}\n\tat (glsl) ${includeStack.join('\n\tat (glsl) ')}`
                 )

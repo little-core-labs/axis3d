@@ -33,7 +33,7 @@ export class Mesh extends Component {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
     const getContext = ctx.regl({})
-    const draw = ctx.regl({})
+    const draw = ctx.regl({ ...initialState.regl })
     super(ctx, initialState,
       new Object3D(ctx, initialState),
       new MeshContext(ctx, initialState),
@@ -95,7 +95,7 @@ export class MeshShader extends Shader {
     super(ctx, {
       vertexShader: ({vertexShader}) => vertexShader || `
       #define GLSL_MESH_UNIFORM_VARIABLE ${uniformName}
-      #include <mesh/main>
+      #include <mesh/vertex/main>
      `,
 
       ...initialState
@@ -142,11 +142,13 @@ export class MeshAttributes extends Component {
   constructor(ctx, initialState) {
     assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
-    super(ctx, initialState, new AttributesComponent(ctx, {
-      position: geometry.positions || null,
-      normal: geometry.normals || null,
-      uv: geometry.uvs || null,
-    }))
+    const attributes = {}
+    if (geometry) {
+      attributes.position = geometry.positions || null
+      attributes.normal = geometry.normals || null
+      attributes.uv = geometry.uvs || null
+    }
+    super(ctx, initialState, new AttributesComponent(ctx, attributes))
   }
 }
 

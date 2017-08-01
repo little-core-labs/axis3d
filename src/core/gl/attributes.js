@@ -22,8 +22,40 @@ export class ShaderAttributes extends DynamicValue {
     return sum
   }
 
-  constructor(ctx, initialState, props) {
+  constructor(ctx, initialState = {}, props) {
+    if (null == props) {
+      props = initialState
+      initialState = {}
+    } else if (null == initialState && null == props) {
+    }
     super(ctx, initialState, props)
     shaderAttributesCounter.addValueForContext(ctx, this)
+  }
+}
+
+export class InstancedShaderAttributes extends ShaderAttributes {
+  constructor(ctx, initialState = {}, props) {
+    if (null == props && 'object' == typeof initialState) {
+      props = initialState
+      initialState = {}
+    } else if (null == initialState && null == props) {
+      initialState = {}
+      props = {}
+    }
+    for (const prop in props) {
+      if (props[prop] && 'object' == typeof props[prop]) {
+        if ('object' == typeof props[prop].buffer) {
+          if ('number' != typeof props[prop].divisor) {
+            props[prop].divisor = 1
+          }
+        } else {
+          props[prop] = {
+            buffer: props[prop],
+            divisor: 1
+          }
+        }
+      }
+    }
+    super(ctx, initialState, props)
   }
 }

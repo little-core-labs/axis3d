@@ -39,14 +39,7 @@ export class MaterialShader extends Component {
           if (fragmentShader) { return fragmentShader }
           return `
           #define GLSL_MATERIAL_UNIFORM_VARIABLE ${uniformName}
-          #include <material/material>
-          #include <material/uniforms>
-          #include <mesh/fragment>
-          void main() {
-            gl_FragColor = MeshFragment(
-              ${uniformName}.color,
-              ${uniformName}.opacity);
-          }
+          #include <material/fragment/main>
           `
         }
       })
