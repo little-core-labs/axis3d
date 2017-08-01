@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "ava": "^0.18.2",
-    "axis3d-geometry": "github:littlstar/axis3d-geometry",
+    "axis3d-geometry": "git+ssh://git@github.com:littlstar/axis3d-geometry.git",
     "babel-cli": "^6.x.0",
     "babel-core": "^6.x.0",
     "babel-eslint": "^6.1.2",
