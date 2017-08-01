@@ -39,6 +39,7 @@ export class Mesh extends Component {
       new Object3D(ctx, initialState),
       new MeshContext(ctx, initialState),
       new MeshState(ctx, initialState),
+      new MeshShaderDefines(ctx, initialState),
       new MeshShader(ctx, initialState),
       new MeshAttributes(ctx, initialState),
       new MeshUniforms(ctx, initialState),
@@ -52,14 +53,29 @@ export class Mesh extends Component {
 }
 
 export class MeshGeometryContext extends Component {
+  static defaults() {
+    return { ...Mesh.defaults() }
+  }
+
   constructor(ctx, initialState = {}) {
     assign(initialState, Mesh.defaults(), initialState)
     const {geometry} = initialState
     super(ctx, initialState,
       new ContextComponent(ctx, {
         geometry() { return geometry },
-      }),
+      })
+    )
+  }
+}
 
+export class MeshShaderDefines extends Component {
+  static defaults() {
+    return { ...Mesh.defaults() }
+  }
+
+  constructor(ctx, initialState = {}) {
+    assign(initialState, Mesh.defaults(), initialState)
+    super(ctx, initialState,
       new DefinesComponent(ctx, {
         GLSL_MESH_HAS_POSITION({geometry}) {
           if (geometry.positions) { return true }
@@ -82,8 +98,9 @@ export class MeshGeometryContext extends Component {
 
 export class MeshContext extends Component {
   static defaults() {
-    return { ...Component.defaults(), ...Mesh.defaults() }
+    return { ...Mesh.defaults() }
   }
+
   constructor(ctx, initialState = {}) {
     assign(initialState, Mesh.defaults(), initialState)
     super(ctx, initialState,
@@ -96,7 +113,7 @@ export class MeshContext extends Component {
 
 export class MeshBoundingBoxContext extends Component {
   static defaults() {
-    return { ...Component.defaults(), ...Mesh.defaults() }
+    return { ...Mesh.defaults() }
   }
 
   constructor(ctx, initialState = {}) {
@@ -152,7 +169,7 @@ export class MeshSizeContext extends Component {
 
 export class MeshShader extends Shader {
   static defaults() {
-    return { ...Component.defaults(), ...Mesh.defaults() }
+    return { ...Mesh.defaults() }
   }
 
   constructor(ctx, initialState = {}) {
@@ -171,7 +188,7 @@ export class MeshShader extends Shader {
 
 export class MeshUniforms extends Component {
   static defaults() {
-    return { ...Component.defaults(), ...Mesh.defaults() }
+    return { ...Mesh.defaults() }
   }
 
   constructor(ctx, initialState = {}) {
@@ -210,7 +227,7 @@ export class MeshUniforms extends Component {
 
 export class MeshAttributes extends Component {
   static defaults() {
-    return { ...Component.defaults(), ...Mesh.defaults() }
+    return { ...Mesh.defaults() }
   }
 
   constructor(ctx, initialState) {

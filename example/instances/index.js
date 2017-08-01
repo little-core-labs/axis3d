@@ -31,7 +31,7 @@ const bunny = new Mesh(ctx, {
 })
 
 const material = new Material(ctx, {
-  fragmentShader: `
+  fragmentShader: () => `
   #define GLSL_FRAGMENT_MAIN_TRANSFORM Transform
   #include <varying/color>
   #include <material/fragment/main>
@@ -41,11 +41,13 @@ const material = new Material(ctx, {
   }
   `,
 
-  vertexShader: `
+  vertexShader: () => `
   #define GLSL_VERTEX_MAIN_TRANSFORM Transform
+  #include <vertex/attributes/position>
   #include <vertex/attributes/color>
   #include <varying/color>
   #include <time/time>
+
   #include <mesh/vertex/main>
 
   attribute vec3 offset;
@@ -65,6 +67,7 @@ const attributes = new InstancedAttributesComponent(ctx, {
     const y = -1 + 2 * (i % N) / N + 0.1
     return [x, y, 0]
   }),
+
   color: Array(N*N).fill().map((_, i) => {
     const r = Math.floor(i / N) / N
     const g = (i % N) / N
