@@ -1,5 +1,6 @@
 import { CameraUniforms, CameraEyeContext, Camera } from '../core/camera'
-import { radians, assign, get } from '../utils'
+import { radians, get } from '../utils'
+import { defaults as setInitialState } from '../utils'
 import { UniformsComponent } from '../core/components/uniforms'
 import { ContextComponent } from '../core/components/context'
 import { Component } from '../core/component'
@@ -41,7 +42,7 @@ export class PerspectiveCamera extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, PerspectiveCamera.defaults(), initialState)
+    setInitialState(initialState, PerspectiveCamera.defaults())
     super(ctx, initialState,
       new Camera(ctx, initialState),
       new PerspectiveCameraContext(ctx, initialState),
@@ -56,7 +57,7 @@ export class PerspectiveCameraProjectionContext extends Component {
   static defaults() { return { ...PerspectiveCamera.defaults() } }
   constructor(ctx, initialState = {}) {
     const defaults = PerspectiveCameraProjectionContext.defaults()
-    assign(initialState, defaults, initialState)
+    setInitialState(initialState, defaults)
     super(ctx, initialState,
       new ContextComponent(ctx, {
         projection(ctx, args) {
@@ -81,7 +82,7 @@ export class PerspectiveCameraViewContext extends Component {
   static defaults() { return { ...PerspectiveCamera.defaults() } }
   constructor(ctx, initialState = {}) {
     const defaults = PerspectiveCameraViewContext.defaults()
-    assign(initialState, defaults, initialState)
+    setInitialState(initialState, defaults)
     super(ctx, initialState,
       new ContextComponent(ctx, {
         view(ctx, args) {
@@ -112,7 +113,7 @@ export class PerspectiveCameraViewContext extends Component {
 
 export class PerspectiveCameraContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, PerspectiveCamera.defaults(), initialState)
+    setInitialState(initialState, PerspectiveCamera.defaults())
     super(ctx, initialState,
       new ContextComponent(ctx, {
         direction(ctx, args) {

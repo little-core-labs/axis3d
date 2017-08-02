@@ -1,4 +1,4 @@
-import { isArrayLike, assign, get } from '../utils'
+import { isArrayLike, defaults, get } from '../utils'
 import { AttributesComponent } from './components/attributes'
 import { UniformsComponent } from './components/uniforms'
 import { ContextComponent } from './components/context'
@@ -29,7 +29,7 @@ export class Mesh extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, Mesh.defaults(), initialState)
+    defaults(initialState, Mesh.defaults())
     if (null == initialState.geometry.complex) {
       initialState.geometry = new Geometry({complex: initialState.geometry})
     }
@@ -58,7 +58,7 @@ export class MeshGeometryContext extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, Mesh.defaults(), initialState)
+    defaults(initialState, Mesh.defaults())
     const {geometry} = initialState
     super(ctx, initialState,
       new ContextComponent(ctx, {
@@ -74,7 +74,7 @@ export class MeshShaderDefines extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, Mesh.defaults(), initialState)
+    defaults(initialState, Mesh.defaults())
     super(ctx, initialState,
       new DefinesComponent(ctx, {
         GLSL_MESH_HAS_POSITION({geometry}) {
@@ -102,7 +102,7 @@ export class MeshContext extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, Mesh.defaults(), initialState)
+    defaults(initialState, Mesh.defaults())
     super(ctx, initialState,
       new MeshGeometryContext(ctx, initialState),
       new MeshBoundingBoxContext(ctx, initialState),
@@ -117,7 +117,7 @@ export class MeshBoundingBoxContext extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, MeshBoundingBoxContext.defaults(), initialState)
+    defaults(initialState, MeshBoundingBoxContext.defaults())
     let computedBoundingBox = null
     super(ctx, initialState,
       new ContextComponent(ctx, {
@@ -138,7 +138,7 @@ export class MeshSizeContext extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, MeshSizeContext.defaults(), initialState)
+    defaults(initialState, MeshSizeContext.defaults())
     let computedSize = null
     super(ctx, initialState,
       new ContextComponent(ctx, {
@@ -173,7 +173,7 @@ export class MeshShader extends Shader {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, MeshShader.defaults(), initialState)
+    defaults(initialState, MeshShader.defaults())
     const {uniformName} = initialState
     super(ctx, {
       vertexShader: ({vertexShader}) => vertexShader || `
@@ -192,7 +192,7 @@ export class MeshUniforms extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, MeshUniforms.defaults(), initialState)
+    defaults(initialState, MeshUniforms.defaults())
     const {uniformName} = initialState
     initialState.prefix = `${uniformName}.`
     super(ctx, initialState,
@@ -231,7 +231,7 @@ export class MeshAttributes extends Component {
   }
 
   constructor(ctx, initialState) {
-    assign(initialState, MeshAttributes.defaults(), initialState)
+    defaults(initialState, MeshAttributes.defaults())
     const {geometry} = initialState
     const attributes = {}
     if (geometry) {
@@ -249,7 +249,7 @@ export class MeshState extends Component {
   }
 
   constructor(ctx, initialState) {
-    assign(initialState, MeshState.defaults(), initialState)
+    defaults(initialState, MeshState.defaults())
     const {geometry} = initialState
     const opts = {
       lineWidth(ctx, args) {

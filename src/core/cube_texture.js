@@ -1,6 +1,7 @@
 import { UniformsComponent } from './components/uniforms'
 import { ContextComponent } from './components/context'
-import { assign, get } from '../utils'
+import { get } from '../utils'
+import { defaults as setInitialState } from '../utils'
 import { Component } from './component'
 import window from 'global/window'
 
@@ -72,7 +73,7 @@ export class CubeTexture extends Component {
 
 export class CubeTextureDataContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, CubeTexture.defaults(), initialState)
+    setInitialState(initialState, CubeTexture.defaults())
     super(ctx, initialState,
       new ContextComponent(ctx, {
         cubeTextureData(ctx, args) {
@@ -90,7 +91,7 @@ export class CubeTextureDataContext extends Component {
 
 export class CubeTexturePointerContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, CubeTexture.defaults(), initialState)
+    setInitialState(initialState, CubeTexture.defaults())
     const cubeTexture = ctx.regl.cube({ ...initialState.texture })
     let faces = Array(6).fill(null)
     super(ctx, initialState,
@@ -123,7 +124,7 @@ export class CubeTexturePointerContext extends Component {
 
 export class CubeTextureContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, CubeTexture.defaults(), initialState)
+    setInitialState(initialState, CubeTexture.defaults())
     const {uniformName} = initialState
     super(ctx, initialState,
       new ContextComponent(ctx, {
@@ -138,7 +139,7 @@ export class CubeTextureContext extends Component {
 
 export class CubeTextureUniforms extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, CubeTexture.defaults(), initialState)
+    setInitialState(initialState, CubeTexture.defaults())
     const {uniformName} = initialState
     super(ctx, initialState,
       new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {

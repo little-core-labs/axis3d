@@ -1,6 +1,7 @@
 import { UniformsComponent } from './components/uniforms'
 import { ContextComponent } from './components/context'
-import { assign, get } from '../utils'
+import { get } from '../utils'
+import { defaults as setInitialState } from '../utils'
 import { Component } from './component'
 import window from 'global/window'
 
@@ -67,7 +68,7 @@ export class Texture extends Component {
 
 export class TextureDataContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Texture.defaults(), initialState)
+    setInitialState(initialState, Texture.defaults())
     super(ctx, initialState, new ContextComponent(ctx, {
       textureData(ctx, args) {
         const data = get('data', [args, ctx, initialState])
@@ -83,7 +84,7 @@ export class TextureDataContext extends Component {
 
 export class TexturePointerContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Texture.defaults(), initialState)
+    setInitialState(initialState, Texture.defaults())
     const texture = ctx.regl.texture({ ...initialState.texture })
     let previouslyUploadedData = null
     super(ctx, initialState, new ContextComponent(ctx, {
@@ -95,6 +96,7 @@ export class TexturePointerContext extends Component {
               previouslyUploadedData = textureData
             }
           } else if (isVideo(textureData) && isTextureDataReady(textureData)) {
+            texture({...initialState.texture, data: textureData})
           }
         }
         return texture
@@ -105,7 +107,7 @@ export class TexturePointerContext extends Component {
 
 export class TextureContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Texture.defaults(), initialState)
+    setInitialState(initialState, Texture.defaults())
     const {uniformName} = initialState
     super(ctx, initialState,
       new ContextComponent(ctx, {
@@ -119,7 +121,7 @@ export class TextureContext extends Component {
 
 export class TextureUniforms extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Texture.defaults(), initialState)
+    setInitialState(initialState, Texture.defaults())
     const {uniformName} = initialState
     super(ctx, initialState,
       new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {

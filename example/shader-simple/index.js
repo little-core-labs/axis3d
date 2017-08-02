@@ -30,6 +30,11 @@ const frame = new Frame(ctx)
 const stats = new Stats()
 const box = new Mesh(ctx, {geometry})
 
+const video = document.createElement('video')
+video.loop = true
+video.src = '/assets/squarevideo.mp4'
+video.play()
+
 const bk = new Image(); bk.src = 'assets/criminal-impact_bk.jpg'
 const dn = new Image(); dn.src = 'assets/criminal-impact_dn.jpg'
 const ft = new Image(); ft.src = 'assets/criminal-impact_ft.jpg'
@@ -55,7 +60,7 @@ const injectGlsl = new ContextComponent(ctx, {
         uniform Texture2D ${textureUniformName};
         `
       after += `
-          fragColor = mix(fragColor, texture2D(${textureUniformName}.data, data.uv), 0.25);
+          fragColor = mix(fragColor, texture2D(${textureUniformName}.data, data.uv), 1.0);
           //fragColor = texture2D(${textureUniformName}.data, data.uv);
         `
     }
@@ -70,7 +75,7 @@ const injectGlsl = new ContextComponent(ctx, {
         `
 
       after += `
-          fragColor = mix(fragColor, textureCube(${cubeTextureUniformName}.data, data.localPosition), 0.8);
+          fragColor = mix(fragColor, textureCube(${cubeTextureUniformName}.data, data.localPosition), 1.0);
           //fragColor = textureCube(${cubeTextureUniformName}.data, data.localPosition);
         `
     }
@@ -173,15 +178,15 @@ const rotation = quat.identity([])
 function scene({cancel, time}) {
   quat.setAxisAngle(rotation, [0, 1, 0], 0.5*time)
   camera({rotation, position: [2.5, 2.5, 2.5]}, () => {
-    texture({data: image}, () => {
-      cubeTexture({data: cubeTextureData},() => {
+    texture({data: video}, () => {
+      // cubeTexture({data: cubeTextureData},() => {
         injectGlsl(() => {
           fragmentShader(() => {
             vertexShader(({vertexShader, fragmentShader}) => {
               box({position: [0, 0, 0]}, () => {
                 //console.log(fragmentShader);
                 //cancel()
-              })
+              // })
             })
           })
         })

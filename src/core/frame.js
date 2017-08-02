@@ -1,5 +1,6 @@
 import { ContextComponent, UniformsComponent } from './components'
-import { assign, get } from '../utils'
+import { get } from '../utils'
+import { defaults as setInitialState } from '../utils'
 import { Component } from './component'
 
 export class Frame extends Component {
@@ -15,7 +16,7 @@ export class Frame extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, Frame.defaults(), initialState)
+    setInitialState(initialState, Frame.defaults())
     const getContext = ctx.regl({})
     const uniforms = new FrameUniforms(ctx, initialState)
     const context = new FrameContext(ctx, initialState)
@@ -80,7 +81,7 @@ export class Frame extends Component {
 
 export class FrameContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Frame.defaults(), initialState)
+    setInitialState(initialState, Frame.defaults())
     super(ctx, initialState,
       new ContextComponent(ctx, {
         // props
@@ -124,7 +125,7 @@ export class FrameContext extends Component {
 
 export class FrameUniforms extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Frame.defaults(), initialState)
+    setInitialState(initialState, Frame.defaults())
     super(ctx, initialState,
       new UniformsComponent(ctx, {
         time: ({time}) => time,
@@ -136,7 +137,7 @@ export class FrameUniforms extends Component {
 
 export class FrameState extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Frame.defaults(), initialState)
+    setInitialState(initialState, Frame.defaults())
     super(ctx,
       ctx.regl({
         depth: { ...initialState.depth },

@@ -1,5 +1,5 @@
 import { DynamicValue } from './dynamic'
-import { assign } from '../../utils'
+import { defaults } from '../../utils'
 
 const shaderAttributesCounter = DynamicValue.createCounter()
 
@@ -17,7 +17,7 @@ export class ShaderAttributes extends DynamicValue {
   static getContextUniformCount(ctx) {
     const counter = ShaderAttributes.counter()
     const list = counter.listSetForContext(ctx)
-    const attributes = list.reduce((a, b) => assign(a, b), {})
+    const attributes = list.reduce((a, b) => Object.assign(a, b), {})
     const sum = Object.keys(attributes).length
     return sum
   }

@@ -1,7 +1,7 @@
 import { DynamicValue } from './gl'
 import { Component } from './component'
 import * as libglsl from './glsl'
-import { assign } from '../utils'
+import { defaults as setInitialState } from '../utils'
 
 import { dirname, extname, resolve } from 'path'
 import glslTokensToDefines from 'glsl-token-defines'
@@ -38,7 +38,7 @@ export class Shader extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, Shader.defaults(), initialState)
+    setInitialState(initialState, Shader.defaults())
     const { defines, precision, shaderName } = initialState
     const shaderLib = new ShaderLib({ ...initialState, precision, defines })
 
@@ -57,7 +57,7 @@ export class Shader extends Component {
     function update(state, block, previousState) {
       injectParentContext((reglContext) => {
         let {forceCompile = false} = state
-        assign(defines, { ...reglContext.defines, ...state.defines })
+        Object.assign(defines, { ...reglContext.defines, ...state.defines })
 
         if (Object.keys(defines).length) {
           if (shaderLib.preprocessor.define(defines)) {

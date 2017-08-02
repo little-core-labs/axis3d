@@ -1,5 +1,6 @@
 import { ContextComponent } from './components/context'
-import { assign, get } from '../utils'
+import { get } from '../utils'
+import { defaults as setInitialState } from '../utils'
 import { Component } from './component'
 import mat4 from 'gl-mat4'
 
@@ -16,7 +17,7 @@ export class Object3D extends Component {
   }
 
   constructor(ctx, initialState = {}) {
-    assign(initialState, Object3D.defaults(), initialState)
+    setInitialState(initialState, Object3D.defaults())
     super(ctx, initialState,
       new Object3DContext(ctx, initialState),
       new Object3DMatrixContext(ctx, initialState),
@@ -26,7 +27,7 @@ export class Object3D extends Component {
 
 export class Object3DContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Object3D.defaults(), initialState)
+    setInitialState(initialState, Object3D.defaults())
     super(ctx, initialState, new ContextComponent(ctx, {
       scale(ctx, args) {
         const scale = get('scale', [args, initialState, ctx])
@@ -47,7 +48,7 @@ export class Object3DContext extends Component {
 
 export class Object3DMatrixContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Object3D.defaults(), initialState)
+    setInitialState(initialState, Object3D.defaults())
     super(ctx, initialState, new ContextComponent(ctx, {
       matrix(ctx, args) {
         const matrix = mat4.identity([])
@@ -65,7 +66,7 @@ export class Object3DMatrixContext extends Component {
 
 export class Object3DTransformContext extends Component {
   constructor(ctx, initialState = {}) {
-    assign(initialState, Object3D.defaults(), initialState)
+    setInitialState(initialState, Object3D.defaults())
     super(ctx, initialState, new ContextComponent(ctx, {
       transform(ctx, args) {
         const {matrix: local, transform: parent} = ctx
