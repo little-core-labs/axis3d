@@ -14,12 +14,6 @@ export const debug = createDebug(`[axis@${kLibraryVersion}]`)
 export const radians = (n) => n == n ? (n*Math.PI/180.0) : 0
 export const lerp = (v0, v1, t) => v0*(1 - t) + v1*t
 
-// only used in src/core/camera.js
-// TODO: remove and make `defaults` work in /camera.js
-export const assign = (a, ...args) => {
-  return Object.assign(a, ...args)
-}
-
 export const defaults = (object, defaults) => {
   for (const key in defaults) {
     if (undefined === object[key]) {
