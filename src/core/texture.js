@@ -77,6 +77,14 @@ export class TextureDataContext extends Component {
           if (w && h) { return data }
         }
         return null
+      },
+      envTextureData(ctx, args) {
+        const data = get('data', [args, ctx, initialState])
+        if (data && isTextureDataReady(data)) {
+          const [w, h] = getTextureDataResolution(data)
+          if (w && h) { return data }
+        }
+        return null
       }
     }))
   }
@@ -100,6 +108,19 @@ export class TexturePointerContext extends Component {
           }
         }
         return texture
+      },
+      envTexturePointer({envTextureData}) {
+        if (envTextureData){
+          if (isImage(envTextureData)) {
+            if (envTextureData != previouslyUploadedData) {
+              texture({...initialState.texture, data: envTextureData})
+              previouslyUploadedData = envTextureData
+            }
+          } else if (isVideo(envTextureData) && isTextureDataReady(envTextureData)) {
+            texture({...initialState.texture, data: envTextureData})
+          }
+        }
+        return texture
       }
     }))
   }
@@ -108,12 +129,18 @@ export class TexturePointerContext extends Component {
 export class TextureContext extends Component {
   constructor(ctx, initialState = {}) {
     setInitialState(initialState, Texture.defaults())
-    const {uniformName} = initialState
+    const {uniformName,
+      envmap,
+      map} = initialState
     super(ctx, initialState,
       new ContextComponent(ctx, {
-        textureUniformName() { return uniformName },
+        textureUniformName() { if (map) { return 'map' } },
         textureResolution({textureData}) {
           return getTextureDataResolution(textureData)
+        },
+        envTextureUniformName() { if (envmap) { return 'env' } },
+        envTextureResolution({envTextureData}) {
+          return getTextureDataResolution(envTextureData)
         }
       }))
   }
@@ -125,8 +152,10 @@ export class TextureUniforms extends Component {
     const {uniformName} = initialState
     super(ctx, initialState,
       new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {
-        resolution({textureResolution}) { return textureResolution },
-        data({texturePointer}) { return texturePointer },
+        resolution({textureResolution, envTextureResolution = tResolution}) {
+          debugger
+          return tResolution },
+        data({texturePointer, envTexturePointer = tPointer}) { return tPointer },
       })
     )
   }

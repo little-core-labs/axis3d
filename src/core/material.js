@@ -125,6 +125,42 @@ export class MaterialState extends Component {
 export class MaterialContext extends Component {
   constructor(ctx, initialState = {}) {
     setInitialState(initialState, Material.defaults())
+
+
+    const injectMapContext = ctx.regl({
+      context: {
+        mapTexure: ({texture}) => texture,
+        mapTextureResolution: ({textureResolution}) => textureResolution,
+      }
+    })
+
+    const injectEnvmapContext = ctx.regl({
+      context: {
+        envmapTexture: ({texture}) => texture,
+        envmapTextureResolution: ({textureResolution}) => textureResolution,
+      }
+    })
+
+    const envmap = initialState.envmap
+    const map = initialState.map
+
+    injectEnvmap(() => {
+      injectMap(() => {
+        // injectContext(state, block)
+      })
+    })
+
+    function injectEnvmap(next) {
+      if ('function' != typeof envmap) { next() }
+      else { envmap(() => { injectEnvmapContext(next) }) }
+    }
+
+    function injectMap(next) {
+      if ('function' != typeof map) { next() }
+      else { map(() => { injectMapContext(next) }) }
+    }
+
+
     super(ctx, initialState, new ContextComponent(ctx, {
       color: (ctx, args) => get('color', [args, initialState]),
       opacity: (ctx, args) => get('opacity', [args, initialState]),
