@@ -69,24 +69,30 @@ export class Texture extends Component {
 export class TextureDataContext extends Component {
   constructor(ctx, initialState = {}) {
     setInitialState(initialState, Texture.defaults())
-    super(ctx, initialState, new ContextComponent(ctx, {
-      textureData(ctx, args) {
-        const data = get('data', [args, ctx, initialState])
-        if (data && isTextureDataReady(data)) {
-          const [w, h] = getTextureDataResolution(data)
-          if (w && h) { return data }
+    debugger
+    if (initialState.map) {
+      super(ctx, initialState, new ContextComponent(ctx, {
+        textureData(ctx, args) {
+          const data = get('data', [args, ctx, initialState])
+          if (data && isTextureDataReady(data)) {
+            const [w, h] = getTextureDataResolution(data)
+            if (w && h) { return data }
+          }
+          return null
         }
-        return null
-      },
-      envTextureData(ctx, args) {
-        const data = get('data', [args, ctx, initialState])
-        if (data && isTextureDataReady(data)) {
-          const [w, h] = getTextureDataResolution(data)
-          if (w && h) { return data }
+      }))
+    } else {
+      super(ctx, initialState, new ContextComponent(ctx, {
+        envTextureData(ctx, args) {
+          const data = get('data', [args, ctx, initialState])
+          if (data && isTextureDataReady(data)) {
+            const [w, h] = getTextureDataResolution(data)
+            if (w && h) { return data }
+          }
+          return null
         }
-        return null
-      }
-    }))
+      }))
+    }
   }
 }
 
@@ -152,10 +158,22 @@ export class TextureUniforms extends Component {
     const {uniformName} = initialState
     super(ctx, initialState,
       new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {
-        resolution({textureResolution, envTextureResolution = tResolution}) {
+        resolution({textureResolution, envTextureResolution = textureResolution}) {
           debugger
-          return tResolution },
-        data({texturePointer, envTexturePointer = tPointer}) { return tPointer },
+          if ('map' == uniformName) {
+            return textureResolution
+          } else {
+            return envTextureResolution
+          }
+        },
+        data({texturePointer, envTexturePointer = texturePointer}) {
+          debugger
+          if ('map' == uniformName) {
+            return texturePointer
+          } else {
+            return envTexturePointer
+          }
+        }
       })
     )
   }
