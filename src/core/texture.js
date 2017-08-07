@@ -69,7 +69,6 @@ export class Texture extends Component {
 export class TextureDataContext extends Component {
   constructor(ctx, initialState = {}) {
     setInitialState(initialState, Texture.defaults())
-    debugger
     if (initialState.map) {
       super(ctx, initialState, new ContextComponent(ctx, {
         textureData(ctx, args) {
@@ -101,34 +100,39 @@ export class TexturePointerContext extends Component {
     setInitialState(initialState, Texture.defaults())
     const texture = ctx.regl.texture({ ...initialState.texture })
     let previouslyUploadedData = null
-    super(ctx, initialState, new ContextComponent(ctx, {
-      texturePointer({textureData}) {
-        if (textureData){
-          if (isImage(textureData)) {
-            if (textureData != previouslyUploadedData) {
+    if (initialState.map) {
+      super(ctx, initialState, new ContextComponent(ctx, {
+        texturePointer({textureData}) {
+          if (textureData){
+            if (isImage(textureData)) {
+              if (textureData != previouslyUploadedData) {
+                texture({...initialState.texture, data: textureData})
+                previouslyUploadedData = textureData
+              }
+            } else if (isVideo(textureData) && isTextureDataReady(textureData)) {
               texture({...initialState.texture, data: textureData})
-              previouslyUploadedData = textureData
             }
-          } else if (isVideo(textureData) && isTextureDataReady(textureData)) {
-            texture({...initialState.texture, data: textureData})
           }
+          return texture
         }
-        return texture
-      },
-      envTexturePointer({envTextureData}) {
-        if (envTextureData){
-          if (isImage(envTextureData)) {
-            if (envTextureData != previouslyUploadedData) {
+      }))
+    } else {
+      super(ctx, initialState, new ContextComponent(ctx, {
+        envTexturePointer({envTextureData}) {
+          if (envTextureData){
+            if (isImage(envTextureData)) {
+              if (envTextureData != previouslyUploadedData) {
+                texture({...initialState.texture, data: envTextureData})
+                previouslyUploadedData = envTextureData
+              }
+            } else if (isVideo(envTextureData) && isTextureDataReady(envTextureData)) {
               texture({...initialState.texture, data: envTextureData})
-              previouslyUploadedData = envTextureData
             }
-          } else if (isVideo(envTextureData) && isTextureDataReady(envTextureData)) {
-            texture({...initialState.texture, data: envTextureData})
           }
+          return texture
         }
-        return texture
-      }
-    }))
+      }))
+    }
   }
 }
 
@@ -159,7 +163,6 @@ export class TextureUniforms extends Component {
     super(ctx, initialState,
       new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {
         resolution({textureResolution, envTextureResolution = textureResolution}) {
-          debugger
           if ('map' == uniformName) {
             return textureResolution
           } else {
@@ -167,7 +170,6 @@ export class TextureUniforms extends Component {
           }
         },
         data({texturePointer, envTexturePointer = texturePointer}) {
-          debugger
           if ('map' == uniformName) {
             return texturePointer
           } else {
