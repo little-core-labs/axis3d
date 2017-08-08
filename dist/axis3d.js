@@ -10076,7 +10076,11 @@ function _toConsumableArray(arr) {
   }
 }
 
+<<<<<<< HEAD
 var kLibraryVersion = '0.3.1';
+=======
+var kLibraryVersion = '0.3.0';
+>>>>>>> Release 0.3.0
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
