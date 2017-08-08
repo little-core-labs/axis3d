@@ -37,12 +37,12 @@ YARN_OR_NPM := $(shell which yarn npm | head -1)
 BROWSERIFY_FLAGS += -t babelify
 
 BROWSERIFY_FLAGS_DIST += -t rollupify
-BROWSERIFY_FLAGS_DIST += -t babelify
+BROWSERIFY_FLAGS_DIST += -g babelify
 BROWSERIFY_FLAGS_DIST += -s $(PROJECT_NAME)
 
-BROWSERIFY_FLAGS_DIST_MIN += -t rollupify
-BROWSERIFY_FLAGS_DIST_MIN += -t babelify
-BROWSERIFY_FLAGS_DIST_MIN += -g uglifyify
+BROWSERIFY_FLAGS_DIST_MIN += -g rollupify
+BROWSERIFY_FLAGS_DIST_MIN += -g babelify
+BROWSERIFY_FLAGS_DIST_MIN += -t uglifyify
 BROWSERIFY_FLAGS_DIST_MIN += -s $(PROJECT_NAME)
 
 ifeq ($(YARN_OR_NPM),)
@@ -67,6 +67,7 @@ lib: $(SRC) | node_modules README.md
 	cp README.md $@
 
 dist: dist/$(PROJECT_NAME).js dist/$(PROJECT_NAME).min.js
+
 dist/$(PROJECT_NAME).js: node_modules lib
 	$(BUILD_PARENT_DIRECTORY)
 	$(BROWSERIFY) $(BROWSERIFY_FLAGS_DIST) $(LIB_MAIN) \
