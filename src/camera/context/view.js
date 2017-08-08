@@ -17,6 +17,8 @@ export class CameraViewContext extends Component {
     super(ctx, initialState,
       new ScopedContext(ctx, {
         view(ctx, args) {
+          const view = get('view', [ctx, args])
+          if (view) { return view }
           const matrix = mat4.identity([])
           const position = get('position', [ctx, args])
           const rotation = get('rotation', [ctx, args])

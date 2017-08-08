@@ -25,7 +25,7 @@ export class Component extends Command {
         const component = list.shift()
         if ('function' == typeof component) {
           if (list.length) { component(state, () => walk(list)) }
-          else { component(state, block) }
+          else if (block != component) { component(state, block) }
         } else { walk(list) }
       }
     }
@@ -50,7 +50,7 @@ export class Component extends Command {
       } else {
         state = { ...initialState, ...state }
       }
-      entity(state, ({}, args, batchID) => {
+      entity(state, ({}, args) => {
         children(args, block)
       })
     })

@@ -18,6 +18,8 @@ export class PerspectiveCameraViewContext extends Component {
     super(ctx, initialState,
       new ScopedContext(ctx, {
         view(ctx, args) {
+          const view = get('view', [ctx, args])
+          if (view) { return view }
           const matrix = mat4.identity([])
           const center = [0, 0, 0]
           const direction = get('direction', [ctx, args])

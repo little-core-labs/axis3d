@@ -9,7 +9,7 @@ export class Camera extends Component {
   constructor(ctx, initialState = {}) {
     assignDefaults(initialState, Camera.defaults())
     super(ctx, initialState,
-      new Object3D(ctx, initialState),
+      new Object3D(ctx),
       new CameraContext(ctx, initialState),
     )
   }
