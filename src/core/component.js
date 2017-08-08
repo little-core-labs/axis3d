@@ -1,6 +1,5 @@
 import { Command } from './command'
 import { Entity } from './entity'
-import { assign } from '../utils'
 
 /**
  * A Component is a commandthat composes one or more components and functions
@@ -40,7 +39,6 @@ export class Component extends Command {
       children = initialState
       initialState = {}
     }
-    assign(initialState, Component.defaults(), initialState)
     children = Component.compose(children)
     const entity = new Entity(ctx, initialState)
     super((state, block) => {

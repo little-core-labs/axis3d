@@ -18,7 +18,9 @@ export class Context extends EventEmitter {
     opts.regl = coalesce(opts.regl, opts.gl || {})
 
     // derive container element
-    if (opts.element && 'CANVAS' == opts.element.nodeName) {
+    if (opts.canvas && 'object' == typeof opts.canvas) {
+      opts.regl.canvas = opts.canvas
+    } else if (opts.element && 'CANVAS' == opts.element.nodeName) {
       opts.regl.canvas = opts.element
     } else if (opts.element && opts.element.nodeName) {
       opts.regl.container = opts.element

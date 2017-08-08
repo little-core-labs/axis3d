@@ -1,23 +1,22 @@
-import { DynamicValueCounter, DynamicValue } from './dynamic'
-import { assign } from '../../utils'
+import { DynamicValue } from '../dynamic'
 
 const shaderUniformsCounter = DynamicValue.createCounter()
 
-export class ShaderUniforms extends DynamicValue {
+export class WebGLShaderUniforms extends DynamicValue {
   static counter() { return shaderUniformsCounter }
   static getTotalUniformCount() {
-    const counter = ShaderUniforms.counter()
+    const counter = WebGLShaderUniforms.counter()
     const list = counter.list()
     const sum = list
-      .map((ctx) => ShaderUniforms.getContextUniformCount(ctx))
+      .map((ctx) => WebGLShaderUniforms.getContextUniformCount(ctx))
       .reduce((a, b) => a + b, 0)
     return sum
   }
 
   static getContextUniformCount(ctx) {
-    const counter = ShaderUniforms.counter()
+    const counter = WebGLShaderUniforms.counter()
     const list = counter.listSetForContext(ctx)
-    const uniforms = list.reduce((a, b) => assign(a, b), {})
+    const uniforms = list.reduce((a, b) => Object.assign(a, b), {})
     const sum = Object.keys(uniforms).length
     return sum
   }

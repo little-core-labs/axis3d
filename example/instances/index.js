@@ -1,5 +1,5 @@
 import {
-  InstancedAttributesComponent,
+  ShaderInstancedAttributes,
   PerspectiveCamera,
   Geometry,
   Material,
@@ -20,7 +20,7 @@ for (const p of Bunny.positions) {
   p[1] = p[1] - 4
 }
 
-const N = 100
+const N = 10
 
 const ctx = new Context()
 const camera = new PerspectiveCamera(ctx)
@@ -61,7 +61,7 @@ const material = new Material(ctx, {
   `
 })
 
-const attributes = new InstancedAttributesComponent(ctx, {
+const attributes = new ShaderInstancedAttributes(ctx, {
   offset: Array(N*N).fill().map((_, i) => {
     const x = -1 + 2 * Math.floor(i / N) / N + 0.1
     const y = -1 + 2 * (i % N) / N + 0.1
@@ -92,7 +92,7 @@ function scene({time}) {
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, () => {
     attributes(() => {
-      material(() => {
+      material(({vertexShader, fragmentShader}) => {
         bunny()
       })
     })

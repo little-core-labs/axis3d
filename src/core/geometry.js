@@ -1,6 +1,4 @@
 import getBoundingBox from 'bound-points'
-import { assign } from '../utils'
-import Wireframe from 'screen-projected-lines'
 import coalesce from 'defined'
 import reindex from 'mesh-reindex'
 import unindex from 'unindex-mesh'
@@ -28,7 +26,7 @@ export class Geometry {
             flattened.cells,
             flattened.positions)
         } catch (e) { console.warn("Unable to compute vertex normals.") }
-        assign(complex, flattened)
+        Object.assign(complex, flattened)
       }
 
       if (null == complex.normals && complex.positions && complex.cells) {
@@ -40,7 +38,7 @@ export class Geometry {
       }
     }
 
-    assign(this._complex, complex)
+    Object.assign(this._complex, complex)
     return complex
   }
 

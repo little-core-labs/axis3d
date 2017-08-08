@@ -178,10 +178,7 @@ function scene({cancel, time}) {
         injectGlsl(() => {
           fragmentShader(() => {
             vertexShader(({vertexShader, fragmentShader}) => {
-              box({position: [0, 0, 0]}, () => {
-                //console.log(fragmentShader);
-                //cancel()
-              })
+              box()
             })
           })
         })
@@ -189,17 +186,3 @@ function scene({cancel, time}) {
     })
   })
 }
-
-/**
-function scene({cancel}) {
-  camera({position: [5, 5, -5]}, () => {
-    fragmentShader(() => {
-      vertexShader(({vertexShader, fragmentShader}) => {
-        box(() => {
-          cancel()
-        })
-      })
-    })
-  })
-}
-*/

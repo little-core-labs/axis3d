@@ -1,23 +1,22 @@
-import { DynamicValue } from './dynamic'
-import { assign } from '../../utils'
+import { DynamicValue } from '../dynamic'
 
 const shaderAttributesCounter = DynamicValue.createCounter()
 
-export class ShaderAttributes extends DynamicValue {
+export class WebGLShaderAttributes extends DynamicValue {
   static counter() { return shaderAttributesCounter }
   static getTotalUniformCount() {
-    const counter = ShaderAttributes.counter()
+    const counter = WebGLShaderAttributes.counter()
     const list = counter.list()
     const sum = list
-      .map((ctx) => ShaderAttributes.getContextUniformCount(ctx))
+      .map((ctx) => WebGLShaderAttributes.getContextUniformCount(ctx))
       .reduce((a, b) => a + b, 0)
     return sum
   }
 
   static getContextUniformCount(ctx) {
-    const counter = ShaderAttributes.counter()
+    const counter = WebGLShaderAttributes.counter()
     const list = counter.listSetForContext(ctx)
-    const attributes = list.reduce((a, b) => assign(a, b), {})
+    const attributes = list.reduce((a, b) => Object.assign(a, b), {})
     const sum = Object.keys(attributes).length
     return sum
   }
@@ -35,7 +34,7 @@ export class ShaderAttributes extends DynamicValue {
   }
 }
 
-export class InstancedShaderAttributes extends ShaderAttributes {
+export class WebGLShaderInstancedAttributes extends WebGLShaderAttributes {
   constructor(ctx, initialState = {}, props) {
     if (null == props && 'object' == typeof initialState) {
       props = initialState

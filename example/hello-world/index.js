@@ -4,7 +4,6 @@ import {
   Material,
   Command,
   Context,
-  Color,
   Frame,
   Mesh,
 } from '../../src'
@@ -33,7 +32,7 @@ const bunny = new Mesh(ctx, {geometry: new Geometry({complex: Bunny}) })
 const rotation = quat.identity([])
 const position = [25, 25, 25]
 const angle = quat.identity([])
-const color = new Color('blue')
+const color = [0, 0, 1]
 const stats = new Stats()
 
 ctx.on('error', (err) => console.error(err.stack || err))
@@ -48,7 +47,7 @@ function scene({time, cancel, cancelAll}) {
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, () => {
     material({color}, () => {
-      box({wireframe: true, scale: 1}, ({size}) => {
+      box({scale: 1, wireframe: true}, ({size}) => {
         const [x, y, z] = size
         bunny([{position: [0, 0, 0,]},
                {position: [0.5*x, 0.5*y, 0.5*z]},

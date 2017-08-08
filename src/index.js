@@ -1,10 +1,9 @@
-'use strict'
-
-/**
- * Module exports.
- */
-
-export * from './geometry'
-export * from './cameras'
-export * from './math'
+export * from './camera'
 export * from './core'
+export * from './frame'
+export * from './material'
+export * from './mesh'
+export * from './object3d'
+export * from './shader'
+export * from './texture'
+export * from './scope'
