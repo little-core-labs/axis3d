@@ -1,4 +1,1 @@
-'use strict'
-
-require('./core')
-require('./geometry')
+/** @TODO test! */

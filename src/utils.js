@@ -2,7 +2,6 @@ import createDebug from 'debug'
 import document from 'global/document'
 import window from 'global/window'
 import clamp from 'clamp'
-import clone from 'clone'
 
 const kLibraryVersion = __AXIS3D_VERSION__
 const TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor

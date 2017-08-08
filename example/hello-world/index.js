@@ -2,15 +2,12 @@ import {
   PerspectiveCamera,
   Geometry,
   Material,
-  Command,
   Context,
   Frame,
   Mesh,
 } from '../../src'
 
-import { InstancedAttributesComponent } from '../../src'
-
-import { BoxGeometry } from 'axis3d-geometry'
+import PrimitiveCube from 'primitive-cube'
 
 import ready from 'domready'
 import Bunny from 'bunny'
@@ -26,7 +23,7 @@ const material = new Material(ctx)
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
 
-const box = new Mesh(ctx, {geometry: new BoxGeometry({x: 20, y: 20, z: 20})})
+const box = new Mesh(ctx, {geometry: new Geometry({complex: PrimitiveCube(20, 20, 20)})})
 const bunny = new Mesh(ctx, {geometry: new Geometry({complex: Bunny}) })
 
 const rotation = quat.identity([])
