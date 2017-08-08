@@ -1,0 +1,8 @@
+#ifndef GLSL_VERTEX_ATTRIBUTES_NORMAL
+#define GLSL_VERTEX_ATTRIBUTES_NORMAL
+
+#include "./variables"
+
+attribute vec3 GLSL_VERTEX_ATTRIBUTES_NORMAL_VARIABLE;
+
+#endif

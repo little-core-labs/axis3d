@@ -1,0 +1,9 @@
+#ifndef GLSL_VARYING_NORMAL
+#define GLSL_VARYING_NORMAL
+
+#include "./variables"
+
+varying vec3 GLSL_VARYING_LOCAL_NORMAL_VARIABLE;
+varying vec3 GLSL_VARYING_NORMAL_VARIABLE;
+
+#endif

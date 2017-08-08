@@ -4,7 +4,8 @@ Axis3D
 *Axis3D* is a lightweight functional graphics library built on top of
 [regl][regl]. It aims to be compatible with many components within the
 [stack.gl](http://stack.gl) ecosystem. It provides a set of components
-with sane defaults.
+with sane defaults. It is not intended to replace existing libraries,
+but instead provide an alternative way for rendering graphics.
 
 This library is heavily inspired by the underlying mechanics of [regl][regl]
 and the functional/reactive component patterns introduced in
@@ -20,36 +21,25 @@ with less features.
 
 ## Status
 
-***Stable*** - *This project is in active development*
+***Stable*** - *This project is in active development towards _1.0.0_*
 
 ## Installation
 
-See the [Installation Documentation](doc/install.md) for more
-information on how to install Axis3D into your project.
+```js
+$ npm install axis3d
+```
 
 ## Features
 
-* Everything is a function
+* Everything is a function with predictable output based on some input
+* Large focus on shaders with a [standard GLSL library](src/core/glsl)
 * Reusable components
-* Geometries with support for [simplicial-complex][simplicial-complex] modules (see: [bunny][bunny])
-* Basic materials implementing common shading models
-  * Flat
-  * Lambert
-  * Blinn-Phong
-* Basic lighting components
-  * Ambient
-  * Directional
-  * Point
+* Geometry with support for [simplicial-complex][simplicial-complex] modules (see: [bunny][bunny])
 * Declarative scene
-  * Implicit transforms
+  * Implicit [TRS transform matrix][transformation-matrix]
 * [regl][regl] compatibility
   * Command based (see: [regl-commands][regl-commands])
   * Context injection
-* Common input providers
-  * Keyboard
-  * Mouse
-  * Device orientation
-  * WebVR
 
 ## Example
 
@@ -58,39 +48,92 @@ green box to the screen. A `canvas` is created with a `webgl` context and
 automatically appended to the `body` DOM element.
 
 ```js
-'use strict'
-import {
-  PerspectiveCamera,
-  FlatMaterial,
-  BoxGeometry,
-  Context,
-  Color,
-  Frame,
-  Mesh,
-} from 'axis3d'
-
+import { Geometry, Material, Context, Frame, Mesh } from 'axis3d'
+import { PerspectiveCamera } from 'axis3d/camera'
+import Bunny from 'bunny'
 import quat from 'gl-quat'
 
-const ctx = Context()
+// scale vertices along the `y-axis` down a bit
+for (const p of Bunny.positions) { p[1] = p[1] - 4 }
 
-const material = FlatMaterial(ctx)
-const camera = PerspectiveCamera(ctx, {position: [0, 0, 2]})
-const frame = Frame(ctx)
-const box = Mesh(ctx, { geometry: BoxGeometry() })
+const ctx = new Context()
+const rotation = quat.identity([])
+const material = new Material(ctx)
+const camera = new PerspectiveCamera(ctx)
+const frame = new Frame(ctx)
+const bunny = new Mesh(ctx, {geometry: new Geometry({complex: Bunny})})
 
-const rotation = [0, 0, 0, 1]
-const angle = [0, 0, 0, 1]
-const color = Color('green') // [0, 1, 0, 1]
+// requestAnimationFrame loop helper with context injection
+frame(scene)
+
+// the scene drawn every frame
+function scene({time}) {
+  quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
+  camera({rotation, position: [0, 0, 5]}() => {
+    material(() => {
+      bunny()
+    })
+  })
+}
+```
+
+## Comparisons
+
+The following are comparisons for effectively doing the same thing in Axis3D
+below.
+
+### Axis3D
+
+```js
+import { PerspectiveCamera, Context, Material, Frame, Mesh, } from 'axis3d'
+import { BoxGeometry } from 'axis3d-geometry'
+import quat from 'gl-quat'
+
+const ctx = new Context()
+
+const rotation = quat.identity([])
+const geometry = new BoxGeometry({x: 10, y: 10, z: 10})
+const material = new Material(ctx)
+const camera = new PerspectiveCamera(ctx, {fov: 60, near: 0.1, far: 1000})
+const frame = new Frame(ctx)
+const mesh = new Mesh(ctx, {geometry})
 
 frame(({time}) => {
-  quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
-  quat.slerp(rotation, rotation, angle, 0.01)
-  camera({rotation}, () => {
-    material({color}, () => {
-      box({wireframe: true})
+  quat.setAxisAngle(rotation, [0, 1, 0], 0.5*time)
+  camera({position: [0, 0, 5]}, () => {
+    material({color: [0, 0, 1]}, () => {
+      mesh({rotation})
     })
   })
 })
+```
+
+### THREE
+
+```js
+const aspect = window.innerWidth/window.innerHeight
+const near = 0.1
+const far = 1000
+const fov = 60
+
+const renderer = new THREE.WebGLRenderer()
+const geometry = new THREE.BoxGeometry(10, 10, 10)
+const material = new THREE.MeshBasicMaterial({color: 0x0000ff, wireframe: true})
+const camera = new THREE.PerspectiveCamera(fov, aspect, near, faar)
+const scene = new THREE.Scene()
+const mesh = new THREE.Mesh(geometry, material)
+
+camera.position.z = 5
+renderer.setSize(window.innerWidth, window.innerHeight)
+scene.add(mesh)
+document.body.appendChild(renderer.domElement)
+
+frame()
+function frame() {
+  requestAnimationFrame(frame)
+  mesh.rotation.y = 0.5*Date.now()
+  renderer.render(scene, camera)
+}
 ```
 
 ## Contributors
@@ -100,9 +143,7 @@ frame(({time}) => {
 
 ## Docs
 
-* [Documentation](doc/index.md) (TBA)
-* [Axis3D Hello World](doc/hello-world.md)
-* [Getting Started With Axis3D](doc/getting-started.md)
+TBD
 
 ## See Also
 
@@ -115,8 +156,6 @@ frame(({time}) => {
 
 MIT
 
-
-
 [regl]: https://github.com/regl-project/regl
 [bunny]: https://github.com/mikolalysenko/bunny
 [stackgl]: https://github.com/stackgl
@@ -124,3 +163,4 @@ MIT
 [regl-context]: https://github.com/regl-project/regl/blob/gh-pages/API.md#context
 [regl-commands]: https://github.com/regl-project/regl/blob/gh-pages/API.md#commands
 [simplicial-complex]: https://github.com/mikolalysenko/simplicial-complex
+[transformation-matrix]: https://en.wikipedia.org/wiki/Transformation_matrix
