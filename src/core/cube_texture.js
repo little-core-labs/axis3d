@@ -74,18 +74,33 @@ export class CubeTexture extends Component {
 export class CubeTextureDataContext extends Component {
   constructor(ctx, initialState = {}) {
     setInitialState(initialState, CubeTexture.defaults())
-    super(ctx, initialState,
-      new ContextComponent(ctx, {
-        cubeTextureData(ctx, args) {
-          const data = get('data', [args, ctx, initialState])
-          if (data && Array.isArray(data) && data.some(isCubeTextureDataReady)) {
-            const [w, h] = getCubeTextureDataResolution(data)
-            if (w && h) { return [ ...data ] }
+    if (initialState.map) {
+      super(ctx, initialState,
+        new ContextComponent(ctx, {
+          cubeTextureData(ctx, args) {
+            const data = get('data', [args, ctx, initialState])
+            if (data && Array.isArray(data) && data.some(isCubeTextureDataReady)) {
+              const [w, h] = getCubeTextureDataResolution(data)
+              if (w && h) { return [ ...data ] }
+            }
+            return null
           }
-          return null
-        }
-      })
-    )
+        })
+      )
+    } else {
+      super(ctx, initialState,
+        new ContextComponent(ctx, {
+          envCubeTextureData(ctx, args) {
+            const data = get('data', [args, ctx, initialState])
+            if (data && Array.isArray(data) && data.some(isCubeTextureDataReady)) {
+              const [w, h] = getCubeTextureDataResolution(data)
+              if (w && h) { return [ ...data ] }
+            }
+            return null
+          }
+        })
+      )
+    }
   }
 }
 
@@ -94,43 +109,81 @@ export class CubeTexturePointerContext extends Component {
     setInitialState(initialState, CubeTexture.defaults())
     const cubeTexture = ctx.regl.cube({ ...initialState.texture })
     let faces = Array(6).fill(null)
-    super(ctx, initialState,
-      new ContextComponent(ctx, {
-        cubeTexturePointer({cubeTextureData}) {
-          let needsUpload = false
-          if (Array.isArray(cubeTextureData)) {
-            for (let i = 0 ; i < faces.length; ++i) {
-              if (faces[i] != cubeTextureData[i]) {
-                if (isCubeTextureDataReady(cubeTextureData[[i]])) {
-                  faces[i] = cubeTextureData[i]
-                  needsUpload = true
+    if (initialState.map) {
+      super(ctx, initialState,
+        new ContextComponent(ctx, {
+          cubeTexturePointer({cubeTextureData}) {
+            let needsUpload = false
+            if (Array.isArray(cubeTextureData)) {
+              for (let i = 0 ; i < faces.length; ++i) {
+                if (faces[i] != cubeTextureData[i]) {
+                  if (isCubeTextureDataReady(cubeTextureData[[i]])) {
+                    faces[i] = cubeTextureData[i]
+                    needsUpload = true
+                  }
                 }
               }
             }
-          }
-          const resolution = getCubeTextureDataResolution(faces)
-          for (let i = 0; i < faces.length; ++i) {
-            if (null == faces[i] || !isCubeTextureDataReady(faces[i])) {
-              faces[i] = {shape: resolution}
+            const resolution = getCubeTextureDataResolution(faces)
+            for (let i = 0; i < faces.length; ++i) {
+              if (null == faces[i] || !isCubeTextureDataReady(faces[i])) {
+                faces[i] = {shape: resolution}
+              }
             }
+            if (needsUpload) { cubeTexture(...faces) }
+            return cubeTexture
           }
-          if (needsUpload) { cubeTexture(...faces) }
-          return cubeTexture
-        }
-      })
-    )
+        })
+      )
+
+    } else {
+
+      super(ctx, initialState,
+        new ContextComponent(ctx, {
+          envCubeTexturePointer({cubeTextureData}) {
+            let needsUpload = false
+            if (Array.isArray(cubeTextureData)) {
+              for (let i = 0 ; i < faces.length; ++i) {
+                if (faces[i] != cubeTextureData[i]) {
+                  if (isCubeTextureDataReady(cubeTextureData[[i]])) {
+                    faces[i] = cubeTextureData[i]
+                    needsUpload = true
+                  }
+                }
+              }
+            }
+            const resolution = getCubeTextureDataResolution(faces)
+            for (let i = 0; i < faces.length; ++i) {
+              if (null == faces[i] || !isCubeTextureDataReady(faces[i])) {
+                faces[i] = {shape: resolution}
+              }
+            }
+            if (needsUpload) { cubeTexture(...faces) }
+            return cubeTexture
+          }
+        })
+      )
+
+    }
+
   }
 }
 
 export class CubeTextureContext extends Component {
   constructor(ctx, initialState = {}) {
     setInitialState(initialState, CubeTexture.defaults())
-    const {uniformName} = initialState
+    const { uniformName,
+            envmap,
+            map} = initialState
     super(ctx, initialState,
       new ContextComponent(ctx, {
-        cubeTextureUniformName() { return uniformName },
+        cubeTextureUniformName() { if (map) { return 'map' } },
         cubeTextureResolution({cubeTextureData}) {
           return getCubeTextureDataResolution(cubeTextureData)
+        },
+        envCubeTextureUniformName() { if (envmap) { return 'env' } },
+        envCubeTextureResolution({envCubeTextureData}) {
+          return getCubeTextureDataResolution(envCubeTextureData)
         }
       })
     )
@@ -143,8 +196,20 @@ export class CubeTextureUniforms extends Component {
     const {uniformName} = initialState
     super(ctx, initialState,
       new UniformsComponent(ctx, {prefix: `${uniformName}.`}, {
-        resolution({cubeTextureResolution}) { return cubeTextureResolution },
-        data({cubeTexturePointer}) { return cubeTexturePointer },
+        resolution({cubeTextureResolution, envCubeTextureResolution = cubeTextureResolution}) {
+          if ('map' == uniformName) {
+            return cubeTextureResolution
+          } else {
+            return envCubeTextureResolution
+          }
+        },
+        data({cubeTexturePointer, envCubeTexturePointer = cubeTexturePointer}) {
+          if ('map' == uniformName) {
+            return cubeTexturePointer
+          } else {
+            return envCubeTexturePointer
+          }
+        }
       })
     )
   }

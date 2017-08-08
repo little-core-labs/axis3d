@@ -139,9 +139,9 @@ export class TexturePointerContext extends Component {
 export class TextureContext extends Component {
   constructor(ctx, initialState = {}) {
     setInitialState(initialState, Texture.defaults())
-    const {uniformName,
-      envmap,
-      map} = initialState
+    const { uniformName,
+            envmap,
+            map} = initialState
     super(ctx, initialState,
       new ContextComponent(ctx, {
         textureUniformName() { if (map) { return 'map' } },
