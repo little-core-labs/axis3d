@@ -43,10 +43,6 @@ $ npm install axis3d
 
 ## Example
 
-The following [hello world example](doc/hello-world.md) demonstrates rendering a
-green box to the screen. A `canvas` is created with a `webgl` context and
-automatically appended to the `body` DOM element.
-
 ```js
 import { Geometry, Material, Context, Frame, Mesh } from 'axis3d'
 import { PerspectiveCamera } from 'axis3d/camera'
