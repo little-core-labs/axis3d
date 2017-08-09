@@ -3,8 +3,8 @@
 import {
   PerspectiveCamera,
   ContextComponent,
-  BoxGeometry,
   CubeTexture,
+  Geometry,
   Material,
   Context,
   Texture,

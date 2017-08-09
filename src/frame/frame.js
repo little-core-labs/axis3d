@@ -11,15 +11,15 @@ export class Frame extends Component {
   static defaults() { return { ...defaults } }
   constructor(ctx, initialState = {}) {
     assignDefaults(initialState, Frame.defaults())
-    const getContext = ctx.regl({})
+    const {frames = []} = initialState
 
     const uniforms = new FrameShaderUniforms(ctx, initialState)
     const context = new FrameContext(ctx, initialState)
     const state = new FrameState(ctx, initialState)
 
+    const getContext = ctx.regl({})
     const clear = () => getContext(({clear}) => clear())
     const autoClear = Component.compose(context, clear)
-    const frames = []
     const pipe = Component.compose(state, context, uniforms)
 
     let loop = null // for all frames
@@ -36,7 +36,7 @@ export class Frame extends Component {
       let frame = null
       return frame = {
         cancel() { cancelled = true },
-        onframe(...args) {
+        onframe() {
           if (cancelled) {
             frames.splice(frames.indexOf(frame, 1))
           } else try {
@@ -50,10 +50,11 @@ export class Frame extends Component {
     }
 
     function createFrameLoop() {
-      loop = ctx.regl.frame((...args) => {
+      for (const f of frames) { f.onframe() }
+      loop = ctx.regl.frame(() => {
         try {
           if (true === initialState.autoClear) { autoClear() }
-          for (const f of frames) { f.onframe(...args) }
+          for (const f of frames) { f.onframe() }
         } catch (err) {
           try { for (const f of frames) { f.cancel() } }
           catch (err) { ctx.emit('error', err); }
