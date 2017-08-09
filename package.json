@@ -17,12 +17,8 @@
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "MIT",
   "dependencies": {
-    "glsl-token-string": "^1.0.1",
-    "glsl-tokenizer": "^2.1.2",
-    "unindex-mesh": "^2.0.0",
-    "regl": "git+ssh://git@github.com:littlstar/regl.git#gh-pages",
-    "prepr": "^1.1.1",
     "bound-points": "^1.0.0",
+    "clamp": "^1.0.1",
     "debug": "^2.2.0",
     "defined": "^1.0.0",
     "dom-events": "^0.1.1",
@@ -33,10 +29,15 @@
     "gl-vec3": "^1.0.3",
     "gl-vec4": "^1.0.1",
     "global": "^4.3.1",
-    "normals": "^1.1.0",
+    "glsl-token-string": "^1.0.1",
+    "glsl-tokenizer": "^2.1.2",
+    "glslify": "^6.1.0",
     "mesh-reindex": "^1.0.0",
-    "clamp": "^1.0.1",
-    "glslify": "^6.1.0"
+    "normals": "^1.1.0",
+    "prepr": "^1.1.1",
+    "raf": "^3.3.2",
+    "regl": "git+ssh://git@github.com:littlstar/regl.git#gh-pages",
+    "unindex-mesh": "^2.0.0"
   },
   "standard": {
     "ignore": [

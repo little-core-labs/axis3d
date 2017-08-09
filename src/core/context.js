@@ -16,6 +16,10 @@ export class Context extends EventEmitter {
 
     // coalesce regl options if given as `.gl`
     opts.regl = coalesce(opts.regl, opts.gl || {})
+    if (opts.gl && opts.gl.context) {
+      opts.regl.gl = opts.gl.context
+      delete opts.gl.context
+    }
 
     // derive container element
     if (opts.canvas && 'object' == typeof opts.canvas) {
@@ -30,6 +34,8 @@ export class Context extends EventEmitter {
 
     // call regl initializer
     createRegl({
+      pixelRatio: opts.pixelRatio || window.devicePixelRatio || 1,
+      profile: Boolean(opts.profile),
       ...opts.regl,
       attributes: {...(opts.regl.attributes || {})},
       extensions: [
@@ -39,6 +45,7 @@ export class Context extends EventEmitter {
 
       optionalExtensions: [
         'ANGLE_instanced_arrays',
+        'EXT_disjoint_timer_query',
         ...(opts.regl.optionalExtensions || [])
       ],
 

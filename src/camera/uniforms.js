@@ -14,7 +14,7 @@ export class CameraShaderUniforms extends Component {
         projection({projection}) { return projection },
         aspect({aspect}) { return aspect },
         view({view}) { return view },
-        eye({eye}) { return  [...eye] },
+        eye({eye}) { return  eye },
     }))
   }
 }

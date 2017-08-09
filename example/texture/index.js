@@ -1,45 +1,64 @@
-'use strict'
+import { CubeTexture, Texture } from '../../src/texture'
+import { PerspectiveCamera } from '../../src/camera'
+import { Shader } from '../../src/shader'
 
 import {
-  PerspectiveCamera,
-  DirectionalLight,
-  SphereGeometry,
-  PhongMaterial,
-  Quaternion,
-  Texture,
+  Material,
+  Geometry,
   Context,
   Frame,
-  Color,
-  Mesh,
+  Mesh
 } from '../../src'
 
+import PrimitiveCube from 'primitive-cube'
+import ready from 'domready'
+import Stats from 'stats.js'
 import quat from 'gl-quat'
+import vec3 from 'gl-vec3'
 
-const ctx = new Context()
+const ctx = new Context({pixelRatio: 1})
 
-const camera = new PerspectiveCamera(ctx)
-const sphere = new Mesh(ctx, { geometry: new SphereGeometry() })
-const frame = new Frame(ctx)
-const light = new DirectionalLight(ctx)
+const rotation = quat.identity([])
+const geometry = new Geometry({complex: PrimitiveCube(1, 1, 1)})
 const texture = new Texture(ctx)
-const material = new PhongMaterial(ctx, {map: texture})
-const rotation = new Quaternion()
+const camera = new PerspectiveCamera(ctx)
+const frame = new Frame(ctx)
+const mesh = new Mesh(ctx, {geometry})
 
-const image = new Image()
-image.src = 'assets/texture.jpg'
+const image = new Image(); image.src = '/assets/govball.jpg'
+const video = document.createElement('video'); video.src = '/assets/video.mp4'
+video.play()
 
-frame(({time, cancel}) => {
-  const multiply = (...args) => quat.multiply([], ...args)
-  const angle = (...args) => quat.setAxisAngle([], ...args)
-  const x = angle([1, 0, 0], 0.05*time)
-  const y = angle([0, 1, 0], 0.08*time)
-  const z = angle([0, 0, 1], -0.10*time)
-  quat.slerp(rotation, rotation, multiply(multiply(x, y), z), 0.5)
-  camera({rotation, position: [0, 0, 5]}, () => {
-    light({intensity: 0.8, position: [0, 0, 10], ambient: 0.01})
-    texture({data: image})
-    material({specular: new Color('dim gray') }, () => {
-      sphere({})
+const material = new Material(ctx, {
+  fragmentShader({textureUniformName}) {
+    return `
+    #include <texture/2d>
+    #include <varying/uv>
+    #include <varying/read>
+    #include <varying/data>
+    uniform Texture2D ${textureUniformName};
+    void main() {
+      VaryingData data = ReadVaryingData();
+      gl_FragColor = texture2D(${textureUniformName}.data, data.uv);
+    }
+    `
+  }
+})
+
+let data = video
+let i = 0
+setInterval(() => {
+  if (0 == ++i % 2) { data = video }
+  else { data = image }
+}, 1000)
+
+frame(({time}) => {
+  quat.setAxisAngle(rotation, [1, 0, 0], 0.5*time)
+  camera({rotation, position: [0, 0, 2]}, () => {
+    texture({data}, () => {
+      material(() => {
+        mesh()
+      })
     })
   })
 })
