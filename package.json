@@ -3,8 +3,16 @@
   "version": "0.3.3",
   "description": "Minimal functional graphics library.",
   "scripts": {
-    "test": "node test"
+    "test": "node test",
+    "size": "size-limit"
   },
+  "size-limit": [
+    {
+      "path": "lib/index.js",
+      "babili": true,
+      "limit": "80 KB"
+    }
+  ],
   "keywords": [
     "3d",
     "regl",
@@ -79,6 +87,7 @@
     "primitive-cube": "^2.0.1",
     "rollupify": "^0.3.4",
     "screen-projected-lines": "^1.2.0",
+    "size-limit": "^0.8.1",
     "snowden": "^1.0.1",
     "standard": "^8.0.0",
     "stats.js": "^0.17.0",
