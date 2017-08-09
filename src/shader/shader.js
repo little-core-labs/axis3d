@@ -1,13 +1,7 @@
 import { Component, ShaderLib } from '../core'
 
 export class Shader extends Component {
-  static defaults() {
-    return {
-      ...ShaderLib.defaults(),
-      defines: {},
-    }
-  }
-
+  static defaults() { return { ...ShaderLib.defaults(), defines: {} } }
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Shader.defaults(), initialState)
     const { defines, shaderName } = initialState
@@ -148,8 +142,7 @@ export class Shader extends Component {
         next = getViableShader(reglContext, currentState, next)
         if (shaderCache[shaderLib.hash(next)]) {
           return check(false)
-        }
-        if ('string' != typeof current && next) {
+        } else if ('string' != typeof current && next) {
           return check(true)
         } else if ('string' == typeof next && current != next) {
           return check(true)

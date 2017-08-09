@@ -2,6 +2,7 @@ import { assignDefaults } from '../../../utils'
 import { ScopedContext } from '../../../scope'
 import { Component } from '../../../core'
 import * as defaults from '../defaults'
+import raf from 'raf'
 
 import {
   getTextureDataResolution,
@@ -14,20 +15,32 @@ export class TexturePointerContext extends Component {
   static defaults() { return { ...defaults } }
   constructor(ctx, initialState = {}) {
     assignDefaults(initialState, TexturePointerContext.defaults())
-    const texture = ctx.regl.texture({ ...initialState.texture })
-    let previouslyUploadedData = null
+    const emptyTexture = ctx.regl.texture({ ...initialState.texture })
+    const textureMap = new WeakMap()
     super(ctx, initialState,
       new ScopedContext(ctx, {
         texturePointer({textureData}) {
-          if (textureData){
+          let texture = emptyTexture
+          if (textureData) {
+            texture = textureMap.get(textureData) || emptyTexture
             if (isImage(textureData)) {
-              if (textureData != previouslyUploadedData) {
-                texture({...initialState.texture, data: textureData})
-                previouslyUploadedData = textureData
+              if (!textureMap.has(textureData)) {
+                if (isTextureDataReady(textureData)) {
+                  texture = ctx.regl.texture({
+                    ...initialState.texture,
+                    data: textureData
+                  })
+                  textureMap.set(textureData, texture)
+                }
               }
-            } else if (isVideo(textureData) && isTextureDataReady(textureData)) {
-              texture({...initialState.texture, data: textureData})
-              previouslyUploadedData = textureData
+            } else if (isVideo(textureData)) {
+              if (!textureMap.has(textureData)) {
+                texture = ctx.regl.texture({ ...initialState.texture })
+                textureMap.set(textureData, texture)
+              }
+              if (isTextureDataReady(textureData)) {
+                texture({ ...initialState.texture, data: textureData})
+              }
             }
           }
           return texture

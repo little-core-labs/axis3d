@@ -1,8 +1,13 @@
-import { getTextureDataResolution, isTextureDataReady } from '../../utils'
 import { assignDefaults, get } from '../../../utils'
 import { ScopedContext } from '../../../scope'
 import { Component } from '../../../core'
 import * as defaults from '../defaults'
+
+import {
+  getTextureDataResolution,
+  isTextureDataReady,
+  isVideo
+} from '../../utils'
 
 export class TextureDataContext extends Component {
   static defaults() { return { ...defaults } }
