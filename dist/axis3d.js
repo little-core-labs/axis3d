@@ -2079,16 +2079,6 @@ function _interopRequireWildcard(obj) {
   }
 }
 
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }return arr2;
-  } else {
-    return Array.from(arr);
-  }
-}
-
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -2141,7 +2131,7 @@ var CameraShaderUniforms = exports.CameraShaderUniforms = function (_Component) 
       },
       eye: function eye(_ref5) {
         var _eye = _ref5.eye;
-        return [].concat(_toConsumableArray(_eye));
+        return _eye;
       }
     })));
   }
@@ -2595,6 +2585,10 @@ var Context = exports.Context = function (_EventEmitter) {
 
     // coalesce regl options if given as `.gl`
     opts.regl = (0, _defined2.default)(opts.regl, opts.gl || {});
+    if (opts.gl && opts.gl.context) {
+      opts.regl.gl = opts.gl.context;
+      delete opts.gl.context;
+    }
 
     // derive container element
     if (opts.canvas && 'object' == _typeof(opts.canvas)) {
@@ -2608,11 +2602,14 @@ var Context = exports.Context = function (_EventEmitter) {
     }
 
     // call regl initializer
-    createRegl(_extends({}, opts.regl, {
+    createRegl(_extends({
+      pixelRatio: opts.pixelRatio || _window2.default.devicePixelRatio || 1,
+      profile: Boolean(opts.profile)
+    }, opts.regl, {
       attributes: _extends({}, opts.regl.attributes || {}),
       extensions: ['OES_texture_float'].concat(_toConsumableArray(opts.regl.extensions || [])),
 
-      optionalExtensions: ['ANGLE_instanced_arrays'].concat(_toConsumableArray(opts.regl.optionalExtensions || [])),
+      optionalExtensions: ['ANGLE_instanced_arrays', 'EXT_disjoint_timer_query'].concat(_toConsumableArray(opts.regl.optionalExtensions || [])),
 
       onDone: function onDone(err, regl) {
         if (err) {
@@ -2750,7 +2747,7 @@ var Context = exports.Context = function (_EventEmitter) {
   return Context;
 }(_events.EventEmitter);
 
-},{"defined":124,"dom-events":125,"events":126,"global/document":271,"global/window":272,"regl":292}],31:[function(_dereq_,module,exports){
+},{"defined":124,"dom-events":125,"events":126,"global/document":271,"global/window":272,"regl":294}],31:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -3190,7 +3187,7 @@ var Geometry = exports.Geometry = function () {
   return Geometry;
 }();
 
-},{"bound-points":119,"defined":124,"mesh-reindex":285,"normals":287,"unindex-mesh":296}],34:[function(_dereq_,module,exports){
+},{"bound-points":119,"defined":124,"mesh-reindex":285,"normals":287,"unindex-mesh":298}],34:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -4405,7 +4402,7 @@ var ShaderLibPreprocessor = exports.ShaderLibPreprocessor = function () {
   return ShaderLibPreprocessor;
 }();
 
-},{"./component":29,"./dynamic":31,"./glsl":40,"defined":124,"glsl-inject-defines":273,"glsl-token-defines":274,"glsl-token-string":276,"glsl-tokenizer":283,"path":289,"prepr":290}],52:[function(_dereq_,module,exports){
+},{"./component":29,"./dynamic":31,"./glsl":40,"defined":124,"glsl-inject-defines":273,"glsl-token-defines":274,"glsl-token-string":276,"glsl-tokenizer":283,"path":289,"prepr":291}],52:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -4685,12 +4682,14 @@ var Frame = exports.Frame = function (_Component) {
     _classCallCheck(this, Frame);
 
     (0, _utils.assignDefaults)(initialState, Frame.defaults());
-    var getContext = ctx.regl({});
+    var _initialState$frames = initialState.frames,
+        frames = _initialState$frames === undefined ? [] : _initialState$frames;
 
     var uniforms = new _uniforms.FrameShaderUniforms(ctx, initialState);
     var context = new _context.FrameContext(ctx, initialState);
     var state = new _state.FrameState(ctx, initialState);
 
+    var getContext = ctx.regl({});
     var clear = function clear() {
       return getContext(function (_ref) {
         var clear = _ref.clear;
@@ -4698,7 +4697,6 @@ var Frame = exports.Frame = function (_Component) {
       });
     };
     var autoClear = _core.Component.compose(context, clear);
-    var frames = [];
     var pipe = _core.Component.compose(state, context, uniforms);
 
     var loop = null; // for all frames
@@ -4748,56 +4746,80 @@ var Frame = exports.Frame = function (_Component) {
     }
 
     function createFrameLoop() {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = frames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var f = _step.value;
+          f.onframe();
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
       loop = ctx.regl.frame(function () {
         try {
           if (true === initialState.autoClear) {
             autoClear();
           }
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
 
           try {
-            for (var _iterator = frames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var f = _step.value;
-              f.onframe.apply(f, arguments);
+            for (var _iterator2 = frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              var f = _step2.value;
+              f.onframe();
             }
           } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
           } finally {
             try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
+              if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
               }
             } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
+              if (_didIteratorError2) {
+                throw _iteratorError2;
               }
             }
           }
         } catch (err) {
           try {
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
 
             try {
-              for (var _iterator2 = frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                var _f = _step2.value;
+              for (var _iterator3 = frames[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                var _f = _step3.value;
                 _f.cancel();
               }
             } catch (err) {
-              _didIteratorError2 = true;
-              _iteratorError2 = err;
+              _didIteratorError3 = true;
+              _iteratorError3 = err;
             } finally {
               try {
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                  _iterator2.return();
+                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                  _iterator3.return();
                 }
               } finally {
-                if (_didIteratorError2) {
-                  throw _iteratorError2;
+                if (_didIteratorError3) {
+                  throw _iteratorError3;
                 }
               }
             }
@@ -4811,26 +4833,26 @@ var Frame = exports.Frame = function (_Component) {
 
     function destroyFrameLoop() {
       try {
-        var _iteratorNormalCompletion3 = true;
-        var _didIteratorError3 = false;
-        var _iteratorError3 = undefined;
+        var _iteratorNormalCompletion4 = true;
+        var _didIteratorError4 = false;
+        var _iteratorError4 = undefined;
 
         try {
-          for (var _iterator3 = frames[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            var f = _step3.value;
+          for (var _iterator4 = frames[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+            var f = _step4.value;
             f.cancel();
           }
         } catch (err) {
-          _didIteratorError3 = true;
-          _iteratorError3 = err;
+          _didIteratorError4 = true;
+          _iteratorError4 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion3 && _iterator3.return) {
-              _iterator3.return();
+            if (!_iteratorNormalCompletion4 && _iterator4.return) {
+              _iterator4.return();
             }
           } finally {
-            if (_didIteratorError3) {
-              throw _iteratorError3;
+            if (_didIteratorError4) {
+              throw _iteratorError4;
             }
           }
         }
@@ -8209,9 +8231,7 @@ var Shader = exports.Shader = function (_Component) {
   _createClass(Shader, null, [{
     key: 'defaults',
     value: function defaults() {
-      return _extends({}, _core.ShaderLib.defaults(), {
-        defines: {}
-      });
+      return _extends({}, _core.ShaderLib.defaults(), { defines: {} });
     }
   }]);
 
@@ -8407,8 +8427,7 @@ var Shader = exports.Shader = function (_Component) {
         next = getViableShader(reglContext, currentState, next);
         if (shaderCache[shaderLib.hash(next)]) {
           return check(false);
-        }
-        if ('string' != typeof current && next) {
+        } else if ('string' != typeof current && next) {
           return check(true);
         } else if ('string' == typeof next && current != next) {
           return check(true);
@@ -8643,9 +8662,7 @@ var _createClass = function () {
   };
 }();
 
-var _utils = _dereq_('../../utils');
-
-var _utils2 = _dereq_('../../../utils');
+var _utils = _dereq_('../../../utils');
 
 var _scope = _dereq_('../../../scope');
 
@@ -8654,6 +8671,8 @@ var _core = _dereq_('../../../core');
 var _defaults2 = _dereq_('../defaults');
 
 var _defaults = _interopRequireWildcard(_defaults2);
+
+var _utils2 = _dereq_('../../utils');
 
 function _interopRequireWildcard(obj) {
   if (obj && obj.__esModule) {
@@ -8700,12 +8719,12 @@ var TextureDataContext = exports.TextureDataContext = function (_Component) {
 
     _classCallCheck(this, TextureDataContext);
 
-    (0, _utils2.assignDefaults)(initialState, TextureDataContext.defaults());
+    (0, _utils.assignDefaults)(initialState, TextureDataContext.defaults());
     return _possibleConstructorReturn(this, (TextureDataContext.__proto__ || Object.getPrototypeOf(TextureDataContext)).call(this, ctx, initialState, new _scope.ScopedContext(ctx, {
       textureData: function textureData(ctx, args) {
-        var data = (0, _utils2.get)('data', [args, ctx]);
-        if (data && (0, _utils.isTextureDataReady)(data)) {
-          var _getTextureDataResolu = (0, _utils.getTextureDataResolution)(data),
+        var data = (0, _utils.get)('data', [args, ctx]);
+        if (data && (0, _utils2.isTextureDataReady)(data)) {
+          var _getTextureDataResolu = (0, _utils2.getTextureDataResolution)(data),
               _getTextureDataResolu2 = _slicedToArray(_getTextureDataResolu, 2),
               w = _getTextureDataResolu2[0],
               h = _getTextureDataResolu2[1];
@@ -8921,6 +8940,8 @@ var _defaults2 = _dereq_('../defaults');
 
 var _defaults = _interopRequireWildcard(_defaults2);
 
+var _raf = _dereq_('raf');
+
 var _utils2 = _dereq_('../../utils');
 
 function _interopRequireWildcard(obj) {
@@ -8969,21 +8990,32 @@ var TexturePointerContext = exports.TexturePointerContext = function (_Component
     _classCallCheck(this, TexturePointerContext);
 
     (0, _utils.assignDefaults)(initialState, TexturePointerContext.defaults());
-    var texture = ctx.regl.texture(_extends({}, initialState.texture));
-    var previouslyUploadedData = null;
+    var emptyTexture = ctx.regl.texture(_extends({}, initialState.texture));
+    var textureMap = new WeakMap();
     return _possibleConstructorReturn(this, (TexturePointerContext.__proto__ || Object.getPrototypeOf(TexturePointerContext)).call(this, ctx, initialState, new _scope.ScopedContext(ctx, {
       texturePointer: function texturePointer(_ref) {
         var textureData = _ref.textureData;
 
+        var texture = emptyTexture;
         if (textureData) {
+          texture = textureMap.get(textureData) || emptyTexture;
           if ((0, _utils2.isImage)(textureData)) {
-            if (textureData != previouslyUploadedData) {
-              texture(_extends({}, initialState.texture, { data: textureData }));
-              previouslyUploadedData = textureData;
+            if (!textureMap.has(textureData)) {
+              if ((0, _utils2.isTextureDataReady)(textureData)) {
+                texture = ctx.regl.texture(_extends({}, initialState.texture, {
+                  data: textureData
+                }));
+                textureMap.set(textureData, texture);
+              }
             }
-          } else if ((0, _utils2.isVideo)(textureData) && (0, _utils2.isTextureDataReady)(textureData)) {
-            texture(_extends({}, initialState.texture, { data: textureData }));
-            previouslyUploadedData = textureData;
+          } else if ((0, _utils2.isVideo)(textureData)) {
+            if (!textureMap.has(textureData)) {
+              texture = ctx.regl.texture(_extends({}, initialState.texture));
+              textureMap.set(textureData, texture);
+            }
+            if ((0, _utils2.isTextureDataReady)(textureData)) {
+              texture(_extends({}, initialState.texture, { data: textureData }));
+            }
           }
         }
         return texture;
@@ -8994,7 +9026,7 @@ var TexturePointerContext = exports.TexturePointerContext = function (_Component
   return TexturePointerContext;
 }(_core.Component);
 
-},{"../../../core":50,"../../../scope":90,"../../../utils":116,"../../utils":115,"../defaults":101}],101:[function(_dereq_,module,exports){
+},{"../../../core":50,"../../../scope":90,"../../../utils":116,"../../utils":115,"../defaults":101,"raf":293}],101:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10076,7 +10108,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.3.1';
+var kLibraryVersion = '0.3.3';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
@@ -10531,7 +10563,7 @@ function localstorage() {
 }
 
 }).call(this,_dereq_('_process'))
-},{"./debug":123,"_process":291}],123:[function(_dereq_,module,exports){
+},{"./debug":123,"_process":292}],123:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -10798,7 +10830,7 @@ module.exports = {
     emit: emit
 };
 
-},{"synthetic-dom-events":293}],126:[function(_dereq_,module,exports){
+},{"synthetic-dom-events":295}],126:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -16461,7 +16493,48 @@ var substr = function substr(str, start, len) {
 };
 
 }).call(this,_dereq_('_process'))
-},{"_process":291}],290:[function(_dereq_,module,exports){
+},{"_process":292}],290:[function(_dereq_,module,exports){
+(function (process){
+"use strict";
+
+// Generated by CoffeeScript 1.12.2
+(function () {
+  var getNanoSeconds, hrtime, loadTime, moduleLoadTime, nodeLoadTime, upTime;
+
+  if (typeof performance !== "undefined" && performance !== null && performance.now) {
+    module.exports = function () {
+      return performance.now();
+    };
+  } else if (typeof process !== "undefined" && process !== null && process.hrtime) {
+    module.exports = function () {
+      return (getNanoSeconds() - nodeLoadTime) / 1e6;
+    };
+    hrtime = process.hrtime;
+    getNanoSeconds = function getNanoSeconds() {
+      var hr;
+      hr = hrtime();
+      return hr[0] * 1e9 + hr[1];
+    };
+    moduleLoadTime = getNanoSeconds();
+    upTime = process.uptime() * 1e9;
+    nodeLoadTime = moduleLoadTime - upTime;
+  } else if (Date.now) {
+    module.exports = function () {
+      return Date.now() - loadTime;
+    };
+    loadTime = Date.now();
+  } else {
+    module.exports = function () {
+      return new Date().getTime() - loadTime;
+    };
+    loadTime = new Date().getTime();
+  }
+}).call(undefined);
+
+
+
+}).call(this,_dereq_('_process'))
+},{"_process":292}],291:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -16816,7 +16889,7 @@ function preprocess(what, how) {
 
 module.exports = preprocess;
 
-},{"balanced-match":118,"parenthesis":288,"xtend/mutable":297}],291:[function(_dereq_,module,exports){
+},{"balanced-match":118,"parenthesis":288,"xtend/mutable":299}],292:[function(_dereq_,module,exports){
 'use strict';
 
 // shim for using process in browser
@@ -17005,7 +17078,86 @@ process.umask = function () {
     return 0;
 };
 
-},{}],292:[function(_dereq_,module,exports){
+},{}],293:[function(_dereq_,module,exports){
+(function (global){
+'use strict';
+
+var now = _dereq_('performance-now'),
+    root = typeof window === 'undefined' ? global : window,
+    vendors = ['moz', 'webkit'],
+    suffix = 'AnimationFrame',
+    raf = root['request' + suffix],
+    caf = root['cancel' + suffix] || root['cancelRequest' + suffix];
+
+for (var i = 0; !raf && i < vendors.length; i++) {
+  raf = root[vendors[i] + 'Request' + suffix];
+  caf = root[vendors[i] + 'Cancel' + suffix] || root[vendors[i] + 'CancelRequest' + suffix];
+}
+
+// Some versions of FF have rAF but not cAF
+if (!raf || !caf) {
+  var last = 0,
+      id = 0,
+      queue = [],
+      frameDuration = 1000 / 60;
+
+  raf = function raf(callback) {
+    if (queue.length === 0) {
+      var _now = now(),
+          next = Math.max(0, frameDuration - (_now - last));
+      last = next + _now;
+      setTimeout(function () {
+        var cp = queue.slice(0);
+        // Clear queue here to prevent
+        // callbacks from appending listeners
+        // to the current frame's queue
+        queue.length = 0;
+        for (var i = 0; i < cp.length; i++) {
+          if (!cp[i].cancelled) {
+            try {
+              cp[i].callback(last);
+            } catch (e) {
+              setTimeout(function () {
+                throw e;
+              }, 0);
+            }
+          }
+        }
+      }, Math.round(next));
+    }
+    queue.push({
+      handle: ++id,
+      callback: callback,
+      cancelled: false
+    });
+    return id;
+  };
+
+  caf = function caf(handle) {
+    for (var i = 0; i < queue.length; i++) {
+      if (queue[i].handle === handle) {
+        queue[i].cancelled = true;
+      }
+    }
+  };
+}
+
+module.exports = function (fn) {
+  // Wrap in a new function to prevent
+  // `cancel` potentially being assigned
+  // to the native rAF function
+  return raf.call(root, fn);
+};
+module.exports.cancel = function () {
+  caf.apply(root, arguments);
+};
+module.exports.polyfill = function () {
+  root.requestAnimationFrame = raf;
+  root.cancelAnimationFrame = caf;
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"performance-now":290}],294:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -25369,7 +25521,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 });
 
 
-},{}],293:[function(_dereq_,module,exports){
+},{}],295:[function(_dereq_,module,exports){
 'use strict';
 
 // for compression
@@ -25485,7 +25637,7 @@ var typeOf = function () {
     };
 }();
 
-},{"./init.json":294,"./types.json":295}],294:[function(_dereq_,module,exports){
+},{"./init.json":296,"./types.json":297}],296:[function(_dereq_,module,exports){
 module.exports={
   "initEvent" : [
     "type",
@@ -25552,7 +25704,7 @@ module.exports={
   ]
 }
 
-},{}],295:[function(_dereq_,module,exports){
+},{}],297:[function(_dereq_,module,exports){
 module.exports={
   "MouseEvent" : [
     "click",
@@ -25597,7 +25749,7 @@ module.exports={
   ]
 }
 
-},{}],296:[function(_dereq_,module,exports){
+},{}],298:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = unindex;
@@ -25652,7 +25804,7 @@ function unindex(positions, cells, out) {
   return out;
 }
 
-},{}],297:[function(_dereq_,module,exports){
+},{}],299:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = extend;
