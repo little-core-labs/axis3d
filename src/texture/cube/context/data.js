@@ -9,8 +9,9 @@ import {
 } from '../../utils'
 
 export class CubeTextureDataContext extends Component {
+  static defaults() { return { ...defaults } }
   constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, CubeTexture.defaults())
+    assignDefaults(initialState, CubeTextureDataContext.defaults())
     super(ctx, initialState,
       new ScopedContext(ctx, {
         cubeTextureData(ctx, args) {

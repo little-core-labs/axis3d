@@ -7,7 +7,7 @@ import * as defaults from '../defaults'
 export class CubeTextureInfoContext extends Component {
   static defaults() { return { ...defaults } }
   constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, CubeTextureContext.defaults())
+    assignDefaults(initialState, CubeTextureInfoContext.defaults())
     const {uniformName} = initialState
     super(ctx, initialState,
       new ScopedContext(ctx, {
