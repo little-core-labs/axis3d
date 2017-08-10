@@ -11,8 +11,9 @@ import {
 } from '../../utils'
 
 export class CubeTexturePointerContext extends Component {
+  static defaults() { return { ...defaults } }
   constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, CubeTexture.defaults())
+    assignDefaults(initialState, CubeTexturePointerContext.defaults())
     const cubeTexture = ctx.regl.cube({ ...initialState.texture })
     let faces = Array(6).fill(null)
     super(ctx, initialState,

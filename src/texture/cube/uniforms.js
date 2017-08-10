@@ -6,7 +6,7 @@ import * as defaults from './defaults'
 export class CubeTextureShaderUniforms extends Component {
   static defaults() { return { ...defaults } }
   constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, CubeTextureUniforms.defaults())
+    assignDefaults(initialState, CubeTextureShaderUniforms.defaults())
     const {uniformName} = initialState
     super(ctx, initialState,
       new ShaderUniforms(ctx, {prefix: `${uniformName}.`}, {
