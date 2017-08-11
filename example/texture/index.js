@@ -30,18 +30,28 @@ const video = document.createElement('video'); video.src = '/assets/video.mp4'
 video.play()
 
 const material = new Material(ctx, {
-  fragmentShader({textureUniformName}) {
+  fragmentShader({textureUniformName, texturePointer, textureData}) {
+    if (null == textureData) {
+      return `
+      #include <material/material>
+      #include <material/uniforms>
+      void main() {
+        gl_FragColor = vec4(material.color, material.opacity);
+      }
+      `
+    } else {
     return `
-    #include <texture/2d>
-    #include <varying/uv>
-    #include <varying/read>
-    #include <varying/data>
-    uniform Texture2D ${textureUniformName};
-    void main() {
-      VaryingData data = ReadVaryingData();
-      gl_FragColor = texture2D(${textureUniformName}.data, data.uv);
+      #include <texture/2d>
+      #include <varying/uv>
+      #include <varying/read>
+      #include <varying/data>
+      uniform Texture2D ${textureUniformName};
+      void main() {
+        VaryingData data = ReadVaryingData();
+        gl_FragColor = texture2D(${textureUniformName}.data, data.uv);
+      }
+      `
     }
-    `
   }
 })
 
@@ -55,9 +65,15 @@ setInterval(() => {
 frame(({time}) => {
   quat.setAxisAngle(rotation, [1, 0, 0], 0.5*time)
   camera({rotation, position: [0, 0, 2]}, () => {
-    texture({data}, () => {
+    texture({data: null}, () => {
       material(() => {
-        mesh()
+        mesh({wireframe: true}, () => {
+          texture({data}, () => {
+            material({color: [0, 0.5, 0.5]}, () => {
+              mesh({scale: 0.5})
+            })
+          })
+        })
       })
     })
   })
