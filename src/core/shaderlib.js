@@ -152,8 +152,9 @@ export class ShaderLib {
       .filter((line) => line.length)
       .map((line) => 1 == line.length ? `${line}\n` : line)
       .join('\n')
+      + '\n'
     this.cache.set(hash, source)
-    return `${source}\n`
+    return source
   }
 
   use(middleware) {
