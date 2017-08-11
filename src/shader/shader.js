@@ -1,22 +1,27 @@
 import { Component, ShaderLib } from '../core'
+import { ScopedContext } from '../scope'
 
 export class Shader extends Component {
   static defaults() { return { ...ShaderLib.defaults(), defines: {} } }
   constructor(ctx, initialState = {}) {
     Object.assign(initialState, Shader.defaults(), initialState)
     const { defines, shaderName } = initialState
+    const contextCache = {}
+    const shaderCache = {}
     const shaderLib = new ShaderLib({ ...initialState, defines })
 
-    let injectParentContext = ctx.regl({})
+    const injectParentContext = new ScopedContext(ctx, {
+      defines({defines: contextDefines}) {
+        return { ...contextDefines, ...defines }
+      }
+    })
+
     let injectContext = null
 
     let fragmentShaderUncompiled = null
     let vertexShaderUncompiled = null
     let fragmentShader = null
     let vertexShader = null
-
-    const contextCache = {}
-    const shaderCache = {}
 
     super(ctx, initialState, update)
     function update(state, block, previousState) {
@@ -34,6 +39,8 @@ export class Shader extends Component {
           compile(reglContext, state)
         }
 
+        setInjectContext(reglContext, state)
+
         if ('function' == typeof injectContext) {
           injectContext(state, block)
         } else {
@@ -42,7 +49,12 @@ export class Shader extends Component {
       })
     }
 
-    function compile(reglContext, currentState) {
+    function getShaderFromCache(reglContext, currentState, shader) {
+      shader = getViableShader(reglContext, currentState, shader)
+      return shaderCache[shaderLib.hash(shader)]
+    }
+
+    function setInjectContext(reglContext, currentState) {
       const opts = {
         context: {
           fragmentShader: ({fragmentShader: fs}) => fs || fragmentShader,
@@ -50,33 +62,47 @@ export class Shader extends Component {
         }
       }
 
-      const parentOpts = {
-        context: {
-          defines({defines: contextDefines}) {
-            return { ...contextDefines, ...defines }
-          }
-        }
+      const requestedFragmentShader = getShaderFromCache(
+        reglContext,
+        currentState,
+        currentState.fragmentShader)
+
+      const requestedVertexShader = getShaderFromCache(
+        reglContext,
+        currentState,
+        currentState.vertexShader)
+
+      if (requestedFragmentShader && requestedFragmentShader != fragmentShader) {
+        fragmentShader = requestedFragmentShader
       }
 
-      if (!isShaderCached(currentState.vertexShader)) {
-        compileVertexShader()
+      if (requestedVertexShader && requestedVertexShader != vertexShader) {
+        vertexShader = requestedVertexShader
       }
-
-      if (!isShaderCached(currentState.fragmentShader)) {
-        compileFragmentShader()
-      }
-
-      injectParentContext = ctx.regl(parentOpts)
 
       if ('string' == typeof vertexShader) { opts.vert = vertexShader }
       if ('string' == typeof fragmentShader) { opts.frag = fragmentShader }
+
       if ('string' == typeof opts.vert || 'string' == typeof opts.frag) {
         const hash = [shaderLib.hash(opts.vert), shaderLib.hash(opts.frag)]
         .filter(Boolean).join('')
         if (null == contextCache[hash]) {
           injectContext = ctx.regl(opts)
           contextCache[hash] = injectContext
+          injectContext.opts = opts
+        } else {
+          injectContext = contextCache[hash]
         }
+      }
+    }
+
+    function compile(reglContext, currentState) {
+      if (!isShaderCached(currentState.vertexShader)) {
+        compileVertexShader()
+      }
+
+      if (!isShaderCached(currentState.fragmentShader)) {
+        compileFragmentShader()
       }
 
       function compileShader(type, shader) {
@@ -92,8 +118,7 @@ export class Shader extends Component {
       }
 
       function isShaderCached(shader) {
-        shader = getViableShader(reglContext, currentState, shader)
-        return Boolean(shaderCache[shaderLib.hash(shader)])
+        return Boolean(getShaderFromCache(reglContext, currentState, shader))
       }
 
       function compileVertexShader() {
@@ -141,7 +166,7 @@ export class Shader extends Component {
         let cond = false
         next = getViableShader(reglContext, currentState, next)
         if (shaderCache[shaderLib.hash(next)]) {
-          return check(false)
+          return check(true)
         } else if ('string' != typeof current && next) {
           return check(true)
         } else if ('string' == typeof next && current != next) {
