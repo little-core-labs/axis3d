@@ -1,12 +1,12 @@
 #ifndef GLSL_TIME
 #define GLSL_TIME
 
-#include "./variables"
-
-uniform float GLSL_TIME_UNIFORM_VARIABLE;
+#include "../frame/frame"
+#include "../frame/uniforms"
+#include "../frame/variables"
 
 float GetTime() {
-  return GLSL_TIME_UNIFORM_VARIABLE;
+  return GLSL_FRAME_UNIFORM_VARIABLE.time;
 }
 
 #endif
