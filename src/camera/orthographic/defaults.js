@@ -1,4 +1,4 @@
 export * from '../defaults'
 
-export const near = 100
-export const far = 1
+export const near = 0.1
+export const far = 100
