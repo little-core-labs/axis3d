@@ -1,5 +1,3 @@
-import mat4 from 'gl-mat4'
-
 export * from '../object3d/defaults'
 
 export const uniformName = 'camera'
