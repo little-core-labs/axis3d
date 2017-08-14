@@ -20,7 +20,7 @@ export const isImage = (d) => d instanceof HTMLImageElement
 export function isTextureDataReady(data) {
   const resolution = getTextureDataResolution(data)
   if (!resolution[0] || !resolution[1]) { return false }
-  if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
+  if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
     return true
   } else if (isImage(data) || isCanvas(data)) {
     if (data.width && data.height) {
@@ -43,7 +43,7 @@ export function getTextureDataResolution(data) {
 }
 
 export function isCubeTextureDataReady(data) {
-  if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
+  if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
     return true
   } else if (isImage(data) || isCanvas(data)) {
     if (data.width && data.height) {
