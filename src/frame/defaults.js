@@ -1,4 +1,5 @@
 export const autoClear = true
+export const uniformName = 'frame'
 export const blending = {
   equation: 'add',
   enable: false,
