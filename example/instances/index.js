@@ -9,8 +9,7 @@ import {
   Mesh,
 } from '../../src'
 
-import { BoxGeometry } from 'axis3d-geometry'
-
+import PrimitiveCube from 'primitive-cube'
 import ready from 'domready'
 import Bunny from 'bunny'
 import Stats from 'stats.js'
