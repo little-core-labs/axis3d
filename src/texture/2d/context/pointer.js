@@ -19,7 +19,7 @@ export class TexturePointerContext extends Component {
     const textureMap = new WeakMap()
     super(ctx, initialState,
       new ScopedContext(ctx, {
-        texturePointer({textureData}) {
+        texturePointer({textureData}, {copy}) {
           let texture = emptyTexture
           if (textureData) {
             texture = textureMap.get(textureData) || emptyTexture
@@ -42,6 +42,9 @@ export class TexturePointerContext extends Component {
                 texture({ ...initialState.texture, data: textureData})
               }
             }
+          }
+          if (null == textureData && copy) {
+            texture({ ...initialState.texture, copy })
           }
           return texture
         }
