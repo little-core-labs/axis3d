@@ -10,6 +10,7 @@ export class MaterialShader extends Component {
     const {uniformName, fragmentShader = null} = initialState
     super(ctx, initialState,
       new Shader(ctx, {
+        glsl: initialState.glsl || {},
         fragmentShader: ({fragmentShader}) => {
           if (fragmentShader) { return fragmentShader }
           return `
