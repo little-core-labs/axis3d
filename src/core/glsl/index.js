@@ -5,6 +5,7 @@ export * as varying from './varying'
 export * as vertex from './vertex'
 export * as camera from './camera'
 export * as common from './common'
+export * as frame from './frame'
 export * as mesh from './mesh'
 export * as time from './time'
 
