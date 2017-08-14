@@ -1,0 +1,8 @@
+#ifndef GLSL_FRAME_VARIABLES
+#define GLSL_FRAME_VARIABLES
+
+#ifndef GLSL_FRAME_UNIFORM_VARIABLE
+#define GLSL_FRAME_UNIFORM_VARIABLE frame
+#endif
+
+#endif
