@@ -15,10 +15,13 @@ export class MeshShader extends Component {
   constructor(ctx, initialState = {}) {
     assignDefaults(initialState, MeshShader.defaults())
     super(ctx, new Shader(ctx, {
+      glsl: initialState.glsl || {},
       vertexShader({vertexShader}) {
         const {uniformName} = initialState
         if ('string' == typeof vertexShader) { return vertexShader }
-        else { return MeshShader.createVertexShader({uniformName}) }
+        else if ('string' == typeof initialState.vertexShader) {
+          return initialState.vertexShader
+        } else { return MeshShader.createVertexShader({uniformName}) }
       },
       ...initialState
     }))
