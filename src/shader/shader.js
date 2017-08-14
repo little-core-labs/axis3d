@@ -57,8 +57,8 @@ export class Shader extends Component {
     function setInjectContext(reglContext, currentState) {
       const opts = {
         context: {
-          fragmentShader: ({fragmentShader: fs}) => fs || fragmentShader,
-          vertexShader: ({vertexShader: vs }) => vs || vertexShader,
+          fragmentShader: ({fragmentShader: fs}) => fragmentShader || fs,
+          vertexShader: ({vertexShader: vs }) => vertexShader || vs,
         }
       }
 
