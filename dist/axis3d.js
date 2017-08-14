@@ -10369,8 +10369,8 @@ var HTMLImageElement = _window2.default.HTMLImageElement;
 // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState
 
 var _ref = HTMLVideoElement || {};
-var _ref$HAVE_ENOUGH_DATA = _ref.HAVE_ENOUGH_DATA;
-var HAVE_ENOUGH_DATA = _ref$HAVE_ENOUGH_DATA === undefined ? 4 : _ref$HAVE_ENOUGH_DATA;
+var _ref$HAVE_CURRENT_DAT = _ref.HAVE_CURRENT_DATA;
+var HAVE_CURRENT_DATA = _ref$HAVE_CURRENT_DAT === undefined ? 2 : _ref$HAVE_CURRENT_DAT;
 
 var isCanvas = exports.isCanvas = function isCanvas(d) {
   return d instanceof HTMLCanvasElement;
@@ -10387,7 +10387,7 @@ function isTextureDataReady(data) {
   if (!resolution[0] || !resolution[1]) {
     return false;
   }
-  if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
+  if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
     return true;
   } else if (isImage(data) || isCanvas(data)) {
     if (data.width && data.height) {
@@ -10410,7 +10410,7 @@ function getTextureDataResolution(data) {
 }
 
 function isCubeTextureDataReady(data) {
-  if (isVideo(data) && data.readyState >= HAVE_ENOUGH_DATA) {
+  if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
     return true;
   } else if (isImage(data) || isCanvas(data)) {
     if (data.width && data.height) {
@@ -10496,7 +10496,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.3.6';
+var kLibraryVersion = '0.3.7';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
