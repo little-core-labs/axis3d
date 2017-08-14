@@ -1,5 +1,6 @@
 import getBoundingBox from 'bound-points'
 import coalesce from 'defined'
+import flatten from 'array-flatten'
 import reindex from 'mesh-reindex'
 import unindex from 'unindex-mesh'
 import normals from 'normals'
@@ -7,9 +8,9 @@ import normals from 'normals'
 export class Geometry {
   constructor(opts = {}) {
     let complex = {}
-    let flatten = coalesce(opts.flatten, false)
     if (opts.positions) { complex = opts }
     else { complex = opts.complex }
+    let flatten = coalesce(opts.flatten, complex.flatten, false)
     Object.defineProperty(this, '_complex', {enumerable: false, value: {}})
     this.flatten = Boolean(flatten)
     this.complex = complex || null
@@ -18,6 +19,8 @@ export class Geometry {
   set complex(complex) {
     if (complex instanceof Geometry) { complex = complex.complex }
     if (complex) {
+      if (complex.positions) { ensure3D(complex.positions) }
+      if (complex.normals) { ensure3D(complex.normals) }
       if (this.flatten && complex.cells) {
         const cells = complex.cells.map((cell) => cell.slice())
         const flattened = reindex(unindex(complex.positions, cells))
@@ -27,6 +30,8 @@ export class Geometry {
             flattened.positions)
         } catch (e) { console.warn("Unable to compute vertex normals.") }
         Object.assign(complex, flattened)
+      } else if (complex.positions && !complex.cells) {
+        Object.assign(complex, reindex(flatten(complex.positions)))
       }
 
       if (null == complex.normals && complex.positions && complex.cells) {
@@ -35,6 +40,14 @@ export class Geometry {
             complex.cells,
             complex.positions)
         } catch (e) { console.warn("Unable to compute vertex normals.") }
+      }
+    }
+
+    function ensure3D(nodes) {
+      for (const node of nodes) {
+        for (let i = 0; i < 3; ++i) {
+          if (null == node[i]) { node[i] = 0 }
+        }
       }
     }
 
