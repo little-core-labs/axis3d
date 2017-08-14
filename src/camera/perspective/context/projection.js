@@ -21,8 +21,8 @@ export class PerspectiveCameraProjectionContext extends Component {
             const fov = get('fov', [args, ctx])
             mat4.perspective(projection, fov, aspect, near, far)
           }
-          return projection;
-        },
+          return projection
+        }
       })
     )
   }
