@@ -1,8 +1,6 @@
-'use strict'
-
 import {
   PerspectiveCamera,
-  ContextComponent,
+  ScopedContext,
   CubeTexture,
   Geometry,
   Material,
@@ -13,6 +11,7 @@ import {
   Mesh,
 } from '../../src'
 
+import PrimitiveCube from 'primitive-cube'
 import ready from 'domready'
 import Stats from 'stats.js'
 import quat from 'gl-quat'
@@ -24,7 +23,7 @@ const ctx = new Context()
 const cubeTexture = new CubeTexture(ctx)
 const material = new Material(ctx)
 const texture = new Texture(ctx, {})
-const geometry = new BoxGeometry()
+const geometry = PrimitiveCube()
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
 const stats = new Stats()
@@ -37,9 +36,8 @@ const lf = new Image(); lf.src = 'assets/criminal-impact_lf.jpg'
 const rt = new Image(); rt.src = 'assets/criminal-impact_rt.jpg'
 const up = new Image(); up.src = 'assets/criminal-impact_up.jpg'
 
-const injectGlsl = new ContextComponent(ctx, {
+const injectGlsl = new ScopedContext(ctx, {
   glsl({textureUniformName, cubeTextureUniformName}) {
-    console.log(textureUniformName, cubeTextureUniformName);
     let glsl = `
       #define GLSL_FRAGMENT_MAIN_AFTER After
       #include <varying/data>
