@@ -4,7 +4,10 @@ import { Component } from '../../core'
 import * as defaults from './defaults'
 
 export class TextureShaderUniforms extends Component {
-  static defaults() { return { ...defaults } }
+  static defaults() {
+    return { ...defaults, uniformName: 'tex2d' }
+  }
+
   constructor(ctx, initialState = {}) {
     assignDefaults(initialState, TextureShaderUniforms.defaults())
     const {uniformName} = initialState
