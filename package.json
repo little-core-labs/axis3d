@@ -1,6 +1,6 @@
 {
   "name": "axis3d",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Minimal functional graphics library.",
   "scripts": {
     "test": "node test",

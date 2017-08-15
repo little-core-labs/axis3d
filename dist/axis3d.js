@@ -8527,6 +8527,8 @@ var _createClass = function () {
 
 var _core = _dereq_('../core');
 
+var _utils = _dereq_('../utils');
+
 var _scope = _dereq_('../scope');
 
 function _classCallCheck(instance, Constructor) {
@@ -8562,7 +8564,7 @@ var Shader = exports.Shader = function (_Component) {
 
     _classCallCheck(this, Shader);
 
-    Object.assign(initialState, Shader.defaults(), initialState);
+    (0, _utils.assignDefaults)(initialState, Shader.defaults());
     var defines = initialState.defines,
         shaderName = initialState.shaderName;
 
@@ -8780,7 +8782,7 @@ var Shader = exports.Shader = function (_Component) {
   return Shader;
 }(_core.Component);
 
-},{"../core":52,"../scope":94}],99:[function(_dereq_,module,exports){
+},{"../core":52,"../scope":94,"../utils":120}],99:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -8939,7 +8941,6 @@ var TextureContext = exports.TextureContext = function (_Component) {
     _classCallCheck(this, TextureContext);
 
     (0, _utils.assignDefaults)(initialState, TextureContext.defaults());
-    var uniformName = initialState.uniformName;
     return _possibleConstructorReturn(this, (TextureContext.__proto__ || Object.getPrototypeOf(TextureContext)).call(this, ctx, initialState, new _data.TextureDataContext(ctx, initialState), new _pointer.TexturePointerContext(ctx, initialState), new _info.TextureInfoContext(ctx, initialState)));
   }
 
@@ -9330,7 +9331,7 @@ var TexturePointerContext = exports.TexturePointerContext = function (_Component
     _classCallCheck(this, TexturePointerContext);
 
     (0, _utils.assignDefaults)(initialState, TexturePointerContext.defaults());
-    var emptyTexture = ctx.regl.texture(_extends({}, initialState.texture));
+    var emptyTexture = ctx.regl.texture(_extends({}, initialState));
     var textureMap = new WeakMap();
     return _possibleConstructorReturn(this, (TexturePointerContext.__proto__ || Object.getPrototypeOf(TexturePointerContext)).call(this, ctx, initialState, new _scope.ScopedContext(ctx, {
       texturePointer: function texturePointer(_ref, _ref2) {
@@ -9343,7 +9344,7 @@ var TexturePointerContext = exports.TexturePointerContext = function (_Component
           if ((0, _utils2.isImage)(textureData)) {
             if (!textureMap.has(textureData)) {
               if ((0, _utils2.isTextureDataReady)(textureData)) {
-                texture = ctx.regl.texture(_extends({}, initialState.texture, {
+                texture = ctx.regl.texture(_extends({}, initialState, {
                   data: textureData
                 }));
                 textureMap.set(textureData, texture);
@@ -9351,16 +9352,16 @@ var TexturePointerContext = exports.TexturePointerContext = function (_Component
             }
           } else if ((0, _utils2.isVideo)(textureData)) {
             if (!textureMap.has(textureData)) {
-              texture = ctx.regl.texture(_extends({}, initialState.texture));
+              texture = ctx.regl.texture(_extends({}, initialState));
               textureMap.set(textureData, texture);
             }
             if ((0, _utils2.isTextureDataReady)(textureData)) {
-              texture(_extends({}, initialState.texture, { data: textureData }));
+              texture(_extends({}, initialState, { data: textureData }));
             }
           }
         }
         if (null == textureData && copy) {
-          texture(_extends({}, initialState.texture, { copy: copy }));
+          texture(_extends({}, initialState, { copy: copy }));
         }
         return texture;
       }
@@ -9376,11 +9377,8 @@ var TexturePointerContext = exports.TexturePointerContext = function (_Component
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var uniformName = exports.uniformName = 'tex2d';
-var texture = exports.texture = {
-  min: 'linear',
-  mag: 'linear'
-};
+var min = exports.min = 'linear';
+var mag = exports.mag = 'linear';
 
 },{}],106:[function(_dereq_,module,exports){
 'use strict';
@@ -9595,7 +9593,7 @@ var TextureShaderUniforms = exports.TextureShaderUniforms = function (_Component
   _createClass(TextureShaderUniforms, null, [{
     key: 'defaults',
     value: function defaults() {
-      return _extends({}, _defaults);
+      return _extends({}, _defaults, { uniformName: 'tex2d' });
     }
   }]);
 
@@ -10496,7 +10494,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.3.7';
+var kLibraryVersion = '0.3.8';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
