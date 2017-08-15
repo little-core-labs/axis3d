@@ -1,10 +1,11 @@
 import { Component, ShaderLib } from '../core'
+import { assignDefaults } from '../utils'
 import { ScopedContext } from '../scope'
 
 export class Shader extends Component {
   static defaults() { return { ...ShaderLib.defaults(), defines: {} } }
   constructor(ctx, initialState = {}) {
-    Object.assign(initialState, Shader.defaults(), initialState)
+    assignDefaults(initialState, Shader.defaults())
     const { defines, shaderName } = initialState
     const contextCache = {}
     const shaderCache = {}
