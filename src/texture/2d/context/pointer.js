@@ -15,7 +15,7 @@ export class TexturePointerContext extends Component {
   static defaults() { return { ...defaults } }
   constructor(ctx, initialState = {}) {
     assignDefaults(initialState, TexturePointerContext.defaults())
-    const emptyTexture = ctx.regl.texture({ ...initialState.texture })
+    const emptyTexture = ctx.regl.texture({ ...initialState })
     const textureMap = new WeakMap()
     super(ctx, initialState,
       new ScopedContext(ctx, {
@@ -27,7 +27,7 @@ export class TexturePointerContext extends Component {
               if (!textureMap.has(textureData)) {
                 if (isTextureDataReady(textureData)) {
                   texture = ctx.regl.texture({
-                    ...initialState.texture,
+                    ...initialState,
                     data: textureData
                   })
                   textureMap.set(textureData, texture)
@@ -35,16 +35,16 @@ export class TexturePointerContext extends Component {
               }
             } else if (isVideo(textureData)) {
               if (!textureMap.has(textureData)) {
-                texture = ctx.regl.texture({ ...initialState.texture })
+                texture = ctx.regl.texture({ ...initialState })
                 textureMap.set(textureData, texture)
               }
               if (isTextureDataReady(textureData)) {
-                texture({ ...initialState.texture, data: textureData})
+                texture({ ...initialState, data: textureData})
               }
             }
           }
           if (null == textureData && copy) {
-            texture({ ...initialState.texture, copy })
+            texture({ ...initialState, copy })
           }
           return texture
         }

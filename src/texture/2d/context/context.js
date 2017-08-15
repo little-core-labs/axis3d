@@ -10,7 +10,6 @@ export class TextureContext extends Component {
   static defaults() { return { ...defaults } }
   constructor(ctx, initialState = {}) {
     assignDefaults(initialState, TextureContext.defaults())
-    const {uniformName} = initialState
     super(ctx, initialState,
       new TextureDataContext(ctx, initialState),
       new TexturePointerContext(ctx, initialState),
