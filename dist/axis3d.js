@@ -9169,6 +9169,8 @@ var _createClass = function () {
 
 var _utils = _dereq_('../../utils');
 
+var _ = _dereq_('../');
+
 var _utils2 = _dereq_('../../../utils');
 
 var _scope = _dereq_('../../../scope');
@@ -9225,7 +9227,8 @@ var TextureInfoContext = exports.TextureInfoContext = function (_Component) {
     _classCallCheck(this, TextureInfoContext);
 
     (0, _utils2.assignDefaults)(initialState, TextureInfoContext.defaults());
-    var uniformName = initialState.uniformName;
+    var _initialState$uniform = initialState.uniformName,
+        uniformName = _initialState$uniform === undefined ? _.TextureShaderUniforms.defaults().uniformName : _initialState$uniform;
     return _possibleConstructorReturn(this, (TextureInfoContext.__proto__ || Object.getPrototypeOf(TextureInfoContext)).call(this, ctx, initialState, new _scope.ScopedContext(ctx, {
       textureUniformName: function textureUniformName() {
         return uniformName;
@@ -9241,7 +9244,7 @@ var TextureInfoContext = exports.TextureInfoContext = function (_Component) {
   return TextureInfoContext;
 }(_core.Component);
 
-},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../../utils":119,"../defaults":105}],104:[function(_dereq_,module,exports){
+},{"../":106,"../../../core":52,"../../../scope":94,"../../../utils":120,"../../utils":119,"../defaults":105}],104:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -10385,7 +10388,7 @@ function isTextureDataReady(data) {
   if (!resolution[0] || !resolution[1]) {
     return false;
   }
-  if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
+  if (isVideo(data) && data.readyState > HAVE_CURRENT_DATA) {
     return true;
   } else if (isImage(data) || isCanvas(data)) {
     if (data.width && data.height) {
@@ -10408,7 +10411,7 @@ function getTextureDataResolution(data) {
 }
 
 function isCubeTextureDataReady(data) {
-  if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
+  if (isVideo(data) && data.readyState > HAVE_CURRENT_DATA) {
     return true;
   } else if (isImage(data) || isCanvas(data)) {
     if (data.width && data.height) {
@@ -10494,7 +10497,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.3.8';
+var kLibraryVersion = '0.3.9';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
