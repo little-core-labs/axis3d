@@ -37,15 +37,14 @@ export class Context extends EventEmitter {
       pixelRatio: opts.pixelRatio || window.devicePixelRatio || 1,
       profile: Boolean(opts.profile),
       ...opts.regl,
-      attributes: {...(opts.regl.attributes || {})},
-      extensions: [
-        'OES_texture_float',
-        ...(opts.regl.extensions || [])
-      ],
-
+      attributes: { ...(opts.regl.attributes || {}) },
+      extensions: [ ...(opts.regl.extensions || []) ],
       optionalExtensions: [
         'ANGLE_instanced_arrays',
         'EXT_disjoint_timer_query',
+        'OES_texture_float',
+        'OES_element_index_uint',
+        'OES_vertex_array_object',
         ...(opts.regl.optionalExtensions || [])
       ],
 
