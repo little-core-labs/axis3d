@@ -2,6 +2,7 @@ import {
   PerspectiveCamera,
   ScopedContext,
   CubeTexture,
+  Component,
   Geometry,
   Material,
   Context,
@@ -84,7 +85,7 @@ image.src = '/assets/texture.jpg'
 ready(() => document.body.appendChild(stats.dom))
 frame(() => stats.begin())
 frame(scene)
-console.log(frame(() => stats.end()))
+frame(() => stats.end())
 
 const vertexShader = new Shader(ctx, {
   vertexShader: glsl`
@@ -157,29 +158,24 @@ const fragmentShader = new Shader(ctx, {
 const cubeTextureData = []
 const faces = [ft, bk, up, dn, rt, lf]
 const to = setInterval(() => {
-  const i = (Math.random()*100%(faces.length ))|0
+  const i = (Math.random()*10%(faces.length))|0
   if (!cubeTextureData[i]) {
     console.log('face', i);
     cubeTextureData[i] = faces[i]
   }
-  if (faces.length == cubeTextureData.length) {
+  if (faces.filter(Boolean).length == cubeTextureData.length) {
     clearInterval(to)
   }
 }, 200)
 
 const rotation = quat.identity([])
+const draw = Component.compose(injectGlsl, fragmentShader, vertexShader, box)
 function scene({cancel, time}) {
   quat.setAxisAngle(rotation, [0, 1, 0], 0.5*time)
   camera({rotation, position: [2.5, 2.5, 2.5]}, () => {
     texture({data: image}, () => {
-      cubeTexture({data: cubeTextureData},() => {
-        injectGlsl(() => {
-          fragmentShader(() => {
-            vertexShader(({vertexShader, fragmentShader}) => {
-              box()
-            })
-          })
-        })
+      cubeTexture({data: cubeTextureData}, () => {
+        draw()
       })
     })
   })
