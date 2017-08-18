@@ -7,7 +7,7 @@ export class Command extends Function {
   static count() { return count }
   static codegen(fn) {
     if ('function' != typeof fn) { throw new TypeError("Expecting a function") }
-    else { return `return (${String(fn)}).apply(this, arguments);` }
+    else { return `"use strict"; return (${String(fn)}).apply(this, arguments);` }
   }
 
   constructor(fn) {
