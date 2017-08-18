@@ -2,7 +2,7 @@ import { Command } from './command'
 import { Entity } from './entity'
 
 /**
- * A Component is a commandthat composes one or more components and functions
+ * A Component is a command that composes one or more components and functions
  * into a single function  that is invokable like any command function.
  * An initial or default state can be given which is injected into the block
  * context object each call.
