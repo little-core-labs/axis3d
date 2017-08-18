@@ -25,6 +25,7 @@
   "author": "Joseph Werle <werle@littlstar.com>",
   "license": "MIT",
   "dependencies": {
+    "@littlstar/regl": "^1.3.1",
     "array-flatten": "^2.1.1",
     "bound-points": "^1.0.0",
     "clamp": "^1.0.1",
@@ -38,15 +39,15 @@
     "gl-vec3": "^1.0.3",
     "gl-vec4": "^1.0.1",
     "global": "^4.3.1",
+    "glsl-inject-defines": "^1.0.3",
+    "glsl-token-defines": "^1.0.0",
     "glsl-token-string": "^1.0.1",
     "glsl-tokenizer": "^2.1.2",
     "glslify": "^6.1.0",
     "mesh-reindex": "^1.0.0",
-    "glsl-inject-defines": "^1.0.3",
     "normals": "^1.1.0",
     "prepr": "^1.1.1",
     "raf": "^3.3.2",
-    "@littlstar/regl": "^1.3.1",
     "unindex-mesh": "^2.0.0"
   },
   "standard": {
