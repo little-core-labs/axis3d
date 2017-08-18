@@ -3,16 +3,14 @@ import coalesce from 'defined'
 import document from 'global/document'
 import window from 'global/window'
 import events from 'dom-events'
-import regl from 'regl'
+import regl from '@littlstar/regl'
 
 export class Context extends EventEmitter {
   constructor(opts = {}, createRegl = regl) {
     super()
     this.setMaxListeners(Infinity)
-
-    this._store = new Map()
     this._hasFocus = false
-    this._reglContext = null
+    this._isDestroyed = false
 
     // coalesce regl options if given as `.gl`
     opts.regl = coalesce(opts.regl, opts.gl || {})
@@ -85,11 +83,11 @@ export class Context extends EventEmitter {
     }
   }
 
-  get reglContext() { return this._reglContext || null }
+  get isDestroyed() { return Boolean(this._isDestroyed) }
   get domElement() { return this._domElement || null }
   get hasFocus() { return Boolean(this._hasFocus) }
   get regl() { return this._regl || null }
-  get gl() { return this._regl._gl || null  }
+  get gl() { return this._regl ? this._regl._gl || null : null }
 
   focus() {
     this._hasFocus = true
@@ -114,34 +112,31 @@ export class Context extends EventEmitter {
     }
 
     delete this._regl
-    delete this._store
     delete this._domElement
-    delete this._reglContext
     this._hasFocus = false
     this.emit('destroy')
     return this
   }
 
   refresh() {
-    if (this._regl) {
-      if ('function' == typeof this._regl._refresh)
-      this._regl.refresh()
+    if (this.regl && 'function' == typeof this.regl._refresh) {
+      this.regl._refresh()
     }
     return this
   }
 
-  get(key) {
-    if (this._store) {
-      return this._store.get(key)
+  flush() {
+    if (this.gl) {
+      this.gl.flush()
     }
-    return null
+    return this
   }
 
-  set(key, value) {
-    if (this._store) {
-      this._store.set(key, value)
-      return value
+  poll() {
+    if (this.regl) {
+      if (this.regl && 'function' == typeof this.regl.poll) {
+        this.regl.poll()
+      }
     }
-    return null
   }
 }
