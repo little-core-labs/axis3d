@@ -1,6 +1,6 @@
 import { DynamicValue } from './dynamic'
-import { Component } from './component'
 import * as libglsl from './glsl'
+import { Command } from './command'
 
 import { dirname, extname, resolve } from 'path'
 import glslTokensToDefines from 'glsl-token-defines'
@@ -22,9 +22,9 @@ const kGLSLTokenInteger = 'integer'
 const kGLSLTokenFloat = 'float'
 const kGLSLTokenEOF = 'eof'
 
-const kDefaultShaderLibPrecision = 'mediump float'
-const kDefaultShaderLibVersion = '100'
-const kDefaultShaderName = '<anonymous>'
+export const kDefaultShaderLibPrecision = 'mediump float'
+export const kDefaultShaderLibVersion = '100'
+export const kDefaultShaderName = '<anonymous>'
 
 export class ShaderLib {
   static defaults() {
@@ -165,7 +165,7 @@ export class ShaderLib {
   }
 }
 
-export class ShaderLibPlugin extends Component { }
+export class ShaderLibPlugin extends Command { }
 
 export class ShaderLibPreprocessor {
   constructor(shaderLib) {
