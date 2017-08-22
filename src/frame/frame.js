@@ -2,7 +2,6 @@ import { assignDefaults } from '../utils'
 import { ScopedContext } from '../scope'
 import { Component } from '../core'
 
-import { FrameShaderUniforms } from './uniforms'
 import { FrameContext } from './context'
 import { FrameState } from './state'
 import * as defaults from './defaults'
@@ -13,14 +12,13 @@ export class Frame extends Component {
     assignDefaults(initialState, Frame.defaults())
     const {frames = []} = initialState
 
-    const uniforms = new FrameShaderUniforms(ctx, initialState)
     const context = new FrameContext(ctx, initialState)
     const state = new FrameState(ctx, initialState)
 
     const getContext = ctx.regl({})
     const clear = () => getContext(({clear}) => clear())
     const autoClear = Component.compose(context, clear)
-    const pipe = Component.compose(state, context, uniforms)
+    const pipe = Component.compose(state, context)
 
     let loop = null // for all frames
     super(ctx, initialState, (state, refresh) => {
