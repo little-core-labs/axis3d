@@ -3338,7 +3338,7 @@ var Geometry = exports.Geometry = function () {
   return Geometry;
 }();
 
-},{"array-flatten":123,"bound-points":125,"defined":130,"mesh-reindex":291,"normals":293,"unindex-mesh":303}],35:[function(_dereq_,module,exports){
+},{"array-flatten":123,"bound-points":125,"defined":130,"mesh-reindex":292,"normals":294,"unindex-mesh":304}],35:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -4576,7 +4576,7 @@ var ShaderLibPreprocessor = exports.ShaderLibPreprocessor = function () {
   return ShaderLibPreprocessor;
 }();
 
-},{"./command":29,"./dynamic":32,"./glsl":42,"defined":130,"glsl-inject-defines":279,"glsl-token-defines":280,"glsl-token-string":282,"glsl-tokenizer":289,"path":295,"prepr":297}],54:[function(_dereq_,module,exports){
+},{"./command":29,"./dynamic":32,"./glsl":42,"defined":130,"glsl-inject-defines":279,"glsl-token-defines":280,"glsl-token-string":282,"glsl-tokenizer":289,"path":296,"prepr":298}],54:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -4801,8 +4801,6 @@ var _scope = _dereq_('../scope');
 
 var _core = _dereq_('../core');
 
-var _uniforms = _dereq_('./uniforms');
-
 var _context = _dereq_('./context');
 
 var _state = _dereq_('./state');
@@ -4860,7 +4858,6 @@ var Frame = exports.Frame = function (_Component) {
     var _initialState$frames = initialState.frames,
         frames = _initialState$frames === undefined ? [] : _initialState$frames;
 
-    var uniforms = new _uniforms.FrameShaderUniforms(ctx, initialState);
     var context = new _context.FrameContext(ctx, initialState);
     var state = new _state.FrameState(ctx, initialState);
 
@@ -4872,7 +4869,7 @@ var Frame = exports.Frame = function (_Component) {
       });
     };
     var autoClear = _core.Component.compose(context, clear);
-    var pipe = _core.Component.compose(state, context, uniforms);
+    var pipe = _core.Component.compose(state, context);
 
     var loop = null; // for all frames
 
@@ -5042,7 +5039,7 @@ var Frame = exports.Frame = function (_Component) {
   return Frame;
 }(_core.Component);
 
-},{"../core":52,"../scope":94,"../utils":120,"./context":54,"./defaults":55,"./state":58,"./uniforms":59}],57:[function(_dereq_,module,exports){
+},{"../core":52,"../scope":94,"../utils":120,"./context":54,"./defaults":55,"./state":58}],57:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5805,6 +5802,8 @@ var _createClass = function () {
 
 var _shader = _dereq_('./shader');
 
+var _frame = _dereq_('../frame');
+
 var _context = _dereq_('./context');
 
 var _utils = _dereq_('../utils');
@@ -5863,13 +5862,13 @@ var Material = exports.Material = function (_Component) {
     _classCallCheck(this, Material);
 
     (0, _utils.assignDefaults)(initialState, Material.defaults());
-    return _possibleConstructorReturn(this, (Material.__proto__ || Object.getPrototypeOf(Material)).call(this, ctx, initialState, new _state.MaterialState(ctx, initialState), new _context.MaterialContext(ctx, initialState), new _shader.MaterialShaderUniforms(ctx, initialState), new _shader.MaterialShader(ctx, initialState)));
+    return _possibleConstructorReturn(this, (Material.__proto__ || Object.getPrototypeOf(Material)).call(this, ctx, initialState, new _state.MaterialState(ctx, initialState), new _context.MaterialContext(ctx, initialState), new _shader.MaterialShaderUniforms(ctx, initialState), new _frame.FrameShaderUniforms(ctx, initialState), new _shader.MaterialShader(ctx, initialState)));
   }
 
   return Material;
 }(_core.Component);
 
-},{"../core":52,"../utils":120,"./context":63,"./defaults":64,"./shader":67,"./state":70}],67:[function(_dereq_,module,exports){
+},{"../core":52,"../frame":57,"../utils":120,"./context":63,"./defaults":64,"./shader":67,"./state":70}],67:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6824,6 +6823,8 @@ var _createClass = function () {
 
 var _camera = _dereq_('../camera');
 
+var _frame = _dereq_('../frame');
+
 var _utils = _dereq_('../utils');
 
 var _defaults2 = _dereq_('./defaults');
@@ -6891,7 +6892,7 @@ var Mesh = exports.Mesh = function (_Component) {
     }
     var getContext = ctx.regl({});
     var draw = ctx.regl(_extends({}, initialState.regl));
-    return _possibleConstructorReturn(this, (Mesh.__proto__ || Object.getPrototypeOf(Mesh)).call(this, ctx, initialState, new _object3d.Object3D(ctx, initialState), new _context.MeshContext(ctx, initialState), new _state.MeshState(ctx, initialState), new _shader.MeshShaderDefines(ctx, initialState), new _shader.MeshShaderAttributes(ctx, initialState), new _shader.MeshShaderUniforms(ctx, initialState), new _shader.MeshShader(ctx, initialState), new _camera.CameraShaderUniforms(ctx, _extends({}, initialState.camera)), function (state, block) {
+    return _possibleConstructorReturn(this, (Mesh.__proto__ || Object.getPrototypeOf(Mesh)).call(this, ctx, initialState, new _object3d.Object3D(ctx, initialState), new _context.MeshContext(ctx, initialState), new _state.MeshState(ctx, initialState), new _shader.MeshShaderDefines(ctx, initialState), new _shader.MeshShaderAttributes(ctx, initialState), new _shader.MeshShaderUniforms(ctx, initialState), new _shader.MeshShader(ctx, initialState), new _camera.CameraShaderUniforms(ctx, _extends({}, initialState.camera)), new _frame.FrameShaderUniforms(ctx, _extends({}, initialState.frame)), function (state, block) {
       draw(state);
       getContext(block);
     }));
@@ -6900,7 +6901,7 @@ var Mesh = exports.Mesh = function (_Component) {
   return Mesh;
 }(_core.Component);
 
-},{"../camera":9,"../core":52,"../object3d":91,"../utils":120,"./context":74,"./defaults":76,"./shader":81,"./state":84}],79:[function(_dereq_,module,exports){
+},{"../camera":9,"../core":52,"../frame":57,"../object3d":91,"../utils":120,"./context":74,"./defaults":76,"./shader":81,"./state":84}],79:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -9368,7 +9369,7 @@ var TexturePointerContext = exports.TexturePointerContext = function (_Component
   return TexturePointerContext;
 }(_core.Component);
 
-},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../../utils":119,"../defaults":105,"raf":299}],105:[function(_dereq_,module,exports){
+},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../../utils":119,"../defaults":105,"raf":300}],105:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9450,8 +9451,6 @@ var _createClass = function () {
   };
 }();
 
-var _uniforms = _dereq_('./uniforms');
-
 var _context = _dereq_('./context');
 
 var _utils = _dereq_('../../utils');
@@ -9508,13 +9507,13 @@ var Texture = exports.Texture = function (_Component) {
     _classCallCheck(this, Texture);
 
     (0, _utils.assignDefaults)(initialState, Texture.defaults());
-    return _possibleConstructorReturn(this, (Texture.__proto__ || Object.getPrototypeOf(Texture)).call(this, ctx, initialState, new _context.TextureContext(ctx, initialState), new _uniforms.TextureShaderUniforms(ctx, initialState)));
+    return _possibleConstructorReturn(this, (Texture.__proto__ || Object.getPrototypeOf(Texture)).call(this, ctx, initialState, new _context.TextureContext(ctx, initialState)));
   }
 
   return Texture;
 }(_core.Component);
 
-},{"../../core":52,"../../utils":120,"./context":102,"./defaults":105,"./uniforms":108}],108:[function(_dereq_,module,exports){
+},{"../../core":52,"../../utils":120,"./context":102,"./defaults":105}],108:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -10140,8 +10139,6 @@ var _createClass = function () {
   };
 }();
 
-var _uniforms = _dereq_('./uniforms');
-
 var _context = _dereq_('./context');
 
 var _utils = _dereq_('../../utils');
@@ -10198,13 +10195,13 @@ var CubeTexture = exports.CubeTexture = function (_Component) {
     _classCallCheck(this, CubeTexture);
 
     (0, _utils.assignDefaults)(initialState, CubeTexture.defaults());
-    return _possibleConstructorReturn(this, (CubeTexture.__proto__ || Object.getPrototypeOf(CubeTexture)).call(this, ctx, initialState, new _context.CubeTextureContext(ctx, initialState), new _uniforms.CubeTextureShaderUniforms(ctx, initialState)));
+    return _possibleConstructorReturn(this, (CubeTexture.__proto__ || Object.getPrototypeOf(CubeTexture)).call(this, ctx, initialState, new _context.CubeTextureContext(ctx, initialState)));
   }
 
   return CubeTexture;
 }(_core.Component);
 
-},{"../../core":52,"../../utils":120,"./context":111,"./defaults":114,"./uniforms":117}],117:[function(_dereq_,module,exports){
+},{"../../core":52,"../../utils":120,"./context":111,"./defaults":114}],117:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -10465,6 +10462,10 @@ var _debug = _dereq_('debug');
 
 var _debug2 = _interopRequireDefault(_debug);
 
+var _isTypedarray = _dereq_('is-typedarray');
+
+var _isTypedarray2 = _interopRequireDefault(_isTypedarray);
+
 var _document = _dereq_('global/document');
 
 var _document2 = _interopRequireDefault(_document);
@@ -10491,7 +10492,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.3.12';
+var kLibraryVersion = '0.3.13';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
@@ -10611,10 +10612,10 @@ var ensureRGB = exports.ensureRGB = function ensureRGB(color) {
 };
 
 var isArrayLike = exports.isArrayLike = function isArrayLike(array) {
-  return Boolean(array && (Array.isArray(array) || array instanceof TypedArray || 'number' == array.length || 'function' == typeof array[Symbol.iterator]));
+  return Boolean(array && (Array.isArray(array) || array instanceof TypedArray || (0, _isTypedarray2.default)(array) || 'number' == array.length || 'function' == typeof array[Symbol.iterator]));
 };
 
-},{"clamp":127,"debug":128,"global/document":277,"global/window":278}],121:[function(_dereq_,module,exports){
+},{"clamp":127,"debug":128,"global/document":277,"global/window":278,"is-typedarray":291}],121:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -19434,7 +19435,7 @@ function localstorage() {
 }
 
 }).call(this,_dereq_('_process'))
-},{"./debug":129,"_process":298}],129:[function(_dereq_,module,exports){
+},{"./debug":129,"_process":299}],129:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -19640,7 +19641,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":292}],130:[function(_dereq_,module,exports){
+},{"ms":293}],130:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -19701,7 +19702,7 @@ module.exports = {
     emit: emit
 };
 
-},{"synthetic-dom-events":300}],132:[function(_dereq_,module,exports){
+},{"synthetic-dom-events":301}],132:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -24713,6 +24714,38 @@ module.exports = function (strings) {
 };
 
 },{}],291:[function(_dereq_,module,exports){
+'use strict';
+
+module.exports = isTypedArray;
+isTypedArray.strict = isStrictTypedArray;
+isTypedArray.loose = isLooseTypedArray;
+
+var toString = Object.prototype.toString;
+var names = {
+  '[object Int8Array]': true,
+  '[object Int16Array]': true,
+  '[object Int32Array]': true,
+  '[object Uint8Array]': true,
+  '[object Uint8ClampedArray]': true,
+  '[object Uint16Array]': true,
+  '[object Uint32Array]': true,
+  '[object Float32Array]': true,
+  '[object Float64Array]': true
+};
+
+function isTypedArray(arr) {
+  return isStrictTypedArray(arr) || isLooseTypedArray(arr);
+}
+
+function isStrictTypedArray(arr) {
+  return arr instanceof Int8Array || arr instanceof Int16Array || arr instanceof Int32Array || arr instanceof Uint8Array || arr instanceof Uint8ClampedArray || arr instanceof Uint16Array || arr instanceof Uint32Array || arr instanceof Float32Array || arr instanceof Float64Array;
+}
+
+function isLooseTypedArray(arr) {
+  return names[toString.call(arr)];
+}
+
+},{}],292:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = reindex;
@@ -24734,7 +24767,7 @@ function reindex(array) {
   };
 }
 
-},{}],292:[function(_dereq_,module,exports){
+},{}],293:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -24883,7 +24916,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],293:[function(_dereq_,module,exports){
+},{}],294:[function(_dereq_,module,exports){
 "use strict";
 
 var DEFAULT_NORMALS_EPSILON = 1e-6;
@@ -25008,7 +25041,7 @@ exports.faceNormals = function (faces, positions, specifiedEpsilon) {
   return normals;
 };
 
-},{}],294:[function(_dereq_,module,exports){
+},{}],295:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -25142,7 +25175,7 @@ parenthesis.stringify = stringify;
 
 module.exports = parenthesis;
 
-},{}],295:[function(_dereq_,module,exports){
+},{}],296:[function(_dereq_,module,exports){
 (function (process){
 'use strict';
 
@@ -25364,7 +25397,7 @@ var substr = function substr(str, start, len) {
 };
 
 }).call(this,_dereq_('_process'))
-},{"_process":298}],296:[function(_dereq_,module,exports){
+},{"_process":299}],297:[function(_dereq_,module,exports){
 (function (process){
 "use strict";
 
@@ -25405,7 +25438,7 @@ var substr = function substr(str, start, len) {
 
 
 }).call(this,_dereq_('_process'))
-},{"_process":298}],297:[function(_dereq_,module,exports){
+},{"_process":299}],298:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -25760,7 +25793,7 @@ function preprocess(what, how) {
 
 module.exports = preprocess;
 
-},{"balanced-match":124,"parenthesis":294,"xtend/mutable":304}],298:[function(_dereq_,module,exports){
+},{"balanced-match":124,"parenthesis":295,"xtend/mutable":305}],299:[function(_dereq_,module,exports){
 'use strict';
 
 // shim for using process in browser
@@ -25949,7 +25982,7 @@ process.umask = function () {
     return 0;
 };
 
-},{}],299:[function(_dereq_,module,exports){
+},{}],300:[function(_dereq_,module,exports){
 (function (global){
 'use strict';
 
@@ -26028,7 +26061,7 @@ module.exports.polyfill = function () {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"performance-now":296}],300:[function(_dereq_,module,exports){
+},{"performance-now":297}],301:[function(_dereq_,module,exports){
 'use strict';
 
 // for compression
@@ -26144,7 +26177,7 @@ var typeOf = function () {
     };
 }();
 
-},{"./init.json":301,"./types.json":302}],301:[function(_dereq_,module,exports){
+},{"./init.json":302,"./types.json":303}],302:[function(_dereq_,module,exports){
 module.exports={
   "initEvent" : [
     "type",
@@ -26211,7 +26244,7 @@ module.exports={
   ]
 }
 
-},{}],302:[function(_dereq_,module,exports){
+},{}],303:[function(_dereq_,module,exports){
 module.exports={
   "MouseEvent" : [
     "click",
@@ -26256,7 +26289,7 @@ module.exports={
   ]
 }
 
-},{}],303:[function(_dereq_,module,exports){
+},{}],304:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = unindex;
@@ -26311,7 +26344,7 @@ function unindex(positions, cells, out) {
   return out;
 }
 
-},{}],304:[function(_dereq_,module,exports){
+},{}],305:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = extend;
