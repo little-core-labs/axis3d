@@ -46,6 +46,7 @@
     "glsl-token-string": "^1.0.1",
     "glsl-tokenizer": "^2.1.2",
     "glslify": "^6.1.0",
+    "is-typedarray": "^1.0.0",
     "mesh-reindex": "^1.0.0",
     "normals": "^1.1.0",
     "prepr": "^1.1.1",
