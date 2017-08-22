@@ -1,8 +1,13 @@
-import { CubeTexture, Texture } from '../../src/texture'
 import { PerspectiveCamera } from '../../src/camera'
 import { Shader } from '../../src/shader'
 
 import {
+  TextureShaderUniforms,
+  Texture,
+} from '../../src/texture'
+
+import {
+  Component,
   Material,
   Geometry,
   Context,
@@ -29,31 +34,33 @@ const image = new Image(); image.src = '/assets/govball.jpg'
 const video = document.createElement('video'); video.src = '/assets/video.mp4'
 video.play()
 
-const material = new Material(ctx, {
-  fragmentShader({textureUniformName, texturePointer, textureData}) {
-    if (null == textureData) {
-      return `
-      #include <material/material>
-      #include <material/uniforms>
-      void main() {
-        gl_FragColor = vec4(material.color, material.opacity);
+const material = Component.compose(
+  new TextureShaderUniforms(ctx),
+  new Material(ctx, {
+    fragmentShader({textureUniformName, textureData}) {
+      if (null == textureData) {
+        return `
+        #include <material/material>
+        #include <material/uniforms>
+        void main() {
+          gl_FragColor = vec4(material.color, material.opacity);
+        }
+        `
+      } else {
+        return `
+        #include <texture/2d>
+        #include <varying/uv>
+        #include <varying/read>
+        #include <varying/data>
+        uniform Texture2D ${textureUniformName};
+        void main() {
+          VaryingData data = ReadVaryingData();
+          gl_FragColor = texture2D(${textureUniformName}.data, data.uv);
+        }
+        `
       }
-      `
-    } else {
-    return `
-      #include <texture/2d>
-      #include <varying/uv>
-      #include <varying/read>
-      #include <varying/data>
-      uniform Texture2D ${textureUniformName};
-      void main() {
-        VaryingData data = ReadVaryingData();
-        gl_FragColor = texture2D(${textureUniformName}.data, data.uv);
-      }
-      `
     }
-  }
-})
+  }))
 
 let data = video
 let i = 0
@@ -65,7 +72,7 @@ setInterval(() => {
 frame(({time}) => {
   quat.setAxisAngle(rotation, [1, 0, 0], 0.5*time)
   camera({rotation, position: [0, 0, 2]}, () => {
-    texture({data: null}, () => {
+    texture({data: null}, (...args) => {
       material(() => {
         mesh({wireframe: true}, () => {
           texture({data}, () => {
