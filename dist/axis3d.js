@@ -7089,7 +7089,7 @@ var MeshShaderDefines = exports.MeshShaderDefines = function (_Component) {
       GLSL_MESH_HAS_POSITION: function GLSL_MESH_HAS_POSITION(_ref) {
         var geometry = _ref.geometry;
 
-        if (geometry.positions) {
+        if (geometry && geometry.positions) {
           return true;
         }
         return null;
@@ -7097,7 +7097,7 @@ var MeshShaderDefines = exports.MeshShaderDefines = function (_Component) {
       GLSL_MESH_HAS_NORMAL: function GLSL_MESH_HAS_NORMAL(_ref2) {
         var geometry = _ref2.geometry;
 
-        if (geometry.normals) {
+        if (geometry && geometry.normals) {
           return true;
         }
         return null;
@@ -7105,7 +7105,7 @@ var MeshShaderDefines = exports.MeshShaderDefines = function (_Component) {
       GLSL_MESH_HAS_UV: function GLSL_MESH_HAS_UV(_ref3) {
         var geometry = _ref3.geometry;
 
-        if (geometry.uvs) {
+        if (geometry && geometry.uvs) {
           return true;
         }
         return null;
@@ -8443,25 +8443,20 @@ var ShaderDefines = exports.ShaderDefines = function (_Component) {
   function ShaderDefines(ctx, initialState, props) {
     _classCallCheck(this, ShaderDefines);
 
-    for (var _len = arguments.length, children = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
-      children[_key - 3] = arguments[_key];
-    }
-
-    if ('function' == typeof props) {
-      children.unshift(props);
-    }
-    if ('function' == typeof initialState) {
-      children.unshift(initialState);
-    }
     if ('object' != (typeof initialState === 'undefined' ? 'undefined' : _typeof(initialState))) {
       initialState = {};
     }
     if ('object' != (typeof props === 'undefined' ? 'undefined' : _typeof(props))) {
       props = initialState;
+      initialState = {};
     }
     return _possibleConstructorReturn(this, (ShaderDefines.__proto__ || Object.getPrototypeOf(ShaderDefines)).call(this, ctx, initialState, new _scope.ScopedContext(ctx, initialState, {
       defines: function defines() {
-        var defines = {};
+        var _ref = arguments.length <= 0 ? undefined : arguments[0],
+            _ref$defines = _ref.defines,
+            defines = _ref$defines === undefined ? {} : _ref$defines; // from regl context
+
+
         for (var prop in props) {
           var value = props[prop];
           if ('function' == typeof value) {
@@ -8526,6 +8521,16 @@ var _utils = _dereq_('../utils');
 
 var _scope = _dereq_('../scope');
 
+var _defines = _dereq_('./defines');
+
+var _glslInjectDefines = _dereq_('glsl-inject-defines');
+
+var _glslInjectDefines2 = _interopRequireDefault(_glslInjectDefines);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -8560,30 +8565,13 @@ var Shader = exports.Shader = function (_Component) {
     _classCallCheck(this, Shader);
 
     (0, _utils.assignDefaults)(initialState, Shader.defaults());
-    var defines = initialState.defines,
-        shaderName = initialState.shaderName;
+    var shaderName = initialState.shaderName;
 
     var contextCache = {};
     var shaderCache = {};
-    var shaderLib = new _core.ShaderLib(_extends({}, initialState, { defines: defines }));
+    var shaderLib = new _core.ShaderLib(_extends({}, initialState));
 
-    var injectParentContext = new _scope.ScopedContext(ctx, {
-      defines: function (_defines) {
-        function defines(_x2) {
-          return _defines.apply(this, arguments);
-        }
-
-        defines.toString = function () {
-          return _defines.toString();
-        };
-
-        return defines;
-      }(function (_ref) {
-        var contextDefines = _ref.defines;
-
-        return _extends({}, contextDefines, defines);
-      })
-    });
+    var injectShaderDefines = _core.Component.compose(new _defines.ShaderDefines(ctx, _extends({}, initialState.defines)));
 
     var injectContext = null;
 
@@ -8595,11 +8583,10 @@ var Shader = exports.Shader = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Shader.__proto__ || Object.getPrototypeOf(Shader)).call(this, ctx, initialState, update));
 
     function update(state, block, previousState) {
-      injectParentContext(function (reglContext) {
+      injectShaderDefines(function (reglContext) {
         var _state$forceCompile = state.forceCompile,
             forceCompile = _state$forceCompile === undefined ? false : _state$forceCompile;
-
-        Object.assign(defines, _extends({}, reglContext.defines, state.defines));
+        var defines = reglContext.defines;
 
         if (Object.keys(defines).length) {
           if (shaderLib.preprocessor.define(defines)) {
@@ -8630,7 +8617,7 @@ var Shader = exports.Shader = function (_Component) {
       var opts = {
         context: {
           fragmentShader: function (_fragmentShader) {
-            function fragmentShader(_x3) {
+            function fragmentShader(_x2) {
               return _fragmentShader.apply(this, arguments);
             }
 
@@ -8639,12 +8626,12 @@ var Shader = exports.Shader = function (_Component) {
             };
 
             return fragmentShader;
-          }(function (_ref2) {
-            var fs = _ref2.fragmentShader;
+          }(function (_ref) {
+            var fs = _ref.fragmentShader;
             return fragmentShader || fs;
           }),
           vertexShader: function (_vertexShader) {
-            function vertexShader(_x4) {
+            function vertexShader(_x3) {
               return _vertexShader.apply(this, arguments);
             }
 
@@ -8653,8 +8640,8 @@ var Shader = exports.Shader = function (_Component) {
             };
 
             return vertexShader;
-          }(function (_ref3) {
-            var vs = _ref3.vertexShader;
+          }(function (_ref2) {
+            var vs = _ref2.vertexShader;
             return vertexShader || vs;
           })
         }
@@ -8736,10 +8723,12 @@ var Shader = exports.Shader = function (_Component) {
     }
 
     function getViableShader(reglContext, currentState, shader) {
+      var defines = shaderLib.defines;
+
       if ('string' == typeof shader) {
-        return shader;
+        return (0, _glslInjectDefines2.default)(shader, defines);
       } else if ('function' == typeof shader) {
-        return shader(reglContext, currentState);
+        return (0, _glslInjectDefines2.default)(shader(reglContext, currentState), defines);
       }
     }
 
@@ -8777,7 +8766,7 @@ var Shader = exports.Shader = function (_Component) {
   return Shader;
 }(_core.Component);
 
-},{"../core":52,"../scope":94,"../utils":120}],99:[function(_dereq_,module,exports){
+},{"../core":52,"../scope":94,"../utils":120,"./defines":96,"glsl-inject-defines":279}],99:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -10492,7 +10481,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.4.0';
+var kLibraryVersion = '0.4.1';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
