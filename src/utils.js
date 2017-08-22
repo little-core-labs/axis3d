@@ -1,4 +1,5 @@
 import createDebug from 'debug'
+import isTypedArray from 'is-typedarray'
 import document from 'global/document'
 import window from 'global/window'
 import clamp from 'clamp'
@@ -105,7 +106,7 @@ export const ensureRGB = (color) => {
 export const isArrayLike = (array) => {
   return Boolean(array && (
        Array.isArray(array)
-    || array instanceof TypedArray
+    || (array instanceof TypedArray || isTypedArray(array))
     || 'number' == array.length
     || 'function' == typeof array[Symbol.iterator])
   )
