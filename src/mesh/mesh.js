@@ -1,4 +1,5 @@
 import { CameraShaderUniforms } from '../camera'
+import { FrameShaderUniforms } from '../frame'
 import { assignDefaults } from '../utils'
 import * as defaults from './defaults'
 import { Component } from '../core'
@@ -36,6 +37,7 @@ export class Mesh extends Component {
       new MeshShaderUniforms(ctx, initialState),
       new MeshShader(ctx, initialState),
       new CameraShaderUniforms(ctx, { ...initialState.camera }),
+      new FrameShaderUniforms(ctx, { ...initialState.frame }),
       (state, block) => {
         draw(state)
         getContext(block)
