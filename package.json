@@ -1,6 +1,6 @@
 {
   "name": "axis3d",
-  "version": "0.3.13",
+  "version": "0.4.0",
   "description": "Minimal functional graphics library.",
   "scripts": {
     "dependency-check": "make lib && cd lib && dependency-check .",
