@@ -1,4 +1,5 @@
 import { MaterialShaderUniforms, MaterialShader } from './shader'
+import { FrameShaderUniforms } from '../frame'
 import { MaterialContext } from './context'
 import { assignDefaults } from '../utils'
 import { MaterialState } from './state'
@@ -13,6 +14,7 @@ export class Material extends Component {
       new MaterialState(ctx, initialState),
       new MaterialContext(ctx, initialState),
       new MaterialShaderUniforms(ctx, initialState),
+      new FrameShaderUniforms(ctx, initialState),
       new MaterialShader(ctx, initialState),
     )
   }
