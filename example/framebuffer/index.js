@@ -1,9 +1,10 @@
 import {
-  OrthographicCamera,
+  TextureShaderUniforms,
   PerspectiveCamera,
   ShaderAttributes,
   ShaderUniforms,
   FrameBuffer,
+  Component,
   Geometry,
   Material,
   Texture,
@@ -57,7 +58,7 @@ const bunnyAttributes = new ShaderAttributes(ctx, {
   direction: bunnyGeometry.complex.directions,
 })
 
-const framebufferMesh = new Mesh(ctx, {
+const triangle = new Mesh(ctx, {
   geometry: {positions: [[-4, -4], [4, -4], [0, 4]]}
 })
 
@@ -116,77 +117,80 @@ const angle = quat.identity([])
 const color = [0, 0.5, 1]
 const stats = new Stats()
 
-const framebufferMaterial = new Material(ctx, {
-  glsl: libglsl,
-  fragmentShader({textureUniformName, texturePointer, textureData}) {
-    return `
-      #define GLSL_FRAGMENT_MAIN_AFTER After
-      #define GLSL_FRAGMENT_MAIN_TRANSFORM Transform
-      #define RADIUS 0.95
-      #define SOFTNESS 0.125
-      #define SEPIA 4.0*vec3(1.2, 1.0, 0.8)
+const feedbackMaterial = Component.compose(
+  new TextureShaderUniforms(ctx),
+  new Material(ctx, {
+    glsl: libglsl,
+    fragmentShader({textureUniformName, textureData}) {
+      return `
+        #define GLSL_FRAGMENT_MAIN_AFTER After
+        #define GLSL_FRAGMENT_MAIN_TRANSFORM Transform
+        #define RADIUS 0.95
+        #define SOFTNESS 0.125
+        #define SEPIA 4.0*vec3(1.2, 1.0, 0.8)
 
-      #include "./noise"
+        #include "./noise"
 
-      #include <texture/2d>
-      #include <varying/uv>
-      #include <varying/read>
-      #include <varying/data>
-      #include <frame/frame>
-      #include <frame/uniforms>
-      #include <fragment/main>
-      #include <time/time>
+        #include <texture/2d>
+        #include <varying/uv>
+        #include <varying/read>
+        #include <varying/data>
+        #include <frame/frame>
+        #include <frame/uniforms>
+        #include <fragment/main>
+        #include <time/time>
 
-      uniform Texture2D ${textureUniformName};
+        uniform Texture2D ${textureUniformName};
 
-      void Main(inout vec4 fragColor, inout VaryingData data) {
-        fragColor = texture2D(${textureUniformName}.data, data.uv);
-        fragColor.a = 1.0;
-      }
-
-      void After(inout vec4 fragColor, inout VaryingData data) {
-        vec2 position = (gl_FragCoord.xy / frame.resolution.xy) - vec2(0.5);
-        float len = length(position);
-        float vignette = smoothstep(RADIUS, RADIUS-SOFTNESS, len);
-        fragColor.rgb = mix(fragColor.rgb, fragColor.rgb * vignette, 0.5);
-        float gray = dot(fragColor.rgb, vec3(0.299, 0.587, 0.114));
-        vec3 sepiaColor = vec3(gray) * SEPIA;
-        fragColor.rgb = mix(fragColor.rgb, sepiaColor, 0.2);
-      }
-
-      void Transform(inout vec4 fragColor, inout VaryingData data) {
-        const int n = 16;
-        float d = 0.001;
-        vec3 c = texture2D(${textureUniformName}.data, data.uv).rgb;
-        for (int i = 0; i < n; i++) {
-          c += texture2D(${textureUniformName}.data,data.uv+vec2(d,d)).rgb;
-          c += texture2D(${textureUniformName}.data,data.uv+vec2(-d,d)).rgb;
-          c += texture2D(${textureUniformName}.data,data.uv+vec2(d,-d)).rgb;
-          c += texture2D(${textureUniformName}.data,data.uv+vec2(-d,-d)).rgb;
-          d *= 1.6;
+        void Main(inout vec4 fragColor, inout VaryingData data) {
+          fragColor = texture2D(${textureUniformName}.data, data.uv);
+          fragColor.a = 1.0;
         }
-        fragColor.rgb = c*0.9/(1.0+float(n)*2.0); // blur
-        float l = pow(abs(snoise(vec4(data.position, GetTime()*0.2))), 0.5)*0.5+0.5;
-        fragColor.rgb *= l;
+
+        void After(inout vec4 fragColor, inout VaryingData data) {
+          vec2 position = (gl_FragCoord.xy / frame.resolution.xy) - vec2(0.5);
+          float len = length(position);
+          float vignette = smoothstep(RADIUS, RADIUS-SOFTNESS, len);
+          fragColor.rgb = mix(fragColor.rgb, fragColor.rgb * vignette, 0.5);
+          float gray = dot(fragColor.rgb, vec3(0.299, 0.587, 0.114));
+          vec3 sepiaColor = vec3(gray) * SEPIA;
+          fragColor.rgb = mix(fragColor.rgb, sepiaColor, 0.2);
+        }
+
+        void Transform(inout vec4 fragColor, inout VaryingData data) {
+          const int n = 16;
+          float d = 0.001;
+          vec3 c = texture2D(${textureUniformName}.data, data.uv).rgb;
+          for (int i = 0; i < n; i++) {
+            c += texture2D(${textureUniformName}.data,data.uv+vec2(d,d)).rgb;
+            c += texture2D(${textureUniformName}.data,data.uv+vec2(-d,d)).rgb;
+            c += texture2D(${textureUniformName}.data,data.uv+vec2(d,-d)).rgb;
+            c += texture2D(${textureUniformName}.data,data.uv+vec2(-d,-d)).rgb;
+            d *= 1.6;
+          }
+          fragColor.rgb = c*0.9/(1.0+float(n)*2.0); // blur
+          float l = pow(abs(snoise(vec4(data.position, GetTime()*0.2))), 0.5)*0.5+0.5;
+          fragColor.rgb *= l;
+        }
+        `
+    },
+
+    vertexShader() {
+      return `
+      #define GLSL_MESH_HAS_POSITION
+      #define GLSL_VERTEX_MAIN_AFTER After
+
+      #include <varying/uv>
+      #include <varying/emit/uv>
+      #include <mesh/vertex/main>
+
+      void After(inout vec4 vertexPosition, inout VaryingData data) {
+        EmitVaryingUvs(0.5 * (vertexPosition.xy + 1.0));
       }
       `
-  },
-
-  vertexShader() {
-    return `
-    #define GLSL_MESH_HAS_POSITION
-    #define GLSL_VERTEX_MAIN_AFTER After
-
-    #include <varying/uv>
-    #include <varying/emit/uv>
-    #include <mesh/vertex/main>
-
-    void After(inout vec4 vertexPosition, inout VaryingData data) {
-      EmitVaryingUvs(0.5 * (vertexPosition.xy + 1.0));
     }
-    `
-  }
-})
+  })
+)
 
 ctx.on('error', (err) => console.error(err.stack || err))
 
@@ -223,8 +227,9 @@ function scene({time, clear, cancel, cancelAll}) {
       })
     })
 
+    // render feedback
     identityCamera(() => {
-      framebufferMaterial(() => { framebufferMesh() })
+      feedbackMaterial(() => { triangle() })
     })
   })
 }
