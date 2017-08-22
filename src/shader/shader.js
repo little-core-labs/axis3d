@@ -1,21 +1,21 @@
 import { Component, ShaderLib } from '../core'
 import { assignDefaults } from '../utils'
 import { ScopedContext } from '../scope'
+import { ShaderDefines } from './defines'
+import injectDefines from 'glsl-inject-defines'
 
 export class Shader extends Component {
   static defaults() { return { ...ShaderLib.defaults(), defines: {} } }
   constructor(ctx, initialState = {}) {
     assignDefaults(initialState, Shader.defaults())
-    const { defines, shaderName } = initialState
+    const { shaderName } = initialState
     const contextCache = {}
     const shaderCache = {}
-    const shaderLib = new ShaderLib({ ...initialState, defines })
+    const shaderLib = new ShaderLib({ ...initialState })
 
-    const injectParentContext = new ScopedContext(ctx, {
-      defines({defines: contextDefines}) {
-        return { ...contextDefines, ...defines }
-      }
-    })
+    const injectShaderDefines = Component.compose(
+      new ShaderDefines(ctx, { ...initialState.defines }),
+    )
 
     let injectContext = null
 
@@ -26,9 +26,9 @@ export class Shader extends Component {
 
     super(ctx, initialState, update)
     function update(state, block, previousState) {
-      injectParentContext((reglContext) => {
+      injectShaderDefines((reglContext) => {
         let {forceCompile = false} = state
-        Object.assign(defines, { ...reglContext.defines, ...state.defines })
+        const {defines} = reglContext
 
         if (Object.keys(defines).length) {
           if (shaderLib.preprocessor.define(defines)) {
@@ -142,9 +142,11 @@ export class Shader extends Component {
     }
 
     function getViableShader(reglContext, currentState, shader) {
-      if ('string' == typeof shader) { return shader }
-      else if ('function' == typeof shader) {
-        return shader(reglContext, currentState)
+      const {defines} = shaderLib
+      if ('string' == typeof shader) {
+        return injectDefines(shader, defines)
+      } else if ('function' == typeof shader) {
+        return injectDefines(shader(reglContext, currentState), defines)
       }
     }
 
