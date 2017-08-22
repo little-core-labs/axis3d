@@ -1,6 +1,6 @@
 {
   "name": "axis3d",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "description": "Minimal functional graphics library.",
   "scripts": {
     "dependency-check": "make lib && cd lib && dependency-check .",
@@ -46,6 +46,7 @@
     "glsl-token-string": "^1.0.1",
     "glsl-tokenizer": "^2.1.2",
     "glslify": "^6.1.0",
+    "is-typedarray": "^1.0.0",
     "mesh-reindex": "^1.0.0",
     "normals": "^1.1.0",
     "prepr": "^1.1.1",
