@@ -1,4 +1,3 @@
-import { CubeTextureShaderUniforms } from './uniforms'
 import { CubeTextureContext } from './context'
 import { assignDefaults } from '../../utils'
 import * as defaults from './defaults'
@@ -9,7 +8,7 @@ export class CubeTexture extends Component {
   constructor(ctx, initialState = {}, ...children) {
     assignDefaults(initialState, CubeTexture.defaults())
     super(ctx, initialState,
-      new CubeTextureContext(ctx, initialState),
-      new CubeTextureShaderUniforms(ctx, initialState))
+      new CubeTextureContext(ctx, initialState)
+    )
   }
 }
