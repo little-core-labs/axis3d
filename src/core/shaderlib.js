@@ -9,6 +9,7 @@ import injectDefines from 'glsl-inject-defines'
 import glslTokenize from 'glsl-tokenizer'
 import preprocess from 'prepr'
 import coalesce from 'defined'
+import hash from 'string-hash'
 
 const kGLSLTokenPreprocecsor = 'preprocessor'
 const kGLSLTokenBlockComment = 'block-comment'
@@ -116,11 +117,8 @@ export class ShaderLib {
   }
 
   hash(source) {
-    return 'string' != typeof source ? null : String(source)
-      .split('')
-      .map((c) => c.charCodeAt(0))
-      .reduce((a, b) => a + b, 0)
-      .toString('16')
+    if ('string' == typeof source) { return hash(source) }
+    return null
   }
 
   isCached(source) {
