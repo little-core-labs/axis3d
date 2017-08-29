@@ -39,10 +39,6 @@ export class Context extends EventEmitter {
       extensions: [ ...(opts.regl.extensions || []) ],
       optionalExtensions: [
         'ANGLE_instanced_arrays',
-        'EXT_disjoint_timer_query',
-        'OES_texture_float',
-        'OES_element_index_uint',
-        'OES_vertex_array_object',
         ...(opts.regl.optionalExtensions || [])
       ],
 
