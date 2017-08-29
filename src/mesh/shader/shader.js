@@ -12,16 +12,26 @@ export class MeshShader extends Component {
     `
   }
 
+  static createFragmentShader({uniformName} = {}) {
+    return `
+    #define GLSL_MESH_UNIFORM_VARIABLE ${uniformName}
+    #include <mesh/fragment/main>
+    `
+  }
+
   constructor(ctx, initialState = {}) {
     assignDefaults(initialState, MeshShader.defaults())
+    const {
+      uniformName,
+      vertexShader = MeshShader.createVertexShader({uniformName}),
+      fragmentShader = MeshShader.createFragmentShader({uniformName})
+    } = initialState
     super(ctx, new Shader(ctx, {
-      glsl: initialState.glsl || {},
-      vertexShader({vertexShader}) {
-        const {uniformName} = initialState
-        if ('string' == typeof vertexShader) { return vertexShader }
-        else if ('string' == typeof initialState.vertexShader) {
-          return initialState.vertexShader
-        } else { return MeshShader.createVertexShader({uniformName}) }
+      vertexShader({vertexShader: vs}) {
+        return 'string' == typeof vs ? vs : vertexShader
+      },
+      fragmentShader({fragmentShader: fs}) {
+        return 'string' == typeof fs ? fs : fragmentShader
       },
       ...initialState
     }))

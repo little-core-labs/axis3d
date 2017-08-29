@@ -8,6 +8,7 @@ export class MeshState extends Component {
   constructor(ctx, initialState) {
     assignDefaults(initialState, MeshState.defaults())
     const {geometry} = initialState
+    let elements = null
     const opts = {
       primitive(ctx, args) {
         if (get('wireframe', [args, ctx])) {
@@ -18,21 +19,30 @@ export class MeshState extends Component {
 
       lineWidth(ctx, args) {
         return Math.max(1, get('lineWidth', [args, ctx]))
-      },
+      }
     }
-    if (geometry && geometry.cells) {
-      opts.elements = (ctx, args) => {
-        const cells = geometry.cells
-        const count = get('count', [args, ctx])
-        if (cells && 'number' == typeof count) {
-          return cells.slice(0, clamp(Math.floor(count), 0, cells.length))
+
+    if (geometry.cells) {
+      elements = ctx.regl.elements({data: geometry.cells})
+      Object.assign(opts, {
+        elements,
+        count(ctx, args) {
+          const dim = geometry.positions[0].length
+          const max = dim*geometry.cells.length
+          const count = get('count', [args, ctx])
+          if (null != count) { return clamp(count, 0, max) }
+          return max
         }
-        return cells
-      }
-    } else if (geometry) {
-      opts.count = (ctx, args) => {
-        return get('count', [args, ctx]) || geometry.positions.length
-      }
+      })
+    } else if (geometry.positions) {
+      Object.assign(opts, {
+        count(ctx, args) {
+          const count = get('count', [args, ctx])
+          const max = geometry.positions.length
+          if (null != count) { return clamp(count, 0, max) }
+          return max
+        }
+      })
     }
 
     super(ctx, initialState, ctx.regl(opts))
