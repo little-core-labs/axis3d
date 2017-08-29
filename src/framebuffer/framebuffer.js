@@ -9,6 +9,8 @@ export class FrameBuffer extends Component {
     const getContext = new ScopedContext(ctx)
     const fbo = ctx.regl.framebuffer({ ...initialState })
     const framebuffer = ctx.regl({ framebuffer: fbo})
+    let previousWidth = 0
+    let previousHeight = 0
     super(ctx,
       initialState,
       new ScopedContext(ctx, {
@@ -16,13 +18,22 @@ export class FrameBuffer extends Component {
       }),
       (state, block) => {
         getContext(({texturePointer, viewportWidth, viewportHeight}) => {
-          texturePointer({
-            width: viewportWidth,
-            height: viewportHeight,
-            wrap: 'clamp'
-          })
-          fbo({color: texturePointer})
-          fbo.resize(viewportWidth, viewportHeight)
+          const width = state.width || viewportWidth
+          const height = state.height || viewportHeight
+          if (texturePointer) {
+            texturePointer({
+              width, height,
+              wrap: 'clamp', min: 'linear', mag: 'linear', ...state.texture
+            })
+            fbo({color: texturePointer})
+          }
+
+          if (previousWidth != width || previousHeight != height) {
+            previousWidth = width
+            previousHeight = height
+            fbo.resize(width, height)
+          }
+
           framebuffer(block)
         })
       })
