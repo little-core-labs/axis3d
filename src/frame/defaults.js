@@ -8,7 +8,7 @@ export const blending = {
 }
 
 export const culling = {
-  enable: true,
+  enable: false,
   face: 'back'
 }
 
