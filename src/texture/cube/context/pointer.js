@@ -18,6 +18,7 @@ export class CubeTexturePointerContext extends Component {
     let faces = Array(6).fill(null)
     super(ctx, initialState,
       new ScopedContext(ctx, {
+        // @TODO - support subimage updates
         cubeTexturePointer({cubeTextureData}) {
           let needsUpload = false
           if (Array.isArray(cubeTextureData)) {
