@@ -8,7 +8,7 @@ export const lineWidth = 1
 
 export const blending = {
   equation: 'add',
-  enable: true,
+  enable: false,
   color: [0, 0, 0, 1],
   func: { src: 'src alpha', dst: 'one minus src alpha' }
 }
