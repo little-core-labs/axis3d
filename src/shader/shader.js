@@ -2,7 +2,6 @@ import { Component, ShaderLib } from '../core'
 import { assignDefaults } from '../utils'
 import { ScopedContext } from '../scope'
 import { ShaderDefines } from './defines'
-import injectDefines from 'glsl-inject-defines'
 
 export class Shader extends Component {
   static defaults() { return { ...ShaderLib.defaults(), defines: {} } }
@@ -17,12 +16,16 @@ export class Shader extends Component {
       new ShaderDefines(ctx, { ...initialState.defines }),
     )
 
+    let didDefinesChange = false
+
     let injectContext = null
 
     let fragmentShaderUncompiled = null
     let vertexShaderUncompiled = null
     let fragmentShader = null
     let vertexShader = null
+
+    let hashMap = {}
 
     super(ctx, initialState, update)
     function update(state, block, previousState) {
@@ -32,6 +35,7 @@ export class Shader extends Component {
 
         if (Object.keys(defines).length) {
           if (shaderLib.preprocessor.define(defines)) {
+            didDefinesChange = true
             forceCompile = true
           }
         }
@@ -42,6 +46,7 @@ export class Shader extends Component {
 
         setInjectContext(reglContext, state)
 
+        didDefinesChange = false
         if ('function' == typeof injectContext) {
           injectContext(state, block)
         } else {
@@ -50,9 +55,14 @@ export class Shader extends Component {
       })
     }
 
+    function hash(str) {
+      if (hashMap[str]) { return hashMap[str] }
+      return (hashMap[str] = shaderLib.hash(str))
+    }
+
     function getShaderFromCache(reglContext, currentState, shader) {
       shader = getViableShader(reglContext, currentState, shader)
-      return shaderCache[shaderLib.hash(shader)]
+      return shaderCache[hash(shader)]
     }
 
     function setInjectContext(reglContext, currentState) {
@@ -61,6 +71,10 @@ export class Shader extends Component {
           fragmentShader: ({fragmentShader: fs}) => fragmentShader || fs,
           vertexShader: ({vertexShader: vs }) => vertexShader || vs,
         }
+      }
+
+      if (!currentState.fragmentShader && !currentState.vertexShader) {
+        return
       }
 
       const requestedFragmentShader = getShaderFromCache(
@@ -73,6 +87,10 @@ export class Shader extends Component {
         currentState,
         currentState.vertexShader)
 
+      if (!requestedVertexShader && !requestedFragmentShader) {
+        return
+      }
+
       if (requestedFragmentShader && requestedFragmentShader != fragmentShader) {
         fragmentShader = requestedFragmentShader
       }
@@ -81,28 +99,39 @@ export class Shader extends Component {
         vertexShader = requestedVertexShader
       }
 
-      if ('string' == typeof vertexShader) { opts.vert = vertexShader }
-      if ('string' == typeof fragmentShader) { opts.frag = fragmentShader }
+      if ('string' == typeof fragmentShader) {
+        opts.frag = fragmentShader
+      }
+
+      if ('string' == typeof vertexShader) {
+        opts.vert = vertexShader
+      }
 
       if ('string' == typeof opts.vert || 'string' == typeof opts.frag) {
-        const hash = [shaderLib.hash(opts.vert), shaderLib.hash(opts.frag)]
-        .filter(Boolean).join('')
-        if (null == contextCache[hash]) {
+        if (injectContext) {
+          if (injectContext.opts.vert == opts.vert) {
+            if (injectContext.opts.frag == opts.frag) {
+              return
+            }
+          }
+        }
+        const id = ((o) => [o.vert||'', o.frag||''].map(hash).join(''))(opts)
+        if (null == contextCache[id]) {
           injectContext = ctx.regl(opts)
-          contextCache[hash] = injectContext
+          contextCache[id] = injectContext
           injectContext.opts = opts
-        } else {
-          injectContext = contextCache[hash]
+        } else if (contextCache[id] != injectContext) {
+          injectContext = contextCache[id]
         }
       }
     }
 
     function compile(reglContext, currentState) {
-      if (!isShaderCached(currentState.vertexShader)) {
+      if (didDefinesChange || !isShaderCached(currentState.vertexShader)) {
         compileVertexShader()
       }
 
-      if (!isShaderCached(currentState.fragmentShader)) {
+      if (didDefinesChange || !isShaderCached(currentState.fragmentShader)) {
         compileFragmentShader()
       }
 
@@ -127,7 +156,7 @@ export class Shader extends Component {
         if (result) {
           vertexShader = result.compiled
           vertexShaderUncompiled = result.uncompiled
-          shaderCache[shaderLib.hash(vertexShaderUncompiled)] = vertexShader
+          shaderCache[hash(vertexShaderUncompiled)] = vertexShader
         }
       }
 
@@ -136,18 +165,20 @@ export class Shader extends Component {
         if (result) {
           fragmentShader = result.compiled
           fragmentShaderUncompiled = result.uncompiled
-          shaderCache[shaderLib.hash(fragmentShaderUncompiled)] = fragmentShader
+          shaderCache[hash(fragmentShaderUncompiled)] = fragmentShader
         }
       }
     }
 
     function getViableShader(reglContext, currentState, shader) {
       const {defines} = shaderLib
+      let source = null
       if ('string' == typeof shader) {
-        return injectDefines(shader, defines)
+        source = shader
       } else if ('function' == typeof shader) {
-        return injectDefines(shader(reglContext, currentState), defines)
+        source = shader(reglContext, currentState)
       }
+      return source
     }
 
     function isViableShader(shader) {
@@ -168,9 +199,9 @@ export class Shader extends Component {
       function checkShader(current, next) {
         let cond = false
         next = getViableShader(reglContext, currentState, next)
-        if (shaderCache[shaderLib.hash(next)]) {
-          return check(true)
-        } else if ('string' != typeof current && next) {
+        if (shaderCache[hash(next)]) {
+          return check(false)
+        } else if ('string' != typeof current && 'string' == typeof next) {
           return check(true)
         } else if ('string' == typeof next && current != next) {
           return check(true)
