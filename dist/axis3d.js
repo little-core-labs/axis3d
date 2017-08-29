@@ -2719,7 +2719,7 @@ var Context = exports.Context = function (_EventEmitter) {
     }, opts.regl, {
       attributes: _extends({}, opts.regl.attributes || {}),
       extensions: [].concat(_toConsumableArray(opts.regl.extensions || [])),
-      optionalExtensions: ['ANGLE_instanced_arrays', 'EXT_disjoint_timer_query', 'OES_texture_float', 'OES_element_index_uint', 'OES_vertex_array_object'].concat(_toConsumableArray(opts.regl.optionalExtensions || [])),
+      optionalExtensions: ['ANGLE_instanced_arrays'].concat(_toConsumableArray(opts.regl.optionalExtensions || [])),
 
       onDone: function onDone(err, regl) {
         if (err) {
@@ -3338,7 +3338,7 @@ var Geometry = exports.Geometry = function () {
   return Geometry;
 }();
 
-},{"array-flatten":123,"bound-points":124,"defined":130,"mesh-reindex":292,"normals":293,"unindex-mesh":304}],35:[function(_dereq_,module,exports){
+},{"array-flatten":123,"bound-points":125,"defined":130,"mesh-reindex":292,"normals":294,"unindex-mesh":303}],35:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -3794,7 +3794,7 @@ function _defineProperty(obj, key, value) {
   }return obj;
 }
 
-Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/vertex/main', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX_MAIN\n#define GLSL_MESH_VERTEX_MAIN\n\n#include "../variables"\n#include "../uniforms"\n#include "../vertex"\n#include "../mesh"\n\n#include "../../camera/camera"\n#include "../../camera/uniforms"\n\n#ifdef GLSL_MESH_HAS_POSITION\n#include "../../vertex/attributes/position"\n#include "../../varying/position"\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n#include "../../vertex/attributes/normal"\n#include "../../varying/normal"\n#endif\n\n#ifdef GLSL_MESH_HAS_UV\n#include "../../vertex/attributes/uv"\n#include "../../varying/uv"\n#endif\n\n#include "../../varying/emit"\n#include "../../vertex/main"\n\nvoid Main(inout vec4 vertexPosition, inout VaryingData data) {\n  vertexPosition = MeshVertex(\n      GLSL_CAMERA_UNIFORM_VARIABLE.projection,\n      GLSL_CAMERA_UNIFORM_VARIABLE.view,\n      GLSL_MESH_UNIFORM_VARIABLE.model,\n      GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VARIABLES\n#define GLSL_MESH_VARIABLES\n\n#ifndef GLSL_MESH_UNIFORM_VARIABLE\n#define GLSL_MESH_UNIFORM_VARIABLE mesh\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_MESH_UNIFORMS\n#define GLSL_MESH_UNIFORMS\n\n#include "./variables"\n#include "./mesh"\n\nuniform Mesh GLSL_MESH_UNIFORM_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/fragment', '#define GLSLIFY 1\n#ifndef GLSL_MESH_FRAGMENT\n#define GLSL_MESH_FRAGMENT\n\n#ifndef GLSL_MESH_FRAGMENT_DEFAULT_COLOR\n#define GLSL_MESH_FRAGMENT_DEFAULT_COLOR vec4(0.25882352941176473, 0.5254901960784314, 0.9568627450980393, 1.0)\n#endif\n\nvec4 MeshFragment(void) {\n  return vec4(GLSL_MESH_FRAGMENT_DEFAULT_COLOR);\n}\n\nvec4 MeshFragment(vec4 color) {\n  return color;\n}\n\nvec4 MeshFragment(float r, float g, float b, float a) {\n  return MeshFragment(vec4(r, g, b, a));\n}\n\nvec4 MeshFragment(float r, float g, float b) {\n  return MeshFragment(r, g, b, 1.0);\n}\n\nvec4 MeshFragment(float c) {\n  return MeshFragment(c, c, c, 1.0);\n}\n\nvec4 MeshFragment(vec3 color, float opacity) {\n  return MeshFragment(vec4(color, opacity));\n}\n\nvec4 MeshFragment(vec3 color) {\n  return MeshFragment(color, 1.0);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/vertex', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX\n#define GLSL_MESH_VERTEX\n\n#ifndef GLSL_MESH_VERTEX_DEFAULT_POSITION\n#define GLSL_MESH_VERTEX_DEFAULT_POSITION vec4(0.0, 0.0, 0.0, 1.0)\n#endif\n\nvec4 MeshVertex(void) {\n  return vec4(GLSL_MESH_VERTEX_DEFAULT_POSITION);\n}\n\nvec4 MeshVertex(vec4 position) {\n  return position;\n}\n\nvec4 MeshVertex(mat4 transform, vec4 position) {\n  return MeshVertex(transform * position);\n}\n\nvec4 MeshVertex(mat4 transform, vec3 position) {\n  return MeshVertex(transform, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec4 position) {\n  return MeshVertex(transform * model * position);\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec3 position) {\n  return MeshVertex(transform, model, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec4 position) {\n  return MeshVertex(projection * view * model, position);\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec3 position) {\n  return MeshVertex(projection, view, model, vec4(position, 1.0));\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/mesh', '#define GLSLIFY 1\n#ifndef GLSL_MESH\n#define GLSL_MESH\n\nstruct Mesh {\n  vec4 rotation;\n  vec3 scale;\n  vec3 position;\n  mat4 model;\n  mat3 modelNormal;\n};\n\n#endif\n'), _Object$assign));
+Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/fragment/main', '#define GLSLIFY 1\n#ifndef GLSL_MESH_FRAGMENT_MAIN\n#define GLSL_MESH_FRAGMENT_MAIN\n\n#include "../mesh"\n#include "../uniforms"\n#include "../variables"\n\n#ifdef GLSL_MESH_HAS_POSITION\n#include "../../varying/position"\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n#include "../../varying/normal"\n#endif\n\n#include "../../mesh/fragment"\n#include "../../fragment/main"\n#include "../../varying/read"\n\nvoid Main(inout vec4 fragColor, inout VaryingData data) {\n#ifdef GLSL_MESH_HAS_POSITION\n  fragColor = MeshFragment(data.position);\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n  fragColor = MeshFragment(data.normal);\n#endif\n\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/vertex/main', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX_MAIN\n#define GLSL_MESH_VERTEX_MAIN\n\n#include "../variables"\n#include "../uniforms"\n#include "../vertex"\n#include "../mesh"\n\n#include "../../camera/camera"\n#include "../../camera/uniforms"\n\n#ifdef GLSL_MESH_HAS_POSITION\n#include "../../vertex/attributes/position"\n#include "../../varying/position"\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n#include "../../vertex/attributes/normal"\n#include "../../varying/normal"\n#endif\n\n#ifdef GLSL_MESH_HAS_UV\n#include "../../vertex/attributes/uv"\n#include "../../varying/uv"\n#endif\n\n#include "../../varying/emit"\n#include "../../vertex/main"\n\nvoid Main(inout vec4 vertexPosition, inout VaryingData data) {\n  vertexPosition = MeshVertex(\n      GLSL_CAMERA_UNIFORM_VARIABLE.projection,\n      GLSL_CAMERA_UNIFORM_VARIABLE.view,\n      GLSL_MESH_UNIFORM_VARIABLE.model,\n      GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VARIABLES\n#define GLSL_MESH_VARIABLES\n\n#ifndef GLSL_MESH_UNIFORM_VARIABLE\n#define GLSL_MESH_UNIFORM_VARIABLE mesh\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_MESH_UNIFORMS\n#define GLSL_MESH_UNIFORMS\n\n#include "./variables"\n#include "./mesh"\n\nuniform Mesh GLSL_MESH_UNIFORM_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/fragment', '#define GLSLIFY 1\n#ifndef GLSL_MESH_FRAGMENT\n#define GLSL_MESH_FRAGMENT\n\n#ifndef GLSL_MESH_FRAGMENT_DEFAULT_COLOR\n#define GLSL_MESH_FRAGMENT_DEFAULT_COLOR vec4(0.25882352941176473, 0.5254901960784314, 0.9568627450980393, 1.0)\n#endif\n\nvec4 MeshFragment(void) {\n  return vec4(GLSL_MESH_FRAGMENT_DEFAULT_COLOR);\n}\n\nvec4 MeshFragment(vec4 color) {\n  return color;\n}\n\nvec4 MeshFragment(float r, float g, float b, float a) {\n  return MeshFragment(vec4(r, g, b, a));\n}\n\nvec4 MeshFragment(float r, float g, float b) {\n  return MeshFragment(r, g, b, 1.0);\n}\n\nvec4 MeshFragment(float c) {\n  return MeshFragment(c, c, c, 1.0);\n}\n\nvec4 MeshFragment(vec3 color, float opacity) {\n  return MeshFragment(vec4(color, opacity));\n}\n\nvec4 MeshFragment(vec3 color) {\n  return MeshFragment(color, 1.0);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/vertex', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX\n#define GLSL_MESH_VERTEX\n\n#ifndef GLSL_MESH_VERTEX_DEFAULT_POSITION\n#define GLSL_MESH_VERTEX_DEFAULT_POSITION vec4(0.0, 0.0, 0.0, 1.0)\n#endif\n\nvec4 MeshVertex(void) {\n  return vec4(GLSL_MESH_VERTEX_DEFAULT_POSITION);\n}\n\nvec4 MeshVertex(vec4 position) {\n  return position;\n}\n\nvec4 MeshVertex(mat4 transform, vec4 position) {\n  return MeshVertex(transform * position);\n}\n\nvec4 MeshVertex(mat4 transform, vec3 position) {\n  return MeshVertex(transform, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec4 position) {\n  return MeshVertex(transform * model * position);\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec3 position) {\n  return MeshVertex(transform, model, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec4 position) {\n  return MeshVertex(projection * view * model, position);\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec3 position) {\n  return MeshVertex(projection, view, model, vec4(position, 1.0));\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/mesh', '#define GLSLIFY 1\n#ifndef GLSL_MESH\n#define GLSL_MESH\n\nstruct Mesh {\n  vec4 rotation;\n  vec3 scale;\n  vec3 position;\n  mat4 model;\n  mat3 modelNormal;\n};\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/mesh")
 },{"glslify":290}],45:[function(_dereq_,module,exports){
@@ -4164,6 +4164,10 @@ var _defined = _dereq_('defined');
 
 var _defined2 = _interopRequireDefault(_defined);
 
+var _stringHash = _dereq_('string-hash');
+
+var _stringHash2 = _interopRequireDefault(_stringHash);
+
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -4314,11 +4318,10 @@ var ShaderLib = exports.ShaderLib = function () {
   }, {
     key: 'hash',
     value: function hash(source) {
-      return 'string' != typeof source ? null : String(source).split('').map(function (c) {
-        return c.charCodeAt(0);
-      }).reduce(function (a, b) {
-        return a + b;
-      }, 0).toString('16');
+      if ('string' == typeof source) {
+        return (0, _stringHash2.default)(source);
+      }
+      return null;
     }
   }, {
     key: 'isCached',
@@ -4576,7 +4579,7 @@ var ShaderLibPreprocessor = exports.ShaderLibPreprocessor = function () {
   return ShaderLibPreprocessor;
 }();
 
-},{"./command":29,"./dynamic":32,"./glsl":42,"defined":130,"glsl-inject-defines":279,"glsl-token-defines":280,"glsl-token-string":282,"glsl-tokenizer":289,"path":295,"prepr":296}],54:[function(_dereq_,module,exports){
+},{"./command":29,"./dynamic":32,"./glsl":42,"defined":130,"glsl-inject-defines":279,"glsl-token-defines":280,"glsl-token-string":282,"glsl-tokenizer":289,"path":296,"prepr":297,"string-hash":299}],54:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -4749,7 +4752,7 @@ var blending = exports.blending = {
 };
 
 var culling = exports.culling = {
-  enable: true,
+  enable: false,
   face: 'back'
 };
 
@@ -5698,7 +5701,7 @@ var lineWidth = exports.lineWidth = 1;
 
 var blending = exports.blending = {
   equation: 'add',
-  enable: true,
+  enable: false,
   color: [0, 0, 0, 1],
   func: { src: 'src alpha', dst: 'one minus src alpha' }
 };
@@ -5977,6 +5980,14 @@ var MaterialShader = exports.MaterialShader = function (_Component) {
     value: function defaults() {
       return _extends({}, _defaults);
     }
+  }, {
+    key: 'createFragmentShader',
+    value: function createFragmentShader() {
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          uniformName = _ref.uniformName;
+
+      return '\n    #define GLSL_MATERIAL_UNIFORM_VARIABLE ' + uniformName + '\n    #include <material/fragment/main>\n    ';
+    }
   }]);
 
   function MaterialShader(ctx) {
@@ -5987,18 +5998,11 @@ var MaterialShader = exports.MaterialShader = function (_Component) {
     (0, _utils.assignDefaults)(initialState, MaterialShader.defaults());
     var uniformName = initialState.uniformName,
         _initialState$fragmen = initialState.fragmentShader,
-        fragmentShader = _initialState$fragmen === undefined ? null : _initialState$fragmen;
-    return _possibleConstructorReturn(this, (MaterialShader.__proto__ || Object.getPrototypeOf(MaterialShader)).call(this, ctx, initialState, new _shader.Shader(ctx, {
+        fragmentShader = _initialState$fragmen === undefined ? MaterialShader.createFragmentShader({ uniformName: uniformName }) : _initialState$fragmen;
+    return _possibleConstructorReturn(this, (MaterialShader.__proto__ || Object.getPrototypeOf(MaterialShader)).call(this, ctx, initialState, new _shader.Shader(ctx, _extends({
       glsl: initialState.glsl || {},
-      fragmentShader: function fragmentShader(_ref) {
-        var _fragmentShader = _ref.fragmentShader;
-
-        if (_fragmentShader) {
-          return _fragmentShader;
-        }
-        return '\n          #define GLSL_MATERIAL_UNIFORM_VARIABLE ' + uniformName + '\n          #include <material/fragment/main>\n          ';
-      }
-    })));
+      fragmentShader: fragmentShader
+    }, initialState))));
   }
 
   return MaterialShader;
@@ -6989,9 +6993,17 @@ var MeshShaderAttributes = exports.MeshShaderAttributes = function (_Component) 
 
     var attributes = {};
     if (geometry) {
-      attributes.position = geometry.positions || null;
-      attributes.normal = geometry.normals || null;
-      attributes.uv = geometry.uvs || null;
+      if (geometry.positions) {
+        attributes.position = ctx.regl.buffer(geometry.positions);
+      }
+
+      if (geometry.normals) {
+        attributes.normal = ctx.regl.buffer(geometry.normals);
+      }
+
+      if (geometry.uvs) {
+        attributes.uv = ctx.regl.buffer(geometry.uvs);
+      }
     }
     return _possibleConstructorReturn(this, (MeshShaderAttributes.__proto__ || Object.getPrototypeOf(MeshShaderAttributes)).call(this, ctx, initialState, new _shader.ShaderAttributes(ctx, attributes)));
   }
@@ -7257,6 +7269,14 @@ var MeshShader = exports.MeshShader = function (_Component) {
 
       return '\n    #define GLSL_MESH_UNIFORM_VARIABLE ' + uniformName + '\n    #include <mesh/vertex/main>\n    ';
     }
+  }, {
+    key: 'createFragmentShader',
+    value: function createFragmentShader() {
+      var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          uniformName = _ref2.uniformName;
+
+      return '\n    #define GLSL_MESH_UNIFORM_VARIABLE ' + uniformName + '\n    #include <mesh/fragment/main>\n    ';
+    }
   }]);
 
   function MeshShader(ctx) {
@@ -7265,19 +7285,23 @@ var MeshShader = exports.MeshShader = function (_Component) {
     _classCallCheck(this, MeshShader);
 
     (0, _utils.assignDefaults)(initialState, MeshShader.defaults());
-    return _possibleConstructorReturn(this, (MeshShader.__proto__ || Object.getPrototypeOf(MeshShader)).call(this, ctx, new _shader.Shader(ctx, _extends({
-      glsl: initialState.glsl || {},
-      vertexShader: function vertexShader(_ref2) {
-        var _vertexShader = _ref2.vertexShader;
-        var uniformName = initialState.uniformName;
 
-        if ('string' == typeof _vertexShader) {
-          return _vertexShader;
-        } else if ('string' == typeof initialState.vertexShader) {
-          return initialState.vertexShader;
-        } else {
-          return MeshShader.createVertexShader({ uniformName: uniformName });
-        }
+    var uniformName = initialState.uniformName,
+        _initialState$vertexS = initialState.vertexShader,
+        _vertexShader = _initialState$vertexS === undefined ? MeshShader.createVertexShader({ uniformName: uniformName }) : _initialState$vertexS,
+        _initialState$fragmen = initialState.fragmentShader,
+        _fragmentShader = _initialState$fragmen === undefined ? MeshShader.createFragmentShader({ uniformName: uniformName }) : _initialState$fragmen;
+
+    return _possibleConstructorReturn(this, (MeshShader.__proto__ || Object.getPrototypeOf(MeshShader)).call(this, ctx, new _shader.Shader(ctx, _extends({
+      vertexShader: function vertexShader(_ref3) {
+        var vs = _ref3.vertexShader;
+
+        return 'string' == typeof vs ? vs : _vertexShader;
+      },
+      fragmentShader: function fragmentShader(_ref4) {
+        var fs = _ref4.fragmentShader;
+
+        return 'string' == typeof fs ? fs : _fragmentShader;
       }
     }, initialState))));
   }
@@ -7507,6 +7531,7 @@ var MeshState = exports.MeshState = function (_Component) {
     (0, _utils.assignDefaults)(initialState, MeshState.defaults());
     var geometry = initialState.geometry;
 
+    var elements = null;
     var opts = {
       primitive: function primitive(ctx, args) {
         if ((0, _utils.get)('wireframe', [args, ctx])) {
@@ -7518,19 +7543,32 @@ var MeshState = exports.MeshState = function (_Component) {
         return Math.max(1, (0, _utils.get)('lineWidth', [args, ctx]));
       }
     };
-    if (geometry && geometry.cells) {
-      opts.elements = function (ctx, args) {
-        var cells = geometry.cells;
-        var count = (0, _utils.get)('count', [args, ctx]);
-        if (cells && 'number' == typeof count) {
-          return cells.slice(0, (0, _defined2.default)(Math.floor(count), 0, cells.length));
+
+    if (geometry.cells) {
+      elements = ctx.regl.elements({ data: geometry.cells });
+      Object.assign(opts, {
+        elements: elements,
+        count: function count(ctx, args) {
+          var dim = geometry.positions[0].length;
+          var max = dim * geometry.cells.length;
+          var count = (0, _utils.get)('count', [args, ctx]);
+          if (null != count) {
+            return (0, _defined2.default)(count, 0, max);
+          }
+          return max;
         }
-        return cells;
-      };
-    } else if (geometry) {
-      opts.count = function (ctx, args) {
-        return (0, _utils.get)('count', [args, ctx]) || geometry.positions.length;
-      };
+      });
+    } else if (geometry.positions) {
+      Object.assign(opts, {
+        count: function count(ctx, args) {
+          var count = (0, _utils.get)('count', [args, ctx]);
+          var max = geometry.positions.length;
+          if (null != count) {
+            return (0, _defined2.default)(count, 0, max);
+          }
+          return max;
+        }
+      });
     }
 
     return _possibleConstructorReturn(this, (MeshState.__proto__ || Object.getPrototypeOf(MeshState)).call(this, ctx, initialState, ctx.regl(opts)));
@@ -7789,9 +7827,9 @@ var Object3DMatrixContext = exports.Object3DMatrixContext = function (_Component
         var matrix = _glMat2.default.identity([]);
         var position = (0, _utils.get)('position', [ctx, args]);
         var rotation = (0, _utils.get)('rotation', [ctx, args]);
-        var scale = (0, _utils.get)('scale', [ctx, args, initialState]
+        var scale = (0, _utils.get)('scale', [ctx, args, initialState]);
         // M = T * R * S
-        );_glMat2.default.fromRotationTranslation(matrix, rotation, position);
+        _glMat2.default.fromRotationTranslation(matrix, rotation, position);
         _glMat2.default.scale(matrix, matrix, scale);
         return matrix;
       }
@@ -8523,14 +8561,6 @@ var _scope = _dereq_('../scope');
 
 var _defines = _dereq_('./defines');
 
-var _glslInjectDefines = _dereq_('glsl-inject-defines');
-
-var _glslInjectDefines2 = _interopRequireDefault(_glslInjectDefines);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -8573,12 +8603,16 @@ var Shader = exports.Shader = function (_Component) {
 
     var injectShaderDefines = _core.Component.compose(new _defines.ShaderDefines(ctx, _extends({}, initialState.defines)));
 
+    var didDefinesChange = false;
+
     var injectContext = null;
 
     var fragmentShaderUncompiled = null;
     var vertexShaderUncompiled = null;
     var fragmentShader = null;
     var vertexShader = null;
+
+    var hashMap = {};
 
     var _this = _possibleConstructorReturn(this, (Shader.__proto__ || Object.getPrototypeOf(Shader)).call(this, ctx, initialState, update));
 
@@ -8590,6 +8624,7 @@ var Shader = exports.Shader = function (_Component) {
 
         if (Object.keys(defines).length) {
           if (shaderLib.preprocessor.define(defines)) {
+            didDefinesChange = true;
             forceCompile = true;
           }
         }
@@ -8600,6 +8635,7 @@ var Shader = exports.Shader = function (_Component) {
 
         setInjectContext(reglContext, state);
 
+        didDefinesChange = false;
         if ('function' == typeof injectContext) {
           injectContext(state, block);
         } else {
@@ -8608,9 +8644,16 @@ var Shader = exports.Shader = function (_Component) {
       });
     }
 
+    function hash(str) {
+      if (hashMap[str]) {
+        return hashMap[str];
+      }
+      return hashMap[str] = shaderLib.hash(str);
+    }
+
     function getShaderFromCache(reglContext, currentState, shader) {
       shader = getViableShader(reglContext, currentState, shader);
-      return shaderCache[shaderLib.hash(shader)];
+      return shaderCache[hash(shader)];
     }
 
     function setInjectContext(reglContext, currentState) {
@@ -8647,9 +8690,17 @@ var Shader = exports.Shader = function (_Component) {
         }
       };
 
+      if (!currentState.fragmentShader && !currentState.vertexShader) {
+        return;
+      }
+
       var requestedFragmentShader = getShaderFromCache(reglContext, currentState, currentState.fragmentShader);
 
       var requestedVertexShader = getShaderFromCache(reglContext, currentState, currentState.vertexShader);
+
+      if (!requestedVertexShader && !requestedFragmentShader) {
+        return;
+      }
 
       if (requestedFragmentShader && requestedFragmentShader != fragmentShader) {
         fragmentShader = requestedFragmentShader;
@@ -8659,31 +8710,41 @@ var Shader = exports.Shader = function (_Component) {
         vertexShader = requestedVertexShader;
       }
 
-      if ('string' == typeof vertexShader) {
-        opts.vert = vertexShader;
-      }
       if ('string' == typeof fragmentShader) {
         opts.frag = fragmentShader;
       }
 
+      if ('string' == typeof vertexShader) {
+        opts.vert = vertexShader;
+      }
+
       if ('string' == typeof opts.vert || 'string' == typeof opts.frag) {
-        var hash = [shaderLib.hash(opts.vert), shaderLib.hash(opts.frag)].filter(Boolean).join('');
-        if (null == contextCache[hash]) {
+        if (injectContext) {
+          if (injectContext.opts.vert == opts.vert) {
+            if (injectContext.opts.frag == opts.frag) {
+              return;
+            }
+          }
+        }
+        var id = function (o) {
+          return [o.vert || '', o.frag || ''].map(hash).join('');
+        }(opts);
+        if (null == contextCache[id]) {
           injectContext = ctx.regl(opts);
-          contextCache[hash] = injectContext;
+          contextCache[id] = injectContext;
           injectContext.opts = opts;
-        } else {
-          injectContext = contextCache[hash];
+        } else if (contextCache[id] != injectContext) {
+          injectContext = contextCache[id];
         }
       }
     }
 
     function compile(reglContext, currentState) {
-      if (!isShaderCached(currentState.vertexShader)) {
+      if (didDefinesChange || !isShaderCached(currentState.vertexShader)) {
         compileVertexShader();
       }
 
-      if (!isShaderCached(currentState.fragmentShader)) {
+      if (didDefinesChange || !isShaderCached(currentState.fragmentShader)) {
         compileFragmentShader();
       }
 
@@ -8708,7 +8769,7 @@ var Shader = exports.Shader = function (_Component) {
         if (result) {
           vertexShader = result.compiled;
           vertexShaderUncompiled = result.uncompiled;
-          shaderCache[shaderLib.hash(vertexShaderUncompiled)] = vertexShader;
+          shaderCache[hash(vertexShaderUncompiled)] = vertexShader;
         }
       }
 
@@ -8717,7 +8778,7 @@ var Shader = exports.Shader = function (_Component) {
         if (result) {
           fragmentShader = result.compiled;
           fragmentShaderUncompiled = result.uncompiled;
-          shaderCache[shaderLib.hash(fragmentShaderUncompiled)] = fragmentShader;
+          shaderCache[hash(fragmentShaderUncompiled)] = fragmentShader;
         }
       }
     }
@@ -8725,11 +8786,13 @@ var Shader = exports.Shader = function (_Component) {
     function getViableShader(reglContext, currentState, shader) {
       var defines = shaderLib.defines;
 
+      var source = null;
       if ('string' == typeof shader) {
-        return (0, _glslInjectDefines2.default)(shader, defines);
+        source = shader;
       } else if ('function' == typeof shader) {
-        return (0, _glslInjectDefines2.default)(shader(reglContext, currentState), defines);
+        source = shader(reglContext, currentState);
       }
+      return source;
     }
 
     function isViableShader(shader) {
@@ -8751,9 +8814,9 @@ var Shader = exports.Shader = function (_Component) {
 
       function checkShader(current, next) {
         next = getViableShader(reglContext, currentState, next);
-        if (shaderCache[shaderLib.hash(next)]) {
-          return check(true);
-        } else if ('string' != typeof current && next) {
+        if (shaderCache[hash(next)]) {
+          return check(false);
+        } else if ('string' != typeof current && 'string' == typeof next) {
           return check(true);
         } else if ('string' == typeof next && current != next) {
           return check(true);
@@ -8766,7 +8829,7 @@ var Shader = exports.Shader = function (_Component) {
   return Shader;
 }(_core.Component);
 
-},{"../core":52,"../scope":94,"../utils":120,"./defines":96,"glsl-inject-defines":279}],99:[function(_dereq_,module,exports){
+},{"../core":52,"../scope":94,"../utils":120,"./defines":96}],99:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -9231,12 +9294,18 @@ var TextureInfoContext = exports.TextureInfoContext = function (_Component) {
 },{"../":106,"../../../core":52,"../../../scope":94,"../../../utils":120,"../../utils":119,"../defaults":105}],104:[function(_dereq_,module,exports){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.TexturePointerContext = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -9268,8 +9337,6 @@ var _defaults2 = _dereq_('../defaults');
 
 var _defaults = _interopRequireWildcard(_defaults2);
 
-var _raf = _dereq_('raf');
-
 var _utils2 = _dereq_('../../utils');
 
 function _interopRequireWildcard(obj) {
@@ -9293,12 +9360,12 @@ function _classCallCheck(instance, Constructor) {
 function _possibleConstructorReturn(self, call) {
   if (!self) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
 }
 
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
@@ -9319,38 +9386,99 @@ var TexturePointerContext = exports.TexturePointerContext = function (_Component
 
     (0, _utils.assignDefaults)(initialState, TexturePointerContext.defaults());
     var emptyTexture = ctx.regl.texture(_extends({}, initialState));
+    var textureBuffer = ctx.regl.texture(TexturePointerContext.defaults());
     var textureMap = new WeakMap();
     return _possibleConstructorReturn(this, (TexturePointerContext.__proto__ || Object.getPrototypeOf(TexturePointerContext)).call(this, ctx, initialState, new _scope.ScopedContext(ctx, {
-      texturePointer: function texturePointer(_ref, _ref2) {
+      texturePointer: function texturePointer(_ref) {
         var textureData = _ref.textureData;
-        var copy = _ref2.copy;
+        var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var copy = args.copy,
+            _args$subimage = args.subimage,
+            subimage = _args$subimage === undefined ? false : _args$subimage;
 
         var texture = emptyTexture;
+        var data = _extends({}, initialState);
         if (textureData) {
+          Object.assign(data, { data: textureData });
           texture = textureMap.get(textureData) || emptyTexture;
+
+          // create texture pointer and upload image data to texture pointer
+          // otherwise subimage if requested
           if ((0, _utils2.isImage)(textureData)) {
             if (!textureMap.has(textureData)) {
-              if ((0, _utils2.isTextureDataReady)(textureData)) {
-                texture = ctx.regl.texture(_extends({}, initialState, {
-                  data: textureData
-                }));
-                textureMap.set(textureData, texture);
-              }
+              createTexture();
+            } else if (subimage) {
+              subimageTexture();
             }
-          } else if ((0, _utils2.isVideo)(textureData)) {
+          }
+
+          // create texture pointer and upload video data to texture pointer
+          // subimage if requested, otherwise just update texture pointer
+          // with textureData
+          if ((0, _utils2.isVideo)(textureData)) {
             if (!textureMap.has(textureData)) {
-              texture = ctx.regl.texture(_extends({}, initialState));
-              textureMap.set(textureData, texture);
+              createTexture();
+            } else if (subimage) {
+              subimageTexture();
+            } else {
+              updateTexture();
             }
-            if ((0, _utils2.isTextureDataReady)(textureData)) {
-              texture(_extends({}, initialState, { data: textureData }));
+          }
+
+          // creates texture pointer and uploads viable data to texture pointer
+          // otherwise subimage if requested
+          if (texture == emptyTexture) {
+            if (!textureMap.has(textureData)) {
+              createTexture();
+            } else if (subimage) {
+              subimageTexture();
             }
           }
         }
+
+        // if copy requested, swap
         if (null == textureData && copy) {
-          texture(_extends({}, initialState, { copy: copy }));
+          texture = textureBuffer;
+          copyTexture();
         }
+
         return texture;
+
+        function subimageTexture() {
+          if ((0, _utils2.isVideo)(data) && data.paused) {
+            return;
+          }
+          if ('object' == (typeof subimage === 'undefined' ? 'undefined' : _typeof(subimage))) {
+            var x = subimage.x,
+                y = subimage.y,
+                level = subimage.level;
+
+            texture.subimage(data, x, y, level);
+          } else {
+            texture.subimage(data);
+          }
+        }
+
+        function createTexture() {
+          texture = ctx.regl.texture(data);
+          textureMap.set(textureData, texture);
+        }
+
+        function updateTexture() {
+          if ((0, _utils2.isVideo)(data) && data.paused) {
+            return;
+          }
+          texture(data);
+        }
+
+        function copyTexture() {
+          textureBuffer({
+            x: args.x,
+            y: args.y,
+            width: args.width,
+            height: args.height
+          });
+        }
       }
     })));
   }
@@ -9358,7 +9486,7 @@ var TexturePointerContext = exports.TexturePointerContext = function (_Component
   return TexturePointerContext;
 }(_core.Component);
 
-},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../../utils":119,"../defaults":105,"raf":299}],105:[function(_dereq_,module,exports){
+},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../../utils":119,"../defaults":105}],105:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10053,6 +10181,7 @@ var CubeTexturePointerContext = exports.CubeTexturePointerContext = function (_C
     var cubeTexture = ctx.regl.cube(_extends({}, initialState.texture));
     var faces = Array(6).fill(null);
     return _possibleConstructorReturn(this, (CubeTexturePointerContext.__proto__ || Object.getPrototypeOf(CubeTexturePointerContext)).call(this, ctx, initialState, new _scope.ScopedContext(ctx, {
+      // @TODO - support subimage updates
       cubeTexturePointer: function cubeTexturePointer(_ref) {
         var cubeTextureData = _ref.cubeTextureData;
 
@@ -10368,7 +10497,7 @@ function isTextureDataReady(data) {
   if (!resolution[0] || !resolution[1]) {
     return false;
   }
-  if (isVideo(data) && data.readyState > HAVE_CURRENT_DATA) {
+  if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
     return true;
   } else if (isImage(data) || isCanvas(data)) {
     if (data.width && data.height) {
@@ -10391,7 +10520,7 @@ function getTextureDataResolution(data) {
 }
 
 function isCubeTextureDataReady(data) {
-  if (isVideo(data) && data.readyState > HAVE_CURRENT_DATA) {
+  if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {
     return true;
   } else if (isImage(data) || isCanvas(data)) {
     if (data.width && data.height) {
@@ -10481,7 +10610,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.4.1';
+var kLibraryVersion = '0.5.0';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
@@ -10604,7 +10733,7 @@ var isArrayLike = exports.isArrayLike = function isArrayLike(array) {
   return Boolean(array && (Array.isArray(array) || array instanceof TypedArray || (0, _isTypedarray2.default)(array) || 'number' == array.length || 'function' == typeof array[Symbol.iterator]));
 };
 
-},{"clamp":126,"debug":128,"global/document":277,"global/window":278,"is-typedarray":291}],121:[function(_dereq_,module,exports){
+},{"clamp":127,"debug":128,"global/document":277,"global/window":278,"is-typedarray":291}],121:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -19160,6 +19289,60 @@ function flattenDownDepth(array, result, depth) {
 }
 
 },{}],124:[function(_dereq_,module,exports){
+"use strict";
+
+module.exports = balanced;
+function balanced(a, b, str) {
+  var r = range(a, b, str);
+
+  return r && {
+    start: r[0],
+    end: r[1],
+    pre: str.slice(0, r[0]),
+    body: str.slice(r[0] + a.length, r[1]),
+    post: str.slice(r[1] + b.length)
+  };
+}
+
+balanced.range = range;
+function range(a, b, str) {
+  var begs, beg, left, right, result;
+  var ai = str.indexOf(a);
+  var bi = str.indexOf(b, ai + 1);
+  var i = ai;
+
+  if (ai >= 0 && bi > 0) {
+    begs = [];
+    left = str.length;
+
+    while (i < str.length && i >= 0 && !result) {
+      if (i == ai) {
+        begs.push(i);
+        ai = str.indexOf(a, i + 1);
+      } else if (begs.length == 1) {
+        result = [begs.pop(), bi];
+      } else {
+        beg = begs.pop();
+        if (beg < left) {
+          left = beg;
+          right = bi;
+        }
+
+        bi = str.indexOf(b, i + 1);
+      }
+
+      i = ai < bi && ai >= 0 ? ai : bi;
+    }
+
+    if (begs.length) {
+      result = [left, right];
+    }
+  }
+
+  return result;
+}
+
+},{}],125:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = findBounds;
@@ -19183,165 +19366,16 @@ function findBounds(points) {
   return [lo, hi];
 }
 
-},{}],125:[function(_dereq_,module,exports){
+},{}],126:[function(_dereq_,module,exports){
 "use strict";
 
-},{}],126:[function(_dereq_,module,exports){
+},{}],127:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clamp;
 
 function clamp(value, min, max) {
   return min < max ? value < min ? min : value > max ? max : value : value < max ? max : value > min ? min : value;
-}
-
-},{}],127:[function(_dereq_,module,exports){
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function (val, options) {
-  options = options || {};
-  var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val));
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  return plural(ms, d, 'day') || plural(ms, h, 'hour') || plural(ms, m, 'minute') || plural(ms, s, 'second') || ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) {
-    return;
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name;
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
 },{}],128:[function(_dereq_,module,exports){
@@ -19424,12 +19458,12 @@ function formatArgs(args) {
   if (!useColors) return;
 
   var c = 'color: ' + this.color;
-  args.splice(1, 0, c, 'color: inherit'
+  args.splice(1, 0, c, 'color: inherit');
 
   // the final "%c" is somewhat tricky, because there could be other
   // arguments passed either before or after the %c, so we need to
   // figure out the correct index to insert the CSS into
-  );var index = 0;
+  var index = 0;
   var lastC = 0;
   args[0].replace(/%[a-zA-Z%]/g, function (match) {
     if ('%%' === match) return;
@@ -19725,7 +19759,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":127}],130:[function(_dereq_,module,exports){
+},{"ms":293}],130:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -19786,7 +19820,7 @@ module.exports = {
     emit: emit
 };
 
-},{"synthetic-dom-events":301}],132:[function(_dereq_,module,exports){
+},{"synthetic-dom-events":300}],132:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -22018,8 +22052,8 @@ function fromMat3(out, m) {
 
   if (fTrace > 0.0) {
     // |w| > 1/2, may as well choose w > 1/2
-    fRoot = Math.sqrt(fTrace + 1.0 // 2w
-    );out[3] = 0.5 * fRoot;
+    fRoot = Math.sqrt(fTrace + 1.0); // 2w
+    out[3] = 0.5 * fRoot;
     fRoot = 0.5 / fRoot; // 1/(4w)
     out[0] = (m[5] - m[7]) * fRoot;
     out[1] = (m[6] - m[2]) * fRoot;
@@ -22395,7 +22429,7 @@ var normalize = _dereq_('./normalize');
 
 module.exports = setAxes;
 
-var matr = mat3create
+var matr = mat3create();
 
 /**
  * Sets the specified quaternion with values corresponding to the given
@@ -22407,7 +22441,7 @@ var matr = mat3create
  * @param {vec3} up    the vector representing the local "up" direction
  * @returns {quat} out
  */
-();function setAxes(out, view, right, up) {
+function setAxes(out, view, right, up) {
   matr[0] = right[0];
   matr[3] = right[1];
   matr[6] = right[2];
@@ -22700,7 +22734,7 @@ function dot(a, b) {
 
 module.exports = forEach;
 
-var vec = _dereq_('./create')
+var vec = _dereq_('./create')();
 
 /**
  * Perform some operation over an array of vec2s.
@@ -22714,7 +22748,7 @@ var vec = _dereq_('./create')
  * @returns {Array} a
  * @function
  */
-();function forEach(a, stride, offset, count, fn, arg) {
+function forEach(a, stride, offset, count, fn, arg) {
     var i, l;
     if (!stride) {
         stride = 2;
@@ -23179,7 +23213,7 @@ module.exports = angle;
 
 var fromValues = _dereq_('./fromValues');
 var normalize = _dereq_('./normalize');
-var dot = _dereq_('./dot'
+var dot = _dereq_('./dot');
 
 /**
  * Get the angle between two 3D vectors
@@ -23187,7 +23221,7 @@ var dot = _dereq_('./dot'
  * @param {vec3} b The second operand
  * @returns {Number} The angle in radians
  */
-);function angle(a, b) {
+function angle(a, b) {
     var tempA = fromValues(a[0], a[1], a[2]);
     var tempB = fromValues(b[0], b[1], b[2]);
 
@@ -23346,7 +23380,7 @@ function dot(a, b) {
 
 module.exports = forEach;
 
-var vec = _dereq_('./create')
+var vec = _dereq_('./create')();
 
 /**
  * Perform some operation over an array of vec3s.
@@ -23360,7 +23394,7 @@ var vec = _dereq_('./create')
  * @returns {Array} a
  * @function
  */
-();function forEach(a, stride, offset, count, fn, arg) {
+function forEach(a, stride, offset, count, fn, arg) {
     var i, l;
     if (!stride) {
         stride = 3;
@@ -23664,10 +23698,10 @@ function rotateX(out, a, b, c) {
     //perform rotation
     r[0] = p[0];
     r[1] = p[1] * Math.cos(c) - p[2] * Math.sin(c);
-    r[2] = p[1] * Math.sin(c) + p[2] * Math.cos(c
+    r[2] = p[1] * Math.sin(c) + p[2] * Math.cos(c);
 
     //translate to correct position
-    );out[0] = r[0] + b[0];
+    out[0] = r[0] + b[0];
     out[1] = r[1] + b[1];
     out[2] = r[2] + b[2];
 
@@ -23698,10 +23732,10 @@ function rotateY(out, a, b, c) {
   //perform rotation
   r[0] = p[2] * Math.sin(c) + p[0] * Math.cos(c);
   r[1] = p[1];
-  r[2] = p[2] * Math.cos(c) - p[0] * Math.sin(c
+  r[2] = p[2] * Math.cos(c) - p[0] * Math.sin(c);
 
   //translate to correct position
-  );out[0] = r[0] + b[0];
+  out[0] = r[0] + b[0];
   out[1] = r[1] + b[1];
   out[2] = r[2] + b[2];
 
@@ -24206,7 +24240,7 @@ if (typeof document !== 'undefined') {
 module.exports = doccy;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":125}],278:[function(_dereq_,module,exports){
+},{"min-document":126}],278:[function(_dereq_,module,exports){
 (function (global){
 "use strict";
 
@@ -24722,11 +24756,11 @@ function tokenize(opt) {
 'use strict';
 
 // 300es builtins/reserved words that were previously valid in v100
-var v100 = _dereq_('./builtins'
+var v100 = _dereq_('./builtins');
 
 // The texture2D|Cube functions have been removed
 // And the gl_ features are updated
-);v100 = v100.slice().filter(function (b) {
+v100 = v100.slice().filter(function (b) {
   return !/^(gl\_|texture)/.test(b);
 });
 
@@ -24852,6 +24886,155 @@ function reindex(array) {
 }
 
 },{}],293:[function(_dereq_,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {};
+  var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val));
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') || plural(ms, h, 'hour') || plural(ms, m, 'minute') || plural(ms, s, 'second') || ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return;
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name;
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's';
+}
+
+},{}],294:[function(_dereq_,module,exports){
 "use strict";
 
 var DEFAULT_NORMALS_EPSILON = 1e-6;
@@ -24976,7 +25159,7 @@ exports.faceNormals = function (faces, positions, specifiedEpsilon) {
   return normals;
 };
 
-},{}],294:[function(_dereq_,module,exports){
+},{}],295:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -25110,7 +25293,7 @@ parenthesis.stringify = stringify;
 
 module.exports = parenthesis;
 
-},{}],295:[function(_dereq_,module,exports){
+},{}],296:[function(_dereq_,module,exports){
 (function (process){
 'use strict';
 
@@ -25332,7 +25515,7 @@ var substr = function substr(str, start, len) {
 };
 
 }).call(this,_dereq_('_process'))
-},{"_process":298}],296:[function(_dereq_,module,exports){
+},{"_process":298}],297:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -25609,10 +25792,10 @@ function preprocess(what, how) {
 
 	//process if/else/ifdef/elif/ifndef/defined
 	function processIf(str) {
-		var match = balanced('#if', '#endif', str
+		var match = balanced('#if', '#endif', str);
 
 		//if no nested ifs - means we are in clause, return as is
-		);if (!match) return str;
+		if (!match) return str;
 
 		var body = match.body;
 		var post = match.post;
@@ -25687,61 +25870,7 @@ function preprocess(what, how) {
 
 module.exports = preprocess;
 
-},{"balanced-match":297,"parenthesis":294,"xtend/mutable":305}],297:[function(_dereq_,module,exports){
-"use strict";
-
-module.exports = balanced;
-function balanced(a, b, str) {
-  var r = range(a, b, str);
-
-  return r && {
-    start: r[0],
-    end: r[1],
-    pre: str.slice(0, r[0]),
-    body: str.slice(r[0] + a.length, r[1]),
-    post: str.slice(r[1] + b.length)
-  };
-}
-
-balanced.range = range;
-function range(a, b, str) {
-  var begs, beg, left, right, result;
-  var ai = str.indexOf(a);
-  var bi = str.indexOf(b, ai + 1);
-  var i = ai;
-
-  if (ai >= 0 && bi > 0) {
-    begs = [];
-    left = str.length;
-
-    while (i < str.length && i >= 0 && !result) {
-      if (i == ai) {
-        begs.push(i);
-        ai = str.indexOf(a, i + 1);
-      } else if (begs.length == 1) {
-        result = [begs.pop(), bi];
-      } else {
-        beg = begs.pop();
-        if (beg < left) {
-          left = beg;
-          right = bi;
-        }
-
-        bi = str.indexOf(b, i + 1);
-      }
-
-      i = ai < bi && ai >= 0 ? ai : bi;
-    }
-
-    if (begs.length) {
-      result = [left, right];
-    }
-  }
-
-  return result;
-}
-
-},{}],298:[function(_dereq_,module,exports){
+},{"balanced-match":124,"parenthesis":295,"xtend/mutable":304}],298:[function(_dereq_,module,exports){
 'use strict';
 
 // shim for using process in browser
@@ -25931,126 +26060,25 @@ process.umask = function () {
 };
 
 },{}],299:[function(_dereq_,module,exports){
-(function (global){
-'use strict';
-
-var now = _dereq_('performance-now'),
-    root = typeof window === 'undefined' ? global : window,
-    vendors = ['moz', 'webkit'],
-    suffix = 'AnimationFrame',
-    raf = root['request' + suffix],
-    caf = root['cancel' + suffix] || root['cancelRequest' + suffix];
-
-for (var i = 0; !raf && i < vendors.length; i++) {
-  raf = root[vendors[i] + 'Request' + suffix];
-  caf = root[vendors[i] + 'Cancel' + suffix] || root[vendors[i] + 'CancelRequest' + suffix];
-}
-
-// Some versions of FF have rAF but not cAF
-if (!raf || !caf) {
-  var last = 0,
-      id = 0,
-      queue = [],
-      frameDuration = 1000 / 60;
-
-  raf = function raf(callback) {
-    if (queue.length === 0) {
-      var _now = now(),
-          next = Math.max(0, frameDuration - (_now - last));
-      last = next + _now;
-      setTimeout(function () {
-        var cp = queue.slice(0
-        // Clear queue here to prevent
-        // callbacks from appending listeners
-        // to the current frame's queue
-        );queue.length = 0;
-        for (var i = 0; i < cp.length; i++) {
-          if (!cp[i].cancelled) {
-            try {
-              cp[i].callback(last);
-            } catch (e) {
-              setTimeout(function () {
-                throw e;
-              }, 0);
-            }
-          }
-        }
-      }, Math.round(next));
-    }
-    queue.push({
-      handle: ++id,
-      callback: callback,
-      cancelled: false
-    });
-    return id;
-  };
-
-  caf = function caf(handle) {
-    for (var i = 0; i < queue.length; i++) {
-      if (queue[i].handle === handle) {
-        queue[i].cancelled = true;
-      }
-    }
-  };
-}
-
-module.exports = function (fn) {
-  // Wrap in a new function to prevent
-  // `cancel` potentially being assigned
-  // to the native rAF function
-  return raf.call(root, fn);
-};
-module.exports.cancel = function () {
-  caf.apply(root, arguments);
-};
-module.exports.polyfill = function () {
-  root.requestAnimationFrame = raf;
-  root.cancelAnimationFrame = caf;
-};
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"performance-now":300}],300:[function(_dereq_,module,exports){
-(function (process){
 "use strict";
 
-// Generated by CoffeeScript 1.12.2
-(function () {
-  var getNanoSeconds, hrtime, loadTime, moduleLoadTime, nodeLoadTime, upTime;
+function hash(str) {
+  var hash = 5381,
+      i = str.length;
 
-  if (typeof performance !== "undefined" && performance !== null && performance.now) {
-    module.exports = function () {
-      return performance.now();
-    };
-  } else if (typeof process !== "undefined" && process !== null && process.hrtime) {
-    module.exports = function () {
-      return (getNanoSeconds() - nodeLoadTime) / 1e6;
-    };
-    hrtime = process.hrtime;
-    getNanoSeconds = function getNanoSeconds() {
-      var hr;
-      hr = hrtime();
-      return hr[0] * 1e9 + hr[1];
-    };
-    moduleLoadTime = getNanoSeconds();
-    upTime = process.uptime() * 1e9;
-    nodeLoadTime = moduleLoadTime - upTime;
-  } else if (Date.now) {
-    module.exports = function () {
-      return Date.now() - loadTime;
-    };
-    loadTime = Date.now();
-  } else {
-    module.exports = function () {
-      return new Date().getTime() - loadTime;
-    };
-    loadTime = new Date().getTime();
+  while (i) {
+    hash = hash * 33 ^ str.charCodeAt(--i);
   }
-}).call(undefined);
 
+  /* JavaScript does bitwise operations (like XOR, above) on 32-bit signed
+   * integers. Since we want the results to be always positive, convert the
+   * signed int to an unsigned by doing an unsigned bitshift. */
+  return hash >>> 0;
+}
 
+module.exports = hash;
 
-}).call(this,_dereq_('_process'))
-},{"_process":298}],301:[function(_dereq_,module,exports){
+},{}],300:[function(_dereq_,module,exports){
 'use strict';
 
 // for compression
@@ -26166,7 +26194,7 @@ var typeOf = function () {
     };
 }();
 
-},{"./init.json":302,"./types.json":303}],302:[function(_dereq_,module,exports){
+},{"./init.json":301,"./types.json":302}],301:[function(_dereq_,module,exports){
 module.exports={
   "initEvent" : [
     "type",
@@ -26233,7 +26261,7 @@ module.exports={
   ]
 }
 
-},{}],303:[function(_dereq_,module,exports){
+},{}],302:[function(_dereq_,module,exports){
 module.exports={
   "MouseEvent" : [
     "click",
@@ -26278,7 +26306,7 @@ module.exports={
   ]
 }
 
-},{}],304:[function(_dereq_,module,exports){
+},{}],303:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = unindex;
@@ -26333,7 +26361,7 @@ function unindex(positions, cells, out) {
   return out;
 }
 
-},{}],305:[function(_dereq_,module,exports){
+},{}],304:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = extend;
