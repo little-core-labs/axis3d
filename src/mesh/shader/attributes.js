@@ -10,9 +10,17 @@ export class MeshShaderAttributes extends Component {
     const {geometry} = initialState
     const attributes = {}
     if (geometry) {
-      attributes.position = geometry.positions || null
-      attributes.normal = geometry.normals || null
-      attributes.uv = geometry.uvs || null
+      if (geometry.positions) {
+        attributes.position = ctx.regl.buffer(geometry.positions)
+      }
+
+      if (geometry.normals) {
+        attributes.normal = ctx.regl.buffer(geometry.normals)
+      }
+
+      if (geometry.uvs) {
+        attributes.uv = ctx.regl.buffer(geometry.uvs)
+      }
     }
     super(ctx, initialState, new ShaderAttributes(ctx, attributes))
   }
