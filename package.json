@@ -33,6 +33,7 @@
     "debug": "^2.2.0",
     "defined": "^1.0.0",
     "dom-events": "^0.1.1",
+    "extend": "^3.0.1",
     "eye-vector": "^1.0.0",
     "gl-mat3": "^1.0.0",
     "gl-mat4": "^1.1.4",
@@ -68,7 +69,6 @@
     ]
   },
   "devDependencies": {
-    "raf": "^3.3.2",
     "ava": "^0.18.2",
     "babel-cli": "^6.x.0",
     "babel-core": "^6.x.0",
@@ -91,11 +91,17 @@
     "domready": "^1.0.8",
     "eases": "^1.0.8",
     "faucet": "^0.0.1",
+    "fulltilt": "github:adtile/Full-Tilt",
     "glsl-noise": "0.0.0",
     "glslify-babel": "^1.0.1",
+    "gyronorm": "^2.0.6",
+    "is-ios": "^1.0.0",
+    "is-safari": "^1.0.0",
+    "jsartoolkit5": "0.0.4",
     "primitive-cube": "^2.0.1",
     "primitive-plane": "^2.0.0",
     "primitive-quad": "^2.0.0",
+    "raf": "^3.3.2",
     "rollupify": "^0.3.4",
     "screen-projected-lines": "^1.2.0",
     "size-limit": "^0.8.1",
@@ -103,8 +109,10 @@
     "standard": "^8.0.0",
     "stats.js": "^0.17.0",
     "tape": "^4.6.3",
+    "three": "^0.87.1",
     "uglify-js": "^3.0.14",
-    "uglifyify": "^3.0.4"
+    "uglifyify": "^3.0.4",
+    "webvr-polyfill": "^0.9.36"
   },
   "directories": {
     "doc": "doc",
