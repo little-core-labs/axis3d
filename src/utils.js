@@ -2,6 +2,7 @@ import createDebug from 'debug'
 import isTypedArray from 'is-typedarray'
 import document from 'global/document'
 import window from 'global/window'
+import extend from 'extend'
 import clamp from 'clamp'
 
 const kLibraryVersion = __AXIS3D_VERSION__
@@ -9,13 +10,13 @@ const TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor
 
 const { HTMLImageElement, HTMLCanvasElement } = window
 
-export const debug = createDebug(`[axis@${kLibraryVersion}]`)
+export const debug = createDebug(`[axis3d@${kLibraryVersion}]`)
 
 export const radians = (n) => n == n ? (n*Math.PI/180.0) : 0
 export const lerp = (v0, v1, t) => v0*(1 - t) + v1*t
 
 export const assignDefaults = (object, defaults) => {
-  return Object.assign(object, { ...defaults, ...object })
+  return extend(true, object, extend(true, {}, defaults, object))
 }
 
 export const get = (k, objs) => {
