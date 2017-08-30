@@ -88,7 +88,7 @@ esdoc: node_modules esdoc.json $(SRC)
 .PHONY: example/*
 example/*: NODE_PATH="$(NODE_PATH):$(CWD)/example/"
 example/*:
-	$(BUDO) $@/index.js -p 3000 --dir $@ --dir public --live --verbose -- $(BROWSERIFY_FLAGS) --debug
+	$(BUDO) $@/index.js -p 3000 --dir $@ --dir public --live --verbose $(BUDO_FLAGS) -- $(BROWSERIFY_FLAGS) --debug
 
 .PHONY: clean
 clean:
