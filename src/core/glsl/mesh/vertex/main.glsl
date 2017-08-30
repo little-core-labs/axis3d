@@ -28,11 +28,13 @@
 #include "../../vertex/main"
 
 void Main(inout vec4 vertexPosition, inout VaryingData data) {
+#ifdef GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE
   vertexPosition = MeshVertex(
       GLSL_CAMERA_UNIFORM_VARIABLE.projection,
       GLSL_CAMERA_UNIFORM_VARIABLE.view,
       GLSL_MESH_UNIFORM_VARIABLE.model,
       GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE);
+#endif
 }
 
 #endif
