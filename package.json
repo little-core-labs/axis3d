@@ -69,6 +69,7 @@
     ]
   },
   "devDependencies": {
+    "ahrs": "^1.1.6",
     "ava": "^0.18.2",
     "babel-cli": "^6.x.0",
     "babel-core": "^6.x.0",
@@ -84,6 +85,7 @@
     "budo": "^10.0.4",
     "bunny": "^1.0.1",
     "colortape": "^0.1.2",
+    "compass.js": "github:ai/compass.js",
     "control-panel": "^1.2.0",
     "dependency-check": "^2.9.1",
     "derequire": "^2.0.6",
@@ -98,6 +100,8 @@
     "is-ios": "^1.0.0",
     "is-safari": "^1.0.0",
     "jsartoolkit5": "0.0.4",
+    "kalmanjs": "^1.0.0-beta",
+    "pedometer": "0.0.5",
     "primitive-cube": "^2.0.1",
     "primitive-plane": "^2.0.0",
     "primitive-quad": "^2.0.0",

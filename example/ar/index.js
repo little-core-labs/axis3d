@@ -30,6 +30,7 @@ import isSafari from 'is-safari'
 import isIOS from 'is-ios'
 
 import Gyronorm from 'gyronorm'
+import Kalman from 'kalmanjs'
 
 import {
   ARController,
@@ -265,40 +266,54 @@ function transformCartesian(radius, theta, phi) {
   return [x, y, z]
 }
 
-/*window.ondevicemotion = ({acceleration, accelerationIncludingGravity}) => {
-  let {x, y, z} = accelerationIncludingGravity
+/*window.ondevicemotion = ({acceleration}) => {
+  let {x, y, z} = acceleration
   if (isSafari) {
     x *= -1
     y *= -1
   }
 
-  const vector = [x, y, z]
-  console.log(vector);
+  accelerationOverTime.push([x, y, z])
+  //const vector = [x, y, z]
+  //console.log(vector);
 }*/
 
+const kalman = {
+  x: new Kalman({R: 0.01, Q: 3}),
+  y: new Kalman({R: 0.01, Q: 3}),
+  z: new Kalman({R: 0.01, Q: 3}),
+}
+
+const steps = []
+const accelerationOverTime = []
+const attitudeOverTime = []
 gyro
   .init({
-    frequency: 100,
+    frequency: 1000/100, // 100hz
     orientationBase: Gyronorm.WORLD,
-    decimalCount: 1,
+    //decimalCount: 10,
     screenAdjusted: true
   })
   .then(() => {
     gyro.normalizeGravity(true)
     gyro.setHeadDirection()
-    gyro.start(({dm}) => {
-      let {x, y, z} = dm
-      const constraint = (v, f) => parseFloat((v < 0 ? v + f : (v > 0 ? v - f : v)).toPrecision(1))
-      z = (Math.round(z)/10)*10
-      x = constraint(x, 0.0286)
-      y = constraint(y, 0.021)
-      //z = constraint(z, 0.03)
-      const vector = [0, 0, z]
-      vec3.lerp(position, position, vec3.add([], position, vector), 0.01)
-      console.log(position);
+    gyro.start((e) => {
+      let {x, y, z} = e.dm
+      x = kalman.x.filter(x)
+      y = kalman.y.filter(y)
+      z = kalman.z.filter(z)
+      const vector = [0, 0, 0]
+      if (x > 1 || x < -1) { vector[0] = x }
+      //if (y > 1 || y < -1) { vector[1] = y }
+      //if (z > 1 || z < -1) { vector[2] = z }
+      if (vector[0] || vector[1] || vector[2]) {
+        vec3.lerp(position, position, vec3.add([], position, vector), 0.1)
+        console.log(vector, position);
+      }
     })
   })
   .catch((err) => ctx.emit('error'))
+
 
 let previousPoint = null
 let currentPoint = null
@@ -316,7 +331,7 @@ function onposition({coords}) {
     vec3.subtract(position, point, currentPoint)
     currentPoint = point.slice()
   }
-  console.log(position);
+  console.log('new position', position);
 }
 
 frame(() => {
@@ -333,10 +348,18 @@ frame(() => {
   }
 })
 
+const direction = [0, 0, 0]
+const right = [0, 0, 0]
+const up = [0, 1, 0]
 frame(() => {
   texture({data: video}, () => { surface() })
+  vec3.cross(up, direction, [0, 1, 0])
+  vec3.cross(up, up, direction)
+  vec3.cross(right, direction, up)
   //camera({position: [0, 0, 5], rotation}, () => {
-  camera({position, rotation}, () => {
+  camera({position, rotation}, ({direction: d, up: u}) => {
+    vec3.copy(up, u)
+    vec3.copy(direction, d)
     //mesh({transform: markerMatrix})
     mesh()
   })
