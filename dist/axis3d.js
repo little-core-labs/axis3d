@@ -298,7 +298,7 @@ var CameraEyeContext = exports.CameraEyeContext = function (_Component) {
   return CameraEyeContext;
 }(_core.Component);
 
-},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":8,"eye-vector":133,"gl-mat4":162}],4:[function(_dereq_,module,exports){
+},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":8,"eye-vector":134,"gl-mat4":163}],4:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -500,7 +500,7 @@ var CameraInfoContext = exports.CameraInfoContext = function (_Component) {
   return CameraInfoContext;
 }(_core.Component);
 
-},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":8,"gl-mat4":162,"gl-vec3":244}],6:[function(_dereq_,module,exports){
+},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":8,"gl-mat4":163,"gl-vec3":245}],6:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -606,7 +606,7 @@ var CameraInverseViewContext = exports.CameraInverseViewContext = function (_Com
   return CameraInverseViewContext;
 }(_core.Component);
 
-},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":8,"gl-mat4":162}],7:[function(_dereq_,module,exports){
+},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":8,"gl-mat4":163}],7:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -735,7 +735,7 @@ var CameraViewContext = exports.CameraViewContext = function (_Component) {
   return CameraViewContext;
 }(_core.Component);
 
-},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":8,"gl-mat4":162,"gl-quat":187}],8:[function(_dereq_,module,exports){
+},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":8,"gl-mat4":163,"gl-quat":188}],8:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -867,7 +867,7 @@ function lookAt(direction, target, position, up) {
   }
 }
 
-},{"gl-vec3":244}],11:[function(_dereq_,module,exports){
+},{"gl-vec3":245}],11:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1238,7 +1238,7 @@ var OrthographicCameraProjectionContext = exports.OrthographicCameraProjectionCo
   return OrthographicCameraProjectionContext;
 }(_core.Component);
 
-},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../defaults":16,"gl-mat4":162}],15:[function(_dereq_,module,exports){
+},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../defaults":16,"gl-mat4":163}],15:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1853,7 +1853,7 @@ var PerspectiveCameraProjectionContext = exports.PerspectiveCameraProjectionCont
   return PerspectiveCameraProjectionContext;
 }(_core.Component);
 
-},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../defaults":24,"gl-mat4":162}],23:[function(_dereq_,module,exports){
+},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../defaults":24,"gl-mat4":163}],23:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1993,7 +1993,7 @@ var PerspectiveCameraViewContext = exports.PerspectiveCameraViewContext = functi
   return PerspectiveCameraViewContext;
 }(_core.Component);
 
-},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../../look-at":10,"../defaults":24,"gl-mat4":162,"gl-quat":187,"gl-vec3":244}],24:[function(_dereq_,module,exports){
+},{"../../../core":52,"../../../scope":94,"../../../utils":120,"../../look-at":10,"../defaults":24,"gl-mat4":163,"gl-quat":188,"gl-vec3":245}],24:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2855,7 +2855,7 @@ var Context = exports.Context = function (_EventEmitter) {
   return Context;
 }(_events.EventEmitter);
 
-},{"@littlstar/regl":122,"defined":130,"dom-events":131,"events":132,"global/document":277,"global/window":278}],32:[function(_dereq_,module,exports){
+},{"@littlstar/regl":122,"defined":130,"dom-events":131,"events":132,"global/document":278,"global/window":279}],32:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -3338,7 +3338,7 @@ var Geometry = exports.Geometry = function () {
   return Geometry;
 }();
 
-},{"array-flatten":123,"bound-points":125,"defined":130,"mesh-reindex":292,"normals":294,"unindex-mesh":303}],35:[function(_dereq_,module,exports){
+},{"array-flatten":123,"bound-points":124,"defined":130,"mesh-reindex":293,"normals":294,"unindex-mesh":304}],35:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -3625,7 +3625,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_CAMERA_VARIABLES\n#define GLSL_CAMERA_VARIABLES\n\n#ifndef GLSL_CAMERA_UNIFORM_VARIABLE\n#define GLSL_CAMERA_UNIFORM_VARIABLE camera\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_CAMERA_UNIFORMS\n#define GLSL_CAMERA_UNIFORMS\n\n#include "./variables"\n\n#ifdef GLSL_CAMERA\nuniform Camera GLSL_CAMERA_UNIFORM_VARIABLE;\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/camera', '#define GLSLIFY 1\n#ifndef GLSL_CAMERA\n#define GLSL_CAMERA\n\nstruct Camera {\n  mat4 invertedView;\n  mat4 projection;\n  mat4 view;\n  vec3 eye;\n};\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/camera")
-},{"glslify":290}],39:[function(_dereq_,module,exports){
+},{"glslify":291}],39:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3642,7 +3642,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, _defineProperty({}, __dirname + '/common', '#define GLSLIFY 1\n#ifndef GLSL_COMMON\n#define GLSL_COMMON 1\n\n#ifndef M_PI\n#define M_PI 3.141592653589793\n#endif\n\n#ifndef M_E\n#define M_E 2.718281828459045\n#endif\n\n#endif\n'));
 
 }).call(this,"/lib/core/glsl/common")
-},{"glslify":290}],40:[function(_dereq_,module,exports){
+},{"glslify":291}],40:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3659,7 +3659,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, _defineProperty({}, __dirname + '/main', '#define GLSLIFY 1\n#ifndef GLSL_FRAGMENT_MAIN\n#define GLSL_FRAGMENT_MAIN\n\n#include "../varying/data"\n#include "../varying/read"\n\nvoid InitVarying(inout VaryingData varyingData);\nvoid BeforeMain(inout vec4 fragColor, inout VaryingData varyingData);\nvoid Main(inout vec4 fragColor, inout VaryingData data);\nvoid TransformMain(inout vec4 fragColor, inout VaryingData varyingData);\nvoid AfterMain(inout vec4 fragColor, inout VaryingData varyingData);\n\nvoid main() {\n  VaryingData varyingData = ReadVaryingData();\n  InitVarying(varyingData);\n  BeforeMain(gl_FragColor, varyingData);\n  Main(gl_FragColor, varyingData);\n  TransformMain(gl_FragColor, varyingData);\n  AfterMain(gl_FragColor, varyingData);\n}\n\n#ifdef GLSL_FRAGMENT_MAIN_BEFORE\n  void GLSL_FRAGMENT_MAIN_BEFORE(inout vec4 fragColor,\n                                 inout VaryingData varyingData);\n#endif\n\n#ifdef GLSL_FRAGMENT_MAIN_TRANSFORM\n  void GLSL_FRAGMENT_MAIN_TRANSFORM(inout vec4 fragColor,\n                                    inout VaryingData varyingData);\n#endif\n\n#ifdef GLSL_FRAGMENT_MAIN_AFTER\n  void GLSL_FRAGMENT_MAIN_AFTER(inout vec4 fragColor,\n                                inout VaryingData varyingData);\n#endif\n\nvoid BeforeMain(inout vec4 fragColor,\n                inout VaryingData varyingData) {\n#ifdef GLSL_FRAGMENT_MAIN_BEFORE\n  GLSL_FRAGMENT_MAIN_BEFORE(fragColor, varyingData);\n#endif\n}\n\nvoid TransformMain(inout vec4 fragColor,\n                   inout VaryingData varyingData) {\n#ifdef GLSL_FRAGMENT_MAIN_TRANSFORM\n  GLSL_FRAGMENT_MAIN_TRANSFORM(fragColor, varyingData);\n#endif\n}\n\nvoid AfterMain(inout vec4 fragColor,\n               inout VaryingData varyingData) {\n#ifdef GLSL_FRAGMENT_MAIN_AFTER\n  GLSL_FRAGMENT_MAIN_AFTER(fragColor, varyingData);\n#endif\n}\n\nvoid InitVarying(inout VaryingData varyingData) {\n  varyingData = ReadVaryingData();\n}\n\n#endif\n'));
 
 }).call(this,"/lib/core/glsl/fragment")
-},{"glslify":290}],41:[function(_dereq_,module,exports){
+},{"glslify":291}],41:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3678,7 +3678,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_FRAME_VARIABLES\n#define GLSL_FRAME_VARIABLES\n\n#ifndef GLSL_FRAME_UNIFORM_VARIABLE\n#define GLSL_FRAME_UNIFORM_VARIABLE frame\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_FRAME_UNIFORMS\n#define GLSL_FRAME_UNIFORMS\n\n#include "./variables"\n\n#ifdef GLSL_FRAME\nuniform Frame GLSL_FRAME_UNIFORM_VARIABLE;\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/frame', '#define GLSLIFY 1\n#ifndef GLSL_FRAME\n#define GLSL_FRAME\n\nstruct Frame {\n  float time;\n  float tick;\n  vec2 resolution;\n};\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/frame")
-},{"glslify":290}],42:[function(_dereq_,module,exports){
+},{"glslify":291}],42:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3778,7 +3778,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/fragment/main', '#define GLSLIFY 1\n#ifndef GLSL_MATERIAL_FRAGMENT_MAIN\n#define GLSL_MATERIAL_FRAGMENT_MAIN\n\n#include "../material"\n#include "../uniforms"\n#include "../variables"\n\n#include "../../mesh/fragment"\n#include "../../fragment/main"\n#include "../../varying/read"\n\nvoid Main(inout vec4 fragColor, inout VaryingData data) {\n  fragColor = MeshFragment(\n      GLSL_MATERIAL_UNIFORM_VARIABLE.color,\n      GLSL_MATERIAL_UNIFORM_VARIABLE.opacity);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_MATERIAL_VARIABLES\n#define GLSL_MATERIAL_VARIABLES\n\n#ifndef GLSL_MATERIAL_UNIFORM_VARIABLE\n#define GLSL_MATERIAL_UNIFORM_VARIABLE material\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/material', '#define GLSLIFY 1\n#ifndef GLSL_MATERIAL\n#define GLSL_MATERIAL\n\nstruct Material {\n  vec3 color;\n  float opacity;\n};\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_MATERIAL_UNIFORMS\n#define GLSL_MATERIAL_UNIFORMS\n\n#include "./variables"\n#include "./material"\n\nuniform Material GLSL_MATERIAL_UNIFORM_VARIABLE;\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/material")
-},{"glslify":290}],44:[function(_dereq_,module,exports){
+},{"glslify":291}],44:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3794,10 +3794,10 @@ function _defineProperty(obj, key, value) {
   }return obj;
 }
 
-Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/fragment/main', '#define GLSLIFY 1\n#ifndef GLSL_MESH_FRAGMENT_MAIN\n#define GLSL_MESH_FRAGMENT_MAIN\n\n#include "../mesh"\n#include "../uniforms"\n#include "../variables"\n\n#ifdef GLSL_MESH_HAS_POSITION\n#include "../../varying/position"\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n#include "../../varying/normal"\n#endif\n\n#include "../../mesh/fragment"\n#include "../../fragment/main"\n#include "../../varying/read"\n\nvoid Main(inout vec4 fragColor, inout VaryingData data) {\n#ifdef GLSL_MESH_HAS_POSITION\n  fragColor = MeshFragment(data.position);\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n  fragColor = MeshFragment(data.normal);\n#endif\n\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/vertex/main', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX_MAIN\n#define GLSL_MESH_VERTEX_MAIN\n\n#include "../variables"\n#include "../uniforms"\n#include "../vertex"\n#include "../mesh"\n\n#include "../../camera/camera"\n#include "../../camera/uniforms"\n\n#ifdef GLSL_MESH_HAS_POSITION\n#include "../../vertex/attributes/position"\n#include "../../varying/position"\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n#include "../../vertex/attributes/normal"\n#include "../../varying/normal"\n#endif\n\n#ifdef GLSL_MESH_HAS_UV\n#include "../../vertex/attributes/uv"\n#include "../../varying/uv"\n#endif\n\n#include "../../varying/emit"\n#include "../../vertex/main"\n\nvoid Main(inout vec4 vertexPosition, inout VaryingData data) {\n  vertexPosition = MeshVertex(\n      GLSL_CAMERA_UNIFORM_VARIABLE.projection,\n      GLSL_CAMERA_UNIFORM_VARIABLE.view,\n      GLSL_MESH_UNIFORM_VARIABLE.model,\n      GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VARIABLES\n#define GLSL_MESH_VARIABLES\n\n#ifndef GLSL_MESH_UNIFORM_VARIABLE\n#define GLSL_MESH_UNIFORM_VARIABLE mesh\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_MESH_UNIFORMS\n#define GLSL_MESH_UNIFORMS\n\n#include "./variables"\n#include "./mesh"\n\nuniform Mesh GLSL_MESH_UNIFORM_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/fragment', '#define GLSLIFY 1\n#ifndef GLSL_MESH_FRAGMENT\n#define GLSL_MESH_FRAGMENT\n\n#ifndef GLSL_MESH_FRAGMENT_DEFAULT_COLOR\n#define GLSL_MESH_FRAGMENT_DEFAULT_COLOR vec4(0.25882352941176473, 0.5254901960784314, 0.9568627450980393, 1.0)\n#endif\n\nvec4 MeshFragment(void) {\n  return vec4(GLSL_MESH_FRAGMENT_DEFAULT_COLOR);\n}\n\nvec4 MeshFragment(vec4 color) {\n  return color;\n}\n\nvec4 MeshFragment(float r, float g, float b, float a) {\n  return MeshFragment(vec4(r, g, b, a));\n}\n\nvec4 MeshFragment(float r, float g, float b) {\n  return MeshFragment(r, g, b, 1.0);\n}\n\nvec4 MeshFragment(float c) {\n  return MeshFragment(c, c, c, 1.0);\n}\n\nvec4 MeshFragment(vec3 color, float opacity) {\n  return MeshFragment(vec4(color, opacity));\n}\n\nvec4 MeshFragment(vec3 color) {\n  return MeshFragment(color, 1.0);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/vertex', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX\n#define GLSL_MESH_VERTEX\n\n#ifndef GLSL_MESH_VERTEX_DEFAULT_POSITION\n#define GLSL_MESH_VERTEX_DEFAULT_POSITION vec4(0.0, 0.0, 0.0, 1.0)\n#endif\n\nvec4 MeshVertex(void) {\n  return vec4(GLSL_MESH_VERTEX_DEFAULT_POSITION);\n}\n\nvec4 MeshVertex(vec4 position) {\n  return position;\n}\n\nvec4 MeshVertex(mat4 transform, vec4 position) {\n  return MeshVertex(transform * position);\n}\n\nvec4 MeshVertex(mat4 transform, vec3 position) {\n  return MeshVertex(transform, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec4 position) {\n  return MeshVertex(transform * model * position);\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec3 position) {\n  return MeshVertex(transform, model, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec4 position) {\n  return MeshVertex(projection * view * model, position);\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec3 position) {\n  return MeshVertex(projection, view, model, vec4(position, 1.0));\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/mesh', '#define GLSLIFY 1\n#ifndef GLSL_MESH\n#define GLSL_MESH\n\nstruct Mesh {\n  vec4 rotation;\n  vec3 scale;\n  vec3 position;\n  mat4 model;\n  mat3 modelNormal;\n};\n\n#endif\n'), _Object$assign));
+Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/fragment/main', '#define GLSLIFY 1\n#ifndef GLSL_MESH_FRAGMENT_MAIN\n#define GLSL_MESH_FRAGMENT_MAIN\n\n#include "../mesh"\n#include "../uniforms"\n#include "../variables"\n\n#ifdef GLSL_MESH_HAS_POSITION\n#include "../../varying/position"\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n#include "../../varying/normal"\n#endif\n\n#include "../../mesh/fragment"\n#include "../../fragment/main"\n#include "../../varying/read"\n\nvoid Main(inout vec4 fragColor, inout VaryingData data) {\n#ifdef GLSL_MESH_HAS_POSITION\n  fragColor = MeshFragment(data.position);\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n  fragColor = MeshFragment(data.normal);\n#endif\n\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/vertex/main', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX_MAIN\n#define GLSL_MESH_VERTEX_MAIN\n\n#include "../variables"\n#include "../uniforms"\n#include "../vertex"\n#include "../mesh"\n\n#include "../../camera/camera"\n#include "../../camera/uniforms"\n\n#ifdef GLSL_MESH_HAS_POSITION\n#include "../../vertex/attributes/position"\n#include "../../varying/position"\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n#include "../../vertex/attributes/normal"\n#include "../../varying/normal"\n#endif\n\n#ifdef GLSL_MESH_HAS_UV\n#include "../../vertex/attributes/uv"\n#include "../../varying/uv"\n#endif\n\n#include "../../varying/emit"\n#include "../../vertex/main"\n\nvoid Main(inout vec4 vertexPosition, inout VaryingData data) {\n#ifdef GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE\n  vertexPosition = MeshVertex(\n      GLSL_CAMERA_UNIFORM_VARIABLE.projection,\n      GLSL_CAMERA_UNIFORM_VARIABLE.view,\n      GLSL_MESH_UNIFORM_VARIABLE.model,\n      GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE);\n#endif\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VARIABLES\n#define GLSL_MESH_VARIABLES\n\n#ifndef GLSL_MESH_UNIFORM_VARIABLE\n#define GLSL_MESH_UNIFORM_VARIABLE mesh\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_MESH_UNIFORMS\n#define GLSL_MESH_UNIFORMS\n\n#include "./variables"\n#include "./mesh"\n\nuniform Mesh GLSL_MESH_UNIFORM_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/fragment', '#define GLSLIFY 1\n#ifndef GLSL_MESH_FRAGMENT\n#define GLSL_MESH_FRAGMENT\n\n#ifndef GLSL_MESH_FRAGMENT_DEFAULT_COLOR\n#define GLSL_MESH_FRAGMENT_DEFAULT_COLOR vec4(0.25882352941176473, 0.5254901960784314, 0.9568627450980393, 1.0)\n#endif\n\nvec4 MeshFragment(void) {\n  return vec4(GLSL_MESH_FRAGMENT_DEFAULT_COLOR);\n}\n\nvec4 MeshFragment(vec4 color) {\n  return color;\n}\n\nvec4 MeshFragment(float r, float g, float b, float a) {\n  return MeshFragment(vec4(r, g, b, a));\n}\n\nvec4 MeshFragment(float r, float g, float b) {\n  return MeshFragment(r, g, b, 1.0);\n}\n\nvec4 MeshFragment(float c) {\n  return MeshFragment(c, c, c, 1.0);\n}\n\nvec4 MeshFragment(vec3 color, float opacity) {\n  return MeshFragment(vec4(color, opacity));\n}\n\nvec4 MeshFragment(vec3 color) {\n  return MeshFragment(color, 1.0);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/vertex', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX\n#define GLSL_MESH_VERTEX\n\n#ifndef GLSL_MESH_VERTEX_DEFAULT_POSITION\n#define GLSL_MESH_VERTEX_DEFAULT_POSITION vec4(0.0, 0.0, 0.0, 1.0)\n#endif\n\nvec4 MeshVertex(void) {\n  return vec4(GLSL_MESH_VERTEX_DEFAULT_POSITION);\n}\n\nvec4 MeshVertex(vec4 position) {\n  return position;\n}\n\nvec4 MeshVertex(mat4 transform, vec4 position) {\n  return MeshVertex(transform * position);\n}\n\nvec4 MeshVertex(mat4 transform, vec3 position) {\n  return MeshVertex(transform, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec4 position) {\n  return MeshVertex(transform * model * position);\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec3 position) {\n  return MeshVertex(transform, model, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec4 position) {\n  return MeshVertex(projection * view * model, position);\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec3 position) {\n  return MeshVertex(projection, view, model, vec4(position, 1.0));\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/mesh', '#define GLSLIFY 1\n#ifndef GLSL_MESH\n#define GLSL_MESH\n\nstruct Mesh {\n  vec4 rotation;\n  vec3 scale;\n  vec3 position;\n  mat4 model;\n  mat3 modelNormal;\n};\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/mesh")
-},{"glslify":290}],45:[function(_dereq_,module,exports){
+},{"glslify":291}],45:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3816,7 +3816,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_VARIABLES\n#define GLSL_TEXTURE_VARIABLES\n\n#ifndef GLSL_TEXTURE_2D_VARIABLE\n#define GLSL_TEXTURE_2D_VARIABLE tex2d\n#endif\n\n#ifndef GLSL_TEXTURE_CUBE_VARIABLE\n#define GLSL_TEXTURE_CUBE_VARIABLE texCube\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_UNIFORMS\n#define GLSL_TEXTURE_UNIFORMS\n\n#include "./variables"\n\n#ifdef GLSL_TEXTURE_2D\nuniform Texture2D GLSL_TEXTURE_2D_VARIABLE;\n#endif\n\n#ifdef GLSL_TEXTURE_CUBE\nuniform TextureCube GLSL_TEXTURE_CUBE_VARIABLE;\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/cube', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_CUBE\n#define GLSL_TEXTURE_CUBE\n\nstruct TextureCube {\n  vec2 resolution;\n  samplerCube data;\n};\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/2d', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_2D\n#define GLSL_TEXTURE_2D\n\nstruct Texture2D {\n  vec2 resolution;\n  sampler2D data;\n};\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/texture")
-},{"glslify":290}],46:[function(_dereq_,module,exports){
+},{"glslify":291}],46:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3835,7 +3835,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_TIME_VARIABLES\n#define GLSL_TIME_VARIABLES\n\n#ifndef GLSL_TIME_UNIFORM_VARIABLE\n#define GLSL_TIME_UNIFORM_VARIABLE time\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/time', '#define GLSLIFY 1\n#ifndef GLSL_TIME\n#define GLSL_TIME\n\n#include "../frame/frame"\n#include "../frame/uniforms"\n#include "../frame/variables"\n\nfloat GetTime() {\n  return GLSL_FRAME_UNIFORM_VARIABLE.time;\n}\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/time")
-},{"glslify":290}],47:[function(_dereq_,module,exports){
+},{"glslify":291}],47:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3854,7 +3854,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/position', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT_POSITION\n#define GLSL_VARYING_EMIT_POSITION\n#ifdef GLSL_VARYING_POSITION\n\n#include "../variables"\n\nvoid EmitVaryingLocalPosition(vec3 position) {\n  GLSL_VARYING_LOCAL_POSITION_VARIABLE = position;\n}\n\nvoid EmitVaryingPosition(mat4 model, vec3 position) {\n  vec4 worldPosition = model * vec4(position, 1.0);\n  GLSL_VARYING_POSITION_VARIABLE = worldPosition.xyz;\n}\n\nvoid EmitVaryingPositions(mat4 model, vec3 position) {\n  EmitVaryingPosition(model, position);\n  EmitVaryingLocalPosition(position);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/normal', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT_NORMAL\n#define GLSL_VARYING_EMIT_NORMAL\n#ifdef GLSL_VARYING_NORMAL\n\n#include "../variables"\n\nvoid EmitVaryingLocalNormal(vec3 normal) {\n  GLSL_VARYING_LOCAL_NORMAL_VARIABLE = normalize(normal);\n}\n\nvoid EmitVaryingNormal(mat3 modelNormal, vec3 normal) {\n  GLSL_VARYING_NORMAL_VARIABLE = normalize(modelNormal * normal);\n}\n\nvoid EmitVaryingNormals(mat3 modelNormal, vec3 normal) {\n  EmitVaryingNormal(modelNormal, normal);\n  EmitVaryingLocalNormal(normal);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/color', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT_COLOR\n#define GLSL_VARYING_EMIT_COLOR\n#ifdef GLSL_VARYING_COLOR\n\n#include "../variables"\n\nvoid EmitVaryingColor(vec4 color) {\n  GLSL_VARYING_COLOR_VARIABLE = color;\n}\n\nvoid EmitVaryingColor(vec3 color) {\n  EmitVaryingColor(vec4(color, 1.0));\n}\n\nvoid EmitVaryingColors(vec4 color) {\n  EmitVaryingColor(color);\n}\n\nvoid EmitVaryingColors(vec3 color) {\n  EmitVaryingColors(vec4(color, 1.0));\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uv', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT_UV\n#define GLSL_VARYING_EMIT_UV\n#ifdef GLSL_VARYING_UV\n\n#include "../variables"\n\nvoid EmitVaryingUv(vec2 uv) {\n  GLSL_VARYING_UV_VARIABLE = uv;\n}\n\nvoid EmitVaryingUvs(vec2 uv) {\n  EmitVaryingUv(uv);\n}\n\n#endif\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/varying/emit")
-},{"glslify":290}],48:[function(_dereq_,module,exports){
+},{"glslify":291}],48:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3883,7 +3883,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, _extends({}, _dereq_('./emit'), _dereq_('./read'), (_extends2 = {}, _defineProperty(_extends2, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_VARIABLES\n#define GLSL_VARYING_VARIABLES\n\n#ifndef GLSL_VARYING_COLOR_VARIABLE\n#define GLSL_VARYING_COLOR_VARIABLE vColor\n#endif\n\n#ifndef GLSL_VARYING_POSITION_VARIABLE\n#define GLSL_VARYING_POSITION_VARIABLE vPosition\n#endif\n\n#ifndef GLSL_VARYING_LOCAL_POSITION_VARIABLE\n#define GLSL_VARYING_LOCAL_POSITION_VARIABLE vLocalPosition\n#endif\n\n#ifndef GLSL_VARYING_NORMAL_VARIABLE\n#define GLSL_VARYING_NORMAL_VARIABLE vNormal\n#endif\n\n#ifndef GLSL_VARYING_LOCAL_NORMAL_VARIABLE\n#define GLSL_VARYING_LOCAL_NORMAL_VARIABLE vLocalNormal\n#endif\n\n#ifndef GLSL_VARYING_UV_VARIABLE\n#define GLSL_VARYING_UV_VARIABLE vUv\n#endif\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/position', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_POSITION\n#define GLSL_VARYING_POSITION\n\n#include "./variables"\n\nvarying vec3 GLSL_VARYING_LOCAL_POSITION_VARIABLE;\nvarying vec3 GLSL_VARYING_POSITION_VARIABLE;\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/normal', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_NORMAL\n#define GLSL_VARYING_NORMAL\n\n#include "./variables"\n\nvarying vec3 GLSL_VARYING_LOCAL_NORMAL_VARIABLE;\nvarying vec3 GLSL_VARYING_NORMAL_VARIABLE;\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/color', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_COLOR\n#define GLSL_VARYING_COLOR\n\n#include "./variables"\n\nvarying vec4 GLSL_VARYING_COLOR_VARIABLE;\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/data', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_DATA\n#define GLSL_VARYING_DATA\n\nstruct VaryingData {\n  // exported\n  vec3 localPosition;\n  vec3 localNormal;\n  vec3 position;\n  vec3 normal;\n  vec4 color;\n  vec2 uv;\n\n  // private\n  mat3 modelNormal;\n  mat4 model;\n};\n\nVaryingData CreateVaryingData() {\n  VaryingData data;\n  data.localPosition = vec3(0.0);\n  data.localNormal = vec3(0.0);\n  data.position = vec3(0.0);\n  data.normal = vec3(0.0);\n  data.color = vec4(0.0);\n  data.uv = vec2(0.0);\n\n  data.modelNormal = mat3(1.0);\n  data.model = mat4(1.0);\n  return data;\n}\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/emit', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT\n#define GLSL_VARYING_EMIT\n\n#include "./emit/position"\n#include "./emit/normal"\n#include "./emit/color"\n#include "./emit/uv"\n#include "./data"\n\nvoid EmitVaryingData(const in VaryingData data) {\n#if defined(GLSL_VARYING_POSITION) && defined(GLSL_VARYING_EMIT_POSITION)\n  EmitVaryingPositions(data.model, data.position);\n#endif\n\n#if defined(GLSL_VARYING_NORMAL) && defined(GLSL_VARYING_EMIT_NORMAL)\n  EmitVaryingNormals(data.modelNormal, data.normal);\n#endif\n\n#if defined(GLSL_VARYING_COLOR) && defined(GLSL_VARYING_EMIT_COLOR)\n  EmitVaryingColors(data.color);\n#endif\n\n#if defined(GLSL_VARYING_UV) && defined(GLSL_VARYING_EMIT_UV)\n  EmitVaryingUvs(data.uv);\n#endif\n}\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/read', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ\n#define GLSL_VARYING_READ\n\n#include "./read/position"\n#include "./read/normal"\n#include "./read/color"\n#include "./read/uv"\n#include "./data"\n\nVaryingData ReadVaryingData() {\n  VaryingData data = CreateVaryingData();\n#if defined(GLSL_VARYING_POSITION) && defined(GLSL_VARYING_READ_POSITION)\n  data.localPosition = ReadVaryingLocalPosition();\n  data.position = ReadVaryingPosition();\n#endif\n\n#if defined(GLSL_VARYING_NORMAL) && defined(GLSL_VARYING_READ_NORMAL)\n  data.localNormal = ReadVaryingLocalNormal();\n  data.normal = ReadVaryingNormal();\n#endif\n\n#if defined(GLSL_VARYING_COLOR) && defined(GLSL_VARYING_READ_COLOR)\n  data.color = ReadVaryingColor();\n#endif\n\n#if defined(GLSL_VARYING_UV) && defined(GLSL_VARYING_READ_UV)\n  data.uv = ReadVaryingUv();\n#endif\n  return data;\n}\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/uv', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_UV\n#define GLSL_VARYING_UV\n\n#include "./variables"\n\nvarying vec2 GLSL_VARYING_UV_VARIABLE;\n\n#endif\n'), _extends2)));
 
 }).call(this,"/lib/core/glsl/varying")
-},{"./emit":47,"./read":49,"glslify":290}],49:[function(_dereq_,module,exports){
+},{"./emit":47,"./read":49,"glslify":291}],49:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3902,7 +3902,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/position', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ_POSITION\n#define GLSL_VARYING_READ_POSITION\n#ifdef GLSL_VARYING_POSITION\n\n#include "../variables"\n\nvec3 ReadVaryingLocalPosition() {\n  return vec3(GLSL_VARYING_LOCAL_POSITION_VARIABLE);\n}\n\nvec3 ReadVaryingPosition() {\n  return vec3(GLSL_VARYING_POSITION_VARIABLE);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/normal', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ_NORMAL\n#define GLSL_VARYING_READ_NORMAL\n#ifdef GLSL_VARYING_NORMAL\n\n#include "../variables"\n\nvec3 ReadVaryingLocalNormal() {\n  return vec3(GLSL_VARYING_LOCAL_NORMAL_VARIABLE);\n}\n\nvec3 ReadVaryingNormal() {\n  return vec3(GLSL_VARYING_NORMAL_VARIABLE);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/color', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ_COLOR\n#define GLSL_VARYING_READ_COLOR\n#ifdef GLSL_VARYING_COLOR\n\n#include "../variables"\n\nvec4 ReadVaryingColor() {\n  return vec4(GLSL_VARYING_COLOR_VARIABLE);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uv', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ_UV\n#define GLSL_VARYING_READ_UV\n#ifdef GLSL_VARYING_UV\n\n#include "../variables"\n\nvec2 ReadVaryingUv() {\n  return vec2(GLSL_VARYING_UV_VARIABLE);\n}\n\n#endif\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/varying/read")
-},{"glslify":290}],50:[function(_dereq_,module,exports){
+},{"glslify":291}],50:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3921,7 +3921,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_VARIABLES\n#define GLSL_VERTEX_ATTRIBUTES_VARIABLES\n\n#ifndef GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE\n#define GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE position\n#endif\n\n#ifndef GLSL_VERTEX_ATTRIBUTES_NORMAL_VARIABLE\n#define GLSL_VERTEX_ATTRIBUTES_NORMAL_VARIABLE normal\n#endif\n\n#ifndef GLSL_VERTEX_ATTRIBUTES_COLOR_VARIABLE\n#define GLSL_VERTEX_ATTRIBUTES_COLOR_VARIABLE color\n#endif\n\n#ifndef GLSL_VERTEX_ATTRIBUTES_UV_VARIABLE\n#define GLSL_VERTEX_ATTRIBUTES_UV_VARIABLE uv\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/position', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_POSITION\n#define GLSL_VERTEX_ATTRIBUTES_POSITION\n\n#include "./variables"\n\nattribute vec3 GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/normal', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_NORMAL\n#define GLSL_VERTEX_ATTRIBUTES_NORMAL\n\n#include "./variables"\n\nattribute vec3 GLSL_VERTEX_ATTRIBUTES_NORMAL_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/color', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_COLOR\n#define GLSL_VERTEX_ATTRIBUTES_COLOR\n\n#include "./variables"\n\nattribute vec4 GLSL_VERTEX_ATTRIBUTES_COLOR_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uv', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_UV\n#define GLSL_VERTEX_ATTRIBUTES_UV\n\n#include "./variables"\n\nattribute vec2 GLSL_VERTEX_ATTRIBUTES_UV_VARIABLE;\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/vertex/attributes")
-},{"glslify":290}],51:[function(_dereq_,module,exports){
+},{"glslify":291}],51:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3948,7 +3948,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, _extends({}, _dereq_('./attributes'), _defineProperty({}, __dirname + '/main', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_MAIN\n#define GLSL_VERTEX_MAIN\n\n#include "../varying/data"\n\nvoid InitVarying(inout VaryingData varyingData);\nvoid BeforeMain(inout vec4 vertexPosition, inout VaryingData varyingData);\nvoid Main(inout vec4 vertexPosition, inout VaryingData data);\nvoid TransformMain(inout vec4 vertexPosition, inout VaryingData varyingData);\nvoid AfterMain(inout vec4 vertexPosition, inout VaryingData varyingData);\n\nvoid main() {\n  VaryingData varyingData = CreateVaryingData();\n  InitVarying(varyingData);\n  gl_Position = vec4(vec3(0.0), 1.0);\n  BeforeMain(gl_Position, varyingData);\n  Main(gl_Position, varyingData);\n  TransformMain(gl_Position, varyingData);\n#ifdef GLSL_VARYING_EMIT\n  EmitVaryingData(varyingData);\n#endif\n  AfterMain(gl_Position, varyingData);\n}\n\n#ifdef GLSL_VERTEX_MAIN_BEFORE\n  void GLSL_VERTEX_MAIN_BEFORE(inout vec4 vertexPosition,\n                               inout VaryingData varyingData);\n#endif\n\n#ifdef GLSL_VERTEX_MAIN_TRANSFORM\n  void GLSL_VERTEX_MAIN_TRANSFORM(inout vec4 vertexPosition,\n                                  inout VaryingData varyingData);\n#endif\n\n#ifdef GLSL_VERTEX_MAIN_AFTER\n  void GLSL_VERTEX_MAIN_AFTER(inout vec4 vertexPosition,\n                              inout VaryingData varyingData);\n#endif\n\nvoid BeforeMain(inout vec4 vertexPosition,\n                inout VaryingData varyingData) {\n#ifdef GLSL_VERTEX_MAIN_BEFORE\n  GLSL_VERTEX_MAIN_BEFORE(vertexPosition, varyingData);\n#endif\n}\n\nvoid TransformMain(inout vec4 vertexPosition,\n                   inout VaryingData varyingData) {\n#ifdef GLSL_VERTEX_MAIN_TRANSFORM\n  GLSL_VERTEX_MAIN_TRANSFORM(vertexPosition, varyingData);\n#endif\n}\n\nvoid AfterMain(inout vec4 vertexPosition,\n               inout VaryingData varyingData) {\n#ifdef GLSL_VERTEX_MAIN_AFTER\n  GLSL_VERTEX_MAIN_AFTER(vertexPosition, varyingData);\n#endif\n}\n\nvoid InitVarying(inout VaryingData varyingData) {\n  #ifdef GLSL_VERTEX_ATTRIBUTES_POSITION\n    varyingData.position = position;\n  #endif\n\n  #ifdef GLSL_VERTEX_ATTRIBUTES_NORMAL\n    varyingData.normal = normal;\n  #endif\n\n  #ifdef GLSL_VERTEX_ATTRIBUTES_COLOR\n    varyingData.color = color;\n  #endif\n\n  #ifdef GLSL_VERTEX_ATTRIBUTES_UV\n    varyingData.uv = uv;\n  #endif\n\n  #if defined(GLSL_MESH) && defined(GLSL_MESH_UNIFORMS)\n    varyingData.modelNormal = mesh.modelNormal;\n    varyingData.model = mesh.model;\n  #endif\n}\n\n#endif\n')));
 
 }).call(this,"/lib/core/glsl/vertex")
-},{"./attributes":50,"glslify":290}],52:[function(_dereq_,module,exports){
+},{"./attributes":50,"glslify":291}],52:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4579,7 +4579,7 @@ var ShaderLibPreprocessor = exports.ShaderLibPreprocessor = function () {
   return ShaderLibPreprocessor;
 }();
 
-},{"./command":29,"./dynamic":32,"./glsl":42,"defined":130,"glsl-inject-defines":279,"glsl-token-defines":280,"glsl-token-string":282,"glsl-tokenizer":289,"path":296,"prepr":297,"string-hash":299}],54:[function(_dereq_,module,exports){
+},{"./command":29,"./dynamic":32,"./glsl":42,"defined":130,"glsl-inject-defines":280,"glsl-token-defines":281,"glsl-token-string":283,"glsl-tokenizer":290,"path":296,"prepr":297,"string-hash":300}],54:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -5373,6 +5373,8 @@ var FrameBuffer = exports.FrameBuffer = function (_Component) {
     var getContext = new _scope.ScopedContext(ctx);
     var fbo = ctx.regl.framebuffer(_extends({}, initialState));
     var framebuffer = ctx.regl({ framebuffer: fbo });
+    var previousWidth = 0;
+    var previousHeight = 0;
     return _possibleConstructorReturn(this, (FrameBuffer.__proto__ || Object.getPrototypeOf(FrameBuffer)).call(this, ctx, initialState, new _scope.ScopedContext(ctx, {
       framebufferPointer: function framebufferPointer() {
         return framebuffer;
@@ -5383,13 +5385,21 @@ var FrameBuffer = exports.FrameBuffer = function (_Component) {
             viewportWidth = _ref.viewportWidth,
             viewportHeight = _ref.viewportHeight;
 
-        texturePointer({
-          width: viewportWidth,
-          height: viewportHeight,
-          wrap: 'clamp'
-        });
-        fbo({ color: texturePointer });
-        fbo.resize(viewportWidth, viewportHeight);
+        var width = state.width || viewportWidth;
+        var height = state.height || viewportHeight;
+        if (texturePointer) {
+          texturePointer(_extends({
+            width: width, height: height,
+            wrap: 'clamp', min: 'linear', mag: 'linear' }, state.texture));
+          fbo({ color: texturePointer });
+        }
+
+        if (previousWidth != width || previousHeight != height) {
+          previousWidth = width;
+          previousHeight = height;
+          fbo.resize(width, height);
+        }
+
         framebuffer(block);
       });
     }));
@@ -6729,7 +6739,7 @@ var MeshSizeContext = exports.MeshSizeContext = function (_Component) {
   return MeshSizeContext;
 }(_core.Component);
 
-},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":76,"gl-vec2":214,"gl-vec3":244}],76:[function(_dereq_,module,exports){
+},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":76,"gl-vec2":215,"gl-vec3":245}],76:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7439,7 +7449,7 @@ var MeshShaderUniforms = exports.MeshShaderUniforms = function (_Component) {
   return MeshShaderUniforms;
 }(_core.Component);
 
-},{"../../core":52,"../../shader":97,"../../utils":120,"../defaults":76,"gl-mat3":144,"gl-mat4":162}],84:[function(_dereq_,module,exports){
+},{"../../core":52,"../../shader":97,"../../utils":120,"../defaults":76,"gl-mat3":145,"gl-mat4":163}],84:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -7827,9 +7837,9 @@ var Object3DMatrixContext = exports.Object3DMatrixContext = function (_Component
         var matrix = _glMat2.default.identity([]);
         var position = (0, _utils.get)('position', [ctx, args]);
         var rotation = (0, _utils.get)('rotation', [ctx, args]);
-        var scale = (0, _utils.get)('scale', [ctx, args, initialState]);
+        var scale = (0, _utils.get)('scale', [ctx, args, initialState]
         // M = T * R * S
-        _glMat2.default.fromRotationTranslation(matrix, rotation, position);
+        );_glMat2.default.fromRotationTranslation(matrix, rotation, position);
         _glMat2.default.scale(matrix, matrix, scale);
         return matrix;
       }
@@ -7839,7 +7849,7 @@ var Object3DMatrixContext = exports.Object3DMatrixContext = function (_Component
   return Object3DMatrixContext;
 }(_core.Component);
 
-},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":90,"gl-mat4":162}],88:[function(_dereq_,module,exports){
+},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":90,"gl-mat4":163}],88:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -7960,7 +7970,7 @@ var Object3DTransformContext = exports.Object3DTransformContext = function (_Com
   return Object3DTransformContext;
 }(_core.Component);
 
-},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":90,"gl-mat4":162}],89:[function(_dereq_,module,exports){
+},{"../../core":52,"../../scope":94,"../../utils":120,"../defaults":90,"gl-mat4":163}],89:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -10550,7 +10560,7 @@ function getCubeTextureDataResolution(data) {
   }
 }
 
-},{"global/window":278}],120:[function(_dereq_,module,exports){
+},{"global/window":279}],120:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -10564,16 +10574,6 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
   return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 } : function (obj) {
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
 };
 
 var _debug = _dereq_('debug');
@@ -10591,6 +10591,10 @@ var _document2 = _interopRequireDefault(_document);
 var _window = _dereq_('global/window');
 
 var _window2 = _interopRequireDefault(_window);
+
+var _extend = _dereq_('extend');
+
+var _extend2 = _interopRequireDefault(_extend);
 
 var _clamp = _dereq_('clamp');
 
@@ -10610,12 +10614,12 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.5.0';
+var kLibraryVersion = '0.5.1';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
 var HTMLCanvasElement = _window2.default.HTMLCanvasElement;
-var debug = exports.debug = (0, _debug2.default)('[axis@' + kLibraryVersion + ']');
+var debug = exports.debug = (0, _debug2.default)('[axis3d@' + kLibraryVersion + ']');
 
 var radians = exports.radians = function radians(n) {
   return n == n ? n * Math.PI / 180.0 : 0;
@@ -10625,7 +10629,7 @@ var lerp = exports.lerp = function lerp(v0, v1, t) {
 };
 
 var assignDefaults = exports.assignDefaults = function assignDefaults(object, defaults) {
-  return Object.assign(object, _extends({}, defaults, object));
+  return (0, _extend2.default)(true, object, (0, _extend2.default)(true, {}, defaults, object));
 };
 
 var get = exports.get = function get(k, objs) {
@@ -10733,7 +10737,7 @@ var isArrayLike = exports.isArrayLike = function isArrayLike(array) {
   return Boolean(array && (Array.isArray(array) || array instanceof TypedArray || (0, _isTypedarray2.default)(array) || 'number' == array.length || 'function' == typeof array[Symbol.iterator]));
 };
 
-},{"clamp":127,"debug":128,"global/document":277,"global/window":278,"is-typedarray":291}],121:[function(_dereq_,module,exports){
+},{"clamp":126,"debug":128,"extend":133,"global/document":278,"global/window":279,"is-typedarray":292}],121:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -19289,60 +19293,6 @@ function flattenDownDepth(array, result, depth) {
 }
 
 },{}],124:[function(_dereq_,module,exports){
-"use strict";
-
-module.exports = balanced;
-function balanced(a, b, str) {
-  var r = range(a, b, str);
-
-  return r && {
-    start: r[0],
-    end: r[1],
-    pre: str.slice(0, r[0]),
-    body: str.slice(r[0] + a.length, r[1]),
-    post: str.slice(r[1] + b.length)
-  };
-}
-
-balanced.range = range;
-function range(a, b, str) {
-  var begs, beg, left, right, result;
-  var ai = str.indexOf(a);
-  var bi = str.indexOf(b, ai + 1);
-  var i = ai;
-
-  if (ai >= 0 && bi > 0) {
-    begs = [];
-    left = str.length;
-
-    while (i < str.length && i >= 0 && !result) {
-      if (i == ai) {
-        begs.push(i);
-        ai = str.indexOf(a, i + 1);
-      } else if (begs.length == 1) {
-        result = [begs.pop(), bi];
-      } else {
-        beg = begs.pop();
-        if (beg < left) {
-          left = beg;
-          right = bi;
-        }
-
-        bi = str.indexOf(b, i + 1);
-      }
-
-      i = ai < bi && ai >= 0 ? ai : bi;
-    }
-
-    if (begs.length) {
-      result = [left, right];
-    }
-  }
-
-  return result;
-}
-
-},{}],125:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = findBounds;
@@ -19366,16 +19316,165 @@ function findBounds(points) {
   return [lo, hi];
 }
 
-},{}],126:[function(_dereq_,module,exports){
+},{}],125:[function(_dereq_,module,exports){
 "use strict";
 
-},{}],127:[function(_dereq_,module,exports){
+},{}],126:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clamp;
 
 function clamp(value, min, max) {
   return min < max ? value < min ? min : value > max ? max : value : value < max ? max : value > min ? min : value;
+}
+
+},{}],127:[function(_dereq_,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {};
+  var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val));
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') || plural(ms, h, 'hour') || plural(ms, m, 'minute') || plural(ms, s, 'second') || ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return;
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name;
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
 },{}],128:[function(_dereq_,module,exports){
@@ -19458,12 +19557,12 @@ function formatArgs(args) {
   if (!useColors) return;
 
   var c = 'color: ' + this.color;
-  args.splice(1, 0, c, 'color: inherit');
+  args.splice(1, 0, c, 'color: inherit'
 
   // the final "%c" is somewhat tricky, because there could be other
   // arguments passed either before or after the %c, so we need to
   // figure out the correct index to insert the CSS into
-  var index = 0;
+  );var index = 0;
   var lastC = 0;
   args[0].replace(/%[a-zA-Z%]/g, function (match) {
     if ('%%' === match) return;
@@ -19553,7 +19652,7 @@ function localstorage() {
 }
 
 }).call(this,_dereq_('_process'))
-},{"./debug":129,"_process":298}],129:[function(_dereq_,module,exports){
+},{"./debug":129,"_process":299}],129:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -19759,7 +19858,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":293}],130:[function(_dereq_,module,exports){
+},{"ms":127}],130:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -19820,7 +19919,7 @@ module.exports = {
     emit: emit
 };
 
-},{"synthetic-dom-events":300}],132:[function(_dereq_,module,exports){
+},{"synthetic-dom-events":301}],132:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -20098,6 +20197,96 @@ function isUndefined(arg) {
 },{}],133:[function(_dereq_,module,exports){
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var hasOwn = Object.prototype.hasOwnProperty;
+var toStr = Object.prototype.toString;
+
+var isArray = function isArray(arr) {
+	if (typeof Array.isArray === 'function') {
+		return Array.isArray(arr);
+	}
+
+	return toStr.call(arr) === '[object Array]';
+};
+
+var isPlainObject = function isPlainObject(obj) {
+	if (!obj || toStr.call(obj) !== '[object Object]') {
+		return false;
+	}
+
+	var hasOwnConstructor = hasOwn.call(obj, 'constructor');
+	var hasIsPrototypeOf = obj.constructor && obj.constructor.prototype && hasOwn.call(obj.constructor.prototype, 'isPrototypeOf');
+	// Not own constructor property must be Object
+	if (obj.constructor && !hasOwnConstructor && !hasIsPrototypeOf) {
+		return false;
+	}
+
+	// Own properties are enumerated firstly, so to speed up,
+	// if last one is own, then all properties are own.
+	var key;
+	for (key in obj) {/**/}
+
+	return typeof key === 'undefined' || hasOwn.call(obj, key);
+};
+
+module.exports = function extend() {
+	var options, name, src, copy, copyIsArray, clone;
+	var target = arguments[0];
+	var i = 1;
+	var length = arguments.length;
+	var deep = false;
+
+	// Handle a deep copy situation
+	if (typeof target === 'boolean') {
+		deep = target;
+		target = arguments[1] || {};
+		// skip the boolean and the target
+		i = 2;
+	}
+	if (target == null || (typeof target === 'undefined' ? 'undefined' : _typeof(target)) !== 'object' && typeof target !== 'function') {
+		target = {};
+	}
+
+	for (; i < length; ++i) {
+		options = arguments[i];
+		// Only deal with non-null/undefined values
+		if (options != null) {
+			// Extend the base object
+			for (name in options) {
+				src = target[name];
+				copy = options[name];
+
+				// Prevent never-ending loop
+				if (target !== copy) {
+					// Recurse if we're merging plain objects or arrays
+					if (deep && copy && (isPlainObject(copy) || (copyIsArray = isArray(copy)))) {
+						if (copyIsArray) {
+							copyIsArray = false;
+							clone = src && isArray(src) ? src : [];
+						} else {
+							clone = src && isPlainObject(src) ? src : {};
+						}
+
+						// Never move original objects, clone them
+						target[name] = extend(deep, clone, copy);
+
+						// Don't bring in undefined values
+					} else if (typeof copy !== 'undefined') {
+						target[name] = copy;
+					}
+				}
+			}
+		}
+	}
+
+	// Return the modified object
+	return target;
+};
+
+},{}],134:[function(_dereq_,module,exports){
+'use strict';
+
 var invert = _dereq_('gl-mat4/invert');
 var scratch = new Float32Array(16);
 
@@ -20112,7 +20301,7 @@ function getEyeVector(viewMatrix, out) {
   return out;
 }
 
-},{"gl-mat4/invert":163}],134:[function(_dereq_,module,exports){
+},{"gl-mat4/invert":164}],135:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = adjoint;
@@ -20149,7 +20338,7 @@ function adjoint(out, a) {
   return out;
 }
 
-},{}],135:[function(_dereq_,module,exports){
+},{}],136:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -20175,7 +20364,7 @@ function clone(a) {
   return out;
 }
 
-},{}],136:[function(_dereq_,module,exports){
+},{}],137:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -20201,7 +20390,7 @@ function copy(out, a) {
   return out;
 }
 
-},{}],137:[function(_dereq_,module,exports){
+},{}],138:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -20226,7 +20415,7 @@ function create() {
   return out;
 }
 
-},{}],138:[function(_dereq_,module,exports){
+},{}],139:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = determinant;
@@ -20252,7 +20441,7 @@ function determinant(a) {
   return a00 * (a22 * a11 - a12 * a21) + a01 * (a12 * a20 - a22 * a10) + a02 * (a21 * a10 - a11 * a20);
 }
 
-},{}],139:[function(_dereq_,module,exports){
+},{}],140:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = frob;
@@ -20268,7 +20457,7 @@ function frob(a) {
   return Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2] + a[3] * a[3] + a[4] * a[4] + a[5] * a[5] + a[6] * a[6] + a[7] * a[7] + a[8] * a[8]);
 }
 
-},{}],140:[function(_dereq_,module,exports){
+},{}],141:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromMat2d;
@@ -20297,7 +20486,7 @@ function fromMat2d(out, a) {
   return out;
 }
 
-},{}],141:[function(_dereq_,module,exports){
+},{}],142:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromMat4;
@@ -20323,7 +20512,7 @@ function fromMat4(out, a) {
   return out;
 }
 
-},{}],142:[function(_dereq_,module,exports){
+},{}],143:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromQuat;
@@ -20372,7 +20561,7 @@ function fromQuat(out, q) {
   return out;
 }
 
-},{}],143:[function(_dereq_,module,exports){
+},{}],144:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = identity;
@@ -20397,7 +20586,7 @@ function identity(out) {
   return out;
 }
 
-},{}],144:[function(_dereq_,module,exports){
+},{}],145:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -20421,7 +20610,7 @@ module.exports = {
   transpose: _dereq_('./transpose')
 };
 
-},{"./adjoint":134,"./clone":135,"./copy":136,"./create":137,"./determinant":138,"./frob":139,"./from-mat2":140,"./from-mat4":141,"./from-quat":142,"./identity":143,"./invert":145,"./multiply":146,"./normal-from-mat4":147,"./rotate":148,"./scale":149,"./str":150,"./translate":151,"./transpose":152}],145:[function(_dereq_,module,exports){
+},{"./adjoint":135,"./clone":136,"./copy":137,"./create":138,"./determinant":139,"./frob":140,"./from-mat2":141,"./from-mat4":142,"./from-quat":143,"./identity":144,"./invert":146,"./multiply":147,"./normal-from-mat4":148,"./rotate":149,"./scale":150,"./str":151,"./translate":152,"./transpose":153}],146:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = invert;
@@ -20468,7 +20657,7 @@ function invert(out, a) {
   return out;
 }
 
-},{}],146:[function(_dereq_,module,exports){
+},{}],147:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -20518,7 +20707,7 @@ function multiply(out, a, b) {
   return out;
 }
 
-},{}],147:[function(_dereq_,module,exports){
+},{}],148:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = normalFromMat4;
@@ -20584,7 +20773,7 @@ function normalFromMat4(out, a) {
   return out;
 }
 
-},{}],148:[function(_dereq_,module,exports){
+},{}],149:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotate;
@@ -20627,7 +20816,7 @@ function rotate(out, a, rad) {
   return out;
 }
 
-},{}],149:[function(_dereq_,module,exports){
+},{}],150:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -20660,7 +20849,7 @@ function scale(out, a, v) {
   return out;
 }
 
-},{}],150:[function(_dereq_,module,exports){
+},{}],151:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = str;
@@ -20676,7 +20865,7 @@ function str(a) {
   return 'mat3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + a[6] + ', ' + a[7] + ', ' + a[8] + ')';
 }
 
-},{}],151:[function(_dereq_,module,exports){
+},{}],152:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = translate;
@@ -20718,7 +20907,7 @@ function translate(out, a, v) {
   return out;
 }
 
-},{}],152:[function(_dereq_,module,exports){
+},{}],153:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transpose;
@@ -20758,7 +20947,7 @@ function transpose(out, a) {
   return out;
 }
 
-},{}],153:[function(_dereq_,module,exports){
+},{}],154:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = adjoint;
@@ -20807,7 +20996,7 @@ function adjoint(out, a) {
     return out;
 };
 
-},{}],154:[function(_dereq_,module,exports){
+},{}],155:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -20839,7 +21028,7 @@ function clone(a) {
     return out;
 };
 
-},{}],155:[function(_dereq_,module,exports){
+},{}],156:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -20871,7 +21060,7 @@ function copy(out, a) {
     return out;
 };
 
-},{}],156:[function(_dereq_,module,exports){
+},{}],157:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -20902,7 +21091,7 @@ function create() {
     return out;
 };
 
-},{}],157:[function(_dereq_,module,exports){
+},{}],158:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = determinant;
@@ -20947,7 +21136,7 @@ function determinant(a) {
     return b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 };
 
-},{}],158:[function(_dereq_,module,exports){
+},{}],159:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromQuat;
@@ -21000,7 +21189,7 @@ function fromQuat(out, q) {
     return out;
 };
 
-},{}],159:[function(_dereq_,module,exports){
+},{}],160:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromRotationTranslation;
@@ -21059,7 +21248,7 @@ function fromRotationTranslation(out, q, v) {
     return out;
 };
 
-},{}],160:[function(_dereq_,module,exports){
+},{}],161:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = frustum;
@@ -21099,7 +21288,7 @@ function frustum(out, left, right, bottom, top, near, far) {
     return out;
 };
 
-},{}],161:[function(_dereq_,module,exports){
+},{}],162:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = identity;
@@ -21130,7 +21319,7 @@ function identity(out) {
     return out;
 };
 
-},{}],162:[function(_dereq_,module,exports){
+},{}],163:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -21159,7 +21348,7 @@ module.exports = {
   str: _dereq_('./str')
 };
 
-},{"./adjoint":153,"./clone":154,"./copy":155,"./create":156,"./determinant":157,"./fromQuat":158,"./fromRotationTranslation":159,"./frustum":160,"./identity":161,"./invert":163,"./lookAt":164,"./multiply":165,"./ortho":166,"./perspective":167,"./perspectiveFromFieldOfView":168,"./rotate":169,"./rotateX":170,"./rotateY":171,"./rotateZ":172,"./scale":173,"./str":174,"./translate":175,"./transpose":176}],163:[function(_dereq_,module,exports){
+},{"./adjoint":154,"./clone":155,"./copy":156,"./create":157,"./determinant":158,"./fromQuat":159,"./fromRotationTranslation":160,"./frustum":161,"./identity":162,"./invert":164,"./lookAt":165,"./multiply":166,"./ortho":167,"./perspective":168,"./perspectiveFromFieldOfView":169,"./rotate":170,"./rotateX":171,"./rotateY":172,"./rotateZ":173,"./scale":174,"./str":175,"./translate":176,"./transpose":177}],164:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = invert;
@@ -21230,7 +21419,7 @@ function invert(out, a) {
     return out;
 };
 
-},{}],164:[function(_dereq_,module,exports){
+},{}],165:[function(_dereq_,module,exports){
 'use strict';
 
 var identity = _dereq_('./identity');
@@ -21331,7 +21520,7 @@ function lookAt(out, eye, center, up) {
     return out;
 };
 
-},{"./identity":161}],165:[function(_dereq_,module,exports){
+},{"./identity":162}],166:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -21392,7 +21581,7 @@ function multiply(out, a, b) {
     return out;
 };
 
-},{}],166:[function(_dereq_,module,exports){
+},{}],167:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = ortho;
@@ -21432,7 +21621,7 @@ function ortho(out, left, right, bottom, top, near, far) {
     return out;
 };
 
-},{}],167:[function(_dereq_,module,exports){
+},{}],168:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = perspective;
@@ -21469,7 +21658,7 @@ function perspective(out, fovy, aspect, near, far) {
     return out;
 };
 
-},{}],168:[function(_dereq_,module,exports){
+},{}],169:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = perspectiveFromFieldOfView;
@@ -21512,7 +21701,7 @@ function perspectiveFromFieldOfView(out, fov, near, far) {
     return out;
 }
 
-},{}],169:[function(_dereq_,module,exports){
+},{}],170:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotate;
@@ -21602,7 +21791,7 @@ function rotate(out, a, rad, axis) {
     return out;
 };
 
-},{}],170:[function(_dereq_,module,exports){
+},{}],171:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateX;
@@ -21651,7 +21840,7 @@ function rotateX(out, a, rad) {
     return out;
 };
 
-},{}],171:[function(_dereq_,module,exports){
+},{}],172:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateY;
@@ -21700,7 +21889,7 @@ function rotateY(out, a, rad) {
     return out;
 };
 
-},{}],172:[function(_dereq_,module,exports){
+},{}],173:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateZ;
@@ -21749,7 +21938,7 @@ function rotateZ(out, a, rad) {
     return out;
 };
 
-},{}],173:[function(_dereq_,module,exports){
+},{}],174:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -21786,7 +21975,7 @@ function scale(out, a, v) {
     return out;
 };
 
-},{}],174:[function(_dereq_,module,exports){
+},{}],175:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = str;
@@ -21801,7 +21990,7 @@ function str(a) {
   return 'mat4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + a[6] + ', ' + a[7] + ', ' + a[8] + ', ' + a[9] + ', ' + a[10] + ', ' + a[11] + ', ' + a[12] + ', ' + a[13] + ', ' + a[14] + ', ' + a[15] + ')';
 };
 
-},{}],175:[function(_dereq_,module,exports){
+},{}],176:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = translate;
@@ -21854,7 +22043,7 @@ function translate(out, a, v) {
     return out;
 };
 
-},{}],176:[function(_dereq_,module,exports){
+},{}],177:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transpose;
@@ -21910,7 +22099,7 @@ function transpose(out, a) {
     return out;
 };
 
-},{}],177:[function(_dereq_,module,exports){
+},{}],178:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -21924,7 +22113,7 @@ function transpose(out, a) {
  */
 module.exports = _dereq_('gl-vec4/add');
 
-},{"gl-vec4/add":266}],178:[function(_dereq_,module,exports){
+},{"gl-vec4/add":267}],179:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = calculateW;
@@ -21950,7 +22139,7 @@ function calculateW(out, a) {
   return out;
 }
 
-},{}],179:[function(_dereq_,module,exports){
+},{}],180:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -21962,7 +22151,7 @@ function calculateW(out, a) {
  */
 module.exports = _dereq_('gl-vec4/clone');
 
-},{"gl-vec4/clone":267}],180:[function(_dereq_,module,exports){
+},{"gl-vec4/clone":268}],181:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = conjugate;
@@ -21983,7 +22172,7 @@ function conjugate(out, a) {
   return out;
 }
 
-},{}],181:[function(_dereq_,module,exports){
+},{}],182:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -21996,7 +22185,7 @@ function conjugate(out, a) {
  */
 module.exports = _dereq_('gl-vec4/copy');
 
-},{"gl-vec4/copy":268}],182:[function(_dereq_,module,exports){
+},{"gl-vec4/copy":269}],183:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -22015,7 +22204,7 @@ function create() {
   return out;
 }
 
-},{}],183:[function(_dereq_,module,exports){
+},{}],184:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -22028,7 +22217,7 @@ function create() {
  */
 module.exports = _dereq_('gl-vec4/dot');
 
-},{"gl-vec4/dot":269}],184:[function(_dereq_,module,exports){
+},{"gl-vec4/dot":270}],185:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromMat3;
@@ -22052,8 +22241,8 @@ function fromMat3(out, m) {
 
   if (fTrace > 0.0) {
     // |w| > 1/2, may as well choose w > 1/2
-    fRoot = Math.sqrt(fTrace + 1.0); // 2w
-    out[3] = 0.5 * fRoot;
+    fRoot = Math.sqrt(fTrace + 1.0 // 2w
+    );out[3] = 0.5 * fRoot;
     fRoot = 0.5 / fRoot; // 1/(4w)
     out[0] = (m[5] - m[7]) * fRoot;
     out[1] = (m[6] - m[2]) * fRoot;
@@ -22081,7 +22270,7 @@ function fromMat3(out, m) {
   return out;
 }
 
-},{}],185:[function(_dereq_,module,exports){
+},{}],186:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -22096,7 +22285,7 @@ function fromMat3(out, m) {
  */
 module.exports = _dereq_('gl-vec4/fromValues');
 
-},{"gl-vec4/fromValues":270}],186:[function(_dereq_,module,exports){
+},{"gl-vec4/fromValues":271}],187:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = identity;
@@ -22115,7 +22304,7 @@ function identity(out) {
   return out;
 }
 
-},{}],187:[function(_dereq_,module,exports){
+},{}],188:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -22147,7 +22336,7 @@ module.exports = {
   squaredLength: _dereq_('./squaredLength')
 };
 
-},{"./add":177,"./calculateW":178,"./clone":179,"./conjugate":180,"./copy":181,"./create":182,"./dot":183,"./fromMat3":184,"./fromValues":185,"./identity":186,"./invert":188,"./length":189,"./lerp":190,"./multiply":191,"./normalize":192,"./rotateX":193,"./rotateY":194,"./rotateZ":195,"./rotationTo":196,"./scale":197,"./set":198,"./setAxes":199,"./setAxisAngle":200,"./slerp":201,"./sqlerp":202,"./squaredLength":203}],188:[function(_dereq_,module,exports){
+},{"./add":178,"./calculateW":179,"./clone":180,"./conjugate":181,"./copy":182,"./create":183,"./dot":184,"./fromMat3":185,"./fromValues":186,"./identity":187,"./invert":189,"./length":190,"./lerp":191,"./multiply":192,"./normalize":193,"./rotateX":194,"./rotateY":195,"./rotateZ":196,"./rotationTo":197,"./scale":198,"./set":199,"./setAxes":200,"./setAxisAngle":201,"./slerp":202,"./sqlerp":203,"./squaredLength":204}],189:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = invert;
@@ -22176,7 +22365,7 @@ function invert(out, a) {
   return out;
 }
 
-},{}],189:[function(_dereq_,module,exports){
+},{}],190:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -22188,7 +22377,7 @@ function invert(out, a) {
  */
 module.exports = _dereq_('gl-vec4/length');
 
-},{"gl-vec4/length":271}],190:[function(_dereq_,module,exports){
+},{"gl-vec4/length":272}],191:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -22203,7 +22392,7 @@ module.exports = _dereq_('gl-vec4/length');
  */
 module.exports = _dereq_('gl-vec4/lerp');
 
-},{"gl-vec4/lerp":272}],191:[function(_dereq_,module,exports){
+},{"gl-vec4/lerp":273}],192:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -22233,7 +22422,7 @@ function multiply(out, a, b) {
   return out;
 }
 
-},{}],192:[function(_dereq_,module,exports){
+},{}],193:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -22246,7 +22435,7 @@ function multiply(out, a, b) {
  */
 module.exports = _dereq_('gl-vec4/normalize');
 
-},{"gl-vec4/normalize":273}],193:[function(_dereq_,module,exports){
+},{"gl-vec4/normalize":274}],194:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateX;
@@ -22276,7 +22465,7 @@ function rotateX(out, a, rad) {
   return out;
 }
 
-},{}],194:[function(_dereq_,module,exports){
+},{}],195:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateY;
@@ -22306,7 +22495,7 @@ function rotateY(out, a, rad) {
   return out;
 }
 
-},{}],195:[function(_dereq_,module,exports){
+},{}],196:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateZ;
@@ -22336,7 +22525,7 @@ function rotateZ(out, a, rad) {
   return out;
 }
 
-},{}],196:[function(_dereq_,module,exports){
+},{}],197:[function(_dereq_,module,exports){
 'use strict';
 
 var vecDot = _dereq_('gl-vec3/dot');
@@ -22390,7 +22579,7 @@ function rotationTo(out, a, b) {
   }
 }
 
-},{"./normalize":192,"./setAxisAngle":200,"gl-vec3/cross":238,"gl-vec3/dot":241,"gl-vec3/length":246,"gl-vec3/normalize":252}],197:[function(_dereq_,module,exports){
+},{"./normalize":193,"./setAxisAngle":201,"gl-vec3/cross":239,"gl-vec3/dot":242,"gl-vec3/length":247,"gl-vec3/normalize":253}],198:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -22404,7 +22593,7 @@ function rotationTo(out, a, b) {
  */
 module.exports = _dereq_('gl-vec4/scale');
 
-},{"gl-vec4/scale":274}],198:[function(_dereq_,module,exports){
+},{"gl-vec4/scale":275}],199:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -22420,7 +22609,7 @@ module.exports = _dereq_('gl-vec4/scale');
  */
 module.exports = _dereq_('gl-vec4/set');
 
-},{"gl-vec4/set":275}],199:[function(_dereq_,module,exports){
+},{"gl-vec4/set":276}],200:[function(_dereq_,module,exports){
 'use strict';
 
 var mat3create = _dereq_('gl-mat3/create');
@@ -22429,7 +22618,7 @@ var normalize = _dereq_('./normalize');
 
 module.exports = setAxes;
 
-var matr = mat3create();
+var matr = mat3create
 
 /**
  * Sets the specified quaternion with values corresponding to the given
@@ -22441,7 +22630,7 @@ var matr = mat3create();
  * @param {vec3} up    the vector representing the local "up" direction
  * @returns {quat} out
  */
-function setAxes(out, view, right, up) {
+();function setAxes(out, view, right, up) {
   matr[0] = right[0];
   matr[3] = right[1];
   matr[6] = right[2];
@@ -22457,7 +22646,7 @@ function setAxes(out, view, right, up) {
   return normalize(out, fromMat3(out, matr));
 }
 
-},{"./fromMat3":184,"./normalize":192,"gl-mat3/create":137}],200:[function(_dereq_,module,exports){
+},{"./fromMat3":185,"./normalize":193,"gl-mat3/create":138}],201:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = setAxisAngle;
@@ -22481,7 +22670,7 @@ function setAxisAngle(out, axis, rad) {
   return out;
 }
 
-},{}],201:[function(_dereq_,module,exports){
+},{}],202:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = slerp;
@@ -22542,7 +22731,7 @@ function slerp(out, a, b, t) {
   return out;
 }
 
-},{}],202:[function(_dereq_,module,exports){
+},{}],203:[function(_dereq_,module,exports){
 'use strict';
 
 var slerp = _dereq_('./slerp');
@@ -22571,7 +22760,7 @@ function sqlerp(out, a, b, c, d, t) {
   return out;
 }
 
-},{"./slerp":201}],203:[function(_dereq_,module,exports){
+},{"./slerp":202}],204:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -22583,7 +22772,7 @@ function sqlerp(out, a, b, c, d, t) {
  */
 module.exports = _dereq_('gl-vec4/squaredLength');
 
-},{"gl-vec4/squaredLength":276}],204:[function(_dereq_,module,exports){
+},{"gl-vec4/squaredLength":277}],205:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = add;
@@ -22602,7 +22791,7 @@ function add(out, a, b) {
   return out;
 }
 
-},{}],205:[function(_dereq_,module,exports){
+},{}],206:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -22620,7 +22809,7 @@ function clone(a) {
   return out;
 }
 
-},{}],206:[function(_dereq_,module,exports){
+},{}],207:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -22638,7 +22827,7 @@ function copy(out, a) {
   return out;
 }
 
-},{}],207:[function(_dereq_,module,exports){
+},{}],208:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -22655,7 +22844,7 @@ function create() {
   return out;
 }
 
-},{}],208:[function(_dereq_,module,exports){
+},{}],209:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = cross;
@@ -22676,7 +22865,7 @@ function cross(out, a, b) {
   return out;
 }
 
-},{}],209:[function(_dereq_,module,exports){
+},{}],210:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = distance;
@@ -22694,7 +22883,7 @@ function distance(a, b) {
     return Math.sqrt(x * x + y * y);
 }
 
-},{}],210:[function(_dereq_,module,exports){
+},{}],211:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = divide;
@@ -22713,7 +22902,7 @@ function divide(out, a, b) {
   return out;
 }
 
-},{}],211:[function(_dereq_,module,exports){
+},{}],212:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = dot;
@@ -22729,12 +22918,12 @@ function dot(a, b) {
   return a[0] * b[0] + a[1] * b[1];
 }
 
-},{}],212:[function(_dereq_,module,exports){
+},{}],213:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = forEach;
 
-var vec = _dereq_('./create')();
+var vec = _dereq_('./create')
 
 /**
  * Perform some operation over an array of vec2s.
@@ -22748,7 +22937,7 @@ var vec = _dereq_('./create')();
  * @returns {Array} a
  * @function
  */
-function forEach(a, stride, offset, count, fn, arg) {
+();function forEach(a, stride, offset, count, fn, arg) {
     var i, l;
     if (!stride) {
         stride = 2;
@@ -22775,7 +22964,7 @@ function forEach(a, stride, offset, count, fn, arg) {
     return a;
 }
 
-},{"./create":207}],213:[function(_dereq_,module,exports){
+},{"./create":208}],214:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromValues;
@@ -22794,7 +22983,7 @@ function fromValues(x, y) {
   return out;
 }
 
-},{}],214:[function(_dereq_,module,exports){
+},{}],215:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -22828,7 +23017,7 @@ module.exports = {
   forEach: _dereq_('./forEach')
 };
 
-},{"./add":204,"./clone":205,"./copy":206,"./create":207,"./cross":208,"./distance":209,"./divide":210,"./dot":211,"./forEach":212,"./fromValues":213,"./length":215,"./lerp":216,"./max":217,"./min":218,"./multiply":219,"./negate":220,"./normalize":221,"./random":222,"./scale":223,"./scaleAndAdd":224,"./set":225,"./squaredDistance":226,"./squaredLength":227,"./subtract":228,"./transformMat2":229,"./transformMat2d":230,"./transformMat3":231,"./transformMat4":232}],215:[function(_dereq_,module,exports){
+},{"./add":205,"./clone":206,"./copy":207,"./create":208,"./cross":209,"./distance":210,"./divide":211,"./dot":212,"./forEach":213,"./fromValues":214,"./length":216,"./lerp":217,"./max":218,"./min":219,"./multiply":220,"./negate":221,"./normalize":222,"./random":223,"./scale":224,"./scaleAndAdd":225,"./set":226,"./squaredDistance":227,"./squaredLength":228,"./subtract":229,"./transformMat2":230,"./transformMat2d":231,"./transformMat3":232,"./transformMat4":233}],216:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = length;
@@ -22845,7 +23034,7 @@ function length(a) {
     return Math.sqrt(x * x + y * y);
 }
 
-},{}],216:[function(_dereq_,module,exports){
+},{}],217:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = lerp;
@@ -22867,7 +23056,7 @@ function lerp(out, a, b, t) {
     return out;
 }
 
-},{}],217:[function(_dereq_,module,exports){
+},{}],218:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = max;
@@ -22886,7 +23075,7 @@ function max(out, a, b) {
   return out;
 }
 
-},{}],218:[function(_dereq_,module,exports){
+},{}],219:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = min;
@@ -22905,7 +23094,7 @@ function min(out, a, b) {
   return out;
 }
 
-},{}],219:[function(_dereq_,module,exports){
+},{}],220:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -22924,7 +23113,7 @@ function multiply(out, a, b) {
   return out;
 }
 
-},{}],220:[function(_dereq_,module,exports){
+},{}],221:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = negate;
@@ -22942,7 +23131,7 @@ function negate(out, a) {
   return out;
 }
 
-},{}],221:[function(_dereq_,module,exports){
+},{}],222:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = normalize;
@@ -22967,7 +23156,7 @@ function normalize(out, a) {
     return out;
 }
 
-},{}],222:[function(_dereq_,module,exports){
+},{}],223:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = random;
@@ -22987,7 +23176,7 @@ function random(out, scale) {
   return out;
 }
 
-},{}],223:[function(_dereq_,module,exports){
+},{}],224:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -23006,7 +23195,7 @@ function scale(out, a, b) {
   return out;
 }
 
-},{}],224:[function(_dereq_,module,exports){
+},{}],225:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scaleAndAdd;
@@ -23026,7 +23215,7 @@ function scaleAndAdd(out, a, b, scale) {
   return out;
 }
 
-},{}],225:[function(_dereq_,module,exports){
+},{}],226:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = set;
@@ -23045,7 +23234,7 @@ function set(out, x, y) {
   return out;
 }
 
-},{}],226:[function(_dereq_,module,exports){
+},{}],227:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredDistance;
@@ -23063,7 +23252,7 @@ function squaredDistance(a, b) {
     return x * x + y * y;
 }
 
-},{}],227:[function(_dereq_,module,exports){
+},{}],228:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredLength;
@@ -23080,7 +23269,7 @@ function squaredLength(a) {
     return x * x + y * y;
 }
 
-},{}],228:[function(_dereq_,module,exports){
+},{}],229:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = subtract;
@@ -23099,7 +23288,7 @@ function subtract(out, a, b) {
   return out;
 }
 
-},{}],229:[function(_dereq_,module,exports){
+},{}],230:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat2;
@@ -23120,7 +23309,7 @@ function transformMat2(out, a, m) {
     return out;
 }
 
-},{}],230:[function(_dereq_,module,exports){
+},{}],231:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat2d;
@@ -23141,7 +23330,7 @@ function transformMat2d(out, a, m) {
     return out;
 }
 
-},{}],231:[function(_dereq_,module,exports){
+},{}],232:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat3;
@@ -23163,7 +23352,7 @@ function transformMat3(out, a, m) {
     return out;
 }
 
-},{}],232:[function(_dereq_,module,exports){
+},{}],233:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat4;
@@ -23186,7 +23375,7 @@ function transformMat4(out, a, m) {
     return out;
 }
 
-},{}],233:[function(_dereq_,module,exports){
+},{}],234:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = add;
@@ -23206,14 +23395,14 @@ function add(out, a, b) {
   return out;
 }
 
-},{}],234:[function(_dereq_,module,exports){
+},{}],235:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = angle;
 
 var fromValues = _dereq_('./fromValues');
 var normalize = _dereq_('./normalize');
-var dot = _dereq_('./dot');
+var dot = _dereq_('./dot'
 
 /**
  * Get the angle between two 3D vectors
@@ -23221,7 +23410,7 @@ var dot = _dereq_('./dot');
  * @param {vec3} b The second operand
  * @returns {Number} The angle in radians
  */
-function angle(a, b) {
+);function angle(a, b) {
     var tempA = fromValues(a[0], a[1], a[2]);
     var tempB = fromValues(b[0], b[1], b[2]);
 
@@ -23237,7 +23426,7 @@ function angle(a, b) {
     }
 }
 
-},{"./dot":241,"./fromValues":243,"./normalize":252}],235:[function(_dereq_,module,exports){
+},{"./dot":242,"./fromValues":244,"./normalize":253}],236:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -23256,7 +23445,7 @@ function clone(a) {
   return out;
 }
 
-},{}],236:[function(_dereq_,module,exports){
+},{}],237:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -23275,7 +23464,7 @@ function copy(out, a) {
   return out;
 }
 
-},{}],237:[function(_dereq_,module,exports){
+},{}],238:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -23293,7 +23482,7 @@ function create() {
     return out;
 }
 
-},{}],238:[function(_dereq_,module,exports){
+},{}],239:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = cross;
@@ -23320,7 +23509,7 @@ function cross(out, a, b) {
     return out;
 }
 
-},{}],239:[function(_dereq_,module,exports){
+},{}],240:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = distance;
@@ -23339,7 +23528,7 @@ function distance(a, b) {
     return Math.sqrt(x * x + y * y + z * z);
 }
 
-},{}],240:[function(_dereq_,module,exports){
+},{}],241:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = divide;
@@ -23359,7 +23548,7 @@ function divide(out, a, b) {
   return out;
 }
 
-},{}],241:[function(_dereq_,module,exports){
+},{}],242:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = dot;
@@ -23375,12 +23564,12 @@ function dot(a, b) {
   return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 }
 
-},{}],242:[function(_dereq_,module,exports){
+},{}],243:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = forEach;
 
-var vec = _dereq_('./create')();
+var vec = _dereq_('./create')
 
 /**
  * Perform some operation over an array of vec3s.
@@ -23394,7 +23583,7 @@ var vec = _dereq_('./create')();
  * @returns {Array} a
  * @function
  */
-function forEach(a, stride, offset, count, fn, arg) {
+();function forEach(a, stride, offset, count, fn, arg) {
     var i, l;
     if (!stride) {
         stride = 3;
@@ -23423,7 +23612,7 @@ function forEach(a, stride, offset, count, fn, arg) {
     return a;
 }
 
-},{"./create":237}],243:[function(_dereq_,module,exports){
+},{"./create":238}],244:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromValues;
@@ -23444,7 +23633,7 @@ function fromValues(x, y, z) {
   return out;
 }
 
-},{}],244:[function(_dereq_,module,exports){
+},{}],245:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -23482,7 +23671,7 @@ module.exports = {
   forEach: _dereq_('./forEach')
 };
 
-},{"./add":233,"./angle":234,"./clone":235,"./copy":236,"./create":237,"./cross":238,"./distance":239,"./divide":240,"./dot":241,"./forEach":242,"./fromValues":243,"./inverse":245,"./length":246,"./lerp":247,"./max":248,"./min":249,"./multiply":250,"./negate":251,"./normalize":252,"./random":253,"./rotateX":254,"./rotateY":255,"./rotateZ":256,"./scale":257,"./scaleAndAdd":258,"./set":259,"./squaredDistance":260,"./squaredLength":261,"./subtract":262,"./transformMat3":263,"./transformMat4":264,"./transformQuat":265}],245:[function(_dereq_,module,exports){
+},{"./add":234,"./angle":235,"./clone":236,"./copy":237,"./create":238,"./cross":239,"./distance":240,"./divide":241,"./dot":242,"./forEach":243,"./fromValues":244,"./inverse":246,"./length":247,"./lerp":248,"./max":249,"./min":250,"./multiply":251,"./negate":252,"./normalize":253,"./random":254,"./rotateX":255,"./rotateY":256,"./rotateZ":257,"./scale":258,"./scaleAndAdd":259,"./set":260,"./squaredDistance":261,"./squaredLength":262,"./subtract":263,"./transformMat3":264,"./transformMat4":265,"./transformQuat":266}],246:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = inverse;
@@ -23501,7 +23690,7 @@ function inverse(out, a) {
   return out;
 }
 
-},{}],246:[function(_dereq_,module,exports){
+},{}],247:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = length;
@@ -23519,7 +23708,7 @@ function length(a) {
     return Math.sqrt(x * x + y * y + z * z);
 }
 
-},{}],247:[function(_dereq_,module,exports){
+},{}],248:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = lerp;
@@ -23543,7 +23732,7 @@ function lerp(out, a, b, t) {
     return out;
 }
 
-},{}],248:[function(_dereq_,module,exports){
+},{}],249:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = max;
@@ -23563,7 +23752,7 @@ function max(out, a, b) {
   return out;
 }
 
-},{}],249:[function(_dereq_,module,exports){
+},{}],250:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = min;
@@ -23583,7 +23772,7 @@ function min(out, a, b) {
   return out;
 }
 
-},{}],250:[function(_dereq_,module,exports){
+},{}],251:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -23603,7 +23792,7 @@ function multiply(out, a, b) {
   return out;
 }
 
-},{}],251:[function(_dereq_,module,exports){
+},{}],252:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = negate;
@@ -23622,7 +23811,7 @@ function negate(out, a) {
   return out;
 }
 
-},{}],252:[function(_dereq_,module,exports){
+},{}],253:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = normalize;
@@ -23649,7 +23838,7 @@ function normalize(out, a) {
     return out;
 }
 
-},{}],253:[function(_dereq_,module,exports){
+},{}],254:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = random;
@@ -23674,7 +23863,7 @@ function random(out, scale) {
     return out;
 }
 
-},{}],254:[function(_dereq_,module,exports){
+},{}],255:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateX;
@@ -23698,17 +23887,17 @@ function rotateX(out, a, b, c) {
     //perform rotation
     r[0] = p[0];
     r[1] = p[1] * Math.cos(c) - p[2] * Math.sin(c);
-    r[2] = p[1] * Math.sin(c) + p[2] * Math.cos(c);
+    r[2] = p[1] * Math.sin(c) + p[2] * Math.cos(c
 
     //translate to correct position
-    out[0] = r[0] + b[0];
+    );out[0] = r[0] + b[0];
     out[1] = r[1] + b[1];
     out[2] = r[2] + b[2];
 
     return out;
 }
 
-},{}],255:[function(_dereq_,module,exports){
+},{}],256:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateY;
@@ -23732,17 +23921,17 @@ function rotateY(out, a, b, c) {
   //perform rotation
   r[0] = p[2] * Math.sin(c) + p[0] * Math.cos(c);
   r[1] = p[1];
-  r[2] = p[2] * Math.cos(c) - p[0] * Math.sin(c);
+  r[2] = p[2] * Math.cos(c) - p[0] * Math.sin(c
 
   //translate to correct position
-  out[0] = r[0] + b[0];
+  );out[0] = r[0] + b[0];
   out[1] = r[1] + b[1];
   out[2] = r[2] + b[2];
 
   return out;
 }
 
-},{}],256:[function(_dereq_,module,exports){
+},{}],257:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateZ;
@@ -23776,7 +23965,7 @@ function rotateZ(out, a, b, c) {
   return out;
 }
 
-},{}],257:[function(_dereq_,module,exports){
+},{}],258:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -23796,7 +23985,7 @@ function scale(out, a, b) {
   return out;
 }
 
-},{}],258:[function(_dereq_,module,exports){
+},{}],259:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scaleAndAdd;
@@ -23817,7 +24006,7 @@ function scaleAndAdd(out, a, b, scale) {
   return out;
 }
 
-},{}],259:[function(_dereq_,module,exports){
+},{}],260:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = set;
@@ -23838,7 +24027,7 @@ function set(out, x, y, z) {
   return out;
 }
 
-},{}],260:[function(_dereq_,module,exports){
+},{}],261:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredDistance;
@@ -23857,7 +24046,7 @@ function squaredDistance(a, b) {
     return x * x + y * y + z * z;
 }
 
-},{}],261:[function(_dereq_,module,exports){
+},{}],262:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredLength;
@@ -23875,7 +24064,7 @@ function squaredLength(a) {
     return x * x + y * y + z * z;
 }
 
-},{}],262:[function(_dereq_,module,exports){
+},{}],263:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = subtract;
@@ -23895,7 +24084,7 @@ function subtract(out, a, b) {
   return out;
 }
 
-},{}],263:[function(_dereq_,module,exports){
+},{}],264:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat3;
@@ -23918,7 +24107,7 @@ function transformMat3(out, a, m) {
   return out;
 }
 
-},{}],264:[function(_dereq_,module,exports){
+},{}],265:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat4;
@@ -23944,7 +24133,7 @@ function transformMat4(out, a, m) {
     return out;
 }
 
-},{}],265:[function(_dereq_,module,exports){
+},{}],266:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformQuat;
@@ -23982,7 +24171,7 @@ function transformQuat(out, a, q) {
     return out;
 }
 
-},{}],266:[function(_dereq_,module,exports){
+},{}],267:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = add;
@@ -24003,7 +24192,7 @@ function add(out, a, b) {
   return out;
 }
 
-},{}],267:[function(_dereq_,module,exports){
+},{}],268:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -24023,7 +24212,7 @@ function clone(a) {
   return out;
 }
 
-},{}],268:[function(_dereq_,module,exports){
+},{}],269:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -24043,7 +24232,7 @@ function copy(out, a) {
   return out;
 }
 
-},{}],269:[function(_dereq_,module,exports){
+},{}],270:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = dot;
@@ -24059,7 +24248,7 @@ function dot(a, b) {
   return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
 }
 
-},{}],270:[function(_dereq_,module,exports){
+},{}],271:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromValues;
@@ -24082,7 +24271,7 @@ function fromValues(x, y, z, w) {
   return out;
 }
 
-},{}],271:[function(_dereq_,module,exports){
+},{}],272:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = length;
@@ -24101,7 +24290,7 @@ function length(a) {
   return Math.sqrt(x * x + y * y + z * z + w * w);
 }
 
-},{}],272:[function(_dereq_,module,exports){
+},{}],273:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = lerp;
@@ -24127,7 +24316,7 @@ function lerp(out, a, b, t) {
   return out;
 }
 
-},{}],273:[function(_dereq_,module,exports){
+},{}],274:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = normalize;
@@ -24155,7 +24344,7 @@ function normalize(out, a) {
   return out;
 }
 
-},{}],274:[function(_dereq_,module,exports){
+},{}],275:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -24176,7 +24365,7 @@ function scale(out, a, b) {
   return out;
 }
 
-},{}],275:[function(_dereq_,module,exports){
+},{}],276:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = set;
@@ -24199,7 +24388,7 @@ function set(out, x, y, z, w) {
   return out;
 }
 
-},{}],276:[function(_dereq_,module,exports){
+},{}],277:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredLength;
@@ -24218,7 +24407,7 @@ function squaredLength(a) {
   return x * x + y * y + z * z + w * w;
 }
 
-},{}],277:[function(_dereq_,module,exports){
+},{}],278:[function(_dereq_,module,exports){
 (function (global){
 'use strict';
 
@@ -24240,7 +24429,7 @@ if (typeof document !== 'undefined') {
 module.exports = doccy;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":126}],278:[function(_dereq_,module,exports){
+},{"min-document":125}],279:[function(_dereq_,module,exports){
 (function (global){
 "use strict";
 
@@ -24259,7 +24448,7 @@ if (typeof window !== "undefined") {
 module.exports = win;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],279:[function(_dereq_,module,exports){
+},{}],280:[function(_dereq_,module,exports){
 'use strict';
 
 var tokenize = _dereq_('glsl-tokenizer');
@@ -24294,7 +24483,7 @@ module.exports = function glslInjectDefine(source, defines) {
   return stringify(tokens);
 };
 
-},{"glsl-token-inject-block":281,"glsl-token-string":282,"glsl-tokenizer":289}],280:[function(_dereq_,module,exports){
+},{"glsl-token-inject-block":282,"glsl-token-string":283,"glsl-tokenizer":290}],281:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = defines;
@@ -24318,7 +24507,7 @@ function defines(tokens) {
   return definitions;
 }
 
-},{}],281:[function(_dereq_,module,exports){
+},{}],282:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = glslTokenInject;
@@ -24371,7 +24560,7 @@ function findNextSemicolon(tokens, start) {
   return -1;
 }
 
-},{}],282:[function(_dereq_,module,exports){
+},{}],283:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = toString;
@@ -24387,7 +24576,7 @@ function toString(tokens) {
   return output.join('');
 }
 
-},{}],283:[function(_dereq_,module,exports){
+},{}],284:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = tokenize;
@@ -24752,15 +24941,15 @@ function tokenize(opt) {
   }
 }
 
-},{"./lib/builtins":285,"./lib/builtins-300es":284,"./lib/literals":287,"./lib/literals-300es":286,"./lib/operators":288}],284:[function(_dereq_,module,exports){
+},{"./lib/builtins":286,"./lib/builtins-300es":285,"./lib/literals":288,"./lib/literals-300es":287,"./lib/operators":289}],285:[function(_dereq_,module,exports){
 'use strict';
 
 // 300es builtins/reserved words that were previously valid in v100
-var v100 = _dereq_('./builtins');
+var v100 = _dereq_('./builtins'
 
 // The texture2D|Cube functions have been removed
 // And the gl_ features are updated
-v100 = v100.slice().filter(function (b) {
+);v100 = v100.slice().filter(function (b) {
   return !/^(gl\_|texture)/.test(b);
 });
 
@@ -24771,21 +24960,21 @@ module.exports = v100.concat([
 // other builtins
 , 'trunc', 'round', 'roundEven', 'isnan', 'isinf', 'floatBitsToInt', 'floatBitsToUint', 'intBitsToFloat', 'uintBitsToFloat', 'packSnorm2x16', 'unpackSnorm2x16', 'packUnorm2x16', 'unpackUnorm2x16', 'packHalf2x16', 'unpackHalf2x16', 'outerProduct', 'transpose', 'determinant', 'inverse', 'texture', 'textureSize', 'textureProj', 'textureLod', 'textureOffset', 'texelFetch', 'texelFetchOffset', 'textureProjOffset', 'textureLodOffset', 'textureProjLod', 'textureProjLodOffset', 'textureGrad', 'textureGradOffset', 'textureProjGrad', 'textureProjGradOffset']);
 
-},{"./builtins":285}],285:[function(_dereq_,module,exports){
+},{"./builtins":286}],286:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = [
 // Keep this list sorted
 'abs', 'acos', 'all', 'any', 'asin', 'atan', 'ceil', 'clamp', 'cos', 'cross', 'dFdx', 'dFdy', 'degrees', 'distance', 'dot', 'equal', 'exp', 'exp2', 'faceforward', 'floor', 'fract', 'gl_BackColor', 'gl_BackLightModelProduct', 'gl_BackLightProduct', 'gl_BackMaterial', 'gl_BackSecondaryColor', 'gl_ClipPlane', 'gl_ClipVertex', 'gl_Color', 'gl_DepthRange', 'gl_DepthRangeParameters', 'gl_EyePlaneQ', 'gl_EyePlaneR', 'gl_EyePlaneS', 'gl_EyePlaneT', 'gl_Fog', 'gl_FogCoord', 'gl_FogFragCoord', 'gl_FogParameters', 'gl_FragColor', 'gl_FragCoord', 'gl_FragData', 'gl_FragDepth', 'gl_FragDepthEXT', 'gl_FrontColor', 'gl_FrontFacing', 'gl_FrontLightModelProduct', 'gl_FrontLightProduct', 'gl_FrontMaterial', 'gl_FrontSecondaryColor', 'gl_LightModel', 'gl_LightModelParameters', 'gl_LightModelProducts', 'gl_LightProducts', 'gl_LightSource', 'gl_LightSourceParameters', 'gl_MaterialParameters', 'gl_MaxClipPlanes', 'gl_MaxCombinedTextureImageUnits', 'gl_MaxDrawBuffers', 'gl_MaxFragmentUniformComponents', 'gl_MaxLights', 'gl_MaxTextureCoords', 'gl_MaxTextureImageUnits', 'gl_MaxTextureUnits', 'gl_MaxVaryingFloats', 'gl_MaxVertexAttribs', 'gl_MaxVertexTextureImageUnits', 'gl_MaxVertexUniformComponents', 'gl_ModelViewMatrix', 'gl_ModelViewMatrixInverse', 'gl_ModelViewMatrixInverseTranspose', 'gl_ModelViewMatrixTranspose', 'gl_ModelViewProjectionMatrix', 'gl_ModelViewProjectionMatrixInverse', 'gl_ModelViewProjectionMatrixInverseTranspose', 'gl_ModelViewProjectionMatrixTranspose', 'gl_MultiTexCoord0', 'gl_MultiTexCoord1', 'gl_MultiTexCoord2', 'gl_MultiTexCoord3', 'gl_MultiTexCoord4', 'gl_MultiTexCoord5', 'gl_MultiTexCoord6', 'gl_MultiTexCoord7', 'gl_Normal', 'gl_NormalMatrix', 'gl_NormalScale', 'gl_ObjectPlaneQ', 'gl_ObjectPlaneR', 'gl_ObjectPlaneS', 'gl_ObjectPlaneT', 'gl_Point', 'gl_PointCoord', 'gl_PointParameters', 'gl_PointSize', 'gl_Position', 'gl_ProjectionMatrix', 'gl_ProjectionMatrixInverse', 'gl_ProjectionMatrixInverseTranspose', 'gl_ProjectionMatrixTranspose', 'gl_SecondaryColor', 'gl_TexCoord', 'gl_TextureEnvColor', 'gl_TextureMatrix', 'gl_TextureMatrixInverse', 'gl_TextureMatrixInverseTranspose', 'gl_TextureMatrixTranspose', 'gl_Vertex', 'greaterThan', 'greaterThanEqual', 'inversesqrt', 'length', 'lessThan', 'lessThanEqual', 'log', 'log2', 'matrixCompMult', 'max', 'min', 'mix', 'mod', 'normalize', 'not', 'notEqual', 'pow', 'radians', 'reflect', 'refract', 'sign', 'sin', 'smoothstep', 'sqrt', 'step', 'tan', 'texture2D', 'texture2DLod', 'texture2DProj', 'texture2DProjLod', 'textureCube', 'textureCubeLod', 'texture2DLodEXT', 'texture2DProjLodEXT', 'textureCubeLodEXT', 'texture2DGradEXT', 'texture2DProjGradEXT', 'textureCubeGradEXT'];
 
-},{}],286:[function(_dereq_,module,exports){
+},{}],287:[function(_dereq_,module,exports){
 'use strict';
 
 var v100 = _dereq_('./literals');
 
 module.exports = v100.slice().concat(['layout', 'centroid', 'smooth', 'case', 'mat2x2', 'mat2x3', 'mat2x4', 'mat3x2', 'mat3x3', 'mat3x4', 'mat4x2', 'mat4x3', 'mat4x4', 'uint', 'uvec2', 'uvec3', 'uvec4', 'samplerCubeShadow', 'sampler2DArray', 'sampler2DArrayShadow', 'isampler2D', 'isampler3D', 'isamplerCube', 'isampler2DArray', 'usampler2D', 'usampler3D', 'usamplerCube', 'usampler2DArray', 'coherent', 'restrict', 'readonly', 'writeonly', 'resource', 'atomic_uint', 'noperspective', 'patch', 'sample', 'subroutine', 'common', 'partition', 'active', 'filter', 'image1D', 'image2D', 'image3D', 'imageCube', 'iimage1D', 'iimage2D', 'iimage3D', 'iimageCube', 'uimage1D', 'uimage2D', 'uimage3D', 'uimageCube', 'image1DArray', 'image2DArray', 'iimage1DArray', 'iimage2DArray', 'uimage1DArray', 'uimage2DArray', 'image1DShadow', 'image2DShadow', 'image1DArrayShadow', 'image2DArrayShadow', 'imageBuffer', 'iimageBuffer', 'uimageBuffer', 'sampler1DArray', 'sampler1DArrayShadow', 'isampler1D', 'isampler1DArray', 'usampler1D', 'usampler1DArray', 'isampler2DRect', 'usampler2DRect', 'samplerBuffer', 'isamplerBuffer', 'usamplerBuffer', 'sampler2DMS', 'isampler2DMS', 'usampler2DMS', 'sampler2DMSArray', 'isampler2DMSArray', 'usampler2DMSArray']);
 
-},{"./literals":287}],287:[function(_dereq_,module,exports){
+},{"./literals":288}],288:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = [
@@ -24795,12 +24984,12 @@ module.exports = [
 // future
 , 'asm', 'class', 'union', 'enum', 'typedef', 'template', 'this', 'packed', 'goto', 'switch', 'default', 'inline', 'noinline', 'volatile', 'public', 'static', 'extern', 'external', 'interface', 'long', 'short', 'double', 'half', 'fixed', 'unsigned', 'input', 'output', 'hvec2', 'hvec3', 'hvec4', 'dvec2', 'dvec3', 'dvec4', 'fvec2', 'fvec3', 'fvec4', 'sampler2DRect', 'sampler3DRect', 'sampler2DRectShadow', 'sizeof', 'cast', 'namespace', 'using'];
 
-},{}],288:[function(_dereq_,module,exports){
+},{}],289:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = ['<<=', '>>=', '++', '--', '<<', '>>', '<=', '>=', '==', '!=', '&&', '||', '+=', '-=', '*=', '/=', '%=', '&=', '^^', '^=', '|=', '(', ')', '[', ']', '.', '!', '~', '*', '/', '%', '+', '-', '<', '>', '&', '^', '|', '?', ':', '=', ',', ';', '{', '}'];
 
-},{}],289:[function(_dereq_,module,exports){
+},{}],290:[function(_dereq_,module,exports){
 'use strict';
 
 var tokenize = _dereq_('./index');
@@ -24817,7 +25006,7 @@ function tokenizeString(str, opt) {
   return tokens;
 }
 
-},{"./index":283}],290:[function(_dereq_,module,exports){
+},{"./index":284}],291:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = function (strings) {
@@ -24831,7 +25020,7 @@ module.exports = function (strings) {
   return parts.join('');
 };
 
-},{}],291:[function(_dereq_,module,exports){
+},{}],292:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = isTypedArray;
@@ -24863,7 +25052,7 @@ function isLooseTypedArray(arr) {
   return names[toString.call(arr)];
 }
 
-},{}],292:[function(_dereq_,module,exports){
+},{}],293:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = reindex;
@@ -24883,155 +25072,6 @@ function reindex(array) {
     positions: pos,
     cells: cel
   };
-}
-
-},{}],293:[function(_dereq_,module,exports){
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function (val, options) {
-  options = options || {};
-  var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val));
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  return plural(ms, d, 'day') || plural(ms, h, 'hour') || plural(ms, m, 'minute') || plural(ms, s, 'second') || ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) {
-    return;
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name;
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
 },{}],294:[function(_dereq_,module,exports){
@@ -25515,7 +25555,7 @@ var substr = function substr(str, start, len) {
 };
 
 }).call(this,_dereq_('_process'))
-},{"_process":298}],297:[function(_dereq_,module,exports){
+},{"_process":299}],297:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -25792,10 +25832,10 @@ function preprocess(what, how) {
 
 	//process if/else/ifdef/elif/ifndef/defined
 	function processIf(str) {
-		var match = balanced('#if', '#endif', str);
+		var match = balanced('#if', '#endif', str
 
 		//if no nested ifs - means we are in clause, return as is
-		if (!match) return str;
+		);if (!match) return str;
 
 		var body = match.body;
 		var post = match.post;
@@ -25870,7 +25910,61 @@ function preprocess(what, how) {
 
 module.exports = preprocess;
 
-},{"balanced-match":124,"parenthesis":295,"xtend/mutable":304}],298:[function(_dereq_,module,exports){
+},{"balanced-match":298,"parenthesis":295,"xtend/mutable":305}],298:[function(_dereq_,module,exports){
+"use strict";
+
+module.exports = balanced;
+function balanced(a, b, str) {
+  var r = range(a, b, str);
+
+  return r && {
+    start: r[0],
+    end: r[1],
+    pre: str.slice(0, r[0]),
+    body: str.slice(r[0] + a.length, r[1]),
+    post: str.slice(r[1] + b.length)
+  };
+}
+
+balanced.range = range;
+function range(a, b, str) {
+  var begs, beg, left, right, result;
+  var ai = str.indexOf(a);
+  var bi = str.indexOf(b, ai + 1);
+  var i = ai;
+
+  if (ai >= 0 && bi > 0) {
+    begs = [];
+    left = str.length;
+
+    while (i < str.length && i >= 0 && !result) {
+      if (i == ai) {
+        begs.push(i);
+        ai = str.indexOf(a, i + 1);
+      } else if (begs.length == 1) {
+        result = [begs.pop(), bi];
+      } else {
+        beg = begs.pop();
+        if (beg < left) {
+          left = beg;
+          right = bi;
+        }
+
+        bi = str.indexOf(b, i + 1);
+      }
+
+      i = ai < bi && ai >= 0 ? ai : bi;
+    }
+
+    if (begs.length) {
+      result = [left, right];
+    }
+  }
+
+  return result;
+}
+
+},{}],299:[function(_dereq_,module,exports){
 'use strict';
 
 // shim for using process in browser
@@ -26059,7 +26153,7 @@ process.umask = function () {
     return 0;
 };
 
-},{}],299:[function(_dereq_,module,exports){
+},{}],300:[function(_dereq_,module,exports){
 "use strict";
 
 function hash(str) {
@@ -26078,7 +26172,7 @@ function hash(str) {
 
 module.exports = hash;
 
-},{}],300:[function(_dereq_,module,exports){
+},{}],301:[function(_dereq_,module,exports){
 'use strict';
 
 // for compression
@@ -26194,7 +26288,7 @@ var typeOf = function () {
     };
 }();
 
-},{"./init.json":301,"./types.json":302}],301:[function(_dereq_,module,exports){
+},{"./init.json":302,"./types.json":303}],302:[function(_dereq_,module,exports){
 module.exports={
   "initEvent" : [
     "type",
@@ -26261,7 +26355,7 @@ module.exports={
   ]
 }
 
-},{}],302:[function(_dereq_,module,exports){
+},{}],303:[function(_dereq_,module,exports){
 module.exports={
   "MouseEvent" : [
     "click",
@@ -26306,7 +26400,7 @@ module.exports={
   ]
 }
 
-},{}],303:[function(_dereq_,module,exports){
+},{}],304:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = unindex;
@@ -26361,7 +26455,7 @@ function unindex(positions, cells, out) {
   return out;
 }
 
-},{}],304:[function(_dereq_,module,exports){
+},{}],305:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = extend;
