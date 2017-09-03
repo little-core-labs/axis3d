@@ -14,10 +14,22 @@ export class Object3DMatrixContext extends Component {
         const position = get('position', [ctx, args])
         const rotation = get('rotation', [ctx, args])
         const scale = get('scale', [ctx, args, initialState])
+        ensureSafeArray(rotation)
+        ensureSafeArray(position)
+        ensureSafeArray(scale)
         // M = T * R * S
         mat4.fromRotationTranslation(matrix, rotation, position)
         mat4.scale(matrix, matrix, scale)
         return matrix
+        function ensureSafeArray(array) {
+          if (!array) { return [0, 0, 0, 0] }
+          for (const i in array) {
+            if (!array[i] || -Infinity == array[i] || Infinity == array[i]) {
+              array[i] = 0
+            }
+          }
+          return array
+        }
       }
     }))
   }

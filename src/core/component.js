@@ -41,17 +41,30 @@ export class Component extends Command {
     }
     children = Component.compose(children)
     const entity = new Entity(ctx, initialState)
+    const injectContext = ctx.regl({
+      context: {
+        batchLength: ({batchLength: bl}, {batchLength}) => bl > 1 ? bl : batchLength,
+        batchId: ({}, {batchId}) => batchId,
+      }
+    })
     super((state, block) => {
+      let batchLength = 1
       if ('function' == typeof state) { block = state; state = {} }
       state = 'object' == typeof state && state ? state : {}
       block = 'function' == typeof block ? block : function() {}
       if (Array.isArray(state)) {
         state = state.map((s) => ({ ...initialState, ...s }))
+        batchLength = state.length
+      } else if ('number' == typeof state) {
+        batchLength = state
+        state = Array(batchLength).fill({ ...initialState })
       } else {
         state = { ...initialState, ...state }
       }
-      entity(state, ({}, args) => {
-        children(args, block)
+      entity(state, ({}, args, batchId) => {
+        injectContext({batchLength, batchId}, () => {
+          children(args, block)
+        })
       })
     })
   }

@@ -38,7 +38,7 @@ export class Context extends EventEmitter {
       attributes: { ...(opts.regl.attributes || {}) },
       extensions: [ ...(opts.regl.extensions || []) ],
       optionalExtensions: [
-        'ANGLE_instanced_arrays',
+        'angle_instanced_arrays',
         ...(opts.regl.optionalExtensions || [])
       ],
 
@@ -80,10 +80,18 @@ export class Context extends EventEmitter {
   }
 
   get isDestroyed() { return Boolean(this._isDestroyed) }
+  get extensions() { return this._regl ? this._regl.limits.extensions : [] }
   get domElement() { return this._domElement || null }
   get hasFocus() { return Boolean(this._hasFocus) }
   get regl() { return this._regl || null }
   get gl() { return this._regl ? this._regl._gl || null : null }
+
+  isExtensionEnabled(extension) {
+    return (
+      this.extensions &&
+      this.extensions.includes(String(extension).toLowerCase())
+    )
+  }
 
   focus() {
     this._hasFocus = true

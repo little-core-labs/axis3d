@@ -18,7 +18,7 @@ for (const p of Bunny.positions) {
   p[1] = p[1] - 4
 }
 
-const ctx = new Context()
+const ctx = new Context({gl: {extensions: ['oes_vertex_array_object']}})
 const material = new Material(ctx)
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
@@ -38,15 +38,22 @@ ready(() => document.body.appendChild(stats.dom))
 frame(() => stats.begin())
 frame(scene)
 frame(() => stats.end())
+        const bunnies = []
+        for (let i = 0; i < 50; ++i) {
+          bunnies.push({
+            position: [0.5*i, 0.25*i, 1/i]
+          })
+        }
 
 function scene({time, cancel, cancelAll}) {
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, () => {
     material({color}, () => {
-      box({scale: 1, wireframe: true}, ({size}) => {
+      box({scale: 1, wireframe: true}, ({size, vertexShader}) => {
         const [x, y, z] = size
-        bunny([{position: [0, 0, 0,]},
+        bunny(bunnies)
+        /*bunny([{position: [0, 0, 0,]},
                {position: [0.5*x, 0.5*y, 0.5*z]},
                {position: [-0.5*x, -0.5*y, -0.5*z]},
                {position: [0.5*x, -0.5*y, 0.5*z]},
@@ -54,7 +61,9 @@ function scene({time, cancel, cancelAll}) {
                {position: [0.5*x, 0.5*y, -0.5*z]},
                {position: [-0.5*x, -0.5*y, 0.5*z]},
                {position: [0.5*x, -0.5*y, -0.5*z]},
-               {position: [-0.5*x, 0.5*y, 0.5*z]} ])
+               {position: [-0.5*x, 0.5*y, 0.5*z]} ], ({vertexShader}) => {
+                 //cancelAll()
+               })*/
       })
     })
   })

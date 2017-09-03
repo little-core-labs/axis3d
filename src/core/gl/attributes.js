@@ -44,16 +44,19 @@ export class WebGLShaderInstancedAttributes extends WebGLShaderAttributes {
       props = {}
     }
     for (const prop in props) {
-      if (props[prop] && 'object' == typeof props[prop]) {
-        if ('object' == typeof props[prop].buffer) {
+      if (
+        props[prop] && 'object' == typeof props[prop] ||
+        'function' == typeof props[prop]
+      ) {
+        if (
+          'object' == typeof props[prop].buffer ||
+          'function' == typeof props[prop].buffer
+        ) {
           if ('number' != typeof props[prop].divisor) {
             props[prop].divisor = 1
           }
         } else {
-          props[prop] = {
-            buffer: props[prop],
-            divisor: 1
-          }
+          props[prop] = { buffer: props[prop], divisor: 1}
         }
       }
     }
