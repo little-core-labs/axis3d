@@ -1,22 +1,44 @@
 import { assignDefaults } from '../../utils'
 import { ScopedContext } from '../../scope'
-import { Component } from '../../core'
 import * as defaults from '../defaults'
-
 import mat4 from 'gl-mat4'
 
 const kMat4Identity = mat4.identity([])
 
-export class CameraInverseViewContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState) {
-    assignDefaults(initialState, CameraInverseViewContext.defaults())
-    super(ctx, initialState,
-      new ScopedContext(ctx, {
-        invertedView({view}) {
-          return view ? mat4.invert([], view) : kMat4Identity
-        }
-      })
-    )
+/**
+ * CameraInverseViewContext(ctx, initialState = {}) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {Object} initialState
+ * @return {Function}
+ */
+export function CameraInverseViewContext(ctx, initialState) {
+  assignDefaults(initialState, defaults)
+  const invertedView = new Float32Array(16)
+  const previousView = new Float32Array(16)
+  mat4.identity(invertedView)
+  return ScopedContext(ctx, initialState, {
+    invertedView({view}) {
+      if (view && compareVectors(previousView, view)) {
+        copy(previousView, view)
+        mat4.invert(invertedView, view)
+      }
+      return invertedView
+    }
+  })
+}
+
+function compareVectors(a, b) {
+  if (a.length != b.length) { return true }
+  for (let i = 0; i < a.length; ++i) {
+    if (a[i] != b[i]) { return true }
+  }
+  return false
+}
+
+function copy(a, b) {
+  for (let i = 0; i < b.length; ++i) {
+    a[i] = b[i]
   }
 }

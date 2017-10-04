@@ -37,31 +37,58 @@ export class DynamicValue {
       enumerable: false, get: () => v || def
     })
     define('ctx', ctx, {})
+    define('valueState', {}, {})
     define('initialState', initialState, {})
-    if ('object' == typeof props) {
-      this.set(props)
-    }
+    this.set(props)
   }
 
   set(name, value) {
-    const {prefix = ''} = this.initialState
     if (name && 'object' == typeof name) {
       const descriptors = Object.getOwnPropertyDescriptors(name)
       for (const key in descriptors) {
-        try { Object.defineProperty(this, `${prefix}${key}`, descriptors[key]) }
-        catch (e) {}
+        if (null == name[key]) { continue }
+        this.valueState[key] = name[key]
+        try {
+          Object.defineProperty(this, key, {
+            enumerable: true,
+            get: () => this.valueState[key] || this.initialState[key] || null,
+            set:  (v) => this.valueState[key] = v
+          })
+        } catch (e) { }
       }
     } else if ('string' == typeof name && null != value) {
-      this[`${prefix}${name}`] = DynamicValue.primitive(value)
+      this.valueState[name] = value
+      try {
+        Object.defineProperty(this, name, {
+          enumerable: true,
+          set:  (v) => this.valueState[name] = v,
+          get: () => {
+            if ('function' == typeof value) {
+              return (ctx, args) => {
+                if (null == args) { args = {} }
+                if ('object '== typeof args) {
+                  return value(ctx, extend(true, {}, initialState, args))
+                } else {
+                  return value(ctx, args)
+                }
+              }
+            } else {
+              return DynamicValue.primitive(
+                this.valueState[name] ||
+                this.initialState[name]
+              ) || null
+            }
+          },
+        })
+      } catch(e) {}
     }
     this.purge()
     return this
   }
 
   unset(name) {
-    const {prefix = ''} = this.initialState
     if ('string' == typeof name) {
-      delete this[`${prefix}${name}`]
+      delete this[name]
     }
     return this
   }
@@ -69,7 +96,8 @@ export class DynamicValue {
   purge() {
     for (const key in this) {
       if (null == this[key]) {
-        delete this[key]
+        try { delete this[key] }
+        catch (err) { }
       }
     }
     return this

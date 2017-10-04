@@ -1,41 +1,38 @@
 import { assignDefaults } from '../utils'
 import { ScopedContext } from '../scope'
-import { Component } from '../core'
+import { UpdateContext } from '../update'
+import { Entity } from '../core'
 
-export class FrameBuffer extends Component {
-  static defaults() { return { depth: true } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, FrameBuffer.defaults())
-    const getContext = new ScopedContext(ctx)
-    const fbo = ctx.regl.framebuffer({ ...initialState })
-    const framebuffer = ctx.regl({ framebuffer: fbo})
-    let previousWidth = 0
-    let previousHeight = 0
-    super(ctx,
-      initialState,
-      new ScopedContext(ctx, {
-        framebufferPointer() { return framebuffer }
-      }),
-      (state, block) => {
-        getContext(({texturePointer, viewportWidth, viewportHeight}) => {
-          const width = state.width || viewportWidth
-          const height = state.height || viewportHeight
-          if (texturePointer) {
-            texturePointer({
-              width, height,
-              wrap: 'clamp', min: 'linear', mag: 'linear', ...state.texture
-            })
-            fbo({color: texturePointer})
-          }
+export function FrameBuffer(ctx, initialState = {}) {
+  assignDefaults(initialState, {depth: true})
+  const getContext = new ScopedContext(ctx)
+  const fbo = ctx.regl.framebuffer({ ...initialState })
+  const framebuffer = ctx.regl({framebuffer: fbo})
+  let previousTexture = null
+  let previousWidth = 0
+  let previousHeight = 0
+  return Entity(ctx, initialState,
+    ScopedContext(ctx, { framebufferPointer() { return framebuffer } }),
+    UpdateContext(ctx, {
+      update({texturePointer, viewportWidth, viewportHeight}, args) {
+        const width = args.width || viewportWidth
+        const height = args.height || viewportHeight
+        if (texturePointer && previousTexture != texturePointer) {
+          previousTexture = texturePointer
+          texturePointer({
+            width, height, wrap: 'clamp', min: 'linear', mag: 'linear',
+            ...args.texture
+          })
+          fbo({color: texturePointer})
+        }
 
-          if (previousWidth != width || previousHeight != height) {
-            previousWidth = width
-            previousHeight = height
-            fbo.resize(width, height)
-          }
-
-          framebuffer(block)
-        })
-      })
-  }
+        if (previousWidth != width || previousHeight != height) {
+          previousWidth = width
+          previousHeight = height
+          fbo.resize(width, height)
+        }
+        framebuffer(({clear}) => { clear() })
+      }
+    })
+  )
 }

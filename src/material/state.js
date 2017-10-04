@@ -1,99 +1,93 @@
-import { assignDefaults, ensureRGBA, get } from '../utils'
-import { Component } from '../core'
+import { assignDefaults, ensureRGBA, pick } from '../utils'
 import * as defaults from './defaults'
 
-export class MaterialState extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, MaterialState.defaults())
-    super(ctx, initialState,
-      ctx.regl({
-        blend: {
-          equation(ctx, args) {
-            return get('equation', [
-              args.blending,
-              ctx.blending,
-              initialState.blending
-            ])
-          },
+export function MaterialState(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return ctx.regl({
+    blend: {
+      equation(ctx, args) {
+        return pick('equation', [
+          args.blending,
+          ctx.blending,
+          initialState.blending
+        ])
+      },
 
-          color(ctx, args) {
-            return ensureRGBA(get('color', [
-              args.blending,
-              ctx.blending,
-              initialState.blending
-            ]))
-          },
+      color(ctx, args) {
+        return ensureRGBA(pick('color', [
+          args.blending,
+          ctx.blending,
+          initialState.blending
+        ]))
+      },
 
-          enable(ctx, args) {
-            return get('enable', [
-              args.blending,
-              ctx.blending,
-              initialState.blending
-            ])
-          },
+      enable(ctx, args) {
+        return pick('enable', [
+          args.blending,
+          ctx.blending,
+          initialState.blending
+        ])
+      },
 
-          func(ctx, args) {
-            return get('func', [
-              args.blending,
-              ctx.blending,
-              initialState.blending
-            ])
-          },
-        },
+      func(ctx, args) {
+        return pick('func', [
+          args.blending,
+          ctx.blending,
+          initialState.blending
+        ])
+      },
+    },
 
-        cull: {
-          enable(ctx, args) {
-            return Boolean(get('enable', [
-              args.culling,
-              ctx.culling,
-              initialState.culling
-            ]))
-          },
+    cull: {
+      enable(ctx, args) {
+        return Boolean(pick('enable', [
+          args.culling,
+          ctx.culling,
+          initialState.culling
+        ]))
+      },
 
-          face(ctx, args) {
-            return String(get('face', [
-              args.culling,
-              ctx.culling,
-              initialState.culling
-            ]))
-          },
-        },
+      face(ctx, args) {
+        return String(pick('face', [
+          args.culling,
+          ctx.culling,
+          initialState.culling
+        ]))
+      },
+    },
 
-        depth: {
-          enable(ctx, args) {
-            return Boolean(get('enable', [
-              args.depth,
-              ctx.depth,
-              initialState.depth
-            ]))
-          },
+    depth: {
+      enable(ctx, args) {
+        return Boolean(pick('enable', [
+          args.depth,
+          ctx.depth,
+          initialState.depth
+        ]))
+      },
 
-          range(ctx, args) {
-            return get('range', [
-              args.depth,
-              ctx.depth,
-              initialState.depth
-            ])
-          },
+      range(ctx, args) {
+        return pick('range', [
+          args.depth,
+          ctx.depth,
+          initialState.depth
+        ])
+      },
 
-          func(ctx, args) {
-            return get('func', [
-              args.depth,
-              ctx.depth,
-              initialState.depth
-            ])
-          },
+      func(ctx, args) {
+        return pick('func', [
+          args.depth,
+          ctx.depth,
+          initialState.depth
+        ])
+      },
 
-          mask(ctx, args) {
-            return get('mask', [
-              args.depth,
-              ctx.depth,
-              initialState.depth
-            ])
-          },
-        }
-      })
-    )
-  }
+      mask(ctx, args) {
+        return pick('mask', [
+          args.depth,
+          ctx.depth,
+          initialState.depth
+        ])
+      },
+    }
+  })
 }

@@ -1,15 +1,8 @@
 import { PerspectiveCameraViewContext } from '../../perspective'
-import { assignDefaults, get } from '../../../utils'
-import { ScopedContext } from '../../../scope'
-import { Component } from '../../../core'
+import { assignDefaults } from '../../../utils'
 import * as defaults from '../defaults'
 
-export class OrthographicCameraViewContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, OrthographicCameraViewContext.defaults())
-    super(ctx, initialState,
-      new PerspectiveCameraViewContext(ctx, initialState)
-    )
-  }
+export function OrthographicCameraViewContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return PerspectiveCameraViewContext(ctx, initialState)
 }

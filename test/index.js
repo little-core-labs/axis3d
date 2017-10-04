@@ -1,1 +1,2 @@
-/** @TODO test! */
+'use strict'
+import './core'

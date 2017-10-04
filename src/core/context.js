@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events'
 import coalesce from 'defined'
 import document from 'global/document'
+import combine from 'regl-combine'
 import window from 'global/window'
 import events from 'dom-events'
 import regl from '@littlstar/regl'
@@ -11,6 +12,8 @@ export class Context extends EventEmitter {
     this.setMaxListeners(Infinity)
     this._hasFocus = false
     this._isDestroyed = false
+
+    this._state = []
 
     // coalesce regl options if given as `.gl`
     opts.regl = coalesce(opts.regl, opts.gl || {})
@@ -44,7 +47,7 @@ export class Context extends EventEmitter {
 
       onDone: (err, regl) => {
         if (err) { return this.emit('error', err) }
-        this._regl = regl
+        this._regl = combine.wrap(regl)
         this._isDestroyed = false
         if (regl._gl && regl._gl.canvas) {
           this._domElement = this._regl._gl.canvas
@@ -80,10 +83,12 @@ export class Context extends EventEmitter {
   }
 
   get isDestroyed() { return Boolean(this._isDestroyed) }
-  get domElement() { return this._domElement || null }
   get hasFocus() { return Boolean(this._hasFocus) }
+
+  get domElement() { return this._domElement || null }
+  get state() { return this._state || null }
   get regl() { return this._regl || null }
-  get gl() { return this._regl ? this._regl._gl || null : null }
+  get gl() { return this._regl && this._regl._gl || null }
 
   focus() {
     this._hasFocus = true

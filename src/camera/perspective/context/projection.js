@@ -1,29 +1,38 @@
-import { assignDefaults, get } from '../../../utils'
+import { assignDefaults, pick } from '../../../utils'
 import { ScopedContext } from '../../../scope'
-import { Component } from '../../../core'
 import * as defaults from '../defaults'
 import mat4 from 'gl-mat4'
 
-export class PerspectiveCameraProjectionContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, PerspectiveCameraProjectionContext.defaults())
-    super(ctx, initialState,
-      new ScopedContext(ctx, {
-        projection(ctx, args) {
-          const projection = mat4.identity([])
-          if ('projection' in args && args.projection) {
-            mat4.copy(projection, args.projection)
-          } else {
-            const aspect = get('aspect', [args, ctx])
-            const near = get('near', [args, ctx])
-            const far = get('far', [args, ctx])
-            const fov = get('fov', [args, ctx])
-            mat4.perspective(projection, fov, aspect, near, far)
-          }
-          return projection
+export function PerspectiveCameraProjectionContext (ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  const matrix = new Float32Array(16)
+  let previousAspect = 0
+  let previousNear = 0
+  let previousFar = 0
+  let previousFov = 0
+  return ScopedContext(ctx, initialState, {
+    projection(ctx, args) {
+      if ('projection' in args && args.projection) {
+        mat4.copy(matrix, args.projection)
+      } else {
+        const aspect = pick('aspect', [args, ctx])
+        const near = pick('near', [args, ctx])
+        const far = pick('far', [args, ctx])
+        const fov = pick('fov', [args, ctx])
+        if (
+          previousAspect != aspect ||
+          previousNear != near ||
+          previousFar != far ||
+          previousFov != fov
+        ) {
+          previousAspect = aspect
+          previousNear = near
+          previousFar = far
+          previousFov = fov
+          mat4.perspective(matrix, fov, aspect, near, far)
         }
-      })
-    )
-  }
+      }
+      return matrix
+    }
+  })
 }

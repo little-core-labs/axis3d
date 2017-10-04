@@ -1,10 +1,7 @@
-export * from './component'
+export * as libglsl from './glsl'
 export * from './shaderlib'
 export * from './geometry'
-export * from './command'
 export * from './dynamic'
 export * from './context'
 export * from './entity'
 export * from './gl'
-
-export * as libglsl from './glsl'

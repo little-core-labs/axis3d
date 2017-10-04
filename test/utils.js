@@ -1,9 +1,8 @@
 'use strict'
 
-/**
- * Module dependencies.
- */
-
-import { Context } from '../src/core/context'
+import { Context } from '../lib/core/context'
 
 export const sharedContext = new Context()
+export const xtest = (name, test) => {
+  console.warn('\tskipping test %s', name)
+}
