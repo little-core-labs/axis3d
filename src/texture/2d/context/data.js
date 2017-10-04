@@ -1,6 +1,5 @@
-import { assignDefaults, get } from '../../../utils'
+import { assignDefaults, pick } from '../../../utils'
 import { ScopedContext } from '../../../scope'
-import { Component } from '../../../core'
 import * as defaults from '../defaults'
 
 import {
@@ -9,19 +8,16 @@ import {
   isVideo
 } from '../../utils'
 
-export class TextureDataContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, TextureDataContext.defaults())
-    super(ctx, initialState, new ScopedContext(ctx, {
-      textureData(ctx, args) {
-        const data = get('data', [args, ctx])
-        if (data && isTextureDataReady(data)) {
-          const [w, h] = getTextureDataResolution(data)
-          if (w && h) { return data }
-        }
-        return null
+export function TextureDataContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return ScopedContext(ctx, {
+    textureData(ctx, args) {
+      const data = pick('data', [args, ctx])
+      if (data && isTextureDataReady(data)) {
+        const [w, h] = getTextureDataResolution(data)
+        if (w && h) { return data }
       }
-    }))
-  }
+      return null
+    }
+  })
 }

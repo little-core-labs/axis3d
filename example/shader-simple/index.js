@@ -4,11 +4,11 @@ import {
   PerspectiveCamera,
   ScopedContext,
   CubeTexture,
-  Component,
   Geometry,
   Material,
   Context,
   Texture,
+  Entity,
   Shader,
   Frame,
   Mesh,
@@ -172,20 +172,22 @@ const to = setInterval(() => {
 
 const rotation = quat.identity([])
 
-const draw = Component.compose(
+const draw = Entity(ctx,
   injectGlsl,
   new CubeTextureShaderUniforms(ctx),
   new TextureShaderUniforms(ctx),
+  box,
   fragmentShader,
-  vertexShader,
-  box)
+  vertexShader
+)
 
-function scene({cancel, time}) {
+function scene({cancelAll: cancel, time}) {
   quat.setAxisAngle(rotation, [0, 1, 0], 0.5*time)
   camera({rotation, position: [2.5, 2.5, 2.5]}, () => {
     texture({data: image}, () => {
       cubeTexture({data: cubeTextureData}, () => {
         draw()
+        cancel()
       })
     })
   })

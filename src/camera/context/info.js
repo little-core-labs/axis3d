@@ -21,7 +21,7 @@ export function CameraInfoContext(ctx, initialState = {}) {
     matrix() { return kMat4Identity },
 
     projection(ctx, args) {
-      return pick('projection', [args, ctx, initialState]) || kMat4Identity
+      return pick('projection', [args, initialState]) || kMat4Identity
     },
 
     aspect(ctx, args) {

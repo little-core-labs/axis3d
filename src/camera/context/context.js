@@ -20,7 +20,8 @@ export function CameraContext(ctx, initialState) {
   return Entity(ctx, initialState,
     Object3DContext(ctx, initialState),
     CameraInfoContext(ctx, initialState),
-    CameraViewContext(ctx, initialState),
+
+    isolate(CameraViewContext(ctx, initialState)),
     CameraInverseViewContext(ctx, initialState),
     CameraEyeContext(ctx, initialState),
   )

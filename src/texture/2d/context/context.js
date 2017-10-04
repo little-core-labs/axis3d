@@ -1,19 +1,16 @@
-import { assignDefaults } from '../../../utils'
-import { Component } from '../../../core'
+import { assignDefaults, isolate } from '../../../utils'
 import * as defaults from '../defaults'
+import { Entity } from '../../../core'
 
 import { TexturePointerContext } from './pointer'
 import { TextureDataContext } from './data'
 import { TextureInfoContext } from './info'
 
-export class TextureContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, TextureContext.defaults())
-    super(ctx, initialState,
-      new TextureDataContext(ctx, initialState),
-      new TexturePointerContext(ctx, initialState),
-      new TextureInfoContext(ctx, initialState),
-    )
-  }
+export function TextureContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return Entity(ctx, initialState,
+    isolate(TextureDataContext(ctx, initialState)),
+    TexturePointerContext(ctx, initialState),
+    TextureInfoContext(ctx, initialState),
+  )
 }

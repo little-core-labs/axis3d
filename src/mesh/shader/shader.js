@@ -38,20 +38,9 @@ export function MeshShader(ctx, initialState = {}) {
     ...initialState,
 
     defines: {
-      GLSL_MESH_HAS_POSITION() {
-        if (geometry && geometry.positions) { return true }
-        return null
-      },
-
-      GLSL_MESH_HAS_NORMAL() {
-        if (geometry && geometry.normals) { return true }
-        return null
-      },
-
-      GLSL_MESH_HAS_UV() {
-        if (geometry && geometry.uvs) { return true }
-        return null
-      },
+      GLSL_MESH_HAS_POSITION: Boolean(geometry && geometry.positions),
+      GLSL_MESH_HAS_NORMAL: Boolean(geometry && geometry.normals),
+      GLSL_MESH_HAS_UV: Boolean(geometry && geometry.uvs),
 
       ...initialState.defines
     },

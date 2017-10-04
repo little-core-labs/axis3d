@@ -9,12 +9,14 @@ import { WebGLShaderUniforms } from '../core'
  * @param {?Object} props
  * @return {Function}
  */
-export function ShaderUniforms(ctx, initialState, props, ...children) {
-  if ('function' == typeof props) { children.unshift(props) }
-  if ('function' == typeof initialState) { children.unshift(initialState) }
+export function ShaderUniforms(ctx, initialState, props) {
   if ('object' != typeof initialState) { initialState = {} }
   if ('object' != typeof props) { props = initialState }
+  const uniforms = new WebGLShaderUniforms(ctx, initialState, props)
   return ctx.regl({
-    uniforms: new WebGLShaderUniforms(ctx, initialState, props)
+    uniforms,
+    context: {
+      uniforms: ({uniforms: prev}) => Object.assign({}, prev, uniforms)
+    }
   })
 }

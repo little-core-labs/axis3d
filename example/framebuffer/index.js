@@ -4,12 +4,12 @@ import {
   ShaderAttributes,
   ShaderUniforms,
   FrameBuffer,
-  Component,
   Geometry,
   Material,
   Texture,
   Context,
   Camera,
+  Entity,
   Frame,
   Mesh,
 } from '../../src'
@@ -117,11 +117,11 @@ const angle = quat.identity([])
 const color = [0, 0.5, 1]
 const stats = new Stats()
 
-const feedbackMaterial = Component.compose(
-  new TextureShaderUniforms(ctx),
-  new Material(ctx, {
+const feedbackMaterial = Entity(ctx,
+  TextureShaderUniforms(ctx),
+  Material(ctx, {
     glsl: libglsl,
-    fragmentShader({textureUniformName, textureData}) {
+    fragmentShader({textureUniformName, textureData, texturePointer}) {
       return `
         #define GLSL_FRAGMENT_MAIN_AFTER After
         #define GLSL_FRAGMENT_MAIN_TRANSFORM Transform
@@ -228,8 +228,6 @@ function scene({time, clear, cancel, cancelAll}) {
     })
 
     // render feedback
-    identityCamera(() => {
-      feedbackMaterial(() => { triangle() })
-    })
+    identityCamera(() => { feedbackMaterial(() => { triangle() }) })
   })
 }

@@ -10,8 +10,8 @@ const scratchQuaternion = quat.identity([])
 const scratchMatrix = mat4.identity([])
 const kMat4Identity = mat4.identity([])
 
-export function CameraViewContext(ctx, initialState) {
-  assignDefaults(initialState, CameraViewContext.defaults())
+export function CameraViewContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
   const matrix = new Float32Array(16)
   const previousPosition = new Float32Array(3)
   const previousRotation = new Float32Array(4)

@@ -7,10 +7,10 @@ import {
 } from '../../src/texture'
 
 import {
-  Component,
   Material,
   Geometry,
   Context,
+  Entity,
   Frame,
   Mesh
 } from '../../src'
@@ -34,7 +34,7 @@ const image = new Image(); image.src = '/assets/govball.jpg'
 const video = document.createElement('video'); video.src = '/assets/video.mp4'
 video.play()
 
-const material = Component.compose(
+const material = Entity(ctx,
   new TextureShaderUniforms(ctx),
   new Material(ctx, {
     fragmentShader({textureUniformName, textureData}) {

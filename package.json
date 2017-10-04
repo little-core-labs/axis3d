@@ -54,7 +54,6 @@
     "regl-combine": "^1.0.1",
     "regl-extend": "^1.0.2",
     "string-hash": "^1.1.3",
-    "trampa": "^1.0.0",
     "unindex-mesh": "^2.0.0"
   },
   "standard": {
@@ -106,7 +105,6 @@
     "standard": "^8.0.0",
     "stats.js": "^0.17.0",
     "tape": "^4.6.3",
-    "tape-watch": "^2.3.0",
     "uglify-js": "^3.0.14",
     "uglifyify": "^3.0.4",
     "yo-yo": "^1.4.1"
