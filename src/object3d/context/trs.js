@@ -1,4 +1,4 @@
-import { assignDefaults } from '../../utils'
+import { assignDefaults, normalizeScaleVector } from '../../utils'
 import { ScopedContext } from '../../scope'
 import * as defaults from '../defaults'
 import { pick } from '../../utils'
@@ -14,9 +14,7 @@ export function Object3DTRSContext(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
   return ScopedContext(ctx, initialState, {
     scale(ctx, args) {
-      const scale = pick('scale', [args, defaults, ctx])
-      if ('number' == typeof scale) { return [scale, scale, scale] }
-      return scale
+      return normalizeScaleVector(pick('scale', [args, defaults, ctx]))
     },
 
     position(ctx, args) {

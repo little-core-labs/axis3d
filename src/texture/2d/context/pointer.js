@@ -12,22 +12,24 @@ import {
 
 export function TexturePointerContext(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
-  const emptyTexture = ctx.regl.texture({})
+  const defaultTexture = ctx.regl.texture(defaults)
   const textureBuffer = ctx.regl.texture(extend(initialState))
   const textureMap = new WeakMap()
   return ScopedContext(ctx, {
     texturePointer({textureData}, args = {}) {
-      const {copy, subimage = false} = args
-      let texture = emptyTexture
+      const {copy = false, buffer = false, subimage = false} = args
+      let texture = defaultTexture
       const data = { ...initialState }
-      if (textureData) {
+      if (true == buffer) {
+        return textureBuffer
+      } else if (textureData) {
         Object.assign(data, {data: textureData})
-        texture = textureMap.get(textureData) || emptyTexture
+        texture = textureMap.get(textureData) || defaultTexture
 
         // create texture pointer and upload image data to texture pointer
         // otherwise subimage if requested
         if (isImage(textureData)) {
-          if (!textureMap.has(textureData)) {
+          if (textureData && !textureMap.has(textureData)) {
             createTexture()
           } else if (subimage) {
             subimageTexture()
@@ -49,7 +51,7 @@ export function TexturePointerContext(ctx, initialState = {}) {
 
         // creates texture pointer and uploads viable data to texture pointer
         // otherwise subimage if requested
-        if (texture == emptyTexture) {
+        if (texture == defaultTexture) {
           if (!textureMap.has(textureData)) {
             createTexture()
           } else if (subimage) {
@@ -59,7 +61,7 @@ export function TexturePointerContext(ctx, initialState = {}) {
       }
 
       // if copy requested, swap
-      if (null == textureData && copy) {
+      if (null == textureData && true == copy) {
         texture = textureBuffer
         copyTexture()
       }
@@ -67,32 +69,40 @@ export function TexturePointerContext(ctx, initialState = {}) {
       return texture
 
       function subimageTexture() {
-        if (isVideo(data) && data.paused) { return }
-        if ('object' == typeof subimage) {
-          const {x, y, level} = subimage
-          texture.subimage(data, x, y, level)
-        } else {
-          texture.subimage(data)
+        if (textureOwnsData(textureData)) {
+          if ('object' == typeof subimage) {
+            const {x, y, level} = subimage
+            texture.subimage(data, x, y, level)
+          } else {
+            texture.subimage(data)
+          }
         }
       }
 
       function createTexture() {
         texture = ctx.regl.texture(data)
-        textureMap.set(textureData, texture)
+        if (textureData) {
+          textureMap.set(textureData, texture)
+        }
       }
 
       function updateTexture() {
-        if (isVideo(data) && data.paused) { return }
-        texture(data)
+        if (textureOwnsData(textureData)) {
+          texture(data)
+        }
       }
 
       function copyTexture() {
-        textureBuffer({
-          x: args.x,
-          y: args.y,
-          width: args.width,
-          height: args.height,
-        })
+        const textureBufferArgs = {}
+        if ('x' in args) { textureBufferArgs.x = args.x }
+        if ('y' in args) { textureBufferArgs.y = args.y }
+        if ('width' in args) { textureBufferArgs.width = args.width }
+        if ('height' in args) { textureBufferArgs.height = args.height }
+        textureBuffer({ ...textureBufferArgs, copy: true })
+      }
+
+      function textureOwnsData(d) {
+        return textureMap.get(d) == texture
       }
     }
   })

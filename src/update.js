@@ -15,16 +15,24 @@ export function UpdateContext(ctx, initialState, props) {
     initialState = {}
   }
   const {update} = props
-  if ('function' == typeof update) {
-    const hash = Math.random().toString('16').slice(2)
-    const key = `__${hash}_update`
+  if ('update' in initialState) {
+    delete initialState.update
+  }
+  if ('function' == typeof props.update) {
     return ctx.regl({
-      context: new DynamicValue(ctx, initialState, {[key]: (ctx, args) => {
-        return update(ctx, assignDefaults(args || {}, initialState))
-      }})
+      context: new DynamicValue(
+        ctx,
+        initialState,
+        createUniqueUpdateFunction(initialState, update))
     })
   } else {
     // noop
-    ctx.regl({})
+    return ctx.regl({})
   }
+}
+
+function createUniqueUpdateFunction(initialState, update) {
+  const hash = Math.random().toString('16').slice(2)
+  const key = `__${hash}_update`
+  return {[key]: (ctx, args) => update(ctx, assignDefaults(args || {}, initialState))}
 }

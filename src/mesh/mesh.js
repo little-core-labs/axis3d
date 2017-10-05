@@ -21,9 +21,7 @@ export function Mesh(ctx, initialState = {}) {
   }
   const getContext = ctx.regl({})
   const draw = ctx.regl({ ...initialState.regl })
-  return Entity(ctx, initialState,
-    Object3D(ctx, initialState),
-
+  return Entity(ctx, initialState, [
     //mesh
     MeshContext(ctx, initialState),
     MeshState(ctx, initialState),
@@ -42,5 +40,5 @@ export function Mesh(ctx, initialState = {}) {
       if (false !== draw.args) { draw() }
       return next()
     },
-  )
+  ])
 }

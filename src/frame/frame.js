@@ -1,11 +1,13 @@
+//import 'babel-polyfill'
+
 import { assignDefaults } from '../utils'
 import { ScopedContext } from '../scope'
 import { UpdateContext } from '../update'
 import { FrameContext } from './context'
 import { FrameState } from './state'
 import * as defaults from './defaults'
-
 import { Entity } from '../core'
+import raf from 'raf'
 
 const noop = () => void 0
 
@@ -26,7 +28,7 @@ export function Frame(ctx, initialState = {}) {
 
   const {frames = []} = initialState
   const getContext = ctx.regl({})
-  const autoClear = Entity(ctx, initialState, UpdateContext(ctx, {
+  const autoClear = UpdateContext(ctx, initialState, {
     update({clear}, args) {
       if (args && true === args.autoClear) {
         if ('function' == typeof clear) {
@@ -34,7 +36,7 @@ export function Frame(ctx, initialState = {}) {
         }
       }
     }
-  }))
+  })
 
   let loop = null // for all frames
   return (args, callback) => {
@@ -66,23 +68,18 @@ export function Frame(ctx, initialState = {}) {
       onframe() {
         if (cancelled) {
           return frames.splice(frames.indexOf(frame, 1))
-        } else try {
-          return components(callback)
-        } catch (err) {
-          ctx.emit('error', err)
-          return destroyFrameLoop()
-        }
+        } else return components(callback)
       }
     }
   }
 
   function createFrameLoop() {
     if (loop) { destroyFrameLoop() }
-    injectFrame(dequeue)
     return loop = ctx.regl.frame(() => injectFrame(dequeue))
     function dequeue() {
-      autoClear()
-      try { for (const {onframe} of frames) { onframe() } }
+      autoClear(noop)
+      const callbacks = frames.map(({onframe}) => onframe)
+      try { for (let i = 0; i < callbacks.length; ++i) { callbacks[i]() } }
       catch (err) {
         ctx.emit('error', err)
         try { for (const {cancel} of frames) { cancel() } }
@@ -93,9 +90,11 @@ export function Frame(ctx, initialState = {}) {
   }
 
   function destroyFrameLoop() {
+    if (null == loop) { return }
     try { for (const f of frames) { f.cancel() } }
     catch (err) { ctx.emit('error', err); }
     frames.splice(0, frames.length)
-    return loop.cancel()
+    try { loop.cancel() } catch (err) { }
+    loop = null
   }
 }

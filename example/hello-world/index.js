@@ -25,19 +25,8 @@ const material = new Material(ctx)
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
 
-const box = new Mesh(ctx, {
-  geometry: new Geometry({complex: PrimitiveCube(20, 20, 20)}),
-  /*vertexShader: `
-  attribute vec3 position;
-  uniform struct { mat4 projection, view; } camera;
-  uniform struct { mat4 model; } mesh;
-  void main() {
-    gl_Position = camera.projection * camera.view * mesh.model * vec4(position, 1.0);
-  }
-  `*/
-})
-
-const bunny = new Mesh(ctx, {geometry: new Geometry({complex: Bunny}) })
+const bunny = new Mesh(ctx, {geometry: Bunny})
+const box = new Mesh(ctx, {geometry: PrimitiveCube(20, 20, 20)})
 
 const rotation = quat.identity([])
 const position = [25, 25, 25]
@@ -53,32 +42,24 @@ frame(() => stats.begin())
 frame(scene)
 frame(() => stats.end())
 
-
-/*function scene({time}) {
-  camera(() => {
-    //console.log('fo', time);
-  })
-}*/
-
-console.log(box);
-console.log(material);
 function scene({time, cancelAll}) {
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
   quat.slerp(rotation, rotation, angle, 0.5)
   camera({rotation, position}, ({view}) => {
     material({color}, ({}) => {
       box({scale: 1, wireframe: true}, ({size, transform, matrix}) => {
-        //return
         const [x, y, z] = size
-        bunny([{position: [0, 0, 0,]},
-               {position: [0.5*x, 0.5*y, 0.5*z]},
-               {position: [-0.5*x, -0.5*y, -0.5*z]},
-               {position: [0.5*x, -0.5*y, 0.5*z]},
-               {position: [-0.5*x, 0.5*y, -0.5*z]},
-               {position: [0.5*x, 0.5*y, -0.5*z]},
-               {position: [-0.5*x, -0.5*y, 0.5*z]},
-               {position: [0.5*x, -0.5*y, -0.5*z]},
-               {position: [-0.5*x, 0.5*y, 0.5*z]} ])
+        bunny([
+          {position: [0, 0, 0,]},
+          {position: [0.5*x, 0.5*y, 0.5*z]},
+          {position: [-0.5*x, -0.5*y, -0.5*z]},
+          {position: [0.5*x, -0.5*y, 0.5*z]},
+          {position: [-0.5*x, 0.5*y, -0.5*z]},
+          {position: [0.5*x, 0.5*y, -0.5*z]},
+          {position: [-0.5*x, -0.5*y, 0.5*z]},
+          {position: [0.5*x, -0.5*y, -0.5*z]},
+          {position: [-0.5*x, 0.5*y, 0.5*z]}
+        ])
       })
     })
   })

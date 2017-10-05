@@ -41,6 +41,7 @@ export class Context extends EventEmitter {
       attributes: { ...(opts.regl.attributes || {}) },
       extensions: [ ...(opts.regl.extensions || []) ],
       optionalExtensions: [
+        'OES_vertex_array_object',
         'ANGLE_instanced_arrays',
         ...(opts.regl.optionalExtensions || [])
       ],
@@ -89,6 +90,14 @@ export class Context extends EventEmitter {
   get state() { return this._state || null }
   get regl() { return this._regl || null }
   get gl() { return this._regl && this._regl._gl || null }
+
+  off(...args) {
+    if (2 == args.length) {
+      return this.removeListener(...args)
+    } else {
+      return this.removeAllListeners(...args)
+    }
+  }
 
   focus() {
     this._hasFocus = true

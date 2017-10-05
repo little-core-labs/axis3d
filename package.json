@@ -97,7 +97,7 @@
     "primitive-cube": "^2.0.1",
     "primitive-plane": "^2.0.0",
     "primitive-quad": "^2.0.0",
-    "raf": "^3.3.2",
+    "raf": "^3.4.0",
     "rollupify": "^0.3.4",
     "screen-projected-lines": "^1.2.0",
     "size-limit": "^0.8.1",

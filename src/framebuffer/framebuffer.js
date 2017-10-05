@@ -22,9 +22,9 @@ export function FrameBuffer(ctx, initialState = {}) {
     }
   )
 
-  function update({texturePointer, viewportWidth, viewportHeight}, args) {
-    const width = args.width || viewportWidth
-    const height = args.height || viewportHeight
+  function update({texturePointer, drawingBufferWidth, drawingBufferHeight}, args) {
+    const width = args.width || drawingBufferWidth
+    const height = args.height || drawingBufferHeight
     if (texturePointer && previousTexture != texturePointer) {
       previousTexture = texturePointer
       texturePointer({

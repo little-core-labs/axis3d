@@ -71,7 +71,8 @@ function generateEntityId() {
  *
  * flattenComponents(components: [...Function|[Function]) -> [...Function]
  */
-function flattenComponents(initialState = {}, components){
+function flattenComponents(initialState = {}, ...components){
+  components = Array.isArray(components[0]) ? components[0] : components
   return {
     initialState,
     components: components.filter(filter).map(map).reduce(reduce, [])

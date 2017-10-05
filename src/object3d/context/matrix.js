@@ -1,13 +1,11 @@
-import { assignDefaults } from '../../utils'
+import { assignDefaults, normalizeScaleVector, pick } from '../../utils'
 import { ScopedContext } from '../../scope'
 import * as defaults from '../defaults'
-import { pick } from '../../utils'
 import mat4 from 'gl-mat4'
 
 /**
- * Component to compute 3D local matrix. This component depends on
- * `Object3DTRSContext` context variables or similar from arguments
- * being invoked
+ * Component to compute 3D local and world transform matrix. This component
+ * depends on
  *
  * Object3DMatrixContext(ctx) -> ScopedContext(ctx) -> (args, scope) -> Any
  *
@@ -17,29 +15,34 @@ import mat4 from 'gl-mat4'
  */
 export function Object3DMatrixContext(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
-  const matrix = mat4.identity(new Float32Array(16))
-  const previousRotation = new Float32Array(4)
-  const previousPosition = new Float32Array(3)
-  const previousScale = new Float32Array(3)
+  const transformMatrix = mat4.identity(new Float32Array(16))
+  const localMatrix = mat4.identity(new Float32Array(16))
   return ScopedContext(ctx, initialState, {
-    matrix(ctx, args) {
-      const position = pick('position', [ctx, args, defaults])
-      const rotation = pick('rotation', [ctx, args, defaults])
-      const scale = pick('scale', [ctx, args, defaults])
-      if (
-        compareVectors(previousPosition, position) ||
-        compareVectors(previousRotation, rotation) ||
-        compareVectors(previousScale, scale)
-      ) {
-        copy(previousPosition, position)
-        copy(previousRotation, rotation)
-        copy(previousScale, scale)
-        // M = T * R * S
-        mat4.fromRotationTranslation(matrix, rotation, position)
-        mat4.scale(matrix, matrix, scale)
+    matrix(ctx, args, batchId) {
+      const position = pick('position', [args, defaults, ctx])
+      const rotation = pick('rotation', [args, defaults, ctx])
+      const scale = normalizeScaleVector(pick('scale', [args, defaults, ctx]))
+      // M = T * R * S
+      mat4.identity(localMatrix)
+      mat4.fromRotationTranslation(localMatrix, rotation, position)
+      mat4.scale(localMatrix, localMatrix, scale)
+      return localMatrix
+    },
+    transform(ctx, args) {
+      const {transform: parentTransformMatrix} = ctx
+      const {transform: externalTransformMatrix} = (args || {})
+      mat4.identity(transformMatrix)
+      // M' = Mp * M
+      if (parentTransformMatrix) {
+        mat4.multiply(transformMatrix, parentTransformMatrix, localMatrix)
       }
-      return matrix
-    }
+
+      // apply external transform from arguments to computed transform
+      if (externalTransformMatrix) {
+        mat4.multiply(transformMatrix, externalTransformMatrix, transformMatrix)
+      }
+      return transformMatrix
+    },
   })
 }
 
@@ -56,4 +59,3 @@ function copy(a, b) {
     a[i] = b[i]
   }
 }
-

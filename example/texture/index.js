@@ -30,7 +30,7 @@ const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
 const mesh = new Mesh(ctx, {geometry})
 
-const image = new Image(); image.src = '/assets/govball.jpg'
+const image = new Image()
 const video = document.createElement('video'); video.src = '/assets/video.mp4'
 video.play()
 
@@ -62,17 +62,22 @@ const material = Entity(ctx,
     }
   }))
 
-let data = video
+let data = image
 let i = 0
 setInterval(() => {
   if (0 == ++i % 2) { data = video }
   else { data = image }
 }, 1000)
 
+setTimeout(() => {
+  image.src = '/assets/govball.jpg'
+}, 200)
+
+Object.assign(window, {texture, material, mesh})
 frame(({time}) => {
   quat.setAxisAngle(rotation, [1, 0, 0], 0.5*time)
   camera({rotation, position: [0, 0, 2]}, () => {
-    texture({data: null}, (...args) => {
+    texture({}, (...args) => {
       material(() => {
         mesh({wireframe: true}, () => {
           texture({data}, () => {

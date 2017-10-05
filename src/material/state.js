@@ -1,9 +1,10 @@
 import { assignDefaults, ensureRGBA, pick } from '../utils'
+import { ScopedState } from '../scope'
 import * as defaults from './defaults'
 
 export function MaterialState(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
-  return ctx.regl({
+  return ScopedState(ctx, initialState, {
     blend: {
       equation(ctx, args) {
         return pick('equation', [
@@ -58,6 +59,9 @@ export function MaterialState(ctx, initialState = {}) {
 
     depth: {
       enable(ctx, args) {
+        if ('boolean' == typeof args.depth) {
+          return args.depth
+        }
         return Boolean(pick('enable', [
           args.depth,
           ctx.depth,

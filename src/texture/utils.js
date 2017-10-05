@@ -18,6 +18,7 @@ export const isVideo = (d) => d instanceof HTMLVideoElement
 export const isImage = (d) => d instanceof HTMLImageElement
 
 export function isTextureDataReady(data) {
+  if (!data) { return false }
   const resolution = getTextureDataResolution(data)
   if (!resolution[0] || !resolution[1]) { return false }
   if (isVideo(data) && data.readyState >= HAVE_CURRENT_DATA) {

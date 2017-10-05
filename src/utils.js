@@ -35,6 +35,12 @@ export const radians = (n) => n == n ? (n*Math.PI/180.0) : 0
 export const lerp = (v0, v1, t) => v0*(1 - t) + v1*t
 
 /**
+ * Returns array of `size` filled with `value`.
+ * fill(size: Number, value: Any) -> Array<Any>
+ */
+export const fill = (size, value) => Array(size).fill(value)
+
+/**
  * Assigns values in defaults object into input
  * object if not already present.
  * assignDefaults(object: Object, defaults: Object) -> Object
@@ -193,4 +199,22 @@ export function isArrayLike(array) {
     || 'number' == array.length
     || 'function' == typeof array[Symbol.iterator])
   )
+}
+
+/**
+ * Returns a normalized scale vector with optional defaults applied.
+ * normalizeScaleVector(scale: Array|Number,
+ *                      [defaultScale: Array|Number]) -> Array
+ */
+export function normalizeScaleVector(scale, defaultScale = [1, 1, 1]) {
+  if ('number' == typeof defaultScale) {
+    defaultScale = normalizeScaleVector(defaultScale, [1, 1, 1])
+  }
+  if ('number' == typeof scale) {
+    return fill(3, scale)
+  } else if (Array.isArray(scale)) {
+    return Object.assign(scale, defaultScale).slice(0, 3)
+  } else {
+    return defaultScale
+  }
 }
