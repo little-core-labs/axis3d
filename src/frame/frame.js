@@ -1,70 +1,100 @@
+//import 'babel-polyfill'
+
 import { assignDefaults } from '../utils'
 import { ScopedContext } from '../scope'
-import { Component } from '../core'
-
+import { UpdateContext } from '../update'
 import { FrameContext } from './context'
 import { FrameState } from './state'
 import * as defaults from './defaults'
+import { Entity } from '../core'
+import raf from 'raf'
 
-export class Frame extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, Frame.defaults())
-    const {frames = []} = initialState
+const noop = () => void 0
 
-    const context = new FrameContext(ctx, initialState)
-    const state = new FrameState(ctx, initialState)
+/**
+ * Frame(ctx, initialState = {}) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {?Object} initialState
+ * @return {Function}
+ */
+export function Frame(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  const injectFrame = Entity(ctx, initialState,
+    FrameContext(ctx, initialState),
+    FrameState(ctx, initialState),
+  )
 
-    const getContext = ctx.regl({})
-    const clear = () => getContext(({clear}) => clear())
-    const autoClear = Component.compose(context, clear)
-    const pipe = Component.compose(state, context)
-
-    let loop = null // for all frames
-    super(ctx, initialState, (state, refresh) => {
-      if (null == loop) { createFrameLoop() }
-      const inject = new ScopedContext(ctx, {frame: () => frame, frames, loop})
-      const update = Component.compose(inject, pipe)
-      const frame = createFrameRefresh(refresh, update)
-      frames.push(frame)
-    })
-
-    function createFrameRefresh(refresh, components) {
-      let cancelled = null
-      let frame = null
-      return frame = {
-        cancel() { cancelled = true },
-        onframe() {
-          if (cancelled) {
-            frames.splice(frames.indexOf(frame, 1))
-          } else try {
-            components(() => getContext(refresh))
-          } catch (err) {
-            ctx.emit('error', err)
-            destroyFrameLoop()
-          }
+  const {frames = []} = initialState
+  const getContext = ctx.regl({})
+  const autoClear = UpdateContext(ctx, initialState, {
+    update({clear}, args) {
+      if (args && true === args.autoClear) {
+        if ('function' == typeof clear) {
+          return clear()
         }
       }
     }
+  })
 
-    function createFrameLoop() {
-      for (const f of frames) { f.onframe() }
-      loop = ctx.regl.frame(() => {
-        try {
-          if (true === initialState.autoClear) { autoClear() }
-          for (const f of frames) { f.onframe() }
-        } catch (err) {
-          try { for (const f of frames) { f.cancel() } }
-          catch (err) { ctx.emit('error', err); }
-          destroyFrameLoop()
-        }
-      })
+  let loop = null // for all frames
+  return (args, callback) => {
+    ensureFrameLoopIsCreated()
+    if ('function' == typeof args) {
+      callback = args
+      args = {}
     }
+    return enqueueFrameCallback(args, callback)
+  }
 
-    function destroyFrameLoop() {
-      try { for (const f of frames) { f.cancel() } }
-      catch (err) { ctx.emit('error', err); }
-      frames.splice(0, frames.length)
+  function ensureFrameLoopIsCreated() {
+    if (null == loop) {
+      return createFrameLoop()
     }
+  }
+
+  function enqueueFrameCallback(args, callback) {
+    const injectContext = ScopedContext(ctx, {frame: () => frame, frames, loop})
+    const frame = createFrameCallback(callback, injectContext)
+    return frames.push(frame)
+  }
+
+  function createFrameCallback(callback, components) {
+    let cancelled = null
+    let frame = null
+    return frame = {
+      cancel() { cancelled = true },
+      onframe() {
+        if (cancelled) {
+          return frames.splice(frames.indexOf(frame, 1))
+        } else return components(callback)
+      }
+    }
+  }
+
+  function createFrameLoop() {
+    if (loop) { destroyFrameLoop() }
+    return loop = ctx.regl.frame(() => injectFrame(dequeue))
+    function dequeue() {
+      autoClear(noop)
+      const callbacks = frames.map(({onframe}) => onframe)
+      try { for (let i = 0; i < callbacks.length; ++i) { callbacks[i]() } }
+      catch (err) {
+        ctx.emit('error', err)
+        try { for (const {cancel} of frames) { cancel() } }
+        catch (err) { ctx.emit('error', err); }
+        return destroyFrameLoop()
+      }
+    }
+  }
+
+  function destroyFrameLoop() {
+    if (null == loop) { return }
+    try { for (const f of frames) { f.cancel() } }
+    catch (err) { ctx.emit('error', err); }
+    frames.splice(0, frames.length)
+    try { loop.cancel() } catch (err) { }
+    loop = null
   }
 }

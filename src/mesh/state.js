@@ -1,50 +1,46 @@
-import { assignDefaults, get } from '../utils'
-import { Component } from '../core'
+import { assignDefaults, pick } from '../utils'
 import * as defaults from './defaults'
 import clamp from 'defined'
 
-export class MeshState extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState) {
-    assignDefaults(initialState, MeshState.defaults())
-    const {geometry} = initialState
-    let elements = null
-    const opts = {
-      primitive(ctx, args) {
-        if (get('wireframe', [args, ctx])) {
-          return get('wireframePrimitive', [args, ctx])
-        }
-        return get('primitive', [args, ctx])
-      },
-
-      lineWidth(ctx, args) {
-        return Math.max(1, get('lineWidth', [args, ctx]))
+export function MeshState(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults.state)
+  const {geometry} = initialState
+  let elements = null
+  const opts = {
+    primitive(ctx, args) {
+      if (pick('wireframe', [args, initialState])) {
+        return pick('wireframePrimitive', [args, initialState])
       }
-    }
+      return pick('primitive', [args, initialState])
+    },
 
-    if (geometry.cells) {
-      elements = ctx.regl.elements({data: geometry.cells})
-      Object.assign(opts, {
-        elements,
-        count(ctx, args) {
-          const dim = geometry.positions[0].length
-          const max = dim*geometry.cells.length
-          const count = get('count', [args, ctx])
-          if (null != count) { return clamp(count, 0, max) }
-          return max
-        }
-      })
-    } else if (geometry.positions) {
-      Object.assign(opts, {
-        count(ctx, args) {
-          const count = get('count', [args, ctx])
-          const max = geometry.positions.length
-          if (null != count) { return clamp(count, 0, max) }
-          return max
-        }
-      })
+    lineWidth(ctx, args) {
+      return Math.max(1, pick('lineWidth', [args, initialState])) || 1
     }
-
-    super(ctx, initialState, ctx.regl(opts))
   }
+
+  if (geometry.cells) {
+    elements = ctx.regl.elements({data: geometry.cells})
+    Object.assign(opts, {
+      elements,
+      count(ctx, args) {
+        const dim = geometry.positions[0].length
+        const max = dim*geometry.cells.length
+        const count = pick('count', [args, initialState])
+        if (null != count) { return clamp(count, 0, max) }
+        return max
+      }
+    })
+  } else if (geometry.positions) {
+    Object.assign(opts, {
+      count(ctx, args) {
+        const count = pick('count', [args, initialState])
+        const max = geometry.positions.length
+        if (null != count) { return clamp(count, 0, max) }
+        return max
+      }
+    })
+  }
+
+  return ctx.regl(opts)
 }

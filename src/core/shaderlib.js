@@ -1,6 +1,5 @@
 import { DynamicValue } from './dynamic'
 import * as libglsl from './glsl'
-import { Command } from './command'
 
 import { dirname, extname, resolve } from 'path'
 import glslTokensToDefines from 'glsl-token-defines'
@@ -162,8 +161,6 @@ export class ShaderLib {
     return this
   }
 }
-
-export class ShaderLibPlugin extends Command { }
 
 export class ShaderLibPreprocessor {
   constructor(shaderLib) {

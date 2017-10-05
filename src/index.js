@@ -1,5 +1,4 @@
 export * from './camera'
-export * from './compute'
 export * from './core'
 export * from './frame'
 export * from './framebuffer'

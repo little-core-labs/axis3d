@@ -1,16 +1,17 @@
 import { assignDefaults } from '../utils'
 import { CameraContext } from './context'
 import * as defaults from './defaults'
-import { Component } from '../core'
-import { Object3D } from '../object3d'
+import { Entity } from '../core'
 
-export class Camera extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, Camera.defaults())
-    super(ctx, initialState,
-      new Object3D(ctx),
-      new CameraContext(ctx, initialState),
-    )
-  }
+/**
+ * CameraShaderUniforms(ctx, initialState = {}) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {Object} initialState
+ * @return {Function}
+ */
+export function Camera(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return Entity(ctx, initialState, CameraContext(ctx, initialState))
 }

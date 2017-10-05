@@ -1,4 +1,11 @@
-export const uniformName = 'mesh'
-export const wireframePrimitive = 'line strip'
-export const primitive = 'triangles'
-export const lineWidth = 1
+export const state = {
+  lineWidth: 1,
+  primitive: 'triangles',
+  wireframe: false,
+  wireframePrimitive: 'line strip',
+}
+
+export const shader = {
+  uniformName: 'mesh',
+  defines: {}
+}

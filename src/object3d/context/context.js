@@ -1,18 +1,22 @@
-import { Object3DTransformContext } from './transform'
+import { assignDefaults, isolate } from '../../utils'
+import * as defaults from '../defaults'
+import { Entity } from '../../core'
+
 import { Object3DMatrixContext } from './matrix'
 import { Object3DTRSContext } from './trs'
-import { assignDefaults } from '../../utils'
-import { Component } from '../../core'
-import * as defaults from '../defaults'
 
-export class Object3DContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, Object3DContext.defaults())
-    super(ctx, initialState,
-      new Object3DTRSContext(ctx, initialState),
-      new Object3DMatrixContext(ctx, initialState),
-      new Object3DTransformContext(ctx, initialState))
-  }
+/**
+ * Object3DContext(ctx, initialState) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {?Object} initialState
+ * @return {Function}
+ */
+export function Object3DContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return Entity(ctx, initialState,
+    Object3DTRSContext(ctx, initialState),
+    Object3DMatrixContext(ctx, initialState),
+  )
 }
-

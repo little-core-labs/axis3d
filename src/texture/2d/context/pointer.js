@@ -1,6 +1,6 @@
+import { texture as extend } from 'regl-extend'
 import { assignDefaults } from '../../../utils'
 import { ScopedContext } from '../../../scope'
-import { Component } from '../../../core'
 import * as defaults from '../defaults'
 
 import {
@@ -10,95 +10,100 @@ import {
   isVideo,
 } from '../../utils'
 
-export class TexturePointerContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, TexturePointerContext.defaults())
-    const emptyTexture = ctx.regl.texture({ ...initialState })
-    const textureBuffer = ctx.regl.texture(TexturePointerContext.defaults())
-    const textureMap = new WeakMap()
-    super(ctx, initialState,
-      new ScopedContext(ctx, {
-        texturePointer({textureData}, args = {}) {
-          const {copy, subimage = false} = args
-          let texture = emptyTexture
-          const data = { ...initialState }
-          if (textureData) {
-            Object.assign(data, {data: textureData})
-            texture = textureMap.get(textureData) || emptyTexture
+export function TexturePointerContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  const defaultTexture = ctx.regl.texture(defaults)
+  const textureBuffer = ctx.regl.texture(extend(initialState))
+  const textureMap = new WeakMap()
+  return ScopedContext(ctx, {
+    texturePointer({textureData}, args = {}) {
+      const {copy = false, buffer = false, subimage = false} = args
+      let texture = defaultTexture
+      const data = { ...initialState }
+      if (true == buffer) {
+        return textureBuffer
+      } else if (textureData) {
+        Object.assign(data, {data: textureData})
+        texture = textureMap.get(textureData) || defaultTexture
 
-            // create texture pointer and upload image data to texture pointer
-            // otherwise subimage if requested
-            if (isImage(textureData)) {
-              if (!textureMap.has(textureData)) {
-                createTexture()
-              } else if (subimage) {
-                subimageTexture()
-              }
-            }
-
-            // create texture pointer and upload video data to texture pointer
-            // subimage if requested, otherwise just update texture pointer
-            // with textureData
-            if (isVideo(textureData)) {
-              if (!textureMap.has(textureData)) {
-                createTexture()
-              } else if (subimage) {
-                subimageTexture()
-              } else {
-                updateTexture()
-              }
-            }
-
-            // creates texture pointer and uploads viable data to texture pointer
-            // otherwise subimage if requested
-            if (texture == emptyTexture) {
-              if (!textureMap.has(textureData)) {
-                createTexture()
-              } else if (subimage) {
-                subimageTexture()
-              }
-            }
-          }
-
-          // if copy requested, swap
-          if (null == textureData && copy) {
-            texture = textureBuffer
-            copyTexture()
-          }
-
-          return texture
-
-          function subimageTexture() {
-            if (isVideo(data) && data.paused) { return }
-            if ('object' == typeof subimage) {
-              const {x, y, level} = subimage
-              texture.subimage(data, x, y, level)
-            } else {
-              texture.subimage(data)
-            }
-          }
-
-          function createTexture() {
-            texture = ctx.regl.texture(data)
-            textureMap.set(textureData, texture)
-          }
-
-          function updateTexture() {
-            if (isVideo(data) && data.paused) { return }
-            texture(data)
-          }
-
-          function copyTexture() {
-            textureBuffer({
-              x: args.x,
-              y: args.y,
-              width: args.width,
-              height: args.height,
-            })
+        // create texture pointer and upload image data to texture pointer
+        // otherwise subimage if requested
+        if (isImage(textureData)) {
+          if (textureData && !textureMap.has(textureData)) {
+            createTexture()
+          } else if (subimage) {
+            subimageTexture()
           }
         }
-      })
-    )
-  }
+
+        // create texture pointer and upload video data to texture pointer
+        // subimage if requested, otherwise just update texture pointer
+        // with textureData
+        if (isVideo(textureData)) {
+          if (!textureMap.has(textureData)) {
+            createTexture()
+          } else if (subimage) {
+            subimageTexture()
+          } else {
+            updateTexture()
+          }
+        }
+
+        // creates texture pointer and uploads viable data to texture pointer
+        // otherwise subimage if requested
+        if (texture == defaultTexture) {
+          if (!textureMap.has(textureData)) {
+            createTexture()
+          } else if (subimage) {
+            subimageTexture()
+          }
+        }
+      }
+
+      // if copy requested, swap
+      if (null == textureData && true == copy) {
+        texture = textureBuffer
+        copyTexture()
+      }
+
+      return texture
+
+      function subimageTexture() {
+        if (textureOwnsData(textureData)) {
+          if ('object' == typeof subimage) {
+            const {x, y, level} = subimage
+            texture.subimage(data, x, y, level)
+          } else {
+            texture.subimage(data)
+          }
+        }
+      }
+
+      function createTexture() {
+        texture = ctx.regl.texture(data)
+        if (textureData) {
+          textureMap.set(textureData, texture)
+        }
+      }
+
+      function updateTexture() {
+        if (textureOwnsData(textureData)) {
+          texture(data)
+        }
+      }
+
+      function copyTexture() {
+        const textureBufferArgs = {}
+        if ('x' in args) { textureBufferArgs.x = args.x }
+        if ('y' in args) { textureBufferArgs.y = args.y }
+        if ('width' in args) { textureBufferArgs.width = args.width }
+        if ('height' in args) { textureBufferArgs.height = args.height }
+        textureBuffer({ ...textureBufferArgs, copy: true })
+      }
+
+      function textureOwnsData(d) {
+        return textureMap.get(d) == texture
+      }
+    }
+  })
 }

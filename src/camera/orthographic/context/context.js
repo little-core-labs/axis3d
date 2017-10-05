@@ -1,9 +1,10 @@
 import { OrthographicCameraProjectionContext } from './projection'
 import { OrthographicCameraInfoContext } from './info'
 import { OrthographicCameraViewContext } from './view'
-import { assignDefaults } from '../../../utils'
-import { Component } from '../../../core'
+import { assignDefaults, isolate } from '../../../utils'
+import { Object3DContext } from '../../../object3d'
 import * as defaults from '../defaults'
+import { Entity } from '../../../core'
 
 import {
   CameraInverseViewContext,
@@ -11,17 +12,16 @@ import {
   CameraEyeContext,
 } from '../../context'
 
-export class OrthographicCameraContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, OrthographicCameraContext.defaults())
-    super(ctx, initialState,
-      new CameraInfoContext(ctx, initialState),
-      new OrthographicCameraInfoContext(ctx, initialState),
-      new OrthographicCameraViewContext(ctx, initialState),
-      new OrthographicCameraProjectionContext(ctx, initialState),
-      new CameraInverseViewContext(ctx, initialState),
-      new CameraEyeContext(ctx, initialState),
-    )
-  }
+export function OrthographicCameraContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return Entity(ctx, initialState,
+    Object3DContext(ctx, initialState),
+    CameraInfoContext(ctx, initialState),
+    OrthographicCameraInfoContext(ctx, initialState),
+
+    isolate(OrthographicCameraViewContext(ctx, initialState)),
+    CameraInverseViewContext(ctx, initialState),
+    OrthographicCameraProjectionContext(ctx, initialState),
+    CameraEyeContext(ctx, initialState),
+  )
 }

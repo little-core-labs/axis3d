@@ -1,5 +1,3 @@
 export const uniformName = 'texCube'
-export const texture = {
-  min: 'linear',
-  mag: 'linear'
-}
+export const min = 'linear'
+export const mag = 'linear'

@@ -21,8 +21,29 @@ export class WebGLShaderUniforms extends DynamicValue {
     return sum
   }
 
-  constructor(ctx, initialState, props) {
-    super(ctx, { ...initialState}, { ...props })
+  constructor(ctx, initialState = {}, props) {
+    if (null == props && 'object' == typeof initialState) {
+      props = initialState
+      initialState = {}
+    } else if (null == initialState && null == props) {
+      initialState = {}
+      props = {}
+    }
+    initialState = Object.assign({}, initialState)
+    props = Object.assign({}, props)
+    const {prefix = ''} = initialState
+    delete initialState.prefix
+    for (const key in initialState) {
+      if (prefix+key == key) { continue }
+      initialState[prefix+key] = initialState[key]
+      delete initialState[key]
+    }
+    for (const key in props) {
+      if (prefix+key == key) { continue }
+      props[prefix+key] = props[key]
+      delete props[key]
+    }
+    super(ctx, initialState, props)
     shaderUniformsCounter.addValueForContext(ctx, this)
   }
 }

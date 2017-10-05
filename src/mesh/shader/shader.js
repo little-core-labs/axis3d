@@ -1,39 +1,48 @@
 import { assignDefaults } from '../../utils'
-import { Component } from '../../core'
 import * as defaults from '../defaults'
 import { Shader } from '../../shader'
 
-export class MeshShader extends Component {
-  static defaults() { return { ...defaults } }
-  static createVertexShader({uniformName} = {}) {
+Object.assign(MeshShader, {
+  createVertexShader({uniformName} = {}) {
     return `
     #define GLSL_MESH_UNIFORM_VARIABLE ${uniformName}
     #include <mesh/vertex/main>
     `
-  }
+  },
 
-  static createFragmentShader({uniformName} = {}) {
+  createFragmentShader({uniformName} = {}) {
     return `
     #define GLSL_MESH_UNIFORM_VARIABLE ${uniformName}
     #include <mesh/fragment/main>
     `
   }
+})
 
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, MeshShader.defaults())
-    const {
-      uniformName,
-      vertexShader = MeshShader.createVertexShader({uniformName}),
-      fragmentShader = MeshShader.createFragmentShader({uniformName})
-    } = initialState
-    super(ctx, new Shader(ctx, {
-      vertexShader({vertexShader: vs}) {
-        return 'string' == typeof vs ? vs : vertexShader
-      },
-      fragmentShader({fragmentShader: fs}) {
-        return 'string' == typeof fs ? fs : fragmentShader
-      },
-      ...initialState
-    }))
-  }
+export function MeshShader(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults.shader)
+  const {
+    uniformName,
+    geometry,
+    vertexShader = MeshShader.createVertexShader({uniformName}),
+    fragmentShader = MeshShader.createFragmentShader({uniformName})
+  } = initialState
+  return Shader(ctx, {
+    vertexShader({vertexShader: vs}) {
+      return 'string' == typeof vs ? vs : vertexShader
+    },
+
+    fragmentShader({fragmentShader: fs}) {
+      return 'string' == typeof fs ? fs : fragmentShader
+    },
+
+    ...initialState,
+
+    defines: {
+      GLSL_MESH_HAS_POSITION: Boolean(geometry && geometry.positions),
+      GLSL_MESH_HAS_NORMAL: Boolean(geometry && geometry.normals),
+      GLSL_MESH_HAS_UV: Boolean(geometry && geometry.uvs),
+
+      ...initialState.defines
+    },
+  })
 }

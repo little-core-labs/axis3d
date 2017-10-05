@@ -1,9 +1,10 @@
 import { PerspectiveCameraProjectionContext } from './projection'
 import { PerspectiveCameraInfoContext } from './info'
 import { PerspectiveCameraViewContext } from './view'
-import { assignDefaults } from '../../../utils'
-import { Component } from '../../../core'
+import { assignDefaults, isolate } from '../../../utils'
+import { Object3DContext } from '../../../object3d'
 import * as defaults from '../defaults'
+import { Entity } from '../../../core'
 
 import {
   CameraInverseViewContext,
@@ -11,18 +12,16 @@ import {
   CameraEyeContext,
 } from '../../context'
 
-export class PerspectiveCameraContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, PerspectiveCameraContext.defaults())
-    super(ctx, initialState,
-      new CameraInfoContext(ctx, initialState),
-      new PerspectiveCameraInfoContext(ctx, initialState),
-      new PerspectiveCameraViewContext(ctx, initialState),
-      new PerspectiveCameraProjectionContext(ctx, initialState),
-      new CameraInverseViewContext(ctx, initialState),
-      new CameraEyeContext(ctx, initialState),
-    )
-  }
-}
+export function PerspectiveCameraContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return Entity(ctx, initialState,
+    Object3DContext(ctx, initialState),
+    CameraInfoContext(ctx, initialState),
+    PerspectiveCameraInfoContext(ctx, initialState),
 
+    isolate(PerspectiveCameraViewContext(ctx, initialState)),
+    CameraInverseViewContext(ctx, initialState),
+    PerspectiveCameraProjectionContext(ctx, initialState),
+    CameraEyeContext(ctx, initialState),
+  )
+}

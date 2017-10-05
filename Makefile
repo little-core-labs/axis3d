@@ -31,7 +31,9 @@ LIB_MAIN = lib/index.js
 
 PROJECT_NAME = axis3d
 BABEL_ENV ?= commonjs
-DEVTOOL_FLAGS := -hqc -t 1000 -r babel-register
+
+DEVTOOL_FLAGS += -hqc -t 1000 -r babel-register
+
 YARN_OR_NPM := $(shell which yarn npm | head -1)
 
 BROWSERIFY_FLAGS += -t babelify
@@ -54,7 +56,7 @@ define BUILD_PARENT_DIRECTORY
 endef
 
 define RUN_TEST
-  @$(BROWSERIFY) $(1) $(BROWSERIFY_FLAGS) \
+  $(BROWSERIFY) $(1) $(BROWSERIFY_FLAGS) \
     | $(DEVTOOL) $(DEVTOOL_FLAGS) $(1)    \
     | $(COLORTAPE)
 endef
@@ -62,7 +64,7 @@ endef
 all: lib dist
 lib: $(SRC) | node_modules README.md
 	rm -rf lib
-	BABEL_ENV=$(BABEL_ENV) $(BABEL) $(CWD)/src --out-dir $@ --source-maps inline
+	BABEL_ENV=$(BABEL_ENV) $(BABEL) $(BABEL_FLAGS) $(CWD)/src --out-dir $@ --source-maps inline
 	cp package.json $@
 	cp README.md $@
 

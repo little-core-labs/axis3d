@@ -1,31 +1,41 @@
 import {
   WebGLShaderInstancedAttributes,
   WebGLShaderAttributes,
-  Component,
 } from '../core'
 
-export class ShaderAttributes extends Component {
-  constructor(ctx, initialState, props, ...children) {
-    if ('function' == typeof props) { children.unshift(props) }
-    if ('function' == typeof initialState) { children.unshift(initialState) }
-    if ('object' != typeof initialState) { initialState = {} }
-    if ('object' != typeof props) { props = initialState }
-    const attributes = ctx.regl({
-      attributes: new WebGLShaderAttributes(ctx, initialState, props)
-    })
-    super(ctx, {}, attributes, ...children)
-  }
+/**
+ * ShaderAttributes(ctx, initialState, props) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {?Object} initialState
+ * @param {?Object} props
+ * @return {Function}
+ */
+export function ShaderAttributes(ctx, initialState, props) {
+  if ('object' != typeof initialState) { initialState = {} }
+  if ('object' != typeof props) { props = initialState }
+  const attributes = new WebGLShaderAttributes(ctx, initialState, props)
+  return ctx.regl({
+    attributes,
+    context: {
+      attributes: ({attributes: prev}) => Object.assign({}, prev, attributes)
+    }
+  })
 }
 
-export class ShaderInstancedAttributes extends Component {
-  constructor(ctx, initialState, props, ...children) {
-    if ('function' == typeof props) { children.unshift(props) }
-    if ('function' == typeof initialState) { children.unshift(initialState) }
-    if ('object' != typeof initialState) { initialState = {} }
-    if ('object' != typeof props) { props = initialState }
-    const attributes = ctx.regl({
-      attributes: new WebGLShaderInstancedAttributes(ctx, initialState, props)
-    })
-    super(ctx, {}, attributes, ...children)
-  }
+/**
+ * ShaderInstancedAttributes(ctx, initialState, props) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {?Object} initialState
+ * @param {?Object} props
+ * @return {Function}
+ */
+export function ShaderInstancedAttributes(ctx, initialState, props) {
+  if ('object' != typeof initialState) { initialState = {} }
+  if ('object' != typeof props) { props = initialState }
+  const attributes = new WebGLShaderInstancedAttributes(ctx, initialState, props)
+  return ctx.regl({attributes, context: { attributes: () => attributes }})
 }
