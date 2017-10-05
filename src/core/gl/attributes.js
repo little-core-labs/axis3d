@@ -2,6 +2,9 @@ import { DynamicValue } from '../dynamic'
 
 const shaderAttributesCounter = DynamicValue.createCounter()
 
+/**
+ * WebGLShaderAttributes representskj,n
+ */
 export class WebGLShaderAttributes extends DynamicValue {
   static counter() { return shaderAttributesCounter }
   static getTotalUniformCount() {

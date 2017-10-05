@@ -1,20 +1,17 @@
-import { assignDefaults } from '../../../utils'
-import { Component } from '../../../core'
+import { assignDefaults, isolate } from '../../../utils'
 import * as defaults from '../defaults'
+import { Entity } from '../../../core'
 
 import { CubeTexturePointerContext } from './pointer'
 import { CubeTextureDataContext } from './data'
 import { CubeTextureInfoContext } from './info'
 
-export class CubeTextureContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, CubeTextureContext.defaults())
-    const {uniformName} = initialState
-    super(ctx, initialState,
-      new CubeTextureDataContext(ctx, initialState),
-      new CubeTexturePointerContext(ctx, initialState),
-      new CubeTextureInfoContext(ctx, initialState),
-    )
-  }
+export function CubeTextureContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  const {uniformName} = initialState
+  return Entity(ctx, initialState,
+    isolate(CubeTextureDataContext(ctx, initialState)),
+    CubeTexturePointerContext(ctx, initialState),
+    CubeTextureInfoContext(ctx, initialState),
+  )
 }

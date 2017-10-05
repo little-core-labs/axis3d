@@ -4,12 +4,12 @@ import {
   ShaderAttributes,
   ShaderUniforms,
   FrameBuffer,
-  Component,
   Geometry,
   Material,
   Texture,
   Context,
   Camera,
+  Entity,
   Frame,
   Mesh,
 } from '../../src'
@@ -31,34 +31,34 @@ for (const p of Bunny.positions) {
 
 const ctx = new Context()
 
-const framebuffer = new FrameBuffer(ctx)
-const material = new Material(ctx)
-const texture = new Texture(ctx)
-const frame = new Frame(ctx)
+const framebuffer = FrameBuffer(ctx)
+const material = Material(ctx)
+const texture = Texture(ctx)
+const frame = Frame(ctx)
 
-const identityCamera = new Camera(ctx)
-const perspective = new PerspectiveCamera(ctx)
+const identityCamera = Camera(ctx)
+const perspective = PerspectiveCamera(ctx)
 
 const bunnyGeometry = new Geometry(ScreenProjectedLines(Bunny))
 const boxGeometry = new Geometry(ScreenProjectedLines(PrimitiveCube(20, 20, 20)))
 
-const uniforms = new ShaderUniforms(ctx, {
+const uniforms = ShaderUniforms(ctx, {
   thickness({}, {thickness} = {}) {
     return thickness || 0.5;
   }
 })
 
-const boxAttributes = new ShaderAttributes(ctx, {
+const boxAttributes = ShaderAttributes(ctx, {
   nextPosition: boxGeometry.complex.nextPositions,
   direction: boxGeometry.complex.directions,
 })
 
-const bunnyAttributes = new ShaderAttributes(ctx, {
+const bunnyAttributes = ShaderAttributes(ctx, {
   nextPosition: bunnyGeometry.complex.nextPositions,
   direction: bunnyGeometry.complex.directions,
 })
 
-const triangle = new Mesh(ctx, {
+const triangle = Mesh(ctx, {
   geometry: {positions: [[-4, -4], [4, -4], [0, 4]]}
 })
 
@@ -99,17 +99,23 @@ void Transform(inout vec4 vertexPosition, inout VaryingData data) {
 }
 `
 
-const box = new Mesh(ctx, {
-  geometry: boxGeometry,
-  glsl: libglsl,
-  vertexShader,
-})
+const box = Entity(ctx,
+  boxAttributes,
+  Mesh(ctx, {
+    geometry: boxGeometry,
+    glsl: libglsl,
+    vertexShader,
+  }),
+)
 
-const bunny = new Mesh(ctx, {
-  geometry: bunnyGeometry,
-  glsl: libglsl,
-  vertexShader,
-})
+const bunny = Entity(ctx,
+  bunnyAttributes,
+  Mesh(ctx, {
+    geometry: bunnyGeometry,
+    glsl: libglsl,
+    vertexShader,
+  }),
+)
 
 const rotation = quat.identity([])
 const position = [0, 0, 25]
@@ -117,11 +123,12 @@ const angle = quat.identity([])
 const color = [0, 0.5, 1]
 const stats = new Stats()
 
-const feedbackMaterial = Component.compose(
-  new TextureShaderUniforms(ctx),
-  new Material(ctx, {
+const feedbackMaterial = Entity(ctx,
+  TextureShaderUniforms(ctx),
+  Material(ctx, {
     glsl: libglsl,
-    fragmentShader({textureUniformName, textureData}) {
+    depth: {enable: false },
+    fragmentShader({textureUniformName, textureData, texturePointer}) {
       return `
         #define GLSL_FRAGMENT_MAIN_AFTER After
         #define GLSL_FRAGMENT_MAIN_TRANSFORM Transform
@@ -202,24 +209,19 @@ frame(() => stats.end())
 function scene({time, clear, cancel, cancelAll}) {
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
   quat.slerp(rotation, rotation, angle, 0.5)
-  texture(() => {
+  texture({}, () => {
+
     perspective({rotation, position}, () => {
       framebuffer(() => {
         material({color: [0.2, 0.5, 0.8]}, () => {
           const t = clamp(Math.cos(0.125*time), 0, 1)
           const f = 0.5 - (0.1 + eases.cubicInOut(t))
           uniforms({thickness: f}, () => {
-            boxAttributes(() => {
-              box({scale: 1}, () => {
-                material({color: [0.8, 0.3, 0.4]}, () => {
-                  bunnyAttributes(() => {
-                    const t = clamp(Math.cos(0.5*time), 0, 1)
-                    const f = 0.25 - (0.1 + eases.cubicInOut(t))
-                    uniforms({thickness: f}, () => {
-                      bunny({})
-                    })
-                  })
-                })
+            box({scale: 1}, () => {
+              material({color: [0.8, 0.3, 0.4]}, () => {
+                const t = clamp(Math.cos(0.5*time), 0, 1)
+                const f = 0.25 - (0.1 + eases.cubicInOut(t))
+                uniforms({thickness: f}, () => { bunny({}) })
               })
             })
           })
@@ -228,8 +230,6 @@ function scene({time, clear, cancel, cancelAll}) {
     })
 
     // render feedback
-    identityCamera(() => {
-      feedbackMaterial(() => { triangle() })
-    })
+    identityCamera(() => { feedbackMaterial(() => { triangle() }) })
   })
 }

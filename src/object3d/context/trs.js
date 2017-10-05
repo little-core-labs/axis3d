@@ -1,26 +1,28 @@
-import { assignDefaults, get } from '../../utils'
+import { assignDefaults, normalizeScaleVector } from '../../utils'
 import { ScopedContext } from '../../scope'
-import { Component } from '../../core'
 import * as defaults from '../defaults'
+import { pick } from '../../utils'
 
-export class Object3DTRSContext extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, Object3DTRSContext.defaults())
-    super(ctx, initialState, new ScopedContext(ctx, {
-      scale(ctx, args) {
-        const scale = get('scale', [args, initialState, ctx])
-        if ('number' == typeof scale) { return [scale, scale, scale] }
-        return scale
-      },
+/**
+ * Object3DTRSContext(ctx) -> ScopedContext(ctx) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context}
+ * @return {Function}
+ */
+export function Object3DTRSContext(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return ScopedContext(ctx, initialState, {
+    scale(ctx, args) {
+      return normalizeScaleVector(pick('scale', [args, defaults, ctx]))
+    },
 
-      position(ctx, args) {
-        return get('position', [args, initialState, ctx])
-      },
+    position(ctx, args) {
+      return pick('position', [args, defaults, ctx])
+    },
 
-      rotation(ctx, args) {
-        return get('rotation', [args, initialState, ctx])
-      },
-    }))
-  }
+    rotation(ctx, args) {
+      return pick('rotation', [args, defaults, ctx])
+    },
+  })
 }

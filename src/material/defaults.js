@@ -10,7 +10,12 @@ export const blending = {
   equation: 'add',
   enable: false,
   color: [0, 0, 0, 1],
-  func: { src: 'src alpha', dst: 'one minus src alpha' }
+  func: {
+    srcRGB: 'src alpha',
+    srcAlpha: 1,
+    dstRGB: 'one minus src alpha',
+    dstAlpha: 1
+  }
 }
 
 export const culling = {

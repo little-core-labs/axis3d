@@ -1,12 +1,36 @@
-import { Component, DynamicValue } from './core'
+import { command as extend } from 'regl-extend'
+import { DynamicValue } from './core'
 
-export class ScopedContext extends Component {
-  constructor(ctx, initialState, props, ...children) {
-    if ('function' == typeof props) { children.unshift(props) }
-    if ('function' == typeof initialState) { children.unshift(initialState) }
-    if ('object' != typeof initialState) { initialState = {} }
-    if ('object' != typeof props) { props = initialState }
-    const context = ctx.regl({context: new DynamicValue(ctx, {}, props)})
-    super(ctx, context, ...children)
+/**
+ * ScopedContext(ctx, props = {}) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {?Object} props
+ * @return {Function}
+ */
+export function ScopedContext(ctx, initialState, props) {
+  if (initialState && !props) {
+    props = initialState
+    initialState = {}
   }
+  return ctx.regl({
+    context: new DynamicValue(ctx, initialState, props)
+  })
+}
+
+/**
+ * ScopedState(ctx, props = {}) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {?Object} props
+ * @return {Function}
+ */
+export function ScopedState(ctx, initialState, props) {
+  if (initialState && !props) {
+    props = initialState
+    initialState = {}
+  }
+  return ctx.regl(extend(new DynamicValue(ctx, initialState, props)))
 }

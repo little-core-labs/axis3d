@@ -3,19 +3,16 @@ import { FrameShaderUniforms } from '../frame'
 import { MaterialContext } from './context'
 import { assignDefaults } from '../utils'
 import { MaterialState } from './state'
-import { Component } from '../core'
 import * as defaults from './defaults'
+import { Entity } from '../core'
 
-export class Material extends Component {
-  static defaults() { return { ...defaults } }
-  constructor(ctx, initialState = {}) {
-    assignDefaults(initialState, Material.defaults())
-    super(ctx, initialState,
-      new MaterialState(ctx, initialState),
-      new MaterialContext(ctx, initialState),
-      new MaterialShaderUniforms(ctx, initialState),
-      new FrameShaderUniforms(ctx, initialState),
-      new MaterialShader(ctx, initialState),
-    )
-  }
+export function Material(ctx, initialState = {}) {
+  assignDefaults(initialState, defaults)
+  return Entity(ctx, initialState,
+    MaterialContext(ctx, initialState),
+    MaterialState(ctx, initialState),
+    MaterialShaderUniforms(ctx, initialState),
+    FrameShaderUniforms(ctx, initialState),
+    MaterialShader(ctx, initialState),
+  )
 }

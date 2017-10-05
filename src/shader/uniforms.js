@@ -1,14 +1,22 @@
-import { WebGLShaderUniforms, Component } from '../core'
+import { WebGLShaderUniforms } from '../core'
 
-export class ShaderUniforms extends Component {
-  constructor(ctx, initialState, props, ...children) {
-    if ('function' == typeof props) { children.unshift(props) }
-    if ('function' == typeof initialState) { children.unshift(initialState) }
-    if ('object' != typeof initialState) { initialState = {} }
-    if ('object' != typeof props) { props = initialState }
-    const uniforms = ctx.regl({
-      uniforms: new WebGLShaderUniforms(ctx, initialState, props)
-    })
-    super(ctx, uniforms, ...children)
-  }
+/**
+ * ShaderUniforms(ctx, initialState, props, ...children) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {?Object} initialState
+ * @param {?Object} props
+ * @return {Function}
+ */
+export function ShaderUniforms(ctx, initialState, props) {
+  if ('object' != typeof initialState) { initialState = {} }
+  if ('object' != typeof props) { props = initialState }
+  const uniforms = new WebGLShaderUniforms(ctx, initialState, props)
+  return ctx.regl({
+    uniforms,
+    context: {
+      uniforms: ({uniforms: prev}) => Object.assign({}, prev, uniforms)
+    }
+  })
 }
