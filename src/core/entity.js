@@ -18,8 +18,8 @@ import extend from 'extend'
  * @return {Function}
  */
 export function Entity(ctx, initialState, ...components) {
-  if (!(ctx instanceof Context)) {
-    throw new TypeError("Entity(): Expecting context instance.")
+  if (!ctx || 'object' != typeof ctx || Array.isArray(ctx)) {
+    throw new TypeError("Entity(): Expecting context object.")
   }
 
   if (initialState) {
