@@ -42,7 +42,7 @@ export class Context extends EventEmitter {
       extensions: [ ...(opts.regl.extensions || []) ],
       optionalExtensions: [
         'OES_vertex_array_object',
-        'ANGLE_instanced_arrays',
+        'OES_texture_float',
         ...(opts.regl.optionalExtensions || [])
       ],
 
