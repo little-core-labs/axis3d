@@ -2086,8 +2086,8 @@ function Entity(ctx, initialState) {
     components[_key - 2] = arguments[_key];
   }
 
-  if (!(ctx instanceof _context.Context)) {
-    throw new TypeError("Entity(): Expecting context instance.");
+  if (!ctx || 'object' != (typeof ctx === 'undefined' ? 'undefined' : _typeof(ctx)) || Array.isArray(ctx)) {
+    throw new TypeError("Entity(): Expecting context object.");
   }
 
   if (initialState) {

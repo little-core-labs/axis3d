@@ -24,9 +24,25 @@ test("Entity(ctx: undefined|null) throws TypeError",
   })
 
 
-test("Entity(ctx: Object) throws TypeError",
+test("Entity(ctx: Array) throws TypeError",
   ({throws, end}) => {
-    throws(() => Entity({}), TypeError,
+    throws(() => Entity(Array()), TypeError,
+      "Entity with invalid 'Context' instance object throws 'TypeError'.")
+    end()
+  })
+
+
+test("Entity(ctx: Function) throws TypeError",
+  ({throws, end}) => {
+    throws(() => Entity(Function()), TypeError,
+      "Entity with invalid 'Context' instance object throws 'TypeError'.")
+    end()
+  })
+
+
+test("Entity(ctx: Number) throws TypeError",
+  ({throws, end}) => {
+    throws(() => Entity(Number()), TypeError,
       "Entity with invalid 'Context' instance object throws 'TypeError'.")
     end()
   })
