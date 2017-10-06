@@ -4,11 +4,13 @@
 #include "./variables"
 
 #ifdef GLSL_TEXTURE_2D
-uniform Texture2D GLSL_TEXTURE_2D_VARIABLE;
+uniform sampler2D GLSL_TEXTURE_2D_SAMPLER_VARIABLE;
+uniform vec2 GLSL_TEXTURE_2D_RESOLUTION_VARIABLE;
 #endif
 
 #ifdef GLSL_TEXTURE_CUBE
-uniform TextureCube GLSL_TEXTURE_CUBE_VARIABLE;
+uniform samplerCube GLSL_TEXTURE_CUBE_SAMPLER_VARIABLE;
+uniform vec2 GLSL_TEXTURE_CUBE_RESOLUTION_VARIABLE;
 #endif
 
 #endif
