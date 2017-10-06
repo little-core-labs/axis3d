@@ -3,18 +3,14 @@ import { assignDefaults } from '../../../utils'
 import { ScopedContext } from '../../../scope'
 import * as defaults from '../defaults'
 
-import {
-  getTextureDataResolution,
-  isTextureDataReady,
-  isImage,
-  isVideo,
-} from '../../utils'
+import { HAVE_CURRENT_DATA, isImage, isVideo, } from '../../utils'
 
 export function TexturePointerContext(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
   const defaultTexture = ctx.regl.texture(defaults)
   const textureBuffer = ctx.regl.texture(extend(initialState))
   const textureMap = new WeakMap()
+  const videoUploadTimestamps = new WeakMap()
   return ScopedContext(ctx, {
     texturePointer({textureData}, args = {}) {
       const {copy = false, buffer = false, subimage = false} = args
@@ -42,8 +38,6 @@ export function TexturePointerContext(ctx, initialState = {}) {
         if (isVideo(textureData)) {
           if (!textureMap.has(textureData)) {
             createTexture()
-          } else if (subimage) {
-            subimageTexture()
           } else {
             updateTexture()
           }
@@ -87,7 +81,17 @@ export function TexturePointerContext(ctx, initialState = {}) {
       }
 
       function updateTexture() {
-        if (textureOwnsData(textureData)) {
+        if (false == textureOwnsData(textureData)) { return }
+        if (isVideo(textureData)) {
+          const lastUpload = videoUploadTimestamps.get(textureData) || 0
+          if (!lastUpload || Date.now() - lastUpload > 16) {
+            if (subimage) { subimageTexture() }
+            else { texture(data) }
+            videoUploadTimestamps.set(textureData, Date.now())
+          }
+        } else if (subimage) {
+          subimageTexture()
+        } else {
           texture(data)
         }
       }
