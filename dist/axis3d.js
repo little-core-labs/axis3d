@@ -7524,7 +7524,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.6.0';
+var kLibraryVersion = '0.6.1';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
