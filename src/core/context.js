@@ -6,14 +6,45 @@ import window from 'global/window'
 import events from 'dom-events'
 import regl from '@littlstar/regl'
 
+/**
+ * The Context class wraps gl (regl) state and is required for most
+ * components to be created.
+ * @public
+ * @class Context
+ * @extends EventEmitter
+ */
 export class Context extends EventEmitter {
-  constructor(opts = {}, createRegl = regl) {
-    super()
-    this.setMaxListeners(Infinity)
-    this._hasFocus = false
-    this._isDestroyed = false
 
-    this._state = []
+  /**
+   * Default optional WebGL extensions to be loaded
+   * during the creation of a WebGL context.
+   * @accessor
+   * @type {Array<String>}
+   */
+  static get kDefaulOptionaltExtensions() {
+    return [ 'OES_vertex_array_object', 'OES_texture_float' ]
+  }
+
+  /**
+   * Context class constructor.
+   * @param {?(Object)} [opts = {}] Context configuration
+   * @param {?(Function)} [createRegl = regl] Regl context constructor
+   */
+  constructor(opts = {}, createRegl = regl) {
+    if (null != opts && 'object' != typeof opts || Array.isArray(opts)) {
+      throw new TypeError("Context(): expecting object as first argument.")
+    } else if (null != createRegl && 'function' != typeof createRegl) {
+      throw new TypeError("Context(): expecting function as second argument.")
+    }
+
+    if (null == opts) { opts = {} }
+    if ('function' != typeof createRegl) { createRegl = regl }
+
+    super()
+
+    this.setMaxListeners(Infinity)
+    this._isDestroyed = false
+    this._hasFocus = false
 
     // coalesce regl options if given as `.gl`
     opts.regl = coalesce(opts.regl, opts.gl || {})
@@ -34,15 +65,14 @@ export class Context extends EventEmitter {
     }
 
     // call regl initializer
-    createRegl({
+    void createRegl({
       pixelRatio: opts.pixelRatio || window.devicePixelRatio || 1,
       profile: Boolean(opts.profile),
       ...opts.regl,
       attributes: { ...(opts.regl.attributes || {}) },
       extensions: [ ...(opts.regl.extensions || []) ],
       optionalExtensions: [
-        'OES_vertex_array_object',
-        'OES_texture_float',
+        ...Context.kDefaulOptionaltExtensions,
         ...(opts.regl.optionalExtensions || [])
       ],
 
@@ -83,14 +113,49 @@ export class Context extends EventEmitter {
     }
   }
 
+  /**
+   * Boolean value to indicate if context instance is destroyed.
+   * @accessor
+   * @type {Boolean}
+   */
   get isDestroyed() { return Boolean(this._isDestroyed) }
+
+  /**
+   * Boolean value to indicate if context instance has focus.
+   * @accessor
+   * @type {Boolean}
+   */
   get hasFocus() { return Boolean(this._hasFocus) }
 
+  /**
+   * Underlying canvas DOM element that owns the WebGL context.
+   * @accessor
+   * @type {HTMLCanvasElement|null}
+   */
   get domElement() { return this._domElement || null }
-  get state() { return this._state || null }
+
+  /**
+   * Underlying regl instance.
+   * @accessor
+   * @type {Function|null}
+   */
   get regl() { return this._regl || null }
+
+  /**
+   * Underlying WebGLRenderingContext instance.
+   * @accessor
+   * @type {WebGLRenderingContext|null}
+   */
   get gl() { return this._regl && this._regl._gl || null }
 
+  /**
+   * Wrapper around EventEmitter#removeListener
+   * and EventEmitter#removeAllListeners class methods.
+   * @method
+   * @see {@link https://nodejs.org/api/events.html#events_emitter_removealllisteners_eventname}
+   * @see {@link https://nodejs.org/api/events.html#events_emitter_removelistener_eventname_listener}
+   * @return {Context}
+   */
   off(...args) {
     if (2 == args.length) {
       return this.removeListener(...args)
@@ -99,35 +164,67 @@ export class Context extends EventEmitter {
     }
   }
 
+  /**
+   * Focuses context and underlying DOM element.
+   * @method
+   * @emits focus
+   * @return {Context}
+   */
   focus() {
     this._hasFocus = true
+    if (this.domElement) { this.domElement.focus() }
     this.emit('focus')
     return this
   }
 
+  /**
+   * Blurs context and underlying DOM element.
+   * @method
+   * @emits blur
+   * @return {Context}
+   */
   blur() {
     this._hasFocus = false
+    if (this.domElement) { this.domElement.blur() }
     this.emit('blur')
     return this
   }
 
+  /**
+   * Destroys underling regl and gl context instances and removes
+   * underling DOM element from its parent element if it exists.
+   * @method
+   * @emits beforedestroy
+   * @emits destroy
+   * @return {Context}
+   */
   destroy() {
     this.emit('beforedestroy')
     if (this._regl && 'function' == typeof this._regl.destroy) {
       this._regl.destroy()
+      delete this._regl
     }
 
-    if (this._domElement && this._domElement.parentElement) {
-      this._domElement.parentElement.removeChild(this._domElement)
+    if (this._domElement) {
+      if (this._domElement.parentElement) {
+        this._domElement.parentElement.removeChild(this._domElement)
+      }
+      delete this._domElement
     }
 
-    delete this._regl
-    delete this._domElement
     this._hasFocus = false
+    this._isDestroyed = true
     this.emit('destroy')
     return this
   }
 
+  /**
+   * Refreshes regl state. This method shouldn't be called unless
+   * there has been direct manipulation of the underlying WebGLRenderingContext
+   * instance outside of this context instance.
+   * @method
+   * @return {Context}
+   */
   refresh() {
     if (this.regl && 'function' == typeof this.regl._refresh) {
       this.regl._refresh()
@@ -135,18 +232,28 @@ export class Context extends EventEmitter {
     return this
   }
 
+  /**
+   * Flushes the underlying WebGLRenderingContext instance.
+   * @method
+   * @return {Context}
+   */
   flush() {
-    if (this.gl) {
-      this.gl.flush()
-    }
+    if (this.gl) { this.gl.flush() }
     return this
   }
 
+  /**
+   * Polls the underlying regl state. This method shouldn't be callled unless
+   * components are used outside of the {@link Frame} component.
+   * @method
+   * @return {Context}
+   */
   poll() {
     if (this.regl) {
       if (this.regl && 'function' == typeof this.regl.poll) {
         this.regl.poll()
       }
     }
+    return this
   }
 }
