@@ -21,7 +21,7 @@ for (const p of Bunny.positions) {
 
 const N = 10
 
-const ctx = new Context()
+const ctx = new Context({gl: {extensions: ['ANGLE_instanced_arrays']}})
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
 const bunny = new Mesh(ctx, {
