@@ -18,6 +18,9 @@ export class Context extends EventEmitter {
   /**
    * Default optional WebGL extensions to be loaded
    * during the creation of a WebGL context.
+   * @public
+   * @static
+   * @readonly
    * @accessor
    * @type {Array<String>}
    */
@@ -27,7 +30,17 @@ export class Context extends EventEmitter {
 
   /**
    * Context class constructor.
+   * @public
+   * @constructor
    * @param {?(Object)} [opts = {}] Context configuration
+   * @param {?(Object)} [opts.pixelRatio = window.devicePixelRatio] Device pixel ratio
+   * @param {?(Object)} [opts.profile = false] Enable CPU/GPU profiling
+   * @param {?(Object)} [opts.gl] WebGL context configuration
+   * @param {?(Object)} [opts.gl.context] Existing WebGLRenderingContext instance
+   * @param {?(Object)} [opts.gl.attributes] WebGL context attributes
+   * @param {?(Object)} [opts.gl.extensions] Required WebGL extensions
+   * @param {?(Object)} [opts.gl.optionalExtensions] Optional WebGL extensions
+   * @param {?(Object)} [opts.domElement] Canvas or container DOM element
    * @param {?(Function)} [createRegl = regl] Regl context constructor
    */
   constructor(opts = {}, createRegl = regl) {
@@ -52,6 +65,8 @@ export class Context extends EventEmitter {
       opts.regl.gl = opts.gl.context
       delete opts.gl.context
     }
+
+    opts.element = coalesce(opts.element, opts.domElement)
 
     // derive container element
     if (opts.canvas && 'object' == typeof opts.canvas) {
@@ -115,6 +130,8 @@ export class Context extends EventEmitter {
 
   /**
    * Boolean value to indicate if context instance is destroyed.
+   * @public
+   * @readonly
    * @accessor
    * @type {Boolean}
    */
@@ -122,6 +139,8 @@ export class Context extends EventEmitter {
 
   /**
    * Boolean value to indicate if context instance has focus.
+   * @public
+   * @readonly
    * @accessor
    * @type {Boolean}
    */
@@ -129,6 +148,8 @@ export class Context extends EventEmitter {
 
   /**
    * Underlying canvas DOM element that owns the WebGL context.
+   * @public
+   * @readonly
    * @accessor
    * @type {HTMLCanvasElement|null}
    */
@@ -136,6 +157,8 @@ export class Context extends EventEmitter {
 
   /**
    * Underlying regl instance.
+   * @public
+   * @readonly
    * @accessor
    * @type {Function|null}
    */
@@ -143,6 +166,8 @@ export class Context extends EventEmitter {
 
   /**
    * Underlying WebGLRenderingContext instance.
+   * @public
+   * @readonly
    * @accessor
    * @type {WebGLRenderingContext|null}
    */
@@ -151,6 +176,7 @@ export class Context extends EventEmitter {
   /**
    * Wrapper around EventEmitter#removeListener
    * and EventEmitter#removeAllListeners class methods.
+   * @public
    * @method
    * @see {@link https://nodejs.org/api/events.html#events_emitter_removealllisteners_eventname}
    * @see {@link https://nodejs.org/api/events.html#events_emitter_removelistener_eventname_listener}
@@ -166,6 +192,7 @@ export class Context extends EventEmitter {
 
   /**
    * Focuses context and underlying DOM element.
+   * @public
    * @method
    * @emits focus
    * @return {Context}
@@ -179,6 +206,7 @@ export class Context extends EventEmitter {
 
   /**
    * Blurs context and underlying DOM element.
+   * @public
    * @method
    * @emits blur
    * @return {Context}
@@ -193,6 +221,7 @@ export class Context extends EventEmitter {
   /**
    * Destroys underling regl and gl context instances and removes
    * underling DOM element from its parent element if it exists.
+   * @public
    * @method
    * @emits beforedestroy
    * @emits destroy
@@ -222,6 +251,7 @@ export class Context extends EventEmitter {
    * Refreshes regl state. This method shouldn't be called unless
    * there has been direct manipulation of the underlying WebGLRenderingContext
    * instance outside of this context instance.
+   * @public
    * @method
    * @return {Context}
    */
@@ -234,6 +264,7 @@ export class Context extends EventEmitter {
 
   /**
    * Flushes the underlying WebGLRenderingContext instance.
+   * @public
    * @method
    * @return {Context}
    */
@@ -245,6 +276,7 @@ export class Context extends EventEmitter {
   /**
    * Polls the underlying regl state. This method shouldn't be callled unless
    * components are used outside of the {@link Frame} component.
+   * @public
    * @method
    * @return {Context}
    */
