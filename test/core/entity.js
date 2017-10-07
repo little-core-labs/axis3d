@@ -4,7 +4,7 @@ import { Entity } from '../../lib/core'
 import test from 'tape'
 
 const zeroes = (n) => Array(n).fill(0)
-const sum = (i, n, f) => zeroes(n+1-i).map((_, k) => k+1).reduce(f, 0)
+const sum = (x, y, f) => zeroes(y+1-x).map((_, k) => k+1).reduce(f, 0)
 
 test("Entity is 'function'",
   ({ok, end}) => {
@@ -12,6 +12,20 @@ test("Entity is 'function'",
     end()
   })
 
+
+test("Entity(ctx: Object) can be called with 'new' operator",
+  ({ok, end}) => {
+    ok(new Entity(ctx),
+      "Entity with invalid 'Context' instance object throws 'TypeError'.")
+    end()
+  })
+
+test("Entity(ctx: Object) can be called without 'new' operator",
+  ({ok, end}) => {
+    ok(Entity(ctx),
+      "Entity with invalid 'Context' instance object throws 'TypeError'.")
+    end()
+  })
 
 test("Entity(ctx: undefined|null) throws TypeError",
   ({throws, end}) => {
@@ -59,7 +73,6 @@ test("Entity(ctx: Context, initialState: Number|Boolean|String) throws TypeError
     throws(() => Entity(ctx, "string"), TypeError,
       "Entity with invalid initial state object as boolean throws 'TypeError'.")
 
-
     end()
   })
 
@@ -76,6 +89,22 @@ test("Entity(ctx: Context, initialState: Object) -> Function",
   ({ok, end}) => {
     ok('function' == typeof Entity(ctx, {}),
        "Entity constructor returns function.")
+    end()
+  })
+
+
+test("Entity(ctx: Object) can be called with 'new' operator",
+  ({ok, end}) => {
+    ok(new Entity(ctx),
+      "Entity with invalid 'Context' instance object throws 'TypeError'.")
+    end()
+  })
+
+
+test("Entity(ctx: Object) can be called without 'new' operator",
+  ({ok, end}) => {
+    ok(Entity(ctx),
+      "Entity with invalid 'Context' instance object throws 'TypeError'.")
     end()
   })
 
