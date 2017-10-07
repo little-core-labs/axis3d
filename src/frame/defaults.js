@@ -18,7 +18,7 @@ export const culling = {
 }
 
 export const depth = {
-  enable: false,
+  enable: true,
   range: [0, 1],
   func: 'less',
   mask: true
