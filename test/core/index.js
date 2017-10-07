@@ -1,2 +1,5 @@
+require('./context')
+require('./dynamic')
 require('./entity')
-require('./component')
+require('./geometry')
+require('./shaderlib')
