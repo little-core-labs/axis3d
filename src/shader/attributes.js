@@ -16,12 +16,7 @@ export function ShaderAttributes(ctx, initialState, props) {
   if ('object' != typeof initialState) { initialState = {} }
   if ('object' != typeof props) { props = initialState }
   const attributes = new WebGLShaderAttributes(ctx, initialState, props)
-  return ctx.regl({
-    attributes,
-    context: {
-      attributes: ({attributes: prev}) => Object.assign({}, prev, attributes)
-    }
-  })
+  return ctx.regl({ attributes, context: { attributes } })
 }
 
 /**
@@ -37,5 +32,5 @@ export function ShaderInstancedAttributes(ctx, initialState, props) {
   if ('object' != typeof initialState) { initialState = {} }
   if ('object' != typeof props) { props = initialState }
   const attributes = new WebGLShaderInstancedAttributes(ctx, initialState, props)
-  return ctx.regl({attributes, context: { attributes: () => attributes }})
+  return ctx.regl({attributes, context: { attributes }})
 }
