@@ -1564,8 +1564,49 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
+/**
+ * The Context class wraps gl (regl) state and is required for most
+ * components to be created.
+ * @public
+ * @class Context
+ * @extends EventEmitter
+ */
 var Context = exports.Context = function (_EventEmitter) {
   _inherits(Context, _EventEmitter);
+
+  _createClass(Context, null, [{
+    key: 'kDefaulOptionaltExtensions',
+
+    /**
+     * Default optional WebGL extensions to be loaded
+     * during the creation of a WebGL context.
+     * @public
+     * @static
+     * @readonly
+     * @accessor
+     * @type {Array<String>}
+     */
+    get: function get() {
+      return ['OES_vertex_array_object', 'OES_texture_float'];
+    }
+
+    /**
+     * Context class constructor.
+     * @public
+     * @constructor
+     * @param {?(Object)} [opts = {}] Context configuration
+     * @param {?(Object)} [opts.pixelRatio = window.devicePixelRatio] Device pixel ratio
+     * @param {?(Object)} [opts.profile = false] Enable CPU/GPU profiling
+     * @param {?(Object)} [opts.gl] WebGL context configuration
+     * @param {?(Object)} [opts.gl.context] Existing WebGLRenderingContext instance
+     * @param {?(Object)} [opts.gl.attributes] WebGL context attributes
+     * @param {?(Object)} [opts.gl.extensions] Required WebGL extensions
+     * @param {?(Object)} [opts.gl.optionalExtensions] Optional WebGL extensions
+     * @param {?(Object)} [opts.domElement] Canvas or container DOM element
+     * @param {?(Function)} [createRegl = regl] Regl context constructor
+     */
+
+  }]);
 
   function Context() {
     var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -1573,13 +1614,24 @@ var Context = exports.Context = function (_EventEmitter) {
 
     _classCallCheck(this, Context);
 
+    if (null != opts && 'object' != (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) || Array.isArray(opts)) {
+      throw new TypeError("Context(): expecting object as first argument.");
+    } else if (null != createRegl && 'function' != typeof createRegl) {
+      throw new TypeError("Context(): expecting function as second argument.");
+    }
+
+    if (null == opts) {
+      opts = {};
+    }
+    if ('function' != typeof createRegl) {
+      createRegl = _regl2.default;
+    }
+
     var _this = _possibleConstructorReturn(this, (Context.__proto__ || Object.getPrototypeOf(Context)).call(this));
 
     _this.setMaxListeners(Infinity);
-    _this._hasFocus = false;
     _this._isDestroyed = false;
-
-    _this._state = [];
+    _this._hasFocus = false;
 
     // coalesce regl options if given as `.gl`
     opts.regl = (0, _defined2.default)(opts.regl, opts.gl || {});
@@ -1588,8 +1640,10 @@ var Context = exports.Context = function (_EventEmitter) {
       delete opts.gl.context;
     }
 
+    opts.element = (0, _defined2.default)(opts.element, opts.domElement
+
     // derive container element
-    if (opts.canvas && 'object' == _typeof(opts.canvas)) {
+    );if (opts.canvas && 'object' == _typeof(opts.canvas)) {
       opts.regl.canvas = opts.canvas;
     } else if (opts.element && 'CANVAS' == opts.element.nodeName) {
       opts.regl.canvas = opts.element;
@@ -1600,13 +1654,13 @@ var Context = exports.Context = function (_EventEmitter) {
     }
 
     // call regl initializer
-    createRegl(_extends({
+    void createRegl(_extends({
       pixelRatio: opts.pixelRatio || _window2.default.devicePixelRatio || 1,
       profile: Boolean(opts.profile)
     }, opts.regl, {
       attributes: _extends({}, opts.regl.attributes || {}),
       extensions: [].concat(_toConsumableArray(opts.regl.extensions || [])),
-      optionalExtensions: ['OES_vertex_array_object', 'OES_texture_float'].concat(_toConsumableArray(opts.regl.optionalExtensions || [])),
+      optionalExtensions: [].concat(_toConsumableArray(Context.kDefaulOptionaltExtensions), _toConsumableArray(opts.regl.optionalExtensions || [])),
 
       onDone: function onDone(err, regl) {
         if (err) {
@@ -1655,8 +1709,26 @@ var Context = exports.Context = function (_EventEmitter) {
     return _this;
   }
 
+  /**
+   * Boolean value to indicate if context instance is destroyed.
+   * @public
+   * @readonly
+   * @accessor
+   * @type {Boolean}
+   */
+
   _createClass(Context, [{
     key: 'off',
+
+    /**
+     * Wrapper around EventEmitter#removeListener
+     * and EventEmitter#removeAllListeners class methods.
+     * @public
+     * @method
+     * @see {@link https://nodejs.org/api/events.html#events_emitter_removealllisteners_eventname}
+     * @see {@link https://nodejs.org/api/events.html#events_emitter_removelistener_eventname_listener}
+     * @return {Context}
+     */
     value: function off() {
       if (2 == arguments.length) {
         return this.removeListener.apply(this, arguments);
@@ -1664,38 +1736,86 @@ var Context = exports.Context = function (_EventEmitter) {
         return this.removeAllListeners.apply(this, arguments);
       }
     }
+
+    /**
+     * Focuses context and underlying DOM element.
+     * @public
+     * @method
+     * @emits focus
+     * @return {Context}
+     */
+
   }, {
     key: 'focus',
     value: function focus() {
       this._hasFocus = true;
+      if (this.domElement) {
+        this.domElement.focus();
+      }
       this.emit('focus');
       return this;
     }
+
+    /**
+     * Blurs context and underlying DOM element.
+     * @public
+     * @method
+     * @emits blur
+     * @return {Context}
+     */
+
   }, {
     key: 'blur',
     value: function blur() {
       this._hasFocus = false;
+      if (this.domElement) {
+        this.domElement.blur();
+      }
       this.emit('blur');
       return this;
     }
+
+    /**
+     * Destroys underling regl and gl context instances and removes
+     * underling DOM element from its parent element if it exists.
+     * @public
+     * @method
+     * @emits beforedestroy
+     * @emits destroy
+     * @return {Context}
+     */
+
   }, {
     key: 'destroy',
     value: function destroy() {
       this.emit('beforedestroy');
       if (this._regl && 'function' == typeof this._regl.destroy) {
         this._regl.destroy();
+        delete this._regl;
       }
 
-      if (this._domElement && this._domElement.parentElement) {
-        this._domElement.parentElement.removeChild(this._domElement);
+      if (this._domElement) {
+        if (this._domElement.parentElement) {
+          this._domElement.parentElement.removeChild(this._domElement);
+        }
+        delete this._domElement;
       }
 
-      delete this._regl;
-      delete this._domElement;
       this._hasFocus = false;
+      this._isDestroyed = true;
       this.emit('destroy');
       return this;
     }
+
+    /**
+     * Refreshes regl state. This method shouldn't be called unless
+     * there has been direct manipulation of the underlying WebGLRenderingContext
+     * instance outside of this context instance.
+     * @public
+     * @method
+     * @return {Context}
+     */
+
   }, {
     key: 'refresh',
     value: function refresh() {
@@ -1704,6 +1824,14 @@ var Context = exports.Context = function (_EventEmitter) {
       }
       return this;
     }
+
+    /**
+     * Flushes the underlying WebGLRenderingContext instance.
+     * @public
+     * @method
+     * @return {Context}
+     */
+
   }, {
     key: 'flush',
     value: function flush() {
@@ -1712,6 +1840,15 @@ var Context = exports.Context = function (_EventEmitter) {
       }
       return this;
     }
+
+    /**
+     * Polls the underlying regl state. This method shouldn't be callled unless
+     * components are used outside of the {@link Frame} component.
+     * @public
+     * @method
+     * @return {Context}
+     */
+
   }, {
     key: 'poll',
     value: function poll() {
@@ -1720,32 +1857,64 @@ var Context = exports.Context = function (_EventEmitter) {
           this.regl.poll();
         }
       }
+      return this;
     }
   }, {
     key: 'isDestroyed',
     get: function get() {
       return Boolean(this._isDestroyed);
     }
+
+    /**
+     * Boolean value to indicate if context instance has focus.
+     * @public
+     * @readonly
+     * @accessor
+     * @type {Boolean}
+     */
+
   }, {
     key: 'hasFocus',
     get: function get() {
       return Boolean(this._hasFocus);
     }
+
+    /**
+     * Underlying canvas DOM element that owns the WebGL context.
+     * @public
+     * @readonly
+     * @accessor
+     * @type {HTMLCanvasElement|null}
+     */
+
   }, {
     key: 'domElement',
     get: function get() {
       return this._domElement || null;
     }
-  }, {
-    key: 'state',
-    get: function get() {
-      return this._state || null;
-    }
+
+    /**
+     * Underlying regl instance.
+     * @public
+     * @readonly
+     * @accessor
+     * @type {Function|null}
+     */
+
   }, {
     key: 'regl',
     get: function get() {
       return this._regl || null;
     }
+
+    /**
+     * Underlying WebGLRenderingContext instance.
+     * @public
+     * @readonly
+     * @accessor
+     * @type {WebGLRenderingContext|null}
+     */
+
   }, {
     key: 'gl',
     get: function get() {
@@ -1764,7 +1933,7 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DynamicValueCounter = exports.DynamicValue = undefined;
+exports.DynamicValue = undefined;
 
 var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
   return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
@@ -1806,53 +1975,39 @@ function _classCallCheck(instance, Constructor) {
   }
 }
 
+/**
+ * The DynamicValue class represents an object accessor values
+ * that can be dynamically accessed while also providing initial,
+ * or default state. Function values are evaluated with a regl context
+ * object and an arguments object with default state merged in.
+ * @public
+ * @class DynamicValue
+ */
 var DynamicValue = exports.DynamicValue = function () {
   _createClass(DynamicValue, null, [{
     key: 'createCounter',
+
+    /**
+     * Creates a new DynamicValueCounter
+     * @public
+     * @static
+     * @method
+     * @return {DynamicValueCounter}
+     */
     value: function createCounter() {
       return new DynamicValueCounter();
     }
-  }, {
-    key: 'pluck',
-    value: function pluck(scope, property, key) {
-      var value = undefined;
-      if (scope && null != scope[property]) {
-        value = null != key ? scope[property][key] : scope[property];
-      }
 
-      for (var _len = arguments.length, defaultValues = Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
-        defaultValues[_key - 3] = arguments[_key];
-      }
+    /**
+     * DynamicValue class constructor.
+     * @public
+     * @constructor
+     * @param {Context} ctx Axis3D context object
+     * @param {?(Object)} [initialState = {}] Initial state object
+     * @param {?(Object)} [props = {}] Optional initial properties
+     * @throws TypeError
+     */
 
-      return DynamicValue.primitive(_defined2.default.apply(undefined, [value].concat(defaultValues)));
-    }
-  }, {
-    key: 'primitive',
-    value: function primitive(v) {
-      var value = v;
-      if (null == v) {
-        value = undefined;
-      }
-      if ('object' == (typeof v === 'undefined' ? 'undefined' : _typeof(v))) {
-        var hasLength = 'number' == typeof v.length;
-        var hasIterator = 'function' == typeof v[Symbol.iterator];
-        // array
-        if (hasLength) {
-          if (hasIterator) {
-            value = [].concat(_toConsumableArray(v));
-          } else {
-            value = Array(v.length).fill(0).map(function (_, i) {
-              return v[i];
-            });
-          }
-        }
-        // object
-        else {
-            value = Object.assign({}, v);
-          }
-      }
-      return value;
-    }
   }]);
 
   function DynamicValue(ctx) {
@@ -1863,6 +2018,16 @@ var DynamicValue = exports.DynamicValue = function () {
 
     _classCallCheck(this, DynamicValue);
 
+    if (!ctx || 'object' != (typeof ctx === 'undefined' ? 'undefined' : _typeof(ctx)) || Array.isArray(ctx)) {
+      throw new TypeError("DynamicValue(): Expecting context object.");
+    }
+    if (initialState && 'object' != (typeof initialState === 'undefined' ? 'undefined' : _typeof(initialState)) || Array.isArray(initialState)) {
+      throw new TypeError("DynamicValue(): Expecting initial state to be an object.");
+    }
+
+    if (props && 'object' != (typeof props === 'undefined' ? 'undefined' : _typeof(props)) || Array.isArray(props)) {
+      throw new TypeError("DynamicValue(): Expecting props to be an object.");
+    }
     var define = function define(k, v, def) {
       return Object.defineProperty(_this, k, {
         enumerable: false, get: function get() {
@@ -1876,84 +2041,71 @@ var DynamicValue = exports.DynamicValue = function () {
     this.set(props);
   }
 
+  /**
+   * Sets named value by key on instance or an object of
+   * key value pairs.
+   * @public
+   * @method
+   * @param {String|Object} key Value name or object
+   * @param {?(Mixed)} [value] Any value
+   * @return {DynamicValue}
+   * @throws TypeError
+   */
+
   _createClass(DynamicValue, [{
     key: 'set',
-    value: function set(name, value) {
-      var _this2 = this;
+    value: function set(key, value) {
+      if (key && 'object' == (typeof key === 'undefined' ? 'undefined' : _typeof(key)) && !Array.isArray(key) && undefined === value) {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
 
-      if (name && 'object' == (typeof name === 'undefined' ? 'undefined' : _typeof(name))) {
-        var descriptors = Object.getOwnPropertyDescriptors(name);
-
-        var _loop = function _loop(key) {
-          if (null == name[key]) {
-            return 'continue';
-          }
-          _this2.valueState[key] = name[key];
-          try {
-            Object.defineProperty(_this2, key, {
-              enumerable: true,
-              get: function get() {
-                return _this2.valueState[key] || _this2.initialState[key] || null;
-              },
-              set: function set(v) {
-                return _this2.valueState[key] = v;
-              }
-            });
-          } catch (e) {}
-        };
-
-        for (var key in descriptors) {
-          var _ret = _loop(key);
-
-          if (_ret === 'continue') continue;
-        }
-      } else if ('string' == typeof name && null != value) {
-        this.valueState[name] = value;
         try {
-          Object.defineProperty(this, name, {
-            enumerable: true,
-            set: function set(v) {
-              return _this2.valueState[name] = v;
-            },
-            get: function get() {
-              if ('function' == typeof value) {
-                return function (ctx, args) {
-                  if (null == args) {
-                    args = {};
-                  }
-                  if ('object ' == typeof args) {
-                    return value(ctx, extend(true, {}, initialState, args));
-                  } else {
-                    return value(ctx, args);
-                  }
-                };
-              } else {
-                return DynamicValue.primitive(_this2.valueState[name] || _this2.initialState[name]) || null;
-              }
+          for (var _iterator = Object.getOwnPropertyNames(key)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var k = _step.value;
+
+            this.set(k, key[k]);
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
             }
-          });
-        } catch (e) {}
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+      } else if ('string' == typeof key || 'number' == typeof key) {
+        if (undefined === value) {
+          throw TypeError("DynamicValue(): Attempting to set undefined value.");
+        } else {
+          createAccessor(this, key);
+          this[key] = value;
+        }
+      } else {
+        throw TypeError("DynamicValue(): Attempting to set invalid key value.");
       }
-      this.purge();
       return this;
     }
+
+    /**
+     * Unset value by key name.
+     * @public
+     * @method
+     * @param {String} key Value key name
+     * @return {DynamicValue}
+     */
+
   }, {
     key: 'unset',
-    value: function unset(name) {
-      if ('string' == typeof name) {
-        delete this[name];
-      }
-      return this;
-    }
-  }, {
-    key: 'purge',
-    value: function purge() {
-      for (var key in this) {
-        if (null == this[key]) {
-          try {
-            delete this[key];
-          } catch (err) {}
-        }
+    value: function unset(key) {
+      if ('string' == typeof key && key in this.valueState) {
+        delete this.valueState[key];
       }
       return this;
     }
@@ -1962,7 +2114,7 @@ var DynamicValue = exports.DynamicValue = function () {
   return DynamicValue;
 }();
 
-var DynamicValueCounter = exports.DynamicValueCounter = function () {
+var DynamicValueCounter = function () {
   function DynamicValueCounter() {
     _classCallCheck(this, DynamicValueCounter);
 
@@ -1998,11 +2150,6 @@ var DynamicValueCounter = exports.DynamicValueCounter = function () {
       return this;
     }
   }, {
-    key: 'sumSetForContext',
-    value: function sumSetForContext(ctx) {
-      return this.getSetForContext(ctx).size();
-    }
-  }, {
     key: 'listSetForContext',
     value: function listSetForContext(ctx) {
       return [].concat(_toConsumableArray(this.getSetForContext(ctx)));
@@ -2016,6 +2163,46 @@ var DynamicValueCounter = exports.DynamicValueCounter = function () {
 
   return DynamicValueCounter;
 }();
+
+function getPrimitiveValue(v) {
+  var value = v;
+  if (null == v) {
+    value = undefined;
+  }
+  if (v && 'object' == (typeof v === 'undefined' ? 'undefined' : _typeof(v))) {
+    var hasLength = 'number' == typeof v.length;
+    var hasIterator = 'function' == typeof v[Symbol.iterator];
+    // array
+    if (hasLength && hasIterator) {
+      value = [].concat(_toConsumableArray(v));
+    } else if (hasLength) {
+      value = Array(v.length).fill(0).map(function (_, i) {
+        return v[i];
+      });
+    } else {
+      value = Object.assign({}, v);
+    }
+  }
+  return value;
+}
+
+function createAccessor(object, key) {
+  if (!(key in object)) {
+    return Object.defineProperty(object, key, { enumerable: true, set: set, get: get });
+  }
+
+  function set(value) {
+    object.valueState[key] = value;
+  }
+
+  function get() {
+    var valueState = object.valueState,
+        initialState = object.initialState;
+
+    var value = (0, _defined2.default)(valueState[key], initialState[key], null);
+    return getPrimitiveValue(value);
+  }
+}
 
 },{"defined":127}],30:[function(_dereq_,module,exports){
 'use strict';
@@ -2212,10 +2399,18 @@ function parseArguments(defaults, args, scope) {
 },{"./context":28,"extend":130,"regl-combine":299}],31:[function(_dereq_,module,exports){
 'use strict';
 
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Geometry = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
 var _createClass = function () {
   function defineProperties(target, props) {
@@ -2265,16 +2460,39 @@ function _classCallCheck(instance, Constructor) {
   }
 }
 
+/**
+ * The Geometry class wraps an object describing a simplicial complex. The
+ * object should contain at the very least, an array of vertex positions. This
+ * class also concerns itself with vertex normals, UVs, and faces
+ * @public
+ * @class Geometry
+ * @see {@link https://en.wikipedia.org/wiki/Abstract_simplicial_complex}
+ * @see {@link https://github.com/mikolalysenko/simplicial-complex}
+ */
 var Geometry = exports.Geometry = function () {
+
+  /**
+   * Geometry class constructor.
+   * @public
+   * @constructor
+   * @param {?(Object|Geometry)} [opts = {}] Context configuration, simplicial complex or Geometry instance
+   * @param {?(Object)} [opts.complex] Simplicial complex object
+   * @param {?(Boolean)} [opts.complex] Simplicial complex object
+   */
   function Geometry() {
     var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, Geometry);
 
+    if (null != opts && 'object' != (typeof opts === 'undefined' ? 'undefined' : _typeof(opts)) || Array.isArray(opts)) {
+      throw new TypeError("Geometry(): Expecting object as first argument.");
+    } else if (null == opts) {
+      opts = {};
+    }
     var complex = {};
     if (opts.positions) {
       complex = opts;
-    } else {
+    } else if ('complex' in opts) {
       complex = opts.complex;
     }
     var flatten = (0, _defined2.default)(opts.flatten, complex.flatten, false);
@@ -2283,14 +2501,34 @@ var Geometry = exports.Geometry = function () {
     this.complex = complex || null;
   }
 
+  /**
+   * Geometry simplicial complex.
+   * @public
+   * @accessor
+   * @type {Object}
+   */
+
   _createClass(Geometry, [{
     key: 'computeBoundingBox',
+
+    /**
+     * Computes and returns the bounding box of the geometry
+     * @public
+     * @method
+     * @return {Array<Array<Number>>|null}
+     */
     value: function computeBoundingBox() {
-      return (0, _boundPoints2.default)(this.positions);
+      return this.positions ? (0, _boundPoints2.default)(this.positions) : null;
     }
   }, {
     key: 'complex',
+    get: function get() {
+      return this._complex || null;
+    },
     set: function set(complex) {
+      if (null === complex) {
+        this._complex = null;
+      }
       if (complex.complex) {
         complex = complex.complex;
       }
@@ -2309,7 +2547,7 @@ var Geometry = exports.Geometry = function () {
           try {
             complex.normals = _normals2.default.vertexNormals(flattened.cells, flattened.positions);
           } catch (e) {
-            console.warn("Unable to compute vertex normals.");
+            console.warn("Geometry(): Unable to compute vertex normals.");
           }
           Object.assign(complex, flattened);
         } else if (complex.positions && !complex.cells) {
@@ -2320,112 +2558,163 @@ var Geometry = exports.Geometry = function () {
           try {
             complex.normals = _normals2.default.vertexNormals(complex.cells, complex.positions);
           } catch (e) {
-            console.warn("Unable to compute vertex normals.");
+            console.warn("Geometry(): Unable to compute vertex normals.");
           }
         }
 
-        if (complex.uvs) {
+        if (Array.isArray(complex.uvs)) {
           ensure2D(complex.uvs);
-        } else {
+        } else if (Array.isArray(complex.positions)) {
           complex.uvs = complex.positions.map(function (p) {
             return _glVec2.default.normalize([], p.slice(0, 2));
           });
         }
       }
 
-      function ensure3D(nodes) {
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = nodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var node = _step.value;
-
-            ensureVectorLength(3, node);
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
-      }
-
-      function ensure2D(nodes) {
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
-
-        try {
-          for (var _iterator2 = nodes[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var node = _step2.value;
-
-            ensureVectorLength(2, node);
-          }
-        } catch (err) {
-          _didIteratorError2 = true;
-          _iteratorError2 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion2 && _iterator2.return) {
-              _iterator2.return();
-            }
-          } finally {
-            if (_didIteratorError2) {
-              throw _iteratorError2;
-            }
-          }
-        }
-      }
-
-      function ensureVectorLength(length, vector) {
-        for (var i = 0; i < length; ++i) {
-          if (null == vector[i]) {
-            vector[i] = 0;
-          }
-        }
-        vector.splice(length);
-      }
-
       Object.assign(this._complex, complex);
       return complex;
-    },
-    get: function get() {
-      return this._complex || null;
     }
+
+    /**
+     * Geometry vertex positions.
+     * @public
+     * @accessor
+     * @readonly
+     * @type {Array<Array<Number>>|null}
+     */
+
   }, {
     key: 'positions',
     get: function get() {
-      return this.complex ? this.complex.positions : null;
+      return this.complex && this.complex.positions || null;
     }
+
+    /**
+     * Geometry vertex normals.
+     * @public
+     * @accessor
+     * @readonly
+     * @type {Array<Array<Number>>|null}
+     */
+
   }, {
     key: 'normals',
     get: function get() {
-      return this.complex ? this.complex.normals : null;
+      return this.complex && this.complex.normals || null;
     }
+
+    /**
+     * Geometry vertex faces (cells).
+     * @public
+     * @accessor
+     * @readonly
+     * @type {Array<Array<Number>>|null}
+     */
+
   }, {
-    key: 'uvs',
+    key: 'faces',
     get: function get() {
-      return this.complex ? this.complex.uvs : null;
+      return this.cells;
     }
   }, {
     key: 'cells',
     get: function get() {
-      return this.complex ? this.complex.cells : null;
+      return this.complex && this.complex.cells || null;
+    }
+
+    /**
+     * Geometry vertex UVs (texture coordinates)..
+     * @public
+     * @accessor
+     * @readonly
+     * @type {Array<Array<Number>>|null}
+     */
+
+  }, {
+    key: 'uvs',
+    get: function get() {
+      return this.complex && this.complex.uvs || null;
     }
   }]);
 
   return Geometry;
 }();
+
+/**
+ * ensure3D(nodes: Array<Array<Number>>) -> Array
+ */
+
+function ensure3D(nodes) {
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = nodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var node = _step.value;
+      ensureVectorLength(3, node);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return nodes;
+}
+
+/**
+ * ensure2D(nodes: Array<Array<Number>>) -> Array
+ */
+function ensure2D(nodes) {
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = nodes[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var node = _step2.value;
+      ensureVectorLength(2, node);
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  return nodes;
+}
+
+/**
+ * ensureVectorLength(length: Number, vector: Array<Number>) -> Array
+ */
+function ensureVectorLength(length, vector) {
+  for (var i = 0; i < length; ++i) {
+    if (null == vector[i]) {
+      vector[i] = 0;
+    }
+  }
+  vector.splice(length);
+  return vector;
+}
 
 },{"array-flatten":119,"bound-points":121,"defined":127,"gl-vec2":212,"mesh-reindex":290,"normals":291,"unindex-mesh":306}],32:[function(_dereq_,module,exports){
 'use strict';
@@ -7607,7 +7896,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.6.2';
+var kLibraryVersion = '0.6.3';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
