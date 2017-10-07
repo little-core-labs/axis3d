@@ -1606,7 +1606,7 @@ var Context = exports.Context = function (_EventEmitter) {
     }, opts.regl, {
       attributes: _extends({}, opts.regl.attributes || {}),
       extensions: [].concat(_toConsumableArray(opts.regl.extensions || [])),
-      optionalExtensions: ['OES_vertex_array_object', 'ANGLE_instanced_arrays'].concat(_toConsumableArray(opts.regl.optionalExtensions || [])),
+      optionalExtensions: ['OES_vertex_array_object', 'OES_texture_float'].concat(_toConsumableArray(opts.regl.optionalExtensions || [])),
 
       onDone: function onDone(err, regl) {
         if (err) {
@@ -2251,6 +2251,10 @@ var _normals = _dereq_('normals');
 
 var _normals2 = _interopRequireDefault(_normals);
 
+var _glVec = _dereq_('gl-vec2');
+
+var _glVec2 = _interopRequireDefault(_glVec);
+
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -2287,7 +2291,7 @@ var Geometry = exports.Geometry = function () {
   }, {
     key: 'complex',
     set: function set(complex) {
-      if (complex instanceof Geometry) {
+      if (complex.complex) {
         complex = complex.complex;
       }
       if (complex) {
@@ -2319,6 +2323,14 @@ var Geometry = exports.Geometry = function () {
             console.warn("Unable to compute vertex normals.");
           }
         }
+
+        if (complex.uvs) {
+          ensure2D(complex.uvs);
+        } else {
+          complex.uvs = complex.positions.map(function (p) {
+            return _glVec2.default.normalize([], p.slice(0, 2));
+          });
+        }
       }
 
       function ensure3D(nodes) {
@@ -2330,11 +2342,7 @@ var Geometry = exports.Geometry = function () {
           for (var _iterator = nodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var node = _step.value;
 
-            for (var i = 0; i < 3; ++i) {
-              if (null == node[i]) {
-                node[i] = 0;
-              }
-            }
+            ensureVectorLength(3, node);
           }
         } catch (err) {
           _didIteratorError = true;
@@ -2350,6 +2358,42 @@ var Geometry = exports.Geometry = function () {
             }
           }
         }
+      }
+
+      function ensure2D(nodes) {
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = nodes[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var node = _step2.value;
+
+            ensureVectorLength(2, node);
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+              _iterator2.return();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+      }
+
+      function ensureVectorLength(length, vector) {
+        for (var i = 0; i < length; ++i) {
+          if (null == vector[i]) {
+            vector[i] = 0;
+          }
+        }
+        vector.splice(length);
       }
 
       Object.assign(this._complex, complex);
@@ -2383,7 +2427,7 @@ var Geometry = exports.Geometry = function () {
   return Geometry;
 }();
 
-},{"array-flatten":119,"bound-points":121,"defined":127,"mesh-reindex":290,"normals":291,"unindex-mesh":306}],32:[function(_dereq_,module,exports){
+},{"array-flatten":119,"bound-points":121,"defined":127,"gl-vec2":212,"mesh-reindex":290,"normals":291,"unindex-mesh":306}],32:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2890,7 +2934,7 @@ function _defineProperty(obj, key, value) {
   }return obj;
 }
 
-Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_VARIABLES\n#define GLSL_TEXTURE_VARIABLES\n\n#ifndef GLSL_TEXTURE_2D_VARIABLE\n#define GLSL_TEXTURE_2D_VARIABLE tex2d\n#endif\n\n#ifndef GLSL_TEXTURE_CUBE_VARIABLE\n#define GLSL_TEXTURE_CUBE_VARIABLE texCube\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_UNIFORMS\n#define GLSL_TEXTURE_UNIFORMS\n\n#include "./variables"\n\n#ifdef GLSL_TEXTURE_2D\nuniform Texture2D GLSL_TEXTURE_2D_VARIABLE;\n#endif\n\n#ifdef GLSL_TEXTURE_CUBE\nuniform TextureCube GLSL_TEXTURE_CUBE_VARIABLE;\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/cube', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_CUBE\n#define GLSL_TEXTURE_CUBE\n\nstruct TextureCube {\n  vec2 resolution;\n  samplerCube data;\n};\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/2d', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_2D\n#define GLSL_TEXTURE_2D\n\nstruct Texture2D {\n  vec2 resolution;\n  sampler2D data;\n};\n\n#endif\n'), _Object$assign));
+Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_VARIABLES\n#define GLSL_TEXTURE_VARIABLES\n\n#ifndef GLSL_TEXTURE_2D_SAMPLER_VARIABLE\n#define GLSL_TEXTURE_2D_SAMPLER_VARIABLE tex2d\n#endif\n\n#ifndef GLSL_TEXTURE_2D_RESOLUTION_VARIABLE\n#define GLSL_TEXTURE_2D_RESOLUTION_VARIABLE tex2dResolution\n#endif\n\n#ifndef GLSL_TEXTURE_CUBE_SAMPLER_VARIABLE\n#define GLSL_TEXTURE_CUBE_SAMPLER_VARIABLE texCube\n#endif\n\n#ifndef GLSL_TEXTURE_CUBE_RESOLUTION_VARIABLE\n#define GLSL_TEXTURE_CUBE_RESOLUTION_VARIABLE texCubeResolution\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_UNIFORMS\n#define GLSL_TEXTURE_UNIFORMS\n\n#include "./variables"\n\n#ifdef GLSL_TEXTURE_2D\nuniform sampler2D GLSL_TEXTURE_2D_SAMPLER_VARIABLE;\nuniform vec2 GLSL_TEXTURE_2D_RESOLUTION_VARIABLE;\n#endif\n\n#ifdef GLSL_TEXTURE_CUBE\nuniform samplerCube GLSL_TEXTURE_CUBE_SAMPLER_VARIABLE;\nuniform vec2 GLSL_TEXTURE_CUBE_RESOLUTION_VARIABLE;\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/cube', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_CUBE\n#define GLSL_TEXTURE_CUBE\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/2d', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_2D\n#define GLSL_TEXTURE_2D\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/texture")
 },{"glslify":288}],43:[function(_dereq_,module,exports){
@@ -3657,59 +3701,9 @@ function FrameContext(ctx, initialState) {
     },
 
     // functions
-    cancel: function cancel(_ref) {
-      var frame = _ref.frame,
-          frames = _ref.frames;
-
-      return function () {
-        if (frame) {
-          frame.cancel();
-          frames.splice(frames.indexOf(frame), 1);
-        }
-      };
-    },
     clear: function clear(ctx, args) {
       return function (clear) {
         return ctx.regl.clear(_extends({}, clear || (0, _utils.pick)('clear', [args, initialState])));
-      };
-    },
-    cancelAll: function cancelAll(_ref2) {
-      var frames = _ref2.frames,
-          frame = _ref2.frame,
-          loop = _ref2.loop;
-
-      return function () {
-        if (frames) {
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
-
-          try {
-            for (var _iterator = frames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var f = _step.value;
-              f.cancel();
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
-          }
-
-          frames.splice(0, frames.length);
-        }
-        if (loop) {
-          loop.cancel();
-          loop = null;
-        }
       };
     }
   });
@@ -3808,10 +3802,14 @@ function Frame(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   (0, _utils.assignDefaults)(initialState, defaults);
-  var injectFrame = (0, _core.Entity)(ctx, initialState, (0, _context.FrameContext)(ctx, initialState), (0, _state.FrameState)(ctx, initialState));
+  var injectFrame = (0, _core.Entity)(ctx, initialState, (0, _scope.ScopedContext)(ctx, { frames: function frames() {
+      return _frames;
+    }, loop: function loop() {
+      return _loop;
+    } }), (0, _context.FrameContext)(ctx, initialState), (0, _state.FrameState)(ctx, initialState));
 
   var _initialState$frames = initialState.frames,
-      frames = _initialState$frames === undefined ? [] : _initialState$frames;
+      _frames = _initialState$frames === undefined ? [] : _initialState$frames;
 
   var getContext = ctx.regl({});
   var autoClear = (0, _update.UpdateContext)(ctx, initialState, {
@@ -3826,7 +3824,7 @@ function Frame(ctx) {
     }
   });
 
-  var loop = null; // for all frames
+  var _loop = null; // for all frames
   return function (args, callback) {
     ensureFrameLoopIsCreated();
     if ('function' == typeof args) {
@@ -3837,17 +3835,64 @@ function Frame(ctx) {
   };
 
   function ensureFrameLoopIsCreated() {
-    if (null == loop) {
+    if (null == _loop) {
       return createFrameLoop();
     }
   }
 
   function enqueueFrameCallback(args, callback) {
-    var injectContext = (0, _scope.ScopedContext)(ctx, { frame: function frame() {
+    var injectContext = (0, _scope.ScopedContext)(ctx, {
+      frame: function frame() {
         return _frame;
-      }, frames: frames, loop: loop });
+      },
+      cancel: function cancel(_ref2) {
+        var frames = _ref2.frames;
+
+        return function () {
+          if (_frame) {
+            _frame.cancel();
+            frames.splice(frames.indexOf(_frame), 1);
+          }
+        };
+      },
+      cancelAll: function cancelAll() {
+        return function () {
+          if (_frames) {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+              for (var _iterator = _frames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var f = _step.value;
+                f.cancel();
+              }
+            } catch (err) {
+              _didIteratorError = true;
+              _iteratorError = err;
+            } finally {
+              try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                  _iterator.return();
+                }
+              } finally {
+                if (_didIteratorError) {
+                  throw _iteratorError;
+                }
+              }
+            }
+
+            _frames.splice(0, _frames.length);
+          }
+          if (_loop) {
+            _loop.cancel();
+            _loop = null;
+          }
+        };
+      }
+    });
     var _frame = createFrameCallback(callback, injectContext);
-    return frames.push(_frame);
+    return _frames.push(_frame);
   }
 
   function createFrameCallback(callback, components) {
@@ -3859,23 +3904,23 @@ function Frame(ctx) {
       },
       onframe: function onframe() {
         if (cancelled) {
-          return frames.splice(frames.indexOf(frame, 1));
+          return _frames.splice(_frames.indexOf(frame, 1));
         } else return components(callback);
       }
     };
   }
 
   function createFrameLoop() {
-    if (loop) {
+    if (_loop) {
       destroyFrameLoop();
     }
-    return loop = ctx.regl.frame(function () {
+    return _loop = ctx.regl.frame(function () {
       return injectFrame(dequeue);
     });
     function dequeue() {
       autoClear(noop);
-      var callbacks = frames.map(function (_ref2) {
-        var onframe = _ref2.onframe;
+      var callbacks = _frames.map(function (_ref3) {
+        var onframe = _ref3.onframe;
         return onframe;
       });
       try {
@@ -3885,27 +3930,27 @@ function Frame(ctx) {
       } catch (err) {
         ctx.emit('error', err);
         try {
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
+          var _iteratorNormalCompletion2 = true;
+          var _didIteratorError2 = false;
+          var _iteratorError2 = undefined;
 
           try {
-            for (var _iterator = frames[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var _ref4 = _step.value;
-              var cancel = _ref4.cancel;
+            for (var _iterator2 = _frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+              var _ref5 = _step2.value;
+              var cancel = _ref5.cancel;
               cancel();
             }
           } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
+            _didIteratorError2 = true;
+            _iteratorError2 = err;
           } finally {
             try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
+              if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                _iterator2.return();
               }
             } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
+              if (_didIteratorError2) {
+                throw _iteratorError2;
               }
             }
           }
@@ -3918,41 +3963,41 @@ function Frame(ctx) {
   }
 
   function destroyFrameLoop() {
-    if (null == loop) {
+    if (null == _loop) {
       return;
     }
     try {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
 
       try {
-        for (var _iterator2 = frames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var f = _step2.value;
+        for (var _iterator3 = _frames[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var f = _step3.value;
           f.cancel();
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
           }
         } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
+          if (_didIteratorError3) {
+            throw _iteratorError3;
           }
         }
       }
     } catch (err) {
       ctx.emit('error', err);
     }
-    frames.splice(0, frames.length);
+    _frames.splice(0, _frames.length);
     try {
-      loop.cancel();
+      _loop.cancel();
     } catch (err) {}
-    loop = null;
+    _loop = null;
   }
 }
 
@@ -5143,7 +5188,7 @@ function Mesh(ctx) {
   }
   var getContext = ctx.regl({});
   var draw = ctx.regl(_extends({}, initialState.regl));
-  return (0, _core.Entity)(ctx, initialState, [
+  return (0, _core.Entity)(ctx, initialState,
   //mesh
   (0, _context.MeshContext)(ctx, initialState), (0, _state.MeshState)(ctx, initialState),
 
@@ -5159,7 +5204,7 @@ function Mesh(ctx) {
       draw();
     }
     return next();
-  }]);
+  });
 }
 
 },{"../camera":9,"../core":49,"../frame":54,"../object3d":86,"../utils":116,"./context":71,"./defaults":73,"./shader":77,"./state":80}],76:[function(_dereq_,module,exports){
@@ -5321,6 +5366,29 @@ function MeshShader(ctx) {
       _initialState$fragmen = initialState.fragmentShader,
       _fragmentShader = _initialState$fragmen === undefined ? MeshShader.createFragmentShader({ uniformName: uniformName }) : _initialState$fragmen;
 
+  var _initialState$defines = initialState.defines,
+      defines = _initialState$defines === undefined ? {} : _initialState$defines;
+
+  if (geometry) {
+    if (geometry.positions) {
+      defines.GLSL_MESH_HAS_POSITION = true;
+    } else {
+      defines.GLSL_MESH_NO_POSITION = true;
+    }
+
+    if (geometry.normals) {
+      defines.GLSL_MESH_HAS_NORMAL = true;
+    } else {
+      defines.GLSL_MESH_NO_NORMAL = true;
+    }
+
+    if (geometry.uvs) {
+      defines.GLSL_MESH_HAS_UV = true;
+    } else {
+      defines.GLSL_MESH_NO_UV = true;
+    }
+  }
+
   return (0, _shader.Shader)(ctx, _extends({
     vertexShader: function vertexShader(_ref3) {
       var vs = _ref3.vertexShader;
@@ -5334,12 +5402,7 @@ function MeshShader(ctx) {
     }
   }, initialState, {
 
-    defines: _extends({
-      GLSL_MESH_HAS_POSITION: Boolean(geometry && geometry.positions),
-      GLSL_MESH_HAS_NORMAL: Boolean(geometry && geometry.normals),
-      GLSL_MESH_HAS_UV: Boolean(geometry && geometry.uvs)
-
-    }, initialState.defines)
+    defines: _extends({}, initialState.defines, defines)
   }));
 }
 
@@ -5926,16 +5989,8 @@ function ShaderAttributes(ctx, initialState, props) {
   if ('object' != (typeof props === 'undefined' ? 'undefined' : _typeof(props))) {
     props = initialState;
   }
-  var _attributes = new _core.WebGLShaderAttributes(ctx, initialState, props);
-  return ctx.regl({
-    attributes: _attributes,
-    context: {
-      attributes: function attributes(_ref) {
-        var prev = _ref.attributes;
-        return Object.assign({}, prev, _attributes);
-      }
-    }
-  });
+  var attributes = new _core.WebGLShaderAttributes(ctx, initialState, props);
+  return ctx.regl({ attributes: attributes, context: { attributes: attributes } });
 }
 
 /**
@@ -5954,10 +6009,8 @@ function ShaderInstancedAttributes(ctx, initialState, props) {
   if ('object' != (typeof props === 'undefined' ? 'undefined' : _typeof(props))) {
     props = initialState;
   }
-  var _attributes2 = new _core.WebGLShaderInstancedAttributes(ctx, initialState, props);
-  return ctx.regl({ attributes: _attributes2, context: { attributes: function attributes() {
-        return _attributes2;
-      } } });
+  var attributes = new _core.WebGLShaderInstancedAttributes(ctx, initialState, props);
+  return ctx.regl({ attributes: attributes, context: { attributes: attributes } });
 }
 
 },{"../core":49}],91:[function(_dereq_,module,exports){
@@ -6375,16 +6428,8 @@ function ShaderUniforms(ctx, initialState, props) {
   if ('object' != (typeof props === 'undefined' ? 'undefined' : _typeof(props))) {
     props = initialState;
   }
-  var _uniforms = new _core.WebGLShaderUniforms(ctx, initialState, props);
-  return ctx.regl({
-    uniforms: _uniforms,
-    context: {
-      uniforms: function uniforms(_ref) {
-        var prev = _ref.uniforms;
-        return Object.assign({}, prev, _uniforms);
-      }
-    }
-  });
+  var uniforms = new _core.WebGLShaderUniforms(ctx, initialState, props);
+  return ctx.regl({ uniforms: uniforms, context: { uniforms: uniforms } });
 }
 
 },{"../core":49}],95:[function(_dereq_,module,exports){
@@ -6666,6 +6711,7 @@ function TexturePointerContext(ctx) {
   var defaultTexture = ctx.regl.texture(defaults);
   var textureBuffer = ctx.regl.texture((0, _reglExtend.texture)(initialState));
   var textureMap = new WeakMap();
+  var videoUploadTimestamps = new WeakMap();
   return (0, _scope.ScopedContext)(ctx, {
     texturePointer: function texturePointer(_ref) {
       var textureData = _ref.textureData;
@@ -6701,8 +6747,6 @@ function TexturePointerContext(ctx) {
         if ((0, _utils2.isVideo)(textureData)) {
           if (!textureMap.has(textureData)) {
             createTexture();
-          } else if (subimage) {
-            subimageTexture();
           } else {
             updateTexture();
           }
@@ -6749,7 +6793,22 @@ function TexturePointerContext(ctx) {
       }
 
       function updateTexture() {
-        if (textureOwnsData(textureData)) {
+        if (false == textureOwnsData(textureData)) {
+          return;
+        }
+        if ((0, _utils2.isVideo)(textureData)) {
+          var lastUpload = videoUploadTimestamps.get(textureData) || 0;
+          if (!lastUpload || Date.now() - lastUpload > 16) {
+            if (subimage) {
+              subimageTexture();
+            } else {
+              texture(data);
+            }
+            videoUploadTimestamps.set(textureData, Date.now());
+          }
+        } else if (subimage) {
+          subimageTexture();
+        } else {
           texture(data);
         }
       }
@@ -6785,6 +6844,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var uniformName = exports.uniformName = 'tex2d';
+var colorSpace = exports.colorSpace = 'browser';
+var format = exports.format = 'rgba';
 var min = exports.min = 'linear';
 var mag = exports.mag = 'linear';
 
@@ -6894,22 +6955,29 @@ function _interopRequireWildcard(obj) {
   }
 }
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+  } else {
+    obj[key] = value;
+  }return obj;
+}
+
 function TextureShaderUniforms(ctx) {
+  var _ShaderUniforms;
+
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   (0, _utils.assignDefaults)(initialState, defaults);
   var uniformName = initialState.uniformName;
 
-  return (0, _shader.ShaderUniforms)(ctx, { prefix: uniformName + '.' }, {
-    resolution: function resolution(_ref) {
-      var textureResolution = _ref.textureResolution;
-      return textureResolution;
-    },
-    data: function data(_ref2) {
-      var texturePointer = _ref2.texturePointer;
-      return texturePointer;
-    }
-  });
+  return (0, _shader.ShaderUniforms)(ctx, {}, (_ShaderUniforms = {}, _defineProperty(_ShaderUniforms, uniformName + 'Resolution', function undefined(_ref) {
+    var textureResolution = _ref.textureResolution;
+    return textureResolution;
+  }), _defineProperty(_ShaderUniforms, uniformName, function (_ref2) {
+    var texturePointer = _ref2.texturePointer;
+    return texturePointer;
+  }), _ShaderUniforms));
 }
 
 },{"../../shader":92,"../../utils":116,"./defaults":100}],104:[function(_dereq_,module,exports){
@@ -7128,22 +7196,14 @@ function _interopRequireWildcard(obj) {
   }
 }
 
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }return arr2;
-  } else {
-    return Array.from(arr);
-  }
-}
-
 function CubeTexturePointerContext(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   (0, _utils.assignDefaults)(initialState, defaults);
-  var cubeTexture = ctx.regl.cube((0, _reglExtend.texture)(initialState));
   var faces = Array(6).fill(null);
+
+  var cubeTexture = ctx.regl.cube(Object.assign((0, _reglExtend.texture)(initialState), { colorSpace: 'browser' }));
+
   return (0, _scope.ScopedContext)(ctx, {
     // @TODO - support subimage updates
     cubeTexturePointer: function cubeTexturePointer(_ref) {
@@ -7167,7 +7227,8 @@ function CubeTexturePointerContext(ctx) {
         }
       }
       if (needsUpload) {
-        cubeTexture.apply(undefined, _toConsumableArray(faces));
+        var args = Object.assign({}, (0, _reglExtend.texture)(initialState), { faces: faces });
+        cubeTexture(args);
       }
       return cubeTexture;
     }
@@ -7181,6 +7242,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var uniformName = exports.uniformName = 'texCube';
+var colorSpace = exports.colorSpace = 'browser';
+var format = exports.format = 'rgba';
 var min = exports.min = 'linear';
 var mag = exports.mag = 'linear';
 
@@ -7249,22 +7312,29 @@ function _interopRequireWildcard(obj) {
   }
 }
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+  } else {
+    obj[key] = value;
+  }return obj;
+}
+
 function CubeTextureShaderUniforms(ctx) {
+  var _ShaderUniforms;
+
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   (0, _utils.assignDefaults)(initialState, defaults);
   var uniformName = initialState.uniformName;
 
-  return (0, _shader.ShaderUniforms)(ctx, { prefix: uniformName + '.' }, {
-    resolution: function resolution(_ref) {
-      var cubeTextureResolution = _ref.cubeTextureResolution;
-      return cubeTextureResolution;
-    },
-    data: function data(_ref2) {
-      var cubeTexturePointer = _ref2.cubeTexturePointer;
-      return cubeTexturePointer;
-    }
-  });
+  return (0, _shader.ShaderUniforms)(ctx, (_ShaderUniforms = {}, _defineProperty(_ShaderUniforms, uniformName + 'Resolution', function undefined(_ref) {
+    var cubeTextureResolution = _ref.cubeTextureResolution;
+    return cubeTextureResolution;
+  }), _defineProperty(_ShaderUniforms, uniformName, function (_ref2) {
+    var cubeTexturePointer = _ref2.cubeTexturePointer;
+    return cubeTexturePointer;
+  }), _ShaderUniforms));
 }
 
 },{"../../shader":92,"../../utils":116,"./defaults":109}],113:[function(_dereq_,module,exports){
@@ -7304,7 +7374,7 @@ Object.keys(_d).forEach(function (key) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isImage = exports.isVideo = exports.isCanvas = undefined;
+exports.isImage = exports.isVideo = exports.isCanvas = exports.HAVE_ENOUGH_DATA = exports.HAVE_FUTURE_DATA = exports.HAVE_CURRENT_DATA = exports.HAVE_METADATA = exports.HAVE_NOTHING = undefined;
 exports.isTextureDataReady = isTextureDataReady;
 exports.getTextureDataResolution = getTextureDataResolution;
 exports.isCubeTextureDataReady = isCubeTextureDataReady;
@@ -7325,9 +7395,22 @@ var HTMLImageElement = _window2.default.HTMLImageElement;
 // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState
 
 var _ref = HTMLVideoElement || {};
+var _ref$HAVE_NOTHING = _ref.HAVE_NOTHING;
+var HAVE_NOTHING = _ref$HAVE_NOTHING === undefined ? 0 : _ref$HAVE_NOTHING;
+var _ref$HAVE_METADATA = _ref.HAVE_METADATA;
+var HAVE_METADATA = _ref$HAVE_METADATA === undefined ? 1 : _ref$HAVE_METADATA;
 var _ref$HAVE_CURRENT_DAT = _ref.HAVE_CURRENT_DATA;
 var HAVE_CURRENT_DATA = _ref$HAVE_CURRENT_DAT === undefined ? 2 : _ref$HAVE_CURRENT_DAT;
+var _ref$HAVE_FUTURE_DATA = _ref.HAVE_FUTURE_DATA;
+var HAVE_FUTURE_DATA = _ref$HAVE_FUTURE_DATA === undefined ? 3 : _ref$HAVE_FUTURE_DATA;
+var _ref$HAVE_ENOUGH_DATA = _ref.HAVE_ENOUGH_DATA;
+var HAVE_ENOUGH_DATA = _ref$HAVE_ENOUGH_DATA === undefined ? 4 : _ref$HAVE_ENOUGH_DATA;
 
+exports.HAVE_NOTHING = HAVE_NOTHING;
+exports.HAVE_METADATA = HAVE_METADATA;
+exports.HAVE_CURRENT_DATA = HAVE_CURRENT_DATA;
+exports.HAVE_FUTURE_DATA = HAVE_FUTURE_DATA;
+exports.HAVE_ENOUGH_DATA = HAVE_ENOUGH_DATA;
 var isCanvas = exports.isCanvas = function isCanvas(d) {
   return d instanceof HTMLCanvasElement;
 };
@@ -7384,7 +7467,7 @@ function getCubeTextureDataResolution(data) {
     data = data.filter(function (d) {
       return d;
     }).filter(function (d) {
-      return isImage(d) || isVideo(d) || d.shape.every(Boolean);
+      return isImage(d) || isVideo(d) || d.shape && d.shape.every(Boolean);
     })[0];
     return getCubeTextureDataResolution(data);
   }
@@ -7524,7 +7607,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.6.1';
+var kLibraryVersion = '0.6.2';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
