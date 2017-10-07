@@ -69,6 +69,9 @@ const libglsl = {
 
 const vertexShader = `
 #define GLSL_MESH_HAS_POSITION
+#define GLSL_MESH_NO_UV
+#define GLSL_MESH_NO_NORMAL
+
 #define GLSL_VERTEX_MAIN_TRANSFORM Transform
 
 #include "linevoffset"
@@ -77,16 +80,18 @@ const vertexShader = `
 #include <time/time>
 #include <frame/frame>
 #include <frame/uniforms>
+
 #include <varying/uv>
 #include <varying/emit/uv>
+
 #include <mesh/vertex/main>
 
 attribute vec3 nextPosition;
 attribute float direction;
 uniform float thickness;
 
-vec3 xpos (vec3 p) {
-  return (1.0 + snoise(vec4(p, GetTime()*0.2))*0.4) * p;
+vec3 xpos(vec3 p) {
+  return p*(1.0 + snoise(vec4(p, GetTime()*0.2))*0.4);
 }
 
 void Transform(inout vec4 vertexPosition, inout VaryingData data) {
@@ -138,19 +143,22 @@ const feedbackMaterial = Entity(ctx,
 
         #include "./noise"
 
-        #include <texture/2d>
-        #include <varying/uv>
-        #include <varying/read>
-        #include <varying/data>
-        #include <frame/frame>
-        #include <frame/uniforms>
-        #include <fragment/main>
         #include <time/time>
 
-        uniform Texture2D ${textureUniformName};
+        #include <varying/uv>
+        #include <varying/data>
+        #include <varying/read>
+
+        #include <frame/frame>
+        #include <frame/uniforms>
+
+        #include <texture/2d>
+        #include <texture/uniforms>
+
+        #include <fragment/main>
 
         void Main(inout vec4 fragColor, inout VaryingData data) {
-          fragColor = texture2D(${textureUniformName}.data, data.uv);
+          fragColor = texture2D(${textureUniformName}, data.uv);
           fragColor.a = 1.0;
         }
 
@@ -167,12 +175,12 @@ const feedbackMaterial = Entity(ctx,
         void Transform(inout vec4 fragColor, inout VaryingData data) {
           const int n = 16;
           float d = 0.001;
-          vec3 c = texture2D(${textureUniformName}.data, data.uv).rgb;
+          vec3 c = texture2D(${textureUniformName}, data.uv).rgb;
           for (int i = 0; i < n; i++) {
-            c += texture2D(${textureUniformName}.data,data.uv+vec2(d,d)).rgb;
-            c += texture2D(${textureUniformName}.data,data.uv+vec2(-d,d)).rgb;
-            c += texture2D(${textureUniformName}.data,data.uv+vec2(d,-d)).rgb;
-            c += texture2D(${textureUniformName}.data,data.uv+vec2(-d,-d)).rgb;
+            c += texture2D(${textureUniformName}, data.uv+vec2(d,d)).rgb;
+            c += texture2D(${textureUniformName}, data.uv+vec2(-d,d)).rgb;
+            c += texture2D(${textureUniformName}, data.uv+vec2(d,-d)).rgb;
+            c += texture2D(${textureUniformName}, data.uv+vec2(-d,-d)).rgb;
             d *= 1.6;
           }
           fragColor.rgb = c*0.9/(1.0+float(n)*2.0); // blur
@@ -188,7 +196,7 @@ const feedbackMaterial = Entity(ctx,
       #define GLSL_VERTEX_MAIN_AFTER After
 
       #include <varying/uv>
-      #include <varying/emit/uv>
+      #include <varying/emit>
       #include <mesh/vertex/main>
 
       void After(inout vec4 vertexPosition, inout VaryingData data) {
@@ -221,7 +229,9 @@ function scene({time, clear, cancel, cancelAll}) {
               material({color: [0.8, 0.3, 0.4]}, () => {
                 const t = clamp(Math.cos(0.5*time), 0, 1)
                 const f = 0.25 - (0.1 + eases.cubicInOut(t))
-                uniforms({thickness: f}, () => { bunny({}) })
+                uniforms({thickness: f}, () => {
+                  bunny({})
+                })
               })
             })
           })
