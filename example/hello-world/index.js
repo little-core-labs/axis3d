@@ -24,9 +24,11 @@ const ctx = new Context()
 const material = new Material(ctx)
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
-
+const Box = PrimitiveCube(20, 20, 20)
 const bunny = new Mesh(ctx, {geometry: Bunny})
-const box = new Mesh(ctx, {geometry: PrimitiveCube(20, 20, 20)})
+const box = new Mesh(ctx, {geometry: Box})
+
+window.bunny = bunny
 
 const rotation = quat.identity([])
 const position = [25, 25, 25]
@@ -49,6 +51,7 @@ function scene({time, cancelAll}) {
     material({color}, ({}) => {
       box({scale: 1, wireframe: true}, ({size, transform, matrix}) => {
         const [x, y, z] = size
+        //const [x, y, z] = [20, 20, 20]
         bunny([
           {position: [0, 0, 0,]},
           {position: [0.5*x, 0.5*y, 0.5*z]},

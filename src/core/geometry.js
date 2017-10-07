@@ -4,6 +4,7 @@ import flatten from 'array-flatten'
 import reindex from 'mesh-reindex'
 import unindex from 'unindex-mesh'
 import normals from 'normals'
+import vec2 from 'gl-vec2'
 
 export class Geometry {
   constructor(opts = {}) {
@@ -17,7 +18,7 @@ export class Geometry {
   }
 
   set complex(complex) {
-    if (complex instanceof Geometry) { complex = complex.complex }
+    if (complex.complex) { complex = complex.complex }
     if (complex) {
       if (complex.positions) { ensure3D(complex.positions) }
       if (complex.normals) { ensure3D(complex.normals) }
@@ -41,15 +42,35 @@ export class Geometry {
             complex.positions)
         } catch (e) { console.warn("Unable to compute vertex normals.") }
       }
+
+      if (complex.uvs) {
+        ensure2D(complex.uvs)
+      } else {
+        complex.uvs = complex.positions.map((p) => {
+          return vec2.normalize([], p.slice(0, 2))
+        })
+      }
     }
 
     function ensure3D(nodes) {
       for (const node of nodes) {
-        for (let i = 0; i < 3; ++i) {
-          if (null == node[i]) { node[i] = 0 }
-        }
+        ensureVectorLength(3, node)
       }
     }
+
+    function ensure2D(nodes) {
+      for (const node of nodes) {
+        ensureVectorLength(2, node)
+      }
+    }
+
+    function ensureVectorLength(length, vector) {
+      for (let i = 0; i < length; ++i) {
+        if (null == vector[i]) { vector[i] = 0 }
+      }
+      vector.splice(length)
+    }
+
 
     Object.assign(this._complex, complex)
     return complex

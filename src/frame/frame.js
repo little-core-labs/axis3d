@@ -22,6 +22,7 @@ const noop = () => void 0
 export function Frame(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
   const injectFrame = Entity(ctx, initialState,
+    ScopedContext(ctx, { frames: () => frames, loop: () => loop }),
     FrameContext(ctx, initialState),
     FrameState(ctx, initialState),
   )
@@ -55,7 +56,29 @@ export function Frame(ctx, initialState = {}) {
   }
 
   function enqueueFrameCallback(args, callback) {
-    const injectContext = ScopedContext(ctx, {frame: () => frame, frames, loop})
+    const injectContext = ScopedContext(ctx, {
+      frame: () => frame,
+      cancel({frames}) {
+        return () => {
+          if (frame) {
+            frame.cancel()
+            frames.splice(frames.indexOf(frame), 1)
+          }
+        }
+      },
+      cancelAll() {
+        return () => {
+          if (frames) {
+            for (const f of frames) { f.cancel() }
+            frames.splice(0, frames.length)
+          }
+          if (loop) {
+            loop.cancel()
+            loop = null
+          }
+        }
+      }
+    })
     const frame = createFrameCallback(callback, injectContext)
     return frames.push(frame)
   }

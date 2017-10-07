@@ -13,6 +13,14 @@ const {
   HAVE_ENOUGH_DATA = 4,
 } = (HTMLVideoElement || {})
 
+export {
+  HAVE_NOTHING,
+  HAVE_METADATA,
+  HAVE_CURRENT_DATA,
+  HAVE_FUTURE_DATA,
+  HAVE_ENOUGH_DATA,
+}
+
 export const isCanvas = (d) => d instanceof HTMLCanvasElement
 export const isVideo = (d) => d instanceof HTMLVideoElement
 export const isImage = (d) => d instanceof HTMLImageElement
@@ -58,7 +66,7 @@ export function getCubeTextureDataResolution(data) {
   if (Array.isArray(data)) {
     data = data
       .filter((d) => d)
-      .filter((d) => isImage(d) || isVideo(d) || d.shape.every(Boolean))
+      .filter((d) => isImage(d) || isVideo(d) || (d.shape && d.shape.every(Boolean)))
       [0]
     return getCubeTextureDataResolution(data)
   }

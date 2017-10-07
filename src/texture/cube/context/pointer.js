@@ -13,8 +13,12 @@ import {
 
 export function CubeTexturePointerContext(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
-  const cubeTexture = ctx.regl.cube(extend(initialState))
   let faces = Array(6).fill(null)
+
+  const cubeTexture = ctx.regl.cube(
+    Object.assign(extend(initialState), {colorSpace: 'browser'})
+  )
+
   return ScopedContext(ctx, {
     // @TODO - support subimage updates
     cubeTexturePointer({cubeTextureData}) {
@@ -35,7 +39,10 @@ export function CubeTexturePointerContext(ctx, initialState = {}) {
           faces[i] = {shape: resolution}
         }
       }
-      if (needsUpload) { cubeTexture(...faces) }
+      if (needsUpload) {
+        const args = Object.assign({}, extend(initialState), {faces})
+        cubeTexture(args)
+      }
       return cubeTexture
     }
   })

@@ -1,3 +1,5 @@
 export const uniformName = 'texCube'
+export const colorSpace = 'browser'
+export const format = 'rgba'
 export const min = 'linear'
 export const mag = 'linear'

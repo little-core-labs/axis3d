@@ -23,9 +23,13 @@ import glsl from 'glslify'
 
 const ctx = new Context()
 
+ctx.on('error', (err) => {
+  console.log(err.stack || err);
+})
+
 const cubeTexture = new CubeTexture(ctx)
 const material = new Material(ctx)
-const texture = new Texture(ctx, {})
+const texture = new Texture(ctx)
 const geometry = PrimitiveCube()
 const camera = new PerspectiveCamera(ctx)
 const frame = new Frame(ctx)
@@ -41,43 +45,55 @@ const up = new Image(); up.src = 'assets/criminal-impact_up.jpg'
 
 const injectGlsl = new ScopedContext(ctx, {
   glsl({textureUniformName, cubeTextureUniformName}) {
-    let glsl = `
-      #define GLSL_FRAGMENT_MAIN_AFTER After
+    let includes = ''
+    let defines = ''
+    let source = ''
+
+    includes += `
       #include <varying/data>
       #include <time/time>
-      `
-    let after = `
-        void After(inout vec4 fragColor, inout VaryingData data) {
-      `
+    `
+
+    defines += `
+      #define GLSL_FRAGMENT_MAIN_AFTER After
+    `
+
+    source += `
+      void After(inout vec4 fragColor, inout VaryingData data) {
+    `
+
     if (textureUniformName) {
-      glsl += `
+      includes += `
         #include <varying/uv>
         #include <texture/2d>
-        uniform Texture2D ${textureUniformName};
-        `
-      after += `
-          fragColor = mix(fragColor, texture2D(${textureUniformName}.data, data.uv), 0.25);
-          //fragColor = texture2D(${textureUniformName}.data, data.uv);
-        `
+      `
+      source += `
+        fragColor = mix(fragColor, texture2D(${textureUniformName}, data.uv), 0.25);
+        //fragColor = texture2D(${textureUniformName}, data.uv);
+      `
     }
 
     if (cubeTextureUniformName) {
-      glsl += `
-        #define GLSL_FRAGMENT_MAIN_AFTER After
+      includes += `
         #include <varying/position>
-        #include <varying/data>
         #include <texture/cube>
-        uniform TextureCube ${cubeTextureUniformName};
-        `
+      `
 
-      after += `
-          fragColor = mix(fragColor, textureCube(${cubeTextureUniformName}.data, data.localPosition), 0.8);
-          //fragColor = textureCube(${cubeTextureUniformName}.data, data.localPosition);
-        `
+      source += `
+        fragColor = mix(fragColor, textureCube(${cubeTextureUniformName}, data.localPosition), 0.8);
+        //fragColor = textureCube(${cubeTextureUniformName}, data.localPosition);
+      `
     }
 
-    after += '}'
-    return glsl + after
+    includes += `
+      #include <texture/uniforms>
+    `
+
+    source += `
+      }
+    `
+
+    return { includes, defines, source }
   }
 })
 
@@ -132,17 +148,23 @@ const vertexShader = new Shader(ctx, {
 })
 
 const fragmentShader = new Shader(ctx, {
-  fragmentShader: ({glsl}) => `
+  fragmentShader: ({glsl}) => {
+  return `
   #define GLSL_FRAGMENT_MAIN_TRANSFORM Transform
 
-  ${glsl || ''}
+  ${glsl && glsl.defines || ''}
+  ${glsl && glsl.includes || ''}
 
   #include <mesh/fragment>
   #include <varying/color>
   #include <varying/read>
   #include <time/time>
 
+
   #include <fragment/main>
+
+  ${glsl && glsl.source  || ''}
+
 
   void Main(inout vec4 fragColor, inout VaryingData data) {
     fragColor = MeshFragment(data.color);
@@ -155,6 +177,7 @@ const fragmentShader = new Shader(ctx, {
     fragColor.r += s/(x + y);
   }
   `
+  }
 })
 
 const cubeTextureData = []
@@ -187,7 +210,6 @@ function scene({cancelAll: cancel, time}) {
     texture({data: image}, () => {
       cubeTexture({data: cubeTextureData}, () => {
         draw()
-        cancel()
       })
     })
   })
