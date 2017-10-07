@@ -26,6 +26,18 @@ export function MeshShader(ctx, initialState = {}) {
     vertexShader = MeshShader.createVertexShader({uniformName}),
     fragmentShader = MeshShader.createFragmentShader({uniformName})
   } = initialState
+  const { defines = {} } = initialState
+  if (geometry) {
+    if (geometry.positions) { defines.GLSL_MESH_HAS_POSITION = true }
+    else { defines.GLSL_MESH_NO_POSITION = true }
+
+    if (geometry.normals) { defines.GLSL_MESH_HAS_NORMAL = true }
+    else { defines.GLSL_MESH_NO_NORMAL = true }
+
+    if (geometry.uvs) { defines.GLSL_MESH_HAS_UV = true }
+    else { defines.GLSL_MESH_NO_UV = true }
+  }
+
   return Shader(ctx, {
     vertexShader({vertexShader: vs}) {
       return 'string' == typeof vs ? vs : vertexShader
@@ -37,12 +49,6 @@ export function MeshShader(ctx, initialState = {}) {
 
     ...initialState,
 
-    defines: {
-      GLSL_MESH_HAS_POSITION: Boolean(geometry && geometry.positions),
-      GLSL_MESH_HAS_NORMAL: Boolean(geometry && geometry.normals),
-      GLSL_MESH_HAS_UV: Boolean(geometry && geometry.uvs),
-
-      ...initialState.defines
-    },
+    defines: { ...initialState.defines, ...defines, },
   })
 }
