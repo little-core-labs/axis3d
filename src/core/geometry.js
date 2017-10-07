@@ -19,6 +19,7 @@ export class Geometry {
 
   /**
    * Geometry class constructor.
+   * @public
    * @constructor
    * @param {?(Object|Geometry)} [opts = {}] Context configuration, simplicial complex or Geometry instance
    * @param {?(Object)} [opts.complex] Simplicial complex object
@@ -41,6 +42,7 @@ export class Geometry {
 
   /**
    * Geometry simplicial complex.
+   * @public
    * @accessor
    * @type {Object}
    */
@@ -91,6 +93,7 @@ export class Geometry {
 
   /**
    * Geometry vertex positions.
+   * @public
    * @accessor
    * @readonly
    * @type {Array<Array<Number>>|null}
@@ -99,6 +102,7 @@ export class Geometry {
 
   /**
    * Geometry vertex normals.
+   * @public
    * @accessor
    * @readonly
    * @type {Array<Array<Number>>|null}
@@ -107,6 +111,7 @@ export class Geometry {
 
   /**
    * Geometry vertex faces (cells).
+   * @public
    * @accessor
    * @readonly
    * @type {Array<Array<Number>>|null}
@@ -116,6 +121,7 @@ export class Geometry {
 
   /**
    * Geometry vertex UVs (texture coordinates)..
+   * @public
    * @accessor
    * @readonly
    * @type {Array<Array<Number>>|null}
@@ -124,6 +130,7 @@ export class Geometry {
 
   /**
    * Computes and returns the bounding box of the geometry
+   * @public
    * @method
    * @return {Array<Array<Number>>|null}
    */
