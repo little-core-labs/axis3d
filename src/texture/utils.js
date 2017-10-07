@@ -66,7 +66,7 @@ export function getCubeTextureDataResolution(data) {
   if (Array.isArray(data)) {
     data = data
       .filter((d) => d)
-      .filter((d) => isImage(d) || isVideo(d) || d.shape.every(Boolean))
+      .filter((d) => isImage(d) || isVideo(d) || (d.shape && d.shape.every(Boolean)))
       [0]
     return getCubeTextureDataResolution(data)
   }
