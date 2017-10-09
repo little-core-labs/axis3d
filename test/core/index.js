@@ -1,5 +1,5 @@
-require('./context')
-require('./dynamic')
-require('./entity')
-require('./geometry')
-require('./shaderlib')
+import './context'
+import './dynamic'
+import './entity'
+import './geometry'
+import './shaderlib'
