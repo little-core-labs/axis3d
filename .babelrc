@@ -1,6 +1,9 @@
 {
   "presets": [ "es2015", "stage-0" ],
   "plugins": [
+    ["babel-plugin-transform-builtin-extend", {
+      "globals": ["Error", "TypeError"]
+    }],
     ["transform-define", "./plugins/babel/defines.js"],
     "transform-dead-code-elimination",
     "glslify"
