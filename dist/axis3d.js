@@ -43,7 +43,7 @@ function Camera(ctx) {
   return (0, _core.Entity)(ctx, initialState, (0, _context.CameraContext)(ctx, initialState));
 }
 
-},{"../core":49,"../utils":116,"./context":4,"./defaults":8}],2:[function(_dereq_,module,exports){
+},{"../core":49,"../utils":119,"./context":4,"./defaults":8}],2:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -94,7 +94,7 @@ function CameraContext(ctx, initialState) {
   return (0, _core.Entity)(ctx, initialState, (0, _object3d.Object3DContext)(ctx, initialState), (0, _info.CameraInfoContext)(ctx, initialState), (0, _utils.isolate)((0, _view.CameraViewContext)(ctx, initialState)), (0, _inverseView.CameraInverseViewContext)(ctx, initialState), (0, _eye.CameraEyeContext)(ctx, initialState));
 }
 
-},{"../../core":49,"../../object3d":86,"../../utils":116,"../defaults":8,"./eye":3,"./info":5,"./inverse-view":6,"./view":7}],3:[function(_dereq_,module,exports){
+},{"../../core":49,"../../object3d":89,"../../utils":119,"../defaults":8,"./eye":3,"./info":5,"./inverse-view":6,"./view":7}],3:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -134,7 +134,7 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-var kMat4Identity = _glMat2.default.identity([]
+var kMat4Identity = _glMat2.default.identity([]);
 
 /**
  * CameraEyeContext(ctx, initialState = {}) -> (args, scope) -> Any
@@ -144,7 +144,7 @@ var kMat4Identity = _glMat2.default.identity([]
  * @param {Object} initialState
  * @return {Function}
  */
-);function CameraEyeContext(ctx) {
+function CameraEyeContext(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   (0, _utils.assignDefaults)(initialState, defaults);
@@ -182,7 +182,7 @@ function copy(a, b) {
   }
 }
 
-},{"../../scope":89,"../../utils":116,"../defaults":8,"eye-vector":131,"gl-mat4":160}],4:[function(_dereq_,module,exports){
+},{"../../scope":92,"../../utils":119,"../defaults":8,"eye-vector":134,"gl-mat4":163}],4:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -289,7 +289,7 @@ function _interopRequireWildcard(obj) {
   }
 }
 
-var kMat4Identity = _glMat2.default.identity([]
+var kMat4Identity = _glMat2.default.identity([]);
 
 /**
  * CameraInfoContext(ctx, initialState = {}) -> (args, scope) -> Any
@@ -299,7 +299,7 @@ var kMat4Identity = _glMat2.default.identity([]
  * @param {Object} initialState
  * @return {Function}
  */
-);function CameraInfoContext(ctx) {
+function CameraInfoContext(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   (0, _utils.assignDefaults)(initialState, defaults);
@@ -337,7 +337,7 @@ var kMat4Identity = _glMat2.default.identity([]
   });
 }
 
-},{"../../scope":89,"../../utils":116,"../defaults":8,"gl-mat4":160,"gl-vec3":242}],6:[function(_dereq_,module,exports){
+},{"../../scope":92,"../../utils":119,"../defaults":8,"gl-mat4":163,"gl-vec3":245}],6:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -373,7 +373,7 @@ function _interopRequireWildcard(obj) {
   }
 }
 
-var kMat4Identity = _glMat2.default.identity([]
+var kMat4Identity = _glMat2.default.identity([]);
 
 /**
  * CameraInverseViewContext(ctx, initialState = {}) -> (args, scope) -> Any
@@ -383,7 +383,7 @@ var kMat4Identity = _glMat2.default.identity([]
  * @param {Object} initialState
  * @return {Function}
  */
-);function CameraInverseViewContext(ctx, initialState) {
+function CameraInverseViewContext(ctx, initialState) {
   (0, _utils.assignDefaults)(initialState, defaults);
   var _invertedView = new Float32Array(16);
   var previousView = new Float32Array(16);
@@ -419,7 +419,7 @@ function copy(a, b) {
   }
 }
 
-},{"../../scope":89,"../../utils":116,"../defaults":8,"gl-mat4":160}],7:[function(_dereq_,module,exports){
+},{"../../scope":92,"../../utils":119,"../defaults":8,"gl-mat4":163}],7:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -544,7 +544,7 @@ function copy(a, b) {
   }
 }
 
-},{"../../core":49,"../../object3d/context":82,"../../scope":89,"../../utils":116,"../defaults":8,"gl-mat4":160,"gl-quat":185}],8:[function(_dereq_,module,exports){
+},{"../../core":49,"../../object3d/context":85,"../../scope":92,"../../utils":119,"../defaults":8,"gl-mat4":163,"gl-quat":188}],8:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -567,7 +567,7 @@ var direction = exports.direction = [0, 0, -1];
 var target = exports.target = [0, 0, 0];
 var up = exports.up = [0, 1, 0];
 
-},{"../object3d/defaults":85}],9:[function(_dereq_,module,exports){
+},{"../object3d/defaults":88}],9:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -676,7 +676,7 @@ function lookAt(direction, target, position, up) {
   }
 }
 
-},{"gl-vec3":242}],11:[function(_dereq_,module,exports){
+},{"gl-vec3":245}],11:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -721,7 +721,7 @@ function OrthographicCameraContext(ctx) {
   return (0, _core.Entity)(ctx, initialState, (0, _object3d.Object3DContext)(ctx, initialState), (0, _context.CameraInfoContext)(ctx, initialState), (0, _info.OrthographicCameraInfoContext)(ctx, initialState), (0, _utils.isolate)((0, _view.OrthographicCameraViewContext)(ctx, initialState)), (0, _context.CameraInverseViewContext)(ctx, initialState), (0, _projection.OrthographicCameraProjectionContext)(ctx, initialState), (0, _context.CameraEyeContext)(ctx, initialState));
 }
 
-},{"../../../core":49,"../../../object3d":86,"../../../utils":116,"../../context":4,"../defaults":16,"./info":13,"./projection":14,"./view":15}],12:[function(_dereq_,module,exports){
+},{"../../../core":49,"../../../object3d":89,"../../../utils":119,"../../context":4,"../defaults":16,"./info":13,"./projection":14,"./view":15}],12:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -824,7 +824,7 @@ function OrthographicCameraInfoContext(ctx) {
   }));
 }
 
-},{"../../../core":49,"../../../scope":89,"../../../utils":116,"../../perspective":25,"../defaults":16}],14:[function(_dereq_,module,exports){
+},{"../../../core":49,"../../../scope":92,"../../../utils":119,"../../perspective":25,"../defaults":16}],14:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -882,7 +882,7 @@ function OrthographicCameraProjectionContext(ctx) {
   });
 }
 
-},{"../../../scope":89,"../../../utils":116,"../defaults":16,"gl-mat4":160}],15:[function(_dereq_,module,exports){
+},{"../../../scope":92,"../../../utils":119,"../defaults":16,"gl-mat4":163}],15:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -917,7 +917,7 @@ function OrthographicCameraViewContext(ctx) {
   return (0, _perspective.PerspectiveCameraViewContext)(ctx, initialState);
 }
 
-},{"../../../utils":116,"../../perspective":25,"../defaults":16}],16:[function(_dereq_,module,exports){
+},{"../../../utils":119,"../../perspective":25,"../defaults":16}],16:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1004,7 +1004,7 @@ function OrthographicCamera(ctx) {
   return (0, _context.OrthographicCameraContext)(ctx, initialState);
 }
 
-},{"../../utils":116,"./context":12,"./defaults":16}],19:[function(_dereq_,module,exports){
+},{"../../utils":119,"./context":12,"./defaults":16}],19:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1049,7 +1049,7 @@ function PerspectiveCameraContext(ctx) {
   return (0, _core.Entity)(ctx, initialState, (0, _object3d.Object3DContext)(ctx, initialState), (0, _context.CameraInfoContext)(ctx, initialState), (0, _info.PerspectiveCameraInfoContext)(ctx, initialState), (0, _utils.isolate)((0, _view.PerspectiveCameraViewContext)(ctx, initialState)), (0, _context.CameraInverseViewContext)(ctx, initialState), (0, _projection.PerspectiveCameraProjectionContext)(ctx, initialState), (0, _context.CameraEyeContext)(ctx, initialState));
 }
 
-},{"../../../core":49,"../../../object3d":86,"../../../utils":116,"../../context":4,"../defaults":24,"./info":21,"./projection":22,"./view":23}],20:[function(_dereq_,module,exports){
+},{"../../../core":49,"../../../object3d":89,"../../../utils":119,"../../context":4,"../defaults":24,"./info":21,"./projection":22,"./view":23}],20:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1155,7 +1155,7 @@ function PerspectiveCameraInfoContext(ctx) {
   });
 }
 
-},{"../../../scope":89,"../../../utils":116,"../defaults":24}],22:[function(_dereq_,module,exports){
+},{"../../../scope":92,"../../../utils":119,"../defaults":24}],22:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1222,7 +1222,7 @@ function PerspectiveCameraProjectionContext(ctx) {
   });
 }
 
-},{"../../../scope":89,"../../../utils":116,"../defaults":24,"gl-mat4":160}],23:[function(_dereq_,module,exports){
+},{"../../../scope":92,"../../../utils":119,"../defaults":24,"gl-mat4":163}],23:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1305,7 +1305,7 @@ function PerspectiveCameraViewContext(ctx) {
   });
 }
 
-},{"../../../scope":89,"../../../utils":116,"../../look-at":10,"../defaults":24,"gl-mat4":160,"gl-quat":185,"gl-vec3":242}],24:[function(_dereq_,module,exports){
+},{"../../../scope":92,"../../../utils":119,"../../look-at":10,"../defaults":24,"gl-mat4":163,"gl-quat":188,"gl-vec3":245}],24:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1393,7 +1393,7 @@ function PerspectiveCamera(ctx) {
   return (0, _context.PerspectiveCameraContext)(ctx, initialState);
 }
 
-},{"../../utils":116,"./context":20,"./defaults":24}],27:[function(_dereq_,module,exports){
+},{"../../utils":119,"./context":20,"./defaults":24}],27:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1470,7 +1470,7 @@ function CameraShaderUniforms(ctx) {
   });
 }
 
-},{"../shader":92,"../utils":116,"./defaults":8}],28:[function(_dereq_,module,exports){
+},{"../shader":95,"../utils":119,"./defaults":8}],28:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1640,10 +1640,10 @@ var Context = exports.Context = function (_EventEmitter) {
       delete opts.gl.context;
     }
 
-    opts.element = (0, _defined2.default)(opts.element, opts.domElement
+    opts.element = (0, _defined2.default)(opts.element, opts.domElement);
 
     // derive container element
-    );if (opts.canvas && 'object' == _typeof(opts.canvas)) {
+    if (opts.canvas && 'object' == _typeof(opts.canvas)) {
       opts.regl.canvas = opts.canvas;
     } else if (opts.element && 'CANVAS' == opts.element.nodeName) {
       opts.regl.canvas = opts.element;
@@ -1925,7 +1925,7 @@ var Context = exports.Context = function (_EventEmitter) {
   return Context;
 }(_events.EventEmitter);
 
-},{"@littlstar/regl":118,"defined":127,"dom-events":128,"events":129,"global/document":275,"global/window":276,"regl-combine":299}],29:[function(_dereq_,module,exports){
+},{"@littlstar/regl":121,"defined":130,"dom-events":131,"events":132,"global/document":278,"global/window":279,"regl-combine":302}],29:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2204,7 +2204,7 @@ function createAccessor(object, key) {
   }
 }
 
-},{"defined":127}],30:[function(_dereq_,module,exports){
+},{"defined":130}],30:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2212,6 +2212,32 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _slicedToArray = function () {
+  function sliceIterator(arr, i) {
+    var _arr = [];var _n = true;var _d = false;var _e = undefined;try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;_e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"]) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }return _arr;
+  }return function (arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      return sliceIterator(arr, i);
+    } else {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+  };
+}();
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -2231,6 +2257,8 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 
 exports.Entity = Entity;
 
+var _errors = _dereq_('../errors');
+
 var _context = _dereq_('./context');
 
 var _reglCombine = _dereq_('regl-combine');
@@ -2243,14 +2271,14 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-function _toConsumableArray(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }return arr2;
-  } else {
-    return Array.from(arr);
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
   }
+}
+
+function _objectDestructuringEmpty(obj) {
+  if (obj == null) throw new TypeError("Cannot destructure undefined");
 }
 
 /**
@@ -2267,14 +2295,18 @@ function _toConsumableArray(arr) {
  * @param {Context} ctx
  * @param {Object} initialState
  * @return {Function}
+ * @throws MissingContextError
+ * @throws BadArgumentError
  */
 function Entity(ctx, initialState) {
   for (var _len = arguments.length, components = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
     components[_key - 2] = arguments[_key];
   }
 
-  if (!ctx || 'object' != (typeof ctx === 'undefined' ? 'undefined' : _typeof(ctx)) || Array.isArray(ctx)) {
-    throw new TypeError("Entity(): Expecting context object.");
+  if (undefined === ctx) {
+    throw new _errors.MissingContextError('Entity');
+  } else if (null === ctx || 'object' != (typeof ctx === 'undefined' ? 'undefined' : _typeof(ctx)) || Array.isArray(ctx)) {
+    throw new _errors.BadArgumentError(0, 'ctx', ctx, 'object');
   }
 
   if (initialState) {
@@ -2284,7 +2316,7 @@ function Entity(ctx, initialState) {
     } else if ('function' == typeof initialState) {
       components.unshift(initialState);
     } else if ('object' != (typeof initialState === 'undefined' ? 'undefined' : _typeof(initialState))) {
-      throw new TypeError("Entity(): Expecting initial state to be an object.");
+      throw new _errors.BadArgumentError(1, 'initialState', initialState, 'object');
     }
   }
 
@@ -2295,21 +2327,58 @@ function Entity(ctx, initialState) {
   initialState = _extends({}, initialState);
 
   var entityId = generateEntityId();
+  var entityContext = ctx.regl({ context: new EntityContext(entityId) });
   var flatComponents = flattenComponents(initialState, components);
-  var combinedComponents = (0, _reglCombine.combine)(ctx.regl, [].concat(_toConsumableArray(flatComponents.components), [{ context: { entityId: entityId } }]));
+  var combinedComponents = (0, _reglCombine.combine)(ctx.regl, flatComponents.components);
 
   return Object.assign(function () {
-    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
+    for (var _len2 = arguments.length, vargs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      vargs[_key2] = arguments[_key2];
     }
 
-    return combinedComponents.apply(undefined, _toConsumableArray(parseArguments.apply(undefined, [initialState].concat(args))));
-  }, { initialState: initialState, components: components, combinedComponents: combinedComponents, entityId: entityId });
+    var _parseArguments = parseArguments.apply(undefined, [initialState].concat(vargs)),
+        _parseArguments2 = _slicedToArray(_parseArguments, 2),
+        kargs = _parseArguments2[0],
+        next = _parseArguments2[1];
+
+    return entityContext(kargs, function (_ref, args, batchId) {
+      _objectDestructuringEmpty(_ref);
+
+      return combinedComponents(args, function (ctx, cargs) {
+        return next(ctx, cargs, batchId);
+      });
+    });
+  }, {
+    combinedComponents: combinedComponents,
+    initialState: initialState,
+    components: components,
+    entityId: entityId
+  });
 }
+
+/**
+ * Entity context object wrapper.
+ */
+
+var EntityContext = function EntityContext(_entityId) {
+  _classCallCheck(this, EntityContext);
+
+  Object.assign(this, {
+    entityId: function entityId() {
+      return _entityId;
+    },
+    batchId: function batchId(_ref2, args, _batchId) {
+      _objectDestructuringEmpty(_ref2);
+
+      return _batchId;
+    }
+  });
+};
 
 /**
  * noop(void) -> void
  */
+
 var noop = function noop() {
   return void 0;
 };
@@ -2396,7 +2465,7 @@ function parseArguments(defaults, args, scope) {
   return [args, scope];
 }
 
-},{"./context":28,"extend":130,"regl-combine":299}],31:[function(_dereq_,module,exports){
+},{"../errors":53,"./context":28,"extend":133,"regl-combine":302}],31:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2716,7 +2785,7 @@ function ensureVectorLength(length, vector) {
   return vector;
 }
 
-},{"array-flatten":119,"bound-points":121,"defined":127,"gl-vec2":212,"mesh-reindex":290,"normals":291,"unindex-mesh":306}],32:[function(_dereq_,module,exports){
+},{"array-flatten":122,"bound-points":125,"defined":130,"gl-vec2":215,"mesh-reindex":293,"normals":295,"unindex-mesh":309}],32:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -2762,12 +2831,12 @@ function _inherits(subClass, superClass) {
   }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var shaderAttributesCounter = _dynamic.DynamicValue.createCounter
+var shaderAttributesCounter = _dynamic.DynamicValue.createCounter();
 
 /**
  * WebGLShaderAttributes representskj,n
  */
-();
+
 var WebGLShaderAttributes = exports.WebGLShaderAttributes = function (_DynamicValue) {
   _inherits(WebGLShaderAttributes, _DynamicValue);
 
@@ -3035,7 +3104,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_CAMERA_VARIABLES\n#define GLSL_CAMERA_VARIABLES\n\n#ifndef GLSL_CAMERA_UNIFORM_VARIABLE\n#define GLSL_CAMERA_UNIFORM_VARIABLE camera\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_CAMERA_UNIFORMS\n#define GLSL_CAMERA_UNIFORMS\n\n#include "./variables"\n\n#ifdef GLSL_CAMERA\nuniform Camera GLSL_CAMERA_UNIFORM_VARIABLE;\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/camera', '#define GLSLIFY 1\n#ifndef GLSL_CAMERA\n#define GLSL_CAMERA\n\nstruct Camera {\n  mat4 invertedView;\n  mat4 projection;\n  mat4 view;\n  vec3 eye;\n};\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/camera")
-},{"glslify":288}],36:[function(_dereq_,module,exports){
+},{"glslify":291}],36:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3052,7 +3121,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, _defineProperty({}, __dirname + '/common', '#define GLSLIFY 1\n#ifndef GLSL_COMMON\n#define GLSL_COMMON 1\n\n#ifndef M_PI\n#define M_PI 3.141592653589793\n#endif\n\n#ifndef M_E\n#define M_E 2.718281828459045\n#endif\n\n#endif\n'));
 
 }).call(this,"/lib/core/glsl/common")
-},{"glslify":288}],37:[function(_dereq_,module,exports){
+},{"glslify":291}],37:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3069,7 +3138,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, _defineProperty({}, __dirname + '/main', '#define GLSLIFY 1\n#ifndef GLSL_FRAGMENT_MAIN\n#define GLSL_FRAGMENT_MAIN\n\n#include "../varying/data"\n#include "../varying/read"\n\nvoid InitVarying(inout VaryingData varyingData);\nvoid BeforeMain(inout vec4 fragColor, inout VaryingData varyingData);\nvoid Main(inout vec4 fragColor, inout VaryingData data);\nvoid TransformMain(inout vec4 fragColor, inout VaryingData varyingData);\nvoid AfterMain(inout vec4 fragColor, inout VaryingData varyingData);\n\nvoid main() {\n  VaryingData varyingData = ReadVaryingData();\n  InitVarying(varyingData);\n  BeforeMain(gl_FragColor, varyingData);\n  Main(gl_FragColor, varyingData);\n  TransformMain(gl_FragColor, varyingData);\n  AfterMain(gl_FragColor, varyingData);\n}\n\n#ifdef GLSL_FRAGMENT_MAIN_BEFORE\n  void GLSL_FRAGMENT_MAIN_BEFORE(inout vec4 fragColor,\n                                 inout VaryingData varyingData);\n#endif\n\n#ifdef GLSL_FRAGMENT_MAIN_TRANSFORM\n  void GLSL_FRAGMENT_MAIN_TRANSFORM(inout vec4 fragColor,\n                                    inout VaryingData varyingData);\n#endif\n\n#ifdef GLSL_FRAGMENT_MAIN_AFTER\n  void GLSL_FRAGMENT_MAIN_AFTER(inout vec4 fragColor,\n                                inout VaryingData varyingData);\n#endif\n\nvoid BeforeMain(inout vec4 fragColor,\n                inout VaryingData varyingData) {\n#ifdef GLSL_FRAGMENT_MAIN_BEFORE\n  GLSL_FRAGMENT_MAIN_BEFORE(fragColor, varyingData);\n#endif\n}\n\nvoid TransformMain(inout vec4 fragColor,\n                   inout VaryingData varyingData) {\n#ifdef GLSL_FRAGMENT_MAIN_TRANSFORM\n  GLSL_FRAGMENT_MAIN_TRANSFORM(fragColor, varyingData);\n#endif\n}\n\nvoid AfterMain(inout vec4 fragColor,\n               inout VaryingData varyingData) {\n#ifdef GLSL_FRAGMENT_MAIN_AFTER\n  GLSL_FRAGMENT_MAIN_AFTER(fragColor, varyingData);\n#endif\n}\n\nvoid InitVarying(inout VaryingData varyingData) {\n  varyingData = ReadVaryingData();\n}\n\n#endif\n'));
 
 }).call(this,"/lib/core/glsl/fragment")
-},{"glslify":288}],38:[function(_dereq_,module,exports){
+},{"glslify":291}],38:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3088,7 +3157,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_FRAME_VARIABLES\n#define GLSL_FRAME_VARIABLES\n\n#ifndef GLSL_FRAME_UNIFORM_VARIABLE\n#define GLSL_FRAME_UNIFORM_VARIABLE frame\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_FRAME_UNIFORMS\n#define GLSL_FRAME_UNIFORMS\n\n#include "./variables"\n\n#ifdef GLSL_FRAME\nuniform Frame GLSL_FRAME_UNIFORM_VARIABLE;\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/frame', '#define GLSLIFY 1\n#ifndef GLSL_FRAME\n#define GLSL_FRAME\n\nstruct Frame {\n  float time;\n  float tick;\n  vec2 resolution;\n};\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/frame")
-},{"glslify":288}],39:[function(_dereq_,module,exports){
+},{"glslify":291}],39:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3188,7 +3257,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/fragment/main', '#define GLSLIFY 1\n#ifndef GLSL_MATERIAL_FRAGMENT_MAIN\n#define GLSL_MATERIAL_FRAGMENT_MAIN\n\n#include "../material"\n#include "../uniforms"\n#include "../variables"\n\n#include "../../mesh/fragment"\n#include "../../fragment/main"\n#include "../../varying/read"\n\nvoid Main(inout vec4 fragColor, inout VaryingData data) {\n  fragColor = MeshFragment(\n      GLSL_MATERIAL_UNIFORM_VARIABLE.color,\n      GLSL_MATERIAL_UNIFORM_VARIABLE.opacity);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_MATERIAL_VARIABLES\n#define GLSL_MATERIAL_VARIABLES\n\n#ifndef GLSL_MATERIAL_UNIFORM_VARIABLE\n#define GLSL_MATERIAL_UNIFORM_VARIABLE material\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/material', '#define GLSLIFY 1\n#ifndef GLSL_MATERIAL\n#define GLSL_MATERIAL\n\nstruct Material {\n  vec3 color;\n  float opacity;\n};\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_MATERIAL_UNIFORMS\n#define GLSL_MATERIAL_UNIFORMS\n\n#include "./variables"\n#include "./material"\n\nuniform Material GLSL_MATERIAL_UNIFORM_VARIABLE;\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/material")
-},{"glslify":288}],41:[function(_dereq_,module,exports){
+},{"glslify":291}],41:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3207,7 +3276,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/fragment/main', '#define GLSLIFY 1\n#ifndef GLSL_MESH_FRAGMENT_MAIN\n#define GLSL_MESH_FRAGMENT_MAIN\n\n#include "../mesh"\n#include "../uniforms"\n#include "../variables"\n\n#ifdef GLSL_MESH_HAS_POSITION\n#include "../../varying/position"\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n#include "../../varying/normal"\n#endif\n\n#include "../../mesh/fragment"\n#include "../../fragment/main"\n#include "../../varying/read"\n\nvoid Main(inout vec4 fragColor, inout VaryingData data) {\n#ifdef GLSL_MESH_HAS_POSITION\n  fragColor = MeshFragment(data.position);\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n  fragColor = MeshFragment(data.normal);\n#endif\n\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/vertex/main', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX_MAIN\n#define GLSL_MESH_VERTEX_MAIN\n\n#include "../variables"\n#include "../uniforms"\n#include "../vertex"\n#include "../mesh"\n\n#include "../../camera/camera"\n#include "../../camera/uniforms"\n\n#ifdef GLSL_MESH_HAS_POSITION\n#include "../../vertex/attributes/position"\n#include "../../varying/position"\n#endif\n\n#ifdef GLSL_MESH_HAS_NORMAL\n#include "../../vertex/attributes/normal"\n#include "../../varying/normal"\n#endif\n\n#ifdef GLSL_MESH_HAS_UV\n#include "../../vertex/attributes/uv"\n#include "../../varying/uv"\n#endif\n\n#include "../../varying/emit"\n#include "../../vertex/main"\n\nvoid Main(inout vec4 vertexPosition, inout VaryingData data) {\n#ifdef GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE\n  vertexPosition = MeshVertex(\n      GLSL_CAMERA_UNIFORM_VARIABLE.projection,\n      GLSL_CAMERA_UNIFORM_VARIABLE.view,\n      GLSL_MESH_UNIFORM_VARIABLE.model,\n      GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE);\n#endif\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VARIABLES\n#define GLSL_MESH_VARIABLES\n\n#ifndef GLSL_MESH_UNIFORM_VARIABLE\n#define GLSL_MESH_UNIFORM_VARIABLE mesh\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_MESH_UNIFORMS\n#define GLSL_MESH_UNIFORMS\n\n#include "./variables"\n#include "./mesh"\n\nuniform Mesh GLSL_MESH_UNIFORM_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/fragment', '#define GLSLIFY 1\n#ifndef GLSL_MESH_FRAGMENT\n#define GLSL_MESH_FRAGMENT\n\n#ifndef GLSL_MESH_FRAGMENT_DEFAULT_COLOR\n#define GLSL_MESH_FRAGMENT_DEFAULT_COLOR vec4(0.25882352941176473, 0.5254901960784314, 0.9568627450980393, 1.0)\n#endif\n\nvec4 MeshFragment(void) {\n  return vec4(GLSL_MESH_FRAGMENT_DEFAULT_COLOR);\n}\n\nvec4 MeshFragment(vec4 color) {\n  return color;\n}\n\nvec4 MeshFragment(float r, float g, float b, float a) {\n  return MeshFragment(vec4(r, g, b, a));\n}\n\nvec4 MeshFragment(float r, float g, float b) {\n  return MeshFragment(r, g, b, 1.0);\n}\n\nvec4 MeshFragment(float c) {\n  return MeshFragment(c, c, c, 1.0);\n}\n\nvec4 MeshFragment(vec3 color, float opacity) {\n  return MeshFragment(vec4(color, opacity));\n}\n\nvec4 MeshFragment(vec3 color) {\n  return MeshFragment(color, 1.0);\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/vertex', '#define GLSLIFY 1\n#ifndef GLSL_MESH_VERTEX\n#define GLSL_MESH_VERTEX\n\n#ifndef GLSL_MESH_VERTEX_DEFAULT_POSITION\n#define GLSL_MESH_VERTEX_DEFAULT_POSITION vec4(0.0, 0.0, 0.0, 1.0)\n#endif\n\nvec4 MeshVertex(void) {\n  return vec4(GLSL_MESH_VERTEX_DEFAULT_POSITION);\n}\n\nvec4 MeshVertex(vec4 position) {\n  return position;\n}\n\nvec4 MeshVertex(mat4 transform, vec4 position) {\n  return MeshVertex(transform * position);\n}\n\nvec4 MeshVertex(mat4 transform, vec3 position) {\n  return MeshVertex(transform, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec4 position) {\n  return MeshVertex(transform * model * position);\n}\n\nvec4 MeshVertex(mat4 transform, mat4 model, vec3 position) {\n  return MeshVertex(transform, model, vec4(position, 1.0));\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec4 position) {\n  return MeshVertex(projection * view * model, position);\n}\n\nvec4 MeshVertex(mat4 projection, mat4 view, mat4 model, vec3 position) {\n  return MeshVertex(projection, view, model, vec4(position, 1.0));\n}\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/mesh', '#define GLSLIFY 1\n#ifndef GLSL_MESH\n#define GLSL_MESH\n\nstruct Mesh {\n  mat4 model;\n  mat3 modelNormal;\n};\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/mesh")
-},{"glslify":288}],42:[function(_dereq_,module,exports){
+},{"glslify":291}],42:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3226,7 +3295,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_VARIABLES\n#define GLSL_TEXTURE_VARIABLES\n\n#ifndef GLSL_TEXTURE_2D_SAMPLER_VARIABLE\n#define GLSL_TEXTURE_2D_SAMPLER_VARIABLE tex2d\n#endif\n\n#ifndef GLSL_TEXTURE_2D_RESOLUTION_VARIABLE\n#define GLSL_TEXTURE_2D_RESOLUTION_VARIABLE tex2dResolution\n#endif\n\n#ifndef GLSL_TEXTURE_CUBE_SAMPLER_VARIABLE\n#define GLSL_TEXTURE_CUBE_SAMPLER_VARIABLE texCube\n#endif\n\n#ifndef GLSL_TEXTURE_CUBE_RESOLUTION_VARIABLE\n#define GLSL_TEXTURE_CUBE_RESOLUTION_VARIABLE texCubeResolution\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uniforms', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_UNIFORMS\n#define GLSL_TEXTURE_UNIFORMS\n\n#include "./variables"\n\n#ifdef GLSL_TEXTURE_2D\nuniform sampler2D GLSL_TEXTURE_2D_SAMPLER_VARIABLE;\nuniform vec2 GLSL_TEXTURE_2D_RESOLUTION_VARIABLE;\n#endif\n\n#ifdef GLSL_TEXTURE_CUBE\nuniform samplerCube GLSL_TEXTURE_CUBE_SAMPLER_VARIABLE;\nuniform vec2 GLSL_TEXTURE_CUBE_RESOLUTION_VARIABLE;\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/cube', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_CUBE\n#define GLSL_TEXTURE_CUBE\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/2d', '#define GLSLIFY 1\n#ifndef GLSL_TEXTURE_2D\n#define GLSL_TEXTURE_2D\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/texture")
-},{"glslify":288}],43:[function(_dereq_,module,exports){
+},{"glslify":291}],43:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3245,7 +3314,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_TIME_VARIABLES\n#define GLSL_TIME_VARIABLES\n\n#ifndef GLSL_TIME_UNIFORM_VARIABLE\n#define GLSL_TIME_UNIFORM_VARIABLE time\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/time', '#define GLSLIFY 1\n#ifndef GLSL_TIME\n#define GLSL_TIME\n\n#include "../frame/frame"\n#include "../frame/uniforms"\n#include "../frame/variables"\n\nfloat GetTime() {\n  return GLSL_FRAME_UNIFORM_VARIABLE.time;\n}\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/time")
-},{"glslify":288}],44:[function(_dereq_,module,exports){
+},{"glslify":291}],44:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3264,7 +3333,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/position', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT_POSITION\n#define GLSL_VARYING_EMIT_POSITION\n#ifdef GLSL_VARYING_POSITION\n\n#include "../variables"\n\nvoid EmitVaryingLocalPosition(vec3 position) {\n  GLSL_VARYING_LOCAL_POSITION_VARIABLE = position;\n}\n\nvoid EmitVaryingPosition(mat4 model, vec3 position) {\n  vec4 worldPosition = model * vec4(position, 1.0);\n  GLSL_VARYING_POSITION_VARIABLE = worldPosition.xyz;\n}\n\nvoid EmitVaryingPositions(mat4 model, vec3 position) {\n  EmitVaryingPosition(model, position);\n  EmitVaryingLocalPosition(position);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/normal', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT_NORMAL\n#define GLSL_VARYING_EMIT_NORMAL\n#ifdef GLSL_VARYING_NORMAL\n\n#include "../variables"\n\nvoid EmitVaryingLocalNormal(vec3 normal) {\n  GLSL_VARYING_LOCAL_NORMAL_VARIABLE = normalize(normal);\n}\n\nvoid EmitVaryingNormal(mat3 modelNormal, vec3 normal) {\n  GLSL_VARYING_NORMAL_VARIABLE = normalize(modelNormal * normal);\n}\n\nvoid EmitVaryingNormals(mat3 modelNormal, vec3 normal) {\n  EmitVaryingNormal(modelNormal, normal);\n  EmitVaryingLocalNormal(normal);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/color', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT_COLOR\n#define GLSL_VARYING_EMIT_COLOR\n#ifdef GLSL_VARYING_COLOR\n\n#include "../variables"\n\nvoid EmitVaryingColor(vec4 color) {\n  GLSL_VARYING_COLOR_VARIABLE = color;\n}\n\nvoid EmitVaryingColor(vec3 color) {\n  EmitVaryingColor(vec4(color, 1.0));\n}\n\nvoid EmitVaryingColors(vec4 color) {\n  EmitVaryingColor(color);\n}\n\nvoid EmitVaryingColors(vec3 color) {\n  EmitVaryingColors(vec4(color, 1.0));\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uv', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT_UV\n#define GLSL_VARYING_EMIT_UV\n#ifdef GLSL_VARYING_UV\n\n#include "../variables"\n\nvoid EmitVaryingUv(vec2 uv) {\n  GLSL_VARYING_UV_VARIABLE = uv;\n}\n\nvoid EmitVaryingUvs(vec2 uv) {\n  EmitVaryingUv(uv);\n}\n\n#endif\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/varying/emit")
-},{"glslify":288}],45:[function(_dereq_,module,exports){
+},{"glslify":291}],45:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3293,7 +3362,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, _extends({}, _dereq_('./emit'), _dereq_('./read'), (_extends2 = {}, _defineProperty(_extends2, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_VARIABLES\n#define GLSL_VARYING_VARIABLES\n\n#ifndef GLSL_VARYING_COLOR_VARIABLE\n#define GLSL_VARYING_COLOR_VARIABLE vColor\n#endif\n\n#ifndef GLSL_VARYING_POSITION_VARIABLE\n#define GLSL_VARYING_POSITION_VARIABLE vPosition\n#endif\n\n#ifndef GLSL_VARYING_LOCAL_POSITION_VARIABLE\n#define GLSL_VARYING_LOCAL_POSITION_VARIABLE vLocalPosition\n#endif\n\n#ifndef GLSL_VARYING_NORMAL_VARIABLE\n#define GLSL_VARYING_NORMAL_VARIABLE vNormal\n#endif\n\n#ifndef GLSL_VARYING_LOCAL_NORMAL_VARIABLE\n#define GLSL_VARYING_LOCAL_NORMAL_VARIABLE vLocalNormal\n#endif\n\n#ifndef GLSL_VARYING_UV_VARIABLE\n#define GLSL_VARYING_UV_VARIABLE vUv\n#endif\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/position', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_POSITION\n#define GLSL_VARYING_POSITION\n\n#include "./variables"\n\nvarying vec3 GLSL_VARYING_LOCAL_POSITION_VARIABLE;\nvarying vec3 GLSL_VARYING_POSITION_VARIABLE;\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/normal', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_NORMAL\n#define GLSL_VARYING_NORMAL\n\n#include "./variables"\n\nvarying vec3 GLSL_VARYING_LOCAL_NORMAL_VARIABLE;\nvarying vec3 GLSL_VARYING_NORMAL_VARIABLE;\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/color', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_COLOR\n#define GLSL_VARYING_COLOR\n\n#include "./variables"\n\nvarying vec4 GLSL_VARYING_COLOR_VARIABLE;\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/data', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_DATA\n#define GLSL_VARYING_DATA\n\nstruct VaryingData {\n  // exported\n  vec3 localPosition;\n  vec3 localNormal;\n  vec3 position;\n  vec3 normal;\n  vec4 color;\n  vec2 uv;\n\n  // private\n  mat3 modelNormal;\n  mat4 model;\n};\n\nVaryingData CreateVaryingData() {\n  VaryingData data;\n  data.localPosition = vec3(0.0);\n  data.localNormal = vec3(0.0);\n  data.position = vec3(0.0);\n  data.normal = vec3(0.0);\n  data.color = vec4(0.0);\n  data.uv = vec2(0.0);\n\n  data.modelNormal = mat3(1.0);\n  data.model = mat4(1.0);\n  return data;\n}\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/emit', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_EMIT\n#define GLSL_VARYING_EMIT\n\n#include "./emit/position"\n#include "./emit/normal"\n#include "./emit/color"\n#include "./emit/uv"\n#include "./data"\n\nvoid EmitVaryingData(const in VaryingData data) {\n#if defined(GLSL_VARYING_POSITION) && defined(GLSL_VARYING_EMIT_POSITION)\n  EmitVaryingPositions(data.model, data.position);\n#endif\n\n#if defined(GLSL_VARYING_NORMAL) && defined(GLSL_VARYING_EMIT_NORMAL)\n  EmitVaryingNormals(data.modelNormal, data.normal);\n#endif\n\n#if defined(GLSL_VARYING_COLOR) && defined(GLSL_VARYING_EMIT_COLOR)\n  EmitVaryingColors(data.color);\n#endif\n\n#if defined(GLSL_VARYING_UV) && defined(GLSL_VARYING_EMIT_UV)\n  EmitVaryingUvs(data.uv);\n#endif\n}\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/read', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ\n#define GLSL_VARYING_READ\n\n#include "./read/position"\n#include "./read/normal"\n#include "./read/color"\n#include "./read/uv"\n#include "./data"\n\nVaryingData ReadVaryingData() {\n  VaryingData data = CreateVaryingData();\n#if defined(GLSL_VARYING_POSITION) && defined(GLSL_VARYING_READ_POSITION)\n  data.localPosition = ReadVaryingLocalPosition();\n  data.position = ReadVaryingPosition();\n#endif\n\n#if defined(GLSL_VARYING_NORMAL) && defined(GLSL_VARYING_READ_NORMAL)\n  data.localNormal = ReadVaryingLocalNormal();\n  data.normal = ReadVaryingNormal();\n#endif\n\n#if defined(GLSL_VARYING_COLOR) && defined(GLSL_VARYING_READ_COLOR)\n  data.color = ReadVaryingColor();\n#endif\n\n#if defined(GLSL_VARYING_UV) && defined(GLSL_VARYING_READ_UV)\n  data.uv = ReadVaryingUv();\n#endif\n  return data;\n}\n\n#endif\n'), _defineProperty(_extends2, __dirname + '/uv', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_UV\n#define GLSL_VARYING_UV\n\n#include "./variables"\n\nvarying vec2 GLSL_VARYING_UV_VARIABLE;\n\n#endif\n'), _extends2)));
 
 }).call(this,"/lib/core/glsl/varying")
-},{"./emit":44,"./read":46,"glslify":288}],46:[function(_dereq_,module,exports){
+},{"./emit":44,"./read":46,"glslify":291}],46:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3312,7 +3381,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/position', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ_POSITION\n#define GLSL_VARYING_READ_POSITION\n#ifdef GLSL_VARYING_POSITION\n\n#include "../variables"\n\nvec3 ReadVaryingLocalPosition() {\n  return vec3(GLSL_VARYING_LOCAL_POSITION_VARIABLE);\n}\n\nvec3 ReadVaryingPosition() {\n  return vec3(GLSL_VARYING_POSITION_VARIABLE);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/normal', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ_NORMAL\n#define GLSL_VARYING_READ_NORMAL\n#ifdef GLSL_VARYING_NORMAL\n\n#include "../variables"\n\nvec3 ReadVaryingLocalNormal() {\n  return vec3(GLSL_VARYING_LOCAL_NORMAL_VARIABLE);\n}\n\nvec3 ReadVaryingNormal() {\n  return vec3(GLSL_VARYING_NORMAL_VARIABLE);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/color', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ_COLOR\n#define GLSL_VARYING_READ_COLOR\n#ifdef GLSL_VARYING_COLOR\n\n#include "../variables"\n\nvec4 ReadVaryingColor() {\n  return vec4(GLSL_VARYING_COLOR_VARIABLE);\n}\n\n#endif\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uv', '#define GLSLIFY 1\n#ifndef GLSL_VARYING_READ_UV\n#define GLSL_VARYING_READ_UV\n#ifdef GLSL_VARYING_UV\n\n#include "../variables"\n\nvec2 ReadVaryingUv() {\n  return vec2(GLSL_VARYING_UV_VARIABLE);\n}\n\n#endif\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/varying/read")
-},{"glslify":288}],47:[function(_dereq_,module,exports){
+},{"glslify":291}],47:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3331,7 +3400,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, (_Object$assign = {}, _defineProperty(_Object$assign, __dirname + '/variables', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_VARIABLES\n#define GLSL_VERTEX_ATTRIBUTES_VARIABLES\n\n#ifndef GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE\n#define GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE position\n#endif\n\n#ifndef GLSL_VERTEX_ATTRIBUTES_NORMAL_VARIABLE\n#define GLSL_VERTEX_ATTRIBUTES_NORMAL_VARIABLE normal\n#endif\n\n#ifndef GLSL_VERTEX_ATTRIBUTES_COLOR_VARIABLE\n#define GLSL_VERTEX_ATTRIBUTES_COLOR_VARIABLE color\n#endif\n\n#ifndef GLSL_VERTEX_ATTRIBUTES_UV_VARIABLE\n#define GLSL_VERTEX_ATTRIBUTES_UV_VARIABLE uv\n#endif\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/position', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_POSITION\n#define GLSL_VERTEX_ATTRIBUTES_POSITION\n\n#include "./variables"\n\nattribute vec3 GLSL_VERTEX_ATTRIBUTES_POSITION_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/normal', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_NORMAL\n#define GLSL_VERTEX_ATTRIBUTES_NORMAL\n\n#include "./variables"\n\nattribute vec3 GLSL_VERTEX_ATTRIBUTES_NORMAL_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/color', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_COLOR\n#define GLSL_VERTEX_ATTRIBUTES_COLOR\n\n#include "./variables"\n\nattribute vec4 GLSL_VERTEX_ATTRIBUTES_COLOR_VARIABLE;\n\n#endif\n'), _defineProperty(_Object$assign, __dirname + '/uv', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_ATTRIBUTES_UV\n#define GLSL_VERTEX_ATTRIBUTES_UV\n\n#include "./variables"\n\nattribute vec2 GLSL_VERTEX_ATTRIBUTES_UV_VARIABLE;\n\n#endif\n'), _Object$assign));
 
 }).call(this,"/lib/core/glsl/vertex/attributes")
-},{"glslify":288}],48:[function(_dereq_,module,exports){
+},{"glslify":291}],48:[function(_dereq_,module,exports){
 (function (__dirname){
 'use strict';
 
@@ -3358,7 +3427,7 @@ function _defineProperty(obj, key, value) {
 Object.assign(exports, _extends({}, _dereq_('./attributes'), _defineProperty({}, __dirname + '/main', '#define GLSLIFY 1\n#ifndef GLSL_VERTEX_MAIN\n#define GLSL_VERTEX_MAIN\n\n#include "../varying/data"\n\nvoid InitVarying(inout VaryingData varyingData);\nvoid BeforeMain(inout vec4 vertexPosition, inout VaryingData varyingData);\nvoid Main(inout vec4 vertexPosition, inout VaryingData data);\nvoid TransformMain(inout vec4 vertexPosition, inout VaryingData varyingData);\nvoid AfterMain(inout vec4 vertexPosition, inout VaryingData varyingData);\n\nvoid main() {\n  VaryingData varyingData = CreateVaryingData();\n  InitVarying(varyingData);\n  gl_Position = vec4(vec3(0.0), 1.0);\n  BeforeMain(gl_Position, varyingData);\n  Main(gl_Position, varyingData);\n  TransformMain(gl_Position, varyingData);\n#ifdef GLSL_VARYING_EMIT\n  EmitVaryingData(varyingData);\n#endif\n  AfterMain(gl_Position, varyingData);\n}\n\n#ifdef GLSL_VERTEX_MAIN_BEFORE\n  void GLSL_VERTEX_MAIN_BEFORE(inout vec4 vertexPosition,\n                               inout VaryingData varyingData);\n#endif\n\n#ifdef GLSL_VERTEX_MAIN_TRANSFORM\n  void GLSL_VERTEX_MAIN_TRANSFORM(inout vec4 vertexPosition,\n                                  inout VaryingData varyingData);\n#endif\n\n#ifdef GLSL_VERTEX_MAIN_AFTER\n  void GLSL_VERTEX_MAIN_AFTER(inout vec4 vertexPosition,\n                              inout VaryingData varyingData);\n#endif\n\nvoid BeforeMain(inout vec4 vertexPosition,\n                inout VaryingData varyingData) {\n#ifdef GLSL_VERTEX_MAIN_BEFORE\n  GLSL_VERTEX_MAIN_BEFORE(vertexPosition, varyingData);\n#endif\n}\n\nvoid TransformMain(inout vec4 vertexPosition,\n                   inout VaryingData varyingData) {\n#ifdef GLSL_VERTEX_MAIN_TRANSFORM\n  GLSL_VERTEX_MAIN_TRANSFORM(vertexPosition, varyingData);\n#endif\n}\n\nvoid AfterMain(inout vec4 vertexPosition,\n               inout VaryingData varyingData) {\n#ifdef GLSL_VERTEX_MAIN_AFTER\n  GLSL_VERTEX_MAIN_AFTER(vertexPosition, varyingData);\n#endif\n}\n\nvoid InitVarying(inout VaryingData varyingData) {\n  #ifdef GLSL_VERTEX_ATTRIBUTES_POSITION\n    varyingData.position = position;\n  #endif\n\n  #ifdef GLSL_VERTEX_ATTRIBUTES_NORMAL\n    varyingData.normal = normal;\n  #endif\n\n  #ifdef GLSL_VERTEX_ATTRIBUTES_COLOR\n    varyingData.color = color;\n  #endif\n\n  #ifdef GLSL_VERTEX_ATTRIBUTES_UV\n    varyingData.uv = uv;\n  #endif\n\n  #if defined(GLSL_MESH) && defined(GLSL_MESH_UNIFORMS)\n    varyingData.modelNormal = mesh.modelNormal;\n    varyingData.model = mesh.model;\n  #endif\n}\n\n#endif\n')));
 
 }).call(this,"/lib/core/glsl/vertex")
-},{"./attributes":47,"glslify":288}],49:[function(_dereq_,module,exports){
+},{"./attributes":47,"glslify":291}],49:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3939,7 +4008,304 @@ var ShaderLibPreprocessor = exports.ShaderLibPreprocessor = function () {
   return ShaderLibPreprocessor;
 }();
 
-},{"./dynamic":29,"./glsl":39,"defined":127,"glsl-inject-defines":277,"glsl-token-defines":278,"glsl-token-string":280,"glsl-tokenizer":287,"path":293,"prepr":294,"string-hash":301}],51:[function(_dereq_,module,exports){
+},{"./dynamic":29,"./glsl":39,"defined":130,"glsl-inject-defines":280,"glsl-token-defines":281,"glsl-token-string":283,"glsl-tokenizer":290,"path":297,"prepr":299,"string-hash":304}],51:[function(_dereq_,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BadArgumentError = undefined;
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+var _utils = _dereq_("../utils");
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+function _extendableBuiltin(cls) {
+  function ExtendableBuiltin() {
+    var instance = Reflect.construct(cls, Array.from(arguments));
+    Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
+    return instance;
+  }
+
+  ExtendableBuiltin.prototype = Object.create(cls.prototype, {
+    constructor: {
+      value: cls,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+
+  if (Object.setPrototypeOf) {
+    Object.setPrototypeOf(ExtendableBuiltin, cls);
+  } else {
+    ExtendableBuiltin.__proto__ = cls;
+  }
+
+  return ExtendableBuiltin;
+}
+
+var kBadIndexArgumentErrorMessage = "BadArgumentError(): Expecting first argument index to be a number.";
+
+var kBadNameArgumentErrorMessage = "BadArgumentError(): Expecting second argument name to be a string.";
+
+var kBadExpectedArgumentErrorMessage = "BadArgumentError(): Expecting fourth argument name to be a string.";
+
+/**
+ * The BadArgumentError class represents an error that provides
+ * a detailed error message for a value at an argument index in which an
+ * expected type is required.
+ * @public
+ * @class BadArgumentError
+ * @extends TypeError
+ */
+
+var BadArgumentError = exports.BadArgumentError = function (_extendableBuiltin2) {
+  _inherits(BadArgumentError, _extendableBuiltin2);
+
+  _createClass(BadArgumentError, [{
+    key: "name",
+    get: function get() {
+      return this.constructor.name;
+    }
+  }, {
+    key: "code",
+    get: function get() {
+      return this.constructor.name;
+    }
+
+    /**
+     * BadArgumentError class constructor.
+     * @public
+     * @constructor
+     * @param {Number} index
+     * @param {String} name
+     * @param {Mixed} value
+     * @param {String} expected
+     * @throws TypeError
+     */
+
+  }]);
+
+  function BadArgumentError(index, name, value, expected) {
+    _classCallCheck(this, BadArgumentError);
+
+    if ('number' !== typeof index) {
+      throw new TypeError(kBadIndexArgumentErrorMessage);
+    } else if ('string' !== typeof name) {
+      throw new TypeError(kBadNameArgumentErrorMessage);
+    } else if ('string' !== typeof expected) {
+      throw new TypeError(kBadExpectedArgumentErrorMessage);
+    }
+
+    var _this = _possibleConstructorReturn(this, (BadArgumentError.__proto__ || Object.getPrototypeOf(BadArgumentError)).call(this, "Expecting " + toOrdinalString(index).toLowerCase() + " " + ("argument " + name + " to be " + expected + ". Got " + (0, _utils.toTypeString)(value) + " instead.")));
+
+    if ('function' == typeof Error.captureStackTrace) {
+      Error.captureStackTrace(_this, _this.constructor);
+    } else {
+      _this.stack = new (Error(message).stack)();
+    }
+    return _this;
+  }
+
+  return BadArgumentError;
+}(_extendableBuiltin(TypeError));
+
+/**
+ * Get normalized ordinal value for an index.
+ * toOrdinalString(index: Number) -> String
+ */
+
+function toOrdinalString(index) {
+  switch (index + 1) {
+    case 1:
+      return 'First';
+    case 2:
+      return 'Second';
+    case 3:
+      return 'Third';
+    case 4:
+      return 'Fourth';
+    case 5:
+      return 'Fifth';
+    case 6:
+      return 'Sixth';
+    default:
+      return 'Unknown';
+  }
+}
+
+},{"../utils":119}],52:[function(_dereq_,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+function _extendableBuiltin(cls) {
+  function ExtendableBuiltin() {
+    var instance = Reflect.construct(cls, Array.from(arguments));
+    Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
+    return instance;
+  }
+
+  ExtendableBuiltin.prototype = Object.create(cls.prototype, {
+    constructor: {
+      value: cls,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+
+  if (Object.setPrototypeOf) {
+    Object.setPrototypeOf(ExtendableBuiltin, cls);
+  } else {
+    ExtendableBuiltin.__proto__ = cls;
+  }
+
+  return ExtendableBuiltin;
+}
+
+/**
+ * The MissingContextError class represents an error that
+ * provides information about a component, or construct that
+ * requires a Context instance, but was not provided it. The
+ * constructor to this class accepts a label used in the error
+ * message
+ * @public
+ * @class MissingContextError
+ * @extends TypeError
+ */
+var MissingContextError = exports.MissingContextError = function (_extendableBuiltin2) {
+  _inherits(MissingContextError, _extendableBuiltin2);
+
+  _createClass(MissingContextError, [{
+    key: 'name',
+    get: function get() {
+      return this.constructor.name;
+    }
+  }, {
+    key: 'code',
+    get: function get() {
+      return this.constructor.name;
+    }
+
+    /**
+     * MissingContextError class constructor.
+     * @public
+     * @constructor
+     * @param {?(String)} label
+     */
+
+  }]);
+
+  function MissingContextError(label) {
+    _classCallCheck(this, MissingContextError);
+
+    var _this = _possibleConstructorReturn(this, (MissingContextError.__proto__ || Object.getPrototypeOf(MissingContextError)).call(this, 'Missing context object for ' + (label || 'Unknown') + '.'));
+
+    if ('function' == typeof Error.captureStackTrace) {
+      Error.captureStackTrace(_this, _this.constructor);
+    } else {
+      _this.stack = new (Error(message).stack)();
+    }
+    return _this;
+  }
+
+  return MissingContextError;
+}(_extendableBuiltin(TypeError));
+
+},{}],53:[function(_dereq_,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _context = _dereq_('./context');
+
+Object.keys(_context).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _context[key];
+    }
+  });
+});
+
+var _arguments = _dereq_('./arguments');
+
+Object.keys(_arguments).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _arguments[key];
+    }
+  });
+});
+
+},{"./arguments":51,"./context":52}],54:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3998,7 +4364,7 @@ function FrameContext(ctx, initialState) {
   });
 }
 
-},{"../scope":89,"../utils":116,"./defaults":52}],52:[function(_dereq_,module,exports){
+},{"../scope":92,"../utils":119,"./defaults":55}],55:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4035,7 +4401,7 @@ var clear = exports.clear = {
   depth: 1
 };
 
-},{}],53:[function(_dereq_,module,exports){
+},{}],56:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4290,7 +4656,7 @@ function Frame(ctx) {
   }
 }
 
-},{"../core":49,"../scope":89,"../update":115,"../utils":116,"./context":51,"./defaults":52,"./state":55,"raf":297}],54:[function(_dereq_,module,exports){
+},{"../core":49,"../scope":92,"../update":118,"../utils":119,"./context":54,"./defaults":55,"./state":58,"raf":301}],57:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4345,7 +4711,7 @@ Object.keys(_state).forEach(function (key) {
   });
 });
 
-},{"./context":51,"./frame":53,"./state":55,"./uniforms":56}],55:[function(_dereq_,module,exports){
+},{"./context":54,"./frame":56,"./state":58,"./uniforms":59}],58:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4393,7 +4759,7 @@ function FrameState(ctx) {
   });
 }
 
-},{"../utils":116,"./defaults":52}],56:[function(_dereq_,module,exports){
+},{"../utils":119,"./defaults":55}],59:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4445,7 +4811,7 @@ function FrameShaderUniforms(ctx) {
 }
 exports.FrameShaderUniforms = FrameShaderUniforms;
 
-},{"../shader":92,"../utils":116,"./defaults":52}],57:[function(_dereq_,module,exports){
+},{"../shader":95,"../utils":119,"./defaults":55}],60:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4519,7 +4885,7 @@ function FrameBuffer(ctx) {
   }
 }
 
-},{"../core":49,"../scope":89,"../utils":116,"regl-extend":300}],58:[function(_dereq_,module,exports){
+},{"../core":49,"../scope":92,"../utils":119,"regl-extend":303}],61:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4538,7 +4904,7 @@ Object.keys(_framebuffer).forEach(function (key) {
   });
 });
 
-},{"./framebuffer":57}],59:[function(_dereq_,module,exports){
+},{"./framebuffer":60}],62:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4689,7 +5055,7 @@ Object.keys(_viewport).forEach(function (key) {
   });
 });
 
-},{"./camera":9,"./core":49,"./frame":54,"./framebuffer":58,"./material":62,"./mesh":74,"./object3d":86,"./scissor":88,"./scope":89,"./shader":92,"./texture":113,"./viewport":117}],60:[function(_dereq_,module,exports){
+},{"./camera":9,"./core":49,"./frame":57,"./framebuffer":61,"./material":65,"./mesh":77,"./object3d":89,"./scissor":91,"./scope":92,"./shader":95,"./texture":116,"./viewport":120}],63:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4737,7 +5103,7 @@ function MaterialContext(ctx) {
   });
 }
 
-},{"../scope":89,"../utils":116,"./defaults":61}],61:[function(_dereq_,module,exports){
+},{"../scope":92,"../utils":119,"./defaults":64}],64:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4775,7 +5141,7 @@ var depth = exports.depth = {
   mask: true
 };
 
-},{}],62:[function(_dereq_,module,exports){
+},{}],65:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4830,7 +5196,7 @@ Object.keys(_state).forEach(function (key) {
   });
 });
 
-},{"./context":60,"./material":63,"./shader":64,"./state":67}],63:[function(_dereq_,module,exports){
+},{"./context":63,"./material":66,"./shader":67,"./state":70}],66:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4873,7 +5239,7 @@ function Material(ctx) {
   return (0, _core.Entity)(ctx, initialState, (0, _context.MaterialContext)(ctx, initialState), (0, _state.MaterialState)(ctx, initialState), (0, _shader.MaterialShaderUniforms)(ctx, initialState), (0, _frame.FrameShaderUniforms)(ctx, initialState), (0, _shader.MaterialShader)(ctx, initialState));
 }
 
-},{"../core":49,"../frame":54,"../utils":116,"./context":60,"./defaults":61,"./shader":64,"./state":67}],64:[function(_dereq_,module,exports){
+},{"../core":49,"../frame":57,"../utils":119,"./context":63,"./defaults":64,"./shader":67,"./state":70}],67:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4904,7 +5270,7 @@ Object.keys(_shader).forEach(function (key) {
   });
 });
 
-},{"./shader":65,"./uniforms":66}],65:[function(_dereq_,module,exports){
+},{"./shader":68,"./uniforms":69}],68:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4962,7 +5328,7 @@ function MaterialShader(ctx) {
   }, initialState));
 }
 
-},{"../../shader":92,"../../utils":116,"../defaults":61}],66:[function(_dereq_,module,exports){
+},{"../../shader":95,"../../utils":119,"../defaults":64}],69:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5006,7 +5372,7 @@ function MaterialShaderUniforms(ctx) {
   });
 }
 
-},{"../../shader":92,"../../utils":116,"../defaults":61}],67:[function(_dereq_,module,exports){
+},{"../../shader":95,"../../utils":119,"../defaults":64}],70:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5083,7 +5449,7 @@ function MaterialState(ctx) {
   });
 }
 
-},{"../scope":89,"../utils":116,"./defaults":61}],68:[function(_dereq_,module,exports){
+},{"../scope":92,"../utils":119,"./defaults":64}],71:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5135,7 +5501,7 @@ function MeshBoundingBoxContext(ctx) {
   });
 }
 
-},{"../../scope":89,"../../utils":116,"../defaults":73}],69:[function(_dereq_,module,exports){
+},{"../../scope":92,"../../utils":119,"../defaults":76}],72:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5178,7 +5544,7 @@ function MeshContext(ctx) {
   return (0, _core.Entity)(ctx, initialState, (0, _object3d.Object3DContext)(ctx, initialState), (0, _geometry.MeshGeometryContext)(ctx, initialState), (0, _boundingBox.MeshBoundingBoxContext)(ctx, initialState), (0, _utils.isolate)((0, _size.MeshSizeContext)(ctx, initialState)));
 }
 
-},{"../../core":49,"../../object3d":86,"../../utils":116,"../defaults":73,"./bounding-box":68,"./geometry":70,"./size":72}],70:[function(_dereq_,module,exports){
+},{"../../core":49,"../../object3d":89,"../../utils":119,"../defaults":76,"./bounding-box":71,"./geometry":73,"./size":75}],73:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5219,7 +5585,7 @@ function MeshGeometryContext(ctx) {
   });
 }
 
-},{"../../scope":89,"../../utils":116,"../defaults":73}],71:[function(_dereq_,module,exports){
+},{"../../scope":92,"../../utils":119,"../defaults":76}],74:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5274,7 +5640,7 @@ Object.keys(_size).forEach(function (key) {
   });
 });
 
-},{"./bounding-box":68,"./context":69,"./geometry":70,"./size":72}],72:[function(_dereq_,module,exports){
+},{"./bounding-box":71,"./context":72,"./geometry":73,"./size":75}],75:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5344,7 +5710,7 @@ function MeshSizeContext(ctx) {
   });
 }
 
-},{"../../scope":89,"../../utils":116,"../defaults":73,"gl-vec2":212,"gl-vec3":242}],73:[function(_dereq_,module,exports){
+},{"../../scope":92,"../../utils":119,"../defaults":76,"gl-vec2":215,"gl-vec3":245}],76:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5362,7 +5728,7 @@ var shader = exports.shader = {
   defines: {}
 };
 
-},{}],74:[function(_dereq_,module,exports){
+},{}],77:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5417,7 +5783,7 @@ Object.keys(_mesh).forEach(function (key) {
   });
 });
 
-},{"./context":71,"./mesh":75,"./shader":77,"./state":80}],75:[function(_dereq_,module,exports){
+},{"./context":74,"./mesh":78,"./shader":80,"./state":83}],78:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5496,7 +5862,7 @@ function Mesh(ctx) {
   });
 }
 
-},{"../camera":9,"../core":49,"../frame":54,"../object3d":86,"../utils":116,"./context":71,"./defaults":73,"./shader":77,"./state":80}],76:[function(_dereq_,module,exports){
+},{"../camera":9,"../core":49,"../frame":57,"../object3d":89,"../utils":119,"./context":74,"./defaults":76,"./shader":80,"./state":83}],79:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5546,7 +5912,7 @@ function MeshShaderAttributes(ctx, initialState) {
   return (0, _shader.ShaderAttributes)(ctx, attributes);
 }
 
-},{"../../shader":92,"../../utils":116,"../defaults":73}],77:[function(_dereq_,module,exports){
+},{"../../shader":95,"../../utils":119,"../defaults":76}],80:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5589,7 +5955,7 @@ Object.keys(_shader).forEach(function (key) {
   });
 });
 
-},{"./attributes":76,"./shader":78,"./uniforms":79}],78:[function(_dereq_,module,exports){
+},{"./attributes":79,"./shader":81,"./uniforms":82}],81:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5695,7 +6061,7 @@ function MeshShader(ctx) {
   }));
 }
 
-},{"../../shader":92,"../../utils":116,"../defaults":73}],79:[function(_dereq_,module,exports){
+},{"../../shader":95,"../../utils":119,"../defaults":76}],82:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5785,7 +6151,7 @@ function copy(a, b) {
   }
 }
 
-},{"../../shader":92,"../../utils":116,"../defaults":73,"gl-mat3":142,"gl-mat4":160}],80:[function(_dereq_,module,exports){
+},{"../../shader":95,"../../utils":119,"../defaults":76,"gl-mat3":145,"gl-mat4":163}],83:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5868,7 +6234,7 @@ function MeshState(ctx) {
   return ctx.regl(opts);
 }
 
-},{"../utils":116,"./defaults":73,"defined":127}],81:[function(_dereq_,module,exports){
+},{"../utils":119,"./defaults":76,"defined":130}],84:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5878,44 +6244,33 @@ exports.Object3DContext = Object3DContext;
 
 var _utils = _dereq_('../../utils');
 
-var _defaults = _dereq_('../defaults');
-
-var defaults = _interopRequireWildcard(_defaults);
-
-var _core = _dereq_('../../core');
-
 var _matrix = _dereq_('./matrix');
 
 var _trs = _dereq_('./trs');
 
-function _interopRequireWildcard(obj) {
-  if (obj && obj.__esModule) {
-    return obj;
-  } else {
-    var newObj = {};if (obj != null) {
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-      }
-    }newObj.default = obj;return newObj;
-  }
-}
+var _core = _dereq_('../../core');
 
 /**
+ * The Object3DContext component wraps the Object3DTRSContext and
+ * Object3DMatrixContext components into an Entity.
+ *
  * Object3DContext(ctx, initialState) -> (args, scope) -> Any
  *
  * @public
  * @param {Context} ctx
- * @param {?Object} initialState
+ * @param {?(Object} [initialState = {}]
  * @return {Function}
+ * @throws BadArgumentError
+ * @throws MissingContextError
  */
 function Object3DContext(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  (0, _utils.assignDefaults)(initialState, defaults);
+  (0, _utils.assertComponentArguments)('Object3DContext', ctx, initialState);
   return (0, _core.Entity)(ctx, initialState, (0, _trs.Object3DTRSContext)(ctx, initialState), (0, _matrix.Object3DMatrixContext)(ctx, initialState));
 }
 
-},{"../../core":49,"../../utils":116,"../defaults":85,"./matrix":83,"./trs":84}],82:[function(_dereq_,module,exports){
+},{"../../core":49,"../../utils":119,"./matrix":86,"./trs":87}],85:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5958,15 +6313,13 @@ Object.keys(_trs).forEach(function (key) {
   });
 });
 
-},{"./context":81,"./matrix":83,"./trs":84}],83:[function(_dereq_,module,exports){
+},{"./context":84,"./matrix":86,"./trs":87}],86:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Object3DMatrixContext = Object3DMatrixContext;
-
-var _utils = _dereq_('../../utils');
 
 var _scope = _dereq_('../../scope');
 
@@ -5977,6 +6330,8 @@ var defaults = _interopRequireWildcard(_defaults);
 var _glMat = _dereq_('gl-mat4');
 
 var _glMat2 = _interopRequireDefault(_glMat);
+
+var _utils = _dereq_('../../utils');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -5995,28 +6350,32 @@ function _interopRequireWildcard(obj) {
 }
 
 /**
- * Component to compute 3D local and world transform matrix. This component
- * depends on
+ * The Object3DMatrixContext component maps input position, rotation, and scale
+ * arguments into a matrix and transform context variables. Default values are
+ * used if not provided as input arguments to this component function.
  *
  * Object3DMatrixContext(ctx) -> ScopedContext(ctx) -> (args, scope) -> Any
  *
  * @public
- * @param {Context}
+ * @param {Context} ctx
+ * @param {?(Object} [initialState = {}]
  * @return {Function}
+ * @throws BadArgumentError
+ * @throws MissingContextError
  */
 function Object3DMatrixContext(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  (0, _utils.assignDefaults)(initialState, defaults);
+  (0, _utils.assertComponentArguments)('Object3DMatrixContext', ctx, initialState);
   var transformMatrix = _glMat2.default.identity(new Float32Array(16));
   var localMatrix = _glMat2.default.identity(new Float32Array(16));
   return (0, _scope.ScopedContext)(ctx, initialState, {
-    matrix: function matrix(ctx, args, batchId) {
-      var position = (0, _utils.pick)('position', [args, defaults, ctx]);
-      var rotation = (0, _utils.pick)('rotation', [args, defaults, ctx]);
-      var scale = (0, _utils.normalizeScaleVector)((0, _utils.pick)('scale', [args, defaults, ctx]
+    matrix: function matrix(ctx, args) {
+      var position = (0, _utils.pick)('position', [args, initialState, defaults]);
+      var rotation = (0, _utils.pick)('rotation', [args, initialState, defaults]);
+      var scale = (0, _utils.normalizeScaleVector)((0, _utils.pick)('scale', [args, initialState, defaults]));
       // M = T * R * S
-      ));_glMat2.default.identity(localMatrix);
+      _glMat2.default.identity(localMatrix);
       _glMat2.default.fromRotationTranslation(localMatrix, rotation, position);
       _glMat2.default.scale(localMatrix, localMatrix, scale);
       return localMatrix;
@@ -6024,25 +6383,17 @@ function Object3DMatrixContext(ctx) {
     transform: function transform(ctx, args) {
       var parentTransformMatrix = ctx.transform;
 
-      var _ref = args || {},
-          externalTransformMatrix = _ref.transform;
-
-      _glMat2.default.identity(transformMatrix
+      _glMat2.default.copy(transformMatrix, localMatrix);
       // M' = Mp * M
-      );if (parentTransformMatrix) {
+      if (parentTransformMatrix) {
         _glMat2.default.multiply(transformMatrix, parentTransformMatrix, localMatrix);
-      }
-
-      // apply external transform from arguments to computed transform
-      if (externalTransformMatrix) {
-        _glMat2.default.multiply(transformMatrix, externalTransformMatrix, transformMatrix);
       }
       return transformMatrix;
     }
   });
 }
 
-},{"../../scope":89,"../../utils":116,"../defaults":85,"gl-mat4":160}],84:[function(_dereq_,module,exports){
+},{"../../scope":92,"../../utils":119,"../defaults":88,"gl-mat4":163}],87:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6070,41 +6421,59 @@ function _interopRequireWildcard(obj) {
   }
 }
 
+function _objectDestructuringEmpty(obj) {
+  if (obj == null) throw new TypeError("Cannot destructure undefined");
+}
+
 /**
+ * The Object3DTRSContext component maps input position, rotation, and scale
+ * arguments into context variables. Default values are used if not provided
+ * as input arguments to this component function.
+ *
  * Object3DTRSContext(ctx) -> ScopedContext(ctx) -> (args, scope) -> Any
  *
  * @public
- * @param {Context}
+ * @param {Context} ctx
+ * @param {?(Object} [initialState = {}]
  * @return {Function}
+ * @throws BadArgumentError
+ * @throws MissingContextError
  */
 function Object3DTRSContext(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  (0, _utils.assignDefaults)(initialState, defaults);
+  (0, _utils.assertComponentArguments)('Object3DTRSContext', ctx, initialState);
   return (0, _scope.ScopedContext)(ctx, initialState, {
-    scale: function scale(ctx, args) {
-      return (0, _utils.normalizeScaleVector)((0, _utils.pick)('scale', [args, defaults, ctx]));
+    scale: function scale(_ref, args) {
+      _objectDestructuringEmpty(_ref);
+
+      return (0, _utils.normalizeScaleVector)((0, _utils.pick)('scale', [args, initialState, defaults]));
     },
-    position: function position(ctx, args) {
-      return (0, _utils.pick)('position', [args, defaults, ctx]);
+    position: function position(_ref2, args) {
+      _objectDestructuringEmpty(_ref2);
+
+      return (0, _utils.pick)('position', [args, initialState, defaults]);
     },
-    rotation: function rotation(ctx, args) {
-      return (0, _utils.pick)('rotation', [args, defaults, ctx]);
+    rotation: function rotation(_ref3, args) {
+      _objectDestructuringEmpty(_ref3);
+
+      return (0, _utils.pick)('rotation', [args, initialState, defaults]);
     }
   });
 }
 
-},{"../../scope":89,"../../utils":116,"../defaults":85}],85:[function(_dereq_,module,exports){
+},{"../../scope":92,"../../utils":119,"../defaults":88}],88:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// Object3DTRSContext
 var rotation = exports.rotation = [0, 0, 0, 1];
 var position = exports.position = [0, 0, 0];
 var scale = exports.scale = [1, 1, 1];
 
-},{}],86:[function(_dereq_,module,exports){
+},{}],89:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6135,7 +6504,7 @@ Object.keys(_context).forEach(function (key) {
   });
 });
 
-},{"./context":82,"./object3d":87}],87:[function(_dereq_,module,exports){
+},{"./context":85,"./object3d":90}],90:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6143,15 +6512,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Object3D = Object3D;
 
-var _context = _dereq_('./context');
-
 var _utils = _dereq_('../utils');
 
-var _core = _dereq_('../core');
+var _context = _dereq_('./context');
 
 var _defaults = _dereq_('./defaults');
 
 var defaults = _interopRequireWildcard(_defaults);
+
+var _core = _dereq_('../core');
 
 function _interopRequireWildcard(obj) {
   if (obj && obj.__esModule) {
@@ -6165,14 +6534,26 @@ function _interopRequireWildcard(obj) {
   }
 }
 
+/**
+ * The Object3D component wraps the Object3DContext component.
+ *
+ * Object3DMatrixContext(ctx) -> ScopedContext(ctx) -> (args, scope) -> Any
+ *
+ * @public
+ * @param {Context} ctx
+ * @param {?(Object} [initialState = {}]
+ * @return {Function}
+ * @throws BadArgumentError
+ * @throws MissingContextError
+ */
 function Object3D(ctx) {
   var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-  (0, _utils.assignDefaults)(initialState, defaults);
+  (0, _utils.assertComponentArguments)('Object3D', ctx, initialState);
   return (0, _context.Object3DContext)(ctx, initialState);
 }
 
-},{"../core":49,"../utils":116,"./context":82,"./defaults":85}],88:[function(_dereq_,module,exports){
+},{"../core":49,"../utils":119,"./context":85,"./defaults":88}],91:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6195,7 +6576,7 @@ function Scissor(ctx) {
   });
 }
 
-},{}],89:[function(_dereq_,module,exports){
+},{}],92:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6242,7 +6623,7 @@ function ScopedState(ctx, initialState, props) {
   return ctx.regl((0, _reglExtend.command)(new _core.DynamicValue(ctx, initialState, props)));
 }
 
-},{"./core":49,"regl-extend":300}],90:[function(_dereq_,module,exports){
+},{"./core":49,"regl-extend":303}],93:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -6302,7 +6683,7 @@ function ShaderInstancedAttributes(ctx, initialState, props) {
   return ctx.regl({ attributes: attributes, context: { attributes: attributes } });
 }
 
-},{"../core":49}],91:[function(_dereq_,module,exports){
+},{"../core":49}],94:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -6374,7 +6755,7 @@ function ShaderDefines(ctx, initialState, props) {
   }));
 }
 
-},{"../scope":89}],92:[function(_dereq_,module,exports){
+},{"../scope":92}],95:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6429,7 +6810,7 @@ Object.keys(_shader).forEach(function (key) {
   });
 });
 
-},{"./attributes":90,"./defines":91,"./shader":93,"./uniforms":94}],93:[function(_dereq_,module,exports){
+},{"./attributes":93,"./defines":94,"./shader":96,"./uniforms":97}],96:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -6502,7 +6883,9 @@ function Shader(ctx) {
   });
 
   function update(reglContext, args) {
-    var _args$forceCompile = args.forceCompile,
+    args = args || {};
+    var _args = args,
+        _args$forceCompile = _args.forceCompile,
         forceCompile = _args$forceCompile === undefined ? false : _args$forceCompile;
     var defines = reglContext.defines;
 
@@ -6682,7 +7065,7 @@ function Shader(ctx) {
   }
 }
 
-},{"../core":49,"../scope":89,"../update":115,"../utils":116,"./defines":91}],94:[function(_dereq_,module,exports){
+},{"../core":49,"../scope":92,"../update":118,"../utils":119,"./defines":94}],97:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -6721,7 +7104,7 @@ function ShaderUniforms(ctx, initialState, props) {
   return ctx.regl({ uniforms: uniforms, context: { uniforms: uniforms } });
 }
 
-},{"../core":49}],95:[function(_dereq_,module,exports){
+},{"../core":49}],98:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6762,7 +7145,7 @@ function TextureContext(ctx) {
   return (0, _core.Entity)(ctx, initialState, (0, _utils.isolate)((0, _data.TextureDataContext)(ctx, initialState)), (0, _pointer.TexturePointerContext)(ctx, initialState), (0, _info.TextureInfoContext)(ctx, initialState));
 }
 
-},{"../../../core":49,"../../../utils":116,"../defaults":100,"./data":96,"./info":98,"./pointer":99}],96:[function(_dereq_,module,exports){
+},{"../../../core":49,"../../../utils":119,"../defaults":103,"./data":99,"./info":101,"./pointer":102}],99:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6839,7 +7222,7 @@ function TextureDataContext(ctx) {
   }
 }
 
-},{"../../../scope":89,"../../../utils":116,"../../utils":114,"../defaults":100}],97:[function(_dereq_,module,exports){
+},{"../../../scope":92,"../../../utils":119,"../../utils":117,"../defaults":103}],100:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6894,7 +7277,7 @@ Object.keys(_info).forEach(function (key) {
   });
 });
 
-},{"./context":95,"./data":96,"./info":98,"./pointer":99}],98:[function(_dereq_,module,exports){
+},{"./context":98,"./data":99,"./info":101,"./pointer":102}],101:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6942,7 +7325,7 @@ function TextureInfoContext(ctx) {
   });
 }
 
-},{"../../../scope":89,"../../../utils":116,"../../utils":114,"../defaults":100}],99:[function(_dereq_,module,exports){
+},{"../../../scope":92,"../../../utils":119,"../../utils":117,"../defaults":103}],102:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -7126,7 +7509,7 @@ function TexturePointerContext(ctx) {
   });
 }
 
-},{"../../../scope":89,"../../../utils":116,"../../utils":114,"../defaults":100,"regl-extend":300}],100:[function(_dereq_,module,exports){
+},{"../../../scope":92,"../../../utils":119,"../../utils":117,"../defaults":103,"regl-extend":303}],103:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7138,7 +7521,7 @@ var format = exports.format = 'rgba';
 var min = exports.min = 'linear';
 var mag = exports.mag = 'linear';
 
-},{}],101:[function(_dereq_,module,exports){
+},{}],104:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7181,7 +7564,7 @@ Object.keys(_texture).forEach(function (key) {
   });
 });
 
-},{"./context":97,"./texture":102,"./uniforms":103}],102:[function(_dereq_,module,exports){
+},{"./context":100,"./texture":105,"./uniforms":106}],105:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7216,7 +7599,7 @@ function Texture(ctx) {
   return (0, _context.TextureContext)(ctx, initialState);
 }
 
-},{"../../utils":116,"./context":97,"./defaults":100}],103:[function(_dereq_,module,exports){
+},{"../../utils":119,"./context":100,"./defaults":103}],106:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7269,7 +7652,7 @@ function TextureShaderUniforms(ctx) {
   }), _ShaderUniforms));
 }
 
-},{"../../shader":92,"../../utils":116,"./defaults":100}],104:[function(_dereq_,module,exports){
+},{"../../shader":95,"../../utils":119,"./defaults":103}],107:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7312,7 +7695,7 @@ function CubeTextureContext(ctx) {
   return (0, _core.Entity)(ctx, initialState, (0, _utils.isolate)((0, _data.CubeTextureDataContext)(ctx, initialState)), (0, _pointer.CubeTexturePointerContext)(ctx, initialState), (0, _info.CubeTextureInfoContext)(ctx, initialState));
 }
 
-},{"../../../core":49,"../../../utils":116,"../defaults":109,"./data":105,"./info":107,"./pointer":108}],105:[function(_dereq_,module,exports){
+},{"../../../core":49,"../../../utils":119,"../defaults":112,"./data":108,"./info":110,"./pointer":111}],108:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7401,9 +7784,9 @@ function CubeTextureDataContext(ctx) {
   });
 }
 
-},{"../../../scope":89,"../../../utils":116,"../../utils":114,"../defaults":109}],106:[function(_dereq_,module,exports){
-arguments[4][97][0].apply(exports,arguments)
-},{"./context":104,"./data":105,"./info":107,"./pointer":108,"dup":97}],107:[function(_dereq_,module,exports){
+},{"../../../scope":92,"../../../utils":119,"../../utils":117,"../defaults":112}],109:[function(_dereq_,module,exports){
+arguments[4][100][0].apply(exports,arguments)
+},{"./context":107,"./data":108,"./info":110,"./pointer":111,"dup":100}],110:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7451,7 +7834,7 @@ function CubeTextureInfoContext(ctx) {
   });
 }
 
-},{"../../../scope":89,"../../../utils":116,"../../utils":114,"../defaults":109}],108:[function(_dereq_,module,exports){
+},{"../../../scope":92,"../../../utils":119,"../../utils":117,"../defaults":112}],111:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7524,7 +7907,7 @@ function CubeTexturePointerContext(ctx) {
   });
 }
 
-},{"../../../core":49,"../../../scope":89,"../../../utils":116,"../../utils":114,"../defaults":109,"regl-extend":300}],109:[function(_dereq_,module,exports){
+},{"../../../core":49,"../../../scope":92,"../../../utils":119,"../../utils":117,"../defaults":112,"regl-extend":303}],112:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7536,9 +7919,9 @@ var format = exports.format = 'rgba';
 var min = exports.min = 'linear';
 var mag = exports.mag = 'linear';
 
-},{}],110:[function(_dereq_,module,exports){
-arguments[4][101][0].apply(exports,arguments)
-},{"./context":106,"./texture":111,"./uniforms":112,"dup":101}],111:[function(_dereq_,module,exports){
+},{}],113:[function(_dereq_,module,exports){
+arguments[4][104][0].apply(exports,arguments)
+},{"./context":109,"./texture":114,"./uniforms":115,"dup":104}],114:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7573,7 +7956,7 @@ function CubeTexture(ctx) {
   return (0, _context.CubeTextureContext)(ctx, initialState);
 }
 
-},{"../../utils":116,"./context":106,"./defaults":109}],112:[function(_dereq_,module,exports){
+},{"../../utils":119,"./context":109,"./defaults":112}],115:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7626,7 +8009,7 @@ function CubeTextureShaderUniforms(ctx) {
   }), _ShaderUniforms));
 }
 
-},{"../../shader":92,"../../utils":116,"./defaults":109}],113:[function(_dereq_,module,exports){
+},{"../../shader":95,"../../utils":119,"./defaults":112}],116:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7657,7 +8040,7 @@ Object.keys(_d).forEach(function (key) {
   });
 });
 
-},{"./2d":101,"./cube":110}],114:[function(_dereq_,module,exports){
+},{"./2d":104,"./cube":113}],117:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7771,7 +8154,7 @@ function getCubeTextureDataResolution(data) {
   }
 }
 
-},{"global/window":276}],115:[function(_dereq_,module,exports){
+},{"global/window":279}],118:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7828,7 +8211,7 @@ function createUniqueUpdateFunction(initialState, update) {
   });
 }
 
-},{"./core":49,"./utils":116}],116:[function(_dereq_,module,exports){
+},{"./core":49,"./utils":119}],119:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -7857,6 +8240,12 @@ exports.ensureRGBA = ensureRGBA;
 exports.ensureRGB = ensureRGB;
 exports.isArrayLike = isArrayLike;
 exports.normalizeScaleVector = normalizeScaleVector;
+exports.ensureObject = ensureObject;
+exports.ensureArray = ensureArray;
+exports.toTypeString = toTypeString;
+exports.assertComponentArguments = assertComponentArguments;
+
+var _errors = _dereq_('./errors');
 
 var _isTypedarray = _dereq_('is-typedarray');
 
@@ -7896,7 +8285,7 @@ function _toConsumableArray(arr) {
   }
 }
 
-var kLibraryVersion = '0.6.3';
+var kLibraryVersion = '0.6.4';
 var TypedArray = Object.getPrototypeOf(Float32Array.prototype).constructor;
 
 var HTMLImageElement = _window2.default.HTMLImageElement;
@@ -7907,13 +8296,13 @@ var HTMLCanvasElement = _window2.default.HTMLCanvasElement;
  * debug(...string) -> void
  */
 
-var debug = exports.debug = (0, _debug2.default)('[axis3d@' + kLibraryVersion + ']'
+var debug = exports.debug = (0, _debug2.default)('[axis3d@' + kLibraryVersion + ']');
 
 /**
  * Isolates a function into an isolated lambda scope.
  * isolate(fn: Function) -> (...args) -> fn(...args)
  */
-);var isolate = exports.isolate = function isolate(fn) {
+var isolate = exports.isolate = function isolate(fn) {
   return function () {
     return fn.apply(undefined, arguments);
   };
@@ -7940,15 +8329,15 @@ var lerp = exports.lerp = function lerp(v0, v1, t) {
  * fill(size: Number, value: Any) -> Array<Any>
  */
 var fill = exports.fill = function fill(size, value) {
-  return Array(size).fill(value
+  return Array(size).fill(value);
+};
 
-  /**
-   * Assigns values in defaults object into input
-   * object if not already present.
-   * assignDefaults(object: Object, defaults: Object) -> Object
-   */
-  );
-};function assignDefaults(object, defaults) {
+/**
+ * Assigns values in defaults object into input
+ * object if not already present.
+ * assignDefaults(object: Object, defaults: Object) -> Object
+ */
+function assignDefaults(object, defaults) {
   return (0, _extend2.default)(true, object, (0, _extend2.default)(true, {}, defaults, object));
 }
 
@@ -8109,7 +8498,7 @@ function ensureRGB(color) {
 }
 
 /**
- * Predicate functino to determine if an input array is "array like".
+ * Predicate function to determine if an input array is "array like".
  * isArrayLike(array: Any) -> Boolean
  */
 function isArrayLike(array) {
@@ -8130,13 +8519,68 @@ function normalizeScaleVector(scale) {
   if ('number' == typeof scale) {
     return fill(3, scale);
   } else if (Array.isArray(scale)) {
-    return Object.assign(scale, defaultScale).slice(0, 3);
+    return Object.assign(scale, Object.assign([], defaultScale, scale)).slice(0, 3);
   } else {
     return defaultScale;
   }
 }
 
-},{"clamp":123,"debug":125,"extend":130,"global/document":275,"global/window":276,"is-typedarray":289}],117:[function(_dereq_,module,exports){
+/**
+ * Ensures an object is returned if input value is not one.
+ * ensureObject(value: Any) -> Object
+ */
+function ensureObject(value) {
+  if (!value) {
+    return {};
+  }
+  if (Array.isArray(value)) {
+    return {};
+  }
+  if ('object' != (typeof value === 'undefined' ? 'undefined' : _typeof(value))) {
+    return {};
+  }
+  return value;
+}
+
+/**
+ * Ensures an array is returned if input value is not one.
+ * ensureArray(value: Any) -> Array
+ */
+function ensureArray(value) {
+  if (!value) {
+    return [];
+  }
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value;
+}
+
+/**
+ * Extracts, formats, and returns the internal type string
+ * for any value.
+ * toTypeString(value: Any) -> String
+ */
+function toTypeString(value) {
+  return Object.prototype.toString.call(value).toLowerCase().replace('[object ', '').replace(']', '');
+}
+
+/**
+ * Asserts a named components arguments are correct. This function will throw
+ * a MissingContextError or BadArgumentError error.
+ * assertComponentArguments(ctx: Any, initialState: Any) -> void
+ */
+function assertComponentArguments(label, ctx, initialState) {
+  if (undefined === ctx) {
+    throw new _errors.MissingContextError(label);
+  } else if (null === ctx || 'object' != (typeof ctx === 'undefined' ? 'undefined' : _typeof(ctx)) || Array.isArray(ctx)) {
+    throw new _errors.BadArgumentError(0, 'ctx', ctx, 'object');
+  } else if (initialState && 'object' != (typeof initialState === 'undefined' ? 'undefined' : _typeof(initialState))) {
+    throw new _errors.BadArgumentError(1, 'initialState', initialState, 'object');
+  }
+}
+
+},{"./errors":53,"clamp":127,"debug":128,"extend":133,"global/document":278,"global/window":279,"is-typedarray":292}],120:[function(_dereq_,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8157,7 +8601,7 @@ function Viewport(ctx) {
   return ctx.regl({ viewport: initialState.viewport });
 }
 
-},{}],118:[function(_dereq_,module,exports){
+},{}],121:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -16534,7 +16978,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 });
 
 
-},{}],119:[function(_dereq_,module,exports){
+},{}],122:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -16645,7 +17089,7 @@ function flattenDownDepth(array, result, depth) {
   return result;
 }
 
-},{}],120:[function(_dereq_,module,exports){
+},{}],123:[function(_dereq_,module,exports){
 (function (global){
 'use strict';
 
@@ -17120,7 +17564,61 @@ var objectKeys = Object.keys || function (obj) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"util/":309}],121:[function(_dereq_,module,exports){
+},{"util/":312}],124:[function(_dereq_,module,exports){
+"use strict";
+
+module.exports = balanced;
+function balanced(a, b, str) {
+  var r = range(a, b, str);
+
+  return r && {
+    start: r[0],
+    end: r[1],
+    pre: str.slice(0, r[0]),
+    body: str.slice(r[0] + a.length, r[1]),
+    post: str.slice(r[1] + b.length)
+  };
+}
+
+balanced.range = range;
+function range(a, b, str) {
+  var begs, beg, left, right, result;
+  var ai = str.indexOf(a);
+  var bi = str.indexOf(b, ai + 1);
+  var i = ai;
+
+  if (ai >= 0 && bi > 0) {
+    begs = [];
+    left = str.length;
+
+    while (i < str.length && i >= 0 && !result) {
+      if (i == ai) {
+        begs.push(i);
+        ai = str.indexOf(a, i + 1);
+      } else if (begs.length == 1) {
+        result = [begs.pop(), bi];
+      } else {
+        beg = begs.pop();
+        if (beg < left) {
+          left = beg;
+          right = bi;
+        }
+
+        bi = str.indexOf(b, i + 1);
+      }
+
+      i = ai < bi && ai >= 0 ? ai : bi;
+    }
+
+    if (begs.length) {
+      result = [left, right];
+    }
+  }
+
+  return result;
+}
+
+},{}],125:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = findBounds;
@@ -17144,10 +17642,10 @@ function findBounds(points) {
   return [lo, hi];
 }
 
-},{}],122:[function(_dereq_,module,exports){
+},{}],126:[function(_dereq_,module,exports){
 "use strict";
 
-},{}],123:[function(_dereq_,module,exports){
+},{}],127:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clamp;
@@ -17156,156 +17654,7 @@ function clamp(value, min, max) {
   return min < max ? value < min ? min : value > max ? max : value : value < max ? max : value > min ? min : value;
 }
 
-},{}],124:[function(_dereq_,module,exports){
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function (val, options) {
-  options = options || {};
-  var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val));
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd';
-  }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  return plural(ms, d, 'day') || plural(ms, h, 'hour') || plural(ms, m, 'minute') || plural(ms, s, 'second') || ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) {
-    return;
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name;
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's';
-}
-
-},{}],125:[function(_dereq_,module,exports){
+},{}],128:[function(_dereq_,module,exports){
 (function (process){
 'use strict';
 
@@ -17385,12 +17734,12 @@ function formatArgs(args) {
   if (!useColors) return;
 
   var c = 'color: ' + this.color;
-  args.splice(1, 0, c, 'color: inherit'
+  args.splice(1, 0, c, 'color: inherit');
 
   // the final "%c" is somewhat tricky, because there could be other
   // arguments passed either before or after the %c, so we need to
   // figure out the correct index to insert the CSS into
-  );var index = 0;
+  var index = 0;
   var lastC = 0;
   args[0].replace(/%[a-zA-Z%]/g, function (match) {
     if ('%%' === match) return;
@@ -17480,7 +17829,7 @@ function localstorage() {
 }
 
 }).call(this,_dereq_('_process'))
-},{"./debug":126,"_process":296}],126:[function(_dereq_,module,exports){
+},{"./debug":129,"_process":300}],129:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -17686,7 +18035,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":124}],127:[function(_dereq_,module,exports){
+},{"ms":294}],130:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -17695,7 +18044,7 @@ module.exports = function () {
     }
 };
 
-},{}],128:[function(_dereq_,module,exports){
+},{}],131:[function(_dereq_,module,exports){
 'use strict';
 
 var synth = _dereq_('synthetic-dom-events');
@@ -17747,7 +18096,7 @@ module.exports = {
     emit: emit
 };
 
-},{"synthetic-dom-events":302}],129:[function(_dereq_,module,exports){
+},{"synthetic-dom-events":305}],132:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -18022,7 +18371,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],130:[function(_dereq_,module,exports){
+},{}],133:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -18112,7 +18461,7 @@ module.exports = function extend() {
 	return target;
 };
 
-},{}],131:[function(_dereq_,module,exports){
+},{}],134:[function(_dereq_,module,exports){
 'use strict';
 
 var invert = _dereq_('gl-mat4/invert');
@@ -18129,7 +18478,7 @@ function getEyeVector(viewMatrix, out) {
   return out;
 }
 
-},{"gl-mat4/invert":161}],132:[function(_dereq_,module,exports){
+},{"gl-mat4/invert":164}],135:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = adjoint;
@@ -18166,7 +18515,7 @@ function adjoint(out, a) {
   return out;
 }
 
-},{}],133:[function(_dereq_,module,exports){
+},{}],136:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -18192,7 +18541,7 @@ function clone(a) {
   return out;
 }
 
-},{}],134:[function(_dereq_,module,exports){
+},{}],137:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -18218,7 +18567,7 @@ function copy(out, a) {
   return out;
 }
 
-},{}],135:[function(_dereq_,module,exports){
+},{}],138:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -18243,7 +18592,7 @@ function create() {
   return out;
 }
 
-},{}],136:[function(_dereq_,module,exports){
+},{}],139:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = determinant;
@@ -18269,7 +18618,7 @@ function determinant(a) {
   return a00 * (a22 * a11 - a12 * a21) + a01 * (a12 * a20 - a22 * a10) + a02 * (a21 * a10 - a11 * a20);
 }
 
-},{}],137:[function(_dereq_,module,exports){
+},{}],140:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = frob;
@@ -18285,7 +18634,7 @@ function frob(a) {
   return Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2] + a[3] * a[3] + a[4] * a[4] + a[5] * a[5] + a[6] * a[6] + a[7] * a[7] + a[8] * a[8]);
 }
 
-},{}],138:[function(_dereq_,module,exports){
+},{}],141:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromMat2d;
@@ -18314,7 +18663,7 @@ function fromMat2d(out, a) {
   return out;
 }
 
-},{}],139:[function(_dereq_,module,exports){
+},{}],142:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromMat4;
@@ -18340,7 +18689,7 @@ function fromMat4(out, a) {
   return out;
 }
 
-},{}],140:[function(_dereq_,module,exports){
+},{}],143:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromQuat;
@@ -18389,7 +18738,7 @@ function fromQuat(out, q) {
   return out;
 }
 
-},{}],141:[function(_dereq_,module,exports){
+},{}],144:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = identity;
@@ -18414,7 +18763,7 @@ function identity(out) {
   return out;
 }
 
-},{}],142:[function(_dereq_,module,exports){
+},{}],145:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -18438,7 +18787,7 @@ module.exports = {
   transpose: _dereq_('./transpose')
 };
 
-},{"./adjoint":132,"./clone":133,"./copy":134,"./create":135,"./determinant":136,"./frob":137,"./from-mat2":138,"./from-mat4":139,"./from-quat":140,"./identity":141,"./invert":143,"./multiply":144,"./normal-from-mat4":145,"./rotate":146,"./scale":147,"./str":148,"./translate":149,"./transpose":150}],143:[function(_dereq_,module,exports){
+},{"./adjoint":135,"./clone":136,"./copy":137,"./create":138,"./determinant":139,"./frob":140,"./from-mat2":141,"./from-mat4":142,"./from-quat":143,"./identity":144,"./invert":146,"./multiply":147,"./normal-from-mat4":148,"./rotate":149,"./scale":150,"./str":151,"./translate":152,"./transpose":153}],146:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = invert;
@@ -18485,7 +18834,7 @@ function invert(out, a) {
   return out;
 }
 
-},{}],144:[function(_dereq_,module,exports){
+},{}],147:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -18535,7 +18884,7 @@ function multiply(out, a, b) {
   return out;
 }
 
-},{}],145:[function(_dereq_,module,exports){
+},{}],148:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = normalFromMat4;
@@ -18601,7 +18950,7 @@ function normalFromMat4(out, a) {
   return out;
 }
 
-},{}],146:[function(_dereq_,module,exports){
+},{}],149:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotate;
@@ -18644,7 +18993,7 @@ function rotate(out, a, rad) {
   return out;
 }
 
-},{}],147:[function(_dereq_,module,exports){
+},{}],150:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -18677,7 +19026,7 @@ function scale(out, a, v) {
   return out;
 }
 
-},{}],148:[function(_dereq_,module,exports){
+},{}],151:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = str;
@@ -18693,7 +19042,7 @@ function str(a) {
   return 'mat3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + a[6] + ', ' + a[7] + ', ' + a[8] + ')';
 }
 
-},{}],149:[function(_dereq_,module,exports){
+},{}],152:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = translate;
@@ -18735,7 +19084,7 @@ function translate(out, a, v) {
   return out;
 }
 
-},{}],150:[function(_dereq_,module,exports){
+},{}],153:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transpose;
@@ -18775,7 +19124,7 @@ function transpose(out, a) {
   return out;
 }
 
-},{}],151:[function(_dereq_,module,exports){
+},{}],154:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = adjoint;
@@ -18824,7 +19173,7 @@ function adjoint(out, a) {
     return out;
 };
 
-},{}],152:[function(_dereq_,module,exports){
+},{}],155:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -18856,7 +19205,7 @@ function clone(a) {
     return out;
 };
 
-},{}],153:[function(_dereq_,module,exports){
+},{}],156:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -18888,7 +19237,7 @@ function copy(out, a) {
     return out;
 };
 
-},{}],154:[function(_dereq_,module,exports){
+},{}],157:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -18919,7 +19268,7 @@ function create() {
     return out;
 };
 
-},{}],155:[function(_dereq_,module,exports){
+},{}],158:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = determinant;
@@ -18964,7 +19313,7 @@ function determinant(a) {
     return b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 };
 
-},{}],156:[function(_dereq_,module,exports){
+},{}],159:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromQuat;
@@ -19017,7 +19366,7 @@ function fromQuat(out, q) {
     return out;
 };
 
-},{}],157:[function(_dereq_,module,exports){
+},{}],160:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromRotationTranslation;
@@ -19076,7 +19425,7 @@ function fromRotationTranslation(out, q, v) {
     return out;
 };
 
-},{}],158:[function(_dereq_,module,exports){
+},{}],161:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = frustum;
@@ -19116,7 +19465,7 @@ function frustum(out, left, right, bottom, top, near, far) {
     return out;
 };
 
-},{}],159:[function(_dereq_,module,exports){
+},{}],162:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = identity;
@@ -19147,7 +19496,7 @@ function identity(out) {
     return out;
 };
 
-},{}],160:[function(_dereq_,module,exports){
+},{}],163:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -19176,7 +19525,7 @@ module.exports = {
   str: _dereq_('./str')
 };
 
-},{"./adjoint":151,"./clone":152,"./copy":153,"./create":154,"./determinant":155,"./fromQuat":156,"./fromRotationTranslation":157,"./frustum":158,"./identity":159,"./invert":161,"./lookAt":162,"./multiply":163,"./ortho":164,"./perspective":165,"./perspectiveFromFieldOfView":166,"./rotate":167,"./rotateX":168,"./rotateY":169,"./rotateZ":170,"./scale":171,"./str":172,"./translate":173,"./transpose":174}],161:[function(_dereq_,module,exports){
+},{"./adjoint":154,"./clone":155,"./copy":156,"./create":157,"./determinant":158,"./fromQuat":159,"./fromRotationTranslation":160,"./frustum":161,"./identity":162,"./invert":164,"./lookAt":165,"./multiply":166,"./ortho":167,"./perspective":168,"./perspectiveFromFieldOfView":169,"./rotate":170,"./rotateX":171,"./rotateY":172,"./rotateZ":173,"./scale":174,"./str":175,"./translate":176,"./transpose":177}],164:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = invert;
@@ -19247,7 +19596,7 @@ function invert(out, a) {
     return out;
 };
 
-},{}],162:[function(_dereq_,module,exports){
+},{}],165:[function(_dereq_,module,exports){
 'use strict';
 
 var identity = _dereq_('./identity');
@@ -19348,7 +19697,7 @@ function lookAt(out, eye, center, up) {
     return out;
 };
 
-},{"./identity":159}],163:[function(_dereq_,module,exports){
+},{"./identity":162}],166:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -19409,7 +19758,7 @@ function multiply(out, a, b) {
     return out;
 };
 
-},{}],164:[function(_dereq_,module,exports){
+},{}],167:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = ortho;
@@ -19449,7 +19798,7 @@ function ortho(out, left, right, bottom, top, near, far) {
     return out;
 };
 
-},{}],165:[function(_dereq_,module,exports){
+},{}],168:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = perspective;
@@ -19486,7 +19835,7 @@ function perspective(out, fovy, aspect, near, far) {
     return out;
 };
 
-},{}],166:[function(_dereq_,module,exports){
+},{}],169:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = perspectiveFromFieldOfView;
@@ -19529,7 +19878,7 @@ function perspectiveFromFieldOfView(out, fov, near, far) {
     return out;
 }
 
-},{}],167:[function(_dereq_,module,exports){
+},{}],170:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotate;
@@ -19619,7 +19968,7 @@ function rotate(out, a, rad, axis) {
     return out;
 };
 
-},{}],168:[function(_dereq_,module,exports){
+},{}],171:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateX;
@@ -19668,7 +20017,7 @@ function rotateX(out, a, rad) {
     return out;
 };
 
-},{}],169:[function(_dereq_,module,exports){
+},{}],172:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateY;
@@ -19717,7 +20066,7 @@ function rotateY(out, a, rad) {
     return out;
 };
 
-},{}],170:[function(_dereq_,module,exports){
+},{}],173:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateZ;
@@ -19766,7 +20115,7 @@ function rotateZ(out, a, rad) {
     return out;
 };
 
-},{}],171:[function(_dereq_,module,exports){
+},{}],174:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -19803,7 +20152,7 @@ function scale(out, a, v) {
     return out;
 };
 
-},{}],172:[function(_dereq_,module,exports){
+},{}],175:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = str;
@@ -19818,7 +20167,7 @@ function str(a) {
   return 'mat4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + a[6] + ', ' + a[7] + ', ' + a[8] + ', ' + a[9] + ', ' + a[10] + ', ' + a[11] + ', ' + a[12] + ', ' + a[13] + ', ' + a[14] + ', ' + a[15] + ')';
 };
 
-},{}],173:[function(_dereq_,module,exports){
+},{}],176:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = translate;
@@ -19871,7 +20220,7 @@ function translate(out, a, v) {
     return out;
 };
 
-},{}],174:[function(_dereq_,module,exports){
+},{}],177:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transpose;
@@ -19927,7 +20276,7 @@ function transpose(out, a) {
     return out;
 };
 
-},{}],175:[function(_dereq_,module,exports){
+},{}],178:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -19941,7 +20290,7 @@ function transpose(out, a) {
  */
 module.exports = _dereq_('gl-vec4/add');
 
-},{"gl-vec4/add":264}],176:[function(_dereq_,module,exports){
+},{"gl-vec4/add":267}],179:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = calculateW;
@@ -19967,7 +20316,7 @@ function calculateW(out, a) {
   return out;
 }
 
-},{}],177:[function(_dereq_,module,exports){
+},{}],180:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -19979,7 +20328,7 @@ function calculateW(out, a) {
  */
 module.exports = _dereq_('gl-vec4/clone');
 
-},{"gl-vec4/clone":265}],178:[function(_dereq_,module,exports){
+},{"gl-vec4/clone":268}],181:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = conjugate;
@@ -20000,7 +20349,7 @@ function conjugate(out, a) {
   return out;
 }
 
-},{}],179:[function(_dereq_,module,exports){
+},{}],182:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -20013,7 +20362,7 @@ function conjugate(out, a) {
  */
 module.exports = _dereq_('gl-vec4/copy');
 
-},{"gl-vec4/copy":266}],180:[function(_dereq_,module,exports){
+},{"gl-vec4/copy":269}],183:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -20032,7 +20381,7 @@ function create() {
   return out;
 }
 
-},{}],181:[function(_dereq_,module,exports){
+},{}],184:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -20045,7 +20394,7 @@ function create() {
  */
 module.exports = _dereq_('gl-vec4/dot');
 
-},{"gl-vec4/dot":267}],182:[function(_dereq_,module,exports){
+},{"gl-vec4/dot":270}],185:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromMat3;
@@ -20069,8 +20418,8 @@ function fromMat3(out, m) {
 
   if (fTrace > 0.0) {
     // |w| > 1/2, may as well choose w > 1/2
-    fRoot = Math.sqrt(fTrace + 1.0 // 2w
-    );out[3] = 0.5 * fRoot;
+    fRoot = Math.sqrt(fTrace + 1.0); // 2w
+    out[3] = 0.5 * fRoot;
     fRoot = 0.5 / fRoot; // 1/(4w)
     out[0] = (m[5] - m[7]) * fRoot;
     out[1] = (m[6] - m[2]) * fRoot;
@@ -20098,7 +20447,7 @@ function fromMat3(out, m) {
   return out;
 }
 
-},{}],183:[function(_dereq_,module,exports){
+},{}],186:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -20113,7 +20462,7 @@ function fromMat3(out, m) {
  */
 module.exports = _dereq_('gl-vec4/fromValues');
 
-},{"gl-vec4/fromValues":268}],184:[function(_dereq_,module,exports){
+},{"gl-vec4/fromValues":271}],187:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = identity;
@@ -20132,7 +20481,7 @@ function identity(out) {
   return out;
 }
 
-},{}],185:[function(_dereq_,module,exports){
+},{}],188:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -20164,7 +20513,7 @@ module.exports = {
   squaredLength: _dereq_('./squaredLength')
 };
 
-},{"./add":175,"./calculateW":176,"./clone":177,"./conjugate":178,"./copy":179,"./create":180,"./dot":181,"./fromMat3":182,"./fromValues":183,"./identity":184,"./invert":186,"./length":187,"./lerp":188,"./multiply":189,"./normalize":190,"./rotateX":191,"./rotateY":192,"./rotateZ":193,"./rotationTo":194,"./scale":195,"./set":196,"./setAxes":197,"./setAxisAngle":198,"./slerp":199,"./sqlerp":200,"./squaredLength":201}],186:[function(_dereq_,module,exports){
+},{"./add":178,"./calculateW":179,"./clone":180,"./conjugate":181,"./copy":182,"./create":183,"./dot":184,"./fromMat3":185,"./fromValues":186,"./identity":187,"./invert":189,"./length":190,"./lerp":191,"./multiply":192,"./normalize":193,"./rotateX":194,"./rotateY":195,"./rotateZ":196,"./rotationTo":197,"./scale":198,"./set":199,"./setAxes":200,"./setAxisAngle":201,"./slerp":202,"./sqlerp":203,"./squaredLength":204}],189:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = invert;
@@ -20193,7 +20542,7 @@ function invert(out, a) {
   return out;
 }
 
-},{}],187:[function(_dereq_,module,exports){
+},{}],190:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -20205,7 +20554,7 @@ function invert(out, a) {
  */
 module.exports = _dereq_('gl-vec4/length');
 
-},{"gl-vec4/length":269}],188:[function(_dereq_,module,exports){
+},{"gl-vec4/length":272}],191:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -20220,7 +20569,7 @@ module.exports = _dereq_('gl-vec4/length');
  */
 module.exports = _dereq_('gl-vec4/lerp');
 
-},{"gl-vec4/lerp":270}],189:[function(_dereq_,module,exports){
+},{"gl-vec4/lerp":273}],192:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -20250,7 +20599,7 @@ function multiply(out, a, b) {
   return out;
 }
 
-},{}],190:[function(_dereq_,module,exports){
+},{}],193:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -20263,7 +20612,7 @@ function multiply(out, a, b) {
  */
 module.exports = _dereq_('gl-vec4/normalize');
 
-},{"gl-vec4/normalize":271}],191:[function(_dereq_,module,exports){
+},{"gl-vec4/normalize":274}],194:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateX;
@@ -20293,7 +20642,7 @@ function rotateX(out, a, rad) {
   return out;
 }
 
-},{}],192:[function(_dereq_,module,exports){
+},{}],195:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateY;
@@ -20323,7 +20672,7 @@ function rotateY(out, a, rad) {
   return out;
 }
 
-},{}],193:[function(_dereq_,module,exports){
+},{}],196:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateZ;
@@ -20353,7 +20702,7 @@ function rotateZ(out, a, rad) {
   return out;
 }
 
-},{}],194:[function(_dereq_,module,exports){
+},{}],197:[function(_dereq_,module,exports){
 'use strict';
 
 var vecDot = _dereq_('gl-vec3/dot');
@@ -20407,7 +20756,7 @@ function rotationTo(out, a, b) {
   }
 }
 
-},{"./normalize":190,"./setAxisAngle":198,"gl-vec3/cross":236,"gl-vec3/dot":239,"gl-vec3/length":244,"gl-vec3/normalize":250}],195:[function(_dereq_,module,exports){
+},{"./normalize":193,"./setAxisAngle":201,"gl-vec3/cross":239,"gl-vec3/dot":242,"gl-vec3/length":247,"gl-vec3/normalize":253}],198:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -20421,7 +20770,7 @@ function rotationTo(out, a, b) {
  */
 module.exports = _dereq_('gl-vec4/scale');
 
-},{"gl-vec4/scale":272}],196:[function(_dereq_,module,exports){
+},{"gl-vec4/scale":275}],199:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -20437,7 +20786,7 @@ module.exports = _dereq_('gl-vec4/scale');
  */
 module.exports = _dereq_('gl-vec4/set');
 
-},{"gl-vec4/set":273}],197:[function(_dereq_,module,exports){
+},{"gl-vec4/set":276}],200:[function(_dereq_,module,exports){
 'use strict';
 
 var mat3create = _dereq_('gl-mat3/create');
@@ -20446,7 +20795,7 @@ var normalize = _dereq_('./normalize');
 
 module.exports = setAxes;
 
-var matr = mat3create
+var matr = mat3create();
 
 /**
  * Sets the specified quaternion with values corresponding to the given
@@ -20458,7 +20807,7 @@ var matr = mat3create
  * @param {vec3} up    the vector representing the local "up" direction
  * @returns {quat} out
  */
-();function setAxes(out, view, right, up) {
+function setAxes(out, view, right, up) {
   matr[0] = right[0];
   matr[3] = right[1];
   matr[6] = right[2];
@@ -20474,7 +20823,7 @@ var matr = mat3create
   return normalize(out, fromMat3(out, matr));
 }
 
-},{"./fromMat3":182,"./normalize":190,"gl-mat3/create":135}],198:[function(_dereq_,module,exports){
+},{"./fromMat3":185,"./normalize":193,"gl-mat3/create":138}],201:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = setAxisAngle;
@@ -20498,7 +20847,7 @@ function setAxisAngle(out, axis, rad) {
   return out;
 }
 
-},{}],199:[function(_dereq_,module,exports){
+},{}],202:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = slerp;
@@ -20559,7 +20908,7 @@ function slerp(out, a, b, t) {
   return out;
 }
 
-},{}],200:[function(_dereq_,module,exports){
+},{}],203:[function(_dereq_,module,exports){
 'use strict';
 
 var slerp = _dereq_('./slerp');
@@ -20588,7 +20937,7 @@ function sqlerp(out, a, b, c, d, t) {
   return out;
 }
 
-},{"./slerp":199}],201:[function(_dereq_,module,exports){
+},{"./slerp":202}],204:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -20600,7 +20949,7 @@ function sqlerp(out, a, b, c, d, t) {
  */
 module.exports = _dereq_('gl-vec4/squaredLength');
 
-},{"gl-vec4/squaredLength":274}],202:[function(_dereq_,module,exports){
+},{"gl-vec4/squaredLength":277}],205:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = add;
@@ -20619,7 +20968,7 @@ function add(out, a, b) {
   return out;
 }
 
-},{}],203:[function(_dereq_,module,exports){
+},{}],206:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -20637,7 +20986,7 @@ function clone(a) {
   return out;
 }
 
-},{}],204:[function(_dereq_,module,exports){
+},{}],207:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -20655,7 +21004,7 @@ function copy(out, a) {
   return out;
 }
 
-},{}],205:[function(_dereq_,module,exports){
+},{}],208:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -20672,7 +21021,7 @@ function create() {
   return out;
 }
 
-},{}],206:[function(_dereq_,module,exports){
+},{}],209:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = cross;
@@ -20693,7 +21042,7 @@ function cross(out, a, b) {
   return out;
 }
 
-},{}],207:[function(_dereq_,module,exports){
+},{}],210:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = distance;
@@ -20711,7 +21060,7 @@ function distance(a, b) {
     return Math.sqrt(x * x + y * y);
 }
 
-},{}],208:[function(_dereq_,module,exports){
+},{}],211:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = divide;
@@ -20730,7 +21079,7 @@ function divide(out, a, b) {
   return out;
 }
 
-},{}],209:[function(_dereq_,module,exports){
+},{}],212:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = dot;
@@ -20746,12 +21095,12 @@ function dot(a, b) {
   return a[0] * b[0] + a[1] * b[1];
 }
 
-},{}],210:[function(_dereq_,module,exports){
+},{}],213:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = forEach;
 
-var vec = _dereq_('./create')
+var vec = _dereq_('./create')();
 
 /**
  * Perform some operation over an array of vec2s.
@@ -20765,7 +21114,7 @@ var vec = _dereq_('./create')
  * @returns {Array} a
  * @function
  */
-();function forEach(a, stride, offset, count, fn, arg) {
+function forEach(a, stride, offset, count, fn, arg) {
     var i, l;
     if (!stride) {
         stride = 2;
@@ -20792,7 +21141,7 @@ var vec = _dereq_('./create')
     return a;
 }
 
-},{"./create":205}],211:[function(_dereq_,module,exports){
+},{"./create":208}],214:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromValues;
@@ -20811,7 +21160,7 @@ function fromValues(x, y) {
   return out;
 }
 
-},{}],212:[function(_dereq_,module,exports){
+},{}],215:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -20845,7 +21194,7 @@ module.exports = {
   forEach: _dereq_('./forEach')
 };
 
-},{"./add":202,"./clone":203,"./copy":204,"./create":205,"./cross":206,"./distance":207,"./divide":208,"./dot":209,"./forEach":210,"./fromValues":211,"./length":213,"./lerp":214,"./max":215,"./min":216,"./multiply":217,"./negate":218,"./normalize":219,"./random":220,"./scale":221,"./scaleAndAdd":222,"./set":223,"./squaredDistance":224,"./squaredLength":225,"./subtract":226,"./transformMat2":227,"./transformMat2d":228,"./transformMat3":229,"./transformMat4":230}],213:[function(_dereq_,module,exports){
+},{"./add":205,"./clone":206,"./copy":207,"./create":208,"./cross":209,"./distance":210,"./divide":211,"./dot":212,"./forEach":213,"./fromValues":214,"./length":216,"./lerp":217,"./max":218,"./min":219,"./multiply":220,"./negate":221,"./normalize":222,"./random":223,"./scale":224,"./scaleAndAdd":225,"./set":226,"./squaredDistance":227,"./squaredLength":228,"./subtract":229,"./transformMat2":230,"./transformMat2d":231,"./transformMat3":232,"./transformMat4":233}],216:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = length;
@@ -20862,7 +21211,7 @@ function length(a) {
     return Math.sqrt(x * x + y * y);
 }
 
-},{}],214:[function(_dereq_,module,exports){
+},{}],217:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = lerp;
@@ -20884,7 +21233,7 @@ function lerp(out, a, b, t) {
     return out;
 }
 
-},{}],215:[function(_dereq_,module,exports){
+},{}],218:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = max;
@@ -20903,7 +21252,7 @@ function max(out, a, b) {
   return out;
 }
 
-},{}],216:[function(_dereq_,module,exports){
+},{}],219:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = min;
@@ -20922,7 +21271,7 @@ function min(out, a, b) {
   return out;
 }
 
-},{}],217:[function(_dereq_,module,exports){
+},{}],220:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -20941,7 +21290,7 @@ function multiply(out, a, b) {
   return out;
 }
 
-},{}],218:[function(_dereq_,module,exports){
+},{}],221:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = negate;
@@ -20959,7 +21308,7 @@ function negate(out, a) {
   return out;
 }
 
-},{}],219:[function(_dereq_,module,exports){
+},{}],222:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = normalize;
@@ -20984,7 +21333,7 @@ function normalize(out, a) {
     return out;
 }
 
-},{}],220:[function(_dereq_,module,exports){
+},{}],223:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = random;
@@ -21004,7 +21353,7 @@ function random(out, scale) {
   return out;
 }
 
-},{}],221:[function(_dereq_,module,exports){
+},{}],224:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -21023,7 +21372,7 @@ function scale(out, a, b) {
   return out;
 }
 
-},{}],222:[function(_dereq_,module,exports){
+},{}],225:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scaleAndAdd;
@@ -21043,7 +21392,7 @@ function scaleAndAdd(out, a, b, scale) {
   return out;
 }
 
-},{}],223:[function(_dereq_,module,exports){
+},{}],226:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = set;
@@ -21062,7 +21411,7 @@ function set(out, x, y) {
   return out;
 }
 
-},{}],224:[function(_dereq_,module,exports){
+},{}],227:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredDistance;
@@ -21080,7 +21429,7 @@ function squaredDistance(a, b) {
     return x * x + y * y;
 }
 
-},{}],225:[function(_dereq_,module,exports){
+},{}],228:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredLength;
@@ -21097,7 +21446,7 @@ function squaredLength(a) {
     return x * x + y * y;
 }
 
-},{}],226:[function(_dereq_,module,exports){
+},{}],229:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = subtract;
@@ -21116,7 +21465,7 @@ function subtract(out, a, b) {
   return out;
 }
 
-},{}],227:[function(_dereq_,module,exports){
+},{}],230:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat2;
@@ -21137,7 +21486,7 @@ function transformMat2(out, a, m) {
     return out;
 }
 
-},{}],228:[function(_dereq_,module,exports){
+},{}],231:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat2d;
@@ -21158,7 +21507,7 @@ function transformMat2d(out, a, m) {
     return out;
 }
 
-},{}],229:[function(_dereq_,module,exports){
+},{}],232:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat3;
@@ -21180,7 +21529,7 @@ function transformMat3(out, a, m) {
     return out;
 }
 
-},{}],230:[function(_dereq_,module,exports){
+},{}],233:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat4;
@@ -21203,7 +21552,7 @@ function transformMat4(out, a, m) {
     return out;
 }
 
-},{}],231:[function(_dereq_,module,exports){
+},{}],234:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = add;
@@ -21223,14 +21572,14 @@ function add(out, a, b) {
   return out;
 }
 
-},{}],232:[function(_dereq_,module,exports){
+},{}],235:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = angle;
 
 var fromValues = _dereq_('./fromValues');
 var normalize = _dereq_('./normalize');
-var dot = _dereq_('./dot'
+var dot = _dereq_('./dot');
 
 /**
  * Get the angle between two 3D vectors
@@ -21238,7 +21587,7 @@ var dot = _dereq_('./dot'
  * @param {vec3} b The second operand
  * @returns {Number} The angle in radians
  */
-);function angle(a, b) {
+function angle(a, b) {
     var tempA = fromValues(a[0], a[1], a[2]);
     var tempB = fromValues(b[0], b[1], b[2]);
 
@@ -21254,7 +21603,7 @@ var dot = _dereq_('./dot'
     }
 }
 
-},{"./dot":239,"./fromValues":241,"./normalize":250}],233:[function(_dereq_,module,exports){
+},{"./dot":242,"./fromValues":244,"./normalize":253}],236:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -21273,7 +21622,7 @@ function clone(a) {
   return out;
 }
 
-},{}],234:[function(_dereq_,module,exports){
+},{}],237:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -21292,7 +21641,7 @@ function copy(out, a) {
   return out;
 }
 
-},{}],235:[function(_dereq_,module,exports){
+},{}],238:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = create;
@@ -21310,7 +21659,7 @@ function create() {
     return out;
 }
 
-},{}],236:[function(_dereq_,module,exports){
+},{}],239:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = cross;
@@ -21337,7 +21686,7 @@ function cross(out, a, b) {
     return out;
 }
 
-},{}],237:[function(_dereq_,module,exports){
+},{}],240:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = distance;
@@ -21356,7 +21705,7 @@ function distance(a, b) {
     return Math.sqrt(x * x + y * y + z * z);
 }
 
-},{}],238:[function(_dereq_,module,exports){
+},{}],241:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = divide;
@@ -21376,7 +21725,7 @@ function divide(out, a, b) {
   return out;
 }
 
-},{}],239:[function(_dereq_,module,exports){
+},{}],242:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = dot;
@@ -21392,12 +21741,12 @@ function dot(a, b) {
   return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 }
 
-},{}],240:[function(_dereq_,module,exports){
+},{}],243:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = forEach;
 
-var vec = _dereq_('./create')
+var vec = _dereq_('./create')();
 
 /**
  * Perform some operation over an array of vec3s.
@@ -21411,7 +21760,7 @@ var vec = _dereq_('./create')
  * @returns {Array} a
  * @function
  */
-();function forEach(a, stride, offset, count, fn, arg) {
+function forEach(a, stride, offset, count, fn, arg) {
     var i, l;
     if (!stride) {
         stride = 3;
@@ -21440,7 +21789,7 @@ var vec = _dereq_('./create')
     return a;
 }
 
-},{"./create":235}],241:[function(_dereq_,module,exports){
+},{"./create":238}],244:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromValues;
@@ -21461,7 +21810,7 @@ function fromValues(x, y, z) {
   return out;
 }
 
-},{}],242:[function(_dereq_,module,exports){
+},{}],245:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = {
@@ -21499,7 +21848,7 @@ module.exports = {
   forEach: _dereq_('./forEach')
 };
 
-},{"./add":231,"./angle":232,"./clone":233,"./copy":234,"./create":235,"./cross":236,"./distance":237,"./divide":238,"./dot":239,"./forEach":240,"./fromValues":241,"./inverse":243,"./length":244,"./lerp":245,"./max":246,"./min":247,"./multiply":248,"./negate":249,"./normalize":250,"./random":251,"./rotateX":252,"./rotateY":253,"./rotateZ":254,"./scale":255,"./scaleAndAdd":256,"./set":257,"./squaredDistance":258,"./squaredLength":259,"./subtract":260,"./transformMat3":261,"./transformMat4":262,"./transformQuat":263}],243:[function(_dereq_,module,exports){
+},{"./add":234,"./angle":235,"./clone":236,"./copy":237,"./create":238,"./cross":239,"./distance":240,"./divide":241,"./dot":242,"./forEach":243,"./fromValues":244,"./inverse":246,"./length":247,"./lerp":248,"./max":249,"./min":250,"./multiply":251,"./negate":252,"./normalize":253,"./random":254,"./rotateX":255,"./rotateY":256,"./rotateZ":257,"./scale":258,"./scaleAndAdd":259,"./set":260,"./squaredDistance":261,"./squaredLength":262,"./subtract":263,"./transformMat3":264,"./transformMat4":265,"./transformQuat":266}],246:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = inverse;
@@ -21518,7 +21867,7 @@ function inverse(out, a) {
   return out;
 }
 
-},{}],244:[function(_dereq_,module,exports){
+},{}],247:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = length;
@@ -21536,7 +21885,7 @@ function length(a) {
     return Math.sqrt(x * x + y * y + z * z);
 }
 
-},{}],245:[function(_dereq_,module,exports){
+},{}],248:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = lerp;
@@ -21560,7 +21909,7 @@ function lerp(out, a, b, t) {
     return out;
 }
 
-},{}],246:[function(_dereq_,module,exports){
+},{}],249:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = max;
@@ -21580,7 +21929,7 @@ function max(out, a, b) {
   return out;
 }
 
-},{}],247:[function(_dereq_,module,exports){
+},{}],250:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = min;
@@ -21600,7 +21949,7 @@ function min(out, a, b) {
   return out;
 }
 
-},{}],248:[function(_dereq_,module,exports){
+},{}],251:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = multiply;
@@ -21620,7 +21969,7 @@ function multiply(out, a, b) {
   return out;
 }
 
-},{}],249:[function(_dereq_,module,exports){
+},{}],252:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = negate;
@@ -21639,7 +21988,7 @@ function negate(out, a) {
   return out;
 }
 
-},{}],250:[function(_dereq_,module,exports){
+},{}],253:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = normalize;
@@ -21666,7 +22015,7 @@ function normalize(out, a) {
     return out;
 }
 
-},{}],251:[function(_dereq_,module,exports){
+},{}],254:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = random;
@@ -21691,7 +22040,7 @@ function random(out, scale) {
     return out;
 }
 
-},{}],252:[function(_dereq_,module,exports){
+},{}],255:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateX;
@@ -21715,17 +22064,17 @@ function rotateX(out, a, b, c) {
     //perform rotation
     r[0] = p[0];
     r[1] = p[1] * Math.cos(c) - p[2] * Math.sin(c);
-    r[2] = p[1] * Math.sin(c) + p[2] * Math.cos(c
+    r[2] = p[1] * Math.sin(c) + p[2] * Math.cos(c);
 
     //translate to correct position
-    );out[0] = r[0] + b[0];
+    out[0] = r[0] + b[0];
     out[1] = r[1] + b[1];
     out[2] = r[2] + b[2];
 
     return out;
 }
 
-},{}],253:[function(_dereq_,module,exports){
+},{}],256:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateY;
@@ -21749,17 +22098,17 @@ function rotateY(out, a, b, c) {
   //perform rotation
   r[0] = p[2] * Math.sin(c) + p[0] * Math.cos(c);
   r[1] = p[1];
-  r[2] = p[2] * Math.cos(c) - p[0] * Math.sin(c
+  r[2] = p[2] * Math.cos(c) - p[0] * Math.sin(c);
 
   //translate to correct position
-  );out[0] = r[0] + b[0];
+  out[0] = r[0] + b[0];
   out[1] = r[1] + b[1];
   out[2] = r[2] + b[2];
 
   return out;
 }
 
-},{}],254:[function(_dereq_,module,exports){
+},{}],257:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = rotateZ;
@@ -21793,7 +22142,7 @@ function rotateZ(out, a, b, c) {
   return out;
 }
 
-},{}],255:[function(_dereq_,module,exports){
+},{}],258:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -21813,7 +22162,7 @@ function scale(out, a, b) {
   return out;
 }
 
-},{}],256:[function(_dereq_,module,exports){
+},{}],259:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scaleAndAdd;
@@ -21834,7 +22183,7 @@ function scaleAndAdd(out, a, b, scale) {
   return out;
 }
 
-},{}],257:[function(_dereq_,module,exports){
+},{}],260:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = set;
@@ -21855,7 +22204,7 @@ function set(out, x, y, z) {
   return out;
 }
 
-},{}],258:[function(_dereq_,module,exports){
+},{}],261:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredDistance;
@@ -21874,7 +22223,7 @@ function squaredDistance(a, b) {
     return x * x + y * y + z * z;
 }
 
-},{}],259:[function(_dereq_,module,exports){
+},{}],262:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredLength;
@@ -21892,7 +22241,7 @@ function squaredLength(a) {
     return x * x + y * y + z * z;
 }
 
-},{}],260:[function(_dereq_,module,exports){
+},{}],263:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = subtract;
@@ -21912,7 +22261,7 @@ function subtract(out, a, b) {
   return out;
 }
 
-},{}],261:[function(_dereq_,module,exports){
+},{}],264:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat3;
@@ -21935,7 +22284,7 @@ function transformMat3(out, a, m) {
   return out;
 }
 
-},{}],262:[function(_dereq_,module,exports){
+},{}],265:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformMat4;
@@ -21961,7 +22310,7 @@ function transformMat4(out, a, m) {
     return out;
 }
 
-},{}],263:[function(_dereq_,module,exports){
+},{}],266:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = transformQuat;
@@ -21999,7 +22348,7 @@ function transformQuat(out, a, q) {
     return out;
 }
 
-},{}],264:[function(_dereq_,module,exports){
+},{}],267:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = add;
@@ -22020,7 +22369,7 @@ function add(out, a, b) {
   return out;
 }
 
-},{}],265:[function(_dereq_,module,exports){
+},{}],268:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = clone;
@@ -22040,7 +22389,7 @@ function clone(a) {
   return out;
 }
 
-},{}],266:[function(_dereq_,module,exports){
+},{}],269:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = copy;
@@ -22060,7 +22409,7 @@ function copy(out, a) {
   return out;
 }
 
-},{}],267:[function(_dereq_,module,exports){
+},{}],270:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = dot;
@@ -22076,7 +22425,7 @@ function dot(a, b) {
   return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
 }
 
-},{}],268:[function(_dereq_,module,exports){
+},{}],271:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = fromValues;
@@ -22099,7 +22448,7 @@ function fromValues(x, y, z, w) {
   return out;
 }
 
-},{}],269:[function(_dereq_,module,exports){
+},{}],272:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = length;
@@ -22118,7 +22467,7 @@ function length(a) {
   return Math.sqrt(x * x + y * y + z * z + w * w);
 }
 
-},{}],270:[function(_dereq_,module,exports){
+},{}],273:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = lerp;
@@ -22144,7 +22493,7 @@ function lerp(out, a, b, t) {
   return out;
 }
 
-},{}],271:[function(_dereq_,module,exports){
+},{}],274:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = normalize;
@@ -22172,7 +22521,7 @@ function normalize(out, a) {
   return out;
 }
 
-},{}],272:[function(_dereq_,module,exports){
+},{}],275:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = scale;
@@ -22193,7 +22542,7 @@ function scale(out, a, b) {
   return out;
 }
 
-},{}],273:[function(_dereq_,module,exports){
+},{}],276:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = set;
@@ -22216,7 +22565,7 @@ function set(out, x, y, z, w) {
   return out;
 }
 
-},{}],274:[function(_dereq_,module,exports){
+},{}],277:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = squaredLength;
@@ -22235,7 +22584,7 @@ function squaredLength(a) {
   return x * x + y * y + z * z + w * w;
 }
 
-},{}],275:[function(_dereq_,module,exports){
+},{}],278:[function(_dereq_,module,exports){
 (function (global){
 'use strict';
 
@@ -22257,7 +22606,7 @@ if (typeof document !== 'undefined') {
 module.exports = doccy;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":122}],276:[function(_dereq_,module,exports){
+},{"min-document":126}],279:[function(_dereq_,module,exports){
 (function (global){
 "use strict";
 
@@ -22276,7 +22625,7 @@ if (typeof window !== "undefined") {
 module.exports = win;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],277:[function(_dereq_,module,exports){
+},{}],280:[function(_dereq_,module,exports){
 'use strict';
 
 var tokenize = _dereq_('glsl-tokenizer');
@@ -22311,7 +22660,7 @@ module.exports = function glslInjectDefine(source, defines) {
   return stringify(tokens);
 };
 
-},{"glsl-token-inject-block":279,"glsl-token-string":280,"glsl-tokenizer":287}],278:[function(_dereq_,module,exports){
+},{"glsl-token-inject-block":282,"glsl-token-string":283,"glsl-tokenizer":290}],281:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = defines;
@@ -22335,7 +22684,7 @@ function defines(tokens) {
   return definitions;
 }
 
-},{}],279:[function(_dereq_,module,exports){
+},{}],282:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = glslTokenInject;
@@ -22388,7 +22737,7 @@ function findNextSemicolon(tokens, start) {
   return -1;
 }
 
-},{}],280:[function(_dereq_,module,exports){
+},{}],283:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = toString;
@@ -22404,7 +22753,7 @@ function toString(tokens) {
   return output.join('');
 }
 
-},{}],281:[function(_dereq_,module,exports){
+},{}],284:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = tokenize;
@@ -22769,15 +23118,15 @@ function tokenize(opt) {
   }
 }
 
-},{"./lib/builtins":283,"./lib/builtins-300es":282,"./lib/literals":285,"./lib/literals-300es":284,"./lib/operators":286}],282:[function(_dereq_,module,exports){
+},{"./lib/builtins":286,"./lib/builtins-300es":285,"./lib/literals":288,"./lib/literals-300es":287,"./lib/operators":289}],285:[function(_dereq_,module,exports){
 'use strict';
 
 // 300es builtins/reserved words that were previously valid in v100
-var v100 = _dereq_('./builtins'
+var v100 = _dereq_('./builtins');
 
 // The texture2D|Cube functions have been removed
 // And the gl_ features are updated
-);v100 = v100.slice().filter(function (b) {
+v100 = v100.slice().filter(function (b) {
   return !/^(gl\_|texture)/.test(b);
 });
 
@@ -22788,21 +23137,21 @@ module.exports = v100.concat([
 // other builtins
 , 'trunc', 'round', 'roundEven', 'isnan', 'isinf', 'floatBitsToInt', 'floatBitsToUint', 'intBitsToFloat', 'uintBitsToFloat', 'packSnorm2x16', 'unpackSnorm2x16', 'packUnorm2x16', 'unpackUnorm2x16', 'packHalf2x16', 'unpackHalf2x16', 'outerProduct', 'transpose', 'determinant', 'inverse', 'texture', 'textureSize', 'textureProj', 'textureLod', 'textureOffset', 'texelFetch', 'texelFetchOffset', 'textureProjOffset', 'textureLodOffset', 'textureProjLod', 'textureProjLodOffset', 'textureGrad', 'textureGradOffset', 'textureProjGrad', 'textureProjGradOffset']);
 
-},{"./builtins":283}],283:[function(_dereq_,module,exports){
+},{"./builtins":286}],286:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = [
 // Keep this list sorted
 'abs', 'acos', 'all', 'any', 'asin', 'atan', 'ceil', 'clamp', 'cos', 'cross', 'dFdx', 'dFdy', 'degrees', 'distance', 'dot', 'equal', 'exp', 'exp2', 'faceforward', 'floor', 'fract', 'gl_BackColor', 'gl_BackLightModelProduct', 'gl_BackLightProduct', 'gl_BackMaterial', 'gl_BackSecondaryColor', 'gl_ClipPlane', 'gl_ClipVertex', 'gl_Color', 'gl_DepthRange', 'gl_DepthRangeParameters', 'gl_EyePlaneQ', 'gl_EyePlaneR', 'gl_EyePlaneS', 'gl_EyePlaneT', 'gl_Fog', 'gl_FogCoord', 'gl_FogFragCoord', 'gl_FogParameters', 'gl_FragColor', 'gl_FragCoord', 'gl_FragData', 'gl_FragDepth', 'gl_FragDepthEXT', 'gl_FrontColor', 'gl_FrontFacing', 'gl_FrontLightModelProduct', 'gl_FrontLightProduct', 'gl_FrontMaterial', 'gl_FrontSecondaryColor', 'gl_LightModel', 'gl_LightModelParameters', 'gl_LightModelProducts', 'gl_LightProducts', 'gl_LightSource', 'gl_LightSourceParameters', 'gl_MaterialParameters', 'gl_MaxClipPlanes', 'gl_MaxCombinedTextureImageUnits', 'gl_MaxDrawBuffers', 'gl_MaxFragmentUniformComponents', 'gl_MaxLights', 'gl_MaxTextureCoords', 'gl_MaxTextureImageUnits', 'gl_MaxTextureUnits', 'gl_MaxVaryingFloats', 'gl_MaxVertexAttribs', 'gl_MaxVertexTextureImageUnits', 'gl_MaxVertexUniformComponents', 'gl_ModelViewMatrix', 'gl_ModelViewMatrixInverse', 'gl_ModelViewMatrixInverseTranspose', 'gl_ModelViewMatrixTranspose', 'gl_ModelViewProjectionMatrix', 'gl_ModelViewProjectionMatrixInverse', 'gl_ModelViewProjectionMatrixInverseTranspose', 'gl_ModelViewProjectionMatrixTranspose', 'gl_MultiTexCoord0', 'gl_MultiTexCoord1', 'gl_MultiTexCoord2', 'gl_MultiTexCoord3', 'gl_MultiTexCoord4', 'gl_MultiTexCoord5', 'gl_MultiTexCoord6', 'gl_MultiTexCoord7', 'gl_Normal', 'gl_NormalMatrix', 'gl_NormalScale', 'gl_ObjectPlaneQ', 'gl_ObjectPlaneR', 'gl_ObjectPlaneS', 'gl_ObjectPlaneT', 'gl_Point', 'gl_PointCoord', 'gl_PointParameters', 'gl_PointSize', 'gl_Position', 'gl_ProjectionMatrix', 'gl_ProjectionMatrixInverse', 'gl_ProjectionMatrixInverseTranspose', 'gl_ProjectionMatrixTranspose', 'gl_SecondaryColor', 'gl_TexCoord', 'gl_TextureEnvColor', 'gl_TextureMatrix', 'gl_TextureMatrixInverse', 'gl_TextureMatrixInverseTranspose', 'gl_TextureMatrixTranspose', 'gl_Vertex', 'greaterThan', 'greaterThanEqual', 'inversesqrt', 'length', 'lessThan', 'lessThanEqual', 'log', 'log2', 'matrixCompMult', 'max', 'min', 'mix', 'mod', 'normalize', 'not', 'notEqual', 'pow', 'radians', 'reflect', 'refract', 'sign', 'sin', 'smoothstep', 'sqrt', 'step', 'tan', 'texture2D', 'texture2DLod', 'texture2DProj', 'texture2DProjLod', 'textureCube', 'textureCubeLod', 'texture2DLodEXT', 'texture2DProjLodEXT', 'textureCubeLodEXT', 'texture2DGradEXT', 'texture2DProjGradEXT', 'textureCubeGradEXT'];
 
-},{}],284:[function(_dereq_,module,exports){
+},{}],287:[function(_dereq_,module,exports){
 'use strict';
 
 var v100 = _dereq_('./literals');
 
 module.exports = v100.slice().concat(['layout', 'centroid', 'smooth', 'case', 'mat2x2', 'mat2x3', 'mat2x4', 'mat3x2', 'mat3x3', 'mat3x4', 'mat4x2', 'mat4x3', 'mat4x4', 'uint', 'uvec2', 'uvec3', 'uvec4', 'samplerCubeShadow', 'sampler2DArray', 'sampler2DArrayShadow', 'isampler2D', 'isampler3D', 'isamplerCube', 'isampler2DArray', 'usampler2D', 'usampler3D', 'usamplerCube', 'usampler2DArray', 'coherent', 'restrict', 'readonly', 'writeonly', 'resource', 'atomic_uint', 'noperspective', 'patch', 'sample', 'subroutine', 'common', 'partition', 'active', 'filter', 'image1D', 'image2D', 'image3D', 'imageCube', 'iimage1D', 'iimage2D', 'iimage3D', 'iimageCube', 'uimage1D', 'uimage2D', 'uimage3D', 'uimageCube', 'image1DArray', 'image2DArray', 'iimage1DArray', 'iimage2DArray', 'uimage1DArray', 'uimage2DArray', 'image1DShadow', 'image2DShadow', 'image1DArrayShadow', 'image2DArrayShadow', 'imageBuffer', 'iimageBuffer', 'uimageBuffer', 'sampler1DArray', 'sampler1DArrayShadow', 'isampler1D', 'isampler1DArray', 'usampler1D', 'usampler1DArray', 'isampler2DRect', 'usampler2DRect', 'samplerBuffer', 'isamplerBuffer', 'usamplerBuffer', 'sampler2DMS', 'isampler2DMS', 'usampler2DMS', 'sampler2DMSArray', 'isampler2DMSArray', 'usampler2DMSArray']);
 
-},{"./literals":285}],285:[function(_dereq_,module,exports){
+},{"./literals":288}],288:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = [
@@ -22812,12 +23161,12 @@ module.exports = [
 // future
 , 'asm', 'class', 'union', 'enum', 'typedef', 'template', 'this', 'packed', 'goto', 'switch', 'default', 'inline', 'noinline', 'volatile', 'public', 'static', 'extern', 'external', 'interface', 'long', 'short', 'double', 'half', 'fixed', 'unsigned', 'input', 'output', 'hvec2', 'hvec3', 'hvec4', 'dvec2', 'dvec3', 'dvec4', 'fvec2', 'fvec3', 'fvec4', 'sampler2DRect', 'sampler3DRect', 'sampler2DRectShadow', 'sizeof', 'cast', 'namespace', 'using'];
 
-},{}],286:[function(_dereq_,module,exports){
+},{}],289:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = ['<<=', '>>=', '++', '--', '<<', '>>', '<=', '>=', '==', '!=', '&&', '||', '+=', '-=', '*=', '/=', '%=', '&=', '^^', '^=', '|=', '(', ')', '[', ']', '.', '!', '~', '*', '/', '%', '+', '-', '<', '>', '&', '^', '|', '?', ':', '=', ',', ';', '{', '}'];
 
-},{}],287:[function(_dereq_,module,exports){
+},{}],290:[function(_dereq_,module,exports){
 'use strict';
 
 var tokenize = _dereq_('./index');
@@ -22834,7 +23183,7 @@ function tokenizeString(str, opt) {
   return tokens;
 }
 
-},{"./index":281}],288:[function(_dereq_,module,exports){
+},{"./index":284}],291:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = function (strings) {
@@ -22848,7 +23197,7 @@ module.exports = function (strings) {
   return parts.join('');
 };
 
-},{}],289:[function(_dereq_,module,exports){
+},{}],292:[function(_dereq_,module,exports){
 'use strict';
 
 module.exports = isTypedArray;
@@ -22880,7 +23229,7 @@ function isLooseTypedArray(arr) {
   return names[toString.call(arr)];
 }
 
-},{}],290:[function(_dereq_,module,exports){
+},{}],293:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = reindex;
@@ -22902,7 +23251,156 @@ function reindex(array) {
   };
 }
 
-},{}],291:[function(_dereq_,module,exports){
+},{}],294:[function(_dereq_,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/**
+ * Helpers.
+ */
+
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var y = d * 365.25;
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {};
+  var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ? fmtLong(val) : fmtShort(val);
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val));
+};
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') || plural(ms, h, 'hour') || plural(ms, m, 'minute') || plural(ms, s, 'second') || ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return;
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name;
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's';
+}
+
+},{}],295:[function(_dereq_,module,exports){
 "use strict";
 
 var DEFAULT_NORMALS_EPSILON = 1e-6;
@@ -23027,7 +23525,7 @@ exports.faceNormals = function (faces, positions, specifiedEpsilon) {
   return normals;
 };
 
-},{}],292:[function(_dereq_,module,exports){
+},{}],296:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -23161,7 +23659,7 @@ parenthesis.stringify = stringify;
 
 module.exports = parenthesis;
 
-},{}],293:[function(_dereq_,module,exports){
+},{}],297:[function(_dereq_,module,exports){
 (function (process){
 'use strict';
 
@@ -23383,7 +23881,48 @@ var substr = function substr(str, start, len) {
 };
 
 }).call(this,_dereq_('_process'))
-},{"_process":296}],294:[function(_dereq_,module,exports){
+},{"_process":300}],298:[function(_dereq_,module,exports){
+(function (process){
+"use strict";
+
+// Generated by CoffeeScript 1.12.2
+(function () {
+  var getNanoSeconds, hrtime, loadTime, moduleLoadTime, nodeLoadTime, upTime;
+
+  if (typeof performance !== "undefined" && performance !== null && performance.now) {
+    module.exports = function () {
+      return performance.now();
+    };
+  } else if (typeof process !== "undefined" && process !== null && process.hrtime) {
+    module.exports = function () {
+      return (getNanoSeconds() - nodeLoadTime) / 1e6;
+    };
+    hrtime = process.hrtime;
+    getNanoSeconds = function getNanoSeconds() {
+      var hr;
+      hr = hrtime();
+      return hr[0] * 1e9 + hr[1];
+    };
+    moduleLoadTime = getNanoSeconds();
+    upTime = process.uptime() * 1e9;
+    nodeLoadTime = moduleLoadTime - upTime;
+  } else if (Date.now) {
+    module.exports = function () {
+      return Date.now() - loadTime;
+    };
+    loadTime = Date.now();
+  } else {
+    module.exports = function () {
+      return new Date().getTime() - loadTime;
+    };
+    loadTime = new Date().getTime();
+  }
+}).call(undefined);
+
+
+
+}).call(this,_dereq_('_process'))
+},{"_process":300}],299:[function(_dereq_,module,exports){
 'use strict';
 
 /**
@@ -23660,10 +24199,10 @@ function preprocess(what, how) {
 
 	//process if/else/ifdef/elif/ifndef/defined
 	function processIf(str) {
-		var match = balanced('#if', '#endif', str
+		var match = balanced('#if', '#endif', str);
 
 		//if no nested ifs - means we are in clause, return as is
-		);if (!match) return str;
+		if (!match) return str;
 
 		var body = match.body;
 		var post = match.post;
@@ -23738,61 +24277,7 @@ function preprocess(what, how) {
 
 module.exports = preprocess;
 
-},{"balanced-match":295,"parenthesis":292,"xtend/mutable":310}],295:[function(_dereq_,module,exports){
-"use strict";
-
-module.exports = balanced;
-function balanced(a, b, str) {
-  var r = range(a, b, str);
-
-  return r && {
-    start: r[0],
-    end: r[1],
-    pre: str.slice(0, r[0]),
-    body: str.slice(r[0] + a.length, r[1]),
-    post: str.slice(r[1] + b.length)
-  };
-}
-
-balanced.range = range;
-function range(a, b, str) {
-  var begs, beg, left, right, result;
-  var ai = str.indexOf(a);
-  var bi = str.indexOf(b, ai + 1);
-  var i = ai;
-
-  if (ai >= 0 && bi > 0) {
-    begs = [];
-    left = str.length;
-
-    while (i < str.length && i >= 0 && !result) {
-      if (i == ai) {
-        begs.push(i);
-        ai = str.indexOf(a, i + 1);
-      } else if (begs.length == 1) {
-        result = [begs.pop(), bi];
-      } else {
-        beg = begs.pop();
-        if (beg < left) {
-          left = beg;
-          right = bi;
-        }
-
-        bi = str.indexOf(b, i + 1);
-      }
-
-      i = ai < bi && ai >= 0 ? ai : bi;
-    }
-
-    if (begs.length) {
-      result = [left, right];
-    }
-  }
-
-  return result;
-}
-
-},{}],296:[function(_dereq_,module,exports){
+},{"balanced-match":124,"parenthesis":296,"xtend/mutable":313}],300:[function(_dereq_,module,exports){
 'use strict';
 
 // shim for using process in browser
@@ -23981,7 +24466,7 @@ process.umask = function () {
     return 0;
 };
 
-},{}],297:[function(_dereq_,module,exports){
+},{}],301:[function(_dereq_,module,exports){
 (function (global){
 'use strict';
 
@@ -24010,11 +24495,11 @@ if (!raf || !caf) {
           next = Math.max(0, frameDuration - (_now - last));
       last = next + _now;
       setTimeout(function () {
-        var cp = queue.slice(0
+        var cp = queue.slice(0);
         // Clear queue here to prevent
         // callbacks from appending listeners
         // to the current frame's queue
-        );queue.length = 0;
+        queue.length = 0;
         for (var i = 0; i < cp.length; i++) {
           if (!cp[i].cancelled) {
             try {
@@ -24063,48 +24548,7 @@ module.exports.polyfill = function (object) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"performance-now":298}],298:[function(_dereq_,module,exports){
-(function (process){
-"use strict";
-
-// Generated by CoffeeScript 1.12.2
-(function () {
-  var getNanoSeconds, hrtime, loadTime, moduleLoadTime, nodeLoadTime, upTime;
-
-  if (typeof performance !== "undefined" && performance !== null && performance.now) {
-    module.exports = function () {
-      return performance.now();
-    };
-  } else if (typeof process !== "undefined" && process !== null && process.hrtime) {
-    module.exports = function () {
-      return (getNanoSeconds() - nodeLoadTime) / 1e6;
-    };
-    hrtime = process.hrtime;
-    getNanoSeconds = function getNanoSeconds() {
-      var hr;
-      hr = hrtime();
-      return hr[0] * 1e9 + hr[1];
-    };
-    moduleLoadTime = getNanoSeconds();
-    upTime = process.uptime() * 1e9;
-    nodeLoadTime = moduleLoadTime - upTime;
-  } else if (Date.now) {
-    module.exports = function () {
-      return Date.now() - loadTime;
-    };
-    loadTime = Date.now();
-  } else {
-    module.exports = function () {
-      return new Date().getTime() - loadTime;
-    };
-    loadTime = new Date().getTime();
-  }
-}).call(undefined);
-
-
-
-}).call(this,_dereq_('_process'))
-},{"_process":296}],299:[function(_dereq_,module,exports){
+},{"performance-now":298}],302:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -24276,7 +24720,7 @@ Object.assign(module.exports, {
   combine: combine, wrap: wrap
 });
 
-},{"assert":120,"regl-extend":300,"trampa":305}],300:[function(_dereq_,module,exports){
+},{"assert":123,"regl-extend":303,"trampa":308}],303:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -24345,7 +24789,7 @@ module.exports.renderbuffer = makeExtend(renderbufferEndpoints);
 module.exports.framebuffer = makeExtend(framebufferEndpoints);
 module.exports.framebufferCube = makeExtend(framebufferCubeEndpoints);
 
-},{}],301:[function(_dereq_,module,exports){
+},{}],304:[function(_dereq_,module,exports){
 "use strict";
 
 function hash(str) {
@@ -24364,7 +24808,7 @@ function hash(str) {
 
 module.exports = hash;
 
-},{}],302:[function(_dereq_,module,exports){
+},{}],305:[function(_dereq_,module,exports){
 'use strict';
 
 // for compression
@@ -24480,7 +24924,7 @@ var typeOf = function () {
     };
 }();
 
-},{"./init.json":303,"./types.json":304}],303:[function(_dereq_,module,exports){
+},{"./init.json":306,"./types.json":307}],306:[function(_dereq_,module,exports){
 module.exports={
   "initEvent" : [
     "type",
@@ -24547,7 +24991,7 @@ module.exports={
   ]
 }
 
-},{}],304:[function(_dereq_,module,exports){
+},{}],307:[function(_dereq_,module,exports){
 module.exports={
   "MouseEvent" : [
     "click",
@@ -24592,7 +25036,7 @@ module.exports={
   ]
 }
 
-},{}],305:[function(_dereq_,module,exports){
+},{}],308:[function(_dereq_,module,exports){
 "use strict";
 
 /**
@@ -24718,7 +25162,7 @@ module.exports = {
 - **1.0.0** &mdash; *2015-07-14* &mdash; Initial release
 */
 
-},{"assert":120}],306:[function(_dereq_,module,exports){
+},{"assert":123}],309:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = unindex;
@@ -24773,7 +25217,7 @@ function unindex(positions, cells, out) {
   return out;
 }
 
-},{}],307:[function(_dereq_,module,exports){
+},{}],310:[function(_dereq_,module,exports){
 'use strict';
 
 if (typeof Object.create === 'function') {
@@ -24800,7 +25244,7 @@ if (typeof Object.create === 'function') {
   };
 }
 
-},{}],308:[function(_dereq_,module,exports){
+},{}],311:[function(_dereq_,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -24809,7 +25253,7 @@ module.exports = function isBuffer(arg) {
   return arg && (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && typeof arg.copy === 'function' && typeof arg.fill === 'function' && typeof arg.readUInt8 === 'function';
 };
 
-},{}],309:[function(_dereq_,module,exports){
+},{}],312:[function(_dereq_,module,exports){
 (function (process,global){
 'use strict';
 
@@ -25361,7 +25805,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,_dereq_('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":308,"_process":296,"inherits":307}],310:[function(_dereq_,module,exports){
+},{"./support/isBuffer":311,"_process":300,"inherits":310}],313:[function(_dereq_,module,exports){
 "use strict";
 
 module.exports = extend;
@@ -25382,5 +25826,5 @@ function extend(target) {
     return target;
 }
 
-},{}]},{},[59])(59)
+},{}]},{},[62])(62)
 });
