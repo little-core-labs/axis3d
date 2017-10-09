@@ -1,2 +1,2 @@
-'use strict'
 import './core'
+import './object3d'
