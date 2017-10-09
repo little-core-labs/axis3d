@@ -51,7 +51,6 @@ function scene({time, cancelAll}) {
     material({color}, ({}) => {
       box({scale: 1, wireframe: true}, ({size, transform, matrix}) => {
         const [x, y, z] = size
-        //const [x, y, z] = [20, 20, 20]
         bunny([
           {position: [0, 0, 0,]},
           {position: [0.5*x, 0.5*y, 0.5*z]},
