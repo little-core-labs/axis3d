@@ -1,28 +1,34 @@
-import { assignDefaults, normalizeScaleVector } from '../../utils'
+import { assertComponentArguments, normalizeScaleVector, pick } from '../../utils'
 import { ScopedContext } from '../../scope'
 import * as defaults from '../defaults'
-import { pick } from '../../utils'
 
 /**
+ * The Object3DTRSContext component maps input position, rotation, and scale
+ * arguments into context variables. Default values are used if not provided
+ * as input arguments to this component function.
+ *
  * Object3DTRSContext(ctx) -> ScopedContext(ctx) -> (args, scope) -> Any
  *
  * @public
- * @param {Context}
+ * @param {Context} ctx
+ * @param {?(Object} [initialState = {}]
  * @return {Function}
+ * @throws BadArgumentError
+ * @throws MissingContextError
  */
 export function Object3DTRSContext(ctx, initialState = {}) {
-  assignDefaults(initialState, defaults)
+  assertComponentArguments('Object3DTRSContext', ctx, initialState)
   return ScopedContext(ctx, initialState, {
-    scale(ctx, args) {
-      return normalizeScaleVector(pick('scale', [args, defaults, ctx]))
+    scale({}, args) {
+      return normalizeScaleVector(pick('scale', [args, initialState, defaults]))
     },
 
-    position(ctx, args) {
-      return pick('position', [args, defaults, ctx])
+    position({}, args) {
+      return pick('position', [args, initialState, defaults])
     },
 
-    rotation(ctx, args) {
-      return pick('rotation', [args, defaults, ctx])
+    rotation({}, args) {
+      return pick('rotation', [args, initialState, defaults])
     },
   })
 }
