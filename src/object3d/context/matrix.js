@@ -1,27 +1,36 @@
-import { assignDefaults, normalizeScaleVector, pick } from '../../utils'
 import { ScopedContext } from '../../scope'
 import * as defaults from '../defaults'
 import mat4 from 'gl-mat4'
 
+import {
+  assertComponentArguments,
+  normalizeScaleVector,
+  pick,
+} from '../../utils'
+
 /**
- * Component to compute 3D local and world transform matrix. This component
- * depends on
+ * The Object3DMatrixContext component maps input position, rotation, and scale
+ * arguments into a matrix and transform context variables. Default values are
+ * used if not provided as input arguments to this component function.
  *
  * Object3DMatrixContext(ctx) -> ScopedContext(ctx) -> (args, scope) -> Any
  *
  * @public
- * @param {Context}
+ * @param {Context} ctx
+ * @param {?(Object} [initialState = {}]
  * @return {Function}
+ * @throws BadArgumentError
+ * @throws MissingContextError
  */
 export function Object3DMatrixContext(ctx, initialState = {}) {
-  assignDefaults(initialState, defaults)
+  assertComponentArguments('Object3DMatrixContext', ctx, initialState)
   const transformMatrix = mat4.identity(new Float32Array(16))
   const localMatrix = mat4.identity(new Float32Array(16))
   return ScopedContext(ctx, initialState, {
-    matrix(ctx, args, batchId) {
-      const position = pick('position', [args, defaults, ctx])
-      const rotation = pick('rotation', [args, defaults, ctx])
-      const scale = normalizeScaleVector(pick('scale', [args, defaults, ctx]))
+    matrix(ctx, args) {
+      const position = pick('position', [args, initialState, defaults])
+      const rotation = pick('rotation', [args, initialState, defaults])
+      const scale = normalizeScaleVector(pick('scale', [args, initialState, defaults]))
       // M = T * R * S
       mat4.identity(localMatrix)
       mat4.fromRotationTranslation(localMatrix, rotation, position)
@@ -30,16 +39,10 @@ export function Object3DMatrixContext(ctx, initialState = {}) {
     },
     transform(ctx, args) {
       const {transform: parentTransformMatrix} = ctx
-      const {transform: externalTransformMatrix} = (args || {})
-      mat4.identity(transformMatrix)
+      mat4.copy(transformMatrix, localMatrix)
       // M' = Mp * M
       if (parentTransformMatrix) {
         mat4.multiply(transformMatrix, parentTransformMatrix, localMatrix)
-      }
-
-      // apply external transform from arguments to computed transform
-      if (externalTransformMatrix) {
-        mat4.multiply(transformMatrix, externalTransformMatrix, transformMatrix)
       }
       return transformMatrix
     },
