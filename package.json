@@ -11,7 +11,7 @@
     {
       "path": "lib/index.js",
       "babili": true,
-      "limit": "80 KB"
+      "limit": "90 KB"
     }
   ],
   "keywords": [
@@ -75,6 +75,7 @@
     "babel-core": "^6.x.0",
     "babel-eslint": "^6.1.2",
     "babel-plugin-glslify": "^2.x.x",
+    "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-plugin-transform-dead-code-elimination": "^2.2.2",
     "babel-plugin-transform-define": "^1.2.0",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
@@ -92,6 +93,7 @@
     "domready": "^1.0.8",
     "eases": "^1.0.8",
     "faucet": "^0.0.1",
+    "float-equal": "^1.0.0",
     "glsl-noise": "0.0.0",
     "glslify-babel": "^1.0.1",
     "primitive-cube": "^2.0.1",
