@@ -20,12 +20,14 @@ test("Entity(ctx: Object) can be called with 'new' operator",
     end()
   })
 
+
 test("Entity(ctx: Object) can be called without 'new' operator",
   ({ok, end}) => {
     ok(Entity(ctx),
       "Entity with invalid 'Context' instance object throws 'TypeError'.")
     end()
   })
+
 
 test("Entity(ctx: undefined|null) throws TypeError",
   ({throws, end}) => {
@@ -146,6 +148,7 @@ test("Entity(ctx, initialState, ...components: Function) -> Function: calls " +
     end()
   })
 
+
 test("entity(args: Number, scope: Function) -> void: runs batched entity calls.",
   ({ok, plan, end}) => {
     let j = 0
@@ -169,20 +172,22 @@ test("entity(args: Array, scope: Function) -> void: runs batched entity calls.",
     let j = 0
     let k = 1
     const max = 3
-    const batchCount = sum(k, max, (a, b) => a+b)
+    const batchCount = sum(k, max, (a, b) => a+b) // 
     const pool = Array(batchCount).fill(0).map(() => ({k: k++}))
     const left = pool.slice(0, Math.ceil(0.5*batchCount))
     const right = pool.slice(left.length)
 
-    plan(1+batchCount)
+    plan(1+2*batchCount)
 
-    Entity(ctx)(left, ({}, {k}, i) => {
+    Entity(ctx)(left, ({batchId}, {k}, i) => {
+      ok(batchId == i, "batchId context variable is correct value.")
       ok('number' == typeof k && k == pool[j].k,
          `Batch ${j} called with correct batched 'k' argument.`)
       ++j
     })
 
-    Entity(ctx)(right, ({}, {k}, i) => {
+    Entity(ctx)(right, ({batchId}, {k}, i) => {
+      ok(batchId == i, "batchId context variable is correct value.")
       ok('number' == typeof k && k == pool[j].k,
          `Batch ${j} called with correct batched 'k' argument.`)
       ++j
@@ -204,6 +209,7 @@ test("entity(scope: Function) -> void: sets 'context.entityId' property'.",
 
     end()
   })
+
 
 test("Entity(ctx, ...components) -> entity(scope) -> void: " +
   "Calls components in order.",
@@ -233,4 +239,3 @@ test("Entity(ctx, ...components) -> entity(scope) -> void: " +
 
     end()
   })
-
