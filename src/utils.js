@@ -1,3 +1,4 @@
+import { MissingContextError, BadArgumentError } from './errors'
 import isTypedArray from 'is-typedarray'
 import createDebug from 'debug'
 import document from 'global/document'
@@ -189,7 +190,7 @@ export function ensureRGB(color) {
 }
 
 /**
- * Predicate functino to determine if an input array is "array like".
+ * Predicate function to determine if an input array is "array like".
  * isArrayLike(array: Any) -> Boolean
  */
 export function isArrayLike(array) {
@@ -213,8 +214,56 @@ export function normalizeScaleVector(scale, defaultScale = [1, 1, 1]) {
   if ('number' == typeof scale) {
     return fill(3, scale)
   } else if (Array.isArray(scale)) {
-    return Object.assign(scale, defaultScale).slice(0, 3)
+    return Object.assign(scale, Object.assign([], defaultScale, scale)).slice(0, 3)
   } else {
     return defaultScale
+  }
+}
+
+/**
+ * Ensures an object is returned if input value is not one.
+ * ensureObject(value: Any) -> Object
+ */
+export function ensureObject(value) {
+  if (!value) { return {} }
+  if (Array.isArray(value)) { return {} }
+  if ('object' != typeof value) { return {} }
+  return value
+}
+
+/**
+ * Ensures an array is returned if input value is not one.
+ * ensureArray(value: Any) -> Array
+ */
+export function ensureArray(value) {
+  if (!value) { return [] }
+  if (!Array.isArray(value)) { return [] }
+  return value
+}
+
+/**
+ * Extracts, formats, and returns the internal type string
+ * for any value.
+ * toTypeString(value: Any) -> String
+ */
+export function toTypeString(value) {
+  return Object.prototype.toString.call(value)
+    .toLowerCase()
+    .replace('[object ', '')
+    .replace(']', '')
+}
+
+/**
+ * Asserts a named components arguments are correct. This function will throw
+ * a MissingContextError or BadArgumentError error.
+ * assertComponentArguments(ctx: Any, initialState: Any) -> void
+ */
+export function assertComponentArguments(label, ctx, initialState) {
+  if (undefined === ctx) {
+    throw new MissingContextError(label)
+  } else if (null === ctx || 'object' != typeof ctx || Array.isArray(ctx)) {
+    throw new BadArgumentError(0, 'ctx', ctx, 'object')
+  } else if (initialState && 'object' != typeof initialState) {
+    throw new BadArgumentError(1, 'initialState', initialState, 'object')
   }
 }
