@@ -39,6 +39,7 @@ export function Shader(ctx, initialState = {}) {
   )
 
   function update(reglContext, args) {
+    args = args || {}
     let {forceCompile = false} = args
     const {defines} = reglContext
 
