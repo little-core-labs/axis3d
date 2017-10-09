@@ -1,3 +1,4 @@
+import { MissingContextError, BadArgumentError } from '../errors'
 import { Context } from './context'
 import { combine } from 'regl-combine'
 import extend from 'extend'
@@ -16,10 +17,14 @@ import extend from 'extend'
  * @param {Context} ctx
  * @param {Object} initialState
  * @return {Function}
+ * @throws MissingContextError
+ * @throws BadArgumentError
  */
 export function Entity(ctx, initialState, ...components) {
-  if (!ctx || 'object' != typeof ctx || Array.isArray(ctx)) {
-    throw new TypeError("Entity(): Expecting context object.")
+  if (undefined === ctx) {
+    throw new MissingContextError('Entity')
+  } else if (null === ctx || 'object' != typeof ctx || Array.isArray(ctx)) {
+    throw new BadArgumentError(0, 'ctx', ctx, 'object')
   }
 
   if (initialState) {
@@ -29,7 +34,7 @@ export function Entity(ctx, initialState, ...components) {
     } else if ('function' == typeof initialState) {
       components.unshift(initialState)
     } else if ('object' != typeof initialState) {
-      throw new TypeError("Entity(): Expecting initial state to be an object.")
+      throw new BadArgumentError(1, 'initialState', initialState, 'object')
     }
   }
 
@@ -40,15 +45,37 @@ export function Entity(ctx, initialState, ...components) {
   initialState = { ...initialState }
 
   const entityId = generateEntityId()
+  const entityContext = ctx.regl({context: new EntityContext(entityId)})
   const flatComponents = flattenComponents(initialState, components)
-  const combinedComponents = combine(ctx.regl, [
-    ...flatComponents.components,
-    {context: {entityId}},
-  ])
+  const combinedComponents = combine(ctx.regl, flatComponents.components)
 
-  return Object.assign((...args) => {
-    return combinedComponents(...parseArguments(initialState, ...args))
-  }, { initialState, components, combinedComponents, entityId })
+  return Object.assign((...vargs) => {
+    const [kargs, next] = parseArguments(initialState, ...vargs)
+    return entityContext(kargs, ({}, args, batchId) => {
+      return combinedComponents(args, (ctx, cargs) => {
+        return next(ctx, cargs, batchId)
+      })
+    })
+  }, {
+    combinedComponents,
+    initialState,
+    components,
+    entityId,
+  })
+}
+
+/**
+ * Entity context object wrapper.
+ */
+class EntityContext {
+  constructor(entityId) {
+    Object.assign(this, {
+      entityId() { return entityId },
+      batchId({}, args, batchId) {
+        return batchId
+      }
+    })
+  }
 }
 
 /**
