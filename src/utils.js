@@ -42,6 +42,13 @@ export const lerp = (v0, v1, t) => v0*(1 - t) + v1*t
 export const fill = (size, value) => Array(size).fill(value)
 
 /**
+ * toProperCase(string: String) -> string
+ */
+export const toProperCase = (string) =>
+  String(string).slice(0, 1).toUpperCase() +
+  String(string).slice(1).toUpperCase()
+
+/**
  * Assigns values in defaults object into input
  * object if not already present.
  * assignDefaults(object: Object, defaults: Object) -> Object
@@ -247,10 +254,16 @@ export function ensureArray(value) {
  * toTypeString(value: Any) -> String
  */
 export function toTypeString(value) {
-  return Object.prototype.toString.call(value)
-    .toLowerCase()
-    .replace('[object ', '')
-    .replace(']', '')
+  if (value != value) {
+    return 'NaN'
+  } else {
+    return toProperCase(
+      Object.prototype.toString.call(value)
+      .toLowerCase()
+      .replace('[object ', '')
+      .replace(']', '')
+    )
+  }
 }
 
 /**
