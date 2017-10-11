@@ -55,6 +55,36 @@ export class BadArgumentError extends TypeError {
 }
 
 /**
+ * The InvalidArgumentsError class represents an error indicating that
+ * arguments provided to a function, constructor, or method is invalid.
+ * @public
+ * @class InvalidArgumentsError
+ * @extends TypeError
+ */
+export class InvalidArgumentsError extends TypeError {
+
+  get name() { return this.constructor.name }
+  get code() { return this.constructor.name }
+
+  /**
+   * InvalidArgumentsError class constructor.
+   * @public
+   * @constructor
+   * @param {Number} count
+   * @param {Number} expected
+   * @param {?(String)} [message = '']
+   */
+  constructor(count, expected, message = '') {
+    super(`Expecting ${expected} arguments. Got ${count}. ${message}`.trim())
+    if ('function' == typeof Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor)
+    } else {
+      this.stack = new (Error(message)).stack
+    }
+  }
+}
+
+/**
  * Get normalized ordinal value for an index.
  * toOrdinalString(index: Number) -> String
  */
