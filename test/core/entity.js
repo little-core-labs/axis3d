@@ -177,7 +177,7 @@ test("entity(args: Array, scope: Function) -> void: runs batched entity calls.",
     const left = pool.slice(0, Math.ceil(0.5*batchCount))
     const right = pool.slice(left.length)
 
-    plan(1+2*batchCount)
+    plan(1+(2*batchCount))
 
     Entity(ctx)(left, ({batchId}, {k}, i) => {
       ok(batchId == i, "batchId context variable is correct value.")

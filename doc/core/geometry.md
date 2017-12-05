@@ -1,4 +1,4 @@
-geometry
+Geometry
 =======
 
 *[src/core/geometry.js](../../src/core/geometry.js)*
@@ -8,7 +8,7 @@ complex][simplicial-complex] data used to represent [Mesh][Mesh]
 attribute data. It is compatible with various [stack.gl][stackgl] mesh
 models.
 
-## Geometry
+## Usage
 
 ```js
 new Geometry({complex, flatten: false})
@@ -17,7 +17,7 @@ new Geometry({complex, flatten: false})
 The `Geometry` class accepts an object of parameters that are used to
 determine the final geometry.
 
-### Initialization Options
+### Initialization Options & Properties
 
 #### flatten
 
@@ -57,4 +57,3 @@ const bunny = new Geometry({complex: require('bunny', flatten: true)})
 
 [simplicial-complex]: https://en.wikipedia.org/wiki/Simplicial_complex
 [stackgl]: http://stack.gl
-

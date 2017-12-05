@@ -5,6 +5,8 @@ import {
   Geometry,
   Material,
   Context,
+  Entity,
+  ScopedContext,
   Frame,
   Mesh,
 } from '../../src'
@@ -47,9 +49,9 @@ frame(() => stats.end())
 function scene({time, cancelAll}) {
   quat.setAxisAngle(angle, [0, 1, 0], 0.5*time)
   quat.slerp(rotation, rotation, angle, 0.5)
-  camera({rotation, position}, ({view}) => {
+  camera({rotation, position}, ({view, transformMatrix, localMatrix}) => {
     material({color}, ({}) => {
-      box({scale: 1, wireframe: true}, ({size, transform, matrix}) => {
+      box({scale: 1, wireframe: true}, ({size}) => {
         const [x, y, z] = size
         bunny([
           {position: [0, 0, 0,]},

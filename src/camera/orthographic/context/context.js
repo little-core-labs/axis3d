@@ -1,8 +1,8 @@
 import { OrthographicCameraProjectionContext } from './projection'
 import { OrthographicCameraInfoContext } from './info'
 import { OrthographicCameraViewContext } from './view'
-import { assignDefaults, isolate } from '../../../utils'
 import { Object3DContext } from '../../../object3d'
+import { assignDefaults } from '../../../utils'
 import * as defaults from '../defaults'
 import { Entity } from '../../../core'
 
@@ -18,8 +18,7 @@ export function OrthographicCameraContext(ctx, initialState = {}) {
     Object3DContext(ctx, initialState),
     CameraInfoContext(ctx, initialState),
     OrthographicCameraInfoContext(ctx, initialState),
-
-    isolate(OrthographicCameraViewContext(ctx, initialState)),
+    OrthographicCameraViewContext(ctx, initialState),
     CameraInverseViewContext(ctx, initialState),
     OrthographicCameraProjectionContext(ctx, initialState),
     CameraEyeContext(ctx, initialState),

@@ -1,4 +1,4 @@
-import { assignDefaults, isolate } from '../../../utils'
+import { assignDefaults } from '../../../utils'
 import * as defaults from '../defaults'
 import { Entity } from '../../../core'
 
@@ -10,7 +10,7 @@ export function CubeTextureContext(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
   const {uniformName} = initialState
   return Entity(ctx, initialState,
-    isolate(CubeTextureDataContext(ctx, initialState)),
+    CubeTextureDataContext(ctx, initialState),
     CubeTexturePointerContext(ctx, initialState),
     CubeTextureInfoContext(ctx, initialState),
   )

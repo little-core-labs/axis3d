@@ -32,7 +32,7 @@ LIB_MAIN = lib/index.js
 PROJECT_NAME = axis3d
 BABEL_ENV ?= commonjs
 
-DEVTOOL_FLAGS += -hqc -t 1000 -r babel-register
+DEVTOOL_FLAGS += -hqc -r babel-register
 
 YARN_OR_NPM := $(shell which yarn npm | head -1)
 
@@ -56,9 +56,8 @@ define BUILD_PARENT_DIRECTORY
 endef
 
 define RUN_TEST
-  $(BROWSERIFY) $(1) $(BROWSERIFY_FLAGS) \
-    | $(DEVTOOL) $(DEVTOOL_FLAGS) $(1)    \
-    | $(COLORTAPE)
+	$(DEVTOOL) $(DEVTOOL_FLAGS) $(2) $(1) \
+	| $(COLORTAPE)
 endef
 
 all: lib dist
@@ -111,4 +110,4 @@ test: node_modules
 
 .PHONY: $(TESTS)
 $(TESTS):
-	$(call RUN_TEST, $@)
+	$(call RUN_TEST, $@, -t 5000)

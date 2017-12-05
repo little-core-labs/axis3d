@@ -1,4 +1,3 @@
-import { assignDefaults } from '../utils'
 import { ShaderUniforms } from '../shader'
 import * as defaults from './defaults'
 
@@ -11,13 +10,13 @@ import * as defaults from './defaults'
  * @return {Function}
  */
 export function CameraShaderUniforms(ctx, initialState = {}) {
-  assignDefaults(initialState, defaults)
-  const {uniformName} = initialState
-  return ShaderUniforms(ctx, {prefix: `${uniformName}.`, ...initialState}, {
-    invertedView({invertedView}) { return invertedView },
-    projection({projection}) { return projection },
-    aspect({aspect}) { return aspect },
-    view({view}) { return view },
+  const {uniformName = defaults.uniformName} = initialState
+  return ShaderUniforms(ctx, {prefix: `${uniformName}.`}, {
+    aspect({viewportWidth: w, viewportHeight: h}) { return w/h },
     eye({eye}) { return  eye },
+
+    invertedView({invertedViewMatrix}) { return invertedViewMatrix },
+    projection({projectionMatrix}) { return projectionMatrix },
+    view({viewMatrix}) { return viewMatrix },
   })
 }

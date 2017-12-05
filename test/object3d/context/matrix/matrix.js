@@ -1,7 +1,8 @@
-import { MissingContextError, BadArgumentError } from '../../../lib/errors'
-import { sharedContext as ctx, hasDiff } from '../../utils'
-import { Object3DMatrixContext } from '../../../lib/object3d/context/matrix'
-import * as defaults from '../../../lib/object3d/defaults'
+import { MissingContextError, BadArgumentError } from '../../../../lib/errors'
+import { sharedContext as ctx, hasDiff } from '../../../utils'
+import { Object3DMatrixContext } from '../../../../lib/object3d/context/matrix'
+import * as defaults from '../../../../lib/object3d/defaults'
+import isTypedArray from 'is-typedarray'
 import mat4 from 'gl-mat4'
 import quat from 'gl-quat'
 import test from 'tape'
@@ -108,26 +109,26 @@ test("Object3DMatrixContext(ctx: Context) can be called without 'new' operator",
     end()
   })
 
-test("Object3DMatrixContext(ctx: Context) exposes matrix and transform "+
-  "context variables.",
+test("Object3DMatrixContext(ctx: Context) exposes localMatrix and " +
+  "transformMatrix context variables.",
   ({ok, plan, end}) => {
     plan(6)
     const context = Object3DMatrixContext(ctx)
-    context(({matrix, transform}) => {
+    context(({localMatrix, transformMatrix}) => {
 
-      ok(matrix, "Matrix context variable is defined.")
-      ok(Array.isArray(matrix) || matrix instanceof Float32Array, "Matrix context variable is an array.")
-      ok(16 == matrix.length, "Matrix context variable is an array with 16 components.")
+      ok(localMatrix, "localMatrix context variable is defined.")
+      ok(isTypedArray(localMatrix), "localMatrix context variable is typed array.")
+      ok(16 == localMatrix.length, "localMatrix context variable has 16 components.")
 
-      ok(transform, "Transform context variable is defined.")
-      ok(Array.isArray(transform) || transform instanceof Float32Array, "Transform context variable is an array.")
-      ok(16 == transform.length, "Transform context variable is an array with 16 components.")
+      ok(transformMatrix, "transformMatrix context variable is defined.")
+      ok(isTypedArray(transformMatrix), "transformMatrix context variable is an array.")
+      ok(16 == transformMatrix.length, "transformMatrix context variable has 16 components.")
 
     })
     end()
   })
 
-test("Object3DMatrixContext(ctx: Context) computes  matrix and transform " +
+test("Object3DMatrixContext(ctx: Context) computes localMatrix and transformMatrix " +
   "correctly.",
   ({ok, plan, end}) => {
     plan(6)
@@ -138,32 +139,32 @@ test("Object3DMatrixContext(ctx: Context) computes  matrix and transform " +
     }
 
     const expected = {
-      matrix: new Float32Array(16),
-      transform: new Float32Array(16)
+      localMatrix: new Float32Array(16),
+      transformMatrix: new Float32Array(16)
     }
 
-    mat4.identity(expected.matrix)
-    mat4.identity(expected.transform)
+    mat4.identity(expected.localMatrix)
+    mat4.identity(expected.transformMatrix)
 
-    mat4.scale(expected.matrix,
+    mat4.scale(expected.localMatrix,
       mat4.fromRotationTranslation([], args.rotation, args.position),
       args.scale)
 
-    mat4.copy(expected.transform, expected.matrix)
+    mat4.copy(expected.transformMatrix, expected.localMatrix)
 
-    Object3DMatrixContext(ctx)(args, ({matrix, transform}) => {
-      ok(false == hasDiff(matrix, expected.matrix), "Matrix value computed correctly.")
-      ok(false == hasDiff(transform, expected.transform), "Transform value computed correctly.")
+    Object3DMatrixContext(ctx)(args, ({localMatrix, transformMatrix}) => {
+      ok(false == hasDiff(localMatrix, expected.localMatrix), "loalMatrix value computed correctly.")
+      ok(false == hasDiff(transformMatrix, expected.transformMatrix), "transformMatrix value computed correctly.")
 
-      mat4.multiply(expected.transform, transform, matrix)
-      Object3DMatrixContext(ctx)(args, ({matrix, transform}) => {
-        ok(false == hasDiff(matrix, expected.matrix), "Scoped matrix value computed correctly.")
-        ok(false == hasDiff(transform, expected.transform), "Scoped transform value computed correctly.")
+      mat4.multiply(expected.transformMatrix, transformMatrix, localMatrix)
+      Object3DMatrixContext(ctx)(args, ({localMatrix, transformMatrix}) => {
+        ok(false == hasDiff(localMatrix, expected.localMatrix), "Scoped localMatrix value computed correctly.")
+        ok(false == hasDiff(transformMatrix, expected.transformMatrix), "Scoped transformMatrix value computed correctly.")
 
-        mat4.multiply(expected.transform, transform, matrix)
-        Object3DMatrixContext(ctx)(args, ({matrix, transform}) => {
-          ok(false == hasDiff(matrix, expected.matrix), "Nested scoped matrix value computed correctly.")
-          ok(false == hasDiff(transform, expected.transform), "Nested scoped transform value computed correctly.")
+        mat4.multiply(expected.transformMatrix, transformMatrix, localMatrix)
+        Object3DMatrixContext(ctx)(args, ({localMatrix, transformMatrix}) => {
+          ok(false == hasDiff(localMatrix, expected.localMatrix), "Nested scoped localMatrix value computed correctly.")
+          ok(false == hasDiff(transformMatrix, expected.transformMatrix), "Nested scoped transformMatrix value computed correctly.")
         })
       })
     })

@@ -1,5 +1,6 @@
 import { assertComponentArguments, normalizeScaleVector, pick } from '../../utils'
 import { ScopedContext } from '../../scope'
+import { alloc } from '../../core/buffer'
 import * as defaults from '../defaults'
 
 /**
@@ -18,17 +19,25 @@ import * as defaults from '../defaults'
  */
 export function Object3DTRSContext(ctx, initialState = {}) {
   assertComponentArguments('Object3DTRSContext', ctx, initialState)
+  const position = alloc(ctx, 3)
+  const rotation = alloc(ctx, 4)
+  const scale = alloc(ctx, 3)
   return ScopedContext(ctx, initialState, {
     scale({}, args) {
-      return normalizeScaleVector(pick('scale', [args, initialState, defaults]))
+      scale.set(normalizeScaleVector(pick('scale', [
+        args, initialState, defaults
+      ])))
+      return scale
     },
 
     position({}, args) {
-      return pick('position', [args, initialState, defaults])
+      position.set(pick('position', [args, initialState, defaults]))
+      return position
     },
 
     rotation({}, args) {
-      return pick('rotation', [args, initialState, defaults])
+      rotation.set(pick('rotation', [args, initialState, defaults]))
+      return rotation
     },
   })
 }

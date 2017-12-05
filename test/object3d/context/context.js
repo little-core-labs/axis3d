@@ -2,6 +2,7 @@ import { MissingContextError, BadArgumentError } from '../../../lib/errors'
 import { sharedContext as ctx, hasDiff } from '../../utils'
 import { Object3DContext } from '../../../lib/object3d/context/context'
 import * as defaults from '../../../lib/object3d/defaults'
+import isTypedArray from 'is-typedarray'
 import mat4 from 'gl-mat4'
 import quat from 'gl-quat'
 import test from 'tape'
@@ -15,16 +16,14 @@ test("Object3DContext is 'function'",
 
 test("Object3DContext(ctx: Context) can be called with 'new' operator",
   ({ok, end}) => {
-    ok(new Object3DContext(ctx),
-      "Object3DContext with invalid 'Context' instance object throws 'BadArgumentError'.")
+    ok(new Object3DContext(ctx))
     end()
   })
 
 
 test("Object3DContext(ctx: Context) can be called without 'new' operator",
   ({ok, end}) => {
-    ok(Object3DContext(ctx),
-      "Object3DContext with invalid 'Context' instance object throws 'BadArgumentError'.")
+    ok(Object3DContext(ctx))
     end()
   })
 
@@ -117,17 +116,17 @@ test("Object3DContext(ctx: Context) exposes position, rotation, and scale "+
     context(({position, rotation, scale}) => {
 
       ok(position, "Position context variable is defined.")
-      ok(Array.isArray(position), "Position context variable is an array.")
+      ok(isTypedArray(position), "Position context variable is an array.")
       ok(3 == position.length, "Position context variable is an array with 3 components.")
       ok(false == hasDiff(position, defaults.position), "Position context variable has correct default value.")
 
       ok(scale, "Scale context variable is defined.")
-      ok(Array.isArray(scale), "Scale context variable is an array.")
+      ok(isTypedArray(scale), "Scale context variable is an array.")
       ok(3 == scale.length, "Scale context variable is an array with 3 components.")
       ok(false == hasDiff(scale, defaults.scale), "Scale context variable has correct default value.")
 
       ok(rotation, "Rotation context variable is defined.")
-      ok(Array.isArray(rotation), "Rotation context variable is an array.")
+      ok(isTypedArray(rotation), "Rotation context variable is an array.")
       ok(4 == rotation.length, "Rotation context variable is an array with 3 components.")
       ok(false == hasDiff(rotation, defaults.rotation), "Rotation context variable has correct default value.")
 
@@ -147,17 +146,17 @@ test("Object3DContext(ctx: Context) exposes position, rotation, and scale "+
     context(expected, ({position, rotation, scale}) => {
 
       ok(position, "Position context variable is defined.")
-      ok(Array.isArray(position), "Position context variable is an array.")
+      ok(isTypedArray(position), "Position context variable is an array.")
       ok(3 == position.length, "Position context variable is an array with 3 components.")
       ok(false == hasDiff(position, expected.position), "Position context variable has correct value from input arguments.")
 
       ok(scale, "Scale context variable is defined.")
-      ok(Array.isArray(scale), "Scale context variable is an array.")
+      ok(isTypedArray(scale), "Scale context variable is an array.")
       ok(3 == scale.length, "Scale context variable is an array with 3 components.")
       ok(false == hasDiff(scale, expected.scale), "Scale context variable has correct value from input arguments.")
 
       ok(rotation, "Rotation context variable is defined.")
-      ok(Array.isArray(rotation), "Rotation context variable is an array.")
+      ok(isTypedArray(rotation), "Rotation context variable is an array.")
       ok(4 == rotation.length, "Rotation context variable is an array with 3 components.")
       ok(false == hasDiff(rotation, expected.rotation), "Rotation context variable has correct value from input arguments.")
 
@@ -175,19 +174,18 @@ test("Object3DContext(ctx: Context , initialState: Object) uses initial " +
     }
     const context = Object3DContext(ctx, expected)
     context(({position, rotation, scale}) => {
-
       ok(position, "Position context variable is defined.")
-      ok(Array.isArray(position), "Position context variable is an array.")
+      ok(isTypedArray(position), "Position context variable is an array.")
       ok(3 == position.length, "Position context variable is an array with 3 components.")
       ok(false == hasDiff(position, expected.position), "Position context variable has correct value from initial state.")
 
       ok(scale, "Scale context variable is defined.")
-      ok(Array.isArray(scale), "Scale context variable is an array.")
+      ok(isTypedArray(scale), "Scale context variable is an array.")
       ok(3 == scale.length, "Scale context variable is an array with 3 components.")
       ok(false == hasDiff(scale, expected.scale), "Scale context variable has correct value from initial state.")
 
       ok(rotation, "Rotation context variable is defined.")
-      ok(Array.isArray(rotation), "Rotation context variable is an array.")
+      ok(isTypedArray(rotation), "Rotation context variable is an array.")
       ok(4 == rotation.length, "Rotation context variable is an array with 3 components.")
       ok(false == hasDiff(rotation, expected.rotation), "Rotation context variable has correct value from initial state.")
 
@@ -195,28 +193,28 @@ test("Object3DContext(ctx: Context , initialState: Object) uses initial " +
     end()
   })
 
-test("Object3DContext(ctx: Context) exposes matrix and transform "+
+test("Object3DContext(ctx: Context) exposes local matrix and transform matrix "+
   "context variables.",
   ({ok, plan, end}) => {
     plan(6)
     const context = Object3DContext(ctx)
-    context(({matrix, transform}) => {
+    context(({localMatrix, transformMatrix}) => {
 
-      ok(matrix, "Matrix context variable is defined.")
-      ok(Array.isArray(matrix) || matrix instanceof Float32Array, "Matrix context variable is an array.")
-      ok(16 == matrix.length, "Matrix context variable is an array with 16 components.")
+      ok(localMatrix, "Local matrix context variable is defined.")
+      ok(isTypedArray(localMatrix) || localMatrix instanceof Float32Array, "Local matrix context variable is an array.")
+      ok(16 == localMatrix.length, "Local matrix context variable is an array with 16 components.")
 
-      ok(transform, "Transform context variable is defined.")
-      ok(Array.isArray(transform) || transform instanceof Float32Array, "Transform context variable is an array.")
-      ok(16 == transform.length, "Transform context variable is an array with 16 components.")
+      ok(transformMatrix, "Transform matrix context variable is defined.")
+      ok(isTypedArray(transformMatrix) || transformMatrix instanceof Float32Array, "Transform context variable is an array.")
+      ok(16 == transformMatrix.length, "Transform matrix context variable is an array with 16 components.")
 
     })
     end()
   })
 
 
-test("Object3DContext(ctx: Context) computes  matrix and transform " +
-  "correctly.",
+test("Object3DContext(ctx: Context) computes localMatrix and "+
+  "transformMatrix correctly.",
   ({ok, plan, end}) => {
     plan(6)
     const args = {
@@ -226,32 +224,32 @@ test("Object3DContext(ctx: Context) computes  matrix and transform " +
     }
 
     const expected = {
-      matrix: new Float32Array(16),
-      transform: new Float32Array(16)
+      localMatrix: new Float32Array(16),
+      transformMatrix: new Float32Array(16)
     }
 
-    mat4.identity(expected.matrix)
-    mat4.identity(expected.transform)
+    mat4.identity(expected.localMatrix)
+    mat4.identity(expected.transformMatrix)
 
-    mat4.scale(expected.matrix,
+    mat4.scale(expected.localMatrix,
       mat4.fromRotationTranslation([], args.rotation, args.position),
       args.scale)
 
-    mat4.copy(expected.transform, expected.matrix)
+    mat4.copy(expected.transformMatrix, expected.localMatrix)
 
-    Object3DContext(ctx)(args, ({matrix, transform}) => {
-      ok(false == hasDiff(matrix, expected.matrix), "Matrix value computed correctly.")
-      ok(false == hasDiff(transform, expected.transform), "Transform value computed correctly.")
+    Object3DContext(ctx)(args, ({localMatrix, transformMatrix}) => {
+      ok(false == hasDiff(localMatrix, expected.localMatrix), "Matrix value computed correctly.")
+      ok(false == hasDiff(transformMatrix, expected.transformMatrix), "Transform value computed correctly.")
 
-      mat4.multiply(expected.transform, transform, matrix)
-      Object3DContext(ctx)(args, ({matrix, transform}) => {
-        ok(false == hasDiff(matrix, expected.matrix), "Scoped matrix value computed correctly.")
-        ok(false == hasDiff(transform, expected.transform), "Scoped transform value computed correctly.")
+      mat4.multiply(expected.transformMatrix, transformMatrix, localMatrix)
+      Object3DContext(ctx)(args, ({localMatrix, transformMatrix}) => {
+        ok(false == hasDiff(localMatrix, expected.localMatrix), "Scoped matrix value computed correctly.")
+        ok(false == hasDiff(transformMatrix, expected.transformMatrix), "Scoped transform value computed correctly.")
 
-        mat4.multiply(expected.transform, transform, matrix)
-        Object3DContext(ctx)(args, ({matrix, transform}) => {
-          ok(false == hasDiff(matrix, expected.matrix), "Nested scoped matrix value computed correctly.")
-          ok(false == hasDiff(transform, expected.transform), "Nested scoped transform value computed correctly.")
+        mat4.multiply(expected.transformMatrix, transformMatrix, localMatrix)
+        Object3DContext(ctx)(args, ({localMatrix, transformMatrix}) => {
+          ok(false == hasDiff(localMatrix, expected.localMatrix), "Nested scoped matrix value computed correctly.")
+          ok(false == hasDiff(transformMatrix, expected.transformMatrix), "Nested scoped transform value computed correctly.")
         })
       })
     })

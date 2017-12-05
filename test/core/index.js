@@ -1,4 +1,5 @@
 import './context'
+import './buffer'
 import './dynamic'
 import './entity'
 import './geometry'

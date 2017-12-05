@@ -2,6 +2,7 @@ import { MissingContextError, BadArgumentError } from '../../../lib/errors'
 import { sharedContext as ctx, hasDiff } from '../../utils'
 import { Object3DTRSContext } from '../../../lib/object3d/context/trs'
 import * as defaults from '../../../lib/object3d/defaults'
+import isTypedArray from 'is-typedarray'
 import test from 'tape'
 
 test("Object3DTRSContext is 'function'",
@@ -115,17 +116,17 @@ test("Object3DTRSContext(ctx: Context) exposes position, rotation, and scale "+
     trs(({position, rotation, scale}) => {
 
       ok(position, "Position context variable is defined.")
-      ok(Array.isArray(position), "Position context variable is an array.")
+      ok(isTypedArray(position), "Position context variable is an array.")
       ok(3 == position.length, "Position context variable is an array with 3 components.")
       ok(false == hasDiff(position, defaults.position), "Position context variable has correct default value.")
 
       ok(scale, "Scale context variable is defined.")
-      ok(Array.isArray(scale), "Scale context variable is an array.")
+      ok(isTypedArray(scale), "Scale context variable is an array.")
       ok(3 == scale.length, "Scale context variable is an array with 3 components.")
       ok(false == hasDiff(scale, defaults.scale), "Scale context variable has correct default value.")
 
       ok(rotation, "Rotation context variable is defined.")
-      ok(Array.isArray(rotation), "Rotation context variable is an array.")
+      ok(isTypedArray(rotation), "Rotation context variable is an array.")
       ok(4 == rotation.length, "Rotation context variable is an array with 3 components.")
       ok(false == hasDiff(rotation, defaults.rotation), "Rotation context variable has correct default value.")
 
@@ -145,17 +146,17 @@ test("Object3DTRSContext(ctx: Context) exposes position, rotation, and scale "+
     trs(expected, ({position, rotation, scale}) => {
 
       ok(position, "Position context variable is defined.")
-      ok(Array.isArray(position), "Position context variable is an array.")
+      ok(isTypedArray(position), "Position context variable is an array.")
       ok(3 == position.length, "Position context variable is an array with 3 components.")
       ok(false == hasDiff(position, expected.position), "Position context variable has correct value from input arguments.")
 
       ok(scale, "Scale context variable is defined.")
-      ok(Array.isArray(scale), "Scale context variable is an array.")
+      ok(isTypedArray(scale), "Scale context variable is an array.")
       ok(3 == scale.length, "Scale context variable is an array with 3 components.")
       ok(false == hasDiff(scale, expected.scale), "Scale context variable has correct value from input arguments.")
 
       ok(rotation, "Rotation context variable is defined.")
-      ok(Array.isArray(rotation), "Rotation context variable is an array.")
+      ok(isTypedArray(rotation), "Rotation context variable is an array.")
       ok(4 == rotation.length, "Rotation context variable is an array with 3 components.")
       ok(false == hasDiff(rotation, expected.rotation), "Rotation context variable has correct value from input arguments.")
 
@@ -175,17 +176,17 @@ test("Object3DTRSContext(ctx: Context , initialState: Object) uses initial " +
     trs(({position, rotation, scale}) => {
 
       ok(position, "Position context variable is defined.")
-      ok(Array.isArray(position), "Position context variable is an array.")
+      ok(isTypedArray(position), "Position context variable is an array.")
       ok(3 == position.length, "Position context variable is an array with 3 components.")
       ok(false == hasDiff(position, expected.position), "Position context variable has correct value from initial state.")
 
       ok(scale, "Scale context variable is defined.")
-      ok(Array.isArray(scale), "Scale context variable is an array.")
+      ok(isTypedArray(scale), "Scale context variable is an array.")
       ok(3 == scale.length, "Scale context variable is an array with 3 components.")
       ok(false == hasDiff(scale, expected.scale), "Scale context variable has correct value from initial state.")
 
       ok(rotation, "Rotation context variable is defined.")
-      ok(Array.isArray(rotation), "Rotation context variable is an array.")
+      ok(isTypedArray(rotation), "Rotation context variable is an array.")
       ok(4 == rotation.length, "Rotation context variable is an array with 3 components.")
       ok(false == hasDiff(rotation, expected.rotation), "Rotation context variable has correct value from initial state.")
 

@@ -1,6 +1,6 @@
-import { assignDefaults, isolate } from '../utils'
 import { CameraShaderUniforms } from '../camera'
 import { FrameShaderUniforms } from '../frame'
+import { assignDefaults } from '../utils'
 import * as defaults from './defaults'
 import { Object3D } from '../object3d'
 import { Geometry } from '../core'

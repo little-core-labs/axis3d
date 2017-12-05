@@ -49,7 +49,7 @@ export function Entity(ctx, initialState, ...components) {
   const flatComponents = flattenComponents(initialState, components)
   const combinedComponents = combine(ctx.regl, flatComponents.components)
 
-  return Object.assign((...vargs) => {
+  return Object.assign(function (...vargs) {
     const [kargs, next] = parseArguments(initialState, ...vargs)
     return entityContext(kargs, ({}, args, batchId) => {
       return combinedComponents(args, (ctx, cargs) => {
@@ -57,6 +57,7 @@ export function Entity(ctx, initialState, ...components) {
       })
     })
   }, {
+    get isEntity() { return true },
     combinedComponents,
     initialState,
     components,
@@ -110,7 +111,7 @@ function flattenComponents(initialState = {}, ...components){
   }
 
   function map(component) {
-    if ('entityId' in component && Array.isArray(component.components)) {
+    if (component.isEntity && Array.isArray(component.components)) {
       if (component.initialState && 'object' == typeof component.initialState) {
         extend(true, initialState, component.initialState)
       }

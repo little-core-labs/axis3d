@@ -1,4 +1,4 @@
-context
+Context
 =======
 
 *[src/core/context.js](../../src/core/context.js)*
@@ -18,7 +18,7 @@ an error is not thrown.
 * [OES_element_index_uint][OES_element_index_uint]
 * [OES_vertex_array_object][OES_vertex_array_object]
 
-## Context
+## Usage
 
 ```js
 new Context(opts = {}, createRegl = require('regl'))
@@ -74,24 +74,24 @@ the regl environment. It defaults to exports of `require('regl')`.
 
 The following properties are public on a `Context` instance.
 
-#### isDestroyed
+#### context.isDestroyed
 
-A read-only boolean indicating whether the context has been destroyed
+A read-only `boolean` indicating whether the context has been destroyed
 destroyed.
 
-#### domElement
+#### context.domElement
 
 A read-only value pointing to the `<canvas>` DOM element associated with the
 `WebGLRenderingContext`. The value may be `null` If the context is
 destroyed are failed to initialize.
 
-#### hasFocus
+#### context.hasFocus
 
 A read-only boolean indicating whether the `domElement` has user focus.
 This can be made `true` or `false` programmatically or when a `'blur'` or
 `'focus'` is dispatched on the `domElement`.
 
-#### regl
+#### context.regl
 
 A read-only value pointing to the `regl` function bound to the context.
 This is used significantly in Axis3D components.
@@ -100,15 +100,15 @@ This is used significantly in Axis3D components.
 
 The following methods are public on a `Context` instance.
 
-#### focus()
+#### context.focus()
 
 Toggles internal focus to `true`, and emits the `'focus'` event.
 
-#### blur()
+#### context.blur()
 
 Toggles internal focus to `false`, and emits the `'blur'` event.
 
-#### destroy()
+#### context.destroy()
 
 Destroys all resources created with [regl][regl] with `regl.destroy()` and removes
 the `domElement` from its `parentElement`. The `'beforedestroy'` event is
@@ -116,20 +116,18 @@ emitted before anything is destroyed. The `'destroyed'` event is emitted
 after everything has been destroyed. The `domElement` and `regl` properties
 are removed from the instance.
 
-#### refresh()
+#### context.refresh()
 
 Refreshes [regl][regl] state by calling the internal `_refresh()`
 method.
 
-#### flush()
+#### context.flush()
 
 Calls `gl.flush()`.
 
-#### poll()
+#### context.poll()
 
 Calls `regl.poll()` to poll and update internal regl state.
-
-
 
 
 [EventEmitter]: https://nodejs.org/api/events.html#events_class_eventemitter
@@ -147,4 +145,3 @@ Calls `regl.poll()` to poll and update internal regl state.
 [OES_texture_float]: https://developer.mozilla.org/en-US/docs/Web/API/OES_texture_float
 [OES_element_index_uint]: https://developer.mozilla.org/en-US/docs/Web/API/OES_element_index_uint
 [OES_vertex_array_object]: https://developer.mozilla.org/en-US/docs/Web/API/OES_vertex_array_object
-

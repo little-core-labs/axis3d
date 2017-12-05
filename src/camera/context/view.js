@@ -3,6 +3,7 @@ import { assignDefaults, pick } from '../../utils'
 import { ScopedContext } from '../../scope'
 import { Component } from '../../core'
 import * as defaults from '../defaults'
+import { alloc } from '../../core/buffer'
 import mat4 from 'gl-mat4'
 import quat from 'gl-quat'
 
@@ -12,19 +13,14 @@ const kMat4Identity = mat4.identity([])
 
 export function CameraViewContext(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
-  const matrix = new Float32Array(16)
-  const previousPosition = new Float32Array(3)
-  const previousRotation = new Float32Array(4)
-  const previousTarget = new Float32Array(3)
-  const previousScale = new Float32Array(3)
-  const previousUp = new Float32Array(3)
-
-  mat4.identity(matrix)
+  const matrix = mat4.identity(alloc(ctx, 16))
   return ScopedContext(ctx, initialState, {
-    view(ctx, args) {
-      let didDoIdentity = false
-      const view = pick('view', [ctx, args])
-      if (view) { return view }
+    viewMatrix(ctx, args) {
+      const viewMatrix = pick('viewMatrix', [ctx, args])
+      if (viewMatrix) {
+        return viewMatrix
+      }
+
       const position = pick('position', [ctx, args])
       const rotation = pick('rotation', [ctx, args])
       const target = pick('target', [ctx, args])
@@ -35,34 +31,13 @@ export function CameraViewContext(ctx, initialState = {}) {
         return kMat4Identity
       }
 
-      if (compareVectors(previousPosition, position)) {
-        didDoIdentity = true
-        mat4.identity(matrix)
-        mat4.translate(matrix, matrix, position)
-        copy(previousPosition, position)
-      }
+      mat4.identity(matrix)
+      mat4.translate(matrix, matrix, position)
+      mat4.lookAt(matrix, target, position, up)
 
-      if (
-        didDoIdentity ||
-        compareVectors(previousTarget, target) ||
-        compareVectors(previousUp, up)
-      ) {
-        mat4.lookAt(matrix, target, position, up)
-        copy(previousTarget, target)
-        copy(previousUp, up)
-      }
-
-      if (didDoIdentity || compareVectors(previousRotation, rotation)) {
-        quat.normalize(scratchQuaternion, rotation)
-        mat4.fromQuat(scratchMatrix, scratchQuaternion)
-        mat4.multiply(matrix, matrix, scratchMatrix)
-        copy(previousRotation, rotation)
-      }
-
-      if (didDoIdentity || compareVectors(previousScale, scale)) {
-        mat4.scale(matrix, matrix, scale)
-        copy(previousScale, scale)
-      }
+      quat.normalize(scratchQuaternion, rotation)
+      mat4.fromQuat(scratchMatrix, scratchQuaternion)
+      mat4.multiply(matrix, matrix, scratchMatrix)
 
       return matrix
     }

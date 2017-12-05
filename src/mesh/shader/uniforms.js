@@ -20,17 +20,17 @@ export function MeshShaderUniforms(ctx, initialState = {}) {
     modelNormal: new Float32Array(9)
   }
   return ShaderUniforms(ctx, { ...initialState }, {
-    modelNormal({transform}) {
-      copy(buffers.modelNormal, isArrayLike(transform)
-        ? mat3.normalFromMat4([], transform) || kMat3Identity
+    modelNormal({transformMatrix}) {
+      copy(buffers.modelNormal, isArrayLike(transformMatrix)
+        ? mat3.normalFromMat4([], transformMatrix) || kMat3Identity
         : kMat3Identity
       )
       return buffers.modelNormal
     },
 
-    model({transform}) {
-      copy(buffers.model, isArrayLike(transform)
-        ? transform
+    model({transformMatrix}) {
+      copy(buffers.model, isArrayLike(transformMatrix)
+        ? transformMatrix
         : kMat4Identity
       )
       return buffers.model

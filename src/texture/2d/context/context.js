@@ -1,4 +1,4 @@
-import { assignDefaults, isolate } from '../../../utils'
+import { assignDefaults } from '../../../utils'
 import * as defaults from '../defaults'
 import { Entity } from '../../../core'
 
@@ -9,7 +9,7 @@ import { TextureInfoContext } from './info'
 export function TextureContext(ctx, initialState = {}) {
   assignDefaults(initialState, defaults)
   return Entity(ctx, initialState,
-    isolate(TextureDataContext(ctx, initialState)),
+    TextureDataContext(ctx, initialState),
     TexturePointerContext(ctx, initialState),
     TextureInfoContext(ctx, initialState),
   )

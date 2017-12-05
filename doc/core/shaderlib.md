@@ -1,4 +1,4 @@
-shaderlib
+ShaderLib
 =======
 
 *[src/core/shaderlib.js](../../src/core/shaderlib.js)*
@@ -12,6 +12,23 @@ actually used is compiled into a shader program.
 See the [Axis3D Standard GLSL Library][stdglsl] for detailed
 documentation on the GLSL types, macros, uniforms, and functions
 available and how to include them in your shader.
+
+## Usage
+
+```js
+new ShaderLib({
+  preprocessor = undefined,
+  middleware = [],
+  precision = kDefaultShaderLibPrecision,
+  version = kDefaultShaderLibVersion,
+  defines = {},
+  glsl,
+})
+```
+
+The `ShaderLib` class accepts an object of parameters that configure how
+the `ShaderLib` instance preprocesses and compiles GLSL.
+
 
 ## kDefaultShaderLibPrecision
 
@@ -37,23 +54,6 @@ const kDefaultShaderName = '<anonymous>'
 
 The default shader name used when compiling a shader. It is useful for
 errors as they are used in the regl stack trace.
-
-
-## ShaderLib
-
-```js
-new ShaderLib({
-  preprocessor = undefined,
-  middleware = [],
-  precision = kDefaultShaderLibPrecision,
-  version = kDefaultShaderLibVersion,
-  defines = {},
-  glsl,
-})
-```
-
-The `ShaderLib` class accepts an object of parameters that configure how
-the `ShaderLib` instance preprocesses and compiles GLSL.
 
 ### Initialization Options
 
@@ -106,16 +106,13 @@ on the instance with `preprocessor.shaderLib = shaderLib`.
 ## ShaderLibPlugin
 
 ```js
-new ShaderLibPlugin((shaderLib, preprocessor, src, opts) => {
-})
+new ShaderLibPlugin((shaderLib, preprocessor, src, opts) => { })
 ```
 
 A `ShaderLibPlugin` class is a transform middleware that is called when
 shaders are being compiled. It is given an instance of the `ShaderLib`,
 `ShaderLibPreprocessor`, GLSL source string, and parameters given at the
 time of preprocess.
-
-
 
 
 [glslify]: https://github.com/stackgl/glslify

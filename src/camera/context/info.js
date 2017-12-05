@@ -15,13 +15,12 @@ const kMat4Identity = mat4.identity([])
  * @return {Function}
  */
 export function CameraInfoContext(ctx, initialState = {}) {
-  assignDefaults(initialState, defaults)
   return ScopedContext(ctx, initialState, {
-    transform() { return kMat4Identity },
-    matrix() { return kMat4Identity },
+    transformMatrix() { return kMat4Identity },
+    localMatrix() { return kMat4Identity },
 
-    projection(ctx, args) {
-      return pick('projection', [args, initialState]) || kMat4Identity
+    projectionMatrix(ctx, args) {
+      return pick('projectionMatrix', [args, initialState, defaults]) || kMat4Identity
     },
 
     aspect(ctx, args) {
@@ -31,13 +30,13 @@ export function CameraInfoContext(ctx, initialState = {}) {
     },
 
     target(ctx, args) {
-      const scale = pick('scale', [ctx, args, initialState])
-      const target  = pick('target', [args, ctx, initialState])
+      const scale = pick('scale', [ctx, args, initialState, defaults])
+      const target  = pick('target', [args, ctx, initialState, defaults])
       return vec3.multiply([], target, scale)
     },
 
     up(ctx, args) {
-      return pick('up', [args, ctx, initialState])
+      return pick('up', [args, ctx, initialState, defaults])
     },
 
     viewport(ctx, args) {

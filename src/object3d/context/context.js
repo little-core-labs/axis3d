@@ -1,5 +1,5 @@
 import { assertComponentArguments } from '../../utils'
-import { Object3DMatrixContext } from './matrix'
+import { Object3DMatrixContext } from './matrix/matrix'
 import { Object3DTRSContext } from './trs'
 import { Entity } from '../../core'
 

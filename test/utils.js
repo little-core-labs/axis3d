@@ -1,4 +1,5 @@
 import compareFloat from 'float-equal'
+import isTypedArray from 'is-typedarray'
 import { Context } from '../lib/core/context'
 import quat from 'gl-quat'
 
@@ -12,7 +13,15 @@ export const isIdentityQuaternion = (q) => {
 }
 
 export const hasDiff = (a, b) => {
-  if (Array.isArray(a) && Array.isArray(b)) {
+  if (
+    (isTypedArray(a) || Array.isArray(a)) &&
+    (isTypedArray(b) || Array.isArray(b))
+  ) {
+    if (isTypedArray(a) && !isTypedArray(b)) {
+      b = new a.constructor(b)
+    } else if (!isTypedArray(a) && isTypedArray(b)) {
+      a = new b.constructor(a)
+    }
     return ! a.every((x, i) => compareValue(x, b[i]))
   } else if (a && 'object' == typeof a && b && 'object' == typeof b) {
     return ! Object.keys(a).every((k) => compareValue(a[k], b[k]))
