@@ -146,7 +146,7 @@ TBD
 * [regl][regl] - Functional WebGL
 * [glslify][glslify] - A node.js-style module system for GLSL
 * [stackgl][stackgl] - Modular WebGL components
-* [simplicial-complex](simplicial-complex)
+* [simplicial-complex][simplicial-complex]
 
 ## License
 
