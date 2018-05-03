@@ -137,9 +137,6 @@ function frame() {
 * [Joseph Werle](https://github.com/jwerle)
 * [Vanessa Pyne](https://github.com/vipyne)
 
-## Docs
-
-TBD
 
 ## See Also
 
